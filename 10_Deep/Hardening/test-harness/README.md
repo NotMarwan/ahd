@@ -5,10 +5,21 @@ Proves every computational claim in `project/ahd-demo/index.html` is **correct**
 ## Run everything (zero dependencies — needs only Node ≥ 18)
 
 ```bash
-node run-tests.cjs      # 62 logic assertions (SHA-256 NIST, seal, tamper, Muqassa, riba)
-node offline-check.cjs  #  9 offline invariants (no network in the demo path)
-node dom-smoke.cjs      # 21 headless render + robustness checks
+# --- demo core (project/ahd-demo/index.html) ---
+node run-tests.cjs      # 135 logic assertions (SHA-256 NIST, seal, tamper, Muqassa, riba, Circle)
+node offline-check.cjs  #   9 offline invariants (no network in the demo path)
+node dom-smoke.cjs      #  40 headless render + robustness checks (incl. Circle G1–G4)
+# core total: 135 + 9 + 40 = 184, all exit 0
+
+# --- parallel app (project/ahd-app/) — ADDITIVE; the demo above is never touched ---
+node app/run-app-tests.cjs   # auto-discovers the 9 app/ suites (~332 assertions):
+                             # engine-parity · daftari · open-loan · circle-adv · create
+                             # · properties · determinism · app-offline · app-dom-smoke
 ```
+
+> The `app/` suites cover the new publishable surface (`project/ahd-app/`). `engine-parity.cjs`
+> proves `ahd-app/engine.js` is a byte-faithful copy of the demo's pure logic, so the app can
+> reuse the engine without ever editing the demo.
 
 Each exits `0` on all-green, `1` on any failure (CI-friendly).
 
