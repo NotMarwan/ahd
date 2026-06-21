@@ -1,0 +1,2890 @@
+{
+  "persona_id": "small_merchant",
+  "profile": {
+    "name_ar": "متجر الرفاع — تجارة تجزئة",
+    "segment": "small_merchant",
+    "months_active": 24,
+    "has_simah_score": false
+  },
+  "ob_transactions": [
+    {
+      "date": "2024-06-03",
+      "amount_sar": 4894.17,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-06-08",
+      "amount_sar": 5155.52,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-06-11",
+      "amount_sar": 4381.87,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-06-14",
+      "amount_sar": 5169.74,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-06-15",
+      "amount_sar": 3647.64,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-06-15",
+      "amount_sar": 4619.68,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-06-23",
+      "amount_sar": 4919.2,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-06-23",
+      "amount_sar": 1624.33,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-06-25",
+      "amount_sar": 4959.08,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-07-03",
+      "amount_sar": 2381.81,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-07-07",
+      "amount_sar": 3485.69,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-07-09",
+      "amount_sar": 4994.93,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-07-11",
+      "amount_sar": 7498.41,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-07-11",
+      "amount_sar": 3317.71,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-07-12",
+      "amount_sar": 8183.88,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-07-20",
+      "amount_sar": 4705.89,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-07-25",
+      "amount_sar": 1809.67,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-07-27",
+      "amount_sar": 7666.95,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-08-05",
+      "amount_sar": 1737.64,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-08-06",
+      "amount_sar": 5670.91,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-08-10",
+      "amount_sar": 4930.29,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-08-11",
+      "amount_sar": 5214.57,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-08-11",
+      "amount_sar": 4921.72,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-08-11",
+      "amount_sar": 1551.01,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-08-14",
+      "amount_sar": 2965.3,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-08-16",
+      "amount_sar": 5106.08,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-08-20",
+      "amount_sar": 4419.3,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-09-05",
+      "amount_sar": 6827.84,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-09-05",
+      "amount_sar": 4420.0,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-09-07",
+      "amount_sar": 4628.15,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-09-08",
+      "amount_sar": 6903.87,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-09-10",
+      "amount_sar": 3479.3,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-09-12",
+      "amount_sar": 2330.58,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-09-13",
+      "amount_sar": 7861.67,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-09-14",
+      "amount_sar": 8013.51,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-09-27",
+      "amount_sar": 3613.04,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-07",
+      "amount_sar": 3855.54,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-09",
+      "amount_sar": 4530.48,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-13",
+      "amount_sar": 6078.29,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-10-14",
+      "amount_sar": 6079.77,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-10-14",
+      "amount_sar": 2583.68,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-16",
+      "amount_sar": 4183.9,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-18",
+      "amount_sar": 5943.55,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-10-22",
+      "amount_sar": 7059.1,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-10-24",
+      "amount_sar": 1584.65,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-25",
+      "amount_sar": 3492.44,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-26",
+      "amount_sar": 1855.25,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-10-26",
+      "amount_sar": 2827.12,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-11-05",
+      "amount_sar": 4435.2,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-11-05",
+      "amount_sar": 1627.12,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-11-13",
+      "amount_sar": 5034.96,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-11-14",
+      "amount_sar": 4707.65,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-11-18",
+      "amount_sar": 4557.81,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-11-20",
+      "amount_sar": 5423.33,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-11-20",
+      "amount_sar": 2468.48,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-11-26",
+      "amount_sar": 4936.15,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-11-27",
+      "amount_sar": 4365.79,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-11-27",
+      "amount_sar": 1767.07,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-12-03",
+      "amount_sar": 1833.59,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-12-03",
+      "amount_sar": 3519.53,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-12-05",
+      "amount_sar": 4703.38,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-12-10",
+      "amount_sar": 4127.88,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-12-15",
+      "amount_sar": 4124.66,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-12-16",
+      "amount_sar": 4686.62,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-12-20",
+      "amount_sar": 3286.3,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-12-20",
+      "amount_sar": 3575.83,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2024-12-25",
+      "amount_sar": 4260.41,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2024-12-27",
+      "amount_sar": 4806.89,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-01-03",
+      "amount_sar": 1950.61,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-01-08",
+      "amount_sar": 2178.71,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-01-10",
+      "amount_sar": 2138.35,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-01-16",
+      "amount_sar": 4017.76,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-01-19",
+      "amount_sar": 3414.47,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-01-22",
+      "amount_sar": 4585.68,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-01-24",
+      "amount_sar": 3999.11,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-01-26",
+      "amount_sar": 4760.28,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-01-26",
+      "amount_sar": 3060.64,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-02-03",
+      "amount_sar": 4236.7,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-02-07",
+      "amount_sar": 4987.11,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-02-09",
+      "amount_sar": 2203.66,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-02-10",
+      "amount_sar": 3795.9,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-02-10",
+      "amount_sar": 3051.8,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-02-17",
+      "amount_sar": 4960.11,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-02-18",
+      "amount_sar": 4169.2,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-02-20",
+      "amount_sar": 3022.81,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-02-23",
+      "amount_sar": 4148.17,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-03-02",
+      "amount_sar": 3555.97,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-03-04",
+      "amount_sar": 6983.99,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-03-04",
+      "amount_sar": 4141.57,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-03-04",
+      "amount_sar": 2976.32,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-03-05",
+      "amount_sar": 2410.62,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-03-10",
+      "amount_sar": 7851.15,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-03-13",
+      "amount_sar": 2035.84,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-03-14",
+      "amount_sar": 7669.05,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-03-15",
+      "amount_sar": 7434.67,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-03-15",
+      "amount_sar": 2009.42,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-04",
+      "amount_sar": 11919.29,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-04-04",
+      "amount_sar": 4030.31,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-05",
+      "amount_sar": 3319.19,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-15",
+      "amount_sar": 2435.0,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-18",
+      "amount_sar": 4201.8,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-18",
+      "amount_sar": 4030.99,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-20",
+      "amount_sar": 1934.41,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-22",
+      "amount_sar": 12781.06,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-04-23",
+      "amount_sar": 1561.65,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-26",
+      "amount_sar": 2539.92,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-04-27",
+      "amount_sar": 12290.19,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-05-04",
+      "amount_sar": 3514.4,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-05-06",
+      "amount_sar": 3983.69,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-05-07",
+      "amount_sar": 1735.01,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-05-07",
+      "amount_sar": 4362.6,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-05-08",
+      "amount_sar": 4610.54,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-05-10",
+      "amount_sar": 8297.48,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-05-12",
+      "amount_sar": 8054.98,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-05-15",
+      "amount_sar": 8909.35,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-05-16",
+      "amount_sar": 3793.2,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-06-04",
+      "amount_sar": 7077.48,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-06-04",
+      "amount_sar": 1698.51,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-06-05",
+      "amount_sar": 7071.83,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-06-06",
+      "amount_sar": 1534.11,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-06-09",
+      "amount_sar": 3694.91,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-06-13",
+      "amount_sar": 4996.27,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-06-21",
+      "amount_sar": 7487.55,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-06-21",
+      "amount_sar": 6150.98,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-06-24",
+      "amount_sar": 1677.59,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-07-05",
+      "amount_sar": 5783.94,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-07-11",
+      "amount_sar": 3250.85,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-07-17",
+      "amount_sar": 2593.64,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-07-18",
+      "amount_sar": 5026.5,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-07-22",
+      "amount_sar": 4760.9,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-07-23",
+      "amount_sar": 1586.15,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-07-25",
+      "amount_sar": 5524.94,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-07-25",
+      "amount_sar": 1867.83,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-07-27",
+      "amount_sar": 5569.69,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-08-04",
+      "amount_sar": 3544.04,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-08-06",
+      "amount_sar": 4541.08,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-08-07",
+      "amount_sar": 4589.51,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-08-08",
+      "amount_sar": 4682.55,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-08-13",
+      "amount_sar": 1968.05,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-08-14",
+      "amount_sar": 2381.43,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-08-17",
+      "amount_sar": 3991.79,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-08-18",
+      "amount_sar": 3885.05,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-08-20",
+      "amount_sar": 4242.45,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-08-21",
+      "amount_sar": 3405.34,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-08-22",
+      "amount_sar": 4897.8,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-08-25",
+      "amount_sar": 1890.03,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-08-27",
+      "amount_sar": 2863.84,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-03",
+      "amount_sar": 4986.58,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-09-04",
+      "amount_sar": 4083.53,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-04",
+      "amount_sar": 2281.49,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-08",
+      "amount_sar": 3424.47,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-10",
+      "amount_sar": 5703.29,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-09-15",
+      "amount_sar": 4849.78,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-17",
+      "amount_sar": 4928.09,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-19",
+      "amount_sar": 5425.38,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-09-20",
+      "amount_sar": 3631.21,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-22",
+      "amount_sar": 1978.91,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-09-24",
+      "amount_sar": 4451.85,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-09-26",
+      "amount_sar": 5675.94,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-10-02",
+      "amount_sar": 9179.9,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-10-04",
+      "amount_sar": 2854.9,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-05",
+      "amount_sar": 3037.07,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-06",
+      "amount_sar": 3728.68,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-09",
+      "amount_sar": 2757.46,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-12",
+      "amount_sar": 8949.63,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-10-13",
+      "amount_sar": 3966.55,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-15",
+      "amount_sar": 4820.02,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-16",
+      "amount_sar": 2284.81,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-18",
+      "amount_sar": 3872.51,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-10-22",
+      "amount_sar": 9375.74,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-11-02",
+      "amount_sar": 4910.08,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-02",
+      "amount_sar": 2885.55,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-03",
+      "amount_sar": 4895.84,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-11-03",
+      "amount_sar": 3528.98,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-04",
+      "amount_sar": 5289.81,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-11-11",
+      "amount_sar": 5835.22,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-11-18",
+      "amount_sar": 4838.8,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-19",
+      "amount_sar": 4008.87,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-23",
+      "amount_sar": 4789.82,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-25",
+      "amount_sar": 5231.03,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-11-25",
+      "amount_sar": 1672.85,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-25",
+      "amount_sar": 2500.69,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-11-26",
+      "amount_sar": 5789.69,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-12-06",
+      "amount_sar": 3931.8,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-12-14",
+      "amount_sar": 7473.99,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-12-14",
+      "amount_sar": 2181.12,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-12-14",
+      "amount_sar": 3771.35,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-12-17",
+      "amount_sar": 4926.04,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-12-18",
+      "amount_sar": 9237.73,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-12-18",
+      "amount_sar": 3882.28,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-12-19",
+      "amount_sar": 2260.5,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2025-12-21",
+      "amount_sar": 8528.86,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-12-24",
+      "amount_sar": 8829.26,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2025-12-25",
+      "amount_sar": 4152.02,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-01-04",
+      "amount_sar": 2591.72,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-01-05",
+      "amount_sar": 3292.47,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-01-06",
+      "amount_sar": 5010.29,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-01-12",
+      "amount_sar": 1844.15,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-01-13",
+      "amount_sar": 3021.67,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-01-19",
+      "amount_sar": 5253.88,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-01-23",
+      "amount_sar": 4379.82,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-01-24",
+      "amount_sar": 4103.21,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-01-26",
+      "amount_sar": 4891.34,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-01-27",
+      "amount_sar": 4681.48,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-02-05",
+      "amount_sar": 1625.59,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-02-09",
+      "amount_sar": 2349.54,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-02-11",
+      "amount_sar": 7285.67,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-02-14",
+      "amount_sar": 7235.85,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-02-14",
+      "amount_sar": 2477.71,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-02-15",
+      "amount_sar": 4768.09,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-02-18",
+      "amount_sar": 3063.28,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-02-22",
+      "amount_sar": 6016.39,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-02-27",
+      "amount_sar": 4162.14,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 5063.63,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 6484.05,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-03-03",
+      "amount_sar": 1851.75,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-03-05",
+      "amount_sar": 1997.21,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-03-10",
+      "amount_sar": 6031.64,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-03-11",
+      "amount_sar": 6544.28,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-03-14",
+      "amount_sar": 1653.5,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-03-19",
+      "amount_sar": 2220.16,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-03-25",
+      "amount_sar": 6058.88,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-03-26",
+      "amount_sar": 3030.56,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-03-26",
+      "amount_sar": 3215.81,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-03-27",
+      "amount_sar": 3611.38,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-04-02",
+      "amount_sar": 2695.49,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-04-06",
+      "amount_sar": 5573.51,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-04-07",
+      "amount_sar": 1691.09,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-04-11",
+      "amount_sar": 4479.54,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-04-11",
+      "amount_sar": 4553.57,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-04-14",
+      "amount_sar": 5930.25,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-04-18",
+      "amount_sar": 3694.56,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-04-20",
+      "amount_sar": 7394.08,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-04-21",
+      "amount_sar": 5926.83,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-04-23",
+      "amount_sar": 6904.31,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-04-24",
+      "amount_sar": 2428.63,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-03",
+      "amount_sar": 1617.41,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-05",
+      "amount_sar": 3739.21,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-05",
+      "amount_sar": 4299.82,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-07",
+      "amount_sar": 5736.02,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-05-11",
+      "amount_sar": 4768.23,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-05-11",
+      "amount_sar": 4989.35,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-14",
+      "amount_sar": 5170.58,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-05-16",
+      "amount_sar": 4675.17,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    },
+    {
+      "date": "2026-05-17",
+      "amount_sar": 3881.68,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-21",
+      "amount_sar": 4481.99,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-22",
+      "amount_sar": 3899.41,
+      "direction": "debit",
+      "category": "inventory",
+      "counterparty": "موردون"
+    },
+    {
+      "date": "2026-05-23",
+      "amount_sar": 4958.58,
+      "direction": "credit",
+      "category": "pos_settlement",
+      "counterparty": "مدى"
+    }
+  ],
+  "zatca_invoices": [
+    {
+      "date": "2024-06-08",
+      "amount_sar": 5155.52,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-00-2"
+    },
+    {
+      "date": "2024-06-14",
+      "amount_sar": 5169.74,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-00-0"
+    },
+    {
+      "date": "2024-06-23",
+      "amount_sar": 4919.2,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-00-1"
+    },
+    {
+      "date": "2024-06-25",
+      "amount_sar": 4959.08,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-00-3"
+    },
+    {
+      "date": "2024-07-11",
+      "amount_sar": 7498.41,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-01-2"
+    },
+    {
+      "date": "2024-07-12",
+      "amount_sar": 8183.88,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-01-1"
+    },
+    {
+      "date": "2024-07-27",
+      "amount_sar": 7666.95,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-01-0"
+    },
+    {
+      "date": "2024-08-06",
+      "amount_sar": 5670.91,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-02-0"
+    },
+    {
+      "date": "2024-08-10",
+      "amount_sar": 4930.29,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-02-2"
+    },
+    {
+      "date": "2024-08-16",
+      "amount_sar": 5106.08,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-02-3"
+    },
+    {
+      "date": "2024-09-05",
+      "amount_sar": 6827.84,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-03-0"
+    },
+    {
+      "date": "2024-09-08",
+      "amount_sar": 6903.87,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-03-3"
+    },
+    {
+      "date": "2024-09-13",
+      "amount_sar": 7861.67,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-03-1"
+    },
+    {
+      "date": "2024-09-14",
+      "amount_sar": 8013.51,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-03-2"
+    },
+    {
+      "date": "2024-10-14",
+      "amount_sar": 6079.77,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-04-0"
+    },
+    {
+      "date": "2024-10-18",
+      "amount_sar": 5943.55,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-04-2"
+    },
+    {
+      "date": "2024-10-22",
+      "amount_sar": 7059.1,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-04-3"
+    },
+    {
+      "date": "2024-11-13",
+      "amount_sar": 5034.96,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-05-1"
+    },
+    {
+      "date": "2024-11-18",
+      "amount_sar": 4557.81,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-05-3"
+    },
+    {
+      "date": "2024-11-20",
+      "amount_sar": 5423.33,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-05-2"
+    },
+    {
+      "date": "2024-11-26",
+      "amount_sar": 4936.15,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-05-4"
+    },
+    {
+      "date": "2024-11-27",
+      "amount_sar": 4365.79,
+      "buyer": "عملاء التجزئة",
+      "status": "pending",
+      "uuid": "zm-05-0"
+    },
+    {
+      "date": "2024-12-15",
+      "amount_sar": 4124.66,
+      "buyer": "عملاء التجزئة",
+      "status": "pending",
+      "uuid": "zm-06-3"
+    },
+    {
+      "date": "2024-12-16",
+      "amount_sar": 4686.62,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-06-1"
+    },
+    {
+      "date": "2024-12-25",
+      "amount_sar": 4260.41,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-06-4"
+    },
+    {
+      "date": "2024-12-27",
+      "amount_sar": 4806.89,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-06-2"
+    },
+    {
+      "date": "2025-01-16",
+      "amount_sar": 4017.76,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-07-3"
+    },
+    {
+      "date": "2025-01-22",
+      "amount_sar": 4585.68,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-07-2"
+    },
+    {
+      "date": "2025-01-24",
+      "amount_sar": 3999.11,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-07-1"
+    },
+    {
+      "date": "2025-01-26",
+      "amount_sar": 4760.28,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-07-0"
+    },
+    {
+      "date": "2025-02-03",
+      "amount_sar": 4236.7,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-08-2"
+    },
+    {
+      "date": "2025-02-07",
+      "amount_sar": 4987.11,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-08-0"
+    },
+    {
+      "date": "2025-02-17",
+      "amount_sar": 4960.11,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-08-3"
+    },
+    {
+      "date": "2025-02-18",
+      "amount_sar": 4169.2,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-08-1"
+    },
+    {
+      "date": "2025-03-04",
+      "amount_sar": 6983.99,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-09-1"
+    },
+    {
+      "date": "2025-03-10",
+      "amount_sar": 7851.15,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-09-2"
+    },
+    {
+      "date": "2025-03-14",
+      "amount_sar": 7669.05,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-09-3"
+    },
+    {
+      "date": "2025-03-15",
+      "amount_sar": 7434.67,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-09-0"
+    },
+    {
+      "date": "2025-04-04",
+      "amount_sar": 11919.29,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-10-0"
+    },
+    {
+      "date": "2025-04-22",
+      "amount_sar": 12781.06,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-10-1"
+    },
+    {
+      "date": "2025-05-10",
+      "amount_sar": 8297.48,
+      "buyer": "عملاء التجزئة",
+      "status": "pending",
+      "uuid": "zm-11-0"
+    },
+    {
+      "date": "2025-05-12",
+      "amount_sar": 8054.98,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-11-2"
+    },
+    {
+      "date": "2025-05-15",
+      "amount_sar": 8909.35,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-11-1"
+    },
+    {
+      "date": "2025-06-04",
+      "amount_sar": 7077.48,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-12-2"
+    },
+    {
+      "date": "2025-06-05",
+      "amount_sar": 7071.83,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-12-3"
+    },
+    {
+      "date": "2025-06-21",
+      "amount_sar": 7487.55,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-12-0"
+    },
+    {
+      "date": "2025-06-21",
+      "amount_sar": 6150.98,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-12-1"
+    },
+    {
+      "date": "2025-07-05",
+      "amount_sar": 5783.94,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-13-2"
+    },
+    {
+      "date": "2025-07-18",
+      "amount_sar": 5026.5,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-13-1"
+    },
+    {
+      "date": "2025-07-25",
+      "amount_sar": 5524.94,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-13-3"
+    },
+    {
+      "date": "2025-07-27",
+      "amount_sar": 5569.69,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-13-0"
+    },
+    {
+      "date": "2025-08-06",
+      "amount_sar": 4541.08,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-14-4"
+    },
+    {
+      "date": "2025-08-07",
+      "amount_sar": 4589.51,
+      "buyer": "عملاء التجزئة",
+      "status": "pending",
+      "uuid": "zm-14-2"
+    },
+    {
+      "date": "2025-08-18",
+      "amount_sar": 3885.05,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-14-3"
+    },
+    {
+      "date": "2025-08-22",
+      "amount_sar": 4897.8,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-14-0"
+    },
+    {
+      "date": "2025-09-03",
+      "amount_sar": 4986.58,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-15-2"
+    },
+    {
+      "date": "2025-09-10",
+      "amount_sar": 5703.29,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-15-1"
+    },
+    {
+      "date": "2025-09-19",
+      "amount_sar": 5425.38,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-15-3"
+    },
+    {
+      "date": "2025-09-24",
+      "amount_sar": 4451.85,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-15-0"
+    },
+    {
+      "date": "2025-09-26",
+      "amount_sar": 5675.94,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-15-4"
+    },
+    {
+      "date": "2025-10-02",
+      "amount_sar": 9179.9,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-16-0"
+    },
+    {
+      "date": "2025-10-12",
+      "amount_sar": 8949.63,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-16-1"
+    },
+    {
+      "date": "2025-10-22",
+      "amount_sar": 9375.74,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-16-2"
+    },
+    {
+      "date": "2025-11-03",
+      "amount_sar": 4895.84,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-17-3"
+    },
+    {
+      "date": "2025-11-04",
+      "amount_sar": 5289.81,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-17-2"
+    },
+    {
+      "date": "2025-11-11",
+      "amount_sar": 5835.22,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-17-4"
+    },
+    {
+      "date": "2025-11-25",
+      "amount_sar": 5231.03,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-17-0"
+    },
+    {
+      "date": "2025-11-26",
+      "amount_sar": 5789.69,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-17-1"
+    },
+    {
+      "date": "2025-12-14",
+      "amount_sar": 7473.99,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-18-1"
+    },
+    {
+      "date": "2025-12-18",
+      "amount_sar": 9237.73,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-18-2"
+    },
+    {
+      "date": "2025-12-21",
+      "amount_sar": 8528.86,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-18-0"
+    },
+    {
+      "date": "2025-12-24",
+      "amount_sar": 8829.26,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-18-3"
+    },
+    {
+      "date": "2026-01-06",
+      "amount_sar": 5010.29,
+      "buyer": "عملاء التجزئة",
+      "status": "pending",
+      "uuid": "zm-19-1"
+    },
+    {
+      "date": "2026-01-19",
+      "amount_sar": 5253.88,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-19-3"
+    },
+    {
+      "date": "2026-01-23",
+      "amount_sar": 4379.82,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-19-2"
+    },
+    {
+      "date": "2026-01-27",
+      "amount_sar": 4681.48,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-19-0"
+    },
+    {
+      "date": "2026-02-11",
+      "amount_sar": 7285.67,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-20-0"
+    },
+    {
+      "date": "2026-02-22",
+      "amount_sar": 6016.39,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-20-1"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 5063.63,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-21-2"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 6484.05,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-21-3"
+    },
+    {
+      "date": "2026-03-10",
+      "amount_sar": 6031.64,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-21-0"
+    },
+    {
+      "date": "2026-03-11",
+      "amount_sar": 6544.28,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-21-4"
+    },
+    {
+      "date": "2026-03-25",
+      "amount_sar": 6058.88,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-21-1"
+    },
+    {
+      "date": "2026-04-06",
+      "amount_sar": 5573.51,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-22-4"
+    },
+    {
+      "date": "2026-04-14",
+      "amount_sar": 5930.25,
+      "buyer": "عملاء التجزئة",
+      "status": "pending",
+      "uuid": "zm-22-3"
+    },
+    {
+      "date": "2026-04-20",
+      "amount_sar": 7394.08,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-22-1"
+    },
+    {
+      "date": "2026-04-23",
+      "amount_sar": 6904.31,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-22-2"
+    },
+    {
+      "date": "2026-05-07",
+      "amount_sar": 5736.02,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-23-3"
+    },
+    {
+      "date": "2026-05-11",
+      "amount_sar": 4768.23,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-23-2"
+    },
+    {
+      "date": "2026-05-14",
+      "amount_sar": 5170.58,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-23-0"
+    },
+    {
+      "date": "2026-05-16",
+      "amount_sar": 4675.17,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-23-1"
+    },
+    {
+      "date": "2026-05-23",
+      "amount_sar": 4958.58,
+      "buyer": "عملاء التجزئة",
+      "status": "cleared",
+      "uuid": "zm-23-4"
+    }
+  ],
+  "pos_settlements": [
+    {
+      "date": "2024-06-08",
+      "amount_sar": 5155.52,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2024-06-14",
+      "amount_sar": 5169.74,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2024-06-23",
+      "amount_sar": 4919.2,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-06-25",
+      "amount_sar": 4959.08,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2024-07-11",
+      "amount_sar": 7498.41,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-07-12",
+      "amount_sar": 8183.88,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-07-27",
+      "amount_sar": 7666.95,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-08-06",
+      "amount_sar": 5670.91,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-08-10",
+      "amount_sar": 4930.29,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-08-11",
+      "amount_sar": 5214.57,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-08-16",
+      "amount_sar": 5106.08,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2024-09-05",
+      "amount_sar": 6827.84,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-09-08",
+      "amount_sar": 6903.87,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-09-13",
+      "amount_sar": 7861.67,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-09-14",
+      "amount_sar": 8013.51,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-10-13",
+      "amount_sar": 6078.29,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-10-14",
+      "amount_sar": 6079.77,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-10-18",
+      "amount_sar": 5943.55,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-10-22",
+      "amount_sar": 7059.1,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2024-11-13",
+      "amount_sar": 5034.96,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-11-18",
+      "amount_sar": 4557.81,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-11-20",
+      "amount_sar": 5423.33,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-11-26",
+      "amount_sar": 4936.15,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-11-27",
+      "amount_sar": 4365.79,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-12-10",
+      "amount_sar": 4127.88,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2024-12-15",
+      "amount_sar": 4124.66,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-12-16",
+      "amount_sar": 4686.62,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-12-25",
+      "amount_sar": 4260.41,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2024-12-27",
+      "amount_sar": 4806.89,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-01-16",
+      "amount_sar": 4017.76,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-01-22",
+      "amount_sar": 4585.68,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-01-24",
+      "amount_sar": 3999.11,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-01-26",
+      "amount_sar": 4760.28,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-02-03",
+      "amount_sar": 4236.7,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-02-07",
+      "amount_sar": 4987.11,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-02-17",
+      "amount_sar": 4960.11,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-02-18",
+      "amount_sar": 4169.2,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-03-04",
+      "amount_sar": 6983.99,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-03-10",
+      "amount_sar": 7851.15,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-03-14",
+      "amount_sar": 7669.05,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-03-15",
+      "amount_sar": 7434.67,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-04-04",
+      "amount_sar": 11919.29,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-04-22",
+      "amount_sar": 12781.06,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-04-27",
+      "amount_sar": 12290.19,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-05-10",
+      "amount_sar": 8297.48,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-05-12",
+      "amount_sar": 8054.98,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-05-15",
+      "amount_sar": 8909.35,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-06-04",
+      "amount_sar": 7077.48,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-06-05",
+      "amount_sar": 7071.83,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-06-21",
+      "amount_sar": 7487.55,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-06-21",
+      "amount_sar": 6150.98,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-07-05",
+      "amount_sar": 5783.94,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-07-18",
+      "amount_sar": 5026.5,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-07-25",
+      "amount_sar": 5524.94,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-07-27",
+      "amount_sar": 5569.69,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-08-06",
+      "amount_sar": 4541.08,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-08-07",
+      "amount_sar": 4589.51,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-08-08",
+      "amount_sar": 4682.55,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-08-18",
+      "amount_sar": 3885.05,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-08-22",
+      "amount_sar": 4897.8,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-09-03",
+      "amount_sar": 4986.58,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-09-10",
+      "amount_sar": 5703.29,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-09-19",
+      "amount_sar": 5425.38,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-09-24",
+      "amount_sar": 4451.85,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-09-26",
+      "amount_sar": 5675.94,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-10-02",
+      "amount_sar": 9179.9,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-10-12",
+      "amount_sar": 8949.63,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-10-22",
+      "amount_sar": 9375.74,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-11-03",
+      "amount_sar": 4895.84,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-11-04",
+      "amount_sar": 5289.81,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-11-11",
+      "amount_sar": 5835.22,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-11-25",
+      "amount_sar": 5231.03,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-11-26",
+      "amount_sar": 5789.69,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-12-14",
+      "amount_sar": 7473.99,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2025-12-18",
+      "amount_sar": 9237.73,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2025-12-21",
+      "amount_sar": 8528.86,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2025-12-24",
+      "amount_sar": 8829.26,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-01-06",
+      "amount_sar": 5010.29,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-01-19",
+      "amount_sar": 5253.88,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-01-23",
+      "amount_sar": 4379.82,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-01-27",
+      "amount_sar": 4681.48,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2026-02-11",
+      "amount_sar": 7285.67,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-02-14",
+      "amount_sar": 7235.85,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-02-22",
+      "amount_sar": 6016.39,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 5063.63,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 6484.05,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-03-10",
+      "amount_sar": 6031.64,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2026-03-11",
+      "amount_sar": 6544.28,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-03-25",
+      "amount_sar": 6058.88,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-04-06",
+      "amount_sar": 5573.51,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2026-04-14",
+      "amount_sar": 5930.25,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2026-04-20",
+      "amount_sar": 7394.08,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2026-04-21",
+      "amount_sar": 5926.83,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2026-04-23",
+      "amount_sar": 6904.31,
+      "terminal": "POS-3"
+    },
+    {
+      "date": "2026-05-07",
+      "amount_sar": 5736.02,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2026-05-11",
+      "amount_sar": 4768.23,
+      "terminal": "POS-2"
+    },
+    {
+      "date": "2026-05-14",
+      "amount_sar": 5170.58,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-05-16",
+      "amount_sar": 4675.17,
+      "terminal": "POS-1"
+    },
+    {
+      "date": "2026-05-23",
+      "amount_sar": 4958.58,
+      "terminal": "POS-1"
+    }
+  ]
+}

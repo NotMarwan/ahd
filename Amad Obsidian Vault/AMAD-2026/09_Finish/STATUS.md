@@ -1,0 +1,21 @@
+---
+title: "Operation Ahd — FINISH LINE · STATUS board"
+tags: [ahd, finish-line, status]
+updated: 2026-06-19
+---
+
+# 🟢 STATUS — Operation Ahd: Finish Line
+
+> The entire coordination protocol for this round. On finishing, each agent appends **one line**:
+> `AGENT N — DONE — <one-line summary> — <paths written>`
+> **Agent 4 (Integrator) starts only after Agents 1, 2, and 3 have each posted a DONE line.**
+> Lanes are exclusive: 1 → `09_Finish/RedTeam/` · 2 → `09_Finish/Fixup/` (+ the §3 files it owns) · 3 → `09_Finish/Consumer/` · 4 → `09_Finish/FINAL/`. No agent edits another's folder or shared files it doesn't own. No sub-agents. Never touch `99_RETIRED/`.
+
+## DONE lines
+- **AGENT 1 — DONE — Independent red-team: 12 attacks (1 FATAL, 9 SERIOUS, 2 cosmetic). Most insider "seals" hold, but 4 NEW HOLES + several partials the self-verification couldn't see: (A1) demand premise unvalidated [most dangerous], (A2) the "Islamic-bank" moat is open to Al Rajhi — not firm-specific [FATAL to "why Alinma"], (A10) the default/dunning path contradicts the warmth thesis, (A8) depth mis-allocated vs the actual judging criteria; plus the build is ~90% mocks, admissibility self-downgrade dents the value prop, no costed acquisition engine, lender-initiator stigma unsolved, Nafath-for-private-debt permission assumed, borrower's "why join" is free-able. Coverage map flags which are orphaned (A2, A10, A3, A4, A5, A9 = no current lane). I exposed only — fixed nothing. — `09_Finish/RedTeam/red-team-report.md`**
+
+- **AGENT 2 — DONE — Fix-up & hardening, three jobs: (1) Re-sourced the lending-pain stats to KSA anchors — سند لأمر is among the most-used legal docs in the Kingdom (Saudis ALREADY document personal debt → directly blunts red-team A1 "demand premise unvalidated"), 43M+ Najiz e-services H1-2024, SAR ~213B remittances; US %s relabeled "illustrative — KSA pending." (2) Built the LIVE riba-linter in the prototype (real rule engine: flags فائدة/غرامة/٪/عمولة in Arabic with the halal rewrite + DISABLES the sign button until removed; 10/10 scripted checks, 0 console errors, evidence verify-05-riba-linter.png) — closes the static-badge gap. (3) Housekeeping: BUILD-LOG layer table aligned to canonical filenames; Muqassa overclaim + Agent-1 dedup already fixed by Claude-Workflow (confirmed); flagged for owners: M/8-vs-M/18 + Evidence-Law-date citation drift (counsel) and a dangling contracts.md:74 link (out of my lane). NB integrator: A2 (moat open to Al Rajhi) and A10 (dunning-vs-warmth) are NOT in my lane — A10 is sealed by Agent-3's C2; A2 still orphaned. — `09_Finish/Fixup/fixup-log.md` (+ ahd-demo/index.html, MASTER_DOSSIER §2/§10, Agent-3 layer, business-case, BUILD-LOG)**
+- **AGENT 3 — DONE — Consumer-soul: walked the REAL prototype as 3 personas (flatmate rent-split; mother→son 5,000; trip circle); mapped 10 cold→warm friction points + ranked "feel-held" additions. Top finding: the borrower's gift-receipt INVITE screen (C1) and the "what if I can't pay?" يُسر / 2:280 grace flow (C2) are the product's soul and BOTH are absent from the prototype — build those two first. NB for integrator: my C2 + the rail-sent ease-toned reminder + the private-reputation reframe (C6/C8) directly seal red-team A10 (dunning vs warmth). — `09_Finish/Consumer/{consumer-journey.md, embrace-additions.md}`**
+- **AGENT 4 — DONE — Integrated all three lanes → `FINAL/`. Verdict: 🟢 GO with 2 conditions. Red-team triaged: A6 (initiator-stigma) + A10 (dunning-vs-warmth) SEALED by Consumer C1/C2; A1 (demand unvalidated) + A2 (moat open to Al Rajhi) are the round-deciders. Answered the orphaned A2 with a firm-specific wedge (category land-grab + own «عهد» + ≥1 exclusive distribution partner + circle network-lock-in) and folded it into the demo close. Honest score: ~90 defensibility / ~80–83 as-built Track-2 CX / ~90–93 after building the two soul screens (C1 gift-receipt + C2 يُسر) + one shard of primary KSA demand + the A2 answer. demo-v2 re-weights stage-time from crypto→warmth, moves the admissibility hedge out of the wow, adds the Al Rajhi close. Produced SOLO in FINAL/ only — zero collision, zero duplication. — `09_Finish/FINAL/{final-verdict.md, demo-v2.md, go-no-go.md}`**
+
+> ✅ **ROUND COMPLETE** — all four lanes DONE. Capstone: [[FINAL/final-verdict]] · [[FINAL/demo-v2]] · [[FINAL/go-no-go]].

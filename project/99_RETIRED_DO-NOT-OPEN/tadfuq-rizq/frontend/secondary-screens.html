@@ -1,0 +1,116 @@
+<!doctype html>
+<!-- secondary-screens.html — Agent 4 — standalone, OFFLINE, RTL verification harness for the
+     forecast + buckets screens. Double-click to open (file://). Consumes Agent 3's real
+     window.RIZQ_FALLBACK when present; falls back to Agent 4's _personas.stub.js otherwise.
+     This is the isolated proof for A4's components; in production they mount into A3's app shell. -->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rizq — رادار الدخل + التوزيع (Agent 4)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- font is a progressive enhancement; tokens.css falls back to system Arabic fonts offline -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" onerror="">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    body { margin: 0; padding: 24px 16px 64px; }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    .topbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; margin-bottom:18px; }
+    .brand { font-weight:800; font-size:20px; color:var(--c-primary-dark); }
+    .brand small { color:var(--c-ink-soft); font-weight:600; font-size:12px; }
+    .pills { display:flex; gap:8px; flex-wrap:wrap; }
+    .pp { cursor:pointer; border:1.5px solid var(--c-line); background:var(--c-surface); border-radius:999px;
+          padding:8px 14px; font-family:var(--font); font-size:14px; font-weight:600; color:var(--c-ink); }
+    .pp.active { background:var(--c-primary); color:#fff; border-color:var(--c-primary); }
+    .ctx { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:var(--c-primary-tint);
+           border:1px solid var(--c-line); border-radius:var(--radius); padding:12px 16px; margin-bottom:18px; }
+    .ctx .lim { font-weight:800; color:var(--c-primary-dark); }
+    .stack > * { margin-bottom:20px; }
+    .foot { text-align:center; color:var(--c-ink-soft); font-size:12px; margin-top:24px; }
+    .src { font-size:11px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">رِزق <small>· رادار الدخل والتوزيع التلقائي</small></div>
+      <div class="pills" id="pills"></div>
+    </div>
+    <div class="ctx" id="ctx"></div>
+    <div class="stack">
+      <div id="forecast"></div>
+      <div id="buckets"></div>
+    </div>
+    <div class="foot" id="foot"></div>
+  </div>
+
+  <!-- real offline data (Agent 3) → falls back to Agent 4 stub if absent -->
+  <script src="fallback-embedded.js" onerror="window.__noFB=1"></script>
+  <script src="components/_personas.stub.js"></script>
+  <script src="components/forecast.js"></script>
+  <script src="components/buckets.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var usingReal = !!(window.RIZQ_FALLBACK && window.RIZQ_FALLBACK.bundles);
+    var src = usingReal ? {
+      personas: function () { return window.RIZQ_FALLBACK.personas; },
+      bundle: function (id) { return window.RIZQ_FALLBACK.bundles[id]; },
+      result: function (id) { return (window.RIZQ_FALLBACK.results || {})[id]; }
+    } : {
+      personas: function () { return TR.listPersonas(); },
+      bundle: function (id) { return TR.makeBundle(id); },
+      result: function () { return null; }
+    };
+
+    function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
+    function repPayment(bundle) {
+      var cr = (bundle.ob_transactions || []).filter(function (t) { return t.direction === "credit" && t.category !== "transfer"; }).map(function (t) { return t.amount_sar; });
+      var last = cr.slice(-6).sort(function (a, b) { return a - b; });
+      return last.length ? last[Math.floor(last.length / 2)] : 0;
+    }
+
+    var personas = src.personas();
+    var pillsEl = document.getElementById("pills");
+    var current = personas[0].persona_id;
+
+    function render() {
+      var bundle = src.bundle(current);
+      var result = src.result(current);
+      var payment = repPayment(bundle);
+
+      // context strip: ties forecast → buffer → buckets (the loop)
+      var ctx = document.getElementById("ctx");
+      var p = personas.filter(function (x) { return x.persona_id === current; })[0];
+      ctx.innerHTML = '<div style="flex:1;min-width:200px"><b>' + (bundle.profile.name_ar) + '</b> · ' + (bundle.profile.segment) +
+        ' <span class="src tr-muted">· ' + (bundle.profile.has_simah_score ? 'لديه سجل سمة' : 'بلا سجل سمة (سمح)') + '</span></div>' +
+        (result ? '<div>الحدّ المعتمد: <span class="lim tr-num">' + fmt(result.limit_sar) + '</span> ر.س <span class="tr-shariah">' + (result.structure || 'تورّق') + '</span></div>' : '');
+
+      // the two A4 screens
+      TR.renderForecast(document.getElementById("forecast"), bundle, {
+        onContinue: function () { document.getElementById("buckets").scrollIntoView({ behavior: "smooth", block: "start" }); }
+      });
+      TR.renderBuckets(document.getElementById("buckets"), { bundle: bundle, payment: payment }, {});
+
+      document.getElementById("foot").textContent =
+        (usingReal ? "البيانات: window.RIZQ_FALLBACK (Agent 3 · real fixtures)" : "البيانات: Agent 4 stub (احتياطي)") +
+        " · حتمي · يعمل دون اتصال · RTL";
+    }
+
+    personas.forEach(function (p) {
+      var b = document.createElement("button");
+      b.className = "pp" + (p.persona_id === current ? " active" : "");
+      b.textContent = p.name_ar;
+      b.onclick = function () {
+        current = p.persona_id;
+        Array.prototype.forEach.call(pillsEl.children, function (c) { c.classList.remove("active"); });
+        b.classList.add("active");
+        render();
+      };
+      pillsEl.appendChild(b);
+    });
+    render();
+  })();
+  </script>
+</body>
+</html>

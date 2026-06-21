@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ذِمّة · Dhimmah — تطهير الذِّمّة قبل الحج</title>
+<!-- AMAD 2026 · Agent 2 · Vector 2 (Invisible Saudis) · LEAP champion prototype.
+     Offline, single-file, deterministic, Arabic RTL. Font via CDN with system-Arabic fallback. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#07120f; --bg-2:#0b1a16; --surface:#10221d; --surface-2:#16302a;
+    --line:#23463d; --line-soft:#1b362f;
+    --ink:#eaf5f1; --ink-soft:#9fc2b7; --ink-faint:#67897f;
+    --teal:#2ec9a0; --teal-bright:#46e0b6;     /* clearing / purity */
+    --gold:#e8c879; --gold-bright:#f4d98c;     /* the reveal */
+    --debt:#e8a36b; --right:#d98ca8;           /* obligation type accents (calm, not alarming) */
+    --radius:16px; --radius-sm:11px; --pill:999px;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",system-ui,sans-serif;
+    background:
+      radial-gradient(1100px 640px at 82% -8%, rgba(46,201,160,0.10), transparent 60%),
+      radial-gradient(820px 560px at 6% 108%, rgba(232,200,121,0.06), transparent 55%),
+      var(--bg);
+    color:var(--ink); min-height:100dvh; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 20px 64px;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px;}
+  .brand{display:flex;align-items:center;gap:13px;}
+  .brand-mark{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;flex:none;
+    background:linear-gradient(150deg,#2ec9a0,#157d63);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),0 8px 22px rgba(46,201,160,0.22);}
+  .brand-mark svg{width:24px;height:24px;}
+  .brand h1{font-size:21px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .brand .en{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:0.16em;text-transform:uppercase;}
+  .brand p{margin:1px 0 0;font-size:12.5px;color:var(--ink-soft);}
+
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 4px;}
+  .play{font-family:inherit;font-size:14px;font-weight:700;color:#06231b;background:linear-gradient(180deg,var(--teal-bright),var(--teal));
+    border:0;padding:12px 22px;border-radius:var(--pill);cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+    box-shadow:0 8px 22px rgba(46,201,160,0.28);transition:transform .12s ease;}
+  .play:active{transform:scale(.97);}
+  .play:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+  .reset{font-family:inherit;font-size:13px;font-weight:600;color:var(--ink-soft);background:transparent;border:1px solid var(--line);
+    padding:11px 18px;border-radius:var(--pill);cursor:pointer;}
+  .reset:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .hint{font-size:12.5px;color:var(--ink-faint);}
+
+  .stage{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:24px;align-items:start;margin-top:18px;}
+  @media (max-width:880px){ .stage{grid-template-columns:1fr;} }
+
+  /* phone */
+  .phone-col{display:flex;flex-direction:column;align-items:center;gap:13px;}
+  .phone{width:100%;max-width:360px;aspect-ratio:9/19;background:#000;border-radius:42px;padding:11px;border:1px solid #25433a;
+    box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 0 0 2px #0c1813;position:relative;}
+  .notch{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#000;border-radius:0 0 16px 16px;z-index:5;}
+  .screen{position:absolute;inset:11px;border-radius:33px;overflow:hidden;background:var(--bg-2);display:flex;flex-direction:column;}
+  .app-head{padding:26px 18px 14px;display:flex;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(46,201,160,0.14),transparent);border-bottom:1px solid var(--line-soft);}
+  .app-head .who{font-size:12px;color:var(--ink-soft);}
+  .app-head .sub{font-size:13.5px;font-weight:600;}
+  .app-head .logo{font-family:var(--mono);font-size:11px;color:var(--teal-bright);letter-spacing:0.12em;}
+  .app-body{flex:1;overflow-y:auto;padding:16px 15px 18px;}
+  .app-body::-webkit-scrollbar{width:0;}
+
+  .intro{display:flex;flex-direction:column;height:100%;justify-content:center;text-align:center;padding:8px 6px;}
+  .intro .kaaba{width:64px;height:64px;margin:0 auto 16px;border-radius:16px;display:grid;place-items:center;
+    background:rgba(232,200,121,0.10);border:1px solid rgba(232,200,121,0.28);}
+  .intro .kaaba svg{width:34px;height:34px;}
+  .intro h2{font-size:20px;margin:0 0 8px;}
+  .intro p{font-size:13px;color:var(--ink-soft);margin:0 0 6px;}
+  .intro .verse{font-size:12.5px;color:var(--gold);margin:14px 8px 0;line-height:1.7;}
+  .cta{width:100%;font-family:inherit;font-size:15.5px;font-weight:700;color:#06231b;background:linear-gradient(180deg,var(--teal-bright),var(--teal));
+    border:0;border-radius:var(--radius-sm);padding:15px;cursor:pointer;margin-top:20px;box-shadow:0 10px 24px rgba(46,201,160,0.25);transition:transform .12s ease;}
+  .cta:active{transform:scale(.98);} .cta:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+  .cta.gold{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#2a2008;box-shadow:0 10px 24px rgba(232,200,121,0.25);}
+
+  .scanning{display:flex;flex-direction:column;height:100%;justify-content:center;align-items:center;text-align:center;padding:20px;}
+  .ring{width:74px;height:74px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--teal-bright);animation:spin 1s linear infinite;margin-bottom:18px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .scanning .step{font-size:13px;color:var(--ink-soft);min-height:20px;}
+
+  .ledger-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;}
+  .ledger-head h3{font-size:15px;margin:0;}
+  .ledger-head .cnt{font-size:11.5px;color:var(--ink-faint);font-family:var(--mono);}
+  .bar-wrap{height:8px;border-radius:6px;background:var(--surface-2);overflow:hidden;margin:10px 0 14px;}
+  .bar-wrap i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--teal),var(--teal-bright));transition:width .7s cubic-bezier(.16,1,.3,1);}
+  .ob{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:12px;margin-bottom:10px;transition:opacity .4s,transform .4s,border-color .3s;}
+  .ob.done{opacity:.55;border-color:rgba(46,201,160,0.4);}
+  .ob .row1{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px;}
+  .ob .nm{font-size:13.5px;font-weight:600;}
+  .ob .amt{font-family:var(--mono);font-size:13px;color:var(--ink);white-space:nowrap;}
+  .ob .ev{font-size:11px;color:var(--ink-faint);margin-bottom:9px;line-height:1.5;}
+  .chip{display:inline-block;font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:var(--pill);margin-bottom:7px;}
+  .chip.debt{color:var(--debt);background:rgba(232,163,107,0.12);border:1px solid rgba(232,163,107,0.28);}
+  .chip.right{color:var(--right);background:rgba(217,140,168,0.12);border:1px solid rgba(217,140,168,0.28);}
+  .chip.zakat{color:var(--gold);background:rgba(232,200,121,0.12);border:1px solid rgba(232,200,121,0.28);}
+  .ob .settle{width:100%;font-family:inherit;font-size:13px;font-weight:600;color:#06231b;background:var(--teal);border:0;border-radius:9px;padding:9px;cursor:pointer;transition:transform .12s;}
+  .ob .settle:active{transform:scale(.98);} .ob .settle:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+  .ob .settled-tag{display:flex;align-items:center;gap:6px;justify-content:center;font-size:12px;color:var(--teal-bright);font-weight:600;}
+  .ob .settled-tag svg{width:15px;height:15px;}
+
+  .interview{background:rgba(232,200,121,0.07);border:1px solid rgba(232,200,121,0.22);border-radius:13px;padding:13px;margin-bottom:12px;}
+  .interview .q{font-size:13px;font-weight:600;margin:0 0 10px;}
+  .interview .opts{display:flex;gap:8px;}
+  .interview .opts button{flex:1;font-family:inherit;font-size:13.5px;font-weight:600;padding:10px;border-radius:9px;cursor:pointer;
+    background:var(--surface-2);border:1px solid var(--line);color:var(--ink);transition:transform .12s;}
+  .interview .opts button:active{transform:scale(.97);} .interview .opts button:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+
+  .reveal{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,18,15,.7),rgba(7,18,15,.97) 45%);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;z-index:6;opacity:0;pointer-events:none;transition:opacity .6s ease;}
+  .reveal.show{opacity:1;pointer-events:auto;}
+  .reveal .seal{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;margin-bottom:18px;
+    background:radial-gradient(circle at 50% 40%,rgba(232,200,121,0.22),rgba(232,200,121,0.05));border:1px solid rgba(232,200,121,0.45);
+    transform:scale(.6);transition:transform .7s cubic-bezier(.16,1,.3,1);}
+  .reveal.show .seal{transform:scale(1);}
+  .reveal .seal svg{width:46px;height:46px;}
+  .reveal h2{font-size:26px;margin:0 0 8px;color:var(--gold-bright);letter-spacing:-0.01em;}
+  .reveal p{font-size:14px;color:var(--ink-soft);margin:0;}
+  .reveal .dua{font-size:15px;color:var(--gold);margin-top:14px;}
+
+  /* engine panel */
+  .engine{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:var(--radius);padding:22px;}
+  .engine-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .engine-head h2{font-size:17px;margin:0;font-weight:700;}
+  .engine-head .pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-bright);
+    background:rgba(46,201,160,0.09);border:1px solid rgba(46,201,160,0.25);padding:5px 10px;border-radius:var(--pill);}
+  .engine .sub{font-size:12px;color:var(--ink-faint);margin-bottom:16px;}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+  @media (max-width:520px){ .metrics{grid-template-columns:1fr;} }
+  .metric{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:12px;padding:13px;}
+  .metric .lab{font-size:11px;color:var(--ink-faint);margin-bottom:5px;}
+  .metric .val{font-family:var(--mono);font-size:21px;font-weight:600;color:var(--ink);}
+  .metric .val.teal{color:var(--teal-bright);} .metric .val.gold{color:var(--gold-bright);}
+  .metric .val .u{font-size:11px;color:var(--ink-soft);margin-inline-start:3px;}
+
+  .zakat-box{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:12px;padding:14px;margin-bottom:16px;}
+  .zakat-box h4{margin:0 0 9px;font-size:13px;color:var(--gold);}
+  .zakat-box .ln{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:var(--ink-soft);}
+  .zakat-box .ln b{color:var(--ink);font-family:var(--mono);}
+
+  .log{border-top:1px solid var(--line-soft);padding-top:14px;}
+  .log h4{margin:0 0 10px;font-size:12.5px;color:var(--ink-soft);}
+  .log .entry{font-size:12px;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start;padding:5px 0;line-height:1.5;animation:rise .4s ease;}
+  .log .entry .ic{width:16px;height:16px;flex:none;margin-top:1px;color:var(--teal-bright);}
+  .log .entry b{color:var(--ink);}
+  .log .empty{font-size:12px;color:var(--ink-faint);}
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .legend{margin-top:28px;font-size:12px;color:var(--ink-faint);line-height:1.7;border-top:1px solid var(--line-soft);padding-top:16px;}
+  .legend b{color:var(--ink-soft);} .legend code{font-family:var(--mono);font-size:11px;color:var(--teal-bright);}
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;animation:none !important;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#06231b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <div>
+        <h1>ذِمّة <span class="en">· Dhimmah</span></h1>
+        <p>طهّر ذمّتك قبل الحج: سدّد ديونك وردّ الحقوق · AMAD 2026 · المسار 1 (الذكاء الاصطناعي التوليدي)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="play" onclick="play()" id="playBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      تشغيل العرض
+    </button>
+    <button class="reset" onclick="resetAll()">إعادة</button>
+    <span class="hint" id="hint">اضغط «تشغيل العرض»، أو تنقّل بنفسك داخل الهاتف.</span>
+  </div>
+
+  <div class="stage">
+    <div class="phone-col">
+      <div class="phone">
+        <div class="notch" aria-hidden="true"></div>
+        <div class="screen">
+          <div class="app-head">
+            <div>
+              <div class="who">عبدالله · حاجّ بعد ٣ أيام</div>
+              <div class="sub">رصيدك: 84,000 <span style="font-size:11px;color:var(--ink-soft)">ر.س</span></div>
+            </div>
+            <div class="logo">alinma</div>
+          </div>
+          <div class="app-body" id="appBody"><!-- injected --></div>
+          <div class="reveal" id="reveal" aria-hidden="true">
+            <div class="seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-bright)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <h2>ذمّتك بريئة</h2>
+            <p>سدّدت كل دَين، ورددت كل حق، وأخرجت زكاتك.</p>
+            <div class="dua">تقبّل الله حجّك 🤍</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint" id="phoneCaption">تجربة الحاجّ · واجهة عربية أولاً (RTL)</div>
+    </div>
+
+    <div>
+      <div class="engine">
+        <div class="engine-head">
+          <h2>محرك ذِمّة <span style="font-size:12px;color:var(--ink-faint);font-weight:400">· التحليل الحي</span></h2>
+          <div class="pill" id="enginePill">بانتظار الربط</div>
+        </div>
+        <div class="sub">اكتشاف الالتزامات من بياناتك (المصرفية المفتوحة) + مقابلة قصيرة · تصنيف: دَين / حق / زكاة</div>
+
+        <div class="metrics">
+          <div class="metric"><div class="lab">إجمالي الالتزامات</div><div class="val" id="mTotal">0<span class="u">ر.س</span></div></div>
+          <div class="metric"><div class="lab">ما تم تطهيره</div><div class="val teal" id="mCleared">0<span class="u">ر.س</span></div></div>
+          <div class="metric"><div class="lab">براءة الذمّة</div><div class="val gold" id="mPct">0<span class="u">%</span></div></div>
+        </div>
+
+        <div class="zakat-box">
+          <h4>حساب الزكاة (تلقائي)</h4>
+          <div class="ln"><span>الرصيد الخاضع</span><b>84,000 ر.س</b></div>
+          <div class="ln"><span>النصاب (تقديري)</span><b>~22,000 ر.س</b></div>
+          <div class="ln"><span>فوق النصاب؟</span><b style="color:var(--teal-bright)">نعم</b></div>
+          <div class="ln"><span>الزكاة (2.5%)</span><b style="color:var(--gold)">2,100 ر.س</b></div>
+        </div>
+
+        <div class="log">
+          <h4>سجلّ التطهير</h4>
+          <div id="logBody"><div class="empty">لم يبدأ بعد.</div></div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <b>ملاحظة للمشغّل:</b> نموذج أولي تفاعلي (single-file، يعمل دون اتصال، حتمي). الالتزامات تمثيلية مبنية على أنماط واقعية. في الإنتاج: الاكتشاف يعمل على بيانات Alinma OB sandbox، والمقابلة عبر <code>ALLaM / IBM watsonx</code>، والتسديد عبر <code>sarie</code>؛ الزكاة والأحكام تُراجَع من الهيئة الشرعية (لا فتوى آلية).
+        <br/>Operator note: interactive prototype (offline, deterministic). Discovers obligations from data + a short interview, settles each → بَراءة الذِّمّة. Production: Alinma OB sandbox + ALLaM/watsonx + sarie; Shariah-board-reviewed.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const el = id => document.getElementById(id);
+let timers = [];
+const after = (ms, fn) => { const t = setTimeout(fn, reduce ? 0 : ms); timers.push(t); return t; };
+const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+
+// deterministic obligation set
+const BASE = [
+  { id:"loan", type:"debt",  nm:"قرض من أخيك محمد", amt:6000, ev:"تحويل وارد منه في 2024، لم يُسدَّد بعد." },
+  { id:"wage", type:"right", nm:"أجرة عاملٍ متأخرة", amt:1500, ev:"راتب أخير مستحق، من حقوق العباد (المظالم)." },
+  { id:"zakat",type:"zakat", nm:"زكاة مالٍ متأخرة", amt:2100, ev:"رصيدك فوق النصاب ولم تُحسب الزكاة هذا العام." },
+  { id:"bnpl", type:"debt",  nm:"قسط تقسيط متبقٍّ", amt:900,  ev:"التزام شراء آجل (BNPL) منسيّ." }
+];
+const PROMISE = { id:"promise", type:"right", nm:"وعدٌ بمالٍ لقريب", amt:800, ev:"وعدٌ مالي لم تُوفِ به بعد (أمانة)." };
+const CHIP = { debt:["دَين","debt"], right:["حق / من المظالم","right"], zakat:["زكاة","zakat"] };
+
+let obligations = [];
+let settled = new Set();
+let interviewDone = false;
+
+function resetAll(){
+  clearTimers();
+  obligations = BASE.map(o => ({...o}));
+  settled = new Set();
+  interviewDone = false;
+  el("reveal").classList.remove("show"); el("reveal").setAttribute("aria-hidden","true");
+  el("enginePill").textContent = "بانتظار الربط";
+  el("logBody").innerHTML = '<div class="empty">لم يبدأ بعد.</div>';
+  el("mTotal").innerHTML = '0<span class="u">ر.س</span>';
+  el("mCleared").innerHTML = '0<span class="u">ر.س</span>';
+  el("mPct").innerHTML = '0<span class="u">%</span>';
+  el("phoneCaption").textContent = "تجربة الحاجّ · واجهة عربية أولاً (RTL)";
+  el("hint").textContent = "اضغط «تشغيل العرض»، أو تنقّل بنفسك داخل الهاتف.";
+  renderIntro();
+}
+
+function renderIntro(){
+  el("appBody").innerHTML = `
+    <div class="intro">
+      <div class="kaaba" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-bright)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4v12l-9 4-9-4V6z"/><path d="M3 6l9 4 9-4M12 10v12"/></svg>
+      </div>
+      <h2>طهّر ذمّتك قبل أن تُحرم</h2>
+      <p>قبل الحج، على المسلم أن يسدّد ديونه ويردّ حقوق الناس.</p>
+      <p style="color:var(--ink-faint);font-size:12px">سنقرأ معاملاتك ونسألك أسئلة قصيرة لنجمع ما عليك.</p>
+      <div class="verse">«نفس المؤمن معلّقة بدَينه حتى يُقضى عنه»</div>
+      <button class="cta" onclick="startScan()">اربط حسابك وابدأ</button>
+    </div>`;
+}
+
+function startScan(){
+  el("enginePill").textContent = "يكتشف الالتزامات...";
+  el("phoneCaption").textContent = "محرك ذِمّة يقرأ بياناتك...";
+  const steps = ["نقرأ معاملاتك المصرفية...","نبحث عن ديون قائمة...","نتحقق من حقوق الآخرين عليك...","نحسب زكاة مالك..."];
+  el("appBody").innerHTML = `<div class="scanning"><div class="ring" aria-hidden="true"></div><div class="step" id="scanStep">${steps[0]}</div></div>`;
+  steps.forEach((s,i)=> after(520*(i+1), ()=>{ const n=el("scanStep"); if(n) n.textContent=s; }));
+  after(520*steps.length + 500, renderLedger);
+}
+
+function renderLedger(){
+  el("enginePill").textContent = "صحيفة الذِّمّة جاهزة";
+  el("phoneCaption").textContent = "صحيفة الذِّمّة: ما عليك قبل الحج";
+  // log the discovery
+  el("logBody").innerHTML = "";
+  obligations.forEach(o => logEntry(`اكتُشف: <b>${o.nm}</b> (${CHIP[o.type][0]}) — ${o.amt.toLocaleString("en-US")} ر.س`));
+  paintLedger();
+  updateMetrics();
+}
+
+function paintLedger(){
+  const total = obligations.length;
+  const rows = obligations.map(o=>{
+    const isDone = settled.has(o.id);
+    const [label,cls] = CHIP[o.type];
+    return `<div class="ob ${isDone?'done':''}" id="ob-${o.id}">
+      <span class="chip ${cls}">${label}</span>
+      <div class="row1"><span class="nm">${o.nm}</span><span class="amt">${o.amt.toLocaleString("en-US")} ر.س</span></div>
+      <div class="ev">${o.ev}</div>
+      ${isDone
+        ? `<div class="settled-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> تمّ التسديد</div>`
+        : `<button class="settle" onclick="settle('${o.id}')">سدّد الآن (sarie)</button>`}
+    </div>`;
+  }).join("");
+  const interview = (!interviewDone) ? `
+    <div class="interview" id="interviewBox">
+      <p class="q">هل وعدت أحداً بمالٍ أو تحمل أمانةً لم تُوفِ بها؟</p>
+      <div class="opts"><button onclick="answerInterview(true)">نعم</button><button onclick="answerInterview(false)">لا</button></div>
+    </div>` : "";
+  const clearedCount = settled.size;
+  el("appBody").innerHTML = `
+    <div class="ledger-head"><h3>صحيفة الذِّمّة</h3><span class="cnt">${clearedCount}/${total} مُسدَّد</span></div>
+    <div class="bar-wrap"><i id="bar" style="width:${total?Math.round(clearedCount/total*100):0}%"></i></div>
+    ${interview}${rows}`;
+}
+
+function answerInterview(yes){
+  interviewDone = true;
+  if(yes){
+    obligations.push({...PROMISE});
+    logEntry(`من المقابلة: <b>${PROMISE.nm}</b> (${CHIP[PROMISE.type][0]}) — ${PROMISE.amt.toLocaleString("en-US")} ر.س`);
+  } else {
+    logEntry(`من المقابلة: لا التزامات إضافية.`);
+  }
+  paintLedger(); updateMetrics();
+}
+
+function settle(id){
+  if(settled.has(id)) return;
+  settled.add(id);
+  const o = obligations.find(x=>x.id===id);
+  const verb = o.type==="zakat" ? "أُخرجت زكاتك" : (o.type==="right" ? "رُدّ الحق" : "سُدّد الدَين");
+  logEntry(`<b>${verb}:</b> ${o.nm} — ${o.amt.toLocaleString("en-US")} ر.س`);
+  paintLedger(); updateMetrics();
+  if(settled.size === obligations.length && interviewDone){ after(450, showReveal); }
+}
+
+function updateMetrics(){
+  const total = obligations.reduce((s,o)=>s+o.amt,0);
+  const cleared = obligations.filter(o=>settled.has(o.id)).reduce((s,o)=>s+o.amt,0);
+  const pct = total ? Math.round(cleared/total*100) : 0;
+  el("mTotal").innerHTML = `${total.toLocaleString("en-US")}<span class="u">ر.س</span>`;
+  el("mCleared").innerHTML = `${cleared.toLocaleString("en-US")}<span class="u">ر.س</span>`;
+  el("mPct").innerHTML = `${pct}<span class="u">%</span>`;
+  el("enginePill").textContent = pct===100 ? "ذمّتك بريئة" : (settled.size? "جارٍ التطهير..." : "صحيفة الذِّمّة جاهزة");
+}
+
+function logEntry(html){
+  if(el("logBody").querySelector(".empty")) el("logBody").innerHTML="";
+  const d = document.createElement("div");
+  d.className = "entry";
+  d.innerHTML = `<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>${html}</span>`;
+  el("logBody").appendChild(d);
+}
+
+function showReveal(){
+  el("reveal").classList.add("show"); el("reveal").setAttribute("aria-hidden","false");
+  el("phoneCaption").textContent = "بَراءة الذِّمّة · المال طُهِّر قبل الحج";
+  el("hint").textContent = "تم: كل دَين سُدّد، كل حق رُدّ، الزكاة أُخرجت.";
+}
+
+// scripted autoplay (deterministic)
+function play(){
+  resetAll();
+  after(400, startScan);
+  const scanEnd = 520*4 + 500 + 450;
+  after(scanEnd + 400, ()=> answerInterview(true));     // interview → adds promise
+  // settle all obligations in sequence
+  const order = ["loan","wage","zakat","bnpl","promise"];
+  order.forEach((id,i)=> after(scanEnd + 1100 + i*650, ()=> settle(id)));
+}
+
+resetAll();
+</script>
+</body>
+</html>

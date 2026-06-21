@@ -1,0 +1,114 @@
+{
+  "GENESIS": "f80fcd622999540a2621f9c79325093a3455ce30a57aa254104441c2a858ec85",
+  "seq": 1,
+  "prev": "f80fcd622999540a2621f9c79325093a3455ce30a57aa254104441c2a858ec85",
+  "canonical_hash": "f8d11335802a8b740e218bbce621bf525e15b53a6191f40ab0ce40a811d2ce7c",
+  "seal": "6c9410b95ba4715a3c2b174ff70aa2d7ab88fa0294868a41354d2f9e60f7fd18",
+  "terms_ar": "يُقِرّ الطرفان بأنّ «نورة العتيبي» أقرضت «سارة الزهراني» مبلغ 5,000 ريال على سبيل القرض الحسن، يُسدَّد على 5 أقساطٍ شهريّةٍ متساوية قدر كلٍّ منها 1,000 ريال، دون أيّ زيادة أو فائدة أو غرامة تأخير. عند العجز يُمهَل المقترض بالمعروف.",
+  "terms_hash": "94572857b00838b613efae5dd034035bf8b6b5747b183dfc09723e6751d75b84",
+  "canonical_plain": "AHD-RECORD-v1\nahd_id=AHD-01HZ-NOURA-SARA\ntype=قرض حسن\nlender=نورة العتيبي\nborrower=سارة الزهراني\nprincipal=5000.00 SAR\nmonths=5\nschedule=1:1 يوليو 2026:1000.00|2:1 أغسطس 2026:1000.00|3:1 سبتمبر 2026:1000.00|4:1 أكتوبر 2026:1000.00|5:1 نوفمبر 2026:1000.00\nterms_hash=94572857b00838b613efae5dd034035bf8b6b5747b183dfc09723e6751d75b84\nbasis=Quran:2:282\nriba=interest:false;late_penalty_to_lender:false;gharar:none\nconsent=نورة العتيبي#NAFATH_BIOMETRIC#2026-07-01T10:29:40+03:00#NFTH-BA9721FEAB,سارة الزهراني#NAFATH_BIOMETRIC#2026-07-01T10:29:58+03:00#NFTH-51DF67E376\nts=2026-07-01T10:30:00+03:00",
+  "canonical_tampered": "AHD-RECORD-v1\nahd_id=AHD-01HZ-NOURA-SARA\ntype=قرض حسن\nlender=نورة العتيبي\nborrower=سارة الزهراني\nprincipal=9000.00 SAR\nmonths=5\nschedule=1:1 يوليو 2026:1800.00|2:1 أغسطس 2026:1800.00|3:1 سبتمبر 2026:1800.00|4:1 أكتوبر 2026:1800.00|5:1 نوفمبر 2026:1800.00\nterms_hash=94572857b00838b613efae5dd034035bf8b6b5747b183dfc09723e6751d75b84\nbasis=Quran:2:282\nriba=interest:false;late_penalty_to_lender:false;gharar:none\nconsent=نورة العتيبي#NAFATH_BIOMETRIC#2026-07-01T10:29:40+03:00#NFTH-BA9721FEAB,سارة الزهراني#NAFATH_BIOMETRIC#2026-07-01T10:29:58+03:00#NFTH-51DF67E376\nts=2026-07-01T10:30:00+03:00",
+  "recompute_clean": {
+    "canonical_hash": "f8d11335802a8b740e218bbce621bf525e15b53a6191f40ab0ce40a811d2ce7c",
+    "seal": "6c9410b95ba4715a3c2b174ff70aa2d7ab88fa0294868a41354d2f9e60f7fd18"
+  },
+  "recompute_tampered": {
+    "canonical_hash": "d2b141a63f67bf346eefad9defffe9da1e7341868ec4db46fca37d0301bb8feb",
+    "seal": "0b4c5d6d8039003be15b30672b814eec0d432ff7d0be6eaeca19bb6ad132598a"
+  },
+  "consent_refs": [
+    "NFTH-BA9721FEAB",
+    "NFTH-51DF67E376"
+  ],
+  "BAL": {
+    "نورة": -900,
+    "سارة": 0,
+    "خالد": 600,
+    "ليلى": 0,
+    "فهد": 300
+  },
+  "SETTLE": [
+    {
+      "from": "نورة",
+      "to": "خالد",
+      "amount": 600
+    },
+    {
+      "from": "نورة",
+      "to": "فهد",
+      "amount": 300
+    }
+  ],
+  "IOUS_len": 9,
+  "NODES": [
+    "نورة",
+    "سارة",
+    "خالد",
+    "ليلى",
+    "فهد"
+  ],
+  "fmt": {
+    "v50": "50",
+    "v200": "200",
+    "v900": "900",
+    "v1000": "1,000",
+    "v5000": "5,000",
+    "v9000": "9,000"
+  },
+  "sha": {
+    "empty": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "abc": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+    "long": "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+  },
+  "riba": {
+    "clean_empty": {
+      "verdict": "clean",
+      "hits": []
+    },
+    "clean_ok": {
+      "verdict": "block",
+      "hits": [
+        {
+          "re": {},
+          "why": "زيادة/عمولة على أصل الدَّين",
+          "fix": "الأصل فقط؛ أيّ رسمٍ يكون أجرة خدمةٍ ثابتة"
+        }
+      ]
+    },
+    "block_fee": {
+      "verdict": "block",
+      "hits": [
+        {
+          "re": {},
+          "why": "غرامة تأخير لصالح المُقرِض",
+          "fix": "عند العُسر: نظرة إلى ميسرة (إمهال بالمعروف بلا زيادة)، أو إلتزام بالتبرّع لجهة خيرية"
+        },
+        {
+          "re": {},
+          "why": "نسبة مئوية مرتبطة بمبلغ القرض",
+          "fix": "أجرة خدمةٍ ثابتة منفصلة عن القرض — لا نسبة من المبلغ"
+        }
+      ]
+    },
+    "block_interest": {
+      "verdict": "block",
+      "hits": [
+        {
+          "re": {},
+          "why": "شرط فائدة/ربا على القرض",
+          "fix": "قرضٌ حسن بلا أيّ زيادة على الأصل"
+        }
+      ]
+    },
+    "block_pct": {
+      "verdict": "block",
+      "hits": [
+        {
+          "re": {},
+          "why": "نسبة مئوية مرتبطة بمبلغ القرض",
+          "fix": "أجرة خدمةٍ ثابتة منفصلة عن القرض — لا نسبة من المبلغ"
+        }
+      ]
+    }
+  }
+}

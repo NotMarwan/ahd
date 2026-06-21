@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  .ph-scroll::-webkit-scrollbar{width:0;height:0}
+  .ph-scroll{scrollbar-width:none}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-width:100%;min-height:100vh;width:max-content;box-sizing:border-box;padding:56px;background:#e6e1d7;font-family:'IBM Plex Sans Arabic',sans-serif;color:#23201b">
+
+  <!-- ===== BOARD HEADER ===== -->
+  <div style="max-width:1180px;margin-bottom:8px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+      <div style="width:50px;height:50px;border-radius:15px;background:linear-gradient(150deg,#0E7C66,#0A5247);display:grid;place-items:center;color:#fff;font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:24px;box-shadow:0 8px 22px rgba(14,82,71,.28)">عـ</div>
+      <div>
+        <div style="font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:21px;letter-spacing:.01em">عَهد · Ahd</div>
+        <div style="font-size:12.5px;color:#7c7264;font-weight:500">المال بين الناس — مكتوبٌ، مشهودٌ، محفوظ</div>
+      </div>
+    </div>
+    <h1 style="font-family:'Amiri',serif;font-weight:700;font-size:40px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em">اتجاهان بصريّان لشاشات العرض</h1>
+    <p style="font-size:15px;color:#6e6557;max-width:760px;line-height:1.7;margin:0;text-wrap:pretty">ثلاث قِطعٍ في اتجاهين مختلفين: «وصلتك بسلامة» (شاشة الاستلام)، «متى ما تيسّر» (شبكة الأمان)، وإشارة الثقة كحلقةٍ كيفيّة لا رقم. الشاشات تفاعليّة — جرِّب زرّ القبول وزرّ «أحتاج وقتًا».</p>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- ===================== DIRECTION 1 =========================== -->
+  <!-- ============================================================= -->
+  <section data-screen-label="Direction 1" style="margin-top:52px">
+    <div style="display:flex;gap:22px;align-items:flex-start;max-width:1100px;margin-bottom:30px">
+      <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div style="width:54px;height:54px;border-radius:50%;background:#7E8B58;color:#fff;display:grid;place-items:center;font-family:'Amiri',serif;font-weight:700;font-size:26px;box-shadow:0 6px 16px rgba(126,139,88,.35)">١</div>
+      </div>
+      <div style="flex:1">
+        <h2 style="font-family:'Amiri',serif;font-weight:700;font-size:27px;margin:2px 0 6px">دافئ وإنسانيّ · Warm &amp; Human</h2>
+        <p style="font-size:14px;color:#6e6557;line-height:1.7;margin:0 0 14px;max-width:640px;text-wrap:pretty">الإحساس: استلام هديةٍ مغلّفةٍ بالعناية، لا مطالبةٍ بدَين. حميميّ، كريم، مطمئن — يرسله أبٌ لابنه أو صديقٌ لصديقه فيُشعره باللُّطف.</p>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+          <div style="display:flex;gap:7px;align-items:center">
+            <span style="width:26px;height:26px;border-radius:7px;background:#F7F1E4;border:1px solid #d8cdb8"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#7E8B58"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#C2683F"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#D9A441"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#2B2622"></span>
+          </div>
+          <span style="font-size:12.5px;color:#8a8073">كريميّ · زيتونيّ · طينيّ · عسليّ — عناوين <b style="font-family:'Amiri',serif">أميري</b>، نصّ IBM&nbsp;Plex&nbsp;Arabic</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:48px;align-items:flex-start">
+
+      <!-- ---------- D1 · SCREEN A : وصلتك بسلامة ---------- -->
+      <div style="flex:none;width:392px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-weight:600;font-size:13px;color:#6b6256;letter-spacing:.01em">شاشة أ · «وصلتك بسلامة» — لحظة الاستلام</div>
+        <div style="width:392px;height:850px;border-radius:50px;padding:13px;background:linear-gradient(160deg,#39322a,#241f19);box-shadow:0 36px 70px rgba(40,32,22,.30),0 0 0 1px rgba(0,0,0,.05)">
+          <div class="ph-scroll" style="position:relative;width:100%;height:100%;border-radius:38px;overflow-y:auto;background:#F7F1E4;display:flex;flex-direction:column">
+            <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#241f19;border-radius:0 0 16px 16px;z-index:5"></div>
+            <div style="position:sticky;top:0;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:13px 26px 6px;font-size:12.5px;font-weight:600;color:#5a5145;background:#F7F1E4">
+              <span style="font-variant-numeric:tabular-nums">٩:٤١</span>
+              <span style="letter-spacing:2px;font-size:11px">▪ ▪ ▪ ▮</span>
+            </div>
+            <div style="flex:1;padding:14px 24px 30px;display:flex;flex-direction:column">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:15px;color:#0E7C66">عَهد</div>
+                <div style="display:inline-flex;align-items:center;gap:6px;background:#EAE8D5;color:#5b6a3c;font-weight:700;font-size:12px;padding:6px 13px;border-radius:999px">
+                  <svg width="13" height="13" viewBox="0 0 14 14"><path d="M7 1.6 C8.6 4 10 4.6 12.4 5 C10.4 6 9.4 8 7 12.4 C4.6 8 3.6 6 1.6 5 C4 4.6 5.4 4 7 1.6Z" fill="#7E8B58"/></svg>
+                  وصلتك بسلامة
+                </div>
+              </div>
+
+              <h2 style="font-family:'Amiri',serif;font-weight:700;font-size:33px;line-height:1.25;margin:24px 0 6px;color:#2B2622">سارة، وصلتك بسلامة.</h2>
+              <p style="font-size:14.5px;color:#7c7264;margin:0 0 18px;line-height:1.6">نورة وفّت بوعدها وأعطتك</p>
+
+              <div style="background:linear-gradient(165deg,#FFFDF8,#F1EEDD);border:1px solid #e3dcc7;border-radius:24px;padding:24px 22px;text-align:center;box-shadow:0 10px 28px rgba(120,110,80,.12)">
+                <div style="font-family:'Amiri',serif;font-weight:700;font-size:46px;color:#2B2622;line-height:1;unicode-bidi:plaintext">5,000 <span style="font-size:23px;color:#8a7e6f;font-family:'IBM Plex Sans Arabic'">ريال</span></div>
+                <div style="margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:#EAE8D5;color:#5b6a3c;font-weight:700;font-size:12.5px;padding:6px 14px;border-radius:999px">قرضٌ حسن · بلا أيّ فائدة</div>
+              </div>
+
+              <p style="font-size:14px;color:#5f574a;line-height:1.85;margin:18px 0 2px;text-wrap:pretty">تُسدِّده بالراحة المتّفَق عليها، وكلمةٌ محفوظةٌ بينكما — لا حسابات، ولا إحراج.</p>
+
+              <div style="margin-top:18px;background:#FBF8EF;border:1px solid #e7e0cd;border-radius:20px;padding:18px 18px 8px">
+                <div style="font-weight:700;font-size:13px;color:#8a7e6f;margin-bottom:6px">ما الذي يحفظه لك «عهد»؟</div>
+                <div style="display:flex;gap:11px;padding:9px 0;border-bottom:1px dashed #e7e0cd">
+                  <svg width="18" height="18" viewBox="0 0 18 18" style="flex:none;margin-top:2px"><circle cx="9" cy="9" r="9" fill="#EAE8D5"/><path d="M5 9.2 L8 12 L13 5.6" stroke="#7E8B58" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span style="font-size:13.5px;color:#3f3a31;line-height:1.55;font-weight:500">شروطٌ واضحة بالعربية، وافقتِ عليها بنفسك.</span>
+                </div>
+                <div style="display:flex;gap:11px;padding:9px 0;border-bottom:1px dashed #e7e0cd">
+                  <svg width="18" height="18" viewBox="0 0 18 18" style="flex:none;margin-top:2px"><circle cx="9" cy="9" r="9" fill="#EAE8D5"/><path d="M5 9.2 L8 12 L13 5.6" stroke="#7E8B58" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span style="font-size:13.5px;color:#3f3a31;line-height:1.55;font-weight:500">يُسرٌ عند العُسر — إعادة جدولةٍ بلا غرامة.</span>
+                </div>
+                <div style="display:flex;gap:11px;padding:9px 0;border-bottom:1px dashed #e7e0cd">
+                  <svg width="18" height="18" viewBox="0 0 18 18" style="flex:none;margin-top:2px"><circle cx="9" cy="9" r="9" fill="#EAE8D5"/><path d="M5 9.2 L8 12 L13 5.6" stroke="#7E8B58" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span style="font-size:13.5px;color:#3f3a31;line-height:1.55;font-weight:500">بلا ربا، وبلا أيّ زيادة على الأصل.</span>
+                </div>
+                <div style="display:flex;gap:11px;padding:9px 0">
+                  <svg width="18" height="18" viewBox="0 0 18 18" style="flex:none;margin-top:2px"><circle cx="9" cy="9" r="9" fill="#EAE8D5"/><path d="M5 9.2 L8 12 L13 5.6" stroke="#7E8B58" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span style="font-size:13.5px;color:#3f3a31;line-height:1.55;font-weight:500">سجلٌّ موثّقٌ محفوظ — يحمي العلاقة، لا يُحرجها.</span>
+                </div>
+              </div>
+
+              <div style="margin-top:16px;padding:15px 18px;background:#FCEFC4;border-radius:0 16px 16px 0;border-right:4px solid #D9A441">
+                <div style="font-family:'Amiri',serif;font-size:18px;line-height:1.7;color:#5a4a1f">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
+                <div style="font-size:11.5px;color:#917b3f;margin-top:5px">البقرة ٢٨٠ — إن تعسّر السداد يومًا، تُعاد الجدولة بالمعروف.</div>
+              </div>
+
+              <sc-if value="{{ a1n }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
+                  <button onClick="{{ acceptA1 }}" style="font-family:'IBM Plex Sans Arabic';font-weight:700;font-size:16px;color:#fff;background:linear-gradient(150deg,#7E8B58,#5d6840);border:0;border-radius:16px;padding:16px;cursor:pointer;box-shadow:0 12px 26px rgba(93,104,64,.32)">أكّد استلامي بسلامة</button>
+                  <button style="font-family:'IBM Plex Sans Arabic';font-weight:600;font-size:14.5px;color:#7c7264;background:transparent;border:1.5px solid #ddd4bf;border-radius:16px;padding:13px;cursor:pointer">عندي ملاحظة بلطف</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ a1 }}">
+                <div style="margin-top:20px;border-radius:22px;padding:24px 20px;text-align:center;background:linear-gradient(180deg,#EEF0DF,#FFFDF8);border:1px solid #cdd1ab">
+                  <svg width="46" height="46" viewBox="0 0 46 46" style="margin-bottom:6px"><circle cx="23" cy="23" r="22" fill="#fff" stroke="#7E8B58" stroke-width="1.5"/><path d="M14 23.5 L20 30 L33 16" stroke="#5d6840" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div style="font-family:'Amiri',serif;font-weight:700;font-size:22px;color:#3c4a2a">وصلتك بسلامة — عهدٌ موثّق</div>
+                  <p style="font-size:13px;color:#6e6557;margin:8px 0 16px;line-height:1.6">قبِلتِ بالمعروف. الخطوة الأخيرة: يوثّق الطرفان هويّتهما عبر نفاذ فيُختَم العهد.</p>
+                  <button style="font-family:'IBM Plex Sans Arabic';font-weight:700;font-size:15px;color:#fff;background:#5d6840;border:0;border-radius:14px;padding:13px 22px;cursor:pointer">تابِع — توثيق عبر نفاذ ←</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- D1 · SCREEN B : متى ما تيسّر ---------- -->
+      <div style="flex:none;width:392px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-weight:600;font-size:13px;color:#6b6256;letter-spacing:.01em">شاشة ب · «متى ما تيسّر» — شبكة الأمان</div>
+        <div style="width:392px;height:850px;border-radius:50px;padding:13px;background:linear-gradient(160deg,#39322a,#241f19);box-shadow:0 36px 70px rgba(40,32,22,.30),0 0 0 1px rgba(0,0,0,.05)">
+          <div class="ph-scroll" style="position:relative;width:100%;height:100%;border-radius:38px;overflow-y:auto;background:#F7F1E4;display:flex;flex-direction:column">
+            <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#241f19;border-radius:0 0 16px 16px;z-index:5"></div>
+            <div style="position:sticky;top:0;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:13px 26px 6px;font-size:12.5px;font-weight:600;color:#5a5145;background:#F7F1E4">
+              <span style="font-variant-numeric:tabular-nums">٩:٤١</span>
+              <span style="letter-spacing:2px;font-size:11px">▪ ▪ ▪ ▮</span>
+            </div>
+            <div style="flex:1;padding:14px 24px 30px;display:flex;flex-direction:column">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:15px;color:#0E7C66">عَهد</div>
+                <sc-if value="{{ g1 }}">
+                  <div style="display:inline-flex;align-items:center;gap:7px;background:#EAE8D5;color:#5b6a3c;font-weight:700;font-size:12px;padding:6px 13px;border-radius:999px">مؤجّل بالتراضي</div>
+                </sc-if>
+                <sc-if value="{{ g1n }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:inline-flex;align-items:center;gap:7px;background:#EDE7D6;color:#8a7e6f;font-weight:700;font-size:12px;padding:6px 13px;border-radius:999px">قيد السداد</div>
+                </sc-if>
+              </div>
+
+              <h2 style="font-family:'Amiri',serif;font-weight:700;font-size:33px;line-height:1.25;margin:26px 0 8px;color:#2B2622">أحتاج وقتًا — بلا حرج.</h2>
+              <p style="font-size:14px;color:#5f574a;line-height:1.8;margin:0;text-wrap:pretty">إن تعسّر السداد يومًا، يُعاد ترتيبه معًا بالمعروف — لا فائدة، لا غرامة، لا مساءلة. كرامتك محفوظة.</p>
+
+              <div style="margin-top:18px;padding:15px 18px;background:#FCEFC4;border-radius:0 16px 16px 0;border-right:4px solid #D9A441">
+                <div style="font-family:'Amiri',serif;font-size:18px;line-height:1.7;color:#5a4a1f">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
+                <div style="font-size:11.5px;color:#917b3f;margin-top:5px">البقرة ٢٨٠ — نَظِرةٌ إلى ميسرة، لا ضغط.</div>
+              </div>
+
+              <div style="margin-top:18px;display:flex;justify-content:space-between;align-items:baseline">
+                <span style="font-size:13px;font-weight:700;color:#8a7e6f">المتبقّي من العهد</span>
+                <sc-if value="{{ g1n }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:#7c7264;unicode-bidi:plaintext">3,000 ريال · 3 أقساط</span></sc-if>
+                <sc-if value="{{ g1 }}"><span style="font-size:13px;color:#5b6a3c;font-weight:600;unicode-bidi:plaintext">3,000 ريال · 5 أقساط أيسر</span></sc-if>
+              </div>
+
+              <!-- BEFORE: 3 × 1,000 -->
+              <sc-if value="{{ g1n }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:10px;display:flex;flex-direction:column;gap:9px">
+                  <div style="display:flex;align-items:center;gap:12px;border:1px solid #e7e0cd;border-radius:14px;padding:13px 15px;background:#fff">
+                    <div style="width:30px;height:30px;border-radius:50%;background:#F3EFDF;display:grid;place-items:center;font-weight:700;font-size:13px;color:#8a7e6f;flex:none">١</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:14px;unicode-bidi:plaintext">1,000 ريال</div><div style="font-size:11.5px;color:#8a7e6f">١ سبتمبر ٢٠٢٦</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;border:1px solid #e7e0cd;border-radius:14px;padding:13px 15px;background:#fff">
+                    <div style="width:30px;height:30px;border-radius:50%;background:#F3EFDF;display:grid;place-items:center;font-weight:700;font-size:13px;color:#8a7e6f;flex:none">٢</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:14px;unicode-bidi:plaintext">1,000 ريال</div><div style="font-size:11.5px;color:#8a7e6f">١ أكتوبر ٢٠٢٦</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;border:1px solid #e7e0cd;border-radius:14px;padding:13px 15px;background:#fff">
+                    <div style="width:30px;height:30px;border-radius:50%;background:#F3EFDF;display:grid;place-items:center;font-weight:700;font-size:13px;color:#8a7e6f;flex:none">٣</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:14px;unicode-bidi:plaintext">1,000 ريال</div><div style="font-size:11.5px;color:#8a7e6f">١ نوفمبر ٢٠٢٦</div></div>
+                  </div>
+                </div>
+                <button onClick="{{ grace1 }}" style="margin-top:20px;font-family:'IBM Plex Sans Arabic';font-weight:700;font-size:16px;color:#fff;background:linear-gradient(150deg,#7E8B58,#5d6840);border:0;border-radius:16px;padding:16px;cursor:pointer;box-shadow:0 12px 26px rgba(93,104,64,.30);display:flex;align-items:center;justify-content:center;gap:9px">
+                  <svg width="19" height="19" viewBox="0 0 20 20"><path d="M10 17 C5 13 2 10.5 2 7 C2 4.5 4 3 6 3 C7.6 3 9.2 4 10 5.6 C10.8 4 12.4 3 14 3 C16 3 18 4.5 18 7 C18 10.5 15 13 10 17Z" fill="none" stroke="#fff" stroke-width="1.5"/></svg>
+                  أجِّل بالتراضي — متى ما تيسّر
+                </button>
+              </sc-if>
+
+              <!-- AFTER: 5 × 600 + reassurance -->
+              <sc-if value="{{ g1 }}">
+                <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+                  <div style="display:flex;align-items:center;gap:11px;border:1px solid #cdd1ab;border-radius:14px;padding:11px 14px;background:#F4F2E2">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#EAE8D5;display:grid;place-items:center;font-weight:700;font-size:12px;color:#5b6a3c;flex:none">١</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:13.5px;unicode-bidi:plaintext">600 ريال</div><div style="font-size:11px;color:#8a7e6f">١ سبتمبر ٢٠٢٦</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:11px;border:1px solid #cdd1ab;border-radius:14px;padding:11px 14px;background:#F4F2E2">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#EAE8D5;display:grid;place-items:center;font-weight:700;font-size:12px;color:#5b6a3c;flex:none">٢</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:13.5px;unicode-bidi:plaintext">600 ريال</div><div style="font-size:11px;color:#8a7e6f">١ أكتوبر ٢٠٢٦</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:11px;border:1px solid #cdd1ab;border-radius:14px;padding:11px 14px;background:#F4F2E2">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#EAE8D5;display:grid;place-items:center;font-weight:700;font-size:12px;color:#5b6a3c;flex:none">٣</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:13.5px;unicode-bidi:plaintext">600 ريال</div><div style="font-size:11px;color:#8a7e6f">١ نوفمبر ٢٠٢٦</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:11px;border:1px solid #cdd1ab;border-radius:14px;padding:11px 14px;background:#F4F2E2">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#EAE8D5;display:grid;place-items:center;font-weight:700;font-size:12px;color:#5b6a3c;flex:none">٤</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:13.5px;unicode-bidi:plaintext">600 ريال</div><div style="font-size:11px;color:#8a7e6f">١ ديسمبر ٢٠٢٦</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:11px;border:1px solid #cdd1ab;border-radius:14px;padding:11px 14px;background:#F4F2E2">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#EAE8D5;display:grid;place-items:center;font-weight:700;font-size:12px;color:#5b6a3c;flex:none">٥</div>
+                    <div style="flex:1"><div style="font-weight:700;font-size:13.5px;unicode-bidi:plaintext">600 ريال</div><div style="font-size:11px;color:#8a7e6f">١ يناير ٢٠٢٧</div></div>
+                  </div>
+                </div>
+                <div style="margin-top:14px;border:1px solid #cdd1ab;background:#EEF0DF;border-radius:18px;padding:16px 17px">
+                  <div style="display:flex;align-items:center;gap:9px;font-family:'Amiri',serif;font-weight:700;font-size:17px;color:#3c4a2a">
+                    <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 17 C5 13 2 10.5 2 7 C2 4.5 4 3 6 3 C7.6 3 9.2 4 10 5.6 C10.8 4 12.4 3 14 3 C16 3 18 4.5 18 7 C18 10.5 15 13 10 17Z" fill="#7E8B58"/></svg>
+                    أُعيدت الجدولة بالمعروف
+                  </div>
+                  <p style="font-size:13px;color:#4f4a3e;line-height:1.7;margin:9px 0 0;text-wrap:pretty">المبلغ المتبقّي كما هو تمامًا (<span style="unicode-bidi:plaintext;font-weight:700">3,000 ريال</span>) — وُزِّع على خمسة أشهرٍ أيسر. <b style="color:#3c4a2a">لا غرامة، لا فائدة، لا زيادة.</b></p>
+                  <div style="margin-top:10px;padding:11px 13px;background:#fffdf8;border-radius:12px;font-size:12.5px;color:#6e6557;line-height:1.6">يُشعَر الطرف الآخر بلطف: «سارة تحتاج مهلةً بسيطة — وهذا من المعروف.»</div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- D1 · SCREEN C : دائرة التسوية + إشارة الثقة ---------- -->
+      <div style="flex:none;width:392px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-weight:600;font-size:13px;color:#6b6256;letter-spacing:.01em">شاشة ج · دائرة التسوية — إشارة الثقة كحلقة</div>
+        <div style="width:392px;height:850px;border-radius:50px;padding:13px;background:linear-gradient(160deg,#39322a,#241f19);box-shadow:0 36px 70px rgba(40,32,22,.30),0 0 0 1px rgba(0,0,0,.05)">
+          <div class="ph-scroll" style="position:relative;width:100%;height:100%;border-radius:38px;overflow-y:auto;background:#F7F1E4;display:flex;flex-direction:column">
+            <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#241f19;border-radius:0 0 16px 16px;z-index:5"></div>
+            <div style="position:sticky;top:0;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:13px 26px 6px;font-size:12.5px;font-weight:600;color:#5a5145;background:#F7F1E4">
+              <span style="font-variant-numeric:tabular-nums">٩:٤١</span>
+              <span style="letter-spacing:2px;font-size:11px">▪ ▪ ▪ ▮</span>
+            </div>
+            <div style="flex:1;padding:14px 22px 30px;display:flex;flex-direction:column">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:15px;color:#0E7C66">عَهد</div>
+                <div style="display:inline-flex;align-items:center;gap:6px;background:#EAE8D5;color:#5b6a3c;font-weight:700;font-size:12px;padding:6px 13px;border-radius:999px">دائرة التسوية</div>
+              </div>
+
+              <h2 style="font-family:'Amiri',serif;font-weight:700;font-size:30px;line-height:1.28;margin:22px 0 6px;color:#2B2622">خمسة أصدقاء، دائرةٌ تنحلّ.</h2>
+              <p style="font-size:13.5px;color:#5f574a;line-height:1.7;margin:0 0 6px;text-wrap:pretty">تسع التزاماتٍ متشابكة تتحوّل إلى تحويلين فقط — وكلٌّ يحتفظ بصافيه بالهللة.</p>
+
+              <div style="margin-top:8px;background:#FBF8EF;border:1px solid #e7e0cd;border-radius:22px;padding:8px 6px 4px">
+                <svg viewBox="0 0 340 300" style="width:100%;height:auto;display:block">
+                  <defs>
+                    <marker id="d1arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#C99A3F"/></marker>
+                  </defs>
+                  <!-- faint tangle -->
+                  <g stroke="#d8cdb8" stroke-width="1.3" opacity="0.85" fill="none">
+                    <line x1="170" y1="40" x2="274.6" y2="116"/>
+                    <line x1="274.6" y1="116" x2="234.7" y2="239"/>
+                    <line x1="170" y1="40" x2="105.3" y2="239"/>
+                    <line x1="105.3" y1="239" x2="65.4" y2="116"/>
+                    <line x1="170" y1="40" x2="234.7" y2="239"/>
+                    <line x1="170" y1="40" x2="65.4" y2="116"/>
+                    <line x1="274.6" y1="116" x2="105.3" y2="239"/>
+                    <line x1="105.3" y1="239" x2="234.7" y2="239"/>
+                  </g>
+                  <!-- 2 resolved transfers -->
+                  <g fill="none" stroke="#C99A3F" stroke-width="3.2" stroke-linecap="round">
+                    <path d="M179.3 68.5 L224.8 208.6" marker-end="url(#d1arr)"/>
+                    <path d="M145.7 57.6 L91.3 97.2" marker-end="url(#d1arr)"/>
+                  </g>
+                  <text x="206" y="140" text-anchor="middle" style="font:700 11px 'IBM Plex Sans Arabic';fill:#8a6d1f;paint-order:stroke;stroke:#FBF8EF;stroke-width:3px">600</text>
+                  <text x="120" y="80" text-anchor="middle" style="font:700 11px 'IBM Plex Sans Arabic';fill:#8a6d1f;paint-order:stroke;stroke:#FBF8EF;stroke-width:3px">300</text>
+
+                  <!-- nodes -->
+                  <!-- نورة kept -->
+                  <g transform="translate(170,40)">
+                    <circle r="27" fill="none" stroke="#e3dccb" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#7E8B58" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="146 24" transform="rotate(-90)"/>
+                    <circle r="22" fill="#FFFDF8" stroke="#cdbfa6" stroke-width="1.3"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#2B2622">نورة</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#5b6a3c">وفّى بعهوده</text>
+                  </g>
+                  <!-- سارة new -->
+                  <g transform="translate(274.6,116)">
+                    <circle r="27" fill="none" stroke="#e3dccb" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#bdb19a" stroke-width="2" stroke-dasharray="1.5 5" opacity="0.7" transform="rotate(-90)"/>
+                    <circle r="22" fill="#FFFDF8" stroke="#cdbfa6" stroke-width="1.3"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#2B2622">سارة</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#8a7e6f">جديد</text>
+                  </g>
+                  <!-- خالد overdue -->
+                  <g transform="translate(234.7,239)">
+                    <circle r="27" fill="none" stroke="#e3dccb" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#C58A3D" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="64 106" transform="rotate(-90)"/>
+                    <circle r="22" fill="#FFFDF8" stroke="#cdbfa6" stroke-width="1.3"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#2B2622">خالد</text>
+                    <text text-anchor="middle" y="45" style="font:700 9.5px 'IBM Plex Sans Arabic';fill:#a96f25">عليه وعدٌ متأخّر</text>
+                  </g>
+                  <!-- ليلى kept -->
+                  <g transform="translate(105.3,239)">
+                    <circle r="27" fill="none" stroke="#e3dccb" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#7E8B58" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="150 20" transform="rotate(-90)"/>
+                    <circle r="22" fill="#FFFDF8" stroke="#cdbfa6" stroke-width="1.3"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#2B2622">ليلى</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#5b6a3c">وفّى بعهوده</text>
+                  </g>
+                  <!-- فهد kept -->
+                  <g transform="translate(65.4,116)">
+                    <circle r="27" fill="none" stroke="#e3dccb" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#7E8B58" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="140 30" transform="rotate(-90)"/>
+                    <circle r="22" fill="#FFFDF8" stroke="#cdbfa6" stroke-width="1.3"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#2B2622">فهد</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#5b6a3c">وفّى بعهوده</text>
+                  </g>
+                </svg>
+              </div>
+
+              <div style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:14px">
+                <span style="font-family:'Amiri',serif;font-weight:700;font-size:30px;color:#8a7e6f;unicode-bidi:plaintext">9</span>
+                <span style="color:#b3a892;font-size:18px">⟵</span>
+                <span style="font-family:'Amiri',serif;font-weight:700;font-size:30px;color:#5d6840;unicode-bidi:plaintext">2</span>
+                <span style="font-size:12.5px;color:#7c7264;font-weight:600">التزامات تنحلّ إلى تحويلين</span>
+              </div>
+
+              <div style="margin-top:14px;border-top:1px dashed #ddd4bf;padding-top:14px">
+                <div style="font-weight:700;font-size:12.5px;color:#8a7e6f;margin-bottom:10px">معنى الحلقة حول كل اسم</div>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="#e3dccb" stroke-width="2.4"/><circle cx="11" cy="11" r="9" fill="none" stroke="#7E8B58" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="49 8" transform="rotate(-90 11 11)"/></svg>
+                    <span style="font-size:13px;color:#3f3a31"><b style="color:#5b6a3c">وفّى بعهوده</b> — وعودٌ سابقة أُوفِيت.</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="#bdb19a" stroke-width="2" stroke-dasharray="1.5 4.5"/></svg>
+                    <span style="font-size:13px;color:#3f3a31"><b style="color:#8a7e6f">جديد</b> — لا سجلّ بعد، ولا حكم مسبق.</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="#e3dccb" stroke-width="2.4"/><circle cx="11" cy="11" r="9" fill="none" stroke="#C58A3D" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="22 35" transform="rotate(-90 11 11)"/></svg>
+                    <span style="font-size:13px;color:#3f3a31"><b style="color:#a96f25">عليه وعدٌ متأخّر</b> — تذكيرٌ لطيف، لا إنذار.</span>
+                  </div>
+                </div>
+                <p style="font-size:11.5px;color:#9a8f7d;line-height:1.6;margin:12px 0 0;text-wrap:pretty">سجلُّ وفاءٍ بكلماتٍ لا أرقام — مرآةٌ اجتماعيّةٌ هادئة بين شخصين، <b style="color:#7c7264">ليست تصنيفًا ائتمانيًا</b> ولا تُستخدم لقرارٍ بإقراض.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- ===================== DIRECTION 2 =========================== -->
+  <!-- ============================================================= -->
+  <section data-screen-label="Direction 2" style="margin-top:80px">
+    <div style="display:flex;gap:22px;align-items:flex-start;max-width:1100px;margin-bottom:30px">
+      <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div style="width:54px;height:54px;border-radius:50%;background:#0E5C46;color:#fff;display:grid;place-items:center;font-family:'Amiri',serif;font-weight:700;font-size:26px;box-shadow:0 6px 16px rgba(14,92,70,.35)">٢</div>
+      </div>
+      <div style="flex:1">
+        <h2 style="font-family:'Amiri',serif;font-weight:700;font-size:27px;margin:2px 0 6px">وقورٌ ووثائقيّ · Dignified &amp; Documentary</h2>
+        <p style="font-size:14px;color:#6e6557;line-height:1.7;margin:0 0 14px;max-width:640px;text-wrap:pretty">الإحساس: «الكاتب بالعدل» — وقارٌ مصرفيّ موثوق وميثاقٌ محفوظ. زخرفةٌ هندسيّةٌ خفيفة وختمٌ كالشمع، بناءٌ مرتّب يشبه الوثيقة الرسميّة — لكنه دافئ، لا بارد.</p>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+          <div style="display:flex;gap:7px;align-items:center">
+            <span style="width:26px;height:26px;border-radius:7px;background:#F1F0EA;border:1px solid #d9d5c8"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#0E5C46"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#14201C"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#B08A2E"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#E6EEEA"></span>
+          </div>
+          <span style="font-size:12.5px;color:#8a8073">حبريّ · أخضر زجاجيّ · نحاسيّ — عناوين <b style="font-family:'Amiri',serif">أميري</b> أبرز، نصّ IBM&nbsp;Plex&nbsp;Arabic</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:48px;align-items:flex-start">
+
+      <!-- ---------- D2 · SCREEN A : وصلتك بسلامة (وثائقي) ---------- -->
+      <div style="flex:none;width:392px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-weight:600;font-size:13px;color:#6b6256;letter-spacing:.01em">شاشة أ · «وصلتك بسلامة» — لحظة الاستلام</div>
+        <div style="width:392px;height:850px;border-radius:50px;padding:13px;background:linear-gradient(160deg,#1c2a25,#0d1714);box-shadow:0 36px 70px rgba(13,30,25,.32),0 0 0 1px rgba(0,0,0,.05)">
+          <div class="ph-scroll" style="position:relative;width:100%;height:100%;border-radius:38px;overflow-y:auto;background:#F4F3EE;display:flex;flex-direction:column">
+            <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#0d1714;border-radius:0 0 16px 16px;z-index:5"></div>
+            <!-- documentary green header -->
+            <div style="position:relative;background:linear-gradient(155deg,#0E5C46,#0a4133);padding:46px 24px 24px;color:#fff;overflow:hidden">
+              <div style="position:absolute;top:10px;left:24px;font-size:12px;font-weight:600;color:#bfe0d4;font-variant-numeric:tabular-nums">٩:٤١</div>
+              <div style="position:absolute;top:10px;right:24px;font-size:11px;letter-spacing:2px;color:#bfe0d4">▪ ▪ ▪ ▮</div>
+              <div style="position:absolute;inset:0;opacity:.10;pointer-events:none">
+                <svg width="100%" height="100%" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#ffffff" stroke-width="1"><path d="M30 30 l10 10 l-10 10 l-10 -10 z"/><path d="M120 60 l10 10 l-10 10 l-10 -10 z"/><path d="M250 25 l10 10 l-10 10 l-10 -10 z"/><path d="M320 90 l10 10 l-10 10 l-10 -10 z"/><path d="M70 140 l10 10 l-10 10 l-10 -10 z"/><path d="M200 150 l10 10 l-10 10 l-10 -10 z"/><path d="M300 160 l10 10 l-10 10 l-10 -10 z"/></g></svg>
+              </div>
+              <div style="position:relative;display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:16px;color:#fff">عَهد</div>
+                <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#eef7f3;font-weight:600;font-size:11.5px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2)">وثيقة استلام موثّقة</div>
+              </div>
+              <div style="position:relative;font-family:'Amiri',serif;font-weight:700;font-size:30px;line-height:1.3;margin-top:18px">وصلتك بسلامة، سارة.</div>
+              <div style="position:relative;font-size:13px;color:#cbe5dc;margin-top:6px">أمانةٌ محفوظة بشهادة المصرف — لا مطالبة.</div>
+            </div>
+
+            <div style="flex:1;padding:20px 24px 30px;display:flex;flex-direction:column">
+              <div style="border:1px solid #d6d2c4;border-radius:18px;overflow:hidden;background:#fff">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px dashed #e0dccd">
+                  <span style="font-size:12.5px;color:#8a8276;font-weight:600">من نورة العتيبي</span>
+                  <span style="font-size:11px;color:#b08a2e;font-weight:700">قرض حسن</span>
+                </div>
+                <div style="padding:22px 18px;text-align:center">
+                  <div style="font-family:'Amiri',serif;font-weight:700;font-size:44px;color:#14201C;line-height:1;unicode-bidi:plaintext">5,000 <span style="font-size:21px;color:#5b6b66;font-family:'IBM Plex Sans Arabic'">ريال</span></div>
+                  <div style="margin-top:10px;font-size:12.5px;color:#5b6b66">بلا أيّ فائدة · تُسدَّد بالراحة المتّفَق عليها</div>
+                </div>
+              </div>
+
+              <div style="margin-top:18px;padding:16px 18px;background:#FBF6E7;border:1px solid #e9dcb6;border-radius:14px">
+                <div style="font-family:'Amiri',serif;font-size:18px;line-height:1.7;color:#5c4a18">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
+                <div style="font-size:11.5px;color:#9a7c2e;margin-top:5px">البقرة ٢٨٠ — يُسرٌ عند العُسر، بلا غرامة.</div>
+              </div>
+
+              <div style="margin-top:18px">
+                <div style="font-weight:700;font-size:12px;color:#0E5C46;letter-spacing:.04em;margin-bottom:10px">ما يضمنه لك «عهد»</div>
+                <div style="display:grid;grid-template-columns:1fr;gap:1px;background:#e3e0d4;border:1px solid #e3e0d4;border-radius:14px;overflow:hidden">
+                  <div style="display:flex;gap:11px;align-items:flex-start;padding:12px 15px;background:#fff">
+                    <svg width="16" height="16" viewBox="0 0 16 16" style="flex:none;margin-top:2px"><path d="M3 8 L6.5 11.5 L13 4" stroke="#0E5C46" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="font-size:13px;color:#2c3733;line-height:1.5;font-weight:500">شروطٌ واضحة بالعربية، وافقتِ عليها بنفسك.</span>
+                  </div>
+                  <div style="display:flex;gap:11px;align-items:flex-start;padding:12px 15px;background:#fff">
+                    <svg width="16" height="16" viewBox="0 0 16 16" style="flex:none;margin-top:2px"><path d="M3 8 L6.5 11.5 L13 4" stroke="#0E5C46" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="font-size:13px;color:#2c3733;line-height:1.5;font-weight:500">يُسرٌ عند العُسر — إعادة جدولةٍ بلا غرامة.</span>
+                  </div>
+                  <div style="display:flex;gap:11px;align-items:flex-start;padding:12px 15px;background:#fff">
+                    <svg width="16" height="16" viewBox="0 0 16 16" style="flex:none;margin-top:2px"><path d="M3 8 L6.5 11.5 L13 4" stroke="#0E5C46" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="font-size:13px;color:#2c3733;line-height:1.5;font-weight:500">بلا ربا، وبلا أيّ زيادة على الأصل.</span>
+                  </div>
+                  <div style="display:flex;gap:11px;align-items:flex-start;padding:12px 15px;background:#fff">
+                    <svg width="16" height="16" viewBox="0 0 16 16" style="flex:none;margin-top:2px"><path d="M3 8 L6.5 11.5 L13 4" stroke="#0E5C46" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="font-size:13px;color:#2c3733;line-height:1.5;font-weight:500">سجلٌّ موثّقٌ محفوظ — يحمي العلاقة، لا يُحرجها.</span>
+                  </div>
+                </div>
+              </div>
+
+              <sc-if value="{{ a2n }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
+                  <button onClick="{{ acceptA2 }}" style="font-family:'IBM Plex Sans Arabic';font-weight:700;font-size:16px;color:#fff;background:#0E5C46;border:0;border-radius:14px;padding:16px;cursor:pointer;box-shadow:0 12px 26px rgba(14,92,70,.28)">أكّد استلامي بسلامة</button>
+                  <button style="font-family:'IBM Plex Sans Arabic';font-weight:600;font-size:14.5px;color:#5b6b66;background:transparent;border:1.5px solid #d2cdbe;border-radius:14px;padding:13px;cursor:pointer">عندي ملاحظة</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ a2 }}">
+                <div style="margin-top:20px;border-radius:16px;padding:22px 20px;text-align:center;background:#fff;border:1px solid #cdd9d3;position:relative">
+                  <svg width="52" height="52" viewBox="0 0 52 52" style="margin-bottom:4px"><circle cx="26" cy="26" r="24" fill="#fbf6e7" stroke="#B08A2E" stroke-width="1.4"/><circle cx="26" cy="26" r="18" fill="none" stroke="#B08A2E" stroke-width="0.8" stroke-dasharray="2 3"/><path d="M17 26.5 L23 33 L36 18" stroke="#0E5C46" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div style="font-family:'Amiri',serif;font-weight:700;font-size:21px;color:#0E5C46">خُتِم العهد — وصلتك بسلامة</div>
+                  <p style="font-size:13px;color:#5b6b66;margin:8px 0 16px;line-height:1.6">قبِلتِ بالمعروف. تبقّى توثيق الطرفين عبر نفاذ ليُختم السجلّ.</p>
+                  <button style="font-family:'IBM Plex Sans Arabic';font-weight:700;font-size:15px;color:#fff;background:#0E5C46;border:0;border-radius:12px;padding:13px 22px;cursor:pointer">تابِع — توثيق عبر نفاذ ←</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- D2 · SCREEN B : متى ما تيسّر (وثائقي) ---------- -->
+      <div style="flex:none;width:392px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-weight:600;font-size:13px;color:#6b6256;letter-spacing:.01em">شاشة ب · «متى ما تيسّر» — شبكة الأمان</div>
+        <div style="width:392px;height:850px;border-radius:50px;padding:13px;background:linear-gradient(160deg,#1c2a25,#0d1714);box-shadow:0 36px 70px rgba(13,30,25,.32),0 0 0 1px rgba(0,0,0,.05)">
+          <div class="ph-scroll" style="position:relative;width:100%;height:100%;border-radius:38px;overflow-y:auto;background:#F4F3EE;display:flex;flex-direction:column">
+            <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#0d1714;border-radius:0 0 16px 16px;z-index:5"></div>
+            <div style="position:relative;background:linear-gradient(155deg,#0E5C46,#0a4133);padding:46px 24px 22px;color:#fff;overflow:hidden">
+              <div style="position:absolute;top:10px;left:24px;font-size:12px;font-weight:600;color:#bfe0d4;font-variant-numeric:tabular-nums">٩:٤١</div>
+              <div style="position:absolute;top:10px;right:24px;font-size:11px;letter-spacing:2px;color:#bfe0d4">▪ ▪ ▪ ▮</div>
+              <div style="position:relative;display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:16px;color:#fff">عَهد</div>
+                <sc-if value="{{ g2 }}"><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(176,138,46,.25);color:#f3e6c4;font-weight:600;font-size:11.5px;padding:5px 12px;border-radius:999px;border:1px solid rgba(176,138,46,.5)">مؤجّل بالتراضي</div></sc-if>
+                <sc-if value="{{ g2n }}" hint-placeholder-val="{{ true }}"><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#eef7f3;font-weight:600;font-size:11.5px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2)">قيد السداد</div></sc-if>
+              </div>
+              <div style="position:relative;font-family:'Amiri',serif;font-weight:700;font-size:29px;line-height:1.3;margin-top:16px">أحتاج وقتًا — بلا حرج.</div>
+              <div style="position:relative;font-size:12.5px;color:#cbe5dc;margin-top:6px">نَظِرةٌ إلى ميسرة — يُعاد الترتيب معًا.</div>
+            </div>
+
+            <div style="flex:1;padding:20px 24px 30px;display:flex;flex-direction:column">
+              <div style="padding:15px 17px;background:#FBF6E7;border:1px solid #e9dcb6;border-radius:14px">
+                <div style="font-family:'Amiri',serif;font-size:17px;line-height:1.65;color:#5c4a18">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
+                <div style="font-size:11.5px;color:#9a7c2e;margin-top:5px">البقرة ٢٨٠ — لا فائدة، لا غرامة، لا مساءلة.</div>
+              </div>
+
+              <div style="margin-top:18px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #e3e0d4;padding-bottom:8px">
+                <span style="font-size:12px;font-weight:700;color:#0E5C46;letter-spacing:.03em">المتبقّي من العهد</span>
+                <sc-if value="{{ g2n }}" hint-placeholder-val="{{ true }}"><span style="font-size:12.5px;color:#5b6b66;unicode-bidi:plaintext">3,000 ريال · 3 أقساط</span></sc-if>
+                <sc-if value="{{ g2 }}"><span style="font-size:12.5px;color:#0E5C46;font-weight:700;unicode-bidi:plaintext">3,000 ريال · 5 أقساط أيسر</span></sc-if>
+              </div>
+
+              <sc-if value="{{ g2n }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:12px;display:flex;flex-direction:column">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 4px;border-bottom:1px dashed #e0dccd"><span style="font-size:13px;color:#3c3a31">القسط الأول · ١ سبتمبر</span><span style="font-weight:700;font-size:14px;unicode-bidi:plaintext">1,000 ريال</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 4px;border-bottom:1px dashed #e0dccd"><span style="font-size:13px;color:#3c3a31">القسط الثاني · ١ أكتوبر</span><span style="font-weight:700;font-size:14px;unicode-bidi:plaintext">1,000 ريال</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 4px"><span style="font-size:13px;color:#3c3a31">القسط الثالث · ١ نوفمبر</span><span style="font-weight:700;font-size:14px;unicode-bidi:plaintext">1,000 ريال</span></div>
+                </div>
+                <button onClick="{{ grace2 }}" style="margin-top:22px;font-family:'IBM Plex Sans Arabic';font-weight:700;font-size:16px;color:#fff;background:#0E5C46;border:0;border-radius:14px;padding:16px;cursor:pointer;box-shadow:0 12px 26px rgba(14,92,70,.26);display:flex;align-items:center;justify-content:center;gap:9px">طلب نَظِرةٍ إلى ميسرة</button>
+                <p style="font-size:11.5px;color:#8a8276;text-align:center;margin:10px 0 0">بنقرةٍ واحدة — يُعاد الترتيب بالتراضي، بلا غرامة.</p>
+              </sc-if>
+
+              <sc-if value="{{ g2 }}">
+                <div style="margin-top:12px;display:flex;flex-direction:column">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 4px;border-bottom:1px dashed #e0dccd"><span style="font-size:12.5px;color:#3c3a31">القسط ١ · ١ سبتمبر</span><span style="font-weight:700;font-size:13px;color:#0E5C46;unicode-bidi:plaintext">600 ريال</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 4px;border-bottom:1px dashed #e0dccd"><span style="font-size:12.5px;color:#3c3a31">القسط ٢ · ١ أكتوبر</span><span style="font-weight:700;font-size:13px;color:#0E5C46;unicode-bidi:plaintext">600 ريال</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 4px;border-bottom:1px dashed #e0dccd"><span style="font-size:12.5px;color:#3c3a31">القسط ٣ · ١ نوفمبر</span><span style="font-weight:700;font-size:13px;color:#0E5C46;unicode-bidi:plaintext">600 ريال</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 4px;border-bottom:1px dashed #e0dccd"><span style="font-size:12.5px;color:#3c3a31">القسط ٤ · ١ ديسمبر</span><span style="font-weight:700;font-size:13px;color:#0E5C46;unicode-bidi:plaintext">600 ريال</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 4px"><span style="font-size:12.5px;color:#3c3a31">القسط ٥ · ١ يناير</span><span style="font-weight:700;font-size:13px;color:#0E5C46;unicode-bidi:plaintext">600 ريال</span></div>
+                </div>
+                <div style="margin-top:16px;border:1px solid #cdd9d3;background:#fff;border-radius:16px;padding:17px 18px;position:relative;overflow:hidden">
+                  <div style="position:absolute;top:-14px;left:-14px;width:64px;height:64px;border-radius:50%;background:#fbf6e7;border:1px solid #e9dcb6;display:grid;place-items:center;transform:rotate(-12deg)">
+                    <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="11" fill="none" stroke="#B08A2E" stroke-width="1" stroke-dasharray="2 2.5"/><path d="M15 8 L16.5 13 L21.5 13 L17.5 16 L19 21 L15 18 L11 21 L12.5 16 L8.5 13 L13.5 13 Z" fill="#B08A2E" opacity="0.85"/></svg>
+                  </div>
+                  <div style="padding-right:54px">
+                    <div style="font-family:'Amiri',serif;font-weight:700;font-size:18px;color:#0E5C46">أُعيدت الجدولة بالمعروف</div>
+                    <p style="font-size:12.5px;color:#3c4a45;line-height:1.7;margin:7px 0 0;text-wrap:pretty">المتبقّي كما هو (<span style="unicode-bidi:plaintext;font-weight:700">3,000 ريال</span>)، موزّعٌ على خمسة أشهرٍ أيسر. لا غرامة، لا فائدة، لا زيادة.</p>
+                  </div>
+                  <div style="margin-top:11px;padding:10px 13px;background:#F4F3EE;border-radius:11px;font-size:12px;color:#5b6b66;line-height:1.6">يُشعَر الطرف الآخر بلطف: «سارة تحتاج مهلةً بسيطة — وهذا من المعروف.»</div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- D2 · SCREEN C : دائرة التسوية (وثائقي) ---------- -->
+      <div style="flex:none;width:392px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-weight:600;font-size:13px;color:#6b6256;letter-spacing:.01em">شاشة ج · دائرة التسوية — إشارة الثقة كحلقة</div>
+        <div style="width:392px;height:850px;border-radius:50px;padding:13px;background:linear-gradient(160deg,#1c2a25,#0d1714);box-shadow:0 36px 70px rgba(13,30,25,.32),0 0 0 1px rgba(0,0,0,.05)">
+          <div class="ph-scroll" style="position:relative;width:100%;height:100%;border-radius:38px;overflow-y:auto;background:#F4F3EE;display:flex;flex-direction:column">
+            <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#0d1714;border-radius:0 0 16px 16px;z-index:5"></div>
+            <div style="position:relative;background:linear-gradient(155deg,#0E5C46,#0a4133);padding:46px 24px 22px;color:#fff;overflow:hidden">
+              <div style="position:absolute;top:10px;left:24px;font-size:12px;font-weight:600;color:#bfe0d4;font-variant-numeric:tabular-nums">٩:٤١</div>
+              <div style="position:absolute;top:10px;right:24px;font-size:11px;letter-spacing:2px;color:#bfe0d4">▪ ▪ ▪ ▮</div>
+              <div style="position:absolute;inset:0;opacity:.10;pointer-events:none">
+                <svg width="100%" height="100%" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#ffffff" stroke-width="1"><path d="M40 40 l10 10 l-10 10 l-10 -10 z"/><path d="M150 30 l10 10 l-10 10 l-10 -10 z"/><path d="M270 50 l10 10 l-10 10 l-10 -10 z"/><path d="M90 130 l10 10 l-10 10 l-10 -10 z"/><path d="M230 140 l10 10 l-10 10 l-10 -10 z"/><path d="M320 120 l10 10 l-10 10 l-10 -10 z"/></g></svg>
+              </div>
+              <div style="position:relative;display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Reem Kufi',sans-serif;font-weight:600;font-size:16px;color:#fff">عَهد</div>
+                <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#eef7f3;font-weight:600;font-size:11.5px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2)">سجلّ المقاصّة</div>
+              </div>
+              <div style="position:relative;font-family:'Amiri',serif;font-weight:700;font-size:27px;line-height:1.3;margin-top:16px">دائرةٌ تنحلّ بالعدل.</div>
+              <div style="position:relative;font-size:12.5px;color:#cbe5dc;margin-top:6px">٩ التزاماتٍ ← تحويلان، وكلٌّ يحفظ صافيه.</div>
+            </div>
+
+            <div style="flex:1;padding:18px 22px 30px;display:flex;flex-direction:column">
+              <div style="background:#fff;border:1px solid #d6d2c4;border-radius:18px;padding:8px 6px 4px">
+                <svg viewBox="0 0 340 300" style="width:100%;height:auto;display:block">
+                  <defs>
+                    <marker id="d2arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B08A2E"/></marker>
+                  </defs>
+                  <g stroke="#cdd6cf" stroke-width="1.3" opacity="0.9" fill="none">
+                    <line x1="170" y1="40" x2="274.6" y2="116"/>
+                    <line x1="274.6" y1="116" x2="234.7" y2="239"/>
+                    <line x1="170" y1="40" x2="105.3" y2="239"/>
+                    <line x1="105.3" y1="239" x2="65.4" y2="116"/>
+                    <line x1="170" y1="40" x2="234.7" y2="239"/>
+                    <line x1="170" y1="40" x2="65.4" y2="116"/>
+                    <line x1="274.6" y1="116" x2="105.3" y2="239"/>
+                    <line x1="105.3" y1="239" x2="234.7" y2="239"/>
+                  </g>
+                  <g fill="none" stroke="#B08A2E" stroke-width="3.2" stroke-linecap="round">
+                    <path d="M179.3 68.5 L224.8 208.6" marker-end="url(#d2arr)"/>
+                    <path d="M145.7 57.6 L91.3 97.2" marker-end="url(#d2arr)"/>
+                  </g>
+                  <text x="206" y="140" text-anchor="middle" style="font:700 11px 'IBM Plex Sans Arabic';fill:#8a6a1f;paint-order:stroke;stroke:#ffffff;stroke-width:3px">600</text>
+                  <text x="120" y="80" text-anchor="middle" style="font:700 11px 'IBM Plex Sans Arabic';fill:#8a6a1f;paint-order:stroke;stroke:#ffffff;stroke-width:3px">300</text>
+
+                  <g transform="translate(170,40)">
+                    <circle r="27" fill="none" stroke="#e6e3d6" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#0E5C46" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="146 24" transform="rotate(-90)"/>
+                    <circle r="22" fill="#fff" stroke="#0a4133" stroke-width="1.2"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#14201C">نورة</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#0b4536">وفّى بعهوده</text>
+                  </g>
+                  <g transform="translate(274.6,116)">
+                    <circle r="27" fill="none" stroke="#e6e3d6" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#aeb6ae" stroke-width="2" stroke-dasharray="1.5 5" opacity="0.7" transform="rotate(-90)"/>
+                    <circle r="22" fill="#fff" stroke="#9aa39c" stroke-width="1.2"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#14201C">سارة</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#5b6b66">جديد</text>
+                  </g>
+                  <g transform="translate(234.7,239)">
+                    <circle r="27" fill="none" stroke="#e6e3d6" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#B08A2E" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="64 106" transform="rotate(-90)"/>
+                    <circle r="22" fill="#fff" stroke="#0a4133" stroke-width="1.2"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#14201C">خالد</text>
+                    <text text-anchor="middle" y="45" style="font:700 9.5px 'IBM Plex Sans Arabic';fill:#8a6a1f">عليه وعدٌ متأخّر</text>
+                  </g>
+                  <g transform="translate(105.3,239)">
+                    <circle r="27" fill="none" stroke="#e6e3d6" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#0E5C46" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="150 20" transform="rotate(-90)"/>
+                    <circle r="22" fill="#fff" stroke="#0a4133" stroke-width="1.2"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#14201C">ليلى</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#0b4536">وفّى بعهوده</text>
+                  </g>
+                  <g transform="translate(65.4,116)">
+                    <circle r="27" fill="none" stroke="#e6e3d6" stroke-width="3"/>
+                    <circle r="27" fill="none" stroke="#0E5C46" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="140 30" transform="rotate(-90)"/>
+                    <circle r="22" fill="#fff" stroke="#0a4133" stroke-width="1.2"/>
+                    <text text-anchor="middle" y="4" style="font:700 13px 'IBM Plex Sans Arabic';fill:#14201C">فهد</text>
+                    <text text-anchor="middle" y="45" style="font:700 10px 'IBM Plex Sans Arabic';fill:#0b4536">وفّى بعهوده</text>
+                  </g>
+                </svg>
+              </div>
+
+              <div style="margin-top:14px;display:flex;align-items:stretch;gap:10px">
+                <div style="flex:1;text-align:center;background:#fff;border:1px solid #d6d2c4;border-radius:13px;padding:11px 6px"><div style="font-family:'Amiri',serif;font-weight:700;font-size:24px;color:#8a6a1f;unicode-bidi:plaintext">9</div><div style="font-size:11px;color:#5b6b66">التزامات متشابكة</div></div>
+                <div style="display:grid;place-items:center;color:#b3a892">⟵</div>
+                <div style="flex:1;text-align:center;background:#E6EEEA;border:1px solid #c3d7cd;border-radius:13px;padding:11px 6px"><div style="font-family:'Amiri',serif;font-weight:700;font-size:24px;color:#0E5C46;unicode-bidi:plaintext">2</div><div style="font-size:11px;color:#0b4536">تحويلان فقط</div></div>
+              </div>
+
+              <div style="margin-top:14px;background:#fff;border:1px solid #d6d2c4;border-radius:14px;padding:14px 16px">
+                <div style="font-weight:700;font-size:12px;color:#0E5C46;letter-spacing:.03em;margin-bottom:11px">الحلقة حول كل اسم — سجلّ وفاء</div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="#e6e3d6" stroke-width="2.4"/><circle cx="11" cy="11" r="9" fill="none" stroke="#0E5C46" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="49 8" transform="rotate(-90 11 11)"/></svg>
+                    <span style="font-size:13px;color:#2c3733"><b style="color:#0b4536">وفّى بعهوده</b> — وعودٌ سابقة أُوفِيت.</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="#aeb6ae" stroke-width="2" stroke-dasharray="1.5 4.5"/></svg>
+                    <span style="font-size:13px;color:#2c3733"><b style="color:#5b6b66">جديد</b> — لا سجلّ بعد، ولا حكم مسبق.</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="#e6e3d6" stroke-width="2.4"/><circle cx="11" cy="11" r="9" fill="none" stroke="#B08A2E" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="22 35" transform="rotate(-90 11 11)"/></svg>
+                    <span style="font-size:13px;color:#2c3733"><b style="color:#8a6a1f">عليه وعدٌ متأخّر</b> — تذكيرٌ لطيف، لا إنذار.</span>
+                  </div>
+                </div>
+                <p style="font-size:11.5px;color:#8a8276;line-height:1.6;margin:12px 0 0;text-wrap:pretty">كلماتٌ لا أرقام — مرآةٌ اجتماعيّةٌ بين شخصين، <b style="color:#5b6b66">ليست تصنيفًا ائتمانيًا</b>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { a1:false, g1:false, a2:false, g2:false };
+  renderVals(){
+    const s = this.state;
+    return {
+      a1:s.a1, a1n:!s.a1, g1:s.g1, g1n:!s.g1,
+      a2:s.a2, a2n:!s.a2, g2:s.g2, g2n:!s.g2,
+      acceptA1:()=>this.setState({a1:true}),
+      grace1:()=>this.setState({g1:true}),
+      acceptA2:()=>this.setState({a2:true}),
+      grace2:()=>this.setState({g2:true})
+    };
+  }
+}
+</script>
+</body>
+</html>

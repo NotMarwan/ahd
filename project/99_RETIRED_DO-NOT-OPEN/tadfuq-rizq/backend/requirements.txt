@@ -1,0 +1,9 @@
+# Tadfuq backend (Agent 1). Python 3.11+.
+fastapi>=0.110
+uvicorn>=0.27
+# optional GBM seam (USE_MODEL=1):
+scikit-learn>=1.3
+numpy>=1.24
+joblib>=1.3
+# dev:
+pytest>=8.0

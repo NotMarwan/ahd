@@ -1,0 +1,15 @@
+# --- Heavy / generated / irrelevant to the Ahd product work ---
+claudecodeui/
+**/node_modules/
+.pytest_cache/
+.playwright-mcp/
+.agent-presence/
+_overnight/backup/
+
+# --- Large binaries / scratch ---
+*.zip
+clipboard-*.png
+
+# --- OS ---
+Thumbs.db
+.DS_Store

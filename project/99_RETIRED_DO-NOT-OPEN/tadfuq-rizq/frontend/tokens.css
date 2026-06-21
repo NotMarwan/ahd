@@ -1,0 +1,93 @@
+/* tadfuq-rizq · design tokens (Contract §4a)
+   OWNER: Agent 3 (frontend contract). Created by Agent 4 because the file was absent and the
+   secondary screens need it to run in isolation. A3: refine/own freely — keep the variable NAMES
+   stable (forecast.js / buckets.js consume them). RTL, IBM Plex Sans Arabic, trust-forward. */
+
+:root {
+  /* palette — trust-forward; ONE bright accent reserved for the limit reveal */
+  --c-primary:        #0E7C66;   /* deep teal-green */
+  --c-primary-dark:   #0A5C4C;
+  --c-primary-tint:   #E7F2EF;
+  --c-accent:         #F2B705;   /* bright accent — RESERVED for the limit reveal moment */
+  --c-bg:             #F6F4EF;   /* warm neutral */
+  --c-surface:        #FFFFFF;
+  --c-ink:            #15211E;
+  --c-ink-soft:       #5B6B66;
+  --c-line:           #E2DED5;
+  --c-danger:         #C2410C;   /* lean-month / shortfall */
+  --c-zakat:          #0E7C66;
+  --c-vat:            #2563EB;
+  --c-reserve:        #7C3AED;
+  --c-spend:          #64748B;
+
+  /* spacing — 8px scale */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+
+  --radius:    14px;
+  --radius-lg: 22px;
+  --shadow:    0 6px 24px rgba(16,40,34,.08);
+  --shadow-lg: 0 12px 40px rgba(16,40,34,.14);
+
+  --font: "IBM Plex Sans Arabic", "SF Pro AR", system-ui, "Segoe UI", Tahoma, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-family: var(--font);
+  direction: rtl;            /* RTL is a correctness gate */
+  text-align: right;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tr-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--s-6);
+}
+
+.tr-h1 { font-size: 24px; font-weight: 700; margin: 0 0 var(--s-2); }
+.tr-h2 { font-size: 18px; font-weight: 600; margin: 0 0 var(--s-2); }
+.tr-sub { color: var(--c-ink-soft); font-size: 14px; margin: 0; }
+
+.tr-btn {
+  font-family: var(--font);
+  font-size: 16px; font-weight: 600;
+  background: var(--c-primary); color: #fff;
+  border: 0; border-radius: var(--radius);
+  padding: var(--s-3) var(--s-6);
+  cursor: pointer; transition: background .15s ease, transform .08s ease;
+}
+.tr-btn:hover { background: var(--c-primary-dark); }
+.tr-btn:active { transform: translateY(1px); }
+
+/* numerals: default Western (Contract §4a) — force Latin digits even inside RTL */
+.tr-num { font-feature-settings: "tnum" 1; font-variant-numeric: tabular-nums; unicode-bidi: plaintext; }
+
+.tr-pill { display:inline-block; padding: 2px var(--s-3); border-radius: 999px; font-size: 12px; font-weight: 600; }
+
+/* ---- Agent 3 additions (frontend core) — A4's names above kept stable ---- */
+:root {
+  --c-accent-soft: #FCEFC4;
+  --c-ok: #16A34A;
+  --c-warn: #C77A00;
+  --c-ob:        #1F7AE0;   /* Open Banking — source badge (moat proof) */
+  --c-src-zatca: #7A3FD0;   /* ZATCA — source badge */
+}
+.tr-btn.ghost { background: transparent; color: var(--c-primary); border: 1.5px solid var(--c-line); }
+.tr-btn.block { display:block; width:100%; }
+.tr-muted  { color: var(--c-ink-soft); }
+.tr-center { text-align:center; }
+.tr-badge  { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:800;
+  padding:3px 9px; border-radius:999px; letter-spacing:.3px; unicode-bidi:plaintext; }
+.tr-badge--ob    { background: rgba(31,122,224,.12);  color: var(--c-ob); }
+.tr-badge--zatca { background: rgba(122,63,208,.12);  color: var(--c-src-zatca); }
+.tr-badge--mix   { background: rgba(94,107,102,.14);  color: var(--c-ink-soft); }
+.tr-shariah { display:inline-flex; gap:6px; align-items:center; background: var(--c-primary-tint);
+  color: var(--c-primary-dark); font-weight:700; font-size:13px; padding:6px 12px; border-radius:999px; }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تدفّق داخل رزق — Tadfuq-inside-Rizq</title>
+  <!-- IBM Plex Sans Arabic if online; graceful system-Arabic fallback offline (tokens.css). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet" onerror="this.remove()" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="rz-app">
+    <header class="rz-header">
+      <div class="rz-brand">
+        <div class="rz-logo">ت</div>
+        <div>
+          <b>تدفّق <span style="color:var(--c-ink-soft);font-weight:400">داخل</span> رزق</b>
+          <small>تمويل المستقلّين من المصرفية المفتوحة + زاتكا</small>
+        </div>
+      </div>
+      <span id="mode-badge" class="rz-mode off">● OFFLINE</span>
+    </header>
+
+    <div id="stepper"></div>
+    <main id="screen"><!-- steps render here --></main>
+  </div>
+
+  <!-- classic scripts, in dependency order — file:// + offline safe (no modules, no fetch in OFFLINE) -->
+  <script src="fallback-embedded.js"></script>
+  <script src="api-client.js"></script>
+  <script src="components/persona-pick.js"></script>
+  <script src="components/connect-animation.js"></script>
+  <script src="components/limit-reveal.js"></script>
+  <script src="components/explain-card.js"></script>
+  <script src="components/forecast.js"></script>
+  <script src="components/buckets.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

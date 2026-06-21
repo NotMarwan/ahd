@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>حصين · Haseen — عرض اعتراض الاحتيال الحي</title>
+<!-- Demo artifact for AMAD 2026 (Agent 2, Lane 2 / RegTech). Portable single-file prototype.
+     Font via CDN with a robust system-Arabic fallback so it still reads well offline. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0a0e12;
+    --bg-2:#0f151b;
+    --surface:#141c24;
+    --surface-2:#1b2530;
+    --line:#26323d;
+    --line-soft:#1f2a34;
+    --ink:#eef3f7;
+    --ink-soft:#9fb0bd;
+    --ink-faint:#6b7c89;
+    --brand:#7c4dff;        /* Alinma-violet co-brand touch, used sparingly */
+    --safe:#1fbf8f;         /* teal = protection / safe (semantic) */
+    --safe-bright:#3dd8a8;
+    --danger:#ff5a6e;       /* rose-red = danger (semantic) */
+    --danger-deep:#e23a52;
+    --warn:#f4b740;         /* amber = caution (semantic) */
+    --radius:16px;
+    --radius-sm:11px;
+    --radius-pill:999px;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 700px at 85% -10%, rgba(124,77,255,0.10), transparent 60%),
+      radial-gradient(900px 600px at 0% 110%, rgba(31,191,143,0.08), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    min-height:100dvh;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 20px 64px;}
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:8px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none;
+    background:linear-gradient(150deg,#1fbf8f,#11997a);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.25),0 8px 22px rgba(31,191,143,0.25);
+  }
+  .brand-mark svg{width:23px;height:23px;}
+  .brand h1{font-size:20px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .brand .en{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:0.16em;text-transform:uppercase;}
+  .brand p{margin:1px 0 0;font-size:12.5px;color:var(--ink-soft);}
+
+  .scenario-switch{display:flex;gap:6px;background:var(--surface);border:1px solid var(--line);padding:5px;border-radius:var(--radius-pill);}
+  .scenario-switch button{
+    font-family:inherit;font-size:13px;font-weight:600;color:var(--ink-soft);
+    background:transparent;border:0;padding:9px 16px;border-radius:var(--radius-pill);cursor:pointer;
+    transition:background .25s ease,color .25s ease;white-space:nowrap;
+  }
+  .scenario-switch button[aria-pressed="true"]{background:var(--surface-2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);}
+  .scenario-switch button:focus-visible{outline:2px solid var(--safe);outline-offset:2px;}
+
+  /* ---------- layout ---------- */
+  .stage{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:24px;align-items:start;margin-top:20px;}
+  @media (max-width:880px){ .stage{grid-template-columns:1fr;} }
+
+  /* ---------- phone ---------- */
+  .phone-col{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .phone{
+    width:100%;max-width:360px;aspect-ratio:9/19;background:#000;border-radius:42px;padding:11px;
+    border:1px solid #2a3540;
+    box-shadow:0 40px 90px rgba(0,0,0,0.55),inset 0 0 0 2px #11171d;
+    position:relative;
+  }
+  .screen{
+    position:absolute;inset:11px;border-radius:33px;overflow:hidden;background:var(--bg-2);
+    display:flex;flex-direction:column;
+  }
+  .notch{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#000;border-radius:0 0 16px 16px;z-index:5;}
+  .app-head{
+    padding:26px 18px 14px;display:flex;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(124,77,255,0.16),transparent);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .app-head .who{font-size:12px;color:var(--ink-soft);}
+  .app-head .bal{font-size:15px;font-weight:600;}
+  .app-head .logo{font-family:var(--mono);font-size:11px;color:var(--brand);letter-spacing:0.12em;}
+  .app-body{flex:1;overflow-y:auto;padding:16px 16px 18px;}
+  .app-body::-webkit-scrollbar{width:0;}
+
+  .scn-note{
+    font-size:11.5px;color:var(--warn);background:rgba(244,183,64,0.08);
+    border:1px solid rgba(244,183,64,0.25);border-radius:10px;padding:9px 11px;margin-bottom:14px;line-height:1.5;
+  }
+  .scn-note b{color:var(--warn);}
+
+  .field{margin-bottom:13px;}
+  .field label{display:block;font-size:11.5px;color:var(--ink-faint);margin-bottom:5px;}
+  .field .val{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:11px 12px;font-size:14px;color:var(--ink);}
+  .field .val.amount{font-size:24px;font-weight:700;letter-spacing:-0.01em;}
+  .field .val .cur{font-size:13px;color:var(--ink-soft);font-weight:500;}
+  .field .val.beneficiary{display:flex;flex-direction:column;gap:2px;}
+  .field .val.beneficiary .iban{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);}
+
+  .send-btn{
+    width:100%;font-family:inherit;font-size:16px;font-weight:700;color:#06231b;
+    background:linear-gradient(180deg,var(--safe-bright),var(--safe));border:0;border-radius:var(--radius-sm);
+    padding:15px;cursor:pointer;margin-top:6px;transition:transform .12s ease,filter .2s ease;
+    box-shadow:0 10px 24px rgba(31,191,143,0.25);
+  }
+  .send-btn:active{transform:scale(0.98);}
+  .send-btn:disabled{filter:grayscale(0.5) brightness(0.7);cursor:default;box-shadow:none;}
+  .send-btn:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+
+  /* intervention overlay inside phone */
+  .intervene{
+    position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,11,14,0.55),rgba(8,11,14,0.92) 40%);
+    backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+    display:flex;flex-direction:column;justify-content:flex-end;padding:14px;z-index:6;
+    opacity:0;pointer-events:none;transition:opacity .35s ease;
+  }
+  .intervene.show{opacity:1;pointer-events:auto;}
+  .sheet{
+    background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:18px 16px 16px;
+    box-shadow:0 -10px 50px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.05);
+    transform:translateY(18px);transition:transform .4s cubic-bezier(0.16,1,0.3,1);
+    max-height:calc(100% - 28px);overflow-y:auto;
+  }
+  .intervene.show .sheet{transform:translateY(0);}
+  .sheet::-webkit-scrollbar{width:0;}
+  .alert-ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:11px;
+    background:rgba(255,90,110,0.12);border:1px solid rgba(255,90,110,0.3);}
+  .alert-ico svg{width:25px;height:25px;}
+  .sheet h2{font-size:18px;margin:0 0 4px;font-weight:700;}
+  .sheet .typ{font-size:12px;color:var(--danger);font-family:var(--mono);margin-bottom:12px;letter-spacing:0.02em;}
+  .mismatch{background:rgba(255,90,110,0.07);border:1px solid rgba(255,90,110,0.22);border-radius:12px;padding:11px 12px;margin-bottom:14px;font-size:12.5px;}
+  .mismatch .row{display:flex;justify-content:space-between;gap:10px;padding:3px 0;}
+  .mismatch .row span:first-child{color:var(--ink-faint);}
+  .mismatch .row .x{color:var(--danger);font-weight:600;}
+  .mismatch .row .real{color:var(--ink);font-weight:600;}
+
+  .q{font-size:14px;font-weight:600;margin:0 0 10px;}
+  .q-opts{display:flex;gap:8px;margin-bottom:6px;}
+  .q-opts button{
+    flex:1;font-family:inherit;font-size:14px;font-weight:600;padding:12px;border-radius:11px;cursor:pointer;
+    background:var(--surface-2);border:1px solid var(--line);color:var(--ink);transition:transform .12s ease,border-color .2s;
+  }
+  .q-opts button:active{transform:scale(0.97);}
+  .q-opts button:focus-visible{outline:2px solid var(--safe);outline-offset:2px;}
+  .q-progress{font-size:11px;color:var(--ink-faint);font-family:var(--mono);margin-bottom:14px;text-align:center;}
+
+  .verdict{text-align:center;}
+  .verdict .big{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;margin:2px auto 12px;}
+  .verdict .big svg{width:34px;height:34px;}
+  .verdict.held .big{background:rgba(31,191,143,0.14);border:1px solid rgba(31,191,143,0.35);}
+  .verdict h2{font-size:19px;margin:0 0 6px;}
+  .verdict p{font-size:13px;color:var(--ink-soft);margin:0 0 16px;}
+  .verdict .actions{display:flex;flex-direction:column;gap:9px;}
+  .btn-primary,.btn-ghost{font-family:inherit;font-size:14.5px;font-weight:600;padding:13px;border-radius:11px;cursor:pointer;transition:transform .12s ease;}
+  .btn-primary{background:linear-gradient(180deg,var(--safe-bright),var(--safe));color:#06231b;border:0;}
+  .btn-ghost{background:transparent;color:var(--ink-faint);border:1px solid var(--line);}
+  .btn-primary:active,.btn-ghost:active{transform:scale(0.98);}
+  .btn-primary:focus-visible,.btn-ghost:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+
+  /* success (legit) */
+  .success{position:absolute;inset:0;background:var(--bg-2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:6;opacity:0;pointer-events:none;transition:opacity .35s ease;}
+  .success.show{opacity:1;pointer-events:auto;}
+  .success .big{width:72px;height:72px;border-radius:50%;background:rgba(31,191,143,0.14);border:1px solid rgba(31,191,143,0.35);display:grid;place-items:center;margin-bottom:16px;}
+  .success .big svg{width:38px;height:38px;}
+  .success h2{font-size:20px;margin:0 0 6px;}
+  .success p{font-size:13.5px;color:var(--ink-soft);margin:0;max-width:240px;}
+  .success .chk{margin-top:14px;font-size:12px;color:var(--safe-bright);background:rgba(31,191,143,0.08);border:1px solid rgba(31,191,143,0.25);border-radius:10px;padding:9px 12px;}
+
+  /* ---------- engine panel ---------- */
+  .engine{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:var(--radius);padding:22px;}
+  .engine-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;flex-wrap:wrap;}
+  .engine-head h2{font-size:17px;margin:0;font-weight:700;}
+  .engine-head .sub{font-size:12px;color:var(--ink-faint);}
+  .engine-head .pill{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--safe-bright);background:rgba(31,191,143,0.09);border:1px solid rgba(31,191,143,0.25);padding:5px 10px;border-radius:var(--radius-pill);}
+
+  .engine-grid{display:grid;grid-template-columns:auto 1fr;gap:22px;margin-top:18px;align-items:center;}
+  @media (max-width:520px){ .engine-grid{grid-template-columns:1fr;justify-items:center;text-align:center;} }
+
+  /* gauge */
+  .gauge{position:relative;width:150px;height:150px;flex:none;}
+  .gauge svg{transform:rotate(-90deg);}
+  .gauge .track{fill:none;stroke:var(--line);stroke-width:13;}
+  .gauge .arc{fill:none;stroke:var(--safe);stroke-width:13;stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(0.16,1,0.3,1),stroke .6s ease;}
+  .gauge .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .gauge .score{font-size:36px;font-weight:700;font-family:var(--mono);line-height:1;}
+  .gauge .lbl{font-size:10.5px;color:var(--ink-faint);margin-top:3px;letter-spacing:0.04em;}
+  .risk-tag{display:inline-block;font-size:12px;font-weight:700;padding:5px 12px;border-radius:var(--radius-pill);margin-top:11px;}
+
+  /* features */
+  .features{display:flex;flex-direction:column;gap:11px;width:100%;}
+  .feat{}
+  .feat .top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;}
+  .feat .top .name{color:var(--ink-soft);}
+  .feat .top .wt{font-family:var(--mono);font-size:11px;color:var(--ink-faint);}
+  .feat .bar{height:7px;border-radius:5px;background:var(--surface-2);overflow:hidden;}
+  .feat .bar i{display:block;height:100%;width:0;border-radius:5px;transition:width 1s cubic-bezier(0.16,1,0.3,1);}
+
+  .engine-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-soft);display:none;}
+  .engine-foot.show{display:block;}
+  .cop-line{display:flex;align-items:center;gap:9px;font-size:13px;margin-bottom:10px;}
+  .cop-line .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .typology{font-size:13px;color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:11px 13px;line-height:1.55;}
+  .typology b{color:var(--ink);}
+
+  /* analyst strip */
+  .analyst{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;background:var(--bg-2);display:none;}
+  .analyst.show{display:block;animation:rise .5s cubic-bezier(0.16,1,0.3,1);}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  .analyst h3{font-size:14px;margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  .analyst h3 .tag{font-family:var(--mono);font-size:10px;color:var(--ink-faint);border:1px solid var(--line);border-radius:6px;padding:2px 7px;letter-spacing:0.08em;}
+  .analyst .items{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media (max-width:620px){ .analyst .items{grid-template-columns:1fr;} }
+  .analyst .item{font-size:12.5px;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start;line-height:1.5;}
+  .analyst .item .ic{width:18px;height:18px;flex:none;margin-top:1px;color:var(--safe-bright);}
+  .analyst .item b{color:var(--ink);font-weight:600;}
+
+  /* saved counter */
+  .saved{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    background:linear-gradient(135deg,rgba(31,191,143,0.10),rgba(124,77,255,0.06));border:1px solid var(--line);border-radius:var(--radius);padding:16px 22px;}
+  .saved .lab{font-size:13px;color:var(--ink-soft);}
+  .saved .num{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--safe-bright);letter-spacing:-0.01em;}
+  .saved .num .cur{font-size:14px;color:var(--ink-soft);font-weight:500;margin-inline-start:4px;}
+
+  /* controls */
+  .controls{display:flex;gap:10px;align-items:center;margin-top:2px;flex-wrap:wrap;}
+  .play{font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--brand);border:0;padding:12px 22px;border-radius:var(--radius-pill);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:transform .12s ease,filter .2s;box-shadow:0 8px 22px rgba(124,77,255,0.28);}
+  .play:active{transform:scale(0.97);}
+  .play:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+  .reset{font-family:inherit;font-size:13px;font-weight:600;color:var(--ink-soft);background:transparent;border:1px solid var(--line);padding:11px 18px;border-radius:var(--radius-pill);cursor:pointer;}
+  .reset:focus-visible{outline:2px solid var(--safe);outline-offset:2px;}
+  .hint{font-size:12px;color:var(--ink-faint);}
+
+  .legend{margin-top:30px;font-size:12px;color:var(--ink-faint);line-height:1.7;border-top:1px solid var(--line-soft);padding-top:16px;}
+  .legend b{color:var(--ink-soft);}
+  .legend code{font-family:var(--mono);font-size:11px;color:var(--safe-bright);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;animation:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#06231b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+        </svg>
+      </div>
+      <div>
+        <h1>حصين <span class="en">· Haseen</span></h1>
+        <p>طبقة اعتراض الاحتيال قبل تنفيذ التحويل · AMAD 2026 · المسار 3 (التشريعات المالية)</p>
+      </div>
+    </div>
+    <div class="scenario-switch" role="group" aria-label="اختيار السيناريو">
+      <button id="btn-scam" aria-pressed="true" onclick="setScenario('scam')">سيناريو احتيال</button>
+      <button id="btn-legit" aria-pressed="false" onclick="setScenario('legit')">تحويل اعتيادي</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="play" onclick="play()" id="playBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      تشغيل العرض
+    </button>
+    <button class="reset" onclick="resetAll()">إعادة</button>
+    <span class="hint" id="hint">اضغط «تشغيل العرض» أو اضغط زر التحويل داخل الهاتف.</span>
+  </div>
+
+  <div class="stage">
+    <!-- ===== Phone (customer experience) ===== -->
+    <div class="phone-col">
+      <div class="phone">
+        <div class="notch" aria-hidden="true"></div>
+        <div class="screen">
+          <div class="app-head">
+            <div>
+              <div class="who">مرحباً، نورة</div>
+              <div class="bal">الرصيد: 86,400 <span style="font-size:12px;color:var(--ink-soft)">ر.س</span></div>
+            </div>
+            <div class="logo">alinma</div>
+          </div>
+
+          <div class="app-body" id="appBody">
+            <!-- content injected by scenario -->
+          </div>
+
+          <!-- intervention sheet (scam) -->
+          <div class="intervene" id="intervene" aria-hidden="true">
+            <div class="sheet" id="sheet"></div>
+          </div>
+
+          <!-- success screen (legit) -->
+          <div class="success" id="success" aria-hidden="true">
+            <div class="big" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--safe-bright)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <h2>تم التحويل بنجاح</h2>
+            <p id="successMsg"></p>
+            <div class="chk" id="successChk"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hint" id="phoneCaption">تجربة العميل · واجهة عربية أولاً (RTL)</div>
+    </div>
+
+    <!-- ===== Engine panel (the data + AI story) ===== -->
+    <div>
+      <div class="engine">
+        <div class="engine-head">
+          <div>
+            <h2>محرك حصين <span class="sub">· التحليل الحي</span></h2>
+            <div class="sub">CoP · تصنيف نمط الاحتيال · إشارات سلوكية + شبكية</div>
+          </div>
+          <div class="pill" id="enginePill">في انتظار التحويل</div>
+        </div>
+
+        <div class="engine-grid">
+          <div class="gauge">
+            <svg width="150" height="150" viewBox="0 0 150 150">
+              <circle class="track" cx="75" cy="75" r="62"></circle>
+              <circle class="arc" id="arc" cx="75" cy="75" r="62" stroke-dasharray="389.6" stroke-dashoffset="389.6"></circle>
+            </svg>
+            <div class="center">
+              <div class="score" id="score">0</div>
+              <div class="lbl">درجة الخطر / 100</div>
+            </div>
+            <div style="text-align:center"><span class="risk-tag" id="riskTag" style="background:var(--surface-2);color:var(--ink-faint)">لم يُقيّم بعد</span></div>
+          </div>
+
+          <div class="features" id="features"></div>
+        </div>
+
+        <div class="engine-foot" id="engineFoot">
+          <div class="cop-line" id="copLine"></div>
+          <div class="typology" id="typology"></div>
+        </div>
+      </div>
+
+      <!-- analyst / bank-side -->
+      <div class="analyst" id="analyst">
+        <h3>لوحة المحلل في البنك <span class="tag">BANK SIDE</span></h3>
+        <div class="items">
+          <div class="item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m11-7h-6M7 12H1"/></svg></span><span>تم وسم حساب المستفيد كـ <b>بغل مالي محتمل</b> ونشره على مستوى الشبكة لحظر التحويلات اللاحقة إليه.</span></div>
+          <div class="item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><span>سُجّل الحدث تلقائياً في <b>تقرير مكافحة الاحتيال الربعي (SAMA)</b> المطلوب اعتباراً من 13 أبريل 2026.</span></div>
+          <div class="item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></span><span>مسؤولية تعويض محتملة <b>تم تفاديها</b> (نموذج المملكة المتحدة: حتى مبلغ التحويل، يُقتسم بين بنكي المُرسِل والمستلم).</span></div>
+        </div>
+      </div>
+
+      <div class="saved" id="saved" style="opacity:.45">
+        <div class="lab">إجمالي ما أنقذه حصين في هذا العرض</div>
+        <div class="num"><span id="savedNum">0</span><span class="cur">ر.س</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <b>ملاحظة للمشغّل:</b> نموذج أولي تفاعلي (single-file). الإشارات والبيانات تمثيلية مبنية على أنماط احتيال موثّقة في السعودية. في الإنتاج: محرك التصنيف يعمل على بيانات Alinma OB sandbox + توليد معاملات اصطناعية؛ الحوار العربي عبر <code>ALLaM / IBM watsonx</code>؛ مطابقة اسم المستفيد (CoP) داخل الإنماء متاحة اليوم، وعبر البنوك تتطلب سجلّ أسماء على مستوى القطاع (كما في المملكة المتحدة).
+    <br/>Operator note: interactive prototype. Representative signals based on documented KSA scam typologies. Production: classifier on Alinma OB sandbox + synthetic data; Arabic dialogue via ALLaM/watsonx; intra-Alinma Confirmation-of-Payee works today, cross-bank needs a sector name registry.
+  </div>
+</div>
+
+<script>
+"use strict";
+const ARC_LEN = 389.6; // 2*pi*62
+let scenario = "scam";
+let savedTotal = 0;
+let answers = 0;
+let timers = [];
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const el = id => document.getElementById(id);
+
+const DATA = {
+  scam: {
+    note: 'السيناريو: اتصل شخص يدّعي أنه من <b>أمن المعلومات في البنك</b> وأخبر نورة أن حسابها مخترَق، وطلب تحويل المبلغ بشكل عاجل إلى ما سماه «حساب آمن».',
+    amount: "50,000",
+    benName: "مؤسسة محمد التجارية",
+    benIban: "SA44 2000 0001 2345 6789 1234",
+    benHint: "مستفيد جديد · لم يسبق التحويل إليه",
+    risk: 92,
+    riskTag: { t:"خطر مرتفع جداً", c:"var(--danger)", bg:"rgba(255,90,110,0.14)" },
+    features: [
+      { name:"مستفيد جديد لأول مرة", wt:0.27, w:88, c:"var(--danger)" },
+      { name:"طلب عاجل / ضغط زمني", wt:0.24, w:82, c:"var(--danger)" },
+      { name:"الحساب مرتبط بشبكة مشبوهة (بغل مالي)", wt:0.21, w:76, c:"var(--danger)" },
+      { name:"مبلغ غير معتاد لحسابك", wt:0.16, w:64, c:"var(--warn)" },
+      { name:"خارج ساعات نشاطك المعتاد", wt:0.12, w:48, c:"var(--warn)" }
+    ],
+    cop:{ ok:false, expected:"مؤسسة محمد التجارية", real:"عبدالله ك." },
+    typology: 'النمط المكتشف: <b>احتيال انتحال صفة موظف بنك</b> (Bank-Impersonation / APP Scam). أكثر أنماط الاحتيال خسارةً في السعودية، ويصعب على أنظمة المراقبة الخلفية رصده لأن العميل نفسه هو من يصرّح بالتحويل.'
+  },
+  legit: {
+    note: 'السيناريو: تحويل اعتيادي من نورة إلى مستفيد معروف سبق التعامل معه. حصين يجب ألا يعترض المعاملات السليمة.',
+    amount: "1,200",
+    benName: "أحمد الزهراني",
+    benIban: "SA03 8000 0000 6080 1016 7519",
+    benHint: "مستفيد محفوظ · 14 تحويلاً سابقاً",
+    risk: 8,
+    riskTag: { t:"خطر منخفض", c:"var(--safe-bright)", bg:"rgba(31,191,143,0.14)" },
+    features: [
+      { name:"مستفيد معروف ومحفوظ", wt:0.30, w:12, c:"var(--safe)" },
+      { name:"مبلغ ضمن نمطك المعتاد", wt:0.22, w:10, c:"var(--safe)" },
+      { name:"ضمن ساعات نشاطك", wt:0.18, w:8, c:"var(--safe)" },
+      { name:"لا مؤشرات ضغط زمني", wt:0.16, w:6, c:"var(--safe)" },
+      { name:"حساب المستلم سليم", wt:0.14, w:7, c:"var(--safe)" }
+    ],
+    cop:{ ok:true, expected:"أحمد الزهراني", real:"أحمد م. الزهراني" },
+    typology: 'لا يوجد نمط احتيال. تطابق اسم المستفيد وتاريخ تعامل سابق وسلوك معتاد. <b>تحويل آمن، يمر دون احتكاك.</b>'
+  }
+};
+
+function clearTimers(){ timers.forEach(t=>clearTimeout(t)); timers = []; }
+function after(ms, fn){ const t=setTimeout(fn, reduce?0:ms); timers.push(t); return t; }
+
+function setScenario(s){
+  scenario = s;
+  el("btn-scam").setAttribute("aria-pressed", s==="scam");
+  el("btn-legit").setAttribute("aria-pressed", s==="legit");
+  resetAll();
+}
+
+function renderForm(){
+  const d = DATA[scenario];
+  el("appBody").innerHTML = `
+    <div class="scn-note">${d.note}</div>
+    <div class="field"><label>المبلغ</label><div class="val amount">${d.amount} <span class="cur">ر.س</span></div></div>
+    <div class="field"><label>المستفيد</label>
+      <div class="val beneficiary">
+        <span>${d.benName}</span>
+        <span class="iban">${d.benIban}</span>
+        <span style="font-size:11px;color:${scenario==='scam'?'var(--warn)':'var(--safe-bright)'}">${d.benHint}</span>
+      </div>
+    </div>
+    <div class="field"><label>الغرض</label><div class="val">${scenario==='scam'?'تحويل إلى حساب آمن':'سداد · مطعم'}</div></div>
+    <button class="send-btn" id="sendBtn" onclick="onSend()">تحويل فوري</button>
+  `;
+}
+
+function resetAll(){
+  clearTimers();
+  answers = 0;
+  renderForm();
+  // engine reset
+  el("enginePill").textContent = "في انتظار التحويل";
+  el("enginePill").style.color = "var(--safe-bright)";
+  el("score").textContent = "0";
+  setArc(0, "var(--safe)");
+  el("riskTag").textContent = "لم يُقيّم بعد";
+  el("riskTag").style.background = "var(--surface-2)";
+  el("riskTag").style.color = "var(--ink-faint)";
+  renderFeatures(true);
+  el("engineFoot").classList.remove("show");
+  el("intervene").classList.remove("show");
+  el("intervene").setAttribute("aria-hidden","true");
+  el("success").classList.remove("show");
+  el("success").setAttribute("aria-hidden","true");
+  el("analyst").classList.remove("show");
+  el("hint").textContent = "اضغط «تشغيل العرض» أو اضغط زر التحويل داخل الهاتف.";
+  el("phoneCaption").textContent = "تجربة العميل · واجهة عربية أولاً (RTL)";
+}
+
+function setArc(scoreVal, color){
+  const off = ARC_LEN - (ARC_LEN * scoreVal/100);
+  const arc = el("arc");
+  arc.style.stroke = color;
+  arc.style.strokeDashoffset = off;
+}
+
+function renderFeatures(empty){
+  const d = DATA[scenario];
+  el("features").innerHTML = d.features.map(f=>`
+    <div class="feat">
+      <div class="top"><span class="name">${f.name}</span><span class="wt">${empty?'—':'+'+Math.round(f.wt*100)+'%'}</span></div>
+      <div class="bar"><i style="background:${f.c};width:${empty?0:f.w}%"></i></div>
+    </div>`).join("");
+}
+
+function animateScore(target){
+  const dur = reduce?0:1000;
+  const start = performance.now();
+  function step(now){
+    const p = dur===0?1:Math.min((now-start)/dur,1);
+    const eased = 1-Math.pow(1-p,3);
+    el("score").textContent = Math.round(target*eased);
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function onSend(){
+  const d = DATA[scenario];
+  const btn = el("sendBtn");
+  if(btn){ btn.disabled = true; btn.textContent = "جارٍ التحقق..."; }
+  el("enginePill").textContent = "يُقيّم الآن...";
+  el("phoneCaption").textContent = "محرك حصين يعمل قبل تنفيذ التحويل...";
+
+  // animate features + gauge
+  after(120, ()=>{ renderFeatures(false); });
+  const col = scenario==="scam" ? (d.risk>=70?"var(--danger)":"var(--warn)") : "var(--safe)";
+  after(180, ()=>{ setArc(d.risk, col); animateScore(d.risk); });
+
+  after(1150, ()=>{
+    el("riskTag").textContent = d.riskTag.t;
+    el("riskTag").style.background = d.riskTag.bg;
+    el("riskTag").style.color = d.riskTag.c;
+    // CoP + typology
+    el("engineFoot").classList.add("show");
+    const cop = d.cop;
+    el("copLine").innerHTML = cop.ok
+      ? `<span class="dot" style="background:var(--safe-bright)"></span><span style="font-size:13px">مطابقة اسم المستفيد (CoP): <b style="color:var(--safe-bright)">مطابق</b> — ${cop.expected}</span>`
+      : `<span class="dot" style="background:var(--danger)"></span><span style="font-size:13px">مطابقة اسم المستفيد (CoP): <b style="color:var(--danger)">غير مطابق</b> — أدخلتِ «${cop.expected}»، الحساب فعلياً باسم «${cop.real}»</span>`;
+    el("typology").innerHTML = d.typology;
+    el("enginePill").textContent = scenario==="scam" ? "قرار: إيقاف مؤقت" : "قرار: آمن";
+    el("enginePill").style.color = scenario==="scam" ? "var(--danger)" : "var(--safe-bright)";
+  });
+
+  if(scenario==="scam"){
+    after(1450, showIntervention);
+  } else {
+    after(1500, ()=>{
+      el("successMsg").textContent = "تم تحويل 1,200 ر.س إلى أحمد الزهراني.";
+      el("successChk").textContent = "تم التحقق: المستفيد مطابق ومعروف · لا احتكاك غير ضروري";
+      el("success").classList.add("show");
+      el("success").setAttribute("aria-hidden","false");
+      el("phoneCaption").textContent = "المعاملات السليمة تمر فوراً · لا اعتراض زائد";
+    });
+  }
+}
+
+function showIntervention(){
+  const d = DATA[scenario];
+  answers = 0;
+  el("sheet").innerHTML = `
+    <div class="alert-ico" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+    </div>
+    <h2>انتظري لحظة قبل التحويل</h2>
+    <div class="typ">احتيال محتمل · انتحال صفة موظف بنك</div>
+    <div class="mismatch">
+      <div class="row"><span>اسم المستفيد الذي أدخلتِه</span><span class="x">${d.cop.expected}</span></div>
+      <div class="row"><span>صاحب الحساب الفعلي</span><span class="real">${d.cop.real}</span></div>
+    </div>
+    <div id="qzone"></div>
+  `;
+  el("intervene").classList.add("show");
+  el("intervene").setAttribute("aria-hidden","false");
+  el("hint").textContent = "أجِب عن أسئلة حصين داخل الهاتف.";
+  renderQuestion();
+}
+
+const QUESTIONS = [
+  "هل طلب منكِ أحدٌ تحويل هذا المبلغ بشكل عاجل؟",
+  "هل وعدكِ أحد بحماية أموالك أو بأرباح مقابل هذا التحويل؟",
+  "هل تعرفين المستفيد شخصياً وتأكدتِ من اسمه؟"
+];
+
+function renderQuestion(){
+  const i = answers;
+  if(i >= QUESTIONS.length){ showVerdict(); return; }
+  el("qzone").innerHTML = `
+    <p class="q">${QUESTIONS[i]}</p>
+    <div class="q-opts">
+      <button onclick="answer()">نعم</button>
+      <button onclick="answer()">لا</button>
+    </div>
+    <div class="q-progress">سؤال ${i+1} من ${QUESTIONS.length}</div>
+  `;
+}
+function answer(){ answers++; renderQuestion(); }
+
+function showVerdict(){
+  el("qzone").innerHTML = `
+    <div class="verdict held">
+      <div class="big" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--safe-bright)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <h2>أوقفنا التحويل لحمايتك</h2>
+      <p>إجاباتك تطابق نمط احتيال انتحال صفة موظف بنك. لم يغادر مالك حسابك. تواصلي مع البنك عبر القنوات الرسمية فقط.</p>
+      <div class="actions">
+        <button class="btn-primary" onclick="confirmHold()">إلغاء التحويل (موصى به)</button>
+        <button class="btn-ghost" onclick="override()">أنا متأكدة · أكملي التحويل</button>
+      </div>
+    </div>`;
+  el("hint").textContent = "القرار للعميل: حصين يضيف احتكاكاً واعياً، لا يحظر بشكل قسري.";
+}
+
+function confirmHold(){
+  const amount = 50000;
+  savedTotal += amount;
+  el("intervene").classList.remove("show");
+  el("intervene").setAttribute("aria-hidden","true");
+  // saved counter
+  const sv = el("saved");
+  sv.style.opacity = "1";
+  animateNumber(el("savedNum"), savedTotal);
+  // analyst
+  el("analyst").classList.add("show");
+  el("phoneCaption").textContent = "تم إنقاذ 50,000 ر.س · المال لم يغادر";
+  el("hint").textContent = "تم: المال محفوظ، الحساب المشبوه موسوم، الحدث مسجّل في تقرير SAMA.";
+  // success-style confirmation inside phone
+  el("appBody").innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding:10px;">
+      <div style="width:72px;height:72px;border-radius:50%;background:rgba(31,191,143,0.14);border:1px solid rgba(31,191,143,0.35);display:grid;place-items:center;margin-bottom:16px;">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--safe-bright)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <h2 style="font-size:20px;margin:0 0 6px;">تم إيقاف التحويل</h2>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin:0;max-width:240px;">حمينا 50,000 ر.س. تواصلي مع البنك على الرقم الرسمي إذا راودك أي شك.</p>
+    </div>`;
+}
+
+function override(){
+  el("intervene").classList.remove("show");
+  el("intervene").setAttribute("aria-hidden","true");
+  el("hint").textContent = "اختار العميل الإكمال. حصين يسجّل التجاوز لمعايرة الحساسية لاحقاً (لا حظر قسري).";
+  el("phoneCaption").textContent = "تم الإكمال بقرار العميل · سُجّل التجاوز";
+  el("appBody").innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding:10px;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(244,183,64,0.12);border:1px solid rgba(244,183,64,0.3);display:grid;place-items:center;margin-bottom:14px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+      </div>
+      <h2 style="font-size:18px;margin:0 0 6px;">تم التحويل بقرارك</h2>
+      <p style="font-size:13px;color:var(--ink-soft);margin:0;max-width:240px;">سُجّل تجاوزك بشكل آمن لتحسين دقة التنبيهات. يمكنك التواصل مع البنك في أي وقت.</p>
+    </div>`;
+}
+
+function animateNumber(node, target){
+  const dur = reduce?0:900;
+  const start = performance.now();
+  function step(now){
+    const p = dur===0?1:Math.min((now-start)/dur,1);
+    const eased = 1-Math.pow(1-p,3);
+    node.textContent = Math.round(target*eased).toLocaleString("en-US");
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// scripted autoplay
+function play(){
+  resetAll();
+  if(scenario==="legit"){ after(500, onSend); return; }
+  after(500, onSend);
+  // auto-answer the three questions (yes, yes, no) then recommend hold
+  after(2600, ()=>{ if(el("qzone")) answer(); });
+  after(3200, ()=>{ if(el("qzone")) answer(); });
+  after(3800, ()=>{ if(el("qzone")) answer(); });
+  after(4600, ()=>{ const b=document.querySelector(".btn-primary"); if(b) b.click(); });
+}
+
+// init
+resetAll();
+</script>
+</body>
+</html>

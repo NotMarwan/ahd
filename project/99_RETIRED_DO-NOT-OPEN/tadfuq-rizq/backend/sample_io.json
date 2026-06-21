@@ -1,0 +1,170 @@
+{
+  "freelancer_designer": {
+    "input_summary": {
+      "persona_id": "freelancer_designer",
+      "months_active": 18,
+      "ob_txns": 145,
+      "zatca_invoices": 43,
+      "pos_settlements": 0
+    },
+    "output": {
+      "limit_sar": 54000,
+      "structure": "Tawarruq",
+      "tenor_months": 12,
+      "explanation_ar": "بناءً على تحليل 18 شهرًا من تدفّقك النقدي، نقترح حدّ تمويل رأس مال عامل بصيغة التورّق بقيمة 54,000 ريال لمدة 12 أشهر. استند القرار أساسًا إلى استقرار التدفّق النقدي وانتظام الدخل، مع تحقّق 72% من دخلك عبر فواتير زاتكا المعتمدة. التمويل مبنيّ على هيكل تورّق شرعي دون أي فائدة ربوية، وقابل لمراجعة الهيئة الشرعية.",
+      "confidence": 0.93,
+      "signals": [
+        {
+          "name": "cashflow_stability",
+          "value": 0.85,
+          "contribution_sar": 14953,
+          "label_ar": "استقرار التدفّق النقدي"
+        },
+        {
+          "name": "income_regularity",
+          "value": 1.0,
+          "contribution_sar": 14075,
+          "label_ar": "انتظام الدخل"
+        },
+        {
+          "name": "invoice_verified_ratio",
+          "value": 0.72,
+          "contribution_sar": 10195,
+          "label_ar": "تحقّق الفواتير عبر زاتكا"
+        },
+        {
+          "name": "revenue_trend",
+          "value": 0.52,
+          "contribution_sar": 5459,
+          "label_ar": "اتجاه نمو الإيرادات"
+        },
+        {
+          "name": "buffer_adequacy",
+          "value": 0.49,
+          "contribution_sar": 3425,
+          "label_ar": "كفاية الفائض الشهري"
+        },
+        {
+          "name": "expense_discipline",
+          "value": 0.84,
+          "contribution_sar": 5893,
+          "label_ar": "انضباط المصروفات"
+        }
+      ],
+      "decision_id": "det-eca6ac34-freelancer_designer",
+      "generated_in_ms": 0
+    }
+  },
+  "small_merchant": {
+    "input_summary": {
+      "persona_id": "small_merchant",
+      "months_active": 24,
+      "ob_txns": 256,
+      "zatca_invoices": 85,
+      "pos_settlements": 94
+    },
+    "output": {
+      "limit_sar": 100000,
+      "structure": "Tawarruq",
+      "tenor_months": 12,
+      "explanation_ar": "بناءً على تحليل 24 شهرًا من تدفّقك النقدي، نقترح حدّ تمويل رأس مال عامل بصيغة التورّق بقيمة 100,000 ريال لمدة 12 أشهر. استند القرار أساسًا إلى انتظام الدخل واستقرار التدفّق النقدي، مع تحقّق 87% من دخلك عبر فواتير زاتكا المعتمدة. التمويل مبنيّ على هيكل تورّق شرعي دون أي فائدة ربوية، وقابل لمراجعة الهيئة الشرعية.",
+      "confidence": 0.95,
+      "signals": [
+        {
+          "name": "cashflow_stability",
+          "value": 0.73,
+          "contribution_sar": 25013,
+          "label_ar": "استقرار التدفّق النقدي"
+        },
+        {
+          "name": "income_regularity",
+          "value": 1.0,
+          "contribution_sar": 27378,
+          "label_ar": "انتظام الدخل"
+        },
+        {
+          "name": "invoice_verified_ratio",
+          "value": 0.87,
+          "contribution_sar": 23803,
+          "label_ar": "تحقّق الفواتير عبر زاتكا"
+        },
+        {
+          "name": "revenue_trend",
+          "value": 0.53,
+          "contribution_sar": 10877,
+          "label_ar": "اتجاه نمو الإيرادات"
+        },
+        {
+          "name": "buffer_adequacy",
+          "value": 0.14,
+          "contribution_sar": 1897,
+          "label_ar": "كفاية الفائض الشهري"
+        },
+        {
+          "name": "expense_discipline",
+          "value": 0.81,
+          "contribution_sar": 11032,
+          "label_ar": "انضباط المصروفات"
+        }
+      ],
+      "decision_id": "det-041abd3b-small_merchant",
+      "generated_in_ms": 1
+    }
+  },
+  "gig_driver": {
+    "input_summary": {
+      "persona_id": "gig_driver",
+      "months_active": 12,
+      "ob_txns": 578,
+      "zatca_invoices": 5,
+      "pos_settlements": 0
+    },
+    "output": {
+      "limit_sar": 9500,
+      "structure": "Tawarruq",
+      "tenor_months": 6,
+      "explanation_ar": "بناءً على تحليل 12 شهرًا من تدفّقك النقدي، نقترح حدّ تمويل رأس مال عامل بصيغة التورّق بقيمة 9,500 ريال لمدة 6 أشهر. استند القرار أساسًا إلى استقرار التدفّق النقدي وانتظام الدخل، مع تحقّق 8% من دخلك عبر فواتير زاتكا المعتمدة. التمويل مبنيّ على هيكل تورّق شرعي دون أي فائدة ربوية، وقابل لمراجعة الهيئة الشرعية.",
+      "confidence": 0.72,
+      "signals": [
+        {
+          "name": "cashflow_stability",
+          "value": 0.94,
+          "contribution_sar": 3485,
+          "label_ar": "استقرار التدفّق النقدي"
+        },
+        {
+          "name": "income_regularity",
+          "value": 1.0,
+          "contribution_sar": 2971,
+          "label_ar": "انتظام الدخل"
+        },
+        {
+          "name": "invoice_verified_ratio",
+          "value": 0.08,
+          "contribution_sar": 231,
+          "label_ar": "تحقّق الفواتير عبر زاتكا"
+        },
+        {
+          "name": "revenue_trend",
+          "value": 0.48,
+          "contribution_sar": 1075,
+          "label_ar": "اتجاه نمو الإيرادات"
+        },
+        {
+          "name": "buffer_adequacy",
+          "value": 0.4,
+          "contribution_sar": 601,
+          "label_ar": "كفاية الفائض الشهري"
+        },
+        {
+          "name": "expense_discipline",
+          "value": 0.77,
+          "contribution_sar": 1137,
+          "label_ar": "انضباط المصروفات"
+        }
+      ],
+      "decision_id": "det-99bb258e-gig_driver",
+      "generated_in_ms": 1
+    }
+  }
+}

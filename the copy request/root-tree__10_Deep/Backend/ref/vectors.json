@@ -1,0 +1,377 @@
+{
+  "sha256_selftest": true,
+  "jcs_examples": {
+    "key_sort": "{\"a\":2,\"b\":1,\"c\":3}",
+    "nested": "{\"a\":[3,2,1],\"z\":{\"x\":2,\"y\":1}}",
+    "unicode": "{\"k\":\"نورة\"}",
+    "escape": "{\"s\":\"a\\\"b\\\\c\\t\"}",
+    "bool_null": "{\"f\":false,\"n\":null,\"t\":true}"
+  },
+  "genesis": "f82c6b59ee12a798794bfabb7ef5cf7567aa531ba5e0caa35a4041ba04458cd6",
+  "schedule_sum_ok": true,
+  "record": {
+    "terms_canonical": "{\"_t\":\"ahd.terms.v1\",\"ahd_id\":\"AHD-01HZ-NOURA-SARA\",\"basis\":\"Quran:2:282\",\"kind\":\"qard_hasan\",\"months\":5,\"parties\":[{\"display_name\":\"نورة العتيبي\",\"nafath_sub\":\"cd8a00069954a0b807c51a5780e7c1c3ccff5f409bd28169772706e97d5a81e8\",\"role\":\"lender\"},{\"display_name\":\"سارة الزهراني\",\"nafath_sub\":\"b5b63dedd84417a04c7c6b90ede1600e3ce5d2339d65f57095fe0ac7d7cd27c1\",\"role\":\"borrower\"}],\"principal\":{\"amount_halalas\":500000,\"currency\":\"SAR\"},\"riba\":{\"gharar\":false,\"interest\":false,\"late_penalty_to_lender\":false},\"schedule\":[{\"amount_halalas\":100000,\"due\":\"2026-07-01\",\"seq\":1},{\"amount_halalas\":100000,\"due\":\"2026-08-01\",\"seq\":2},{\"amount_halalas\":100000,\"due\":\"2026-09-01\",\"seq\":3},{\"amount_halalas\":100000,\"due\":\"2026-10-01\",\"seq\":4},{\"amount_halalas\":100000,\"due\":\"2026-11-01\",\"seq\":5}],\"terms_ar\":\"يُقِرّ الطرفان بأنّ «نورة العتيبي» أقرضت «سارة الزهراني» مبلغ 5,000 ريال على سبيل القرض الحسن، يُسدَّد على 5 أقساطٍ شهريّةٍ متساوية قدر كلٍّ منها 1,000 ريال، دون أيّ زيادة أو فائدة أو غرامة تأخير. عند العجز يُمهَل المقترض بالمعروف.\",\"ts\":\"2026-07-01T10:30:00+03:00\"}",
+    "terms_hash": "ceedb1e97f7006f29e6c66d9e3da6f835cb91f26ea1c9c3f3640985502db94a5",
+    "assertion_sigs": [
+      {
+        "sub": "cd8a00069954a0b8…",
+        "sig": "a01e96e02083e66bb34a5b0a78264eb0384a84717c0045d396b58ff621227940"
+      },
+      {
+        "sub": "b5b63dedd84417a0…",
+        "sig": "1185ff46f8fdefe7cecf0c7f0a20850a4bfffd8c29f66d1c368fe54eb952195c"
+      }
+    ],
+    "tsa_token": "e010c8ed857966b97a0b65e58903c43bd8ea69f8669a9aba6c7c2f6dd7b6cd39",
+    "envelope_hash": "9df5085520269240b2c18aee08c612c4b5a4021d6ec2bafd381c391ed3e36fb0",
+    "leaf": "f7999f87ec2131d5d3a56f306a363ada628ff4f3f298d24f436ba89094813e41",
+    "bank_sig": "8f1d28a5013a91388c54e238181812a1d53e74e0efc2bac5d4a2421d8740bd22"
+  },
+  "verify_intact": {
+    "intact": true,
+    "failedAt": null,
+    "steps": [
+      {
+        "name": "integrity",
+        "ok": true,
+        "detail": "recomputed=ceedb1e97f7006f2 sealed=ceedb1e97f7006f2"
+      },
+      {
+        "name": "attribution:cd8a0006",
+        "ok": true,
+        "detail": "recomputed=a01e96e02083e66b sealed=a01e96e02083e66b"
+      },
+      {
+        "name": "attribution:b5b63ded",
+        "ok": true,
+        "detail": "recomputed=1185ff46f8fdefe7 sealed=1185ff46f8fdefe7"
+      },
+      {
+        "name": "envelope",
+        "ok": true,
+        "detail": "recomputed=9df5085520269240 sealed=9df5085520269240"
+      },
+      {
+        "name": "chain-leaf",
+        "ok": true,
+        "detail": "recomputed=f7999f87ec2131d5 sealed=f7999f87ec2131d5"
+      },
+      {
+        "name": "bank-sig",
+        "ok": true,
+        "detail": "recomputed=8f1d28a5013a9138 sealed=8f1d28a5013a9138"
+      },
+      {
+        "name": "time",
+        "ok": true,
+        "detail": "recomputed=e010c8ed857966b9"
+      }
+    ]
+  },
+  "verify_tamper_amount": {
+    "intact": false,
+    "failedAt": "integrity",
+    "steps": [
+      {
+        "name": "integrity",
+        "ok": false,
+        "detail": "recomputed=90e00c83f7ebfc4d sealed=ceedb1e97f7006f2"
+      }
+    ]
+  },
+  "verify_tamper_reorder": {
+    "intact": false,
+    "failedAt": "integrity",
+    "steps": [
+      {
+        "name": "integrity",
+        "ok": false,
+        "detail": "recomputed=031e12ddb6a8ef1f sealed=ceedb1e97f7006f2"
+      }
+    ]
+  },
+  "keyorder_is_noop": true,
+  "replay_leaf_differs": true,
+  "verify_replay_continuity": {
+    "intact": false,
+    "failedAt": "chain-continuity",
+    "steps": [
+      {
+        "name": "integrity",
+        "ok": true,
+        "detail": "recomputed=ceedb1e97f7006f2 sealed=ceedb1e97f7006f2"
+      },
+      {
+        "name": "attribution:cd8a0006",
+        "ok": true,
+        "detail": "recomputed=a01e96e02083e66b sealed=a01e96e02083e66b"
+      },
+      {
+        "name": "attribution:b5b63ded",
+        "ok": true,
+        "detail": "recomputed=1185ff46f8fdefe7 sealed=1185ff46f8fdefe7"
+      },
+      {
+        "name": "envelope",
+        "ok": true,
+        "detail": "recomputed=9df5085520269240 sealed=9df5085520269240"
+      },
+      {
+        "name": "chain-leaf",
+        "ok": true,
+        "detail": "recomputed=7b5916f511fcec98 sealed=7b5916f511fcec98"
+      },
+      {
+        "name": "bank-sig",
+        "ok": true,
+        "detail": "recomputed=ab0f5371f62b0e99 sealed=ab0f5371f62b0e99"
+      },
+      {
+        "name": "chain-continuity",
+        "ok": false,
+        "detail": "prev=f82c6b59ee12a798 expected=f7999f87ec2131d5"
+      }
+    ]
+  },
+  "merkle": {
+    "tree_size": 4,
+    "leaves": [
+      "f7999f87ec2131d5d3a56f306a363ada628ff4f3f298d24f436ba89094813e41",
+      "e2f8c7646d954ea6568a97921162feb3e09b6c0187062a12fda2d2f8856e52bc",
+      "df8b117c99fe3f1fb6ffc97f45f864d542fb3f63c2eabc07769156e7c8400be7",
+      "8eef3ecd1143e180e303c589dc77283b629b33f08ffc8e2aa34e9f339bcaac3a"
+    ],
+    "root": "363296376cc6d5d5bdb6b99f38fbd6d77bf39ac5ec50b94da29528a276cbd64a",
+    "inclusion_for_index": 1,
+    "audit_path": [
+      "8e95028e5e11872950974d8d963aefcf698d5141584e9ef882ad8f568be4dc51",
+      "0052aba985469f20d7d7b1d4cc8e6589d3dc3d032f21e18260fc2f9e938f1a7d"
+    ],
+    "verifies": true,
+    "tamper_detected": true
+  },
+  "verify_r1_full": true,
+  "muqassa_demo": {
+    "balances_halalas": {
+      "نورة": -90000,
+      "سارة": 0,
+      "خالد": 60000,
+      "ليلى": 0,
+      "فهد": 30000
+    },
+    "transfers_halalas": [
+      {
+        "from": "نورة",
+        "to": "خالد",
+        "amount": 60000
+      },
+      {
+        "from": "نورة",
+        "to": "فهد",
+        "amount": 30000
+      }
+    ],
+    "transfers_sar": [
+      {
+        "from": "نورة",
+        "to": "خالد",
+        "sar": 600
+      },
+      {
+        "from": "نورة",
+        "to": "فهد",
+        "sar": 300
+      }
+    ],
+    "conservation_all_zero": true,
+    "conservation_sum_zero": true,
+    "total_paid_halalas": 90000,
+    "efficiency": {
+      "edges_before": 9,
+      "transfers_after": 2,
+      "transfer_reduction": 0.7778,
+      "cash_before": 180000,
+      "cash_after": 90000,
+      "cash_reduction": 0.5
+    },
+    "cycles_found": 2,
+    "exact_min": 2,
+    "greedy_count": 2
+  },
+  "muqassa_edges": {
+    "pure_cycle": 0,
+    "star": 3,
+    "balanced_dropout": {
+      "A": 0,
+      "B": 0
+    }
+  },
+  "worst_case": {
+    "balances": [
+      -2,
+      4,
+      -5,
+      2,
+      1
+    ],
+    "greedy": 4,
+    "exact": 3,
+    "trial": 2188,
+    "greedy_plan": [
+      {
+        "from": "P2",
+        "to": "P1",
+        "amount": 4
+      },
+      {
+        "from": "P2",
+        "to": "P3",
+        "amount": 1
+      },
+      {
+        "from": "P0",
+        "to": "P3",
+        "amount": 1
+      },
+      {
+        "from": "P0",
+        "to": "P4",
+        "amount": 1
+      }
+    ],
+    "exact_plan": [
+      {
+        "from": "P2",
+        "to": "P1",
+        "amount": 4
+      },
+      {
+        "from": "P0",
+        "to": "P3",
+        "amount": 2
+      },
+      {
+        "from": "P2",
+        "to": "P4",
+        "amount": 1
+      }
+    ],
+    "exact_plan_valid": true,
+    "greedy_plan_valid": true
+  },
+  "multi_currency": {
+    "SAR": [
+      {
+        "from": "A",
+        "to": "B",
+        "amount": 10000
+      }
+    ],
+    "USD": [
+      {
+        "from": "A",
+        "to": "C",
+        "amount": 10000
+      }
+    ]
+  },
+  "trust": {
+    "نورة": {
+      "band": "kept",
+      "ratio_pct": 100,
+      "window_count": 12,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "سارة": {
+      "band": "kept",
+      "ratio_pct": 100,
+      "window_count": 18,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "خالد": {
+      "band": "overdue",
+      "ratio_pct": 90,
+      "window_count": 8,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "ليلى": {
+      "band": "kept",
+      "ratio_pct": 100,
+      "window_count": 16,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "فهد": {
+      "band": "kept",
+      "ratio_pct": 86,
+      "window_count": 6,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    }
+  },
+  "trust_bands": {
+    "new": {
+      "band": "new",
+      "ratio_pct": 100,
+      "window_count": 2,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "kept": {
+      "band": "kept",
+      "ratio_pct": 100,
+      "window_count": 10,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "mixed": {
+      "band": "mixed",
+      "ratio_pct": 76,
+      "window_count": 10,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "overdue_chronic": {
+      "band": "overdue",
+      "ratio_pct": 47,
+      "window_count": 10,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    },
+    "overdue_open": {
+      "band": "overdue",
+      "ratio_pct": 100,
+      "window_count": 10,
+      "is_number_exported": false,
+      "used_in_underwriting": false,
+      "sent_to_bureau": false,
+      "cross_party_inference": false
+    }
+  },
+  "trust_config": {
+    "AS_OF": "2026-06",
+    "WINDOW_MONTHS": 24,
+    "HALF_LIFE_MONTHS": 12
+  }
+}

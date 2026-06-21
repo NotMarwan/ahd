@@ -1,0 +1,221 @@
+{
+  "main": {
+    "id": "441c93fd0968b49d",
+    "type": "split",
+    "children": [
+      {
+        "id": "2af2911351785e3c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5b302115ac4fa4fb",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "08477c55510e270f",
+    "type": "split",
+    "children": [
+      {
+        "id": "a242638e17de7550",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f3b850b2a1b4035c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "298a27faa2a5c5c4",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "f43de26f9e51b610",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "7dbe29e37c6a492b",
+    "type": "split",
+    "children": [
+      {
+        "id": "808ad306cb125c29",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "53310f4b8ceab624",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "ec541b103538a418",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "ce936d11a4bb6541",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "30cf5e36bdc4156a",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "d690a7f471c11792",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "5b302115ac4fa4fb",
+  "lastOpenFiles": [
+    "AMAD-2026/08_Ahd_Deep/Agent-3/layer-growth-adoption.md.tmp.28556.7d8952827da7",
+    "AMAD-2026/08_Ahd_Deep/Agent-1/layer-legal-shariah-regulatory.md.tmp.28556.9588626e8127",
+    "AMAD-2026/08_Ahd_Deep/Agent-1/layer-legal-shariah-regulatory.md.tmp.28556.985b42231b96",
+    "AMAD-2026/08_Ahd_Deep/Agent-1/layer-legal-shariah-regulatory.md.tmp.28556.c9dded6ec2b1",
+    "AMAD-2026/08_Ahd_Deep/Agent-4/layer-product-demo.md.tmp.28556.5a5cc5c0dc85",
+    "AMAD-2026/08_Ahd_Deep/Agent-4/layer-product-demo.md.tmp.28556.6a97f580a78b",
+    "AMAD-2026/08_Ahd_Deep/Agent-3/layer-growth-adoption.md.tmp.28556.51601f798189",
+    "AMAD-2026/08_Ahd_Deep/Agent-3/layer-growth-adoption.md.tmp.28556.0ff26aba8d86",
+    "AMAD-2026/08_Ahd_Deep/Agent-3/layer-growth-adoption.md.tmp.28556.d80ba349c475",
+    "AMAD-2026/08_Ahd_Deep/Agent-3/layer-growth-adoption.md.tmp.28556.3b4cc5ea1be5",
+    "00_Coordination/master-scoreboard.md",
+    "AMAD-2026/10_Deep/Review/full-review.md.tmp.1568.0e4ae952175e",
+    "AMAD-2026/10_Deep/Review/consistency-report.md",
+    "AMAD-2026/10_Deep/STATUS.md",
+    "AMAD-2026/10_Deep/Arsenal/ARSENAL-INDEX.md",
+    "AMAD-2026/10_Deep/Review/proposed-additions.md",
+    "AMAD-2026/10_Deep/Arsenal/rebuttal-playbook.md",
+    "AMAD-2026/10_Deep/Review/gap-register.md",
+    "AMAD-2026/10_Deep/Arsenal/legal-shariah-citations.md",
+    "AMAD-2026/10_Deep/Review/full-review.md",
+    "AMAD-2026/10_Deep/Arsenal/market-and-stats-arsenal.md",
+    "AMAD-2026/10_Deep/Arsenal/demand-evidence-ksa.md",
+    "AMAD-2026/09_Finish/FINAL/go-no-go.md",
+    "AMAD-2026/09_Finish/FINAL/demo-v2.md",
+    "AMAD-2026/09_Finish/FINAL/final-verdict.md",
+    "AMAD-2026/09_Finish/Fixup/fixup-log.md",
+    "AMAD-2026/09_Finish/STATUS.md",
+    "AMAD-2026/09_Finish/RedTeam/red-team-report.md",
+    "AMAD-2026/09_Finish/Consumer/embrace-additions.md",
+    "AMAD-2026/09_Finish/Consumer/consumer-journey.md",
+    "AMAD-2026/08_Ahd_Deep/00_Shared/consistency-sweep-Claude-Workflow.md",
+    "AMAD-2026/08_Ahd_Deep/00_Shared/prototype-verification-Claude-A.md",
+    "AMAD-2026/08_Ahd_Deep/Agent-4/demo-3min.md",
+    "AMAD-2026/08_Ahd_Deep/Agent-4/business-case.md",
+    "AMAD-2026/08_Ahd_Deep/00_MASTER_DOSSIER.md",
+    "AMAD-2026/08_Ahd_Deep/00_Shared/verification-ledger.md"
+  ]
+}

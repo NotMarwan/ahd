@@ -1,0 +1,1211 @@
+{
+  "persona_id": "freelancer_designer",
+  "profile": {
+    "name_ar": "نورة — مصمّمة مستقلّة",
+    "segment": "freelancer",
+    "months_active": 18,
+    "has_simah_score": false
+  },
+  "ob_transactions": [
+    {
+      "date": "2024-12-08",
+      "amount_sar": 1328.96,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2024-12-09",
+      "amount_sar": 1791.92,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2024-12-12",
+      "amount_sar": 4429.03,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2024-12-15",
+      "amount_sar": 940.67,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2024-12-20",
+      "amount_sar": 5090.55,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2024-12-20",
+      "amount_sar": 5067.78,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2024-12-27",
+      "amount_sar": 949.19,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-01-08",
+      "amount_sar": 5235.86,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-01-12",
+      "amount_sar": 1611.36,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-01-13",
+      "amount_sar": 4485.58,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-01-17",
+      "amount_sar": 1482.05,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-01-17",
+      "amount_sar": 1479.33,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-01-18",
+      "amount_sar": 1510.0,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-02-05",
+      "amount_sar": 1408.57,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-02-06",
+      "amount_sar": 3848.38,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-02-16",
+      "amount_sar": 1300.39,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-02-19",
+      "amount_sar": 4431.01,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-02-19",
+      "amount_sar": 1543.1,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-02-23",
+      "amount_sar": 4952.35,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-02-25",
+      "amount_sar": 1280.6,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-03-04",
+      "amount_sar": 787.93,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-03-08",
+      "amount_sar": 4462.47,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-03-16",
+      "amount_sar": 1101.48,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-03-16",
+      "amount_sar": 1795.19,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-03-17",
+      "amount_sar": 4993.32,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-03-19",
+      "amount_sar": 4304.24,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-03-19",
+      "amount_sar": 1723.43,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-03-23",
+      "amount_sar": 1055.32,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-03-23",
+      "amount_sar": 1549.91,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-04-10",
+      "amount_sar": 4011.1,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-04-11",
+      "amount_sar": 1299.86,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-04-12",
+      "amount_sar": 1224.26,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-04-18",
+      "amount_sar": 1341.66,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-04-19",
+      "amount_sar": 1541.7,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-04-19",
+      "amount_sar": 1357.27,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-04-20",
+      "amount_sar": 775.18,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-05-04",
+      "amount_sar": 995.57,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-05-05",
+      "amount_sar": 3866.4,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-05-10",
+      "amount_sar": 1599.92,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-05-16",
+      "amount_sar": 1318.49,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-05-21",
+      "amount_sar": 873.02,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-05-22",
+      "amount_sar": 1436.32,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-06-02",
+      "amount_sar": 3817.36,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-06-03",
+      "amount_sar": 1465.11,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-06-05",
+      "amount_sar": 1485.11,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-06-12",
+      "amount_sar": 4084.78,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-06-12",
+      "amount_sar": 4211.83,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "مشروع لمرة واحدة"
+    },
+    {
+      "date": "2025-06-12",
+      "amount_sar": 836.59,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-06-13",
+      "amount_sar": 1542.34,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-06-14",
+      "amount_sar": 991.57,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-06-23",
+      "amount_sar": 1185.13,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-06-26",
+      "amount_sar": 4540.95,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-07-09",
+      "amount_sar": 1115.99,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-07-19",
+      "amount_sar": 1171.76,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-07-20",
+      "amount_sar": 4858.12,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-07-24",
+      "amount_sar": 751.2,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-07-26",
+      "amount_sar": 1523.3,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-08-04",
+      "amount_sar": 3991.24,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-08-05",
+      "amount_sar": 1036.41,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-08-07",
+      "amount_sar": 1112.39,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-08-09",
+      "amount_sar": 3259.15,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "مشروع لمرة واحدة"
+    },
+    {
+      "date": "2025-08-12",
+      "amount_sar": 1455.0,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-08-21",
+      "amount_sar": 4614.84,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-08-27",
+      "amount_sar": 1578.25,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-09-11",
+      "amount_sar": 1037.64,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-09-18",
+      "amount_sar": 702.66,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-09-19",
+      "amount_sar": 1698.9,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-09-21",
+      "amount_sar": 5418.1,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-09-24",
+      "amount_sar": 1227.98,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-09-25",
+      "amount_sar": 5044.09,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-10-05",
+      "amount_sar": 934.53,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-10-08",
+      "amount_sar": 4459.76,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-10-08",
+      "amount_sar": 1619.43,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-10-10",
+      "amount_sar": 1700.18,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-10-13",
+      "amount_sar": 4379.79,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-10-18",
+      "amount_sar": 4285.99,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-10-18",
+      "amount_sar": 1768.68,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-10-23",
+      "amount_sar": 782.41,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-11-05",
+      "amount_sar": 1089.01,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-11-08",
+      "amount_sar": 4145.78,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-11-08",
+      "amount_sar": 2731.87,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "مشروع لمرة واحدة"
+    },
+    {
+      "date": "2025-11-16",
+      "amount_sar": 4139.94,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2025-11-17",
+      "amount_sar": 1336.39,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-11-26",
+      "amount_sar": 4713.22,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-11-27",
+      "amount_sar": 1602.54,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-11-27",
+      "amount_sar": 777.42,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-12-05",
+      "amount_sar": 1317.95,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-12-07",
+      "amount_sar": 5797.38,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2025-12-07",
+      "amount_sar": 986.62,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-12-13",
+      "amount_sar": 1028.76,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-12-15",
+      "amount_sar": 1253.68,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-12-19",
+      "amount_sar": 4902.1,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2025-12-22",
+      "amount_sar": 1347.51,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2025-12-24",
+      "amount_sar": 1594.2,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-01-03",
+      "amount_sar": 1287.94,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-01-07",
+      "amount_sar": 5550.23,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2026-01-08",
+      "amount_sar": 5351.32,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2026-01-10",
+      "amount_sar": 3800.07,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "مشروع لمرة واحدة"
+    },
+    {
+      "date": "2026-01-10",
+      "amount_sar": 1061.57,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-01-11",
+      "amount_sar": 932.29,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-01-15",
+      "amount_sar": 5342.91,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2026-01-21",
+      "amount_sar": 1552.33,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-02-12",
+      "amount_sar": 1796.09,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-02-13",
+      "amount_sar": 4245.4,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2026-02-16",
+      "amount_sar": 1089.6,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-02-18",
+      "amount_sar": 1268.15,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-02-21",
+      "amount_sar": 1250.08,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-02-22",
+      "amount_sar": 5653.15,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 5380.12,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2026-03-09",
+      "amount_sar": 4143.71,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2026-03-09",
+      "amount_sar": 1233.99,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-03-12",
+      "amount_sar": 1487.8,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-03-16",
+      "amount_sar": 4093.8,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2026-03-19",
+      "amount_sar": 970.18,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-03-21",
+      "amount_sar": 766.34,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-04-09",
+      "amount_sar": 4469.99,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2026-04-09",
+      "amount_sar": 700.5,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-04-13",
+      "amount_sar": 883.28,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-04-19",
+      "amount_sar": 6077.78,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    },
+    {
+      "date": "2026-04-20",
+      "amount_sar": 1224.21,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-04-23",
+      "amount_sar": 5906.6,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2026-04-23",
+      "amount_sar": 802.11,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-04-24",
+      "amount_sar": 908.98,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-04-26",
+      "amount_sar": 832.83,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-05-02",
+      "amount_sar": 929.73,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-05-07",
+      "amount_sar": 6123.43,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "شركة أفق"
+    },
+    {
+      "date": "2026-05-08",
+      "amount_sar": 1714.17,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-05-09",
+      "amount_sar": 4230.96,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "وكالة مدى"
+    },
+    {
+      "date": "2026-05-12",
+      "amount_sar": 1217.53,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-05-14",
+      "amount_sar": 1072.49,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-05-20",
+      "amount_sar": 1502.8,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-05-23",
+      "amount_sar": 1723.96,
+      "direction": "debit",
+      "category": "living",
+      "counterparty": "نفقات"
+    },
+    {
+      "date": "2026-05-25",
+      "amount_sar": 6084.65,
+      "direction": "credit",
+      "category": "design_services",
+      "counterparty": "استوديو نون"
+    }
+  ],
+  "zatca_invoices": [
+    {
+      "date": "2024-12-12",
+      "amount_sar": 4429.03,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-00-0"
+    },
+    {
+      "date": "2024-12-20",
+      "amount_sar": 5090.55,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-00-1"
+    },
+    {
+      "date": "2024-12-20",
+      "amount_sar": 5067.78,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-00-2"
+    },
+    {
+      "date": "2025-01-08",
+      "amount_sar": 5235.86,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-01-2"
+    },
+    {
+      "date": "2025-01-13",
+      "amount_sar": 4485.58,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-01-0"
+    },
+    {
+      "date": "2025-02-06",
+      "amount_sar": 3848.38,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-02-0"
+    },
+    {
+      "date": "2025-02-19",
+      "amount_sar": 4431.01,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-02-1"
+    },
+    {
+      "date": "2025-02-23",
+      "amount_sar": 4952.35,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-02-2"
+    },
+    {
+      "date": "2025-03-08",
+      "amount_sar": 4462.47,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-03-2"
+    },
+    {
+      "date": "2025-03-17",
+      "amount_sar": 4993.32,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-03-1"
+    },
+    {
+      "date": "2025-03-19",
+      "amount_sar": 4304.24,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-03-0"
+    },
+    {
+      "date": "2025-04-10",
+      "amount_sar": 4011.1,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-04-0"
+    },
+    {
+      "date": "2025-05-05",
+      "amount_sar": 3866.4,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-05-1"
+    },
+    {
+      "date": "2025-06-12",
+      "amount_sar": 4084.78,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-06-2"
+    },
+    {
+      "date": "2025-06-26",
+      "amount_sar": 4540.95,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-06-1"
+    },
+    {
+      "date": "2025-07-20",
+      "amount_sar": 4858.12,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-07-2"
+    },
+    {
+      "date": "2025-08-04",
+      "amount_sar": 3991.24,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-08-2"
+    },
+    {
+      "date": "2025-08-21",
+      "amount_sar": 4614.84,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-08-1"
+    },
+    {
+      "date": "2025-09-21",
+      "amount_sar": 5418.1,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-09-2"
+    },
+    {
+      "date": "2025-09-25",
+      "amount_sar": 5044.09,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-09-1"
+    },
+    {
+      "date": "2025-10-08",
+      "amount_sar": 4459.76,
+      "buyer": "شركة أفق",
+      "status": "pending",
+      "uuid": "zd-10-2"
+    },
+    {
+      "date": "2025-10-18",
+      "amount_sar": 4285.99,
+      "buyer": "وكالة مدى",
+      "status": "pending",
+      "uuid": "zd-10-1"
+    },
+    {
+      "date": "2025-11-08",
+      "amount_sar": 4145.78,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-11-0"
+    },
+    {
+      "date": "2025-11-16",
+      "amount_sar": 4139.94,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-11-1"
+    },
+    {
+      "date": "2025-11-26",
+      "amount_sar": 4713.22,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-11-2"
+    },
+    {
+      "date": "2025-12-07",
+      "amount_sar": 5797.38,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-12-2"
+    },
+    {
+      "date": "2025-12-19",
+      "amount_sar": 4902.1,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-12-0"
+    },
+    {
+      "date": "2026-01-07",
+      "amount_sar": 5550.23,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-13-0"
+    },
+    {
+      "date": "2026-01-08",
+      "amount_sar": 5351.32,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-13-2"
+    },
+    {
+      "date": "2026-01-15",
+      "amount_sar": 5342.91,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-13-1"
+    },
+    {
+      "date": "2026-02-22",
+      "amount_sar": 5653.15,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-14-1"
+    },
+    {
+      "date": "2026-03-02",
+      "amount_sar": 5380.12,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-15-1"
+    },
+    {
+      "date": "2026-03-09",
+      "amount_sar": 4143.71,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-15-2"
+    },
+    {
+      "date": "2026-04-09",
+      "amount_sar": 4469.99,
+      "buyer": "وكالة مدى",
+      "status": "cleared",
+      "uuid": "zd-16-1"
+    },
+    {
+      "date": "2026-04-19",
+      "amount_sar": 6077.78,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-16-0"
+    },
+    {
+      "date": "2026-05-07",
+      "amount_sar": 6123.43,
+      "buyer": "شركة أفق",
+      "status": "cleared",
+      "uuid": "zd-17-2"
+    },
+    {
+      "date": "2026-05-09",
+      "amount_sar": 4230.96,
+      "buyer": "وكالة مدى",
+      "status": "pending",
+      "uuid": "zd-17-1"
+    },
+    {
+      "date": "2026-05-25",
+      "amount_sar": 6084.65,
+      "buyer": "استوديو نون",
+      "status": "cleared",
+      "uuid": "zd-17-0"
+    }
+  ],
+  "pos_settlements": []
+}

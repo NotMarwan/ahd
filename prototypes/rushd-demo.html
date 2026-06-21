@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>رُشد · Rushd — Tayyib Score demo</title>
+<!--
+  Rushd — Shariah-aware money co-pilot · interactive demo prototype (Agent 3, Lane 3).
+  Single file, 100% offline, deterministic. Mirrors rushd-demo-and-deck.md storyboard.
+  Controls: ▶ التالي / next advances the 5 demo beats. Everything is mocked + seeded.
+-->
+<style>
+  :root{
+    --bg:#0f1020; --panel:#15172b; --card:#1b1e36; --line:#2a2e4d;
+    --ink:#f4f5fb; --muted:#9aa0c4; --accent:#7c5cff; --teal:#16c2a3;
+    --gold:#e9b949; --bad:#ff5d6c; --ok:#27c98f; --warn:#ffb020;
+    --r:20px; font-synthesis:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+    background:radial-gradient(1200px 700px at 80% -10%,#1d1f3e 0,#0b0c18 60%);
+    color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;
+    gap:36px;flex-wrap:wrap;padding:28px;
+  }
+  /* phone */
+  .phone{width:380px;height:760px;background:var(--bg);border-radius:44px;
+    border:1px solid #2c2f52;box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 0 0 8px #070810;
+    position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:24px;
+    background:#070810;border-radius:0 0 16px 16px;z-index:9}
+  .status{display:flex;justify-content:space-between;padding:14px 22px 4px;font-size:12px;color:var(--muted)}
+  .appbar{display:flex;align-items:center;justify-content:space-between;padding:6px 20px 10px}
+  .brand{display:flex;align-items:center;gap:9px}
+  .logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--teal));
+    display:grid;place-items:center;font-weight:800;font-size:17px;color:#fff}
+  .brand b{font-size:16px;letter-spacing:.2px}
+  .brand small{display:block;color:var(--muted);font-size:10px;margin-top:-2px}
+  .screen{flex:1;overflow:hidden auto;padding:6px 18px 18px;position:relative}
+  .screen::-webkit-scrollbar{width:0}
+
+  /* score ring */
+  .hero{display:flex;flex-direction:column;align-items:center;margin:6px 0 4px}
+  .ring{width:196px;height:196px;border-radius:50%;display:grid;place-items:center;position:relative;
+    background:
+      radial-gradient(closest-side,var(--card) 79%,transparent 80% 100%),
+      conic-gradient(var(--teal) calc(var(--p)*1%), #2a2e4d 0);
+    transition:--p .9s ease}
+  @property --p{syntax:'<number>';inherits:false;initial-value:0}
+  .ring .val{font-size:54px;font-weight:800;line-height:1}
+  .ring .of{color:var(--muted);font-size:13px;margin-top:2px}
+  .ring .lbl{position:absolute;bottom:30px;color:var(--teal);font-size:12px;font-weight:700}
+  .tag{margin-top:8px;color:var(--muted);font-size:12.5px;text-align:center}
+  .tag b{color:var(--ink)}
+
+  .chips{display:flex;gap:10px;margin:14px 0 6px}
+  .chip{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:11px 12px}
+  .chip .k{color:var(--muted);font-size:11px}
+  .chip .v{font-size:17px;font-weight:800;margin-top:3px}
+  .chip.gold .v{color:var(--gold)} .chip.teal .v{color:var(--teal)}
+
+  .sect{margin-top:16px}
+  .sect h4{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between}
+  .row{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:11px 12px;margin-bottom:9px;animation:rise .4s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;flex:none;background:#23264a}
+  .row .mid{flex:1;min-width:0}
+  .row .mid b{font-size:14px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .mid span{color:var(--muted);font-size:11.5px}
+  .row .amt{font-weight:800;font-size:14px}
+  .dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)}
+  .pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .pill.ok{background:rgba(39,201,143,.15);color:var(--ok)}
+  .pill.warn{background:rgba(255,176,32,.15);color:var(--warn)}
+  .pill.bad{background:rgba(255,93,108,.15);color:var(--bad)}
+
+  /* bars */
+  .bars{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .bar{margin-bottom:12px}
+  .bar:last-child{margin-bottom:0}
+  .bar .t{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+  .bar .track{height:9px;background:#23264a;border-radius:999px;overflow:hidden}
+  .bar .fill{height:100%;border-radius:999px;width:0;transition:width .8s ease}
+
+  /* explain / action card overlay */
+  .sheet{position:absolute;inset:0;background:rgba(6,7,16,.55);backdrop-filter:blur(3px);
+    display:none;align-items:flex-end;z-index:20}
+  .sheet.show{display:flex;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .sheetcard{width:100%;background:var(--panel);border-top-left-radius:26px;border-top-right-radius:26px;
+    border:1px solid var(--line);padding:20px 20px 22px;animation:up .3s ease}
+  @keyframes up{from{transform:translateY(40px)}to{transform:none}}
+  .sheetcard h3{font-size:17px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .sheetcard p{color:var(--muted);font-size:13px;line-height:1.6;margin:8px 0}
+  .ruling{background:var(--card);border:1px solid var(--line);border-right:3px solid var(--teal);
+    border-radius:12px;padding:10px 12px;font-size:12px;color:#cdd2f5;margin:10px 0}
+  .ruling small{color:var(--teal);font-weight:700;display:block;margin-bottom:3px}
+  .btn{display:block;width:100%;text-align:center;background:linear-gradient(135deg,var(--accent),#6248d6);
+    color:#fff;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;
+    font-family:inherit;margin-top:8px}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
+  .btn.teal{background:linear-gradient(135deg,var(--teal),#0fa588)}
+
+  .toast{position:absolute;left:18px;right:18px;top:64px;background:#12331f;border:1px solid #1f6e45;
+    color:#aef2cf;border-radius:14px;padding:11px 14px;font-size:13px;z-index:30;display:none;
+    box-shadow:0 14px 30px rgba(0,0,0,.4)}
+  .toast.show{display:block;animation:up .3s ease}
+  .toast.bad{background:#3a1620;border-color:#7a2435;color:#ffc2cb}
+
+  /* narration / controls (the judge-facing rail) */
+  .deck{width:360px;max-width:90vw}
+  .deck h1{font-size:24px;margin-bottom:4px}
+  .deck .sub{color:#b9bee6;font-size:13.5px;line-height:1.6;margin-bottom:18px}
+  .beat{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+  .beat .step{color:var(--accent);font-weight:800;font-size:12px;letter-spacing:1px}
+  .beat h2{font-size:18px;margin:4px 0 6px}
+  .beat p{color:var(--muted);font-size:13px;line-height:1.6}
+  .beat .en{color:#8a90ba;font-size:12px;font-style:italic;margin-top:6px}
+  .ctrls{display:flex;gap:10px;margin-top:6px}
+  .ctrls button{flex:1;padding:13px;border-radius:13px;border:1px solid var(--line);background:#1a1d36;
+    color:var(--ink);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+  .ctrls button.primary{background:linear-gradient(135deg,var(--accent),#6248d6);border:none}
+  .ctrls button:disabled{opacity:.4;cursor:default}
+  .progress{display:flex;gap:6px;margin:14px 0 4px}
+  .progress i{flex:1;height:4px;border-radius:9px;background:#2a2e4d}
+  .progress i.on{background:var(--accent)}
+  .foot{color:#6f74a0;font-size:11px;margin-top:14px;line-height:1.6}
+  .foot b{color:#9aa0c4}
+</style>
+</head>
+<body>
+
+<!-- ===================== PHONE ===================== -->
+<div class="phone">
+  <div class="notch"></div>
+  <div class="status"><span>٩:٤١</span><span>الإنماء · iz ▾</span><span>📶 ⬤ ٨٧٪</span></div>
+  <div class="appbar">
+    <div class="brand">
+      <div class="logo">ر</div>
+      <div><b>رُشد</b><small>Tayyib Score · مؤشر الطيّب</small></div>
+    </div>
+    <div style="font-size:20px">☰</div>
+  </div>
+
+  <div class="screen" id="screen">
+    <div class="hero">
+      <div class="ring" id="ring" style="--p:76"><div style="text-align:center">
+        <div class="val" id="scoreNum">76</div><div class="of">/ 100</div></div>
+        <div class="lbl" id="ringLbl">طيّب · جيد</div>
+      </div>
+      <div class="tag">نقاء أموالك شرعاً — <b>محسوب الآن، ومشروح</b></div>
+    </div>
+
+    <div class="chips">
+      <div class="chip gold"><div class="k">زكاتك المستحقة اليوم</div><div class="v" id="zakat">٤٬٢١٢ ﷼</div></div>
+      <div class="chip teal"><div class="k">طُهّر هذا العام</div><div class="v" id="purified">٣٤٠ ﷼</div></div>
+    </div>
+
+    <div class="sect" id="txnSect">
+      <h4><span>الحركات الأخيرة</span><span id="txnHint">اضغط أي حركة لمعرفة السبب</span></h4>
+      <div id="txns">
+        <div class="row" onclick="explain('ok')"><div class="ic">🛒</div>
+          <div class="mid"><b>التميمي · بقالة</b><span>اليوم · ٢١٨ ﷼</span></div>
+          <span class="pill ok">حلال</span></div>
+        <div class="row" onclick="explain('salary')"><div class="ic">💼</div>
+          <div class="mid"><b>راتب + دخل عمل حر</b><span>أمس · ١١٬٤٠٠ ﷼</span></div>
+          <span class="pill ok">حلال</span></div>
+        <div class="row" onclick="explain('doubt')"><div class="ic">🎰</div>
+          <div class="mid"><b>متجر إلكتروني — قرعة</b><span>أمس · ٩٠ ﷼</span></div>
+          <span class="pill warn">مشتبه</span></div>
+      </div>
+    </div>
+
+    <div class="sect" id="breakdown" style="display:none">
+      <h4><span>تفصيل المؤشر</span><span>٪ × فئة × زمن</span></h4>
+      <div class="bars">
+        <div class="bar"><div class="t"><span>دخل حلال</span><span>٩٤٪</span></div>
+          <div class="track"><div class="fill" style="background:var(--ok)" data-w="94"></div></div></div>
+        <div class="bar"><div class="t"><span>إنفاق حلال</span><span>٨٨٪</span></div>
+          <div class="track"><div class="fill" style="background:var(--teal)" data-w="88"></div></div></div>
+        <div class="bar"><div class="t"><span>إنفاق لدى تجار مشتبهين</span><span>١٢٪</span></div>
+          <div class="track"><div class="fill" style="background:var(--warn)" data-w="12"></div></div></div>
+        <div class="bar"><div class="t"><span>جاهزية الزكاة</span><span>١٠٠٪ — مُجنّبة</span></div>
+          <div class="track"><div class="fill" style="background:var(--gold)" data-w="100"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- overlays -->
+  <div class="toast" id="toast"></div>
+  <div class="sheet" id="sheet"><div class="sheetcard" id="sheetcard"></div></div>
+</div>
+
+<!-- ===================== JUDGE RAIL ===================== -->
+<div class="deck">
+  <h1>رُشد · Rushd</h1>
+  <div class="sub">A Shariah score for your money — live, explained with cited rulings, and Alinma fixes it. <b style="color:#fff">Open on the score, never a chat box.</b></div>
+
+  <div class="progress" id="prog"></div>
+  <div id="beatbox"></div>
+
+  <div class="ctrls">
+    <button id="prev" onclick="go(-1)">◀ السابق</button>
+    <button id="next" class="primary" onclick="go(1)">التالي ▶</button>
+  </div>
+  <div class="foot">
+    <b>Prototype</b> · single-file · 100% offline · deterministic · mock data only.<br>
+    Production: ALLaM via IBM watsonx (Alinma's stack) · ships into <b>iz / iz Business</b>. AI never issues fatwa — human Shariah board in the loop.<br>
+    Concept: <b>[[rushd-v2-sharpened]]</b> · storyboard: <b>[[rushd-demo-and-deck]]</b> · build: <b>[[rushd-architecture-buildplan]]</b>
+  </div>
+</div>
+
+<script>
+// ---------- deterministic demo beats (mirrors the storyboard) ----------
+const beats = [
+  { step:"BEAT 1 · الخطّاف", h:"سؤال لا يجيب عنه أي تطبيق: هل مالي حلال؟",
+    p:"رُشد يجيب عنه — كرقم. مؤشر الطيّب ٧٦/١٠٠، مع زكاتك المستحقة وما طُهّر هذا العام.",
+    en:"The memorable artifact in the first 20s. A credit score for how halal your money is — not a chat box.",
+    run:()=>reset() },
+  { step:"BEAT 2 · العمق", h:"اضغط الرقم → تفصيل مشروح",
+    p:"دخل حلال ٩٤٪ · إنفاق حلال ٨٨٪ · ١٢٪ لدى تجار مشتبهين. كل رقم مشروح، وكل حكم موثّق من هيئة الإنماء الشرعية.",
+    en:"Data depth (the criterion judges doubt): a real composite index, category × time, every ruling cited.",
+    run:()=>showBreakdown() },
+  { step:"BEAT 3 · لحظة الإبهار ١", h:"حركة مشتبهة الآن → السبب + بديل حلال",
+    p:"عملية شراء من متجر قائم على القرعة (ميسر). رُشد يكتشفها، يشرح السبب، ويقترح بديلاً متوافقاً — والمؤشر يتعافى.",
+    en:"The only-Alinma moment, tied to the number. Flags it live, explains why, offers a halal alternative.",
+    run:()=>interceptScene() },
+  { step:"BEAT 4 · لحظة الإبهار ٢", h:"تطهير تلقائي — ٣٤٠ ﷼ هذا العام",
+    p:"رُشد اكتشف فائدة رِبوية أُضيفت بالخطأ (١٣٫٤٠ ﷼) — ليست لك شرعاً. عزلها، وبضغطة واحدة تذهب للصدقة.",
+    en:"Uniquely Islamic, effortless, quantified. Purification that used to be a once-a-year guess, now automatic.",
+    run:()=>purifyScene() },
+  { step:"BEAT 5 · الفعل + الإغلاق", h:"ادفع زكاتك + حوّل الفائض (مرابحة)",
+    p:"الزكاة محسوبة ومُجنّبة سلفاً. أمر واحد: ادفع الزكاة وحوّل الفائض إلى وعاء ادخار بصيغة مرابحة. تمّ.",
+    en:"Agentic action in service of the score (not sprawl). Closes on the bank-ship line.",
+    run:()=>actScene() },
+];
+
+let i=0, curScore=76;
+const $=id=>document.getElementById(id);
+function renderBeat(){
+  const b=beats[i];
+  $('beatbox').innerHTML =
+    `<div class="beat"><div class="step">${b.step}</div><h2>${b.h}</h2>
+     <p>${b.p}</p><div class="en">${b.en}</div></div>`;
+  $('prog').innerHTML = beats.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('');
+  $('prev').disabled = i===0;
+  $('next').textContent = i===beats.length-1 ? 'إعادة ↻' : 'التالي ▶';
+  b.run();
+}
+function go(d){
+  if(i===beats.length-1 && d===1){ i=0; renderBeat(); return; }
+  i=Math.max(0,Math.min(beats.length-1,i+d)); renderBeat();
+}
+
+// ---------- score helpers ----------
+const AR = n => n.toLocaleString('ar-EG');
+function setScore(v,lbl,cls){
+  $('ring').style.setProperty('--p',v);
+  // animate number
+  const el=$('scoreNum'); const start=curScore; curScore=v;
+  const t0=performance.now();
+  (function tick(t){const k=Math.min(1,(t-t0)/700);const val=Math.round(start+(v-start)*k);
+    el.textContent=AR(val); if(k<1)requestAnimationFrame(tick);})(t0);
+  if(lbl)$('ringLbl').textContent=lbl;
+  $('ring').querySelector('.val').style.color = cls||'';
+}
+function toast(msg,bad){const t=$('toast');t.textContent=msg;t.className='toast show'+(bad?' bad':'');
+  clearTimeout(t._h);t._h=setTimeout(()=>t.className='toast',2600);}
+function closeSheet(){$('sheet').className='sheet';}
+
+// ---------- scenes ----------
+function reset(){
+  closeSheet(); $('breakdown').style.display='none'; $('txnSect').style.display='';
+  $('txnHint').textContent='اضغط أي حركة لمعرفة السبب';
+  $('zakat').textContent='٤٬٢١٢ ﷼'; $('purified').textContent='٣٤٠ ﷼';
+  setScore(76,'طيّب · جيد','');
+}
+function showBreakdown(){
+  closeSheet(); $('breakdown').style.display='';
+  document.querySelectorAll('#breakdown .fill').forEach(f=>{requestAnimationFrame(()=>f.style.width=f.dataset.w+'%');});
+  $('breakdown').scrollIntoView({behavior:'smooth'});
+}
+const RULINGS={
+  ok:{t:'🟢 حلال',c:'ok',title:'بقالة التميمي',body:'تاجر تجزئة لمواد غذائية — نشاط مباح. لا شبهة ربوية أو محرّمة في الحركة.',
+      ref:'القاعدة: الأصل في المعاملات الإباحة ما لم يرد دليل المنع.'},
+  salary:{t:'🟢 حلال',c:'ok',title:'راتب + دخل عمل حر',body:'دخل من عمل مشروع. صُنّف ٩٤٪ حلالاً؛ الجزء المتبقّي قيد التحقق وسيُعالَج في التطهير.',
+      ref:'هيئة الإنماء الشرعية — تصنيف مصادر الدخل.'},
+  doubt:{t:'🟡 مشتبه — قائم على القرعة',c:'warn',title:'متجر إلكتروني — قرعة',body:'المتجر يربط الشراء بقرعة ربحية (ميسر/غرر). الإنفاق لديه يخفض مؤشر الطيّب.',
+      ref:'حكم الهيئة: المعاملات القائمة على القرعة المالية = ميسر، غير متوافقة.'}
+};
+function explain(key){
+  const r=RULINGS[key];
+  $('sheetcard').innerHTML =
+    `<h3>${r.t}</h3><b style="font-size:14px">${r.title}</b>
+     <p>${r.body}</p>
+     <div class="ruling"><small>الحكم الشرعي · موثّق</small>${r.ref}</div>
+     <button class="btn ghost" onclick="closeSheet()">حسناً</button>
+     <div style="text-align:center;color:#6f74a0;font-size:11px;margin-top:10px">سؤال جديد؟ يُحال إلى عالم بشري — لا يُصدر التطبيق فتوى.</div>`;
+  $('sheet').className='sheet show';
+}
+function interceptScene(){
+  closeSheet(); $('breakdown').style.display='none'; $('txnSect').style.display='';
+  setScore(74,'طيّب · انتبه','var(--warn)');
+  toast('⚠️ حركة جديدة: متجر قائم على القرعة — خفض المؤشر',true);
+  $('sheetcard').innerHTML =
+    `<h3>🟡 شراء مشتبه — ٢٤٠ ﷼</h3><b style="font-size:14px">"ميجا‑مول" — عرض بقرعة ربحية</b>
+     <p>هذا المتجر يمنح فرص ربح بالقرعة عند الشراء (ميسر). إتمام العملية يخفض مؤشر الطيّب.</p>
+     <div class="ruling"><small>بديل حلال مقترَح</small>«سوق المتجر» — نفس المنتج، سعر مقارب، نشاط متوافق ✔</div>
+     <button class="btn teal" onclick="useAlt()">استخدم البديل الحلال</button>
+     <button class="btn ghost" onclick="closeSheet()">تجاهل</button>`;
+  $('sheet').className='sheet show';
+}
+function useAlt(){closeSheet();setScore(76,'طيّب · جيد','');toast('✓ تم اختيار البديل الحلال — تعافى المؤشر');}
+function purifyScene(){
+  closeSheet(); $('breakdown').style.display='none';
+  $('sheetcard').innerHTML =
+    `<h3>🧼 تطهير تلقائي</h3><b style="font-size:14px">فائدة ربوية أُضيفت بالخطأ — ١٣٫٤٠ ﷼</b>
+     <p>هذا المبلغ ليس لك شرعاً. عزله رُشد تلقائياً. بضغطة واحدة يذهب للصدقة، ويُحدَّث سجل التطهير.</p>
+     <div class="ruling"><small>القاعدة الشرعية</small>الفوائد الربوية تُصرف في وجوه الخير بلا نيّة التقرّب — تخلّصاً لا تصدّقاً.</div>
+     <button class="btn" onclick="purifyDone()">طهّر الآن — تصدّق ١٣٫٤٠ ﷼</button>
+     <button class="btn ghost" onclick="closeSheet()">لاحقاً</button>`;
+  $('sheet').className='sheet show';
+}
+function purifyDone(){closeSheet();$('purified').textContent='٣٥٣ ﷼';setScore(78,'طيّب · جيد جداً','var(--ok)');
+  toast('✓ طُهّرت ١٣٫٤٠ ﷼ — إجمالي العام ٣٥٣ ﷼');}
+function actScene(){
+  closeSheet();
+  $('sheetcard').innerHTML =
+    `<h3>🎙️ "ادفع زكاتي وحوّل الفائض إلى وعاء متوافق"</h3>
+     <p>الزكاة محسوبة (النصاب + الحول) ومُجنّبة سلفاً: <b style="color:var(--gold)">٤٬٢١٢ ﷼</b>. الفائض القابل للادخار: <b>٣٬٠٠٠ ﷼</b>.</p>
+     <div class="ruling"><small>صيغة العملية · مرابحة سلع</small>وعاء ادخار بصيغة مرابحة — ربح معلوم، بلا ربا. تُعرض الصيغة قبل التنفيذ.</div>
+     <button class="btn" onclick="actDone()">نفّذ: ادفع الزكاة + ادّخر الفائض</button>
+     <button class="btn ghost" onclick="closeSheet()">مراجعة</button>`;
+  $('sheet').className='sheet show';
+}
+function actDone(){
+  closeSheet();$('zakat').textContent='مدفوعة ✓';$('zakat').style.color='var(--ok)';
+  setScore(81,'طيّب · ممتاز','var(--ok)');
+  toast('✓ دُفعت الزكاة · ادّخر ٣٬٠٠٠ ﷼ (مرابحة) · المؤشر ٨١');
+  setTimeout(()=>toast('Alinma could ship this next quarter — على ALLaM/watsonx'),2800);
+}
+
+renderBeat();
+</script>
+</body>
+</html>
