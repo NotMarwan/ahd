@@ -7,7 +7,7 @@
 
 ## ⭐ READ ME FIRST (morning summary)
 
-**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 343/0 = 527 assertions, 9 app suites**) · work isolated on `overnight/deepening`.
+**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 376/0 = 560 assertions, 11 app suites**) · work isolated on `overnight/deepening` (18 commits) · demo `main` untouched.
 
 **Most valuable thing produced so far:** all **three missing consumer features** now built, tested, and on-spine — **«دفتري»** (creditor home + bank-sent gentle reminder), **«القرض المفتوح»** (open-term qard hasan + إبراء), and **Advanced Circle** (بالأصناف split · recurring auto-post · graduation قَيْد→عهد which composes into القرض المفتوح · a mode-B pledge *sketch* flagged for Shariah review). All in a parallel publishable app (`project/ahd-app/`) on a faithful, parity-tested copy of the demo engine — the demo itself is byte-for-byte untouched.
 
@@ -31,23 +31,24 @@
 | 📔 **دفتري** | creditor home (لي/عليّ) + bank-sent gentle reminder | amber-not-red overdue, no shaming day-counter, finite merciful ladder |
 | ♾️ **القرض المفتوح** | open-term qard hasan + إبراء | no due ⇒ **never overdue**; conservation exact |
 | 🔁 **الدائرة+** | بالأصناف split · recurring · graduation قَيْد→عهد | mode-B pledge sketch has a visible ⚠️ Shariah-review guard |
+| 🔗 **المقاصّة** | the tangle → fewest transfers (9→2) + consent legs + conservation | reuses the golden netting; «لا ريال يُخلق ولا يضيع، ولا فائدة» |
 
 **Supporting deliverables:**
-- **Tests:** `10_Deep/Hardening/test-harness/app/` — 9 suites, **343 app assertions** (+ the demo's **184** core, untouched). `node app/run-app-tests.cjs`.
+- **Tests:** `10_Deep/Hardening/test-harness/app/` — 11 suites, **376 app assertions** (+ the demo's **184** core, untouched). Includes `golden-vectors.test.cjs` (absolute drift-guard pinning the new features' seals). `node app/run-app-tests.cjs`.
 - **Docs:** `docs/ARCHITECTURE.md`, `project/ahd-app/README.md`, `docs/PUBLISHABLE-PRODUCT-SPEC.md`.
 - **Pitch:** `docs/DECK-DRAFT-AR.md` (9-slide Arabic deck draft), `docs/evidence/EVIDENCE-BRIEF.md` + `REBUTTAL-PLAYBOOK.md` (graded 🟢/🟡/🔴, web-verified), `docs/PRESENTER-GUIDE.md` (9-step golden path).
 - **Proof:** `project/ahd-app/screenshots/` — real-Chromium renders (incl. the riba linter blocking live), 0 app console errors.
 - **Plans:** `docs/superpowers/plans/` — one per feature (brainstorm→plan→TDD trail).
 
 ## ▶️ HOW TO REVIEW (in the morning)
-1. **See the diff:** `git diff main..overnight/deepening` (or `git log main..overnight/deepening --oneline` — 12 batches, each green).
+1. **See the diff:** `git diff main..overnight/deepening` (or `git log main..overnight/deepening --oneline` — 18 commits, each green).
 2. **Run the app:** `node project/ahd-app/_serve-app.cjs` → open `http://localhost:8124` (fully offline).
-3. **Run the gate:** from `10_Deep/Hardening/test-harness/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs` → 184 core + 337 app, all green.
+3. **Run the gate:** from `10_Deep/Hardening/test-harness/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs` → 184 core + 376 app, all green.
 4. **Confirm the demo is untouched:** `sha256sum -c _overnight/backup/demo.sha256` → OK (`e2f48467…`).
 5. **Decide:** `DECISIONS-FOR-MARWAN.md` (D-1 self-disclosure, D-3 mode-B pooled deposit — both Shariah-gated; D-2 digits FYI). **Nothing auto-merges into `main`** — the merge is yours.
 
 ## ✅ Final verification snapshot (2026-06-21, fresh)
-`tripwire OK · AHD-LOGIC markers 2 · run-tests 135/0 · offline 9/0 · dom-smoke 40/0 · app 9/9 (337/0) · 12 commits · 0 uncommitted · main = baseline b2458ee untouched`
+`tripwire OK · AHD-LOGIC markers 2 · run-tests 135/0 · offline 9/0 · dom-smoke 40/0 · app 11/11 (376/0) · 18 commits · 0 uncommitted · main = baseline b2458ee untouched`
 
 ## Protected-core invariants (self-checked every batch)
 - `project/ahd-demo/index.html` SHA-256 == `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40` (tripwire).
@@ -58,6 +59,12 @@
 ---
 
 ## LOG (newest first)
+
+### Batch 11 · المقاصّة (Muqassa) screen — ✅ DONE
+`features/settlement.js` + `screens/settlement.js`: a thin view-model over the **golden** `netting`/`balancesOf`/`muqassaLegs` (reused untouched) — the 9-IOU tangle → **2 transfers**, per-member consent legs (consented novation), and the conservation proof «Σ net = 0». Completes the app's parity with the demo's signature screen. Real-Chromium verified (`screenshots/ahd-settlement.png`). settlement 10, dom-smoke 77. Commits `d782f12`, `70a0e28`.
+
+### Batch 10 · Golden-vector drift-guard — ✅ DONE
+`app/golden-vectors.test.cjs` (11): pins the new features' **absolute** seals/splits (open-loan `b080f79e`, create `0463553`, app-seed create `866304d`, graduation `5fb4dad`, بالأصناف halalas, recurring) — matching the demo's `golden-vectors.json` philosophy. The feature suites prove *relative* determinism; this proves the bytes never silently drift. Commit `e6d3b92`.
 
 ### Batch 9 · دفتري own trust-band + presenter guide — ✅ DONE
 - **Own trust band (Agent-3 Screen E.1):** the «عليّ» tab now shows Naif's OWN qualitative band («وفّى بعهوده») via the engine's `trustSignal`/`TRUST_BAND_AR` — **a word, never a number, own-history only, never shared**. The *sharing* half stays deferred (D-1, Shariah/privacy). `selfBand` (TDD) + seed + render + dom-smoke proof there's no % / score on screen. daftari 48, dom-smoke 71.
