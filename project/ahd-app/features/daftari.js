@@ -40,7 +40,9 @@
   function rowFor(record, viewer, engine, asOf) {
     asOf = asOf || AS_OF_DEFAULT;
     var f = engine.fold(record.events);
-    var total = f.total || (record.installments && record.installments.length) || 1;
+    /* prefer the explicit app-level schedule length over the event-log's installment count
+       (the schedule is the source of truth for remaining/next-due; robust for any record) */
+    var total = (record.installments && record.installments.length) || f.total || 1;
     var principalMinor = engine.toMinor(record.amountSAR);
     var instMinor = Math.round(principalMinor / total);
     var role = record.lender === viewer ? "lender" : "borrower";
@@ -130,7 +132,8 @@
      only to the owner; never exported/shared (the sharing half is deferred — D-1). */
   function selfBand(history, openOverdue, engine) {
     var s = engine.trustSignal(history || [], !!openOverdue);
-    return { band: s.band, word: (engine.TRUST_BAND_AR || {})[s.band] || "", ratio: s.ratio, count: s.count };
+    /* return ONLY the qualitative word — never the numeric ratio/count (spine: never a number) */
+    return { band: s.band, word: (engine.TRUST_BAND_AR || {})[s.band] || "" };
   }
 
   return {

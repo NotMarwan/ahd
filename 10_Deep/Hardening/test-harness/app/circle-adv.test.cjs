@@ -40,6 +40,7 @@ eq(posts[0].owed["سعود"], M(1200), "each non-payer owes their equal share (1
 ok(!("تركي" in posts[0].owed), "the payer (تركي) is NOT in owed (no debt to oneself)");
 eq(sum(posts[0].owed) + posts[0].payerShareMinor, M(3600), "owed + payer's own share == the full bill (conserved)");
 eq(sum(posts[2].owed), M(2400), "last cycle owed total == 2,400");
+eq(CA.recurringPosts(tmpl, ["2026-07"], engine)[0].owed["سعود"], M(1200), "recurringPosts honors an INJECTED engine (DI contract)");
 
 /* --- graduation قَيْد→عهد (reuses القرض المفتوح + golden seal) --- */
 const circle = { id: "CIR-STD-MALQA", organizer: "سعود", name: "شقة الملقا" };

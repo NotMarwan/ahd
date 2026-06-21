@@ -22,7 +22,8 @@
     }).join("");
     return '<div class="settle">' +
       '<div class="se-head">المقاصّة — أقلّ التحويلات تُصفّي الجميع</div>' +
-      '<div class="se-big"><span>' + v.beforeCount + "</span> التزامًا <em>⟶</em> <span>" + v.afterCount + "</span> تحويلان</div>" +
+      '<div class="se-big"><span>' + v.beforeCount + "</span> التزامًا <em>⟶</em> <span>" + v.afterCount + "</span> " +
+        (v.afterCount === 1 ? "تحويل" : v.afterCount === 2 ? "تحويلان" : "تحويلات") + "</div>" +
       '<div class="se-card">' + transfers + "</div>" +
       '<div class="se-proof ' + (v.conserved ? "ok" : "bad") + '">' + (v.conserved
         ? "✓ برهان الحفظ: مجموع صافي المراكز = 0 — لا ريال يُخلق ولا يضيع، ولا فائدة"

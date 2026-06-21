@@ -114,6 +114,8 @@ eq(sb.band, "kept", "self band: a fully-kept history → «kept»");
 eq(sb.word, engine.TRUST_BAND_AR.kept, "self band word = «وفّى بعهوده» (a word, never a number)");
 eq(D.selfBand(hist, true, engine).band, "overdue", "an open overdue vow forces «overdue» (dignified own mirror)");
 eq(D.selfBand([{ t: "2026-05", kept: true }], false, engine).band, "new", "too-few entries → «جديد» (not enough history)");
+const sbKeys = Object.keys(sb);
+ok(sbKeys.indexOf("ratio") < 0 && sbKeys.indexOf("count") < 0, "selfBand exposes NO number — only {band, word} (spine: never a number)");
 
 console.log("\n========================================================");
 console.log("DAFTARI: " + pass + " passed, " + fail + " failed");

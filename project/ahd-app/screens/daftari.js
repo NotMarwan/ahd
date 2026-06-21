@@ -18,7 +18,7 @@
 
   function dueLine(row) {
     if (!row.nextDueISO) return "";
-    if (row.isOverdue) return '<div class="due late">تأخّر عن ' + App.esc(row.nextDueLabel) + ' — ' + row.daysOverdue + ' يومًا</div>';
+    if (row.isOverdue) return '<div class="due late">تأخّر عن ' + App.esc(row.nextDueLabel) + ' — ' + App.esc(row.daysOverdue) + ' يومًا</div>';
     if (row.statusKey === "ACTIVE" || row.statusKey === "SETTLING") return '<div class="due">القسط القادم: ' + App.esc(row.nextDueLabel) + "</div>";
     return "";
   }

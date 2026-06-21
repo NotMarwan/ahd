@@ -33,9 +33,10 @@
 
   /* «قِسْمة دائمة» — auto-post one entry per given cycle key. Equal split via respread;
      the payer's own share is theirs (not a debt); others owe their share. */
-  function recurringPosts(template, cycleKeys) {
+  function recurringPosts(template, cycleKeys, engine) {
+    var e = engine || ENGINE;
     var members = template.members || [], amount = template.amountMinor || 0;
-    var parts = ENGINE.respread(amount, members.length || 1);
+    var parts = e.respread(amount, members.length || 1);
     var payerIdx = members.indexOf(template.payer);
     var payerShare = payerIdx >= 0 ? parts[payerIdx] : 0;
     return (cycleKeys || []).map(function (key) {
