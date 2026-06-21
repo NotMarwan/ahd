@@ -15,6 +15,7 @@
   var CircleAdv = (typeof window !== "undefined" ? window.CircleAdv : null);
   var CreateAhd = (typeof window !== "undefined" ? window.CreateAhd : null);
   var Settlement = (typeof window !== "undefined" ? window.Settlement : null);
+  var CircleDash = (typeof window !== "undefined" ? window.CircleDash : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -65,6 +66,7 @@
     createDraft: CreateAhd ? CreateAhd.makeDraft({ id: "NEW-AHD-1", lender: "أنت", borrower: "سلطان", amountSAR: 1200, months: 3 }) : null,
     createState: { extra: "", sealed: null, tamper: false, flash: null },
     Settlement: Settlement,
+    CircleDash: CircleDash,
 
     esc: esc,
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
