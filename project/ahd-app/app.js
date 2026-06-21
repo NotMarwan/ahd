@@ -13,6 +13,7 @@
   var Daftari = (typeof window !== "undefined" ? window.Daftari : null);
   var OpenLoan = (typeof window !== "undefined" ? window.OpenLoan : null);
   var CircleAdv = (typeof window !== "undefined" ? window.CircleAdv : null);
+  var CreateAhd = (typeof window !== "undefined" ? window.CreateAhd : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -56,6 +57,9 @@
     advCircle: { id: "CIR-STD-MALQA", organizer: "سعود", name: "شقة الملقا" },
     advShare: { name: "تركي", amountMinor: (AHD ? AHD.toMinor(1500) : 150000) },
     circleAdvState: { graduated: null, flash: null },
+    CreateAhd: CreateAhd,
+    createDraft: CreateAhd ? CreateAhd.makeDraft({ id: "NEW-AHD-1", lender: "أنت", borrower: "سلطان", amountSAR: 1200, months: 3 }) : null,
+    createState: { extra: "", sealed: null, tamper: false, flash: null },
 
     esc: esc,
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
@@ -140,6 +144,28 @@
       return this.rerender();
     },
     circleAdvDismiss: function () { this.circleAdvState.flash = null; return this.rerender(); },
+
+    /* ---- create-عهد actions (the riba linter gates the seal) ---- */
+    createInjectRiba: function () { this.createState.extra = "وعليه غرامةُ تأخيرٍ ٢٪ شهريًّا."; this.createState.sealed = null; return this.rerender(); },
+    createClearRiba: function () { this.createState.extra = ""; return this.rerender(); },
+    createSeal: function () {
+      if (this.CreateAhd && this.createDraft) {
+        var terms = this.CreateAhd.draftTermsAr(this.createDraft, this.engine) + (this.createState.extra ? " " + this.createState.extra : "");
+        if (this.CreateAhd.ribaCheck(terms, this.engine).verdict === "clean") { this.createState.sealed = this.CreateAhd.createSeal(this.createDraft, this.engine); this.createState.flash = "خُتم العهد — وثيقةٌ مشهودة 🤍"; }
+        else { this.createState.flash = "لا يُختَم — أزِل الشرط المخالف أولًا."; }
+      }
+      return this.rerender();
+    },
+    createAddToDaftari: function () {
+      if (this.CreateAhd && this.createDraft) {
+        var r = this.CreateAhd.toDaftariRecord(this.createDraft, this.engine);
+        if (!this.recordById(r.id)) this.records.push(r);
+        this.daftariState.flash = "أُضيفت إلى دفترك 🤍"; this.daftariState.tab = "me"; return this.go("daftari");
+      }
+      return this.rerender();
+    },
+    createTamperToggle: function () { this.createState.tamper = !this.createState.tamper; return this.rerender(); },
+    createDismiss: function () { this.createState.flash = null; return this.rerender(); },
 
     _reasonAr: function (reason) {
       return { cooldown: "مهلةٌ بين التذكيرين", ladder_exhausted: "اكتفى عهد بالتذكير، الأمر إليك الآن", not_due: "لم يحِن موعده بعد", disputed_paused: "محلّ خلاف — عهد لا يحكم", closed: "العهد مُغلق" }[reason] || "";

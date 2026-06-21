@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -110,6 +110,20 @@ ok(/وثّقها كعهد/.test(ca), "graduation offers «وثّقها كعهد�
 let cg = noThrow(() => App.circleGraduate(), "graduate the share → witnessed عهد");
 ok(/SEAL:|موثّقًا/.test(cg), "after graduation: a sealed عهد with provenance");
 ok(App.circleAdvState.graduated && App.circleAdvState.graduated.term === "open", "graduated record is an open-term qard hasan «متى ما تيسّر»");
+
+/* ---- create-عهد flow (riba linter gates the seal) ---- */
+ok(!!sandbox.CreateAhd, "CreateAhd module attaches to window");
+let cr = noThrow(() => App.go("create"), "go('create') renders the create-عهد flow");
+ok(/أنشئ عهدًا/.test(cr) && /قرض/.test(cr), "create shows the form + قرض حسن");
+ok(/النصّ سليم/.test(cr), "auto-drafted terms read CLEAN in the riba linter");
+let crb = noThrow(() => App.createInjectRiba(), "inject a late-penalty clause");
+ok(/✗/.test(crb) && /غرامة|تأخير/.test(crb), "linter BLOCKS the penalty clause with the reason + halal fix");
+ok(/disabled/.test(crb), "seal button is disabled while the terms are blocked");
+noThrow(() => App.createClearRiba(), "remove the offending clause");
+let crs = noThrow(() => App.createSeal(), "seal the clean عهد (Nafath + SHA-256)");
+ok(/SEAL:/.test(crs), "after seal: a witnessed record with a SHA-256 seal");
+noThrow(() => App.createAddToDaftari(), "add the created عهد to دفتري");
+ok(!!App.recordById("NEW-AHD-1"), "the created عهد is now a real record in دفتري (create→home loop)");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");

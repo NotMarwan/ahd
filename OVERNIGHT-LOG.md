@@ -7,7 +7,7 @@
 
 ## ⭐ READ ME FIRST (morning summary)
 
-**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 283/0 = 467 assertions**) · work isolated on `overnight/deepening`.
+**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 332/0 = 516 assertions, 9 app suites**) · work isolated on `overnight/deepening`.
 
 **Most valuable thing produced so far:** all **three missing consumer features** now built, tested, and on-spine — **«دفتري»** (creditor home + bank-sent gentle reminder), **«القرض المفتوح»** (open-term qard hasan + إبراء), and **Advanced Circle** (بالأصناف split · recurring auto-post · graduation قَيْد→عهد which composes into القرض المفتوح · a mode-B pledge *sketch* flagged for Shariah review). All in a parallel publishable app (`project/ahd-app/`) on a faithful, parity-tested copy of the demo engine — the demo itself is byte-for-byte untouched.
 
@@ -15,8 +15,10 @@
 - **Two new things you should know about (transparency, not blockers):**
   1. **Git was initialized.** The project had no git. To give you the "review-and-merge-later branch" the brief asked for, I ran `git init` (non-destructive, reversible via `rm -rf .git`). Branch **`main`** = your exact baseline (demo + harness + ledger, 184/0 green). Branch **`overnight/deepening`** = all my work. Review with `git diff main..overnight/deepening`. Nothing auto-merges into `main`.
   2. **New parallel app at `project/ahd-app/`.** Because there is no way to add screens to `index.html` without changing its bytes (which would break the demo's tripwire + risk the golden path), the *only* way to honor "demo exactly intact" is to build in new files. So the publishable surface grows in `project/ahd-app/`, reusing a **faithful, parity-tested copy** of the demo's engine. The demo stays the safe presenter build.
+  3. **⚠️ The frozen demo does NOT contain the new features.** `ahd-demo/index.html` (the presenter build) has the witnessed-record + Muqassa + Circle G1–G4. The three new features (دفتري, القرض المفتوح, Advanced Circle) live in the **new app** `project/ahd-app/` (open `index.html`, or `node project/ahd-app/_serve-app.cjs` → `localhost:8124`). To show the new features live, load the ahd-app build. Both are on the same branch; neither replaces the other. *(Flagged by the deck draft — see `docs/DECK-DRAFT-AR.md` reviewer notes.)*
 - **Most valuable thing produced so far:** _(updated per batch — see latest log entry)_
-- **Needs your decision:** see `DECISIONS-FOR-MARWAN.md` _(0 blocking items at session start)_.
+- **Needs your decision:** see `DECISIONS-FOR-MARWAN.md` (currently **D-1 دفتري self-disclosure**, **D-3 mode-B pooled deposit** — both Shariah-gated; D-2 digit-system is FYI).
+- **Verified in a real browser:** all 4 ahd-app screens render with 0 app console errors — screenshots in `project/ahd-app/screenshots/`.
 
 ---
 
@@ -29,6 +31,21 @@
 ---
 
 ## LOG (newest first)
+
+### Batch 6 · Create-عهد flow + Lane C graded evidence — ✅ DONE
+**Built (TDD, all new files):** `features/create.js` (logic), `screens/create.js`; wired into shell + home card + nav. **Completes the standalone product** — you can now create → seal → it appears in دفتري.
+- The **riba linter is the star**: type a penalty/interest clause and عهد **BLOCKS the seal** + offers the halal alternative; remove it → seal enabled. Reuses the **golden `ribaScan`** (untouched). Spine note: auto-drafted terms negate each trigger *directly* («بلا فائدةٍ، وبلا غرامة») to work around the linter's known after-«أو» FP — without touching the golden function.
+- Seal via golden `sha256`/`sealBlock`; witnessed record + tamper-verify; «أضِفها إلى دفتري» pushes a real record (create→home loop).
+- **Lane C (parallel subagent):** `docs/evidence/EVIDENCE-BRIEF.md` + `docs/evidence/REBUTTAL-PLAYBOOK.md` — graded 🟢9/🟡24/🔴7, web-verified (smartphone 97%→**99%** corrected; Evidence-Law 129 arts/2022; Nafath; the **Alinma wedge** upgraded with real assets). Honestly flags **OT-A1 (no KSA-primary relational demand)** as the #1 gap — a field/team item, not code. No fabrication.
+- **Harness (fresh):** core `184/0`; app **9/9 = 332/0** (dom-smoke 64 · offline 44 · create 25 · circle-adv 26 · daftari 44 · determinism 28 · parity 37 · open-loan 35 · properties 29). Demo tripwire OK.
+
+### Batch 5 · Docs + Arabic deck draft + real-browser evidence — ✅ DONE
+- **Docs (subagent):** `docs/ARCHITECTURE.md`, `project/ahd-app/README.md`, `docs/PUBLISHABLE-PRODUCT-SPEC.md` — accurate, path-cited; caught that the harness `README.md` is stale (says 92, pre-Circle; real core 184).
+- **Deck (subagent):** `docs/DECK-DRAFT-AR.md` — 9-slide Arabic judging-deck draft; used only dossier-verified figures, marked the rest `[للتحقّق]`, fabricated nothing.
+- **Real-browser verification:** served `ahd-app` and drove Chromium — all 4 screens (home/دفتري/قرض مفتوح/الدائرة+) render correctly with **0 app console errors** (only a favicon 404). Screenshots in `project/ahd-app/screenshots/`. The دفتري overdue sort, amber chips, and the mode-B Shariah guard all render as specced. Commit `d1e98b3`.
+
+### Batch 4 · Unified home front door — ✅ DONE
+`screens/home.js`: brand + spine tagline + live دفتري summary + feature cards + how-it-works + Quranic basis; registered first → default screen. Makes the app one coherent product. App suites 8/8 (dom-smoke 52); core 184/0. Commit `89bb9aa`.
 
 ### Batch 3 · Advanced Circle + Lane B test-deepening — ✅ DONE
 **Built (TDD, all new files):** `features/circle-adv.js` (logic), `screens/circle-adv.js`; wired into shell.
