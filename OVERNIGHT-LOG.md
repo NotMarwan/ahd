@@ -7,9 +7,9 @@
 
 ## ⭐ READ ME FIRST (morning summary)
 
-**Status as of last update:** 🟢 Demo safe · harness green (core 184/0 + app 108/0) · work isolated on `overnight/deepening`.
+**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 283/0 = 467 assertions**) · work isolated on `overnight/deepening`.
 
-**Most valuable thing produced so far:** a real, tested **«دفتري» creditor-home** — Naif opens it and sees every riyal he's owed/owes, sorted by what needs attention, and when someone's late, **عهد sends the gentle reminder on his behalf** (warm, amber-not-red, no shaming day-counter, mercy always attached). Built as a parallel publishable app (`project/ahd-app/`) on a faithful, parity-tested copy of the demo engine — the demo itself is untouched.
+**Most valuable thing produced so far:** all **three missing consumer features** now built, tested, and on-spine — **«دفتري»** (creditor home + bank-sent gentle reminder), **«القرض المفتوح»** (open-term qard hasan + إبراء), and **Advanced Circle** (بالأصناف split · recurring auto-post · graduation قَيْد→عهد which composes into القرض المفتوح · a mode-B pledge *sketch* flagged for Shariah review). All in a parallel publishable app (`project/ahd-app/`) on a faithful, parity-tested copy of the demo engine — the demo itself is byte-for-byte untouched.
 
 - **Your demo is untouched.** `project/ahd-demo/index.html` is byte-for-byte identical to when you went to sleep (tripwire SHA-256 `e2f48467…d1b8be40`, re-checked every batch). All night's work is **additive, in new files**, on a separate git branch.
 - **Two new things you should know about (transparency, not blockers):**
@@ -29,6 +29,22 @@
 ---
 
 ## LOG (newest first)
+
+### Batch 3 · Advanced Circle + Lane B test-deepening — ✅ DONE
+**Built (TDD, all new files):** `features/circle-adv.js` (logic), `screens/circle-adv.js`; wired into shell.
+- **بالأصناف** (by-item split): each item split via `respread` among only its assignees → Σ conserved exactly (no phantom halala/riba).
+- **Recurring auto-post**: deterministic posts over given cycle keys (no `Date`); payer excluded from owing; conserved.
+- **Graduation قَيْد→عهد**: a circle debt that gets serious **graduates into القرض المفتوح** (open-term witnessed عهد), sealed with the golden primitives, **provenance** linked back to the circle. Beautiful cross-feature composition.
+- **Mode-B «نجمع للهدف»**: built only a **pledge sketch** (no pooled deposit held by the bank) with a visible Shariah-review guard → routed to `DECISIONS-FOR-MARWAN.md` (D-3). NOT finalized.
+- **Lane B (parallel subagent):** +3 harness suites — property-style (respread/circle/open-loan invariants), reload-determinism, and a static offline/determinism scan of all app source. Confirmed my new files are offline+deterministic-clean.
+- **Harness (fresh):** core `184/0`; app **8/8 suites = 283/0** (dom-smoke 49 · offline 35 · circle-adv 26 · daftari 44 · determinism 28 · parity 37 · open-loan 35 · properties 29). Demo tripwire OK. Commits `5984cac` (Lane B), `<this>` (Batch 3).
+
+### Batch 2 · «القرض المفتوح · متى ما تيسّر» (open-term qard hasan) — ✅ DONE
+**Built (TDD, all new files):** `features/open-loan.js` (logic), `screens/open-loan.js`; wired into shell.
+- A first-class **open-term** type: no schedule, no due, **never overdue** (the heart). Own `openLoanCanonical` (term=open/schedule=NONE/due=none) sealed with the **golden** `sha256`/`sealBlock` (reused, not modified) — seal `b080f79e…`.
+- Amount-aware `foldOpenLoan`: partial payments (clamped, no overpay), lender-owned **إبراء** full/partial → FORGIVEN. **Conservation exact** (`principal == paid+forgiven+remaining`) in every state, integer halalas.
+- Quiet «المتبقّي» panel (no red, no countdown) + إبراء sheet + sealed-record tamper verify.
+- **Harness (fresh):** core `184/0`; app `parity 37 + daftari 44 + open-loan 35 + dom-smoke 40 = 156/0`. Demo tripwire OK. Commit `ee885a9`.
 
 ### Batch 1 · «دفتري» creditor home + «تذكيرٌ بالمعروف» — ✅ DONE
 **Built (TDD, all new files):** `project/ahd-app/features/daftari.js` (pure logic), `screens/daftari.js`, `app.js`, `app.css`, `index.html`.

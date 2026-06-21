@@ -94,6 +94,21 @@ body{
 .ol-seal .sv.ok{color:#7fe0c0} .ol-seal .sv.bad{color:#ffb4a2; font-weight:700}
 .ol-seal .mini{margin-top:9px; appearance:none; border:1px solid #2f4a45; background:#16302c; color:#cfeae3; border-radius:9px; padding:8px 11px; font:inherit; font-size:12.5px; cursor:pointer}
 
+/* advanced Circle */
+.circleadv{display:flex; flex-direction:column; gap:12px}
+.ca-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:14px}
+.ca-card.grad{border-color:#cfe6df; background:var(--teal-soft)}
+.ca-card.pledge{border-color:#ecdfb5; background:#fffdf5}
+.ca-h{font-weight:700; margin-bottom:2px}
+.ca-sub{color:var(--mut); font-size:13px; margin-bottom:8px}
+.ca-line{display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid var(--line); font-size:14px}
+.ca-ok{margin-top:8px; color:var(--teal); font-size:12.5px}
+.ca-note{margin-top:8px; color:var(--mut); font-size:12px}
+.ca-warn{margin-top:9px; color:var(--amber); background:var(--amber-soft); border-radius:10px; padding:9px 11px; font-size:12.5px}
+.ca-seal{font-family:"Consolas",monospace; font-size:11.5px; color:var(--teal); margin-top:6px; word-break:break-all}
+.ca-prov{color:var(--mut); font-size:12px; margin-top:4px}
+.ca-card .primary{margin-top:6px; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:11px; padding:11px 14px; font:inherit; font-weight:600; cursor:pointer}
+
 /* flash + empty */
 .flash{background:var(--gold-soft); border:1px solid #ecdfb5; color:var(--gold); border-radius:13px; padding:11px 13px; margin-bottom:12px; font-size:13.5px; cursor:pointer}
 .flash .x{float:left; opacity:.6}

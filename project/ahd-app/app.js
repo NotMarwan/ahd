@@ -12,6 +12,7 @@
   var AHD = (typeof window !== "undefined" ? window.AHD : null);
   var Daftari = (typeof window !== "undefined" ? window.Daftari : null);
   var OpenLoan = (typeof window !== "undefined" ? window.OpenLoan : null);
+  var CircleAdv = (typeof window !== "undefined" ? window.CircleAdv : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -51,6 +52,10 @@
     OpenLoan: OpenLoan,
     openLoan: OpenLoan ? OpenLoan.makeOpenLoan({ id: "OPEN-MUNIRA-MAJID", lender: "منيرة", borrower: "ماجد", amountSAR: 20000, purpose: "لتجهيز عربة القهوة" }) : null,
     openLoanState: { sheet: false, tamper: false, flash: null },
+    CircleAdv: CircleAdv,
+    advCircle: { id: "CIR-STD-MALQA", organizer: "سعود", name: "شقة الملقا" },
+    advShare: { name: "تركي", amountMinor: (AHD ? AHD.toMinor(1500) : 150000) },
+    circleAdvState: { graduated: null, flash: null },
 
     esc: esc,
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
@@ -128,6 +133,13 @@
     },
     openLoanTamperToggle: function () { this.openLoanState.tamper = !this.openLoanState.tamper; return this.rerender(); },
     openLoanDismiss: function () { this.openLoanState.flash = null; return this.rerender(); },
+
+    /* ---- advanced Circle actions ---- */
+    circleGraduate: function () {
+      if (this.CircleAdv && this.OpenLoan) { this.circleAdvState.graduated = this.CircleAdv.graduateShare(this.advShare, this.advCircle, this.engine, this.OpenLoan); this.circleAdvState.flash = "وُثِّقت كعهدٍ مفتوح — حُفِظ الحقّ بكرامة، بلا أيّ زيادة."; }
+      return this.rerender();
+    },
+    circleAdvDismiss: function () { this.circleAdvState.flash = null; return this.rerender(); },
 
     _reasonAr: function (reason) {
       return { cooldown: "مهلةٌ بين التذكيرين", ladder_exhausted: "اكتفى عهد بالتذكير، الأمر إليك الآن", not_due: "لم يحِن موعده بعد", disputed_paused: "محلّ خلاف — عهد لا يحكم", closed: "العهد مُغلق" }[reason] || "";

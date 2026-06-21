@@ -32,5 +32,11 @@ here so they're in one place. I will NOT act on them autonomously.
 **Options:** (a) build it strictly as owner-pushed, band-word-only, no third-party pull (my reading: defensible but wants a yes); (b) keep it out of v1 entirely; (c) reshape it (e.g. show only «جديد/وفّى» with no history detail).
 **My recommendation:** (a) — but only after a one-line Shariah/privacy confirmation that owner-initiated band-word disclosure does not breach no-export. Until then it stays unbuilt.
 
+### D-3 · Mode-B «نجمع للهدف» pooled collection — SKETCH only, needs Shariah review
+**Context:** Agent-4's Circle has two modes. Mode A («أنا دفعتُ عن الجميع» — organizer paid, others owe her) is clean qard hasan and is fully built. **Mode B** («نجمع للهدف معًا» — everyone chips in toward a goal *before* the spend) risks a **pooled deposit held by the bank → أمانة/غرر** concerns. The spec itself defers it (`[v2]`, "يُترك للمراجعة الشرعيّة").
+**What I built:** ONLY a **pledge sketch** — `pledgeSketch()` returns pledges with `poolHeldByBank: false`, `model: "pledge-then-pay-at-spend"`, `shariahReviewNeeded: true`, and the screen shows a visible ⚠️ "no pooled deposit — needs Shariah review" guard. I did **not** build any deposit-holding or fund-pooling.
+**Options:** (a) ship the "pledge then pay at spend" model (each member pays at the moment of spend, converting to mode-A qard hasan — no pooled custody); (b) drop mode B from v1; (c) a custody model with a licensed escrow/أمانة structure (heaviest, needs board sign-off).
+**My recommendation:** (a) — it's the cleanest on-spine path and avoids pooled custody entirely — **pending a Shariah-board confirmation** that pledge-then-pay-at-spend carries no غرر/أمانة issue. Until then, mode B stays a sketch.
+
 ### D-2 · Digit system for Arabic numerals (low-stakes, FYI)
 The دفتري reminder/amount copy renders **Western digits with grouping** (`2,500`) to stay byte-consistent with the engine's golden `fmt()`. The Agent-3 spec's illustrative copy used Arabic-Indic (`٢٬٥٠٠`). Both are deterministic; this is a Design-layer choice. **My pick:** keep engine-consistent Western for now; flip to Arabic-Indic app-wide if you prefer (a pure, safe display map). Not blocking.

@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "app.js", "screens/daftari.js", "screens/open-loan.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "app.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -96,6 +96,17 @@ noThrow(() => App.openLoanForgivePartial(3000), "partial إبراء 3,000 (rest 
 ok(App.OpenLoan.foldOpenLoan(App.openLoan).remainingMinor === App.engine.toMinor(12000), "remaining is exactly 12,000 after pay+partial-forgive");
 let olf = noThrow(() => App.openLoanForgiveFull(), "full إبراء «أُبرئ كاملًا»");
 ok(/أُبرئ/.test(olf), "after full إبراء: «أُبرئ — صدقةٌ من المُقرِض»");
+
+/* ---- advanced Circle screen ---- */
+ok(!!sandbox.CircleAdv, "CircleAdv module attaches to window");
+let ca = noThrow(() => App.go("circle-adv"), "go('circle-adv') renders the advanced Circle screen");
+ok(/بالأصناف/.test(ca), "shows the بالأصناف (by-item) split panel");
+ok(/قِسْمة دائمة|الإيجار/.test(ca), "shows the recurring auto-post panel");
+ok(/نجمع للهدف/.test(ca) && /شرعيّة/.test(ca), "mode-B pledge sketch carries the visible Shariah-review guard");
+ok(/وثّقها كعهد/.test(ca), "graduation offers «وثّقها كعهد»");
+let cg = noThrow(() => App.circleGraduate(), "graduate the share → witnessed عهد");
+ok(/SEAL:|موثّقًا/.test(cg), "after graduation: a sealed عهد with provenance");
+ok(App.circleAdvState.graduated && App.circleAdvState.graduated.term === "open", "graduated record is an open-term qard hasan «متى ما تيسّر»");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");
