@@ -7,7 +7,7 @@
 
 ## ⭐ READ ME FIRST (morning summary)
 
-**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 399/0 = 583 assertions, 12 app suites**) · independently **code-reviewed** (0 critical; 5 findings applied) · work isolated on `overnight/deepening` (24 commits) · demo `main` untouched.
+**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 425/0 = 609 assertions, 13 app suites**) · independently **code-reviewed** (0 critical; 5 findings applied) · work isolated on `overnight/deepening` (26 commits) · demo `main` untouched. **The app now mirrors the demo's full surface + all new features (7 screens).**
 
 **Most valuable thing produced so far:** all **three missing consumer features** now built, tested, and on-spine — **«دفتري»** (creditor home + bank-sent gentle reminder), **«القرض المفتوح»** (open-term qard hasan + إبراء), and **Advanced Circle** (بالأصناف split · recurring auto-post · graduation قَيْد→عهد which composes into القرض المفتوح · a mode-B pledge *sketch* flagged for Shariah review). All in a parallel publishable app (`project/ahd-app/`) on a faithful, parity-tested copy of the demo engine — the demo itself is byte-for-byte untouched.
 
@@ -30,25 +30,26 @@
 | ➕ **أنشئ عهدًا** | create a عهد with the **live riba linter** | blocks any penalty/interest clause, offers the halal fix, gates the seal |
 | 📔 **دفتري** | creditor home (لي/عليّ) + bank-sent gentle reminder | amber-not-red overdue, no shaming day-counter, finite merciful ladder |
 | ♾️ **القرض المفتوح** | open-term qard hasan + إبراء | no due ⇒ **never overdue**; conservation exact |
+| 👥 **الدائرة** | treasurer dashboard (Agent-4 G3): progress + dignified member states + one sealed proof | group reminder never names the late; «ذمّة المناسبة محفوظة» |
 | 🔁 **الدائرة+** | بالأصناف split · recurring · graduation قَيْد→عهد | mode-B pledge sketch has a visible ⚠️ Shariah-review guard |
 | 🔗 **المقاصّة** | the tangle → fewest transfers (9→2) + consent legs + conservation | reuses the golden netting; «لا ريال يُخلق ولا يضيع، ولا فائدة» |
 
 **Supporting deliverables:**
-- **Tests:** `10_Deep/Hardening/test-harness/app/` — 12 suites, **399 app assertions** (+ the demo's **184** core, untouched). Includes `golden-vectors.test.cjs` (absolute drift-guard) + `edge-cases.test.cjs` (degenerate inputs). `node app/run-app-tests.cjs`. **Independently code-reviewed** (subagent): 0 critical; 5 findings fixed + regression-guarded.
+- **Tests:** `10_Deep/Hardening/test-harness/app/` — 13 suites, **425 app assertions** (+ the demo's **184** core, untouched). Includes `golden-vectors.test.cjs` (absolute drift-guard) + `edge-cases.test.cjs` (degenerate inputs). `node app/run-app-tests.cjs`. **Independently code-reviewed** (subagent): 0 critical; 5 findings fixed + regression-guarded.
 - **Docs:** `docs/ARCHITECTURE.md`, `project/ahd-app/README.md`, `docs/PUBLISHABLE-PRODUCT-SPEC.md`, root `CLAUDE.md`, `docs/DESIGN-NOTES-FOR-CLAUDE-DESIGN.md`.
 - **Pitch:** `docs/DECK-DRAFT-AR.md` (9-slide Arabic deck draft), `docs/evidence/` (`EVIDENCE-BRIEF.md` + `REBUTTAL-PLAYBOOK.md` graded 🟢/🟡/🔴 web-verified, + `DEMAND-SURVEY-KIT.md` to close the OT-A1 demand gap), `docs/PRESENTER-GUIDE.md` (9-step golden path).
 - **Proof:** `project/ahd-app/screenshots/` — real-Chromium renders (incl. the riba linter blocking live), 0 app console errors.
 - **Plans:** `docs/superpowers/plans/` — one per feature (brainstorm→plan→TDD trail).
 
 ## ▶️ HOW TO REVIEW (in the morning)
-1. **See the diff:** `git diff main..overnight/deepening` (or `git log main..overnight/deepening --oneline` — 24 commits, each green).
+1. **See the diff:** `git diff main..overnight/deepening` (or `git log main..overnight/deepening --oneline` — 26 commits, each green).
 2. **Run the app:** `node project/ahd-app/_serve-app.cjs` → open `http://localhost:8124` (fully offline).
-3. **Run the gate:** from `10_Deep/Hardening/test-harness/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs` → 184 core + 399 app, all green.
+3. **Run the gate:** from `10_Deep/Hardening/test-harness/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs` → 184 core + 425 app, all green.
 4. **Confirm the demo is untouched:** `sha256sum -c _overnight/backup/demo.sha256` → OK (`e2f48467…`).
 5. **Decide:** `DECISIONS-FOR-MARWAN.md` (D-1 self-disclosure, D-3 mode-B pooled deposit — both Shariah-gated; D-2 digits FYI). **Nothing auto-merges into `main`** — the merge is yours.
 
 ## ✅ Final verification snapshot (2026-06-21, fresh)
-`tripwire OK · AHD-LOGIC markers 2 · run-tests 135/0 · offline 9/0 · dom-smoke 40/0 · app 12/12 (399/0) · 24 commits · 0 uncommitted · main = baseline b2458ee untouched`
+`tripwire OK · AHD-LOGIC markers 2 · run-tests 135/0 · offline 9/0 · dom-smoke 40/0 · app 13/13 (425/0) · 26 commits · 0 uncommitted · main = baseline b2458ee untouched`
 
 ## Protected-core invariants (self-checked every batch)
 - `project/ahd-demo/index.html` SHA-256 == `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40` (tripwire).
@@ -59,6 +60,9 @@
 ---
 
 ## LOG (newest first)
+
+### Batch 14 · الدائرة treasurer dashboard — ✅ DONE
+`features/circle.js` + `screens/circle.js`: the treasurer view (Agent-4 G3) over the **golden** `foldCircle`/`circleSeal`/`statusLabel` (reused) — occasion progress (amounts, never a score), per-member dignified states, the dignity rule (group reminder never names the late), and one sealed proof; «ذمّة المناسبة محفوظة» on full collection. circle 14, dom-smoke 83. The app now mirrors the demo's full surface (witnessed record via *create*, Muqassa via *settle*, Circle via *circle* + *circle-adv*) **plus** all four new consumer features. Commit `bbb4602`.
 
 ### Batch 13 · Independent code-review applied — ✅ DONE
 A code-reviewer subagent reviewed all of `project/ahd-app/` against the spine/determinism/escaping/golden-core criteria: **0 critical**, determinism clean, golden-core clean, no riba/score surfaced. 5 high/med findings — **all applied + regression-guarded**: `selfBand` now returns only `{band,word}` (was leaking the numeric ratio — spine); `rowFor` prefers the explicit schedule length; `daysOverdue` escaped; `recurringPosts` accepts an injected engine (DI); the settlement screen uses correct Arabic plural. App 12/12. Commit `4ac8898`.
