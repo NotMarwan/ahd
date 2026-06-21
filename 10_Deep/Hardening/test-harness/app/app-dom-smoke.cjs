@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -126,6 +126,14 @@ let crs = noThrow(() => App.createSeal(), "seal the clean عهد (Nafath + SHA-2
 ok(/SEAL:/.test(crs), "after seal: a witnessed record with a SHA-256 seal");
 noThrow(() => App.createAddToDaftari(), "add the created عهد to دفتري");
 ok(!!App.recordById("NEW-AHD-1"), "the created عهد is now a real record in دفتري (create→home loop)");
+
+/* ---- المقاصّة (Muqassa) screen ---- */
+ok(!!sandbox.Settlement, "Settlement module attaches to window");
+let se = noThrow(() => App.go("settle"), "go('settle') renders the Muqassa screen");
+ok(/المقاصّة|أقلّ التحويلات/.test(se), "settle shows the Muqassa heading");
+ok(/التزامًا/.test(se) && /تحويلان/.test(se), "settle shows the N→M transfer reduction (9→2)");
+ok(/تدفع/.test(se), "settle lists the concrete minimal transfers");
+ok(/برهان الحفظ/.test(se), "settle shows the conservation proof (Σ net = 0)");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");
