@@ -15,8 +15,7 @@
 - **Two new things you should know about (transparency, not blockers):**
   1. **Git was initialized.** The project had no git. To give you the "review-and-merge-later branch" the brief asked for, I ran `git init` (non-destructive, reversible via `rm -rf .git`). Branch **`main`** = your exact baseline (demo + harness + ledger, 184/0 green). Branch **`overnight/deepening`** = all my work. Review with `git diff main..overnight/deepening`. Nothing auto-merges into `main`.
   2. **New parallel app at `project/ahd-app/`.** Because there is no way to add screens to `index.html` without changing its bytes (which would break the demo's tripwire + risk the golden path), the *only* way to honor "demo exactly intact" is to build in new files. So the publishable surface grows in `project/ahd-app/`, reusing a **faithful, parity-tested copy** of the demo's engine. The demo stays the safe presenter build.
-  3. **⚠️ The frozen demo does NOT contain the new features.** `ahd-demo/index.html` (the presenter build) has the witnessed-record + Muqassa + Circle G1–G4. The three new features (دفتري, القرض المفتوح, Advanced Circle) live in the **new app** `project/ahd-app/` (open `index.html`, or `node project/ahd-app/_serve-app.cjs` → `localhost:8124`). To show the new features live, load the ahd-app build. Both are on the same branch; neither replaces the other. *(Flagged by the deck draft — see `docs/DECK-DRAFT-AR.md` reviewer notes.)*
-- **Most valuable thing produced so far:** _(updated per batch — see latest log entry)_
+  3. **⚠️ The frozen demo does NOT contain the new features.** `ahd-demo/index.html` (the presenter build) has the witnessed-record + Muqassa + Circle G1–G4. The new features (create, دفتري, القرض المفتوح, Advanced Circle) live in the **new app** `project/ahd-app/` (open `index.html`, or `node project/ahd-app/_serve-app.cjs` → `localhost:8124`). To show the new features live, load the ahd-app build. Both are on the same branch; neither replaces the other. See `docs/PRESENTER-GUIDE.md` for a 9-step golden path across both builds.
 - **Needs your decision:** see `DECISIONS-FOR-MARWAN.md` (currently **D-1 دفتري self-disclosure**, **D-3 mode-B pooled deposit** — both Shariah-gated; D-2 digit-system is FYI).
 - **Verified in a real browser:** all 4 ahd-app screens render with 0 app console errors — screenshots in `project/ahd-app/screenshots/`.
 
@@ -34,9 +33,9 @@
 | 🔁 **الدائرة+** | بالأصناف split · recurring · graduation قَيْد→عهد | mode-B pledge sketch has a visible ⚠️ Shariah-review guard |
 
 **Supporting deliverables:**
-- **Tests:** `10_Deep/Hardening/test-harness/app/` — 9 suites, **337 app assertions** (+ the demo's **184** core, untouched). `node app/run-app-tests.cjs`.
+- **Tests:** `10_Deep/Hardening/test-harness/app/` — 9 suites, **343 app assertions** (+ the demo's **184** core, untouched). `node app/run-app-tests.cjs`.
 - **Docs:** `docs/ARCHITECTURE.md`, `project/ahd-app/README.md`, `docs/PUBLISHABLE-PRODUCT-SPEC.md`.
-- **Pitch:** `docs/DECK-DRAFT-AR.md` (9-slide Arabic deck draft), `docs/evidence/EVIDENCE-BRIEF.md` + `REBUTTAL-PLAYBOOK.md` (graded 🟢/🟡/🔴, web-verified), `docs/PRESENTER-GUIDE.md` _(if present — being written)_.
+- **Pitch:** `docs/DECK-DRAFT-AR.md` (9-slide Arabic deck draft), `docs/evidence/EVIDENCE-BRIEF.md` + `REBUTTAL-PLAYBOOK.md` (graded 🟢/🟡/🔴, web-verified), `docs/PRESENTER-GUIDE.md` (9-step golden path).
 - **Proof:** `project/ahd-app/screenshots/` — real-Chromium renders (incl. the riba linter blocking live), 0 app console errors.
 - **Plans:** `docs/superpowers/plans/` — one per feature (brainstorm→plan→TDD trail).
 
