@@ -40,13 +40,16 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "app.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
 ok(!!App, "window.AhdApp is defined");
 ok(!!sandbox.AHD && !!sandbox.Daftari, "engine (AHD) + Daftari attach to window");
-noThrow(() => App.boot(), "App.boot() initialises (nav + default screen)");
+let booted = noThrow(() => App.boot(), "App.boot() initialises (nav + default screen)");
+ok(/عهد/.test(booted) && /دفتري/.test(booted), "boot lands on the home front door (brand + feature cards)");
+let hh = noThrow(() => App.go("home"), "go('home') renders the front door");
+ok(/قرضٌ حسن/.test(hh) && /لك عند الناس/.test(hh), "home shows the spine tagline + live دفتري summary");
 
 /* دفتري home renders */
 let h = noThrow(() => App.go("daftari"), "go('daftari') renders the creditor home");

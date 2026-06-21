@@ -26,6 +26,24 @@ body{
 .navico{font-size:15px}
 .screen{padding-top:6px}
 
+/* home / front door */
+.home{display:flex; flex-direction:column; gap:14px}
+.hero{background:linear-gradient(135deg,#10201e,#163f37); color:#eaf6f2; border-radius:20px; padding:22px; box-shadow:var(--shadow)}
+.hero .brand{font-size:30px; font-weight:800; letter-spacing:1px}
+.hero .tag{font-size:16px; color:#bfe3da; margin-top:4px}
+.hero .sub{font-size:12.5px; color:#9ec7bd; margin-top:10px; line-height:1.8}
+.hcards{display:flex; flex-direction:column; gap:10px}
+.hcard{appearance:none; text-align:right; border:1px solid var(--line); background:var(--card); border-radius:16px; padding:14px; box-shadow:var(--shadow); cursor:pointer; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center}
+.hico{font-size:24px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--teal-soft); border-radius:12px}
+.hcard .ht{font-weight:700} .hcard .hs{grid-column:2; color:var(--mut); font-size:12.5px}
+.hsummary{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center; font-size:13.5px; color:var(--mut)}
+.hsummary b{color:var(--ink)}
+.hsteps{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+.hsteps .step{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:12px 8px; text-align:center; font-size:12.5px}
+.hsteps .step span{display:inline-flex; width:24px; height:24px; align-items:center; justify-content:center; background:var(--teal); color:#fff; border-radius:50%; font-size:12px; margin-bottom:5px}
+.hsteps .step small{color:var(--mut); font-size:10.5px}
+.hbasis{text-align:center; color:var(--gold); font-size:13px; line-height:1.9; padding:0 6px}
+
 /* tiles */
 .tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 14px}
 .tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow)}
