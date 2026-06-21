@@ -1,0 +1,359 @@
+# Ahd (عهد) — Architecture
+
+> Ahd is an interest‑free (قرض حسن / *qard hasan*) prototype where a bank **witnesses and seals**
+> interpersonal loans but **never lends, never judges, charges no interest, and keeps no credit score**.
+> This document describes how the codebase is actually built: the frozen demo, the parallel app that
+> reuses its logic, the determinism/offline guarantees, and the test layers that gate every change.
+
+All paths below are real and relative to the repository root
+(`C:\Users\PCD\Desktop\Amad Hackathon`). Nothing here is aspirational — it documents what exists.
+
+---
+
+## 1 · Two builds, one engine
+
+There are **two** runnable surfaces. They share the **same pure computational core**, by construction.
+
+| | **Demo** | **Parallel app** |
+|---|---|---|
+| Entry | `project/ahd-demo/index.html` | `project/ahd-app/index.html` |
+| Status | **Frozen / read‑only** (tripwire SHA‑256 `e2f48467…d1b8be40`) | **Additive**, all new files |
+| Shape | One self‑contained HTML file (logic + DOM + styling inline) | Multi‑file: `engine.js` + feature modules + screens + `app.css` |
+| Logic source | The `AHD-LOGIC` region inside the HTML | `engine.js` — a **byte‑faithful copy** of that region |
+| Screens shown | Witnessed record + tamper verify · Muqassa netting (9 IOUs → 2 transfers) · Circle G1–G4 | دفتري · القرض المفتوح · Advanced Circle |
+
+Why two builds? The demo's correctness is pinned by a tripwire hash and a golden‑vector test suite.
+There is **no way to add screens to `index.html` without changing its bytes**, which would trip the
+tripwire and risk the golden path. So new product surface is grown in `project/ahd-app/`, which reuses
+a **parity‑tested copy** of the demo's engine. The demo stays the safe presenter build; the app is
+where the missing consumer features live.
+
+---
+
+## 2 · Engine extraction + the parity drift‑guard
+
+The demo keeps **all pure, DOM‑free logic** inside one clearly fenced region of its HTML:
+
+```
+project/ahd-demo/index.html
+  line 167:  /* ===AHD-LOGIC:BEGIN===  (pure, DOM-free, Node-testable …) */
+   …          sha256 · canonical · sealBlock · verifyRecord · fold · netting ·
+   …          ribaScan · trustSignal · makeCircle · foldCircle · …
+  line 692:  /* ===AHD-LOGIC:END===   (everything below this line touches the DOM) */
+```
+
+Two consumers slice that exact region — **neither keeps its own copy of the logic**:
+
+1. **`10_Deep/Hardening/test-harness/load-logic.cjs`** — slices the bytes strictly between the two
+   markers and evaluates them in an isolated `vm` context (`loadLogic()`), so the demo's tests run the
+   *exact shipped bytes*. A copy could drift; a slice cannot.
+
+2. **`project/ahd-app/build-engine.cjs`** — **reads** the demo HTML (via the same `extractPure` /
+   `readHtml` from `load-logic.cjs`), wraps the verbatim slice in a header + a dual‑export footer, and
+   writes `project/ahd-app/engine.js`. It **never writes the demo**. Run with `node build-engine.cjs`.
+
+`engine.js` is therefore **generated**, not hand‑authored — its banner says
+`AUTO-GENERATED — DO NOT EDIT BY HAND`. Its footer exposes the same public surface (≈50 symbols) under
+three module systems so the one file loads everywhere:
+
+```js
+;(function(){
+  var __api = { sha256, canonical, sealBlock, recomputeSeal, verifyRecord, fold, netting,
+                ribaScan, trustSignal, makeCircle, foldCircle, … };
+  if (typeof module  === "object" && module.exports) module.exports = __api; // Node require()
+  if (typeof window  !== "undefined") window.AHD     = __api;                // browser <script>
+  if (typeof globalThis !== "undefined") globalThis.AHD = __api;
+})();
+```
+
+### The drift‑guard
+
+`10_Deep/Hardening/test-harness/app/engine-parity.cjs` proves the copy can never silently diverge.
+It runs three classes of check:
+
+- **(a) Surface** — `engine.js` exposes every symbol in the expected API list.
+- **(b) Golden behavioral parity** — the engine reproduces the demo's frozen outputs: same
+  `SEALED.seal`, same `canonical_hash`, `verifyRecord(null).ok === true`, `verifyRecord(9999).ok === false`,
+  identical `netting(IOUS)` (9 IOUs → exactly 2 transfers), identical `circleSeal(DEMO_CIRCLE)` and
+  `circleSeal(STANDING_CIRCLE)`, `fmt(5000) === "5,000"`, a matching `respread(100001,3)` split, and
+  `ribaScan("بلا فائدة").verdict === "clean"`.
+- **(c) Byte‑faithful** — it asserts the on‑disk `engine.js` **literally contains the exact demo slice**
+  (`engineSrc.includes(extractPure(readHtml()))`).
+
+> **Consequence:** if anyone ever edits the demo's logic, `engine-parity.cjs` fails until `engine.js` is
+> regenerated. "The app uses the same engine as the demo" is therefore a **test**, not a promise.
+
+---
+
+## 3 · The feature‑module → screen‑registry → shell pattern
+
+The parallel app mirrors the demo's *proven* pattern (screens render `innerHTML` strings; actions are
+global methods invoked from inline `onclick`), but splits **pure logic** from **rendering** so the logic
+is dependency‑injected and Node‑testable.
+
+### Three layers per feature
+
+```
+features/<name>.js   PURE logic. No DOM. Engine passed in by DI (the `engine`/`ENGINE` arg).
+                     Deterministic: fixed AS_OF, integer halalas, civil-days math (no Date).
+                     Dual module: Node require(...) AND browser window.<Name>.
+        │  (consumed by)
+        ▼
+screens/<name>.js    PURE render. Builds an innerHTML string from the feature's outputs.
+                     Calls AhdApp.* methods from onclick. Registers itself via
+                     App.registerScreen({ key, label, icon, render }).
+        │  (registered into)
+        ▼
+app.js  (AhdApp)     The shell: a tiny screen registry + router + the action methods that
+                     mutate deterministic state and re-render. Holds the seed data.
+```
+
+- **Feature modules** (`features/daftari.js`, `features/open-loan.js`, `features/circle-adv.js`) contain
+  *only* business logic and receive the engine by injection — e.g. `rowFor(record, viewer, engine, asOf)`,
+  `foldOpenLoan(loan)`, `byCategorySplit(items, members, engine)`. They never reference `document` or
+  `window.AHD` directly when running under Node; the UMD‑style wrapper hands them `require("../engine.js")`
+  in Node and `root.AHD` in the browser. This is what makes them unit‑testable in plain Node.
+
+- **Screen modules** (`screens/*.js`) are render‑only. Each ends with
+  `App.registerScreen({ key:"daftari", label:"دفتري", icon:"📔", render })`. They read `AhdApp` state and
+  the feature outputs, and emit strings. No business rule lives here.
+
+- **The shell** (`app.js`, the `AhdApp` object) is ~150 lines and does four things:
+  - **Registry**: `registerScreen(def)` records `{key → def}` and append‑orders keys for the nav.
+  - **Router**: `go(key)` renders `navHTML() + <main>render(this)</main>` into `#app`; `boot()` opens the
+    first registered screen on `DOMContentLoaded`; `rerender()` re‑runs the current screen.
+  - **Actions**: methods such as `daftariCompose`, `daftariSend`, `openLoanPay`, `openLoanForgiveFull`,
+    `circleGraduate` — each mutates deterministic state then calls `rerender()`. Bad input is a clean
+    no‑op (e.g. `openLoanPay` rejects non‑finite/≤0 amounts).
+  - **Seed**: `seedRecords()` builds Naif's real ledger (café 2,500 overdue · سلطان 1,200 overdue ·
+    عبدالله 600 on‑track · ريم kept · ماجد disputed · owes فهد 3,000) as sealed event logs; plus the
+    seeded open loan (`منيرة → ماجد`, 20,000, *لتجهيز عربة القهوة*) and the advanced‑circle share.
+
+### Load order (it matters)
+
+`index.html` loads scripts in dependency order — engine first, then feature logic, then the shell, then
+screens:
+
+```html
+<script src="engine.js"></script>          <!-- window.AHD -->
+<script src="features/daftari.js"></script> <!-- window.Daftari -->
+<script src="features/open-loan.js"></script>
+<script src="features/circle-adv.js"></script>
+<script src="app.js"></script>              <!-- window.AhdApp, registers nothing yet -->
+<script src="screens/daftari.js"></script>  <!-- registers the screens into AhdApp -->
+<script src="screens/open-loan.js"></script>
+<script src="screens/circle-adv.js"></script>
+```
+
+A screen registers itself only if `window.AhdApp` exists; the shell boots only after the DOM is ready.
+
+---
+
+## 4 · Determinism & offline guarantees
+
+Both builds are **fully offline and deterministic** — the same inputs produce byte‑identical outputs on
+every machine, every run, with **no network**. The invariants (self‑checked every batch in
+`OVERNIGHT-LOG.md`):
+
+- **No nondeterministic primitives** anywhere in live logic: no `Date.now`, `new Date`, `Math.random`,
+  `Intl.*`, or `toLocaleString`. Day math uses a **pure civil‑days algorithm** (Howard Hinnant's
+  `daysFromCivil`) against a **fixed `AS_OF`** (`"2026-06-21"`); thousands‑grouping is a hand‑rolled
+  `fmt()` (not `toLocaleString`, whose output depends on the runtime's ICU build).
+- **Integer money** — values are minor units (**halalas**, `1 SAR = 100`). Every value‑bearing
+  computation that gets hashed (principal/installment) and every Muqassa netting runs on integers; SAR is
+  a *display projection only*. No binary‑float money, so no epsilon and no rounding that could invent a
+  phantom halala (i.e. no rounding‑riba). `respread()` splits a total across N so the **sum is preserved
+  exactly**.
+- **Stateless rule engine** — `RIBA_RULES` use **no `/g` flag**, so there is no `RegExp.lastIndex`
+  carry‑over between calls (the classic "works once, wrong the second time" bug). `ribaScan` sweeps by
+  slicing and applies a negation guard so "بلا فائدة" reads **clean** while "فائدة" is **blocked**.
+- **Pure logic separated from DOM** — the whole `AHD-LOGIC` region (demo) and every `features/*.js` (app)
+  is DOM‑free, which is exactly why it can be sliced/required and tested headlessly.
+- **No network seams** — the demo path is statically proven to contain zero `fetch`/`XHR`/`WebSocket`;
+  the app source is scanned the same way (see §5).
+
+These are not stylistic preferences — they are what let an auditor reconstruct any record's seal and any
+agreement's status from first principles.
+
+---
+
+## 5 · Test‑harness layers — and how they gate
+
+Tests live in `10_Deep/Hardening/test-harness/`. There are **two tiers**, both zero‑dependency
+(Node ≥ 18), both CI‑friendly (exit `0` green / `1` on any failure).
+
+### Tier 1 — Core (guards the frozen demo)
+
+Run from the harness directory:
+
+```bash
+node run-tests.cjs      # logic assertions: SHA-256 NIST vectors, seal, tamper, Muqassa, riba …
+node offline-check.cjs  # offline invariants: zero network seams in the demo path
+node dom-smoke.cjs      # headless render of the whole demo <script> under a fake DOM
+```
+
+These slice the **real** logic out of `index.html` on every run (via `load-logic.cjs`) and check it
+against `golden-vectors.json`. If a hash input, the netting, or a riba rule changes and the output moves,
+they fail. Current core total: **184 assertions, 0 failures** (135 + 9 + 40).
+
+> **Note on the harness README:** `test-harness/README.md` documents an earlier core total
+> (62 + 9 + 21 = 92) from before the Circle work landed; the authoritative current core count is **184**
+> (see `13_Circle/STATUS.md` and `OVERNIGHT-LOG.md`). The README also predates the `app/` suites below.
+
+### Tier 2 — App (additive; grows with the parallel app)
+
+Run from `10_Deep/Hardening/test-harness/app/`:
+
+```bash
+node run-app-tests.cjs   # auto-discovers and runs every app suite, aggregates, exits 0 iff all green
+```
+
+`run-app-tests.cjs` discovers files matching `(.test|-parity|-smoke).cjs`, runs each in its own Node
+process, and aggregates. The **8 suites** (≈283 assertions, all green):
+
+| Suite | Proves |
+|---|---|
+| `engine-parity.cjs` | `engine.js` is a faithful copy of the demo slice — surface + golden parity + byte‑identical slice (§2). |
+| `daftari.test.cjs` | دفتري ledger logic: roles, remaining, overdue vs fixed `AS_OF`, deterministic sort, reminder cadence gate. |
+| `open-loan.test.cjs` | Open‑term qard hasan: never overdue, partial pay clamps to remaining, full/partial إبراء, **conservation** (`paid + forgiven + remaining == principal`) in every state, own canonical sealed with the golden primitives. |
+| `circle-adv.test.cjs` | بالأصناف split (sum‑preserving), recurring auto‑post, graduation قَيْد→عهد (reuses القرض المفتوح + golden seal), mode‑B pledge sketch flagged for review. |
+| `determinism.test.cjs` | Reload determinism: two independent `require`s of `engine.js` (cache busted) yield byte‑identical golden snapshots; pins the absolute seal + netting cardinality. |
+| `app-offline.test.cjs` | Static scan of every `.js` under `project/ahd-app/` (comments stripped first) for the forbidden primitives — `fetch(`, `XMLHttpRequest`, `WebSocket`, `Date.now`, `new Date`, `Math.random`, `Intl.`, `.toLocaleString`. |
+| `properties.test.cjs` | Property‑style invariants over many seeded‑LCG inputs: `respread` sum‑preservation, circle conservation + OPEN→KEPT, open‑loan conservation / `remaining ≥ 0` / never DEFAULTED. |
+| `app-dom-smoke.cjs` | Headless render of the whole app (engine + features + shell + screens) under a fake DOM; drives screen actions; asserts nothing throws and the right warm copy renders. |
+
+**How they gate:** the two tiers are independent. Tier 1 keeps the frozen demo correct and unchanged;
+Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step with the demo (via
+`engine-parity.cjs`) and provably offline/deterministic (via `app-offline.test.cjs` +
+`determinism.test.cjs`). Combined: **core 184 + app 283 = 467 assertions, all green.**
+
+---
+
+## 6 · The data flow (text diagram)
+
+### Layered view
+
+```
+                         ┌──────────────────────────────────────────────┐
+   project/ahd-demo/     │  index.html  (FROZEN — tripwire e2f48467…)    │
+                         │  ┌──────────────────────────────────────────┐ │
+                         │  │  AHD-LOGIC region (pure, DOM-free)        │ │ ◀── single source of truth
+                         │  │  sha256 · canonical · sealBlock · fold ·  │ │
+                         │  │  netting · ribaScan · trustSignal · circle│ │
+                         │  └──────────────────────────────────────────┘ │
+                         │  + demo DOM/screens (record · Muqassa · Circle)│
+                         └───────────────┬───────────────┬──────────────┘
+                       extractPure()     │               │   extractPure()
+              (read-only slice)          │               │   (read-only slice)
+                                         ▼               ▼
+   10_Deep/.../test-harness/   load-logic.cjs      build-engine.cjs   project/ahd-app/
+                 loadLogic() in vm  ◀──┘               └──▶  writes engine.js (byte-faithful copy)
+                        │                                          │
+                        ▼                                          ▼
+              ┌──────────────────┐                  ┌──────────────────────────────────┐
+   TESTS      │ Tier-1 core      │   engine-parity  │  engine.js  (window.AHD)          │
+              │ run-tests/offline│ ◀──────────────▶ │  ▲ DI                              │
+              │ /dom-smoke (184) │   proves copy    │  │                                 │
+              └──────────────────┘   == demo        │  features/*.js  (pure logic)      │
+              ┌──────────────────┐                  │  ▲ outputs                         │
+              │ Tier-2 app (283) │ ───────────────▶ │  │                                 │
+              │ parity·daftari·  │   exercise app   │  screens/*.js → AhdApp (app.js)    │
+              │ open-loan·circle·│                  │  → #app innerHTML  (RTL Arabic)    │
+              │ determinism·…    │                  └──────────────────────────────────┘
+              └──────────────────┘
+```
+
+### Seal flow — record → seal → verify
+
+```
+   record (AG fields: lender, borrower, principal_minor, schedule, terms_hash, consent, ts)
+        │
+        ▼   canonical(amt)          → deterministic line-joined bytes ("AHD-RECORD-v1\n…")
+        ▼   sha256(canonical)       → canonical_hash
+        ▼   sealBlock(prev, ch, seq)= sha256(prev_hash + canonical_hash + String(seq))
+        ▼                              prev = GENESIS = sha256("AHD-CHAIN-GENESIS-ALINMA-2026"), seq = 1
+   SEALED.seal  =  6c9410b9…   (the golden seal pinned by the tests)
+
+   verifyRecord(amt):  recompute canonical(amt) → sha256 → sealBlock → compare to SEALED.seal
+        intact amount  → seal matches      → { ok: true  }   ("الوثيقة سليمة — مطابقة للختم")
+        tampered amount→ seal differs       → { ok: false }   ("عبثٌ مكشوف — الختم لا يطابق")
+```
+
+The same primitives are reused — never re‑implemented — by every feature: the open loan has its *own*
+`openLoanCanonical` (`term=open / schedule=NONE / due=none`, basis `Quran:2:280`) but seals it with the
+engine's golden `sha256` / `sealBlock` / `GENESIS`; a Circle has one `circleCanonical` / `circleSeal`;
+graduation قَيْد→عهد produces an open‑loan seal with provenance back to the originating circle.
+
+### Status flow — events → fold → status
+
+```
+   append-only event log (never an in-place UPDATE of a sealed obligation):
+     AHD_DRAFTED → LENDER_SIGNED → COUNTERPARTY_SIGNED → RECORD_SEALED → ACTIVATED
+                 → SETTLEMENT_SETTLED* → ALL_SETTLED / GRACE_GRANTED / DEFAULT_MARKED
+                 → DISPUTE_RAISED / FORGIVEN / …
+        │
+        ▼   fold(events)         → { status, graced, settled, total, sealed }   (pure reducer)
+        ▼   statusLabel(events)  → Arabic label  (a graced ACTIVE shows «مؤجّل بالتراضي»)
+   e.g. WITNESSED → ACTIVE → KEPT («ذمّة محفوظة — وُفِّي به»)   |   DEFAULTED carries NO penalty (riba)
+
+   open loan: foldOpenLoan(loan) folds PRINCIPAL_PAID / PARTIAL_FORGIVEN / FORGIVEN / ALL_SETTLED
+              on integer halalas → { statusKey, paidMinor, forgivenMinor, remainingMinor }
+              invariant: paid + forgiven + remaining == principal, and statusKey is never DEFAULTED.
+
+   circle:    foldCircle(circle) folds each share through the SAME fold()
+              → CIRCLE_DRAFT → CIRCLE_OPEN → CIRCLE_PARTIAL → CIRCLE_KEPT (or CIRCLE_VOID)
+```
+
+Status is **derived** by folding the log, never stored mutably — so any state is reproducible from a
+prefix of the log, which is how the demo seeds every screen and how an auditor reconstructs history.
+
+---
+
+## 7 · The spine (non‑negotiable, enforced in code)
+
+The bank's role is encoded, not just asserted in copy:
+
+| Spine rule | Where it lives in code |
+|---|---|
+| **Lends nothing** | No primitive moves bank principal; records are *between people*. The app only indexes/witnesses. |
+| **Judges nothing** | Disputes become a `DISPUTE_RAISED` event → `DISPUTED` («محلّ خلاف — للقضاء»); the path is court‑export, never a verdict. |
+| **Charges no interest/penalty** | `RIBA_RULES` block interest/late‑penalty/percentage/commission terms; `DEFAULTED` is explicitly «متعثّر — بلا غرامة»; reminders carry the **original** amount only (no field exists for a surcharge). |
+| **No credit score** | `trustSignal` is a windowed, time‑decayed kept‑ratio from a person's **own** sealed history; the UI shows a 3‑band **qualitative word** (`TRUST_BAND_AR`), never a number — own‑history only, never exported, never underwrites. |
+| **Basis** | `canonical` cites `basis=Quran:2:282` (write the debt); the open‑term type cites `2:280` (grace). |
+| **AI issues no fatwa** | علّام/ALLaM only drafts plain‑Arabic terms (simulated); `ribaScan` is a deterministic rule engine; no ruling is generated. |
+
+The mode‑B pooled‑deposit «نجمع للهدف» is deliberately built only as a **pledge sketch**
+(`pledgeSketch(...)` returns `poolHeldByBank: false`, `shariahReviewNeeded: true`) — the bank holds no
+pooled deposit, and it is flagged for Shariah review rather than shipped.
+
+---
+
+## 8 · File map
+
+```
+project/
+  ahd-demo/index.html          FROZEN demo (logic in the AHD-LOGIC region, lines 167–692)
+  ahd-app/
+    index.html                 shell host; loads engine → features → app.js → screens (RTL Arabic)
+    engine.js                  AUTO-GENERATED byte-faithful copy of the demo's logic (window.AHD)
+    build-engine.cjs           reads the demo, writes engine.js (never writes the demo)
+    app.js                     AhdApp shell: registry + router + actions + Naif's seed
+    app.css                    RTL Arabic baseline styling (late = amber, never red)
+    features/
+      daftari.js               pure: ledger rows, overdue sort, reminder cadence gate
+      open-loan.js             pure: open-term qard hasan, fold, conservation, إبراء, own seal
+      circle-adv.js            pure: بالأصناف split, recurring, graduation, pledge sketch
+    screens/
+      daftari.js               render + registerScreen("daftari", "دفتري", 📔)
+      open-loan.js             render + registerScreen("open", "قرضٌ مفتوح", ♾️)
+      circle-adv.js            render + registerScreen("circle-adv", "الدائرة+", 🔁)
+
+10_Deep/Hardening/test-harness/
+  load-logic.cjs               slices the demo's AHD-LOGIC region for the core tests
+  run-tests.cjs / offline-check.cjs / dom-smoke.cjs   Tier-1 core (184)
+  app/
+    run-app-tests.cjs          Tier-2 runner (auto-discovers suites)
+    engine-parity.cjs          drift-guard: engine.js == demo slice
+    daftari.test.cjs · open-loan.test.cjs · circle-adv.test.cjs
+    determinism.test.cjs · app-offline.test.cjs · properties.test.cjs · app-dom-smoke.cjs
+```
