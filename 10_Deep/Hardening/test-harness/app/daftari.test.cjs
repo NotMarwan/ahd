@@ -105,6 +105,16 @@ eq(D.canSendReminder(rCafe, [{tier:1, atISO:"2026-06-01"}], AS_OF).nextTier, 2, 
 eq(D.canSendReminder(rCafe, [{tier:1, atISO:"2026-06-01"},{tier:2, atISO:"2026-06-15"}], AS_OF).allowed, false, "after Tier2 → STOP, hand back to Naif");
 eq(D.canSendReminder(D.rowFor(disputed,"نايف",engine,AS_OF), [], AS_OF).allowed, false, "DISPUTED → reminders paused (عهد لا يحكم)");
 
+/* --- selfBand: the viewer's OWN trust band (own-history mirror, never a number,
+       never shared — Agent-3 Screen E.1; the sharing half stays deferred D-1) --- */
+const hist = [{ t: "2025-08", kept: true }, { t: "2025-10", kept: true }, { t: "2025-12", kept: true },
+  { t: "2026-02", kept: true }, { t: "2026-04", kept: true }, { t: "2026-05", kept: true }];
+const sb = D.selfBand(hist, false, engine);
+eq(sb.band, "kept", "self band: a fully-kept history → «kept»");
+eq(sb.word, engine.TRUST_BAND_AR.kept, "self band word = «وفّى بعهوده» (a word, never a number)");
+eq(D.selfBand(hist, true, engine).band, "overdue", "an open overdue vow forces «overdue» (dignified own mirror)");
+eq(D.selfBand([{ t: "2026-05", kept: true }], false, engine).band, "new", "too-few entries → «جديد» (not enough history)");
+
 console.log("\n========================================================");
 console.log("DAFTARI: " + pass + " passed, " + fail + " failed");
 console.log("========================================================");

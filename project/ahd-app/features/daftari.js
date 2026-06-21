@@ -125,10 +125,18 @@
     return { allowed: false, reason: "cooldown" };
   }
 
+  /* the viewer's OWN trust band — own-history qualitative mirror (Agent-3 Screen E.1).
+     Reuses the engine's trustSignal + TRUST_BAND_AR. A WORD, never a number; shown
+     only to the owner; never exported/shared (the sharing half is deferred — D-1). */
+  function selfBand(history, openOverdue, engine) {
+    var s = engine.trustSignal(history || [], !!openOverdue);
+    return { band: s.band, word: (engine.TRUST_BAND_AR || {})[s.band] || "", ratio: s.ratio, count: s.count };
+  }
+
   return {
     AS_OF_DEFAULT: AS_OF_DEFAULT, COOLDOWN_DAYS: COOLDOWN_DAYS, SENDER_RECEIPT: SENDER_RECEIPT,
     daysFromCivil: daysFromCivil, daysBetween: daysBetween, dayNum: dayNum, arDueLabel: arDueLabel,
     rowFor: rowFor, buildLedger: buildLedger, summaryTiles: summaryTiles,
-    reminderTemplate: reminderTemplate, canSendReminder: canSendReminder
+    reminderTemplate: reminderTemplate, canSendReminder: canSendReminder, selfBand: selfBand
   };
 });

@@ -49,6 +49,9 @@
     screens: {}, order: [], current: null,
     records: seedRecords(),
     reminderHistory: {},
+    /* Naif's OWN kept-history → his own trust band (own mirror; never shared) */
+    selfHistory: [{ t: "2025-08", kept: true }, { t: "2025-10", kept: true }, { t: "2025-12", kept: true },
+      { t: "2026-01", kept: true }, { t: "2026-03", kept: true }, { t: "2026-05", kept: true }],
     daftariState: { tab: "me", sheetId: null, composeId: null, composeTier: 1, flash: null },
     OpenLoan: OpenLoan,
     openLoan: OpenLoan ? OpenLoan.makeOpenLoan({ id: "OPEN-MUNIRA-MAJID", lender: "منيرة", borrower: "ماجد", amountSAR: 20000, purpose: "لتجهيز عربة القهوة" }) : null,

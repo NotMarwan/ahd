@@ -93,11 +93,16 @@
         '<button class="tab' + (st.tab === "me" ? " on" : "") + '" role="tab" aria-selected="' + (st.tab === "me") + '" onclick="AhdApp.daftariTab(\'me\')">لي</button>' +
         '<button class="tab' + (st.tab === "on" ? " on" : "") + '" role="tab" aria-selected="' + (st.tab === "on") + '" onclick="AhdApp.daftariTab(\'on\')">عليّ</button>' +
       "</div>";
+    var bandHTML = "";
+    if (st.tab === "on" && app.selfHistory && app.D.selfBand) {
+      var sb = app.D.selfBand(app.selfHistory, false, app.engine);
+      bandHTML = '<div class="selfband">سجلّ وفائك <span class="sbnote">(مرآةٌ لك وحدك — كلمة، لا رقم)</span> <b>' + App.esc(sb.word) + "</b></div>";
+    }
     var body = list.length
       ? '<div class="list">' + list.map(function (r) { return rowHTML(r, app); }).join("") + "</div>"
       : '<div class="empty">دفترك نظيف. أول ما تكتب عهدًا — قرضًا لك أو عليك — يظهر هنا، محفوظًا.</div>';
 
-    return '<div class="daftari">' + flash + head + tabs + body + "</div>";
+    return '<div class="daftari">' + flash + head + tabs + bandHTML + body + "</div>";
   }
 
   App.registerScreen({ key: "daftari", label: "دفتري", icon: "📔", render: render });

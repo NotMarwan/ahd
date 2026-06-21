@@ -61,6 +61,8 @@ ok(/عليه وعدٌ متأخّر/.test(h), "overdue row shows the amber «عل
 /* tab switch to «عليّ» shows what Naif owes */
 let hon = noThrow(() => App.daftariTab("on"), "switch to «عليّ» tab");
 ok(/فهد/.test(hon), "«عليّ» tab shows فهد (Naif owes his brother)");
+ok(/سجلّ وفائك/.test(hon) && /وفّى بعهوده/.test(hon), "«عليّ» tab shows Naif's OWN trust band (word, never a number)");
+ok(hon.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(hon), "the band is a word — no percentage/score on screen");
 App.daftariTab("me");
 
 /* the gentle reminder compose — bank-sent, with the two debtor buttons */

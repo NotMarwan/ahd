@@ -56,6 +56,11 @@ body{
 .tab{flex:1; appearance:none; border:0; background:transparent; padding:8px; border-radius:9px; font:inherit; color:var(--mut); cursor:pointer}
 .tab.on{background:#fff; color:var(--ink); font-weight:600; box-shadow:var(--shadow)}
 
+/* own trust band (own mirror — a word, never a number) */
+.selfband{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:13px; padding:11px 13px; margin-bottom:11px; font-size:13px; color:var(--mut); display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.selfband b{color:var(--gold); font-size:14px}
+.selfband .sbnote{font-size:11px; opacity:.8}
+
 /* rows */
 .list{display:flex; flex-direction:column; gap:10px}
 .row{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}

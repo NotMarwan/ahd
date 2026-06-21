@@ -7,7 +7,7 @@
 
 ## ⭐ READ ME FIRST (morning summary)
 
-**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 332/0 = 516 assertions, 9 app suites**) · work isolated on `overnight/deepening`.
+**Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 343/0 = 527 assertions, 9 app suites**) · work isolated on `overnight/deepening`.
 
 **Most valuable thing produced so far:** all **three missing consumer features** now built, tested, and on-spine — **«دفتري»** (creditor home + bank-sent gentle reminder), **«القرض المفتوح»** (open-term qard hasan + إبراء), and **Advanced Circle** (بالأصناف split · recurring auto-post · graduation قَيْد→عهد which composes into القرض المفتوح · a mode-B pledge *sketch* flagged for Shariah review). All in a parallel publishable app (`project/ahd-app/`) on a faithful, parity-tested copy of the demo engine — the demo itself is byte-for-byte untouched.
 
@@ -59,6 +59,16 @@
 ---
 
 ## LOG (newest first)
+
+### Batch 9 · دفتري own trust-band + presenter guide — ✅ DONE
+- **Own trust band (Agent-3 Screen E.1):** the «عليّ» tab now shows Naif's OWN qualitative band («وفّى بعهوده») via the engine's `trustSignal`/`TRUST_BAND_AR` — **a word, never a number, own-history only, never shared**. The *sharing* half stays deferred (D-1, Shariah/privacy). `selfBand` (TDD) + seed + render + dom-smoke proof there's no % / score on screen. daftari 48, dom-smoke 71.
+- **Lane D presenter guide (subagent):** `docs/PRESENTER-GUIDE.md` — 9-step golden path across both builds + an "if a judge asks" table. Flagged 5 presenter-accuracy nuances (Muqassa cast is نورة/سارة/خالد/ليلى/فهد not Naif; the honest 9→2 path; the app's riba moment is the 🧪 button which sidesteps the known negation FP on stage).
+
+### Batch 8 · §4-E polish — error-handling fallback + accessibility — ✅ DONE
+Shell `try/catch` fallback proven (a throwing screen is caught, renders «تعذّر العرض», recovers); nav `aria-current`, دفتري tabs `role=tablist/tab/aria-selected`. dom-smoke +5. Commit `ef1824f`.
+
+### Batch 7 · Stale harness README fix + create-flow browser evidence — ✅ DONE
+Corrected the harness README run section (core 184, not the pre-Circle 92) + documented the app/ suites; `screenshots/ahd-create-riba-blocked.png` proves the riba linter blocks live. Commit `bbbfa80`.
 
 ### Batch 6 · Create-عهد flow + Lane C graded evidence — ✅ DONE
 **Built (TDD, all new files):** `features/create.js` (logic), `screens/create.js`; wired into shell + home card + nav. **Completes the standalone product** — you can now create → seal → it appears in دفتري.
