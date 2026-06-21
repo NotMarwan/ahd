@@ -22,6 +22,34 @@
 
 ---
 
+## 📦 WHAT WAS BUILT (deliverables index)
+
+**A complete, parallel, publishable app at `project/ahd-app/`** (open `index.html`, or `node project/ahd-app/_serve-app.cjs` → `localhost:8124`) — 6 screens, reusing a parity-tested copy of the demo engine:
+| Screen | What it is | Spine highlight |
+|---|---|---|
+| 🏠 **الرئيسية** | front door: brand, live summary, feature cards, 2:282/2:280 basis | bank witnesses, never lends/judges/charges/scores |
+| ➕ **أنشئ عهدًا** | create a عهد with the **live riba linter** | blocks any penalty/interest clause, offers the halal fix, gates the seal |
+| 📔 **دفتري** | creditor home (لي/عليّ) + bank-sent gentle reminder | amber-not-red overdue, no shaming day-counter, finite merciful ladder |
+| ♾️ **القرض المفتوح** | open-term qard hasan + إبراء | no due ⇒ **never overdue**; conservation exact |
+| 🔁 **الدائرة+** | بالأصناف split · recurring · graduation قَيْد→عهد | mode-B pledge sketch has a visible ⚠️ Shariah-review guard |
+
+**Supporting deliverables:**
+- **Tests:** `10_Deep/Hardening/test-harness/app/` — 9 suites, **337 app assertions** (+ the demo's **184** core, untouched). `node app/run-app-tests.cjs`.
+- **Docs:** `docs/ARCHITECTURE.md`, `project/ahd-app/README.md`, `docs/PUBLISHABLE-PRODUCT-SPEC.md`.
+- **Pitch:** `docs/DECK-DRAFT-AR.md` (9-slide Arabic deck draft), `docs/evidence/EVIDENCE-BRIEF.md` + `REBUTTAL-PLAYBOOK.md` (graded 🟢/🟡/🔴, web-verified), `docs/PRESENTER-GUIDE.md` _(if present — being written)_.
+- **Proof:** `project/ahd-app/screenshots/` — real-Chromium renders (incl. the riba linter blocking live), 0 app console errors.
+- **Plans:** `docs/superpowers/plans/` — one per feature (brainstorm→plan→TDD trail).
+
+## ▶️ HOW TO REVIEW (in the morning)
+1. **See the diff:** `git diff main..overnight/deepening` (or `git log main..overnight/deepening --oneline` — 12 batches, each green).
+2. **Run the app:** `node project/ahd-app/_serve-app.cjs` → open `http://localhost:8124` (fully offline).
+3. **Run the gate:** from `10_Deep/Hardening/test-harness/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs` → 184 core + 337 app, all green.
+4. **Confirm the demo is untouched:** `sha256sum -c _overnight/backup/demo.sha256` → OK (`e2f48467…`).
+5. **Decide:** `DECISIONS-FOR-MARWAN.md` (D-1 self-disclosure, D-3 mode-B pooled deposit — both Shariah-gated; D-2 digits FYI). **Nothing auto-merges into `main`** — the merge is yours.
+
+## ✅ Final verification snapshot (2026-06-21, fresh)
+`tripwire OK · AHD-LOGIC markers 2 · run-tests 135/0 · offline 9/0 · dom-smoke 40/0 · app 9/9 (337/0) · 12 commits · 0 uncommitted · main = baseline b2458ee untouched`
+
 ## Protected-core invariants (self-checked every batch)
 - `project/ahd-demo/index.html` SHA-256 == `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40` (tripwire).
 - Harness `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs` ≥ **184/0**, all exit 0.
