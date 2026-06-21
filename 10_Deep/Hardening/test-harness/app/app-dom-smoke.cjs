@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "app.js", "screens/daftari.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "app.js", "screens/daftari.js", "screens/open-loan.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -83,8 +83,23 @@ ok(/ذمّة محفوظة/.test(pd), "after settle: «ذمّة محفوظة — 
 let fg = noThrow(() => App.daftariForgive("R-ABD"), "creditor «أبرئ ما تبقّى» → forgive (صدقة)");
 ok(/أُبرئ|إبراء/.test(fg), "after forgive: FORGIVEN state shown");
 
+/* ---- القرض المفتوح · open-term loan screen ---- */
+ok(!!sandbox.OpenLoan, "OpenLoan module attaches to window");
+let ol = noThrow(() => App.go("open"), "go('open') renders the open-loan screen");
+ok(/المتبقّي/.test(ol), "open screen shows the quiet «المتبقّي» panel");
+ok(/متى ما تيسّر|مفتوح/.test(ol), "open screen says «متى ما تيسّر / مفتوح»");
+ok(/اجعلها صدقة/.test(ol), "open screen offers the lender إبراء «اجعلها صدقة»");
+ok(ol.indexOf("متأخّر") < 0 && ol.indexOf("مستحقّ") < 0 && ol.indexOf("القسط القادم") < 0, "open screen has NO due/overdue/countdown (the heart of the type)");
+let olp = noThrow(() => App.openLoanPay(5000), "partial pay 5,000 via سريع");
+ok(/15,000|سُدِّد جزء/.test(olp), "after partial pay: remaining drops, «سُدِّد جزءٌ منه»");
+noThrow(() => App.openLoanForgivePartial(3000), "partial إبراء 3,000 (rest stays open)");
+ok(App.OpenLoan.foldOpenLoan(App.openLoan).remainingMinor === App.engine.toMinor(12000), "remaining is exactly 12,000 after pay+partial-forgive");
+let olf = noThrow(() => App.openLoanForgiveFull(), "full إبراء «أُبرئ كاملًا»");
+ok(/أُبرئ/.test(olf), "after full إبراء: «أُبرئ — صدقةٌ من المُقرِض»");
+
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");
+noThrow(() => App.openLoanPay("bad"), "open pay with bad amount is a safe op");
 noThrow(() => App.daftariCompose("bad-id"), "compose with unknown id is a safe no-op");
 noThrow(() => App.daftariTab("zzz"), "unknown tab is a safe no-op");
 

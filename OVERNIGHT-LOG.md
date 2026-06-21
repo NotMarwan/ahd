@@ -7,7 +7,9 @@
 
 ## ⭐ READ ME FIRST (morning summary)
 
-**Status as of last update:** 🟢 Demo safe · harness green · work isolated on a branch.
+**Status as of last update:** 🟢 Demo safe · harness green (core 184/0 + app 108/0) · work isolated on `overnight/deepening`.
+
+**Most valuable thing produced so far:** a real, tested **«دفتري» creditor-home** — Naif opens it and sees every riyal he's owed/owes, sorted by what needs attention, and when someone's late, **عهد sends the gentle reminder on his behalf** (warm, amber-not-red, no shaming day-counter, mercy always attached). Built as a parallel publishable app (`project/ahd-app/`) on a faithful, parity-tested copy of the demo engine — the demo itself is untouched.
 
 - **Your demo is untouched.** `project/ahd-demo/index.html` is byte-for-byte identical to when you went to sleep (tripwire SHA-256 `e2f48467…d1b8be40`, re-checked every batch). All night's work is **additive, in new files**, on a separate git branch.
 - **Two new things you should know about (transparency, not blockers):**
@@ -28,7 +30,16 @@
 
 ## LOG (newest first)
 
-### Batch 0 · Orientation + isolation + baseline — IN PROGRESS
+### Batch 1 · «دفتري» creditor home + «تذكيرٌ بالمعروف» — ✅ DONE
+**Built (TDD, all new files):** `project/ahd-app/features/daftari.js` (pure logic), `screens/daftari.js`, `app.js`, `app.css`, `index.html`.
+- Ledger split لي/عليّ over a deterministic seed of Naif's real debts (café 2,500 overdue · سلطان 1,200 overdue · عبدالله 600 · ريم محفوظة · ماجد خلاف · owes فهد 3,000).
+- Overdue computed against fixed AS_OF via a **pure civil-days algorithm** (no `Date`). Deterministic sort: most-overdue → due-soon → settled.
+- «تذكيرٌ بالمعروف»: bank-as-sender templates (Tier 1/2), **no day-counter to the debtor**, both debtor buttons (سداد / مهلة), finite merciful cadence ladder (Tier1 → cooldown → Tier2 → STOP → hand back). Grace/forgive/settle route through the engine's existing fold states.
+- Amber-not-red overdue chip reuses `TRUST_BAND_AR.overdue` (no new vocabulary).
+- **Harness (fresh):** core `135 + 9 + 40 = 184/0`; app `parity 37 + daftari 44 + dom-smoke 27 = 108/0`. Demo tripwire `e2f48467…` OK. Commits `b73ceb7`, `0c36c6e`.
+- Deferred to DECISIONS: Screen E «سجلّ وفائي» self-disclosure (`[v2]`, needs Shariah/privacy sign-off).
+
+### Batch 0 · Orientation + isolation + baseline — ✅ DONE
 **Planned:** read state, establish isolation (no git existed), confirm baseline green, scaffold the parallel app + extract a parity-tested engine copy.
 - ✅ Read state: open-threads, STATUS boards, Circle build-log, harness README, full engine logic region (`index.html` 167–692).
 - ✅ Baseline harness BEFORE any change: **135 + 9 + 40 = 184 passed, 0 failed** (exit 0/0/0). Pasted output retained.

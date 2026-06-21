@@ -11,6 +11,7 @@
   "use strict";
   var AHD = (typeof window !== "undefined" ? window.AHD : null);
   var Daftari = (typeof window !== "undefined" ? window.Daftari : null);
+  var OpenLoan = (typeof window !== "undefined" ? window.OpenLoan : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -47,6 +48,9 @@
     records: seedRecords(),
     reminderHistory: {},
     daftariState: { tab: "me", sheetId: null, composeId: null, composeTier: 1, flash: null },
+    OpenLoan: OpenLoan,
+    openLoan: OpenLoan ? OpenLoan.makeOpenLoan({ id: "OPEN-MUNIRA-MAJID", lender: "منيرة", borrower: "ماجد", amountSAR: 20000, purpose: "لتجهيز عربة القهوة" }) : null,
+    openLoanState: { sheet: false, tamper: false, flash: null },
 
     esc: esc,
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
@@ -104,6 +108,26 @@
     daftariForgive: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("FORGIVEN")); this.daftariState.sheetId = null; this.daftariState.flash = "أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾."; } return this.rerender(); },
     daftariExport: function (id) { if (this.recordById(id)) { this.daftariState.sheetId = null; this.daftariState.flash = "تصدير الوثيقة المختومة — مهيّأةٌ كدليلٍ إلكتروني، إن احتجت."; } return this.rerender(); },
     daftariDismiss: function () { this.daftariState.flash = null; return this.rerender(); },
+
+    /* ---- القرض المفتوح actions (integer halalas; bad input is a clean no-op) ---- */
+    openLoanPay: function (amountSAR) {
+      var amt = Number(amountSAR); if (!isFinite(amt) || amt <= 0 || !this.openLoan || !this.OpenLoan) return this.rerender();
+      this.openLoan.events = this.openLoan.events.concat(this.OpenLoan.payEvent(this.openLoan, amt, this.engine));
+      this.openLoanState.flash = "سُدّدت دفعةٌ عبر سريع — المتبقّي ينقص، بلا أيّ زيادة."; return this.rerender();
+    },
+    openLoanForgiveSheet: function () { this.openLoanState.sheet = true; return this.rerender(); },
+    openLoanCloseSheet: function () { this.openLoanState.sheet = false; return this.rerender(); },
+    openLoanForgiveFull: function () {
+      if (this.openLoan && this.OpenLoan) { this.openLoan.events = this.openLoan.events.concat(this.OpenLoan.forgiveEvent(this.openLoan, null, this.engine)); this.openLoanState.sheet = false; this.openLoanState.flash = "أبرأتِ ما تبقّى صدقةً 🤍 ﴿وأن تصدّقوا خيرٌ لكم﴾."; }
+      return this.rerender();
+    },
+    openLoanForgivePartial: function (amountSAR) {
+      var amt = Number(amountSAR); if (!isFinite(amt) || amt <= 0 || !this.openLoan || !this.OpenLoan) return this.rerender();
+      this.openLoan.events = this.openLoan.events.concat(this.OpenLoan.forgiveEvent(this.openLoan, amt, this.engine));
+      this.openLoanState.sheet = false; this.openLoanState.flash = "أُبرئ جزءٌ صدقةً — والباقي يبقى قرضًا مفتوحًا."; return this.rerender();
+    },
+    openLoanTamperToggle: function () { this.openLoanState.tamper = !this.openLoanState.tamper; return this.rerender(); },
+    openLoanDismiss: function () { this.openLoanState.flash = null; return this.rerender(); },
 
     _reasonAr: function (reason) {
       return { cooldown: "مهلةٌ بين التذكيرين", ladder_exhausted: "اكتفى عهد بالتذكير، الأمر إليك الآن", not_due: "لم يحِن موعده بعد", disputed_paused: "محلّ خلاف — عهد لا يحكم", closed: "العهد مُغلق" }[reason] || "";

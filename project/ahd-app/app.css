@@ -73,6 +73,27 @@ body{
 .rem-sim{margin-top:11px; padding-top:10px; border-top:1px dashed var(--line); font-size:12px; color:var(--mut); display:flex; gap:7px; align-items:center; flex-wrap:wrap}
 .rem-sim .mini{appearance:none; border:1px solid var(--line); background:#fff; border-radius:9px; padding:7px 10px; font:inherit; font-size:12.5px; cursor:pointer}
 
+/* القرض المفتوح — the quiet panel (no red, no countdown) */
+.openloan{display:flex; flex-direction:column; gap:12px}
+.ol-head{font-size:15px; color:var(--mut)}
+.ol-rem{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:22px; text-align:center}
+.ol-rl{color:var(--mut); font-size:13px}
+.ol-rv{font-size:34px; font-weight:800; letter-spacing:-.5px} .ol-rv small{font-size:15px; font-weight:400; color:var(--mut)}
+.ol-status{text-align:center}
+.ol-note{color:var(--mut); font-size:13px; text-align:center; line-height:1.7}
+.ol-act{display:flex; gap:8px}
+.ol-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:13px; font:inherit; font-weight:600; cursor:pointer}
+.ol-act .ghost{appearance:none; border:1px solid var(--gold); color:var(--gold); background:var(--gold-soft); border-radius:12px; padding:13px 16px; font:inherit; cursor:pointer}
+.ol-sheet{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:16px; padding:15px; display:flex; flex-direction:column; gap:8px}
+.ayah{text-align:center; color:var(--gold); font-size:15px; margin-bottom:4px}
+.ol-terms{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:14px; font-size:13.5px; color:var(--ink); line-height:1.8}
+.ol-seal{background:#10201e; color:#dfeee9; border-radius:16px; padding:15px; font-size:13px}
+.ol-seal .sl{color:#9ec7bd; font-weight:700; margin-bottom:6px}
+.ol-seal .sk{color:#bcd; margin-bottom:6px}
+.ol-seal .sh{font-family:"Consolas",monospace; font-size:11.5px; color:#8fb; word-break:break-all; margin-bottom:8px}
+.ol-seal .sv.ok{color:#7fe0c0} .ol-seal .sv.bad{color:#ffb4a2; font-weight:700}
+.ol-seal .mini{margin-top:9px; appearance:none; border:1px solid #2f4a45; background:#16302c; color:#cfeae3; border-radius:9px; padding:8px 11px; font:inherit; font-size:12.5px; cursor:pointer}
+
 /* flash + empty */
 .flash{background:var(--gold-soft); border:1px solid #ecdfb5; color:var(--gold); border-radius:13px; padding:11px 13px; margin-bottom:12px; font-size:13.5px; cursor:pointer}
 .flash .x{float:left; opacity:.6}
