@@ -128,6 +128,17 @@ ok(!!App.recordById("NEW-AHD-1"), "the created عهد is now a real record in د
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");
 noThrow(() => App.openLoanPay("bad"), "open pay with bad amount is a safe op");
+
+/* error-handling: a screen that throws is caught by the shell's try/catch fallback */
+App.registerScreen({ key: "_boom", label: "x", render: function () { throw new Error("boom"); } });
+let fb = noThrow(() => App.go("_boom"), "a throwing screen is CAUGHT by the shell (no crash)");
+ok(/تعذّر العرض/.test(fb), "shell renders the offline fallback when a screen throws");
+noThrow(() => App.go("home"), "recovers to a normal screen after a fallback");
+
+/* accessibility: nav marks the current screen; دفتري tabs expose roles */
+let acc = App.go("daftari");
+ok(/aria-current="page"/.test(acc), "nav marks the active screen with aria-current");
+ok(/role="tablist"/.test(acc) && /role="tab"/.test(acc) && /aria-selected/.test(acc), "دفتري tabs expose tablist/tab/aria-selected");
 noThrow(() => App.daftariCompose("bad-id"), "compose with unknown id is a safe no-op");
 noThrow(() => App.daftariTab("zzz"), "unknown tab is a safe no-op");
 

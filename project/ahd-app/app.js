@@ -67,10 +67,10 @@
 
     navHTML: function () {
       var self = this;
-      return '<nav class="nav">' + this.order.map(function (k) {
-        var s = self.screens[k], on = (k === self.current) ? " on" : "";
-        return '<button class="navbtn' + on + '" onclick="AhdApp.go(\'' + k + '\')">' +
-          '<span class="navico">' + (s.icon || "") + "</span>" + esc(s.label) + "</button>";
+      return '<nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات">' + this.order.map(function (k) {
+        var s = self.screens[k], on = (k === self.current);
+        return '<button class="navbtn' + (on ? " on" : "") + '"' + (on ? ' aria-current="page"' : '') + ' onclick="AhdApp.go(\'' + k + '\')">' +
+          '<span class="navico" aria-hidden="true">' + (s.icon || "") + "</span>" + esc(s.label) + "</button>";
       }).join("") + "</nav>";
     },
 

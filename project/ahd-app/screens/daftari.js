@@ -89,9 +89,9 @@
         '<div class="tile"><div class="tl">عليك للناس</div><div class="tv">' + app.engine.fmt(tiles.on.amountSAR) + ' <small>ر.س</small></div><div class="tc">' + tiles.on.count + ' عهود</div></div>' +
       "</div>";
     var tabs =
-      '<div class="tabs">' +
-        '<button class="tab' + (st.tab === "me" ? " on" : "") + '" onclick="AhdApp.daftariTab(\'me\')">لي</button>' +
-        '<button class="tab' + (st.tab === "on" ? " on" : "") + '" onclick="AhdApp.daftariTab(\'on\')">عليّ</button>' +
+      '<div class="tabs" role="tablist">' +
+        '<button class="tab' + (st.tab === "me" ? " on" : "") + '" role="tab" aria-selected="' + (st.tab === "me") + '" onclick="AhdApp.daftariTab(\'me\')">لي</button>' +
+        '<button class="tab' + (st.tab === "on" ? " on" : "") + '" role="tab" aria-selected="' + (st.tab === "on") + '" onclick="AhdApp.daftariTab(\'on\')">عليّ</button>' +
       "</div>";
     var body = list.length
       ? '<div class="list">' + list.map(function (r) { return rowHTML(r, app); }).join("") + "</div>"
