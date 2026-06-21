@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>عهد · التطبيق</title>
+<meta name="description" content="عهد — قرضٌ حسن مكتوبٌ ومشهود، بكرامة. دفتري: كل ما لك وما عليك في مكانٍ واحد.">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app"><noscript>هذا التطبيق يحتاج إلى تفعيل JavaScript.</noscript></div>
+
+<!-- load order matters: engine → feature logic → shell → screens -->
+<script src="engine.js"></script>
+<script src="features/daftari.js"></script>
+<script src="app.js"></script>
+<script src="screens/daftari.js"></script>
+</body>
+</html>

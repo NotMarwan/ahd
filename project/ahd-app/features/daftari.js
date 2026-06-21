@@ -49,10 +49,14 @@
     var nextDueISO = (record.installments && record.installments[f.settled]) ? record.installments[f.settled].dueISO : null;
     var activeish = (f.status === "ACTIVE" || f.status === "SETTLING");
     var isOverdue = !!(activeish && !f.graced && nextDueISO && daysBetween(asOf, nextDueISO) > 0);
+    var statusLabel = engine.statusLabel(record.events);
+    /* overdue chip reuses the existing TRUST_BAND_AR.overdue word «عليه وعدٌ متأخّر» (amber,
+       never red — late is not a crime); no new vocabulary invented (spec §4/§8). */
+    var chipLabel = isOverdue ? ((engine.TRUST_BAND_AR && engine.TRUST_BAND_AR.overdue) || "عليه وعدٌ متأخّر") : statusLabel;
     return {
       id: record.id, counterparty: counterparty, role: role,
       amountSAR: record.amountSAR, remainingSAR: remainingMinor / 100,
-      status: engine.statusLabel(record.events), statusKey: f.status,
+      status: statusLabel, chipLabel: chipLabel, statusKey: f.status,
       nextDueISO: nextDueISO, nextDueLabel: nextDueISO ? arDueLabel(nextDueISO, engine) : null,
       isOverdue: isOverdue, daysOverdue: isOverdue ? daysBetween(asOf, nextDueISO) : 0,
       graced: f.graced

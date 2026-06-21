@@ -51,10 +51,12 @@ eq(rCafe.remainingSAR, 2500, "café remaining = full 2500");
 eq(rCafe.isOverdue, true, "café is overdue");
 eq(rCafe.daysOverdue, 20, "café daysOverdue = 20");
 ok(/يونيو/.test(rCafe.nextDueLabel||""), "café due label is in يونيو");
+eq(rCafe.chipLabel, "عليه وعدٌ متأخّر", "overdue chip uses warm «عليه وعدٌ متأخّر» (reuses TRUST_BAND_AR, amber)");
 
 const rAbd = D.rowFor(abdullah, "نايف", engine, AS_OF);
 eq(rAbd.isOverdue, false, "abdullah not overdue (future due)");
 eq(rAbd.daysOverdue, 0, "abdullah daysOverdue = 0");
+eq(rAbd.chipLabel, rAbd.status, "non-overdue chip == statusLabel");
 
 const rKept = D.rowFor(keptOne, "نايف", engine, AS_OF);
 eq(rKept.statusKey, "KEPT", "kept row statusKey = KEPT");
