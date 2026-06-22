@@ -48,6 +48,7 @@ ok(!!App, "window.AhdApp is defined");
 ok(!!sandbox.AHD && !!sandbox.Daftari, "engine (AHD) + Daftari attach to window");
 let booted = noThrow(() => App.boot(), "App.boot() initialises (nav + default screen)");
 ok(/عهد/.test(booted) && /دفتري/.test(booted), "boot lands on the home front door (brand + feature cards)");
+ok(JSON.stringify(App.order.slice(0, 7)) === JSON.stringify(["home", "create", "daftari", "open", "circle", "circle-adv", "settle"]), "nav renders in product-flow order (home→create→daftari→open→circle→circle-adv→settle), not build order");
 let hh = noThrow(() => App.go("home"), "go('home') renders the front door");
 ok(/قرضٌ حسن/.test(hh) && /لك عند الناس/.test(hh), "home shows the spine tagline + live دفتري summary");
 

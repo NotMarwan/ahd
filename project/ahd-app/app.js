@@ -49,6 +49,9 @@
     AS_OF: (Daftari && Daftari.AS_OF_DEFAULT) || "2026-06-21",
     viewer: "نايف",
     screens: {}, order: [], current: null,
+    /* product-flow nav order (not feature build order): start a عهد → keep your ledger →
+       the open-term loan → the group circle → advanced circle → net the tangle */
+    NAV_ORDER: ["home", "create", "daftari", "open", "circle", "circle-adv", "settle"],
     records: seedRecords(),
     reminderHistory: {},
     /* Naif's OWN kept-history → his own trust band (own mirror; never shared) */
@@ -94,6 +97,11 @@
     rerender: function () { return this.go(this.current); },
 
     boot: function () {
+      var want = this.NAV_ORDER;
+      this.order.sort(function (a, b) {
+        var ia = want.indexOf(a), ib = want.indexOf(b);
+        return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib);
+      });
       this.current = this.order.length ? this.order[0] : null;
       if (this.current) return this.go(this.current);
       return "";

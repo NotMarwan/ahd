@@ -38,5 +38,21 @@ here so they're in one place. I will NOT act on them autonomously.
 **Options:** (a) ship the "pledge then pay at spend" model (each member pays at the moment of spend, converting to mode-A qard hasan — no pooled custody); (b) drop mode B from v1; (c) a custody model with a licensed escrow/أمانة structure (heaviest, needs board sign-off).
 **My recommendation:** (a) — it's the cleanest on-spine path and avoids pooled custody entirely — **pending a Shariah-board confirmation** that pledge-then-pay-at-spend carries no غرر/أمانة issue. Until then, mode B stays a sketch.
 
+### D-4 · The frozen demo's fate after the merge — KEPT (safe path taken), confirm when you wake
+**Context:** Tonight's brief lifts the "demo frozen" rule and asks for ONE unified product. The
+cleanest target is **`project/ahd-app/` = THE product** (it already supersets the demo). That leaves
+`project/ahd-demo/index.html` (the byte-pinned presenter build) needing a fate: retire it, move it to
+`legacy/`, or keep it in place and relabel.
+**What I did (safe path):** I **kept `ahd-demo/index.html` exactly where it is, byte-for-byte
+untouched** (tripwire still `e2f48467…`), and only **relabelled** it as a frozen/legacy presenter
+reference in its README + the new root README. I did **not** delete or move it, because (a) deletion
+is irreversible and (b) moving it breaks the tripwire path `_overnight/backup/demo.sha256`.
+**Options for you:** (a) keep as-is — a safe, known-good presenter fallback that still runs the
+golden path live (my recommendation); (b) retire it into `legacy/` and re-point/remove the tripwire
+(reversible but touches the safety net — your call); (c) delete it entirely (irreversible — I will
+not do this alone).
+**My recommendation:** (a). One product to ship (`ahd-app`), one safe fallback to demo from. Nothing
+is lost; the merge reads as one product because `ahd-app` is the single front door.
+
 ### D-2 · Digit system for Arabic numerals (low-stakes, FYI)
 The دفتري reminder/amount copy renders **Western digits with grouping** (`2,500`) to stay byte-consistent with the engine's golden `fmt()`. The Agent-3 spec's illustrative copy used Arabic-Indic (`٢٬٥٠٠`). Both are deterministic; this is a Design-layer choice. **My pick:** keep engine-consistent Western for now; flip to Arabic-Indic app-wide if you prefer (a pure, safe display map). Not blocking.
