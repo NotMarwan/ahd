@@ -25,13 +25,14 @@ still go to `DECISIONS-FOR-MARWAN.md`.
   tidy 2 rows (was overflowing the viewport), favicon → **0 console errors**. New root `README.md`
   names the one product. Real-browser verified (Chromium, mobile): all 7 render, 0 errors, Arabic
   correct. Evidence: `project/ahd-app/screenshots/audit/`.
-- ✅ **Phase 2 — new feature sprint.** **4 new modular features shipped** (each TDD'd,
+- ✅ **Phase 2 — new feature sprint.** **5 new modular features shipped** (each TDD'd,
   real-browser-verified, on-spine, independently filmable):
   **F1 سِجلّ الشهادة** (witness timeline) · **F2 حافظة الإثبات** (proof-pack / live tamper-verify) ·
   **F3 محلّ خلاف** (dispute pause — proves "never judges") · **F4 الإعدادات** (settings +
-  Arabic-Indic digit toggle — **resolves D-2**). Independently **code-reviewed** (0 determinism/
-  spine issues; 3 findings applied). IA stays clean: 8 nav pills / 2 rows; proof + dispute +
-  settings are contextual.
+  Arabic-Indic digit toggle — **resolves D-2**) · **F5 اطلب عهدًا** (borrower-initiated request —
+  dignifying the *ask*, the deck's core insight). Independently **code-reviewed** (both review
+  rounds: 0 determinism/spine issues; findings applied) + **edge-hardened**. IA stays clean: 8 nav
+  pills / 2 rows; proof + dispute + settings + request are contextual.
 - ✅ **Phase 3 — Remotion promo of the NEW features.** Rendered: **`project/ahd-promo/out/ahd-new-features.mp4`**
   — 1080×1920 · **60fps** · H.264 · ~21s · 8.6 MB. A fast-paced film of all 4 new features (timeline ·
   proof-pack with live hash-compute + tamper-caught · dispute-pause · settings/digit-morph + manifesto),
@@ -43,7 +44,7 @@ still go to `DECISIONS-FOR-MARWAN.md`.
 - **`project/ahd-promo/out/ahd-new-features.mp4`** ← tonight's NEW-features promo (the deliverable).
 - `project/ahd-promo/out/ahd-app-promo.mp4` ← the earlier original-features promo (kept).
 
-**Gate (fresh, real output):** core `184/0` (135+9+40) · app `18/18 suites = 601/0` · **785 total** ·
+**Gate (fresh, real output):** core `184/0` (135+9+40) · app `19/19 suites = 633/0` · **817 total** ·
 demo tripwire `e2f48467… OK`. 0 console errors across all screens (real Chromium).
 
 **Most valuable thing so far tonight:** one cohesive, publishable app (single front door, product-flow
@@ -67,8 +68,8 @@ user toggle).
 5. **Diff:** `git log main..overnight/deepening --oneline` (this run's commits). Nothing auto-merges to `main`.
 
 **✅ Final verification snapshot (2026-06-22, fresh):**
-`repo pushed (token 404 on remote) · core 135+9+40=184/0 · app 18/18=601/0 · 785 total · demo tripwire
-e2f48467… OK · 0 uncommitted · 4 new features code-reviewed + edge-hardened · promo 1080×1920/60fps/h264 21s Arabic-verified`
+`repo pushed (token 404 on remote) · core 135+9+40=184/0 · app 19/19=633/0 · 817 total · demo tripwire
+e2f48467… OK · 0 uncommitted · 5 new features code-reviewed + edge-hardened · promo 1080×1920/60fps/h264 21s Arabic-verified`
 
 ---
 
@@ -161,10 +162,16 @@ deterministic, modular (own `features/*` + `screens/*`), independently filmable.
 - **F4 الإعدادات + Arabic-Indic digits** (resolves **D-2**): an app-wide digit toggle as a
   display layer over the golden fmt() (engine bytes unchanged; default western → gate byte-identical)
   + the «ما لا نفعله» manifesto. `settings.test.cjs` 13/0. Commit `863447a`.
-- **Independent code-review** (subagent) of F1+F2: verdict fix-then-ship; 0 determinism/spine issues,
-  golden core untouched, proof tamper-logic correct; 3 findings (2 XSS-hardening esc(), 1 null-guard)
-  **applied**.
-- **Gate after Phase 2 (fresh):** core `184/0` · app `17/17 suites = 575/0` · **759 total** · demo
+- **F5 اطلب عهدًا** (borrower-initiated request): dignifying the *ask* — the deck's core insight
+  («asking back is painful»). You compose a riba-checked request → (محاكاة) the lender accepts → a
+  sealed عهد in your «عليّ». Reuses the GOLDEN create seal **byte-identically** (no new crypto).
+  `request.test.cjs` 15/0. Contextual (home card). Commit `f5642a2`.
+- **Independent code-review** (two subagent rounds — F1+F2, then F3+F4): both verdict fix-then-ship;
+  0 determinism/spine issues, golden core untouched, proof tamper-logic correct, digit toggle
+  display-only. Findings applied (XSS-hardening esc()s + a null-guard); one false-positive rejected
+  with rationale (settings is reachable via the home footer). Plus `new-features-edge.test.cjs` (26)
+  degenerate-input hardening across all 5.
+- **Gate after Phase 2 (fresh):** core `184/0` · app `19/19 suites = 633/0` · **817 total** · demo
   tripwire `e2f48467… OK`. Pushed each feature.
 
 ### Phase 0 + Phase 1 · GitHub safety net + merge into ONE product — ✅ DONE
