@@ -38,7 +38,7 @@
       opts.push('<button class="opt" onclick="AhdApp.daftariCloseSheet()">اطمئن، أمهِله</button>');
       opts.push('<button class="opt" onclick="AhdApp.debtorGrace(\'' + id + '\')">اقترِح إعادة جدولة 🌿</button>');
       opts.push('<button class="opt" onclick="AhdApp.daftariForgive(\'' + id + '\')">أبرئ ما تبقّى</button>');
-      opts.push('<button class="opt sober" onclick="AhdApp.daftariExport(\'' + id + '\')">صدّر السجلّ</button>');
+      opts.push('<button class="opt sober" onclick="AhdApp.openProof(\'' + id + '\')">وثيقة الإثبات 🔏</button>');
     } else {
       opts.push('<button class="opt primary" onclick="AhdApp.debtorSettle(\'' + id + '\')">أسدّد الآن عبر سريع</button>');
       opts.push('<button class="opt" onclick="AhdApp.debtorGrace(\'' + id + '\')">أطلب مهلة 🌿</button>');

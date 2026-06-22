@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -154,6 +154,22 @@ ok(/يشهد ولا يحكم/.test(tlh), "a disputed عهد reads NEUTRAL «يش
 ok(/بالنيابة عنك/.test(tlh), "a bank-sent reminder appears «بالنيابة عنك»");
 ok(/tone-amber/.test(tlh) && tlh.indexOf("tone-red") < 0, "reminders render AMBER on the feed, never red");
 ok(tlh.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(tlh), "no score / percentage anywhere on the timeline");
+
+/* ---- حافظة الإثبات (proof-pack) — a CONTEXTUAL screen, reached from دفتري ---- */
+ok(!!sandbox.Proof, "Proof module attaches to window");
+ok(navKeys.indexOf("proof") < 0, "proof is CONTEXTUAL — no nav pill (keeps the nav clean)");
+let pf = noThrow(() => App.openProof("R-CAFE"), "openProof('R-CAFE') navigates to the proof screen");
+ok(App.current === "proof", "openProof sets the current screen to proof");
+ok(/حافظة الإثبات/.test(pf) && /canonical/.test(pf), "proof shows the evidence doc (canonical content)");
+ok(/content hash:/.test(pf) && /genesis:/.test(pf), "proof shows the content hash + the genesis→block chain");
+ok(/سليمة/.test(pf), "untouched record verifies ✓ «سليمة»");
+let pft = noThrow(() => App.proofTamperToggle(), "tamper toggle ON");
+ok(/عبثٌ مكشوف/.test(pft) && /pf-verify bad/.test(pft), "tampering breaks the seal → ✗ «عبثٌ مكشوف» (bad)");
+noThrow(() => App.proofTamperToggle(), "tamper toggle OFF (restore)");
+ok(/سليمة/.test(App.go("proof")), "restored record verifies ✓ again");
+noThrow(() => App.proofBack(), "proofBack returns to دفتري");
+ok(App.current === "daftari", "proofBack lands on دفتري");
+noThrow(() => App.openProof("does-not-exist"), "openProof with a bad id is a safe no-op");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");

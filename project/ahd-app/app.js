@@ -17,6 +17,7 @@
   var Settlement = (typeof window !== "undefined" ? window.Settlement : null);
   var CircleDash = (typeof window !== "undefined" ? window.CircleDash : null);
   var Timeline = (typeof window !== "undefined" ? window.Timeline : null);
+  var Proof = (typeof window !== "undefined" ? window.Proof : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -73,6 +74,8 @@
     Settlement: Settlement,
     CircleDash: CircleDash,
     Timeline: Timeline,
+    Proof: Proof,
+    proofState: { recordId: null, tamper: false, flash: null },
 
     esc: esc,
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
@@ -128,8 +131,14 @@
     debtorSettle: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("ALL_SETTLED")); this.daftariState.composeId = null; this.daftariState.flash = "سُدِّد العهد — ذمّة محفوظة 🤍"; } return this.rerender(); },
     debtorGrace: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("GRACE_GRANTED")); this.daftariState.composeId = null; this.daftariState.flash = "أُعيدت الجدولة بالمعروف — بلا أيّ زيادة (٢٨٠)."; } return this.rerender(); },
     daftariForgive: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("FORGIVEN")); this.daftariState.sheetId = null; this.daftariState.flash = "أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾."; } return this.rerender(); },
-    daftariExport: function (id) { if (this.recordById(id)) { this.daftariState.sheetId = null; this.daftariState.flash = "تصدير الوثيقة المختومة — مهيّأةٌ كدليلٍ إلكتروني، إن احتجت."; } return this.rerender(); },
     daftariDismiss: function () { this.daftariState.flash = null; return this.rerender(); },
+
+    /* ---- حافظة الإثبات (proof-pack) — a CONTEXTUAL screen reached from دفتري ---- */
+    openProof: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, flash: null }; this.daftariState.sheetId = null; return this.go("proof"); } return this.rerender(); },
+    proofTamperToggle: function () { this.proofState.tamper = !this.proofState.tamper; return this.rerender(); },
+    proofExport: function () { this.proofState.flash = "جُهّزت الوثيقة كملفٍ موقّع — مهيّأةٌ للمشاركة دليلًا عند الحاجة."; return this.rerender(); },
+    proofBack: function () { return this.go("daftari"); },
+    proofDismiss: function () { this.proofState.flash = null; return this.rerender(); },
 
     /* ---- القرض المفتوح actions (integer halalas; bad input is a clean no-op) ---- */
     openLoanPay: function (amountSAR) {

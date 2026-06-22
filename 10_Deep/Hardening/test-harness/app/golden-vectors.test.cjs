@@ -14,6 +14,7 @@ const E = require(P("engine.js"));
 const OL = require(P("features", "open-loan.js"));
 const CA = require(P("features", "circle-adv.js"));
 const CR = require(P("features", "create.js"));
+const PF = require(P("features", "proof.js"));
 const M = E.toMinor;
 
 let pass = 0, fail = 0;
@@ -54,6 +55,13 @@ eq(bc.shares["خالد"] + bc.shares["ريم"] + bc.shares["نورة"], M(590), 
 const posts = CA.recurringPosts({ name: "الإيجار", amountMinor: M(3600), payer: "تركي", members: ["سعود", "تركي", "عبدالله"], split: "equal" }, ["2026-07"]);
 eq(posts[0].owed["سعود"], M(1200), "recurring owed سعود (golden)");
 eq(posts[0].payerShareMinor + posts[0].owed["سعود"] + posts[0].owed["عبدالله"], M(3600), "recurring conserved == full bill");
+
+/* حافظة الإثبات — proof-pack of the نورة→سارة 5,000 عهد (anchors the canonical layout) */
+const ev = (t, x) => Object.assign({ type: t }, x || {});
+const prec = { id: "R-PROOF", lender: "نورة", borrower: "سارة", amountSAR: 5000, installments: [{ dueISO: "2026-08-01", amountSAR: 5000 }], events: [ev("AHD_DRAFTED", { installments: 1 }), ev("LENDER_SIGNED"), ev("COUNTERPARTY_SIGNED"), ev("RECORD_SEALED"), ev("ACTIVATED")] };
+const ppk = PF.buildProofPack(prec, E);
+eq(ppk.contentHash, "c21b44e75822e867aece71046bbaf3ca35c07ee933994ec6b71b8abce87b44f0", "proof-pack content hash (golden)");
+eq(ppk.seal, "c1ae7f25f74efa87be18f6f53d9eb3a237173a05c521dce6f2ac2eed2fca2f54", "proof-pack block seal (golden c1ae7f25…)");
 
 console.log("\n========================================================");
 console.log("GOLDEN-VECTORS: " + pass + " passed, " + fail + " failed");
