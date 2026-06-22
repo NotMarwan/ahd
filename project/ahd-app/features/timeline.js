@@ -23,6 +23,9 @@
     GRACE_GRANTED: { kind: "mercy", tone: "mercy", icon: "🕊️", ar: "نظرة إلى ميسرة — أُعيدت الجدولة بالمعروف، بلا أيّ زيادة (٢٨٠)", stage: 2 },
     DISPUTE_RAISED: { kind: "neutral", tone: "neutral", icon: "⚖️", ar: "محلّ خلاف — عهدٌ يشهد ولا يحكم", stage: 2 },
     ALL_SETTLED: { kind: "kept", tone: "kept", icon: "🤍", ar: "وُفِّي به — ذمّة محفوظة", stage: 3 },
+    SETTLEMENT_INITIATED: { kind: "settle", tone: "sealed", icon: "🔗", ar: "بدأت مقاصّةٌ بالتراضي — أقلّ التحويلات تُصفّي الجميع", stage: 2 },
+    SETTLEMENT_SETTLED: { kind: "kept", tone: "kept", icon: "🤍", ar: "سُوِّي بالمقاصّة — ذمّة محفوظة", stage: 3 },
+    PARTIAL: { kind: "partial", tone: "progress", icon: "🪙", ar: "سدادٌ جزئيّ — المتبقّي ينقص، بلا أيّ زيادة", stage: 1 },
     FORGIVEN: { kind: "mercy", tone: "mercy", icon: "🤲", ar: "أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾", stage: 3 }
   };
   var REMINDER = { kind: "reminder", tone: "amber", icon: "📩", ar: "أرسل عهدٌ تذكيرًا لطيفًا بالنيابة عنك", stage: 1 };
@@ -76,5 +79,41 @@
     return c;
   }
 
-  return { buildTimeline: buildTimeline, timelineCounts: timelineCounts, EV: EV, REMINDER: REMINDER };
+  /* ---- the connective tissue: one witnessed STORY per عهد ----
+     Fold the flat feed into per-عهد groups (feed order preserved → due-date order),
+     each carrying the عهد header, its entries (latest stage first), and the terminal
+     outcome. This is the witnessed narrative of each relationship. */
+  function groupByAhd(entries) {
+    var order = [], byId = {};
+    (entries || []).forEach(function (x) {
+      var g = byId[x.recordId];
+      if (!g) {
+        g = byId[x.recordId] = {
+          recordId: x.recordId, who: x.who, party: x.party, dir: x.dir,
+          amountSAR: x.amountSAR, amountMinor: x.amountMinor, dueISO: x.dueISO, dueAr: x.dueAr,
+          lender: x.lender, borrower: x.borrower, entries: [], disputed: false, kept: false, outcome: null
+        };
+        order.push(x.recordId);
+      }
+      g.entries.push(x);
+      if (x.kind === "neutral") g.disputed = true;
+      if (x.kind === "kept") g.kept = true;
+    });
+    return order.map(function (id) {
+      var g = byId[id];
+      g.outcome = g.entries.reduce(function (best, e) { return (!best || e.stage > best.stage) ? e : best; }, null);
+      return g;
+    });
+  }
+
+  /* the connective LINKS each story exposes — proof always, dispute only if disputed,
+     and a way back to the دفتر. (The screen wires these to AhdApp.openProof/openDispute/…) */
+  function ahdActions(group) {
+    var a = [{ key: "proof", label: "وثيقة الإثبات", icon: "🔏" }];
+    if (group && group.disputed) a.push({ key: "dispute", label: "تفاصيل الخلاف", icon: "⚖️" });
+    a.push({ key: "record", label: "في الدفتر", icon: "📔" });
+    return a;
+  }
+
+  return { buildTimeline: buildTimeline, timelineCounts: timelineCounts, groupByAhd: groupByAhd, ahdActions: ahdActions, EV: EV, REMINDER: REMINDER };
 });

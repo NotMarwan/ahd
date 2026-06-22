@@ -78,7 +78,35 @@ halalas, all filters, determinism) + DOM-smoke grown (+8: sections, net, ask, fi
 correct, amber-not-red, no number/score. Screenshot: `project/ahd-app/screenshots/deepening/ahd-daftari-hub.png`.
 Plan: `docs/superpowers/plans/deepen-02-daftari-hub.md`.
 
-**Gate (fresh, real output):** core **184/0** (135+9+40) · app **22/22 suites = 831/0** · **1015 total** (was
+**Gate (Deepen-02):** core **184/0** · app **22/22 = 831/0** · **1015 total** · demo tripwire unchanged · 0 console errors.
+
+### ✅ Deepen-03 — سِجلّ الشهادة is now the CONNECTIVE TISSUE
+**What got deeper.** The witness timeline was a flat feed — a pretty island. It is now the spine that links the
+features together:
+- **Richer event model**: added real engine events — `SETTLEMENT_SETTLED` (سُوِّي بالمقاصّة — ذمّة محفوظة) ·
+  `SETTLEMENT_INITIATED` (بدأت مقاصّةٌ بالتراضي) · `PARTIAL` (سدادٌ جزئيّ — المتبقّي ينقص، بلا أيّ زيادة).
+- **A per-عهد STORY view** (`groupByAhd`, default): each relationship's witnessed narrative as one card —
+  header (who/amount/أجل) + a mini-timeline of its moments (latest first) + a terminal outcome. A toggle flips
+  to the flat «حسب الوقت» feed.
+- **Connective links** (`ahdActions`): every story links out to **حافظة الإثبات** (proof) and back to **الدفتر**,
+  and a disputed story links to **محلّ خلاف** — so the timeline ties proof/dispute/ledger together.
+- **Focus mode + the reverse link**: a per-row **«سجلّ هذا العهد 📜»** action in دفتري opens the timeline
+  focused on that one عهد (with a «← كل العهود» reset). The loop closes: دفتري ↔ سجلّ ↔ إثبات/خلاف.
+
+**Reshape (guarded).** `screens/timeline.js` rebuilt around stories; `app.js` gained `timelineState` +
+`setTimelineView`/`openTimelineFor`/`timelineClearFocus`/`timelineToDaftari`; دفتري row sheet gained the «السجل»
+link. No golden touch; amber-not-red; no number/score.
+
+**Tests (TDD).** `app/timeline-connect.test.cjs` (25 — new event types, grouping coverage/order/no-dupe, outcome,
+disputed/kept flags, the connective links, determinism) + DOM-smoke grown (+6: story view, links, flat toggle,
+focus). Existing `timeline.test.cjs` (27) stays fully green.
+
+**Real-browser verified** (Chromium): 6 per-عهد stories render with their links, the disputed story shows
+«تفاصيل الخلاف», the flat toggle + focus mode work, دفتري→timeline reverse link works, **0 console errors**,
+Arabic correct, no score. Screenshot: `project/ahd-app/screenshots/deepening/ahd-timeline-stories.png`.
+Plan: `docs/superpowers/plans/deepen-03-timeline-connective.md`.
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **23/23 suites = 863/0** · **1047 total** (was
 817) · demo tripwire unchanged · 0 console errors.
 
 ---

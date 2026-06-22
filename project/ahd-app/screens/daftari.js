@@ -40,9 +40,11 @@
       opts.push('<button class="opt" onclick="AhdApp.debtorGrace(\'' + id + '\')">اقترِح إعادة جدولة 🌿</button>');
       opts.push('<button class="opt" onclick="AhdApp.daftariForgive(\'' + id + '\')">أبرئ ما تبقّى</button>');
       opts.push('<button class="opt sober" onclick="AhdApp.openProof(\'' + id + '\')">وثيقة الإثبات 🔏</button>');
+      opts.push('<button class="opt sober" onclick="AhdApp.openTimelineFor(\'' + id + '\')">سجلّ هذا العهد 📜</button>');
     } else {
       opts.push('<button class="opt primary" onclick="AhdApp.debtorSettle(\'' + id + '\')">أسدّد الآن عبر سريع</button>');
       opts.push('<button class="opt" onclick="AhdApp.debtorGrace(\'' + id + '\')">أطلب مهلة 🌿</button>');
+      opts.push('<button class="opt sober" onclick="AhdApp.openTimelineFor(\'' + id + '\')">سجلّ هذا العهد 📜</button>');
       opts.push('<button class="opt" onclick="AhdApp.daftariCloseSheet()">إغلاق</button>');
     }
     return '<div class="sheet">' + opts.join("") + "</div>";

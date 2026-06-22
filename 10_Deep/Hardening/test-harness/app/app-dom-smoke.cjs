@@ -171,6 +171,17 @@ ok(/بالنيابة عنك/.test(tlh), "a bank-sent reminder appears «بالن
 ok(/tone-amber/.test(tlh) && tlh.indexOf("tone-red") < 0, "reminders render AMBER on the feed, never red");
 ok(tlh.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(tlh), "no score / percentage anywhere on the timeline");
 
+/* the connective tissue: story-per-عهد view + links out, a flat toggle, and focus */
+ok(/story-who/.test(tlh) && /story-steps/.test(tlh), "default view is the per-عهد STORY (each relationship's witnessed narrative)");
+ok(/وثيقة الإثبات/.test(tlh) && /في الدفتر/.test(tlh), "every story links out to حافظة الإثبات + back to الدفتر");
+ok(/تفاصيل الخلاف/.test(tlh), "a disputed عهد's story links to محلّ خلاف (connective tissue)");
+let tlflat = noThrow(() => App.setTimelineView("flat"), "toggle to «حسب الوقت» (flat feed)");
+ok(/tl-item/.test(tlflat) && /حسب الوقت/.test(tlflat), "flat view renders the time-ordered feed");
+App.setTimelineView("story");
+let tlfocus = noThrow(() => App.openTimelineFor("R-DISP"), "دفتري → «سجلّ هذا العهد» focuses one عهد's story");
+ok(/كل العهود/.test(tlfocus) && (tlfocus.match(/story-who/g) || []).length === 1, "focus mode shows ONE story + a «كل العهود» reset");
+App.timelineClearFocus();
+
 /* ---- حافظة الإثبات (proof-pack) — a CONTEXTUAL screen, reached from دفتري ---- */
 ok(!!sandbox.Proof, "Proof module attaches to window");
 ok(navKeys.indexOf("proof") < 0, "proof is CONTEXTUAL — no nav pill (keeps the nav clean)");

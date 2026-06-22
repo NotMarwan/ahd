@@ -77,6 +77,7 @@
     Settlement: Settlement,
     CircleDash: CircleDash,
     Timeline: Timeline,
+    timelineState: { view: "story", focus: null },
     Proof: Proof,
     proofState: { recordId: null, tamper: false, flash: null },
     Dispute: Dispute,
@@ -160,6 +161,16 @@
     proofExport: function () { this.proofState.flash = "جُهّزت الوثيقة كملفٍ موقّع — مهيّأةٌ للمشاركة دليلًا عند الحاجة."; return this.rerender(); },
     proofBack: function () { return this.go("daftari"); },
     proofDismiss: function () { this.proofState.flash = null; return this.rerender(); },
+
+    /* ---- سِجلّ الشهادة (the witness timeline) — the connective tissue ---- */
+    setTimelineView: function (v) { this.timelineState.view = (v === "flat") ? "flat" : "story"; return this.rerender(); },
+    openTimelineFor: function (id) { if (this.recordById(id)) { this.timelineState.focus = id; this.timelineState.view = "story"; this.daftariState.sheetId = null; return this.go("timeline"); } return this.rerender(); },
+    timelineClearFocus: function () { this.timelineState.focus = null; return this.rerender(); },
+    timelineToDaftari: function (id) {
+      var r = this.recordById(id);
+      if (r) { this.daftariState.tab = (r.lender === this.viewer) ? "me" : "on"; this.daftariState.filter = "all"; this.daftariState.sheetId = null; return this.go("daftari"); }
+      return this.rerender();
+    },
 
     /* ---- محلّ خلاف (dispute pause) — a CONTEXTUAL screen; bank pauses, never judges ---- */
     openDispute: function (id) { if (this.recordById(id)) { this.disputeState = { recordId: id, flash: null }; this.daftariState.sheetId = null; return this.go("dispute"); } return this.rerender(); },
