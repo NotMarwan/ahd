@@ -106,7 +106,35 @@ focus). Existing `timeline.test.cjs` (27) stays fully green.
 Arabic correct, no score. Screenshot: `project/ahd-app/screenshots/deepening/ahd-timeline-stories.png`.
 Plan: `docs/superpowers/plans/deepen-03-timeline-connective.md`.
 
-**Gate (fresh, real output):** core **184/0** (135+9+40) · app **23/23 suites = 863/0** · **1047 total** (was
+**Gate (Deepen-03):** core **184/0** · app **23/23 = 863/0** · **1047 total** · demo tripwire unchanged · 0 console errors.
+
+### ✅ Deepen-04 — حافظة الإثبات ↔ محلّ خلاف are now interconnected
+**What got deeper.** The proof-pack was a thin doc; the dispute linked to it but the proof didn't reframe as the
+neutral exhibit. Now:
+- **Provenance** (`proof.provenance`): a structured **سَنَد العهد** — parties · principal (integer halalas) ·
+  type · full schedule · status · التوثيق (نفاذ + SHA-256) · the basis verse (2:282) · the riba-free flags.
+- **A precise tamper report** (`proof.tamperReport`): names the **exact changed field** (المبلغ 900→4,900) and
+  shows the **two diverging seals** — «تغيّر رقمٌ واحد ⇒ تغيّر الختمُ كلّه». Far more convincing than before.
+- **A clearer hash-chain**: genesis → المحتوى (SHA-256) → الختم (block #1), with the block node visibly
+  **broken** when tampered. (Golden sha256/sealBlock/GENESIS reused, never altered.)
+- **The interconnection**: from محلّ خلاف, the proof opens as the **NEUTRAL EXHIBIT** (`openProofAsExhibit`) —
+  a banner «هذه الوثيقة دليلٌ محايد — تُقدَّم للطرفين وللقضاء عند الحاجة»، and the back button returns to الخلاف
+  (not دفتري). «عهدٌ يشهد ولا يحكم» made unmistakable.
+
+**Reshape (guarded).** `screens/proof.js` rebuilt (provenance + chain + precise diff + exhibit framing);
+`screens/dispute.js` opens the proof as an exhibit; `app.js` gained `openProofAsExhibit` + a context-aware
+`proofBack`. No golden touch; amounts are money (no score); amber-not-red.
+
+**Tests (TDD).** `app/proof-provenance.test.cjs` (27 — provenance shape + integer halalas + basis, the precise
+tamper report, golden-seal reuse, determinism) + DOM-smoke grown (+9: provenance, chain, precise diff, the
+exhibit framing + back-to-dispute round-trip). Existing `proof.test.cjs` + `dispute.test.cjs` stay green.
+
+**Real-browser verified** (Chromium): dispute→proof reframes as the exhibit, provenance/chain/precise-diff
+render, tamper shows the changed field + broken seal, back returns to الخلاف, **0 console errors**, Arabic
+correct, no score. Screenshot: `project/ahd-app/screenshots/deepening/ahd-proof-exhibit.png`.
+Plan: `docs/superpowers/plans/deepen-04-proof-dispute.md`.
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **24/24 suites = 898/0** · **1082 total** (was
 817) · demo tripwire unchanged · 0 console errors.
 
 ---

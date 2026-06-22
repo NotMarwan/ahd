@@ -56,5 +56,47 @@
     return { ok: seal === base.seal, sealed: base.seal, recomputed: seal, contentHash: ch };
   }
 
-  return { proofCanonical: proofCanonical, buildProofPack: buildProofPack, verifyProof: verifyProof };
+  /* ---- structured provenance of the sealed record (display-ready) ----
+     Reuses the engine (fold/statusLabel/toMinor/short) + the proof pack. Integer
+     halalas; no golden function is altered. Money figures only, never a score. */
+  function provenance(record, engine) {
+    var e = engine || ENGINE;
+    var pack = buildProofPack(record, e);
+    var fold = (typeof e.fold === "function") ? e.fold(record.events || []) : { status: "" };
+    var schedule = (record.installments || []).map(function (s, i) {
+      return { n: i + 1, dueISO: s.dueISO || null, amountMinor: e.toMinor(s.amountSAR) };
+    });
+    var open = schedule.length === 1 && !schedule[0].dueISO;
+    return {
+      id: record.id, type: "قرض حسن",
+      lender: record.lender, borrower: record.borrower,
+      principalSAR: record.amountSAR, principalMinor: e.toMinor(record.amountSAR),
+      schedule: schedule, open: open,
+      basis: open ? "Quran:2:280" : "Quran:2:282",
+      witnessedVia: "نفاذ (Nafath) + SHA-256",
+      status: fold.status || "", statusAr: (typeof e.statusLabel === "function") ? e.statusLabel(record.events) : "",
+      events: (record.events || []).map(function (x) { return x.type; }),
+      contentHash: pack.contentHash,
+      sealShort: (typeof e.short === "function") ? e.short(pack.seal, 24) : String(pack.seal).slice(0, 24),
+      riba: "interest:false; late_penalty:false; gharar:none"
+    };
+  }
+
+  /* ---- a precise tamper report: names the changed field + the diverging
+     hashes/seals (the golden seal is recomputed, never reinvented) ---- */
+  function tamperReport(record, engine, overrideSAR) {
+    var e = engine || ENGINE;
+    var base = buildProofPack(record, e);
+    var v = verifyProof(record, e, overrideSAR == null ? null : overrideSAR);
+    var after = overrideSAR == null ? record.amountSAR : overrideSAR;
+    return {
+      ok: v.ok, field: "principal",
+      before: record.amountSAR, after: after,
+      beforeMinor: e.toMinor(record.amountSAR), afterMinor: e.toMinor(after),
+      hashBefore: base.contentHash, hashAfter: v.contentHash,
+      sealBefore: base.seal, sealAfter: v.recomputed
+    };
+  }
+
+  return { proofCanonical: proofCanonical, buildProofPack: buildProofPack, verifyProof: verifyProof, provenance: provenance, tamperReport: tamperReport };
 });

@@ -14,7 +14,7 @@
     var acts = p.key === "reconcile"
       ? '<div class="dp-acts"><button class="primary" onclick="AhdApp.disputeGrace(\'' + id + '\')">اقترِح إعادة جدولة 🌿</button>' +
         '<button onclick="AhdApp.disputeForgive(\'' + id + '\')">أبرئ ما تبقّى 🤲</button></div>'
-      : '<div class="dp-acts"><button onclick="AhdApp.openProof(\'' + id + '\')">اعرض الوثيقة دليلًا 🔏</button></div>';
+      : '<div class="dp-acts"><button onclick="AhdApp.openProofAsExhibit(\'' + id + '\')">اعرض الوثيقة دليلًا 🔏</button></div>';
     return '<div class="dp-path' + (p.encouraged ? " enc" : "") + '">' +
       '<div class="dp-pt">' + App.esc(p.icon) + " " + App.esc(p.ar) + (p.encouraged ? ' <span class="dp-tag">الأحبّ</span>' : "") + "</div>" +
       '<div class="dp-pn">' + App.esc(p.note) + "</div>" + acts + "</div>";
@@ -35,7 +35,7 @@
       '<div class="dp-stance">' + App.esc(v.stance) + "</div>" +
       '<div class="dp-paused">⏸️ أوقف عهد التذكيرات هنا — بلا غرامة، بلا انحياز، بلا أيّ زيادة. الوقت الآن للصلح.</div>' +
       '<div class="dp-exhibit"><b>الوثيقة المحايدة</b><div class="dp-ex-ar">' + App.esc(v.neutralExhibit.ar) + "</div>" +
-        '<button onclick="AhdApp.openProof(\'' + r.id + '\')">اعرض السجلّ المختوم 🔏</button></div>' +
+        '<button onclick="AhdApp.openProofAsExhibit(\'' + r.id + '\')">اعرض السجلّ المختوم 🔏</button></div>' +
       '<div class="dp-paths">' + v.paths.map(function (p) { return pathHTML(p, r.id); }).join("") + "</div>" +
       '<div class="dp-note">المصرف ليس خصمًا ولا حَكَمًا — يشهد، ويحفظ الحقّ بكرامةٍ للطرفين.</div>' +
     "</div>";

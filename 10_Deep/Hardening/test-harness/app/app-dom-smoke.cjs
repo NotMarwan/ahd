@@ -188,10 +188,13 @@ ok(navKeys.indexOf("proof") < 0, "proof is CONTEXTUAL — no nav pill (keeps the
 let pf = noThrow(() => App.openProof("R-CAFE"), "openProof('R-CAFE') navigates to the proof screen");
 ok(App.current === "proof", "openProof sets the current screen to proof");
 ok(/حافظة الإثبات/.test(pf) && /canonical/.test(pf), "proof shows the evidence doc (canonical content)");
-ok(/content hash:/.test(pf) && /genesis:/.test(pf), "proof shows the content hash + the genesis→block chain");
+ok(/content hash:/.test(pf) && /genesis/.test(pf) && /block #1/.test(pf), "proof shows the content hash + the genesis→content→seal chain");
+ok(/سَنَد العهد/.test(pf) && /نفاذ/.test(pf), "proof shows the PROVENANCE (سَنَد): parties, schedule, التوثيق (نفاذ)");
+ok(/2:282|فاكتبوه/.test(pf), "proof cites the basis verse (write the debt)");
 ok(/سليمة/.test(pf), "untouched record verifies ✓ «سليمة»");
 let pft = noThrow(() => App.proofTamperToggle(), "tamper toggle ON");
 ok(/عبثٌ مكشوف/.test(pft) && /pf-verify bad/.test(pft), "tampering breaks the seal → ✗ «عبثٌ مكشوف» (bad)");
+ok(/الحقل المتغيّر/.test(pft) && /المبلغ/.test(pft), "tamper shows the PRECISE changed field (المبلغ) + diverging seals");
 noThrow(() => App.proofTamperToggle(), "tamper toggle OFF (restore)");
 ok(/سليمة/.test(App.go("proof")), "restored record verifies ✓ again");
 noThrow(() => App.proofBack(), "proofBack returns to دفتري");
@@ -207,6 +210,12 @@ ok(/محلّ خلاف/.test(dp) && /يشهد ولا يحكم/.test(dp), "dispute
 ok(/تراضٍ/.test(dp) && /قضاء/.test(dp), "dispute screen offers BOTH paths (تراضٍ + قضاء)");
 ok(/بلا غرامة/.test(dp) && /بلا أيّ زيادة/.test(dp), "dispute screen states NO penalty, no زيادة");
 ok(dp.indexOf("tone-red") < 0 && dp.indexOf("%") < 0, "dispute screen: no red-shaming, no score");
+/* the interconnection: dispute → proof opens as the NEUTRAL EXHIBIT, back returns to الخلاف */
+let pfx = noThrow(() => App.openProofAsExhibit("R-DISP"), "dispute → proof opens as the neutral exhibit");
+ok(App.current === "proof" && /دليلٌ محايد/.test(pfx), "the proof reframes as «دليلٌ محايد» when arrived from الخلاف");
+ok(/رجوع إلى الخلاف/.test(pfx), "the exhibit's back button returns to الخلاف (not دفتري)");
+noThrow(() => App.proofBack(), "proofBack from the exhibit");
+ok(App.current === "dispute", "proofBack from the exhibit lands back on محلّ خلاف");
 let dpg = noThrow(() => App.disputeGrace("R-DISP"), "dispute «اقترِح إعادة جدولة» (صلح) applies grace + returns to دفتري");
 ok(App.current === "daftari", "after disputeGrace, the app lands back on دفتري");
 noThrow(() => App.openDispute("does-not-exist"), "openDispute with a bad id is a safe no-op");

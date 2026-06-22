@@ -156,10 +156,12 @@
     daftariDismiss: function () { this.daftariState.flash = null; return this.rerender(); },
 
     /* ---- حافظة الإثبات (proof-pack) — a CONTEXTUAL screen reached from دفتري ---- */
-    openProof: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, flash: null }; this.daftariState.sheetId = null; return this.go("proof"); } return this.rerender(); },
+    openProof: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, flash: null, fromDispute: false }; this.daftariState.sheetId = null; return this.go("proof"); } return this.rerender(); },
+    /* opened from محلّ خلاف → the proof is framed as the NEUTRAL EXHIBIT; back goes to the dispute */
+    openProofAsExhibit: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, flash: null, fromDispute: true }; return this.go("proof"); } return this.rerender(); },
     proofTamperToggle: function () { this.proofState.tamper = !this.proofState.tamper; return this.rerender(); },
     proofExport: function () { this.proofState.flash = "جُهّزت الوثيقة كملفٍ موقّع — مهيّأةٌ للمشاركة دليلًا عند الحاجة."; return this.rerender(); },
-    proofBack: function () { return this.go("daftari"); },
+    proofBack: function () { if (this.proofState && this.proofState.fromDispute) { this.proofState.fromDispute = false; return this.go("dispute"); } return this.go("daftari"); },
     proofDismiss: function () { this.proofState.flash = null; return this.rerender(); },
 
     /* ---- سِجلّ الشهادة (the witness timeline) — the connective tissue ---- */
