@@ -5,6 +5,7 @@ import { slide } from "@remotion/transitions/slide";
 import { fade } from "@remotion/transitions/fade";
 import { DUR, TRANS, p, BACKDROP } from "./theme";
 import { ColdOpen } from "./beats/ColdOpen";
+import { BeatRequest } from "./beats/BeatRequest";
 import { BeatTimeline } from "./beats/BeatTimeline";
 import { BeatProof } from "./beats/BeatProof";
 import { BeatDispute } from "./beats/BeatDispute";
@@ -16,6 +17,7 @@ import { Close } from "./beats/Close";
    Caption + palette as the main Promo; brand bookends (ColdOpen / Close). */
 const BEATS: { C: React.FC; d: number }[] = [
   { C: ColdOpen, d: DUR.cold },
+  { C: BeatRequest, d: DUR.request },
   { C: BeatTimeline, d: DUR.tl },
   { C: BeatProof, d: DUR.proof },
   { C: BeatDispute, d: DUR.dispute },
