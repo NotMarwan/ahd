@@ -63,8 +63,8 @@ export const Bar: React.FC<{ pct: number; style?: React.CSSProperties }> = ({ pc
    RTL container ⇒ items flow right→left with the home pill at the right. */
 export const Nav: React.FC<{ active: string }> = ({ active }) => {
   const items = [
-    { k: "home", t: "الرئيسية" }, { k: "daftari", t: "دفتري" }, { k: "create", t: "أنشئ عهداً" },
-    { k: "open", t: "القرض المفتوح" }, { k: "circle", t: "الدائرة" }, { k: "settle", t: "المقاصّة" },
+    { k: "home", t: "الرئيسية" }, { k: "create", t: "أنشئ عهداً" }, { k: "daftari", t: "دفتري" },
+    { k: "timeline", t: "السجلّ" }, { k: "open", t: "القرض المفتوح" }, { k: "circle", t: "الدائرة" }, { k: "settle", t: "المقاصّة" },
   ];
   return (
     <div style={{ display: "flex", gap: 9, justifyContent: "flex-start", padding: "4px 0 16px", overflow: "hidden", maskImage: "linear-gradient(90deg, transparent 0, #000 28px)" }}>

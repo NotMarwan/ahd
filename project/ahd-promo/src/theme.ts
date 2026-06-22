@@ -61,5 +61,10 @@ export const DUR = {
   circle: 288,  // 4.8s  — bar fills, members settle
   settle: 456,  // 7.6s  — CLIMAX: 9-IOU tangle collapses to 2
   close: 186,   // 3.1s  — wordmark + tagline, calm fade
+  // ── NEW-features promo beats (the «ما الجديد» film) ──
+  tl: 234,      // 3.9s  — witness timeline cascades in
+  proof: 318,   // 5.3s  — HERO: hash computes, seal locks, tamper caught
+  dispute: 234, // 3.9s  — record pauses, two dignified paths
+  settings: 246, // 4.1s — digits morph ٠←0, «ما لا نفعله» reveals
 };
 export const TRANS = 26;

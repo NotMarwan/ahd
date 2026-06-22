@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "remotion studio",
     "render": "remotion render src/index.ts Promo out/ahd-app-promo.mp4 --codec=h264 --crf=18",
-    "still": "remotion still src/index.ts Promo out/still.png"
+    "render:new": "remotion render src/index.ts AhdNew out/ahd-new-features.mp4 --codec=h264 --crf=18",
+    "still": "remotion still src/index.ts Promo out/still.png",
+    "still:new": "remotion still src/index.ts AhdNew out/check.png"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.481",
