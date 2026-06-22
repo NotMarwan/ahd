@@ -1,29 +1,17 @@
-import React from 'react';
-import {Composition} from 'remotion';
-import {AhdPromo, DURATION} from './AhdPromo';
+import React from "react";
+import { Composition } from "remotion";
+import { Promo, PROMO_FRAMES } from "./Promo";
+import { FPS, WIDTH, HEIGHT } from "./theme";
 
-// Vertical, phone-native canvas. 1080x1920 @ 30fps.
 export const RemotionRoot: React.FC = () => {
   return (
-    <>
-      <Composition
-        id="AhdPromoD2"
-        component={AhdPromo}
-        durationInFrames={DURATION}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={{direction: 2 as const}}
-      />
-      <Composition
-        id="AhdPromoD1"
-        component={AhdPromo}
-        durationInFrames={DURATION}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={{direction: 1 as const}}
-      />
-    </>
+    <Composition
+      id="Promo"
+      component={Promo}
+      durationInFrames={PROMO_FRAMES}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
   );
 };

@@ -5,20 +5,24 @@
   "description": "Ahd — purely visual promo video (Remotion). No narration, no added captions.",
   "scripts": {
     "dev": "remotion studio",
-    "render": "remotion render AhdPromoD2 out/ahd-promo-d2.mp4 --muted",
-    "render:d1": "remotion render AhdPromoD1 out/ahd-promo-d1.mp4 --muted",
-    "render:d2": "remotion render AhdPromoD2 out/ahd-promo-d2.mp4 --muted"
+    "render": "remotion render src/index.ts Promo out/ahd-app-promo.mp4 --codec=h264 --crf=18",
+    "still": "remotion still src/index.ts Promo out/still.png"
   },
   "dependencies": {
-    "@remotion/cli": "4.0.481",
-    "@remotion/google-fonts": "4.0.481",
-    "@remotion/transitions": "4.0.481",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "remotion": "4.0.481"
+    "@remotion/cli": "^4.0.481",
+    "@remotion/google-fonts": "^4.0.481",
+    "@remotion/transitions": "^4.0.481",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.481"
   },
   "devDependencies": {
     "@types/react": "18.3.12",
     "typescript": "5.6.3"
-  }
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
 }

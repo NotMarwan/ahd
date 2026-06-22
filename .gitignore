@@ -1,3 +1,9 @@
+# --- SECRETS (never commit) ---
+github.txt
+*.token
+.env
+.env.*
+
 # --- Heavy / generated / irrelevant to the Ahd product work ---
 claudecodeui/
 **/node_modules/
