@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -48,7 +48,8 @@ ok(!!App, "window.AhdApp is defined");
 ok(!!sandbox.AHD && !!sandbox.Daftari, "engine (AHD) + Daftari attach to window");
 let booted = noThrow(() => App.boot(), "App.boot() initialises (nav + default screen)");
 ok(/عهد/.test(booted) && /دفتري/.test(booted), "boot lands on the home front door (brand + feature cards)");
-ok(JSON.stringify(App.order.slice(0, 7)) === JSON.stringify(["home", "create", "daftari", "open", "circle", "circle-adv", "settle"]), "nav renders in product-flow order (home→create→daftari→open→circle→circle-adv→settle), not build order");
+var navKeys = []; App.navHTML().replace(/AhdApp\.go\('([^']+)'\)/g, function (_, k) { navKeys.push(k); return _; });
+ok(JSON.stringify(navKeys) === JSON.stringify(["home", "create", "daftari", "timeline", "open", "circle", "circle-adv", "settle"]), "nav pills render in product-flow order incl. timeline (NAV_ORDER-driven)");
 let hh = noThrow(() => App.go("home"), "go('home') renders the front door");
 ok(/قرضٌ حسن/.test(hh) && /لك عند الناس/.test(hh), "home shows the spine tagline + live دفتري summary");
 
@@ -143,6 +144,16 @@ ok(/المقاصّة|أقلّ التحويلات/.test(se), "settle shows the Mu
 ok(/التزامًا/.test(se) && /تحويلان/.test(se), "settle shows the N→M transfer reduction (9→2)");
 ok(/تدفع/.test(se), "settle lists the concrete minimal transfers");
 ok(/برهان الحفظ/.test(se), "settle shows the conservation proof (Σ net = 0)");
+
+/* ---- سِجلّ الشهادة (the witness timeline) ---- */
+ok(!!sandbox.Timeline, "Timeline module attaches to window");
+let tlh = noThrow(() => App.go("timeline"), "go('timeline') renders the witness timeline");
+ok(/سِجلّ الشهادة/.test(tlh), "timeline shows the «سِجلّ الشهادة» header");
+ok(/ذمّة محفوظة/.test(tlh), "timeline surfaces a «ذمّة محفوظة» (kept) moment");
+ok(/يشهد ولا يحكم/.test(tlh), "a disputed عهد reads NEUTRAL «يشهد ولا يحكم» (bank shows, never judges)");
+ok(/بالنيابة عنك/.test(tlh), "a bank-sent reminder appears «بالنيابة عنك»");
+ok(/tone-amber/.test(tlh) && tlh.indexOf("tone-red") < 0, "reminders render AMBER on the feed, never red");
+ok(tlh.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(tlh), "no score / percentage anywhere on the timeline");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");

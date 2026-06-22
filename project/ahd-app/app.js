@@ -16,6 +16,7 @@
   var CreateAhd = (typeof window !== "undefined" ? window.CreateAhd : null);
   var Settlement = (typeof window !== "undefined" ? window.Settlement : null);
   var CircleDash = (typeof window !== "undefined" ? window.CircleDash : null);
+  var Timeline = (typeof window !== "undefined" ? window.Timeline : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -49,9 +50,10 @@
     AS_OF: (Daftari && Daftari.AS_OF_DEFAULT) || "2026-06-21",
     viewer: "نايف",
     screens: {}, order: [], current: null,
-    /* product-flow nav order (not feature build order): start a عهد → keep your ledger →
-       the open-term loan → the group circle → advanced circle → net the tangle */
-    NAV_ORDER: ["home", "create", "daftari", "open", "circle", "circle-adv", "settle"],
+    /* product-flow nav order (not feature build order). Only PRIMARY screens get a nav
+       pill; contextual screens (e.g. proof-pack, dispute) are registered + reachable via
+       go() but intentionally absent here, so the nav stays clean as features grow. */
+    NAV_ORDER: ["home", "create", "daftari", "timeline", "open", "circle", "circle-adv", "settle"],
     records: seedRecords(),
     reminderHistory: {},
     /* Naif's OWN kept-history → his own trust band (own mirror; never shared) */
@@ -70,6 +72,7 @@
     createState: { extra: "", sealed: null, tamper: false, flash: null },
     Settlement: Settlement,
     CircleDash: CircleDash,
+    Timeline: Timeline,
 
     esc: esc,
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
@@ -77,7 +80,7 @@
 
     navHTML: function () {
       var self = this;
-      return '<nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات">' + this.order.map(function (k) {
+      return '<nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات">' + this.NAV_ORDER.filter(function (k) { return self.screens[k]; }).map(function (k) {
         var s = self.screens[k], on = (k === self.current);
         return '<button class="navbtn' + (on ? " on" : "") + '"' + (on ? ' aria-current="page"' : '') + ' onclick="AhdApp.go(\'' + k + '\')">' +
           '<span class="navico" aria-hidden="true">' + (s.icon || "") + "</span>" + esc(s.label) + "</button>";
@@ -97,12 +100,7 @@
     rerender: function () { return this.go(this.current); },
 
     boot: function () {
-      var want = this.NAV_ORDER;
-      this.order.sort(function (a, b) {
-        var ia = want.indexOf(a), ib = want.indexOf(b);
-        return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib);
-      });
-      this.current = this.order.length ? this.order[0] : null;
+      this.current = (this.NAV_ORDER.length && this.screens[this.NAV_ORDER[0]]) ? this.NAV_ORDER[0] : (this.order[0] || null);
       if (this.current) return this.go(this.current);
       return "";
     },
