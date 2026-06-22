@@ -32,8 +32,16 @@ still go to `DECISIONS-FOR-MARWAN.md`.
   Arabic-Indic digit toggle — **resolves D-2**). Independently **code-reviewed** (0 determinism/
   spine issues; 3 findings applied). IA stays clean: 8 nav pills / 2 rows; proof + dispute +
   settings are contextual.
-- ⏳ **Phase 3 — Remotion promo of the new features.** Starting now. **mp4 will land in
-  `project/ahd-promo/out/`** (path noted here when rendered).
+- ✅ **Phase 3 — Remotion promo of the NEW features.** Rendered: **`project/ahd-promo/out/ahd-new-features.mp4`**
+  — 1080×1920 · **60fps** · H.264 · ~21s · 8.6 MB. A fast-paced film of all 4 new features (timeline ·
+  proof-pack with live hash-compute + tamper-caught · dispute-pause · settings/digit-morph + manifesto),
+  reusing the app's exact palette/motion system, with an **animated Arabic caption per feature**.
+  **Arabic was HARD-verified before the full render** (3 stills opened + checked). New composition
+  `AhdNew`; render via `cd project/ahd-promo && npm run render:new`.
+
+### 🎬 WHERE THE MP4s ARE
+- **`project/ahd-promo/out/ahd-new-features.mp4`** ← tonight's NEW-features promo (the deliverable).
+- `project/ahd-promo/out/ahd-app-promo.mp4` ← the earlier original-features promo (kept).
 
 **Gate (fresh, real output):** core `184/0` (135+9+40) · app `17/17 suites = 575/0` · **759 total** ·
 demo tripwire `e2f48467… OK`. 0 console errors across all screens (real Chromium).
@@ -103,6 +111,23 @@ safe "keep" path) + standing D-1 / D-3 (Shariah-gated) and D-2 (FYI).
 ---
 
 ## LOG (newest first)
+
+### Phase 3 · Remotion promo of the NEW features — ✅ DONE
+`project/ahd-promo/out/ahd-new-features.mp4` (1080×1920 · 60fps · H.264 · ~21s · 8.6 MB). New
+composition **`AhdNew`** (`src/NewPromo.tsx`) = brand bookends (ColdOpen/Close) + 4 new beats, reusing
+the existing motion system (`motion.ts`), Phone frame, Caption, and the exact app palette.
+- **BeatTimeline** — the witness feed cascades in (sealed/reminder/mercy/neutral/kept); amber not red,
+  dispute neutral, no score; Arabic-Indic amounts.
+- **BeatProof** (hero) — canonical doc reveals, SHA-256 "computes" (deterministic scramble→lock), the
+  seal locks, then a tamper is **caught** (✗ عبثٌ مكشوف, principal flips red) and **restored** (✓ سليمة).
+  Real golden hash; render-safe SVG marks (no emoji).
+- **BeatDispute** — the calm «عهدٌ يشهد ولا يحكم» stance, reminders paused, two paths (تراضٍ الأحبّ · قضاء).
+- **BeatSettings** — digits morph ٠←0 (toggle crossfade), the «ما لا نفعله» manifesto cascades.
+- **Arabic/RTL — HARD-verified BEFORE full render** (per brief): rendered 3 stills
+  (timeline/proof/settings @ frames 250/560/1000), opened + confirmed correct shaping/joining, captions
+  present, key moments animate. Then full render 1262/1262 frames, ffprobe-confirmed 1080×1920/60fps/h264.
+- No voiceover; one animated Arabic caption per feature; no score/number on screen; «late»=amber.
+  Commit `62943c2`. (Render: `cd project/ahd-promo && npm run render:new`.)
 
 ### Phase 2 · New feature-discovery sprint — ✅ 4 features DONE
 Autonomous brainstorm → prioritized backlog (`docs/superpowers/specs/2026-06-22-phase2-feature-sprint-design.md`)
