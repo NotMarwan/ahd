@@ -18,6 +18,7 @@
   var CircleDash = (typeof window !== "undefined" ? window.CircleDash : null);
   var Timeline = (typeof window !== "undefined" ? window.Timeline : null);
   var Proof = (typeof window !== "undefined" ? window.Proof : null);
+  var Dispute = (typeof window !== "undefined" ? window.Dispute : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -76,6 +77,8 @@
     Timeline: Timeline,
     Proof: Proof,
     proofState: { recordId: null, tamper: false, flash: null },
+    Dispute: Dispute,
+    disputeState: { recordId: null, flash: null },
 
     esc: esc,
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
@@ -139,6 +142,13 @@
     proofExport: function () { this.proofState.flash = "جُهّزت الوثيقة كملفٍ موقّع — مهيّأةٌ للمشاركة دليلًا عند الحاجة."; return this.rerender(); },
     proofBack: function () { return this.go("daftari"); },
     proofDismiss: function () { this.proofState.flash = null; return this.rerender(); },
+
+    /* ---- محلّ خلاف (dispute pause) — a CONTEXTUAL screen; bank pauses, never judges ---- */
+    openDispute: function (id) { if (this.recordById(id)) { this.disputeState = { recordId: id, flash: null }; this.daftariState.sheetId = null; return this.go("dispute"); } return this.rerender(); },
+    disputeBack: function () { return this.go("daftari"); },
+    disputeGrace: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("GRACE_GRANTED")); this.daftariState.flash = "اقتُرحت إعادة الجدولة بالمعروف — صلحًا، بلا أيّ زيادة (٢٨٠)."; } return this.go("daftari"); },
+    disputeForgive: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("FORGIVEN")); this.daftariState.flash = "أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾."; } return this.go("daftari"); },
+    disputeDismiss: function () { this.disputeState.flash = null; return this.rerender(); },
 
     /* ---- القرض المفتوح actions (integer halalas; bad input is a clean no-op) ---- */
     openLoanPay: function (amountSAR) {

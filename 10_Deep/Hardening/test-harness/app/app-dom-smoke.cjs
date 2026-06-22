@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -170,6 +170,19 @@ ok(/سليمة/.test(App.go("proof")), "restored record verifies ✓ again");
 noThrow(() => App.proofBack(), "proofBack returns to دفتري");
 ok(App.current === "daftari", "proofBack lands on دفتري");
 noThrow(() => App.openProof("does-not-exist"), "openProof with a bad id is a safe no-op");
+
+/* ---- محلّ خلاف (dispute pause) — a CONTEXTUAL screen, the bank never judges ---- */
+ok(!!sandbox.Dispute, "Dispute module attaches to window");
+ok(navKeys.indexOf("dispute") < 0, "dispute is CONTEXTUAL — no nav pill");
+let dp = noThrow(() => App.openDispute("R-DISP"), "openDispute('R-DISP') navigates to the dispute screen");
+ok(App.current === "dispute", "openDispute sets the current screen to dispute");
+ok(/محلّ خلاف/.test(dp) && /يشهد ولا يحكم/.test(dp), "dispute screen states «محلّ خلاف» + «عهدٌ يشهد ولا يحكم»");
+ok(/تراضٍ/.test(dp) && /قضاء/.test(dp), "dispute screen offers BOTH paths (تراضٍ + قضاء)");
+ok(/بلا غرامة/.test(dp) && /بلا أيّ زيادة/.test(dp), "dispute screen states NO penalty, no زيادة");
+ok(dp.indexOf("tone-red") < 0 && dp.indexOf("%") < 0, "dispute screen: no red-shaming, no score");
+let dpg = noThrow(() => App.disputeGrace("R-DISP"), "dispute «اقترِح إعادة جدولة» (صلح) applies grace + returns to دفتري");
+ok(App.current === "daftari", "after disputeGrace, the app lands back on دفتري");
+noThrow(() => App.openDispute("does-not-exist"), "openDispute with a bad id is a safe no-op");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");

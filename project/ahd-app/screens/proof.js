@@ -13,8 +13,8 @@
   function render(app) {
     var e = app.engine, PF = app.Proof, st = app.proofState;
     if (!PF) return '<div class="empty">وحدة الإثبات غير محمّلة.</div>';
-    var r = app.recordById(st.recordId) || app.records[0];
-    if (!r) return '<div class="empty">لا يوجد عهد لعرض وثيقته.</div>';
+    var r = st.recordId ? app.recordById(st.recordId) : null;
+    if (!r) return '<div class="empty">اختر عهدًا من دفترك أوّلًا لعرض وثيقته المختومة.</div>';
 
     var pack = PF.buildProofPack(r, e);
     var tamperSAR = r.amountSAR + 4000;                       // an obvious mutation for the demo

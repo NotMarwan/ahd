@@ -34,6 +34,7 @@
     var gate = app.D.canSendReminder(row, app.reminderHistory[id] || [], app.AS_OF);
     var opts = [];
     if (isMine) {
+      if (row.statusKey === "DISPUTED") opts.push('<button class="opt" onclick="AhdApp.openDispute(\'' + id + '\')">تفاصيل الخلاف ⚖️</button>');
       if (gate.allowed) opts.push('<button class="opt primary" onclick="AhdApp.daftariCompose(\'' + id + '\')">تذكيرٌ بالمعروف 🤍</button>');
       opts.push('<button class="opt" onclick="AhdApp.daftariCloseSheet()">اطمئن، أمهِله</button>');
       opts.push('<button class="opt" onclick="AhdApp.debtorGrace(\'' + id + '\')">اقترِح إعادة جدولة 🌿</button>');

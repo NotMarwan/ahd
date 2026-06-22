@@ -228,3 +228,23 @@ body{
 .pf-act button{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 14px; font:inherit; font-size:13px; cursor:pointer}
 .pf-act .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600}
 .pf-note{color:var(--gold); font-size:12.5px; text-align:center; line-height:1.85}
+
+/* محلّ خلاف — dispute pause (the bank shows, never judges) */
+.dispute{display:flex; flex-direction:column; gap:12px}
+.dp-head{font-weight:800; font-size:20px}
+.dp-sub{color:var(--mut); font-size:13px; margin-top:-4px}
+.dp-stance{background:var(--mute-soft); color:var(--ink); border-radius:14px; padding:14px 15px; font-size:14.5px; line-height:1.8; font-weight:600; text-align:center}
+.dp-paused{background:#fff; border:1px dashed var(--line); border-radius:12px; padding:11px 13px; font-size:12.5px; color:var(--mut); text-align:center; line-height:1.8}
+.dp-exhibit{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px 14px; box-shadow:var(--shadow)}
+.dp-exhibit b{color:var(--ink)}
+.dp-exhibit .dp-ex-ar{color:var(--mut); font-size:12.5px; margin:5px 0 9px; line-height:1.7}
+.dp-exhibit button, .dp-acts button{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:9px 13px; font:inherit; font-size:12.5px; cursor:pointer}
+.dp-paths{display:flex; flex-direction:column; gap:10px}
+.dp-path{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px 14px; box-shadow:var(--shadow)}
+.dp-path.enc{border-color:#cfe6df; background:var(--teal-soft)}
+.dp-pt{font-weight:700; font-size:14px; display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.dp-tag{font-size:11px; font-weight:600; background:var(--teal); color:#fff; border-radius:999px; padding:2px 8px}
+.dp-pn{color:var(--mut); font-size:12.5px; margin:6px 0 9px; line-height:1.75}
+.dp-acts{display:flex; gap:8px; flex-wrap:wrap}
+.dp-acts .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600}
+.dp-note{color:var(--mut); font-size:12px; text-align:center; line-height:1.8}
