@@ -52,7 +52,23 @@ live tamper-verify · dispute-pause · settings/Arabic-Indic digits) — all rec
 green, code-reviewed. Phase 3 (Remotion film) next.
 
 **Needs your decision:** `DECISIONS-FOR-MARWAN.md` — **D-4** (demo kept/frozen vs retire — I took the
-safe "keep" path) + standing D-1 / D-3 (Shariah-gated) and D-2 (FYI).
+safe "keep" path) + standing **D-1** / **D-3** (Shariah-gated). **D-2 is now resolved** (shipped as a
+user toggle).
+
+**▶️ How to review tonight's work**
+1. **Clone/pull:** `https://github.com/NotMarwan/ahd` → branch `overnight/deepening`.
+2. **Run the app:** `node project/ahd-app/_serve-app.cjs` → http://localhost:8124 — try: *أنشئ عهداً*
+   (riba linter), *السجلّ* (timeline), *دفتري → ⋯ → وثيقة الإثبات* (proof-pack, press «جرّب العبث»),
+   *دفتري → ماجد → تفاصيل الخلاف* (dispute), home footer → *الإعدادات* (digit toggle).
+3. **Watch the film:** `project/ahd-promo/out/ahd-new-features.mp4`.
+4. **Run the gate:** from `10_Deep/Hardening/test-harness/`:
+   `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs`
+   → core 184/0 + app 575/0.
+5. **Diff:** `git log main..overnight/deepening --oneline` (this run's commits). Nothing auto-merges to `main`.
+
+**✅ Final verification snapshot (2026-06-22, fresh):**
+`repo pushed (token 404 on remote) · core 135+9+40=184/0 · app 17/17=575/0 · 759 total · demo tripwire
+e2f48467… OK · 0 uncommitted · 4 new features code-reviewed · promo 1080×1920/60fps/h264 21s Arabic-verified`
 
 ---
 
