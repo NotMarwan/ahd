@@ -47,8 +47,39 @@ adversarial corpus, self-contained). **The golden function, vectors, and netting
 with halal fixes, seal disabled, **0 console errors**, Arabic correct (RTL, joined, not reversed), no number/score.
 Screenshot: `project/ahd-app/screenshots/deepening/ahd-riba-linter-deepened.png`.
 
-**Gate (fresh, real output):** core **184/0** (135+9+40) · app **21/21 suites = 779/0** · **963 total** (was 817)
-· demo tripwire unchanged · 0 console errors. Plan: `docs/superpowers/plans/deepen-01-riba-linter.md`.
+**Code-reviewed (Deepen-01b).** A fresh adversarial subagent reviewed the linter; valid findings applied
+(TDD, +9 assertions): the golden **floor can no longer be silenced by a stray unrelated negation** (it only
+trusts the negation shortcut when the layer actually saw+cleared a trigger); **«لا يُشترط … فائدة» now reads
+CLEAN** (verb-negation + conditional-benefit guard); input capped at 4000 chars. The float-money note on the
+pre-existing record shape (`amountMinor/100`) is logged, not changed (out of this lane).
+
+**Gate after Deepen-01(+b):** core **184/0** · app **21/21 = 779/0** · demo tripwire unchanged · 0 console errors.
+
+### ✅ Deepen-02 — دفتري is now the product HUB
+**What got deeper.** دفتري was a flat list. It now reads like a home base, with the 5 new features woven in:
+- **Grouped, dignified sections** (`groupLedger`): «متأخّرة — بالمعروف» (amber, «تذكيرٌ لطيف، لا مطالبة») ·
+  «محلّ خلاف — عهدٌ يشهد ولا يحكم» (isolated, neutral) · «قائمة وقادمة» · «محفوظة ✓» — each with a count.
+- **A reconciling NET balance** (`netPosition`): «صافي ما لك/عليك … ر.س» computed **exactly in integer
+  halalas** (`netMinor === meMinor − onMinor`, live rows only). It's a money balance, not a score.
+- **Filter chips** (`filterRows`: الكل/متأخّرة/قائمة/خلاف/محفوظة) — only the present categories show.
+- **The ask (طلب عهد) woven into the hub**: a header «＋ اطلب عهدًا», and a **sent-but-unaccepted request
+  surfaces as a pending row** in «عليّ» («بانتظار قبول {lender} — لم يُختَم بعد، فليس في ميزانك حتى يُقبل»),
+  never counted in totals until sealed. (حافظة الإثبات + محلّ خلاف were already first-class row actions.)
+
+**Reshape (guarded).** `screens/daftari.js` render rebuilt around sections; `features/daftari.js` gained 3 pure
+functions; `app.js` gained `daftariFilter` + a `filter` state. No golden touch; the trust signal stays a word.
+
+**Tests (TDD).** `app/daftari-hub.test.cjs` (35 — grouping order/coverage/no-dupe, exact net reconciliation in
+halalas, all filters, determinism) + DOM-smoke grown (+8: sections, net, ask, filter, pending row). Existing
+`daftari.test.cjs` (123) stays fully green — no assertion weakened.
+
+**Real-browser verified** (Chromium): grouped sections render with counts, net «صافي ما لك 2,200 ر.س»
+(reconciles 5200−3000), filters work, the sent request shows as a pending row, **0 console errors**, Arabic
+correct, amber-not-red, no number/score. Screenshot: `project/ahd-app/screenshots/deepening/ahd-daftari-hub.png`.
+Plan: `docs/superpowers/plans/deepen-02-daftari-hub.md`.
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **22/22 suites = 831/0** · **1015 total** (was
+817) · demo tripwire unchanged · 0 console errors.
 
 ---
 

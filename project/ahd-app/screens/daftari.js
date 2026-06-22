@@ -77,33 +77,81 @@
       (open ? sheet(row, app) : "") + (composing ? compose(row, app) : "") + "</div>";
   }
 
+  /* net position — a MONEY balance (factual), never a score */
+  function netLine(app, led) {
+    var np = app.D.netPosition(led, app.engine);
+    if (np.side === "balanced") return '<div class="net bal">ميزانك متوازن — لا لك ولا عليك 🤍</div>';
+    var word = np.side === "lak" ? "صافي ما لك" : "صافي ما عليك";
+    return '<div class="net ' + np.side + '">' + word + ' <b>' + App.fmtN(np.netSAR) + ' ر.س</b><small>بعد مقاصّة ما لك بما عليك</small></div>';
+  }
+
+  /* filter chips — only the categories present in the active side are shown */
+  function filterBar(app, sideRows) {
+    var cur = app.daftariState.filter || "all";
+    var defs = [
+      { k: "all", t: "الكل" },
+      { k: "overdue", t: "متأخّرة", has: sideRows.some(function (r) { return r.isOverdue; }) },
+      { k: "active", t: "قائمة", has: sideRows.some(function (r) { return app.D.filterRows([r], "active").length; }) },
+      { k: "disputed", t: "خلاف", has: sideRows.some(function (r) { return r.statusKey === "DISPUTED"; }) },
+      { k: "kept", t: "محفوظة", has: sideRows.some(function (r) { return app.D.filterRows([r], "kept").length; }) }
+    ].filter(function (d) { return d.k === "all" || d.has; });
+    if (defs.length <= 2) return "";  // nothing meaningful to filter
+    return '<div class="dfilter" role="tablist" aria-label="تصفية">' + defs.map(function (d) {
+      return '<button class="fchip' + (d.k === cur ? " on" : "") + '" onclick="AhdApp.daftariFilter(\'' + d.k + '\')">' + App.esc(d.t) + "</button>";
+    }).join("") + "</div>";
+  }
+
+  function sectionHTML(sec, app) {
+    var note = sec.note ? '<span class="snote">' + App.esc(sec.note) + "</span>" : "";
+    return '<div class="dsection"><div class="shead"><span class="slabel">' + App.esc(sec.label) +
+      '</span><span class="scount">' + App.digit(sec.rows.length) + "</span>" + note + "</div>" +
+      sec.rows.map(function (r) { return rowHTML(r, app); }).join("") + "</div>";
+  }
+
+  /* a SENT-but-unaccepted طلب عهد — visible in «عليّ», but NOT yet in any total
+     (it is not a sealed عهد until the lender accepts) */
+  function pendingRequestRow(app) {
+    var req = app.request, rs = app.requestState;
+    if (!req || !rs || !rs.sent || rs.accepted) return "";
+    return '<div class="dpending"><span class="ava">' + App.esc(String(req.lender).slice(0, 1)) + "</span>" +
+      '<div class="pbody"><div class="ptitle">طلبُ عهدٍ إلى ' + App.esc(req.lender) + ' — بانتظار القبول</div>' +
+      '<div class="psub">' + App.fmtN(req.amountSAR) + ' ر.س · لم يُختَم بعد، فليس في ميزانك حتى يُقبل</div></div>' +
+      '<button class="pgo" onclick="AhdApp.go(\'request\')">متابعة ←</button></div>';
+  }
+
   function render(app) {
     var led = app.D.buildLedger(app.records, app.viewer, app.engine, app.AS_OF);
     var tiles = app.D.summaryTiles(led);
     var st = app.daftariState;
-    var list = st.tab === "on" ? led.iOwe : led.owedToMe;
+    var sideRows = st.tab === "on" ? led.iOwe : led.owedToMe;
+    var sections = app.D.groupLedger(app.D.filterRows(sideRows, st.filter || "all"));
 
     var flash = st.flash ? '<div class="flash" onclick="AhdApp.daftariDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
     var head =
+      '<div class="dhead"><div class="dtitle">دفتري</div><button class="dask" onclick="AhdApp.go(\'request\')">＋ اطلب عهدًا</button></div>' +
       '<div class="tiles">' +
         '<div class="tile"><div class="tl">لك عند الناس</div><div class="tv">' + App.fmtN(tiles.me.amountSAR) + ' <small>ر.س</small></div><div class="tc">' + App.digit(tiles.me.count) + ' عهود</div></div>' +
         '<div class="tile"><div class="tl">عليك للناس</div><div class="tv">' + App.fmtN(tiles.on.amountSAR) + ' <small>ر.س</small></div><div class="tc">' + App.digit(tiles.on.count) + ' عهود</div></div>' +
-      "</div>";
+      "</div>" + netLine(app, led);
     var tabs =
       '<div class="tabs" role="tablist">' +
         '<button class="tab' + (st.tab === "me" ? " on" : "") + '" role="tab" aria-selected="' + (st.tab === "me") + '" onclick="AhdApp.daftariTab(\'me\')">لي</button>' +
         '<button class="tab' + (st.tab === "on" ? " on" : "") + '" role="tab" aria-selected="' + (st.tab === "on") + '" onclick="AhdApp.daftariTab(\'on\')">عليّ</button>' +
       "</div>";
+    var filter = filterBar(app, sideRows);
     var bandHTML = "";
     if (st.tab === "on" && app.selfHistory && app.D.selfBand) {
       var sb = app.D.selfBand(app.selfHistory, false, app.engine);
       bandHTML = '<div class="selfband">سجلّ وفائك <span class="sbnote">(مرآةٌ لك وحدك — كلمة، لا رقم)</span> <b>' + App.esc(sb.word) + "</b></div>";
     }
-    var body = list.length
-      ? '<div class="list">' + list.map(function (r) { return rowHTML(r, app); }).join("") + "</div>"
-      : '<div class="empty">دفترك نظيف. أول ما تكتب عهدًا — قرضًا لك أو عليك — يظهر هنا، محفوظًا.</div>';
+    var pending = st.tab === "on" ? pendingRequestRow(app) : "";
+    var body = sections.length
+      ? '<div class="list">' + sections.map(function (s) { return sectionHTML(s, app); }).join("") + "</div>"
+      : '<div class="empty">' + ((st.filter && st.filter !== "all")
+          ? "لا عهود في هذا التصنيف."
+          : "دفترك نظيف. أول ما تكتب عهدًا — قرضًا لك أو عليك — يظهر هنا، محفوظًا.") + "</div>";
 
-    return '<div class="daftari">' + flash + head + tabs + bandHTML + body + "</div>";
+    return '<div class="daftari">' + flash + head + tabs + filter + bandHTML + pending + body + "</div>";
   }
 
   App.registerScreen({ key: "daftari", label: "دفتري", icon: "📔", render: render });

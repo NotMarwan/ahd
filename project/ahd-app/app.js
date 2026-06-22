@@ -63,7 +63,7 @@
     /* Naif's OWN kept-history → his own trust band (own mirror; never shared) */
     selfHistory: [{ t: "2025-08", kept: true }, { t: "2025-10", kept: true }, { t: "2025-12", kept: true },
       { t: "2026-01", kept: true }, { t: "2026-03", kept: true }, { t: "2026-05", kept: true }],
-    daftariState: { tab: "me", sheetId: null, composeId: null, composeTier: 1, flash: null },
+    daftariState: { tab: "me", filter: "all", sheetId: null, composeId: null, composeTier: 1, flash: null },
     OpenLoan: OpenLoan,
     openLoan: OpenLoan ? OpenLoan.makeOpenLoan({ id: "OPEN-MUNIRA-MAJID", lender: "منيرة", borrower: "ماجد", amountSAR: 20000, purpose: "لتجهيز عربة القهوة" }) : null,
     openLoanState: { sheet: false, tamper: false, flash: null },
@@ -129,7 +129,8 @@
     },
 
     /* ---- دفتري actions (mutate deterministic state, then re-render) ---- */
-    daftariTab: function (which) { if (which === "me" || which === "on") this.daftariState.tab = which; this.daftariState.sheetId = null; this.daftariState.composeId = null; return this.rerender(); },
+    daftariTab: function (which) { if (which === "me" || which === "on") this.daftariState.tab = which; this.daftariState.filter = "all"; this.daftariState.sheetId = null; this.daftariState.composeId = null; return this.rerender(); },
+    daftariFilter: function (f) { this.daftariState.filter = f || "all"; this.daftariState.sheetId = null; this.daftariState.composeId = null; return this.rerender(); },
     daftariOpenSheet: function (id) { if (this.recordById(id)) { this.daftariState.sheetId = id; this.daftariState.composeId = null; } return this.rerender(); },
     daftariCloseSheet: function () { this.daftariState.sheetId = null; return this.rerender(); },
     daftariCompose: function (id) {

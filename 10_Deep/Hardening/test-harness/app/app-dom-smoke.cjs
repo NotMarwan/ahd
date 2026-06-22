@@ -61,11 +61,26 @@ ok(/عليك للناس/.test(h), "home shows «عليك للناس» tile");
 ok(/مقهى الحي|سلطان/.test(h), "home lists Naif's debtors (لي tab default)");
 ok(/عليه وعدٌ متأخّر/.test(h), "overdue row shows the amber «عليه وعدٌ متأخّر» chip");
 
+/* دفتري is the HUB: grouped sections, net balance, the ask, filter chips */
+ok(/متأخّرة — بالمعروف/.test(h) && /محفوظة ✓/.test(h), "ledger is grouped into dignified sections (متأخّرة/محفوظة)");
+ok(/محلّ خلاف — عهدٌ يشهد ولا يحكم/.test(h), "a disputed عهد is isolated in its own neutral section");
+ok(/صافي ما لك/.test(h), "a reconciling NET balance line is shown (money, not a score)");
+ok(/اطلب عهدًا/.test(h), "the ask (طلب عهد) is reachable from دفتري (hub entry)");
+ok(/class="fchip"|fchip/.test(h), "filter chips render");
+let hOverdue = noThrow(() => App.daftariFilter("overdue"), "filter to «متأخّرة»");
+ok(/متأخّرة — بالمعروف/.test(hOverdue) && !/محفوظة ✓/.test(hOverdue), "overdue filter shows only the overdue section");
+App.daftariFilter("all");
+
 /* tab switch to «عليّ» shows what Naif owes */
 let hon = noThrow(() => App.daftariTab("on"), "switch to «عليّ» tab");
 ok(/فهد/.test(hon), "«عليّ» tab shows فهد (Naif owes his brother)");
 ok(/سجلّ وفائك/.test(hon) && /وفّى بعهوده/.test(hon), "«عليّ» tab shows Naif's OWN trust band (word, never a number)");
 ok(hon.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(hon), "the band is a word — no percentage/score on screen");
+/* a SENT طلب عهد surfaces as a pending row in «عليّ» (not yet in any total) */
+App.requestSend();
+let honPending = App.daftariTab("on");
+ok(/بانتظار القبول/.test(honPending), "a sent طلب عهد shows as a pending row in «عليّ»");
+App.requestState = { sent: false, accepted: null, flash: null };   // restore for later request-screen assertions
 App.daftariTab("me");
 
 /* the gentle reminder compose — bank-sent, with the two debtor buttons */

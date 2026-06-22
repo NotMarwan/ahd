@@ -136,10 +136,44 @@
     return { band: s.band, word: (engine.TRUST_BAND_AR || {})[s.band] || "" };
   }
 
+  /* ---- the HUB: dignified grouping, exact net reconciliation, filtering ----
+     Grouping keeps buildLedger's sort within each section; overdue stays amber
+     («بالمعروف»), never punitive; disputed is isolated and neutral. The net is a
+     MONEY balance (factual), not a trust score; it reconciles exactly in halalas. */
+  var SECTIONS = [
+    { key: "overdue", label: "متأخّرة — بالمعروف", note: "تذكيرٌ لطيف، لا مطالبة", test: function (r) { return r.isOverdue; } },
+    { key: "disputed", label: "محلّ خلاف — عهدٌ يشهد ولا يحكم", note: "محايد، بلا أيّ زيادة", test: function (r) { return r.statusKey === "DISPUTED"; } },
+    { key: "active", label: "قائمة وقادمة", note: "", test: function (r) { return isLive(r) && !r.isOverdue && r.statusKey !== "DISPUTED"; } },
+    { key: "closed", label: "محفوظة ✓", note: "ذمّةٌ محفوظة", test: function (r) { return !isLive(r); } }
+  ];
+  function sectionOf(r) { for (var i = 0; i < SECTIONS.length; i++) if (SECTIONS[i].test(r)) return SECTIONS[i].key; return "active"; }
+  function groupLedger(rows) {
+    rows = rows || [];
+    return SECTIONS.map(function (s) {
+      return { key: s.key, label: s.label, note: s.note, rows: rows.filter(function (r) { return sectionOf(r) === s.key; }) };
+    }).filter(function (s) { return s.rows.length > 0; });
+  }
+  function netPosition(ledger, engine) {
+    function sumMinor(rows) { return (rows || []).filter(isLive).reduce(function (a, r) { return a + engine.toMinor(r.remainingSAR); }, 0); }
+    var meMinor = sumMinor(ledger.owedToMe), onMinor = sumMinor(ledger.iOwe), netMinor = meMinor - onMinor;
+    return { meMinor: meMinor, onMinor: onMinor, netMinor: netMinor,
+      meSAR: meMinor / 100, onSAR: onMinor / 100, netSAR: Math.abs(netMinor) / 100,
+      side: netMinor > 0 ? "lak" : (netMinor < 0 ? "alayk" : "balanced") };
+  }
+  function filterRows(rows, filter) {
+    rows = rows || [];
+    if (filter === "overdue") return rows.filter(function (r) { return r.isOverdue; });
+    if (filter === "disputed") return rows.filter(function (r) { return r.statusKey === "DISPUTED"; });
+    if (filter === "kept") return rows.filter(function (r) { return !isLive(r); });
+    if (filter === "active") return rows.filter(function (r) { return isLive(r) && !r.isOverdue && r.statusKey !== "DISPUTED"; });
+    return rows.slice();
+  }
+
   return {
     AS_OF_DEFAULT: AS_OF_DEFAULT, COOLDOWN_DAYS: COOLDOWN_DAYS, SENDER_RECEIPT: SENDER_RECEIPT,
     daysFromCivil: daysFromCivil, daysBetween: daysBetween, dayNum: dayNum, arDueLabel: arDueLabel,
     rowFor: rowFor, buildLedger: buildLedger, summaryTiles: summaryTiles,
-    reminderTemplate: reminderTemplate, canSendReminder: canSendReminder, selfBand: selfBand
+    reminderTemplate: reminderTemplate, canSendReminder: canSendReminder, selfBand: selfBand,
+    groupLedger: groupLedger, netPosition: netPosition, filterRows: filterRows
   };
 });
