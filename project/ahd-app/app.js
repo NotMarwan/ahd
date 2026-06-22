@@ -20,6 +20,7 @@
   var Proof = (typeof window !== "undefined" ? window.Proof : null);
   var Dispute = (typeof window !== "undefined" ? window.Dispute : null);
   var Settings = (typeof window !== "undefined" ? window.Settings : null);
+  var RequestAhd = (typeof window !== "undefined" ? window.RequestAhd : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -82,6 +83,9 @@
     disputeState: { recordId: null, flash: null },
     Settings: Settings,
     digitMode: "western",   // D-2: user choice; default engine-consistent (western)
+    RequestAhd: RequestAhd,
+    request: RequestAhd ? RequestAhd.makeRequest({ id: "REQ-NAIF", borrower: "نايف", lender: "خالد", amountSAR: 1500, months: 3, purpose: "تجهيز عربة القهوة" }) : null,
+    requestState: { sent: false, accepted: null, flash: null },
 
     esc: esc,
     /* toggle-aware number formatter: golden engine.fmt + an optional display map.
@@ -165,6 +169,23 @@
 
     /* ---- الإعدادات (settings) — the Arabic-Indic digit choice (D-2), app-wide ---- */
     setDigitMode: function (mode) { this.digitMode = (mode === "arabic") ? "arabic" : "western"; return this.rerender(); },
+
+    /* ---- اطلب عهدًا (borrower-initiated request) — a CONTEXTUAL screen from home ---- */
+    requestSend: function () {
+      if (this.request && this.RequestAhd && this.RequestAhd.requestRibaCheck(this.request, this.engine).verdict === "clean") this.requestState.sent = true;
+      return this.rerender();
+    },
+    requestAccept: function () {
+      if (this.request && this.RequestAhd) {
+        var r = this.RequestAhd.acceptToRecord(this.request, this.engine);
+        if (!this.recordById(r.id)) this.records.push(r);
+        this.requestState.accepted = r;
+        this.requestState.flash = "تمّ بحمدِ الله — عهدُك مكتوبٌ ومحفوظ في دفترك.";
+        this.daftariState.tab = "on";
+      }
+      return this.rerender();
+    },
+    requestDismiss: function () { this.requestState.flash = null; return this.rerender(); },
 
     /* ---- القرض المفتوح actions (integer halalas; bad input is a clean no-op) ---- */
     openLoanPay: function (amountSAR) {

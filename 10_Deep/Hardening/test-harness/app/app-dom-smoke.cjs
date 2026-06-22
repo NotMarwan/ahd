@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -198,6 +198,19 @@ ok(/[٠-٩]/.test(App.go("daftari")), "arabic mode renders Arabic-Indic digits o
 ok(App.Proof.buildProofPack(App.records[0], App.engine).seal === homeSealBefore, "digit mode is DISPLAY-ONLY — the engine seal is unchanged");
 noThrow(() => App.setDigitMode("western"), "switch back to western (restore)");
 ok(App.fmtN(5200) === "5,200", "western restored: App.fmtN(5200) → 5,200");
+
+/* ---- اطلب عهدًا (borrower-initiated request) — CONTEXTUAL, reached from a home card ---- */
+ok(!!sandbox.RequestAhd, "RequestAhd module attaches to window");
+ok(navKeys.indexOf("request") < 0, "request is CONTEXTUAL — from a home card, not a nav pill");
+ok(/اطلب عهدًا/.test(App.go("home")), "home surfaces the «اطلب عهدًا» ask card");
+let rq = noThrow(() => App.go("request"), "go('request') renders the ask flow");
+ok(/اطلب عهدًا/.test(rq) && /النصّ سليم/.test(rq), "request shows the ask + riba-clean terms");
+ok(/أرسِل الطلب/.test(rq), "request offers «أرسِل الطلب»");
+let rqs = noThrow(() => App.requestSend(), "send the request");
+ok(/بانتظار موافقة/.test(rqs), "after send: «أُرسل — بانتظار موافقة {lender}»");
+let rqa = noThrow(() => App.requestAccept(), "lender accepts (محاكاة) → seals the عهد");
+ok(/أُضيف إلى دفترك|خُتم العهد/.test(rqa), "after accept: the sealed عهد is added to دفتري");
+ok(!!App.recordById("REQ-NAIF") && App.recordById("REQ-NAIF").borrower === "نايف", "the accepted request is a real record with borrower=you → it lands in «عليّ»");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");
