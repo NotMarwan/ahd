@@ -34,11 +34,12 @@ still go to `DECISIONS-FOR-MARWAN.md`.
   rounds: 0 determinism/spine issues; findings applied) + **edge-hardened**. IA stays clean: 8 nav
   pills / 2 rows; proof + dispute + settings + request are contextual.
 - ✅ **Phase 3 — Remotion promo of the NEW features.** Rendered: **`project/ahd-promo/out/ahd-new-features.mp4`**
-  — 1080×1920 · **60fps** · H.264 · ~21s · 8.6 MB. A fast-paced film of all 4 new features (timeline ·
-  proof-pack with live hash-compute + tamper-caught · dispute-pause · settings/digit-morph + manifesto),
-  reusing the app's exact palette/motion system, with an **animated Arabic caption per feature**.
-  **Arabic was HARD-verified before the full render** (3 stills opened + checked). New composition
-  `AhdNew`; render via `cd project/ahd-promo && npm run render:new`.
+  — 1080×1920 · **60fps** · H.264 · ~25s · 11 MB. A fast-paced film of **all 5 new features** with a
+  narrative arc: the **ask** (اطلب عهدًا) → **witnessed** (timeline) → **provable** (proof-pack, live
+  hash-compute + tamper-caught) → **fair even in conflict** (dispute-pause) → **yours** (settings/
+  digit-morph + manifesto). Reuses the app's exact palette/motion system; an **animated Arabic caption
+  per feature**. **Arabic HARD-verified before each render** (stills opened + checked; encoded-frame
+  re-checked). New composition `AhdNew`; render via `cd project/ahd-promo && npm run render:new`.
 
 ### 🎬 WHERE THE MP4s ARE
 - **`project/ahd-promo/out/ahd-new-features.mp4`** ← tonight's NEW-features promo (the deliverable).
