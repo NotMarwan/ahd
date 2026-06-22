@@ -54,5 +54,6 @@ not do this alone).
 **My recommendation:** (a). One product to ship (`ahd-app`), one safe fallback to demo from. Nothing
 is lost; the merge reads as one product because `ahd-app` is the single front door.
 
-### D-2 · Digit system for Arabic numerals (low-stakes, FYI)
-The دفتري reminder/amount copy renders **Western digits with grouping** (`2,500`) to stay byte-consistent with the engine's golden `fmt()`. The Agent-3 spec's illustrative copy used Arabic-Indic (`٢٬٥٠٠`). Both are deterministic; this is a Design-layer choice. **My pick:** keep engine-consistent Western for now; flip to Arabic-Indic app-wide if you prefer (a pure, safe display map). Not blocking.
+### D-2 · Digit system for Arabic numerals — ✅ ADDRESSED (now a user setting)
+The دفتري reminder/amount copy renders **Western digits with grouping** (`2,500`) to stay byte-consistent with the engine's golden `fmt()`. The Agent-3 spec's illustrative copy used Arabic-Indic (`٢٬٥٠٠`). Both are deterministic; this is a Design-layer choice.
+**Resolution (Phase 2 · F4):** rather than decide it unilaterally, I shipped an **Arabic-Indic digit toggle** in the new **الإعدادات** screen — a pure, deterministic DISPLAY map (`٠١٢٣ ↔ 0123`) applied app-wide on top of the golden `fmt()`. **The engine bytes never change** (seals are computed on content, not glyph shape — verified in a test), so it's safe. **Default stays Western** (engine-consistent), and the user flips it if they prefer. If you'd rather the DEFAULT be Arabic-Indic, that's a one-line change (`digitMode: "arabic"`). No longer blocking — it's now your/users' choice in-app.

@@ -25,20 +25,23 @@ still go to `DECISIONS-FOR-MARWAN.md`.
   tidy 2 rows (was overflowing the viewport), favicon → **0 console errors**. New root `README.md`
   names the one product. Real-browser verified (Chromium, mobile): all 7 render, 0 errors, Arabic
   correct. Evidence: `project/ahd-app/screenshots/audit/`.
-- 🟢 **Phase 2 — new feature sprint.** In progress — **3 new modular features shipped** (each
-  TDD'd, real-browser-verified, on-spine, independently filmable):
+- ✅ **Phase 2 — new feature sprint.** **4 new modular features shipped** (each TDD'd,
+  real-browser-verified, on-spine, independently filmable):
   **F1 سِجلّ الشهادة** (witness timeline) · **F2 حافظة الإثبات** (proof-pack / live tamper-verify) ·
-  **F3 محلّ خلاف** (dispute pause — proves "never judges"). Independently **code-reviewed**
-  (0 determinism/spine issues; 3 findings applied). Nav stays clean (proof + dispute are
-  contextual, not pills).
-- ⏳ **Phase 3 — Remotion promo of the new features.** Pending. **mp4 will land in
+  **F3 محلّ خلاف** (dispute pause — proves "never judges") · **F4 الإعدادات** (settings +
+  Arabic-Indic digit toggle — **resolves D-2**). Independently **code-reviewed** (0 determinism/
+  spine issues; 3 findings applied). IA stays clean: 8 nav pills / 2 rows; proof + dispute +
+  settings are contextual.
+- ⏳ **Phase 3 — Remotion promo of the new features.** Starting now. **mp4 will land in
   `project/ahd-promo/out/`** (path noted here when rendered).
 
-**Gate (fresh, real output):** core `184/0` (135+9+40) · app `13/13 suites = 426/0` · **610 total** ·
-demo tripwire `e2f48467… OK`.
+**Gate (fresh, real output):** core `184/0` (135+9+40) · app `17/17 suites = 575/0` · **759 total** ·
+demo tripwire `e2f48467… OK`. 0 console errors across all screens (real Chromium).
 
-**Most valuable thing so far tonight:** the product is genuinely **one cohesive app** now (single
-front door + product-flow nav + 0 console errors), recoverable on GitHub, gate green.
+**Most valuable thing so far tonight:** one cohesive, publishable app (single front door, product-flow
+nav, 0 console errors) **plus 4 genuinely-new on-spine features** (witness timeline · proof-pack with
+live tamper-verify · dispute-pause · settings/Arabic-Indic digits) — all recoverable on GitHub, gate
+green, code-reviewed. Phase 3 (Remotion film) next.
 
 **Needs your decision:** `DECISIONS-FOR-MARWAN.md` — **D-4** (demo kept/frozen vs retire — I took the
 safe "keep" path) + standing D-1 / D-3 (Shariah-gated) and D-2 (FYI).
@@ -100,6 +103,28 @@ safe "keep" path) + standing D-1 / D-3 (Shariah-gated) and D-2 (FYI).
 ---
 
 ## LOG (newest first)
+
+### Phase 2 · New feature-discovery sprint — ✅ 4 features DONE
+Autonomous brainstorm → prioritized backlog (`docs/superpowers/specs/2026-06-22-phase2-feature-sprint-design.md`)
+→ each built via TDD (failing test first) → real-browser-verified → committed/pushed. All on-spine,
+deterministic, modular (own `features/*` + `screens/*`), independently filmable.
+- **F1 سِجلّ الشهادة** (witness timeline): one feed of the significant witnessed moments across all
+  the viewer's عهود (sealed · bank-sent reminder · grace · kept · إبراء · dispute=neutral). Late=amber,
+  dispute=neutral, no red, no score. `timeline.test.cjs` 27/0. Commit `d00c487`.
+- **F2 حافظة الإثبات** (proof-pack/export): the canonical content + SHA-256 + genesis→block chain +
+  a LIVE tamper-verify («جرّب العبث» → seal breaks ✗; «أصلِح» → ✓). Reuses golden sha256/sealBlock.
+  `proof.test.cjs` 19/0 + 2 golden pins. Contextual screen (from دفتري). Commit `2649f8a`.
+- **F3 محلّ خلاف** (dispute pause): proves "the bank never judges" — pause, NO penalty, the sealed
+  record as a NEUTRAL exhibit, two paths (تراضٍ encouraged · قضاء). `dispute.test.cjs` 19/0.
+  Contextual. Commit `a3b9c72` (also applied the F1/F2 code-review fixes).
+- **F4 الإعدادات + Arabic-Indic digits** (resolves **D-2**): an app-wide digit toggle as a
+  display layer over the golden fmt() (engine bytes unchanged; default western → gate byte-identical)
+  + the «ما لا نفعله» manifesto. `settings.test.cjs` 13/0. Commit `863447a`.
+- **Independent code-review** (subagent) of F1+F2: verdict fix-then-ship; 0 determinism/spine issues,
+  golden core untouched, proof tamper-logic correct; 3 findings (2 XSS-hardening esc(), 1 null-guard)
+  **applied**.
+- **Gate after Phase 2 (fresh):** core `184/0` · app `17/17 suites = 575/0` · **759 total** · demo
+  tripwire `e2f48467… OK`. Pushed each feature.
 
 ### Phase 0 + Phase 1 · GitHub safety net + merge into ONE product — ✅ DONE
 - **Phase 0:** `github.txt` gitignored (+ `.env`/`*.token`); baseline commit `f8813ed` (incl. WIP
