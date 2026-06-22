@@ -9,9 +9,9 @@
    Dual module: Node `require`, browser `window.CreateAhd` (uses window.AHD).
 ============================================================================ */
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory(require("../engine.js"));
-  else root.CreateAhd = factory(root.AHD);
-})(typeof self !== "undefined" ? self : this, function (ENGINE) {
+  if (typeof module === "object" && module.exports) module.exports = factory(require("../engine.js"), require("./riba-lint.js"));
+  else root.CreateAhd = factory(root.AHD, root.RibaLint);
+})(typeof self !== "undefined" ? self : this, function (ENGINE, RIBALINT) {
   "use strict";
   var ev = ENGINE.ev;
 
@@ -50,8 +50,13 @@
       inst + " ريال، " + tail + ". عند العجز يُمهَل المقترض بالمعروف.";
   }
 
-  /* the riba linter — the GOLDEN ribaScan, untouched */
-  function ribaCheck(text, engine) { return (engine || ENGINE).ribaScan(text); }
+  /* the riba linter — the DEEPENED additive layer (features/riba-lint.js), which
+     reuses the GOLDEN ribaScan as its authoritative floor. Falls back to the golden
+     scan directly if the layer is somehow absent (so the seal gate never breaks). */
+  function ribaCheck(text, engine) {
+    var e = engine || ENGINE;
+    return (RIBALINT && typeof RIBALINT.scan === "function") ? RIBALINT.scan(text, e) : e.ribaScan(text);
+  }
 
   function createCanonical(draft, engine, overrideMinor) {
     var e = engine || ENGINE;

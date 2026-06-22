@@ -5,6 +5,53 @@
 
 ---
 
+## 🌌 DEEPEN SPRINT (newest — depth, not breadth; reshapes guarded, adds none)
+
+**📦 Repo:** **https://github.com/NotMarwan/ahd** · branch `overnight/deepening`. Token gitignored, never printed.
+**Mission:** take every existing feature to a deeper level; weave the 5 newest natively; reshape where it
+genuinely helps; keep the gate green; push throughout. The spine is inviolable.
+
+### ✅ Deepen-01 — the riba linter (the centerpiece) is now genuinely hard to fool
+**What got deeper.** The golden `engine.ribaScan` is just 4 regex rules + an *immediate-preceding-negation*
+guard — easily fooled (synonyms, disguised fees, conditional benefit, classical جاهلية) and it has two real
+defects: it **lets «ليست بلا فائدة» (= with interest) through**, and it **wrongly blocks «بلا فائدةٍ أو
+زيادة»** (distributed negation). Since `ribaScan` is golden/parity-pinned, I built an **additive layer**
+`project/ahd-app/features/riba-lint.js` that *wraps* it (golden untouched) and adds:
+- a **normalize pass** (strips harakat/tatweel, folds letter variants) → defeats «فـائـدة»-style obfuscation;
+- **extended triggers** the golden 4 miss — يield synonyms (عائد/مردود/غُنم/ريع/مكسب/علاوة), payment-for-time
+  & rollover (مقابل المهلة، كلّما طال الأجل زاد، يتراكم/يكبر), disguised fees tied to the loan (رسوم تأجيل،
+  تأمين على القرض، أتعاب عن كل ألف، مصاريف ما دام الدين قائمًا)، قرض جرّ نفعًا، «يردّ أكثر ممّا أخذ»،
+  per-principal-unit charges، liquidated late penalty (بدل إخلال);
+- a **negation-aware analyzer**: distributed negation across أو/و lists (incl. multi-word items & noun+adjective
+  «من غير فائدةٍ ربويةٍ») reads **CLEAN**; negated negation «ليست بلا فائدة» and litotes «غير معفيٍّ من الغرامة»
+  / «لا يخلو من فائدة» re-**BLOCK**; «بـ» re-asserts («وبغرامة») unless itself negated («لا بزيادة»).
+- **Golden reused as an authoritative FLOOR** — when golden blocks and there is no negation present, the layer
+  blocks too. So the layer is a strict **superset** of golden's true-positives; the only golden-blocks it clears
+  are genuine negation cases.
+
+**Reshape (guarded).** `features/create.js` + `features/request.js` now route the linter through `RibaLint.scan`
+(DI, with a golden fallback so the seal gate can never break offline). `screens/create.js` now shows **ALL**
+violations (a count + each one's halal alternative), plus a second demo button «🧪 صياغة ملتبسة (مموّهة)» that
+injects a disguised clause to prove the deeper catch live.
+
+**Validated by a multi-agent adversarial corpus.** An 8-agent fan-out (7 attacker angles + a synthesiser)
+generated 96 labelled Arabic clauses the naive linter mishandles. The hardened layer now scores **0/60
+block-misses** and the only remaining "false-positives" are **intentional conservative blocks** (any ٪/أرباح
+in a loan clause — see `DECISIONS-FOR-MARWAN.md` **D-5**). 4 genuinely-debatable clauses → D-5 (no fatwa).
+
+**Tests (TDD, all written first).** `app/riba-lint.test.cjs` (54 — both defects, every category, the analyzer,
+the superset property, app-copy regression, determinism) + `app/riba-lint-corpus.test.cjs` (89 — the vetted
+adversarial corpus, self-contained). **The golden function, vectors, and netting are untouched** (parity green).
+
+**Real-browser verified** (Chromium, localhost:8124): create screen renders the disguised clause as **2 hits**
+with halal fixes, seal disabled, **0 console errors**, Arabic correct (RTL, joined, not reversed), no number/score.
+Screenshot: `project/ahd-app/screenshots/deepening/ahd-riba-linter-deepened.png`.
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **21/21 suites = 779/0** · **963 total** (was 817)
+· demo tripwire unchanged · 0 console errors. Plan: `docs/superpowers/plans/deepen-01-riba-linter.md`.
+
+---
+
 ## 🌙 TONIGHT — MERGE → SPRINT → REMOTION (newest; supersedes the summary below)
 
 **📦 Repo (pushed):** **https://github.com/NotMarwan/ahd** — private · branch `overnight/deepening`.

@@ -163,7 +163,11 @@ body{
 .cr-lint.ok{background:var(--teal-soft); color:var(--teal)}
 .cr-lint.bad{background:#fbe6e0; color:#a23b22}
 .cr-lint .fix{margin-top:5px; font-size:12px; color:var(--ink)}
-.cr-trybar{margin-top:9px}
+.cr-lint-head{font-weight:700; margin-bottom:7px}
+.cr-hit{padding:7px 0; border-top:1px solid rgba(162,59,34,.18)}
+.cr-hit:first-of-type{border-top:0}
+.cr-why{font-weight:600; font-size:12.5px}
+.cr-trybar{margin-top:9px; display:flex; gap:7px; flex-wrap:wrap}
 .cr-trybar .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:9px 12px; font:inherit; font-size:12.5px; cursor:pointer}
 .cr-act .primary{width:100%; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:13px; font:inherit; font-weight:600; cursor:pointer}
 .cr-act .primary[disabled]{background:#b8c6c2; cursor:not-allowed}

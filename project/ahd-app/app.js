@@ -216,6 +216,9 @@
 
     /* ---- create-عهد actions (the riba linter gates the seal) ---- */
     createInjectRiba: function () { this.createState.extra = "وعليه غرامةُ تأخيرٍ ٢٪ شهريًّا."; this.createState.sealed = null; return this.rerender(); },
+    /* a DISGUISED clause (synonyms + payment-for-time) the naive 4-rule linter misses
+       but the deepened layer catches — proves «hard to fool» live in the demo. */
+    createInjectSneaky: function () { this.createState.extra = "على أن يردّ المبلغ ومعه عائدٌ يسير، ويُمنح المُقرض مقابلًا عن الزمن مقابل المهلة."; this.createState.sealed = null; return this.rerender(); },
     createClearRiba: function () { this.createState.extra = ""; return this.rerender(); },
     createSeal: function () {
       if (this.CreateAhd && this.createDraft) {

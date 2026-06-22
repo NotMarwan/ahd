@@ -26,7 +26,8 @@
     return CREATE.makeDraft({ id: req.id, lender: req.lender, borrower: req.borrower, amountSAR: req.amountSAR, open: req.open, months: req.months, purpose: req.purpose });
   }
   function requestTermsAr(req, engine) { return CREATE.draftTermsAr(toDraft(req), engine || ENGINE); }
-  function requestRibaCheck(req, engine) { return (engine || ENGINE).ribaScan(requestTermsAr(req, engine || ENGINE)); }
+  /* reuse create's linter → the deepened RibaLint layer (golden floor inside) */
+  function requestRibaCheck(req, engine) { return CREATE.ribaCheck(requestTermsAr(req, engine || ENGINE), engine || ENGINE); }
   function requestSeal(req, engine) { return CREATE.createSeal(toDraft(req), engine || ENGINE); }
   /* the lender accepts → a sealed دفتري record (borrower = the asker ⇒ «عليّ») */
   function acceptToRecord(req, engine) { return CREATE.toDaftariRecord(toDraft(req), engine || ENGINE); }
