@@ -16,7 +16,7 @@
         '<button onclick="AhdApp.disputeForgive(\'' + id + '\')">أبرئ ما تبقّى 🤲</button></div>'
       : '<div class="dp-acts"><button onclick="AhdApp.openProof(\'' + id + '\')">اعرض الوثيقة دليلًا 🔏</button></div>';
     return '<div class="dp-path' + (p.encouraged ? " enc" : "") + '">' +
-      '<div class="dp-pt">' + p.icon + " " + App.esc(p.ar) + (p.encouraged ? ' <span class="dp-tag">الأحبّ</span>' : "") + "</div>" +
+      '<div class="dp-pt">' + App.esc(p.icon) + " " + App.esc(p.ar) + (p.encouraged ? ' <span class="dp-tag">الأحبّ</span>' : "") + "</div>" +
       '<div class="dp-pn">' + App.esc(p.note) + "</div>" + acts + "</div>";
   }
 
