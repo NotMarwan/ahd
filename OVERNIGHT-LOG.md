@@ -43,7 +43,7 @@ still go to `DECISIONS-FOR-MARWAN.md`.
 - **`project/ahd-promo/out/ahd-new-features.mp4`** ← tonight's NEW-features promo (the deliverable).
 - `project/ahd-promo/out/ahd-app-promo.mp4` ← the earlier original-features promo (kept).
 
-**Gate (fresh, real output):** core `184/0` (135+9+40) · app `17/17 suites = 575/0` · **759 total** ·
+**Gate (fresh, real output):** core `184/0` (135+9+40) · app `18/18 suites = 601/0` · **785 total** ·
 demo tripwire `e2f48467… OK`. 0 console errors across all screens (real Chromium).
 
 **Most valuable thing so far tonight:** one cohesive, publishable app (single front door, product-flow
@@ -67,8 +67,8 @@ user toggle).
 5. **Diff:** `git log main..overnight/deepening --oneline` (this run's commits). Nothing auto-merges to `main`.
 
 **✅ Final verification snapshot (2026-06-22, fresh):**
-`repo pushed (token 404 on remote) · core 135+9+40=184/0 · app 17/17=575/0 · 759 total · demo tripwire
-e2f48467… OK · 0 uncommitted · 4 new features code-reviewed · promo 1080×1920/60fps/h264 21s Arabic-verified`
+`repo pushed (token 404 on remote) · core 135+9+40=184/0 · app 18/18=601/0 · 785 total · demo tripwire
+e2f48467… OK · 0 uncommitted · 4 new features code-reviewed + edge-hardened · promo 1080×1920/60fps/h264 21s Arabic-verified`
 
 ---
 
