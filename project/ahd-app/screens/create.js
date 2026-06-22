@@ -19,7 +19,7 @@
       '<div class="cr-fields">' +
         '<div><span>المُقرِض</span><b>' + App.esc(draft.lender) + "</b></div>" +
         '<div><span>المقترض</span><b>' + App.esc(draft.borrower) + "</b></div>" +
-        '<div><span>المبلغ</span><b>' + e.fmt(draft.amountMinor / 100) + ' ر.س</b></div>' +
+        '<div><span>المبلغ</span><b>' + App.fmtN(draft.amountMinor / 100) + ' ر.س</b></div>' +
         '<div><span>السداد</span><b>' + (draft.open ? "مفتوح · متى ما تيسّر" : (draft.months + " أقساط")) + "</b></div>" +
       "</div></div>";
 

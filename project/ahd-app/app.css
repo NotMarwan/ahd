@@ -44,6 +44,8 @@ body{
 .hsteps .step span{display:inline-flex; width:24px; height:24px; align-items:center; justify-content:center; background:var(--teal); color:#fff; border-radius:50%; font-size:12px; margin-bottom:5px}
 .hsteps .step small{color:var(--mut); font-size:10.5px}
 .hbasis{text-align:center; color:var(--gold); font-size:13px; line-height:1.9; padding:0 6px}
+.hsettings{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--mut); border-radius:12px; padding:11px; font:inherit; font-size:12.5px; cursor:pointer; margin-top:2px}
+.hsettings:hover{border-color:var(--teal); color:var(--teal)}
 
 /* tiles */
 .tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 14px}
@@ -248,3 +250,21 @@ body{
 .dp-acts{display:flex; gap:8px; flex-wrap:wrap}
 .dp-acts .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600}
 .dp-note{color:var(--mut); font-size:12px; text-align:center; line-height:1.8}
+
+/* الإعدادات · عن عهد — settings + the «ما لا نفعله» manifesto */
+.settings{display:flex; flex-direction:column; gap:13px}
+.set-head{font-weight:800; font-size:20px}
+.set-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:15px; box-shadow:var(--shadow)}
+.set-lbl{font-weight:700; margin-bottom:9px}
+.set-seg{display:flex; gap:6px; background:var(--mute-soft); padding:4px; border-radius:12px}
+.set-seg button{flex:1; appearance:none; border:0; background:transparent; padding:9px; border-radius:9px; font:inherit; font-size:13px; color:var(--mut); cursor:pointer}
+.set-seg button.on{background:#fff; color:var(--ink); font-weight:600; box-shadow:var(--shadow)}
+.set-prev{margin-top:11px; color:var(--mut); font-size:12.5px; line-height:1.8}
+.set-prev b{color:var(--ink); font-size:15px}
+.set-h2{font-weight:800; font-size:16px; margin-top:4px}
+.set-nos{display:flex; flex-direction:column; gap:9px}
+.set-no{background:var(--card); border:1px solid var(--line); border-right:3px solid var(--gold); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow)}
+.set-no b{color:var(--ink); font-size:14px}
+.set-no div{color:var(--mut); font-size:12.5px; margin-top:4px; line-height:1.75}
+.set-basis{text-align:center; color:var(--gold); font-size:13px; line-height:2; padding:0 6px}
+.set-about{text-align:center; color:var(--mut); font-size:12.5px; line-height:1.8}

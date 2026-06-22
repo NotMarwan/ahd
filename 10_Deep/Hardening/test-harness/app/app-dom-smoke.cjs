@@ -40,7 +40,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -49,7 +49,8 @@ ok(!!sandbox.AHD && !!sandbox.Daftari, "engine (AHD) + Daftari attach to window"
 let booted = noThrow(() => App.boot(), "App.boot() initialises (nav + default screen)");
 ok(/عهد/.test(booted) && /دفتري/.test(booted), "boot lands on the home front door (brand + feature cards)");
 var navKeys = []; App.navHTML().replace(/AhdApp\.go\('([^']+)'\)/g, function (_, k) { navKeys.push(k); return _; });
-ok(JSON.stringify(navKeys) === JSON.stringify(["home", "create", "daftari", "timeline", "open", "circle", "circle-adv", "settle"]), "nav pills render in product-flow order incl. timeline (NAV_ORDER-driven)");
+ok(JSON.stringify(navKeys) === JSON.stringify(["home", "create", "daftari", "timeline", "open", "circle", "circle-adv", "settle"]), "nav pills render in product-flow order (8 primary, NAV_ORDER-driven; tidy 2 rows)");
+ok(navKeys.indexOf("settings") < 0, "settings is CONTEXTUAL (reached from home), not a nav pill — keeps nav to 2 rows");
 let hh = noThrow(() => App.go("home"), "go('home') renders the front door");
 ok(/قرضٌ حسن/.test(hh) && /لك عند الناس/.test(hh), "home shows the spine tagline + live دفتري summary");
 
@@ -183,6 +184,20 @@ ok(dp.indexOf("tone-red") < 0 && dp.indexOf("%") < 0, "dispute screen: no red-sh
 let dpg = noThrow(() => App.disputeGrace("R-DISP"), "dispute «اقترِح إعادة جدولة» (صلح) applies grace + returns to دفتري");
 ok(App.current === "daftari", "after disputeGrace, the app lands back on دفتري");
 noThrow(() => App.openDispute("does-not-exist"), "openDispute with a bad id is a safe no-op");
+
+/* ---- الإعدادات (settings) — Arabic-Indic digit toggle (D-2), app-wide & display-only ---- */
+ok(!!sandbox.Settings, "Settings module attaches to window");
+let seth = noThrow(() => App.go("settings"), "go('settings') renders the settings/about screen");
+ok(/نظام الأرقام/.test(seth) && /ما لا يفعله/.test(seth), "settings shows the digit toggle + the «ما لا نفعله» manifesto");
+ok(/لا نُقرض/.test(seth) && /لا نحكم/.test(seth) && /لا نُصنّف/.test(seth), "manifesto states the spine (no lending / judging / scoring)");
+ok(App.fmtN(5200) === "5,200", "default (western): App.fmtN(5200) → 5,200");
+let homeSealBefore = App.Proof.buildProofPack(App.records[0], App.engine).seal;
+noThrow(() => App.setDigitMode("arabic"), "switch to Arabic-Indic digits");
+ok(App.fmtN(5200) === "٥,٢٠٠", "arabic mode: App.fmtN(5200) → ٥,٢٠٠ (app-wide display map)");
+ok(/[٠-٩]/.test(App.go("daftari")), "arabic mode renders Arabic-Indic digits on a money screen (دفتري)");
+ok(App.Proof.buildProofPack(App.records[0], App.engine).seal === homeSealBefore, "digit mode is DISPLAY-ONLY — the engine seal is unchanged");
+noThrow(() => App.setDigitMode("western"), "switch back to western (restore)");
+ok(App.fmtN(5200) === "5,200", "western restored: App.fmtN(5200) → 5,200");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");

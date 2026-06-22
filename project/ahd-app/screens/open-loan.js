@@ -26,7 +26,7 @@
 
     return '<div class="openloan">' + flash +
       '<div class="ol-head">قرضٌ مفتوحٌ بينك وبين ' + App.esc(loan.borrower) + ' — متى ما تيسّر</div>' +
-      '<div class="ol-rem"><div class="ol-rl">المتبقّي</div><div class="ol-rv">' + e.fmt(f.remainingMinor / 100) + ' <small>ر.س</small></div></div>' +
+      '<div class="ol-rem"><div class="ol-rl">المتبقّي</div><div class="ol-rv">' + App.fmtN(f.remainingMinor / 100) + ' <small>ر.س</small></div></div>' +
       '<div class="ol-status"><span class="chip ' + (closed ? "gold" : "teal") + '">' + App.esc(OL.openLoanStatusAr(loan)) + "</span></div>" +
       '<div class="ol-note">لا موعد، لا تذكير منك، لا حرج. حين ييسّر الله، يردّ — ولكِ أن تُبرئ متى شئتِ.</div>' +
       (closed ? "" :

@@ -26,7 +26,7 @@
       chip(c.mercy, "رحمة", "mercy") + chip(c.neutral, "محلّ خلاف", "neutral") + chip(c.amber, "تذكير لطيف", "amber");
 
     var items = feed.map(function (x) {
-      var meta = App.esc(x.who) + " · " + e.fmt(x.amountSAR) + " ر.س" + (x.dueAr ? " · " + App.esc(x.dueAr) : "");
+      var meta = App.esc(x.who) + " · " + App.fmtN(x.amountSAR) + " ر.س" + (x.dueAr ? " · " + App.esc(x.dueAr) : "");
       return '<div class="tl-item tone-' + App.esc(x.tone) + '">' +
         '<div class="tl-ico" aria-hidden="true">' + x.icon + "</div>" +
         '<div class="tl-body"><div class="tl-ar">' + App.esc(x.ar) + "</div>" +

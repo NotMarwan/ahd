@@ -25,8 +25,13 @@ still go to `DECISIONS-FOR-MARWAN.md`.
   tidy 2 rows (was overflowing the viewport), favicon → **0 console errors**. New root `README.md`
   names the one product. Real-browser verified (Chromium, mobile): all 7 render, 0 errors, Arabic
   correct. Evidence: `project/ahd-app/screenshots/audit/`.
-- ⏳ **Phase 2 — new feature sprint.** In progress.
-- ⏳ **Phase 3 — Remotion promo of the new features.** Pending Phase 2. **mp4 will land in
+- 🟢 **Phase 2 — new feature sprint.** In progress — **3 new modular features shipped** (each
+  TDD'd, real-browser-verified, on-spine, independently filmable):
+  **F1 سِجلّ الشهادة** (witness timeline) · **F2 حافظة الإثبات** (proof-pack / live tamper-verify) ·
+  **F3 محلّ خلاف** (dispute pause — proves "never judges"). Independently **code-reviewed**
+  (0 determinism/spine issues; 3 findings applied). Nav stays clean (proof + dispute are
+  contextual, not pills).
+- ⏳ **Phase 3 — Remotion promo of the new features.** Pending. **mp4 will land in
   `project/ahd-promo/out/`** (path noted here when rendered).
 
 **Gate (fresh, real output):** core `184/0` (135+9+40) · app `13/13 suites = 426/0` · **610 total** ·

@@ -28,13 +28,14 @@
         card("circle-adv", "🔁", "الدائرة+", "مناسبةٌ وتقسيمٌ وتخريجٌ إلى عهد") +
         card("settle", "🔗", "المقاصّة", "أقلّ التحويلات تُصفّي الجميع — بالتراضي") +
       "</div>" +
-      '<div class="hsummary">لك عند الناس <b>' + e.fmt(tiles.me.amountSAR) + ' ر.س</b> · عليك للناس <b>' + e.fmt(tiles.on.amountSAR) + ' ر.س</b></div>' +
+      '<div class="hsummary">لك عند الناس <b>' + App.fmtN(tiles.me.amountSAR) + ' ر.س</b> · عليك للناس <b>' + App.fmtN(tiles.on.amountSAR) + ' ر.س</b></div>' +
       '<div class="hsteps">' +
         '<div class="step"><span>١</span> اكتب العهد</div>' +
         '<div class="step"><span>٢</span> يُشهَد ويُختَم<br><small>نفاذ · SHA-256</small></div>' +
         '<div class="step"><span>٣</span> يُسوّى بالمعروف</div>' +
       "</div>" +
       '<div class="hbasis">﴿إذا تداينتم بدينٍ إلى أجلٍ مسمًّى فاكتبوه﴾ · ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾</div>' +
+      '<button class="hsettings" onclick="AhdApp.go(\'settings\')">⚙️ الإعدادات · عن عهد · نظام الأرقام</button>' +
     "</div>";
   }
 

@@ -13,11 +13,11 @@
     if (!S) return '<div class="empty">وحدة المقاصّة غير محمّلة.</div>';
     var v = S.settlementView(e.IOUS, e);
     var transfers = v.after.map(function (t) {
-      return '<div class="se-row"><span>' + App.esc(t.from) + " تدفع " + App.esc(t.to) + "</span><b>" + e.fmt(t.amount) + " ر.س</b></div>";
+      return '<div class="se-row"><span>' + App.esc(t.from) + " تدفع " + App.esc(t.to) + "</span><b>" + App.fmtN(t.amount) + " ر.س</b></div>";
     }).join("");
     var legs = v.legs.map(function (m) {
-      var pays = (m.pays || []).map(function (p) { return "يدفع " + App.esc(p.to) + " " + e.fmt(p.amount); });
-      var gets = (m.gets || []).map(function (g) { return "يقبض من " + App.esc(g.from) + " " + e.fmt(g.amount); });
+      var pays = (m.pays || []).map(function (p) { return "يدفع " + App.esc(p.to) + " " + App.fmtN(p.amount); });
+      var gets = (m.gets || []).map(function (g) { return "يقبض من " + App.esc(g.from) + " " + App.fmtN(g.amount); });
       return '<div class="se-leg"><b>' + App.esc(m.name) + "</b><span>" + pays.concat(gets).join(" · ") + "</span></div>";
     }).join("");
     return '<div class="settle">' +

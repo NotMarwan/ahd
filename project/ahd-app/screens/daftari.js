@@ -18,15 +18,15 @@
 
   function dueLine(row) {
     if (!row.nextDueISO) return "";
-    if (row.isOverdue) return '<div class="due late">تأخّر عن ' + App.esc(row.nextDueLabel) + ' — ' + App.esc(row.daysOverdue) + ' يومًا</div>';
-    if (row.statusKey === "ACTIVE" || row.statusKey === "SETTLING") return '<div class="due">القسط القادم: ' + App.esc(row.nextDueLabel) + "</div>";
+    if (row.isOverdue) return '<div class="due late">تأخّر عن ' + App.esc(App.digit(row.nextDueLabel)) + ' — ' + App.esc(App.digit(row.daysOverdue)) + ' يومًا</div>';
+    if (row.statusKey === "ACTIVE" || row.statusKey === "SETTLING") return '<div class="due">القسط القادم: ' + App.esc(App.digit(row.nextDueLabel)) + "</div>";
     return "";
   }
 
   function amountLine(row) {
-    var left = row.remainingSAR >= row.amountSAR ? "باقٍ كامل" : ("باقٍ " + App.engine.fmt(row.remainingSAR));
+    var left = row.remainingSAR >= row.amountSAR ? "باقٍ كامل" : ("باقٍ " + App.fmtN(row.remainingSAR));
     if (row.statusKey === "KEPT" || row.statusKey === "FORGIVEN") left = "—";
-    return '<div class="amt">' + App.engine.fmt(row.amountSAR) + ' ر.س · ' + left + "</div>";
+    return '<div class="amt">' + App.fmtN(row.amountSAR) + ' ر.س · ' + left + "</div>";
   }
 
   function sheet(row, app) {
@@ -86,8 +86,8 @@
     var flash = st.flash ? '<div class="flash" onclick="AhdApp.daftariDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
     var head =
       '<div class="tiles">' +
-        '<div class="tile"><div class="tl">لك عند الناس</div><div class="tv">' + app.engine.fmt(tiles.me.amountSAR) + ' <small>ر.س</small></div><div class="tc">' + tiles.me.count + ' عهود</div></div>' +
-        '<div class="tile"><div class="tl">عليك للناس</div><div class="tv">' + app.engine.fmt(tiles.on.amountSAR) + ' <small>ر.س</small></div><div class="tc">' + tiles.on.count + ' عهود</div></div>' +
+        '<div class="tile"><div class="tl">لك عند الناس</div><div class="tv">' + App.fmtN(tiles.me.amountSAR) + ' <small>ر.س</small></div><div class="tc">' + App.digit(tiles.me.count) + ' عهود</div></div>' +
+        '<div class="tile"><div class="tl">عليك للناس</div><div class="tv">' + App.fmtN(tiles.on.amountSAR) + ' <small>ر.س</small></div><div class="tc">' + App.digit(tiles.on.count) + ' عهود</div></div>' +
       "</div>";
     var tabs =
       '<div class="tabs" role="tablist">' +

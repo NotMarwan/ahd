@@ -19,6 +19,7 @@
   var Timeline = (typeof window !== "undefined" ? window.Timeline : null);
   var Proof = (typeof window !== "undefined" ? window.Proof : null);
   var Dispute = (typeof window !== "undefined" ? window.Dispute : null);
+  var Settings = (typeof window !== "undefined" ? window.Settings : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -79,8 +80,20 @@
     proofState: { recordId: null, tamper: false, flash: null },
     Dispute: Dispute,
     disputeState: { recordId: null, flash: null },
+    Settings: Settings,
+    digitMode: "western",   // D-2: user choice; default engine-consistent (western)
 
     esc: esc,
+    /* toggle-aware number formatter: golden engine.fmt + an optional display map.
+       The engine bytes never change — only the rendered glyphs (D-2). */
+    fmtN: function (n) {
+      var s = this.engine.fmt(n);
+      return (this.Settings && this.digitMode === "arabic") ? this.Settings.toArabicDigits(s) : s;
+    },
+    /* digit map for any already-built string (dates, counts) — display-only */
+    digit: function (s) {
+      return (this.Settings && this.digitMode === "arabic") ? this.Settings.toArabicDigits(s) : String(s == null ? "" : s);
+    },
     registerScreen: function (def) { if (!this.screens[def.key]) this.order.push(def.key); this.screens[def.key] = def; },
     recordById: function (id) { for (var i = 0; i < this.records.length; i++) if (this.records[i].id === id) return this.records[i]; return null; },
 
@@ -149,6 +162,9 @@
     disputeGrace: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("GRACE_GRANTED")); this.daftariState.flash = "اقتُرحت إعادة الجدولة بالمعروف — صلحًا، بلا أيّ زيادة (٢٨٠)."; } return this.go("daftari"); },
     disputeForgive: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("FORGIVEN")); this.daftariState.flash = "أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾."; } return this.go("daftari"); },
     disputeDismiss: function () { this.disputeState.flash = null; return this.rerender(); },
+
+    /* ---- الإعدادات (settings) — the Arabic-Indic digit choice (D-2), app-wide ---- */
+    setDigitMode: function (mode) { this.digitMode = (mode === "arabic") ? "arabic" : "western"; return this.rerender(); },
 
     /* ---- القرض المفتوح actions (integer halalas; bad input is a clean no-op) ---- */
     openLoanPay: function (amountSAR) {

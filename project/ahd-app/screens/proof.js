@@ -26,7 +26,7 @@
     return '<div class="proof">' +
       '<button class="pf-back" onclick="AhdApp.proofBack()">→ رجوع إلى دفتري</button>' + flash +
       '<div class="pf-head">حافظة الإثبات</div>' +
-      '<div class="pf-sub">عهد «' + App.esc(r.lender) + '» لـ «' + App.esc(r.borrower) + '» — ' + e.fmt(r.amountSAR) +
+      '<div class="pf-sub">عهد «' + App.esc(r.lender) + '» لـ «' + App.esc(r.borrower) + '» — ' + App.fmtN(r.amountSAR) +
         ' ر.س. وثيقةٌ مختومة تقف على التعمية لا على حكم المصرف — مقبولةٌ كدليلٍ إلكتروني (نظام الإثبات).</div>' +
       '<div class="pf-doc">' +
         '<div class="pl">المحتوى المُوثَّق (canonical)</div>' +
@@ -37,7 +37,7 @@
           '<div class="lk">block #1 seal: ' + App.esc(shownSeal) + '</div></div>' +
       '</div>' +
       '<div class="pf-verify ' + (v.ok ? "ok" : "bad") + '">' +
-        (v.ok ? '✓ سليمة — تطابق الختمُ الأصلي، لم تُمَسّ' : '✗ عبثٌ مكشوف — تغيّر الختم (' + e.fmt(r.amountSAR) + '→' + e.fmt(tamperSAR) + ')، فلا تُقبل') +
+        (v.ok ? '✓ سليمة — تطابق الختمُ الأصلي، لم تُمَسّ' : '✗ عبثٌ مكشوف — تغيّر الختم (' + App.fmtN(r.amountSAR) + '→' + App.fmtN(tamperSAR) + ')، فلا تُقبل') +
       '</div>' +
       '<div class="pf-act">' +
         '<button class="' + (st.tamper ? "" : "primary") + '" onclick="AhdApp.proofTamperToggle()">' + (st.tamper ? "أصلِح الوثيقة" : "جرّب العبث بالمبلغ 🧪") + '</button>' +

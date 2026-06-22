@@ -31,7 +31,7 @@
     return '<div class="dispute">' +
       '<button class="pf-back" onclick="AhdApp.disputeBack()">→ رجوع إلى دفتري</button>' + flash +
       '<div class="dp-head">محلّ خلاف</div>' +
-      '<div class="dp-sub">عهد «' + App.esc(r.lender) + '» و«' + App.esc(r.borrower) + '» — ' + e.fmt(r.amountSAR) + ' ر.س</div>' +
+      '<div class="dp-sub">عهد «' + App.esc(r.lender) + '» و«' + App.esc(r.borrower) + '» — ' + App.fmtN(r.amountSAR) + ' ر.س</div>' +
       '<div class="dp-stance">' + App.esc(v.stance) + "</div>" +
       '<div class="dp-paused">⏸️ أوقف عهد التذكيرات هنا — بلا غرامة، بلا انحياز، بلا أيّ زيادة. الوقت الآن للصلح.</div>' +
       '<div class="dp-exhibit"><b>الوثيقة المحايدة</b><div class="dp-ex-ar">' + App.esc(v.neutralExhibit.ar) + "</div>" +

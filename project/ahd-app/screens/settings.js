@@ -1,0 +1,40 @@
+/* ============================================================================
+   screens/settings.js — «الإعدادات · عن عهد». The Arabic-Indic digit toggle
+   (D-2 made the user's choice), applied app-wide via App.fmtN — engine bytes
+   never change, only the rendered glyphs. Plus the «ما لا نفعله» manifesto
+   (the spine, stated plainly) and the Quranic basis.
+============================================================================ */
+(function () {
+  "use strict";
+  var App = (typeof window !== "undefined") ? window.AhdApp : null;
+  if (!App) return;
+
+  function render(app) {
+    var S = app.Settings;
+    if (!S) return '<div class="empty">وحدة الإعدادات غير محمّلة.</div>';
+    var ar = app.digitMode === "arabic";
+    var sample = App.fmtN(12500);   // toggle-aware live preview
+
+    var nos = S.SPINE_NO.map(function (x) {
+      return '<div class="set-no"><b>✕ ' + App.esc(x.t) + "</b><div>" + App.esc(x.d) + "</div></div>";
+    }).join("");
+
+    return '<div class="settings">' +
+      '<div class="set-head">الإعدادات · عن عهد</div>' +
+      '<div class="set-card">' +
+        '<div class="set-lbl">نظام الأرقام</div>' +
+        '<div class="set-seg">' +
+          '<button class="' + (ar ? "" : "on") + '" onclick="AhdApp.setDigitMode(\'western\')">0123 — غربية</button>' +
+          '<button class="' + (ar ? "on" : "") + '" onclick="AhdApp.setDigitMode(\'arabic\')">٠١٢٣ — عربية</button>' +
+        "</div>" +
+        '<div class="set-prev">مثال: <b>' + sample + ' ر.س</b> — يُطبَّق على التطبيق كلِّه فورًا (والختم لا يتغيّر، فهو على المحتوى لا على شكل الأرقام).</div>' +
+      "</div>" +
+      '<div class="set-h2">ما لا يفعله عهد</div>' +
+      '<div class="set-nos">' + nos + "</div>" +
+      '<div class="set-basis">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ · ﴿وَأَن تَصَدَّقُوا خَيْرٌ لَّكُمْ﴾ (٢٨٠) — ﴿فَاكْتُبُوهُ﴾ (٢٨٢)</div>' +
+      '<div class="set-about">عهد — قرضٌ حسن مكتوبٌ ومشهود، بكرامة. كلمتك محفوظة، وعلاقتك محميّة.</div>' +
+    "</div>";
+  }
+
+  App.registerScreen({ key: "settings", label: "الإعدادات", icon: "⚙️", render: render });
+})();
