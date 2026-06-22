@@ -99,12 +99,18 @@
     { category: "conditional-benefit", severity: "high", why: "قرضٌ جرّ نفعًا — نفعٌ مشروطٌ للمُقرض", fix: FIX_CONDITION,
       test: function (T) {
         if (/(?:دون|بلا|بغير)\s+شرط/.test(T) && !/بشرط|يشترط|اشترط|مشروطه/.test(T)) return false; // explicitly unconditional
-        var cond = /(?:بشرط\s+ان|بشرط\b|شريطه\s+ان|علي\s+ان|عل\s+ان|يشترط(?:\s+(?:في\s+العقد|عند))?[\s\S]{0,18}?ان|يشترط\s+(?:في\s+العقد|عند\s+رد)|اشترط[\s\S]{0,14}?ان|مقابل\s+ان|وفاء\s+بالجميل\s+مقابل|مصحوبا\s+بهديه|هديه\s+مشروطه)/;
-        var m = cond.exec(T);
-        if (!m) return false;
-        if (/دون\s+شرط|بلا\s+شرط/.test(T.slice(m.index))) return false;
         var benefit = /(?:تهديني|يهديني|تهدي\s+لي|هديه\s+مشروطه|هديه\s+يقدمها|يسكنني|اسكنه|يسكن[\s\S]{0,22}?(?:بيتي|بيته|داري|داره|غرفه)|انتفع|انتفاع|منفعه|سيارت[يه]|اركب|استعمل\s+سيارت|يخدمني|اعمل\s+(?:في|عند)|اشتغل\s+(?:في|عند)|مزرعت[هي]|بستان|ثمر|محصول|يبيعني|يبيعه[\s\S]{0,18}?(?:باقل|اقل)|اقل\s+من\s+(?:سعر|السوق|سعرها)|يخصم\s+لي|حق\s+السكن|شكر\s+المعروف|غرفه\s+من\s+بيت|ياكل\s+من|امكنه\s+من|مكنه\s+من|يمكنه\s+من|مبلغا\s+اضافيا|مبلغ\s+اضافي)/;
-        return benefit.test(T);
+        if (!benefit.test(T)) return false;
+        /* find a cond marker that is NOT itself negated («لا/لم/لن يشترط») nor disclaimed («دون شرط») */
+        var cond = /(?:بشرط\s+ان|بشرط\b|شريطه\s+ان|علي\s+ان|عل\s+ان|يشترط(?:\s+(?:في\s+العقد|عند))?[\s\S]{0,18}?ان|يشترط\s+(?:في\s+العقد|عند\s+رد)|اشترط[\s\S]{0,14}?ان|مقابل\s+ان|وفاء\s+بالجميل\s+مقابل|مصحوبا\s+بهديه|هديه\s+مشروطه)/g;
+        var m;
+        while ((m = cond.exec(T))) {
+          var pre = T.slice(Math.max(0, m.index - 7), m.index);
+          if (/(?:لا|لم|لن)\s+$/.test(pre)) continue;                 // «لا يشترط …» = explicitly NOT conditioned
+          if (/دون\s+شرط|بلا\s+شرط/.test(T.slice(m.index))) continue;  // disclaimed downstream
+          return true;
+        }
+        return false;
       } },
     { category: "classical-jahiliyya", severity: "high", why: "ربا الجاهليّة — زيادةٌ مقابل التأجيل/التأخير", fix: FIX_CLASSIC,
       test: function (T) {
@@ -182,7 +188,7 @@
     "^(?:و?" + NEG + ")\\s+(?:معفي|معفى|معاف|خالي|خال|يخلو|تخلو|بمنا|محصن|بريء|منزه|يمنع|يحرم|عاري)"
   );
   var FLIPPER_RE = /(?:^|\s)(?:ليس|ليست|لست|لسنا|ليسوا|لسن)\s*$/;
-  var VERBNEG_RE = /(?:^|\s)و?(?:لا|لن|لم)\s+(?:يستحق|يجب|يلزم|يحق|يترتب|ياخذ|ياخذه|يضيف|يزيد|يطالب|يتقاضي|يفرض|يصح)\s([\s\S]{0,70})$/;
+  var VERBNEG_RE = /(?:^|\s)و?(?:لا|لن|لم)\s+(?:يستحق|يجب|يلزم|يحق|يترتب|ياخذ|ياخذه|يضيف|يزيد|يطالب|يتقاضي|يفرض|يصح|يشترط|يتضمن|يحتوي)\s([\s\S]{0,70})$/;
   var HAS_NEGATION_RE = new RegExp("(?:^|\\s)و?" + NEG + "(?:\\s|$)");
   var ARABIC = /[ء-ي]/;
 
@@ -210,11 +216,15 @@
     if (LITOTES_RE.test(before.slice(scopeStart))) return false;     // «غير معفيٍّ من …» re-blocks
     return true;
   }
+  /* breaks a verb-negation scope only on a NEW affirmative clause — a preposition
+     («عليه») or a «و»-prefixed verb («ويدفع»). A bare «يدفع» stays inside the scope
+     («لا يشترط أن يدفع فائدة» = clean). */
+  var VERB_STOP_RE = /(?:^|\s)(?:عليه|عليك|عليهم|عليها|مقابل|نظير|لقاء|لكن|بشرط|و(?:يدفع|يستحق|يلزم|يجب|يضيف|يزيد|يتقاضي|عليه|على))(?:\s|$)/;
   function verbNegationClears(before) {
     var m = VERBNEG_RE.exec(before);
     if (!m) return false;
     if (/(?:^|\s)(?:الا|الّا|سوي)(?:\s|$)/.test(m[1])) return false; // «إلا/سوى» re-introduces
-    return !STOP_RE.test(m[1]);                                      // an affirmative obligation breaks it
+    return !VERB_STOP_RE.test(m[1]);                                 // a new affirmative clause breaks it
   }
   function installmentExtension(T, mIdx) {
     if (!/^زياده\s+(?:عدد\s+)?(?:الاقساط|اقساط|المده|الاجل|الفتره|عدد)/.test(T.slice(mIdx, mIdx + 60))) return false;
@@ -230,16 +240,19 @@
     return { why: rule.why, fix: rule.fix, category: rule.category, severity: rule.severity || "high", source: rule.source || "ext" };
   }
 
+  var MAX_LEN = 4000;   // bound the input so the bounded-wildcard regexes stay fast on huge pastes
   function scan(text, engine) {
     var e = engine || ENGINE;
     var T = normalize(text);
     if (!T) return { verdict: "clean", hits: [] };
-    var hits = [], seen = {};
+    if (T.length > MAX_LEN) T = T.slice(0, MAX_LEN);
+    var hits = [], seen = {}, sawTrigger = false;
 
     TRIGGER_RULES.forEach(function (rule) {
       if (seen[rule.category]) return;
       var re = new RegExp(rule.re.source, "g"), m;
       while ((m = re.exec(T))) {
+        sawTrigger = true;
         if (!cleared(T, m.index)) { seen[rule.category] = 1; hits.push(hitOf(rule)); break; }
         if (re.lastIndex === m.index) re.lastIndex++;
       }
@@ -251,11 +264,14 @@
 
     var verdict = hits.length ? "block" : "clean";
 
-    /* SAFETY FLOOR: reuse the golden linter. If golden blocks and we cleared it,
-       only trust our clearance when a negation particle is actually present. */
+    /* SAFETY FLOOR: reuse the golden linter as an authoritative backstop. If golden
+       blocks but the layer is clean, propagate the block — UNLESS the layer actually
+       SAW the trigger and cleared it via a present negation. A golden category the
+       layer's own patterns never matched (sawTrigger=false) ALWAYS propagates, so a
+       stray, unrelated negation word elsewhere can never silence the floor. */
     if (verdict === "clean" && e && typeof e.ribaScan === "function") {
       var g = e.ribaScan(text);
-      if (g.verdict === "block" && !HAS_NEGATION_RE.test(T)) {
+      if (g.verdict === "block" && (!sawTrigger || !HAS_NEGATION_RE.test(T))) {
         var gh = (g.hits && g.hits[0]) || {};
         hits.push({ why: gh.why || "شرطٌ ربويّ", fix: gh.fix || FIX_INCREASE, category: "golden", severity: "high", source: "golden" });
         verdict = "block";

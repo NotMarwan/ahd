@@ -126,6 +126,26 @@ var dO = C.makeDraft({ id: "RL-O", lender: "أنت", borrower: "ماجد", amoun
 eq(scan(C.draftTermsAr(dS, engine)).verdict, "clean", "scheduled draft terms read CLEAN through the layer");
 eq(scan(C.draftTermsAr(dO, engine)).verdict, "clean", "open draft terms read CLEAN through the layer");
 
+/* ---- code-review hardening: verb-negation «يشترط» (clean) vs real cond (block) */
+console.log("  — review C-3: negated «يشترط» reads clean; affirmative conditional blocks —");
+eq(verdict("لا يُشترط على المقترض أن يدفع أيّ فائدة."), "clean", "«لا يُشترط … فائدة» (no interest stipulated) → CLEAN");
+eq(verdict("لا يشترط المُقرض زيادةً على الأصل."), "clean", "«لا يشترط … زيادة» → CLEAN");
+eq(verdict("القرض لا يشترط أن يسكنني داره."), "clean", "«لا يشترط أن يسكنني داره» → CLEAN");
+eq(verdict("القرض بشرط أن يسكنني داره مدّة الدين."), "block", "affirmative «بشرط أن يسكنني» still → BLOCK");
+eq(verdict("لا يشترط المُقرض إلا فائدةً يسيرة."), "block", "«لا يشترط إلا فائدة» (exception re-introduces) → BLOCK");
+
+/* ---- code-review hardening C-1: the golden FLOOR never bypassed by a stray,
+       unrelated negation word elsewhere in the clause ---- */
+console.log("  — review C-1: a stray unrelated negation never lets golden-caught riba through —");
+[
+  "لا يوجد نزاعٌ بين الطرفين، وعليه فائدةٌ ٥٪ شهريًّا.",
+  "غير ذلك من الشروط مقبول، وعليه غرامةُ تأخير.",
+  "دون الإخلال بما سبق، نسبةُ ٢٪ من المبلغ.",
+  "لا مانع لدى الطرفين من عمولةٍ على الدين."
+].forEach(function (t) {
+  eq(verdict(t), "block", "stray negation does NOT clear real riba: «" + t.slice(0, 40) + "…»");
+});
+
 /* ---- determinism --------------------------------------------------------- */
 (function () {
   var a = JSON.stringify(scan("على أن تُهديني هديةً، وعليه نسبةُ ٢٪."));
