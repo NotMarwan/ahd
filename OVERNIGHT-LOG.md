@@ -5,7 +5,42 @@
 
 ---
 
-## ⭐ READ ME FIRST (morning summary)
+## 🌙 TONIGHT — MERGE → SPRINT → REMOTION (newest; supersedes the summary below)
+
+**📦 Repo (pushed):** **https://github.com/NotMarwan/ahd** — private · branch `overnight/deepening`.
+The PAT (`github.txt`) is gitignored and verified **404 on the remote** (never leaked). Pushed after
+every batch.
+
+**Mission (this run):** stop having two builds; make ONE clean publishable product → a new
+feature-discovery sprint → Remotion promos of the new features. The "demo frozen" rule is lifted for
+the merge, but the **spine is inviolable**, the **gate stays green**, and irreversible/Shariah calls
+still go to `DECISIONS-FOR-MARWAN.md`.
+
+**Phase status:**
+- ✅ **Phase 0 — GitHub safety net.** Token gitignored; baseline committed; private repo created;
+  both branches pushed; token confirmed absent from remote.
+- ✅ **Phase 1 — ONE clean product.** `project/ahd-app/` is now **THE product** (7 screens, one
+  shell/router/engine/design). The demo is **kept, byte-frozen, relabelled LEGACY** (D-4, safe
+  path — not deleted). Fixed the real "two-parts" smells: nav now product-flow order + wraps to a
+  tidy 2 rows (was overflowing the viewport), favicon → **0 console errors**. New root `README.md`
+  names the one product. Real-browser verified (Chromium, mobile): all 7 render, 0 errors, Arabic
+  correct. Evidence: `project/ahd-app/screenshots/audit/`.
+- ⏳ **Phase 2 — new feature sprint.** In progress.
+- ⏳ **Phase 3 — Remotion promo of the new features.** Pending Phase 2. **mp4 will land in
+  `project/ahd-promo/out/`** (path noted here when rendered).
+
+**Gate (fresh, real output):** core `184/0` (135+9+40) · app `13/13 suites = 426/0` · **610 total** ·
+demo tripwire `e2f48467… OK`.
+
+**Most valuable thing so far tonight:** the product is genuinely **one cohesive app** now (single
+front door + product-flow nav + 0 console errors), recoverable on GitHub, gate green.
+
+**Needs your decision:** `DECISIONS-FOR-MARWAN.md` — **D-4** (demo kept/frozen vs retire — I took the
+safe "keep" path) + standing D-1 / D-3 (Shariah-gated) and D-2 (FYI).
+
+---
+
+## ⭐ READ ME FIRST (previous night's summary — kept for history)
 
 **Status as of last update:** 🟢 Demo safe · harness green (**core 184/0 + app 425/0 = 609 assertions, 13 app suites**) · independently **code-reviewed** (0 critical; 5 findings applied) · work isolated on `overnight/deepening` (26 commits) · demo `main` untouched. **The app now mirrors the demo's full surface + all new features (7 screens).**
 
@@ -60,6 +95,23 @@
 ---
 
 ## LOG (newest first)
+
+### Phase 0 + Phase 1 · GitHub safety net + merge into ONE product — ✅ DONE
+- **Phase 0:** `github.txt` gitignored (+ `.env`/`*.token`); baseline commit `f8813ed` (incl. WIP
+  promo refactor so nothing is lost); created private repo **NotMarwan/ahd**; clean remote (no token
+  in config, pushed via env-var credential helper); pushed `main` + `overnight/deepening`; **verified
+  `github.txt` is 404 on the remote.**
+- **Phase 1:** decided `ahd-app` = THE product (already supersets the demo). Audit-first in a real
+  browser found the genuine "stitched" smells → fixed: (1) nav was **build-order** → explicit
+  product-flow `NAV_ORDER` sorted in `boot()` (TDD: dom-smoke red→green, +1 assertion); (2) 7-pill
+  nav **overflowed** the viewport (718px in 397px) → `flex-wrap` to a tidy 2 rows, 0 horizontal
+  overflow; (3) favicon **404** → inline base64 SVG brand mark → **0 console errors**. Demo
+  relabelled **LEGACY/FROZEN** (README banner only; `index.html` untouched, tripwire OK) — kept not
+  deleted (**D-4**). New root `README.md`. Real-browser (Chromium, 440px): all 7 screens render, 0
+  errors, Arabic shaping/RTL correct, no score/% on screen. Evidence `screenshots/audit/`.
+- **Gate:** core 184/0 · app 13/13 (426) · **610 total** · tripwire `e2f48467… OK`. Commits
+  `f8813ed`, `e354a14`. Pushed.
+
 
 ### Batch 14 · الدائرة treasurer dashboard — ✅ DONE
 `features/circle.js` + `screens/circle.js`: the treasurer view (Agent-4 G3) over the **golden** `foldCircle`/`circleSeal`/`statusLabel` (reused) — occasion progress (amounts, never a score), per-member dignified states, the dignity rule (group reminder never names the late), and one sealed proof; «ذمّة المناسبة محفوظة» on full collection. circle 14, dom-smoke 83. The app now mirrors the demo's full surface (witnessed record via *create*, Muqassa via *settle*, Circle via *circle* + *circle-adv*) **plus** all four new consumer features. Commit `bbb4602`.
