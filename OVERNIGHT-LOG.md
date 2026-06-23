@@ -7,9 +7,42 @@
 
 ## 🌌 DEEPEN SPRINT (newest — depth, not breadth; reshapes guarded, adds none)
 
-**📦 Repo:** **https://github.com/NotMarwan/ahd** · branch `overnight/deepening`. Token gitignored, never printed.
-**Mission:** take every existing feature to a deeper level; weave the 5 newest natively; reshape where it
-genuinely helps; keep the gate green; push throughout. The spine is inviolable.
+**📦 Repo (pushed):** **https://github.com/NotMarwan/ahd** · branch `overnight/deepening` · HEAD `ecacb11`.
+Token gitignored, never printed. Pushed after every lane; remote always holds the latest green state.
+
+### ⭐ READ ME FIRST — what the deepening did (8 lanes, every one TDD'd + real-browser-verified + pushed)
+**Mission:** take every existing feature to a deeper level, weave the 5 newest natively, reshape where it
+genuinely helps — spine inviolable, gate green throughout. **No new features added; existing ones deepened.**
+
+| # | Feature | What got deeper |
+|---|---|---|
+| 01 | **أنشئ عهدًا · riba linter** (the centerpiece) | additive `riba-lint.js` over the golden scan — now catches synonyms/disguised-fees/قرض-جرّ-نفعًا/جاهلية, fixes the negation/«أو» edge cases, **0/60 adversarial-corpus misses**. Independently **code-reviewed**, findings applied (Deepen-01b). |
+| 02 | **دفتري** | now the **hub**: grouped/dignified sections · a reconciling **net** balance (exact halalas) · filter chips · the **ask (طلب عهد)** woven in (a sent request shows as a pending row). |
+| 03 | **سِجلّ الشهادة** | the **connective tissue**: a per-عهد **story** view, links out to **إثبات/خلاف/الدفتر**, focus mode + a دفتري→سجلّ reverse link. |
+| 04 | **حافظة الإثبات ↔ محلّ خلاف** | **interconnected**: provenance (سَنَد), a **precise tamper diff** (the changed field + diverging seals), and the proof opens from الخلاف as the **neutral exhibit**. |
+| 05 | **الإعدادات** | beyond the digit toggle: **«إخفاء المبالغ» privacy** (display-only, byte-safe) · «ما يفعله عهد» · the two-contract **model note**. |
+| 06 | **المقاصّة** | a rigorous, judge-convincing **conservation proof** — every member's net **preserved** (9→2, money-moved 1,800→900). |
+| 07 | **القرض المفتوح** | the **«متى ما تيسّر» journey**: a paid·صدقة·باقٍ progress bar (no %) + a dotted payment history. |
+| 08 | **الدائرة** | a real **group reminder that never names the late** (a tested dignity guarantee). |
+
+**🟢 Gate (fresh, real output):** core **184/0** (135+9+40) · app **28/28 suites = 985/0** · **1169 total**
+(was 817 at sprint start) · demo tripwire `e2f48467… OK` · **0 console errors** across every screen (real Chromium).
+
+**🖼️ New screenshots:** `project/ahd-app/screenshots/deepening/` (linter · دفتري hub · timeline stories · proof
+exhibit · settings · muqassa · open-loan · circle reminder).
+
+**🧭 Needs your decision:** `DECISIONS-FOR-MARWAN.md` — **D-5** (the linter's two on-spine judgement calls: a
+deliberately-conservative ٪/أرباح flag + 4 genuinely-debatable corpus clauses left to a scholar — no fatwa
+issued). Standing **D-1/D-3** (Shariah-gated) untouched. Nothing auto-merges to `main`.
+
+**💎 Single most valuable deepening:** the **riba linter** — it went from a 4-rule string-match (easily fooled)
+to a layer that catches disguised riba across the adversarial corpus (0/60 misses) AND stops wrongly blocking
+honest clauses (the negation/«أو» edge cases), while never touching the golden function. It's the product's
+Shariah conscience, and it's now genuinely hard to fool.
+
+**▶️ How to review:** `git log main..overnight/deepening --oneline` · run the app
+(`node project/ahd-app/_serve-app.cjs` → http://localhost:8124) · run the gate from
+`10_Deep/Hardening/test-harness/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs`.
 
 ### ✅ Deepen-01 — the riba linter (the centerpiece) is now genuinely hard to fool
 **What got deeper.** The golden `engine.ribaScan` is just 4 regex rules + an *immediate-preceding-negation*
