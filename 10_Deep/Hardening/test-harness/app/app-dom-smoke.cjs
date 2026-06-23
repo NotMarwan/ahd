@@ -233,6 +233,15 @@ ok(/[٠-٩]/.test(App.go("daftari")), "arabic mode renders Arabic-Indic digits o
 ok(App.Proof.buildProofPack(App.records[0], App.engine).seal === homeSealBefore, "digit mode is DISPLAY-ONLY — the engine seal is unchanged");
 noThrow(() => App.setDigitMode("western"), "switch back to western (restore)");
 ok(App.fmtN(5200) === "5,200", "western restored: App.fmtN(5200) → 5,200");
+/* privacy «إخفاء المبالغ» — display-only mask, app-wide, byte-safe */
+ok(/إخفاء المبالغ/.test(seth) && /ما يفعله عهد/.test(seth), "settings shows the privacy toggle + the «ما يفعله» counterpart");
+noThrow(() => App.setPrivacy(true), "turn on «إخفاء المبالغ»");
+ok(App.fmtN(5200) === "•••", "privacy on: amounts mask to «•••» (no digit leaks)");
+let daftHidden = App.go("daftari");
+ok(/•••/.test(daftHidden) && !/5,200|٥/.test(daftHidden), "privacy hides amounts app-wide (دفتري shows no figure)");
+ok(App.Proof.buildProofPack(App.records[0], App.engine).seal === homeSealBefore, "privacy is DISPLAY-ONLY — the engine seal is unchanged (byte-safe)");
+noThrow(() => App.setPrivacy(false), "turn privacy back off (restore)");
+ok(App.fmtN(5200) === "5,200", "privacy off: amounts shown again");
 
 /* ---- اطلب عهدًا (borrower-initiated request) — CONTEXTUAL, reached from a home card ---- */
 ok(!!sandbox.RequestAhd, "RequestAhd module attaches to window");

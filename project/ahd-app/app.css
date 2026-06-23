@@ -338,5 +338,10 @@ body{
 .set-no{background:var(--card); border:1px solid var(--line); border-right:3px solid var(--gold); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow)}
 .set-no b{color:var(--ink); font-size:14px}
 .set-no div{color:var(--mut); font-size:12.5px; margin-top:4px; line-height:1.75}
+.set-yeses{display:flex; flex-direction:column; gap:9px}
+.set-yes{background:var(--card); border:1px solid var(--line); border-right:3px solid var(--teal); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow)}
+.set-yes b{color:var(--teal); font-size:14px}
+.set-yes div{color:var(--mut); font-size:12.5px; margin-top:4px; line-height:1.75}
+.set-model{background:var(--mute-soft); border-radius:13px; padding:12px 14px; font-size:12.5px; color:var(--ink); line-height:1.85}
 .set-basis{text-align:center; color:var(--gold); font-size:13px; line-height:2; padding:0 6px}
 .set-about{text-align:center; color:var(--mut); font-size:12.5px; line-height:1.8}

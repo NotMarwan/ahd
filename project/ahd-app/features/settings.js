@@ -22,6 +22,12 @@
     return mode === "arabic" ? toArabicDigits(s) : String(s == null ? "" : s);
   }
 
+  /* a display-only privacy mask — «إخفاء المبالغ». Deterministic; replaces a
+     formatted amount with «•••» so no figure leaks to a shoulder-surfer. It is
+     applied ONLY at the display layer (App.fmtN); the engine bytes and every seal
+     are computed from content, never from a masked string — so this is byte-safe. */
+  function maskAmount(s, hide) { return hide ? "•••" : String(s == null ? "" : s); }
+
   /* the spine, stated as what عهد will NOT do (display copy — no numbers) */
   var SPINE_NO = [
     { t: "لا نُقرض", d: "المال مالُكم؛ عهد يشهد ويحفظ، ولا يُقرض من عنده." },
@@ -30,5 +36,14 @@
     { t: "لا نُصنّف", d: "لا رقم ولا درجةَ ائتمان؛ سجلّ وفائك مرآةٌ لك وحدك، لا يُصدَّر." }
   ];
 
-  return { toArabicDigits: toArabicDigits, applyDigits: applyDigits, SPINE_NO: SPINE_NO };
+  /* the positive counterpart — what عهد DOES (the four verbs of the spine) */
+  var SPINE_YES = [
+    { t: "نكتب ونشهد", d: "نوثّق العهد بصياغةٍ واضحة، ونختمه ختمًا لا يُزوَّر (نفاذ + تعمية)." },
+    { t: "نحفظ الوثيقة", d: "تبقى الوثيقة المختومة لكما — دليلٌ محايدٌ عند الحاجة، لا نملكه ولا نبيعه." },
+    { t: "نُسوّي بالتراضي", d: "نُقاصّ الديون المتشابكة بأقلّ التحويلات — بموافقة الجميع، بلا أيّ زيادة." },
+    { t: "نُذكّر بالمعروف", d: "نُرسل تذكيرًا لطيفًا بالنيابة عنك حين يحين الموعد — بكرامة، بلا مطالبة." },
+    { t: "نُيسّر عند العُسر", d: "نقترح الإمهال والإبراء — والعُسرُ يُقابَل بالرحمة، لا بالزيادة." }
+  ];
+
+  return { toArabicDigits: toArabicDigits, applyDigits: applyDigits, maskAmount: maskAmount, SPINE_NO: SPINE_NO, SPINE_YES: SPINE_YES };
 });

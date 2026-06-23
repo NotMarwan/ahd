@@ -134,7 +134,31 @@ render, tamper shows the changed field + broken seal, back returns to الخلا
 correct, no score. Screenshot: `project/ahd-app/screenshots/deepening/ahd-proof-exhibit.png`.
 Plan: `docs/superpowers/plans/deepen-04-proof-dispute.md`.
 
-**Gate (fresh, real output):** core **184/0** (135+9+40) · app **24/24 suites = 898/0** · **1082 total** (was
+**Gate (Deepen-04):** core **184/0** · app **24/24 = 898/0** · **1082 total** · demo tripwire unchanged · 0 console errors.
+
+### ✅ Deepen-05 — الإعدادات (the 5th new feature) deepened beyond the digit toggle
+**What got deeper.** Settings was just the digit toggle. Now (all on-spine, deterministic, byte-safe):
+- **«إخفاء المبالغ» privacy** (`settings.maskAmount` → `App.fmtN`): when you show your screen to someone, every
+  amount becomes «•••» app-wide. **Display-only** — the engine bytes and every seal are computed from content,
+  never from a masked string (asserted: the proof seal is identical privacy on/off). The digit toggle stays.
+- **«ما يفعله عهد»** (the positive counterpart to «ما لا نفعله»): the four verbs of the spine — نكتب ونشهد ·
+  نحفظ الوثيقة · نُسوّي بالتراضي · نُذكّر بالمعروف · نُيسّر عند العُسر.
+- **The model note** (what a Shariah judge looks for): «عقدان منفصلان — قرضٌ حسن بلا أيّ زيادة بينكما، وأجرةُ
+  خدمةٍ ثابتةٌ للمصرف على التوثيق والحفظ (لا نسبةٌ من المبلغ، ولا تزيد بالتأخير). فصلٌ تامّ بين القرض والأجرة.»
+
+**Reshape (guarded).** `App.fmtN` gained a privacy gate (single point); `app.js` gained `privacy` + `setPrivacy`;
+`screens/settings.js` rebuilt. The digit toggle + golden `fmt()` untouched; the trust signal stays a word.
+
+**Tests (TDD).** `app/settings-deepen.test.cjs` (13 — the mask is digit-safe + deterministic, byte-safety via
+an identical seal, the «يفعله» content on-spine) + DOM-smoke grown (+8: privacy masks دفتري/home, seal stable,
+restore). Existing `settings.test.cjs` (13) stays green.
+
+**Real-browser verified** (Chromium): privacy hides amounts on دفتري + home (→ «•••») and restores; the seal is
+byte-stable; «ما يفعله»/«ما لا يفعله»/model render; **0 console errors**; Arabic correct.
+Screenshot: `project/ahd-app/screenshots/deepening/ahd-settings-deepened.png`.
+Plan: `docs/superpowers/plans/deepen-05-settings.md` (see commit). **All 5 new features now woven + deepened.**
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **25/25 suites = 918/0** · **1102 total** (was
 817) · demo tripwire unchanged · 0 console errors.
 
 ---

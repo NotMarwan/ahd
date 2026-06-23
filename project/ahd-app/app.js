@@ -84,6 +84,7 @@
     disputeState: { recordId: null, flash: null },
     Settings: Settings,
     digitMode: "western",   // D-2: user choice; default engine-consistent (western)
+    privacy: false,         // «إخفاء المبالغ» — display-only mask; engine bytes/seals unaffected
     RequestAhd: RequestAhd,
     request: RequestAhd ? RequestAhd.makeRequest({ id: "REQ-NAIF", borrower: "نايف", lender: "خالد", amountSAR: 1500, months: 3, purpose: "تجهيز عربة القهوة" }) : null,
     requestState: { sent: false, accepted: null, flash: null },
@@ -93,7 +94,8 @@
        The engine bytes never change — only the rendered glyphs (D-2). */
     fmtN: function (n) {
       var s = this.engine.fmt(n);
-      return (this.Settings && this.digitMode === "arabic") ? this.Settings.toArabicDigits(s) : s;
+      s = (this.Settings && this.digitMode === "arabic") ? this.Settings.toArabicDigits(s) : s;
+      return (this.Settings && this.privacy) ? this.Settings.maskAmount(s, true) : s;
     },
     /* digit map for any already-built string (dates, counts) — display-only */
     digit: function (s) {
@@ -183,6 +185,7 @@
 
     /* ---- الإعدادات (settings) — the Arabic-Indic digit choice (D-2), app-wide ---- */
     setDigitMode: function (mode) { this.digitMode = (mode === "arabic") ? "arabic" : "western"; return this.rerender(); },
+    setPrivacy: function (on) { this.privacy = !!on; return this.rerender(); },
 
     /* ---- اطلب عهدًا (borrower-initiated request) — a CONTEXTUAL screen from home ---- */
     requestSend: function () {
