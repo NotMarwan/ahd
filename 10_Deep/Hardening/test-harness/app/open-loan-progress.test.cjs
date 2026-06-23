@@ -53,6 +53,14 @@ eq(pf.remainingMinor, 0, "full إبراء → remaining 0");
 ok(pf.forgivenMinor === pf.principalMinor, "full إبراء → the whole principal is forgiven (صدقة)");
 ok(OL.openLoanHistory(forgiven).some(x => x.kind === "forgiven-all"), "full إبراء shows a «forgiven-all» journey entry");
 
+/* ---- code-review fix: a degenerate zero-principal loan returns honest zeros
+   (no false fractions) and never throws ---- */
+const zero = OL.makeOpenLoan({ id: "OL-Z", lender: "أ", borrower: "ب", amountSAR: 0 });
+const zp = OL.openLoanProgress(zero);
+eq(zp.principalMinor, 0, "zero-principal: principal 0");
+ok(zp.paidFrac === 0 && zp.forgivenFrac === 0 && zp.remainingFrac === 0, "zero-principal: honest zero fractions (no false «1»)");
+ok(zp.paidMinor === 0 && zp.remainingMinor === 0, "zero-principal: zero amounts, no throw");
+
 /* ---- determinism ---- */
 ok(JSON.stringify(OL.openLoanProgress(loan)) === JSON.stringify(pr), "openLoanProgress is deterministic");
 

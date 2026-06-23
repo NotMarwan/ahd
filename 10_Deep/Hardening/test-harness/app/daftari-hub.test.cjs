@@ -79,6 +79,15 @@ eq(D.filterRows(led.owedToMe, "active").length, 1, "filter active → 1 (عبد�
 eq(D.filterRows(led.owedToMe, "nonsense").length, led.owedToMe.length, "unknown filter is a safe no-op (returns all)");
 ok(D.filterRows([], "overdue").length === 0, "empty input → empty (no throw)");
 
+/* ---- code-review fix: summaryTiles sums INTEGER halalas (no float drift) ----
+   a 1,000 SAR loan over 3 installments leaves non-integer remainders (666.67…);
+   float accumulation would drift — the total must be exact. */
+const fakeLedger = { owedToMe: [
+  { remainingSAR: 0.1, statusKey: "ACTIVE" },
+  { remainingSAR: 0.2, statusKey: "ACTIVE" }
+], iOwe: [] };
+eq(D.summaryTiles(fakeLedger).me.amountSAR, 0.3, "summaryTiles sums integer halalas EXACTLY (0.10 + 0.20 == 0.30, no float drift)");
+
 /* ---- determinism ---- */
 eq(JSON.stringify(D.groupLedger(led.owedToMe)), JSON.stringify(D.groupLedger(led.owedToMe)), "groupLedger is deterministic");
 

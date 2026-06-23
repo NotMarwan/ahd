@@ -88,9 +88,12 @@
 
   function isLive(r) { return !CLOSED[r.statusKey]; }
   function summaryTiles(ledger) {
+    /* accumulate in INTEGER halalas, then convert once — never sum SAR floats
+       (0.10 + 0.20 must equal 0.30, not 0.30000000000000004) */
     function tile(rows) {
       var live = rows.filter(isLive);
-      return { amountSAR: live.reduce(function (a, r) { return a + r.remainingSAR; }, 0), count: live.length };
+      var minor = live.reduce(function (a, r) { return a + Math.round(r.remainingSAR * 100); }, 0);
+      return { amountSAR: minor / 100, count: live.length };
     }
     return { me: tile(ledger.owedToMe), on: tile(ledger.iOwe) };
   }

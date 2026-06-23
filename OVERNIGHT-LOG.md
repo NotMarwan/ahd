@@ -25,8 +25,13 @@ genuinely helps — spine inviolable, gate green throughout. **No new features a
 | 07 | **القرض المفتوح** | the **«متى ما تيسّر» journey**: a paid·صدقة·باقٍ progress bar (no %) + a dotted payment history. |
 | 08 | **الدائرة** | a real **group reminder that never names the late** (a tested dignity guarantee). |
 
-**🟢 Gate (fresh, real output):** core **184/0** (135+9+40) · app **28/28 suites = 985/0** · **1169 total**
-(was 817 at sprint start) · demo tripwire `e2f48467… OK` · **0 console errors** across every screen (real Chromium).
+**🟢 Gate (fresh, real output):** core **184/0** (135+9+40) · app **28/28 suites = 989/0** · **1173 total**
+(was 817 at sprint start) · demo tripwire `e2f48467… OK` · **0 console errors** across all 12 screens (real Chromium).
+
+**🔍 Final code-review** (fresh subagent, spine + determinism sweep of all 7 new pure-logic files): timeline /
+proof / settlement / settings / circle came back **clean**; one real **float-accumulation** bug found in
+`daftari.summaryTiles` (pre-existing; summed SAR floats) → **fixed** to accumulate integer halalas (+regression
+test: `0.10 + 0.20 == 0.30`). No spine leaks, no golden mutation, no Date/Math.random/Intl anywhere.
 
 **🖼️ New screenshots:** `project/ahd-app/screenshots/deepening/` (linter · دفتري hub · timeline stories · proof
 exhibit · settings · muqassa · open-loan · circle reminder).
