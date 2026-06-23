@@ -207,8 +207,32 @@ pay + partial-إبراء; **0 console errors**; Arabic correct; no %/score.
 Screenshot: `project/ahd-app/screenshots/deepening/ahd-openloan-progress.png`.
 Plan: `docs/superpowers/plans/deepen-07-open-loan.md`.
 
-**Gate (fresh, real output):** core **184/0** (135+9+40) · app **27/27 suites = 969/0** · **1153 total** (was
-817) · demo tripwire unchanged · 0 console errors.
+**Gate (Deepen-07):** core **184/0** · app **27/27 = 969/0** · **1153 total** · demo tripwire unchanged · 0 console errors.
+
+### ✅ Deepen-08 — الدائرة: a group reminder that never names the late
+**What got deeper.** The treasurer dashboard only *described* the dignity rule. Now it lives:
+- **`groupReminder`**: a real collective reminder for the whole circle that — **as a tested guarantee — names
+  NO member** (`namesAnyone === false`; every member name asserted absent from the text). It carries the 2:280
+  mercy + the «احتاج وقتًا» exit, states no زيادة, and uses no shaming/مطالبة. `pendingCount` is a dignified
+  tally («يصل 3 من بقيت مساهمتُهم — بلا تمييز ولا إحراج»), never a named list.
+- The screen gains a **«ذكّر الدائرة بلطف 🤍»** action previewing the card «تذكيرٌ جماعيّ (لا يُسمّى أحد)». The
+  treasurer still sees each member's private dignified state; only the OUTGOING reminder names no one.
+
+**Reshape (guarded).** `features/circle.js` gained `groupReminder`; `app.js` gained `circleState` +
+`circleReminderToggle`; `screens/circle.js` gained the preview. Golden circle engine untouched; the
+Shariah-gated mode-B (D-3) is not touched.
+
+**Tests (TDD).** `app/circle-reminder.test.cjs` (13 — the no-name guarantee, collective + mercy + no-زيادة copy,
+the tally, determinism) + DOM-smoke grown (+3, incl. a live no-member-name assertion). Existing `circle.test.cjs`
+(14) stays green.
+
+**Real-browser verified** (Chromium): the reminder previews, contains **NO member name** (verified against all
+5 members), tallies «يصل 3»; **0 console errors**; Arabic correct; no score.
+Screenshot: `project/ahd-app/screenshots/deepening/ahd-circle-group-reminder.png`.
+Plan: `docs/superpowers/plans/deepen-08-circle-reminder.md`.
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **28/28 suites = 985/0** · **1169 total** (was
+817) · demo tripwire unchanged · 0 console errors. **All core + all 5 new features now deepened.**
 
 ---
 

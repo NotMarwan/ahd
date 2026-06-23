@@ -154,6 +154,11 @@ let cd = noThrow(() => App.go("circle"), "go('circle') renders the treasurer das
 ok(/رحلة العلا/.test(cd) && /أمين الصندوق/.test(cd), "dashboard shows the occasion + treasurer");
 ok(/جُمِع/.test(cd) && /ذمّة محفوظة/.test(cd), "dashboard shows progress + a member's dignified «ذمّة محفوظة»");
 ok(/لا يُسمّى المتأخّر/.test(cd), "dashboard states the dignity rule (group reminder never names the late)");
+/* the group reminder, previewed live — and it names NO member */
+let cdr = noThrow(() => App.circleReminderToggle(), "treasurer «ذكّر الدائرة بلطف» previews the group reminder");
+ok(/جماعيّ/.test(cdr) && /ميسرة/.test(cdr), "the group reminder is collective + carries the 2:280 mercy («ميسرة»)");
+ok(App.engine.DEMO_CIRCLE.members.every(m => App.CircleDash.groupReminder(App.engine.DEMO_CIRCLE, App.engine).ar.indexOf(m.name) < 0), "the group reminder names NO member (the late is never exposed)");
+App.circleReminderToggle();
 ok(/ختم الدائرة/.test(cd), "the occasion shows ONE sealed proof (progress is amounts «جُمِع X من Y», not a score)");
 
 /* ---- المقاصّة (Muqassa) screen ---- */

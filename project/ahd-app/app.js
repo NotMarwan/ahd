@@ -76,6 +76,7 @@
     createState: { extra: "", sealed: null, tamper: false, flash: null },
     Settlement: Settlement,
     CircleDash: CircleDash,
+    circleState: { reminder: false },
     Timeline: Timeline,
     timelineState: { view: "story", focus: null },
     Proof: Proof,
@@ -230,6 +231,9 @@
       return this.rerender();
     },
     circleAdvDismiss: function () { this.circleAdvState.flash = null; return this.rerender(); },
+
+    /* ---- الدائرة (treasurer dashboard) — the group reminder that names no one ---- */
+    circleReminderToggle: function () { this.circleState.reminder = !this.circleState.reminder; return this.rerender(); },
 
     /* ---- create-عهد actions (the riba linter gates the seal) ---- */
     createInjectRiba: function () { this.createState.extra = "وعليه غرامةُ تأخيرٍ ٢٪ شهريًّا."; this.createState.sealed = null; return this.rerender(); },
