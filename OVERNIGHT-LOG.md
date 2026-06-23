@@ -183,7 +183,31 @@ Screenshot: `project/ahd-app/screenshots/deepening/ahd-muqassa-conservation.png`
 Plan: `docs/superpowers/plans/deepen-06-muqassa.md` (see commit). _Note: the circle→مقاصّة data hand-off is
 deferred (the circle/IOU shapes differ — a real mapping, not a hollow button); logged, not faked._
 
-**Gate (fresh, real output):** core **184/0** (135+9+40) · app **26/26 suites = 942/0** · **1126 total** (was
+**Gate (Deepen-06):** core **184/0** · app **26/26 = 942/0** · **1126 total** · demo tripwire unchanged · 0 console errors.
+
+### ✅ Deepen-07 — القرض المفتوح: the «متى ما تيسّر» journey made visible
+**What got deeper.** The open-term loan showed only «المتبقّي». Now its easing-over-time story is visible
+(golden seal reused, untouched; no due/countdown; إبراء stays the lender's صدقة):
+- **`openLoanProgress`**: a three-segment breakdown (paid · صدقة · باقٍ) with **exact conservation**
+  (`paid + forgiven + remaining === principal`) → a **proportional bar** (flex-grow, NO % text) + a legend in
+  amounts («سُدِّد 5,000 · صدقة 3,000 · باقٍ 12,000 · من 20,000 ر.س»).
+- **`openLoanHistory`**: the «متى ما تيسّر» **journey** — sealed → partial payment(s) → إبراء — as a dotted
+  mini-timeline with dignified copy (teal for السداد, gold for الصدقة). A 3-cycle/full-إبراء close cleanly.
+
+**Reshape (guarded).** `features/open-loan.js` gained `openLoanProgress` + `openLoanHistory`;
+`screens/open-loan.js` rebuilt to surface the bar + journey while keeping the quiet, no-countdown heart. Golden
+seal/canonical untouched; no number/score (proportional bar, amounts are money).
+
+**Tests (TDD).** `app/open-loan-progress.test.cjs` (24 — exact conservation, fractions sum to 1, the journey
+kinds + copy, full-إبراء close, determinism) + DOM-smoke grown (+3, incl. the no-% guard). Existing
+`open-loan.test.cjs` (35) stays green.
+
+**Real-browser verified** (Chromium): the bar (paid/صدقة/باقٍ), the legend, and the dotted journey render after
+pay + partial-إبراء; **0 console errors**; Arabic correct; no %/score.
+Screenshot: `project/ahd-app/screenshots/deepening/ahd-openloan-progress.png`.
+Plan: `docs/superpowers/plans/deepen-07-open-loan.md`.
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **27/27 suites = 969/0** · **1153 total** (was
 817) · demo tripwire unchanged · 0 console errors.
 
 ---

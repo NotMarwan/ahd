@@ -130,6 +130,21 @@ body{
 .ol-rl{color:var(--mut); font-size:13px}
 .ol-rv{font-size:34px; font-weight:800; letter-spacing:-.5px} .ol-rv small{font-size:15px; font-weight:400; color:var(--mut)}
 .ol-status{text-align:center}
+/* progress breakdown (paid · صدقة · باقٍ) — proportional, no % text */
+.ol-progress{display:flex; flex-direction:column; gap:7px}
+.ol-bar{display:flex; height:12px; border-radius:999px; overflow:hidden; background:var(--mute-soft)}
+.ol-seg{display:block; min-width:0}
+.ol-seg.paid{background:var(--teal)} .ol-seg.forgiven{background:var(--gold)} .ol-seg.rem{background:#cdd9d4}
+.ol-legend{display:flex; gap:9px; flex-wrap:wrap; font-size:12px; color:var(--mut)}
+.ol-lg.paid{color:var(--teal); font-weight:600} .ol-lg.forgiven{color:var(--gold); font-weight:600}
+.ol-lg.rem{color:var(--ink)} .ol-lg.total{margin-inline-start:auto}
+/* the «متى ما تيسّر» journey */
+.ol-journey{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
+.ol-jh{font-weight:700; font-size:13px; margin-bottom:9px}
+.ol-jstep{display:flex; gap:9px; align-items:flex-start; font-size:12.5px; line-height:1.7; padding:4px 0; color:var(--ink)}
+.ol-jdot{flex:none; width:9px; height:9px; border-radius:50%; background:var(--teal); margin-top:5px}
+.ol-jstep.kind-forgiven-partial .ol-jdot,.ol-jstep.kind-forgiven-all .ol-jdot{background:var(--gold)}
+.ol-jstep.kind-sealed .ol-jdot{background:var(--mute)}
 .ol-note{color:var(--mut); font-size:13px; text-align:center; line-height:1.7}
 .ol-act{display:flex; gap:8px}
 .ol-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:13px; font:inherit; font-weight:600; cursor:pointer}

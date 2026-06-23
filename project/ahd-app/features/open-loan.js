@@ -97,9 +97,34 @@
     return ev("PARTIAL_FORGIVEN", { amountMinor: Math.min(e.toMinor(amountSAR), rem) });
   }
 
+  /* the three-segment progress breakdown (paid · صدقة · باقٍ) for the «متى ما تيسّر»
+     bar — fractions for the bar width, no % text. Conservation is exact. */
+  function openLoanProgress(loan) {
+    var f = foldOpenLoan(loan), p = loan.principalMinor || 1;
+    return {
+      principalMinor: loan.principalMinor, paidMinor: f.paidMinor, forgivenMinor: f.forgivenMinor, remainingMinor: f.remainingMinor,
+      paidFrac: f.paidMinor / p, forgivenFrac: f.forgivenMinor / p, remainingFrac: f.remainingMinor / p
+    };
+  }
+
+  /* the «متى ما تيسّر» JOURNEY — the chronological partial-payments + إبراء, with
+     dignified copy (the borrower never had to be chased; the lender gave freely). */
+  function openLoanHistory(loan) {
+    var out = [];
+    (loan.events || []).forEach(function (e) {
+      if (e.type === "RECORD_SEALED") out.push({ kind: "sealed", amountMinor: 0, ar: "وُثِّق وخُتم القرض المفتوح — يُسدَّد متى ما تيسّر" });
+      else if (e.type === "PRINCIPAL_PAID") out.push({ kind: "paid", amountMinor: e.amountMinor || 0, ar: "سُدِّدت دفعةٌ حين تيسّر — المتبقّي ينقص، بلا أيّ زيادة" });
+      else if (e.type === "PARTIAL_FORGIVEN") out.push({ kind: "forgiven-partial", amountMinor: e.amountMinor || 0, ar: "أُبرئ جزءٌ صدقةً — والباقي يبقى مفتوحًا" });
+      else if (e.type === "FORGIVEN") out.push({ kind: "forgiven-all", amountMinor: 0, ar: "أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾" });
+      else if (e.type === "ALL_SETTLED") out.push({ kind: "kept", amountMinor: 0, ar: "وُفِّي به كاملًا — ذمّة محفوظة 🤍" });
+    });
+    return out;
+  }
+
   return {
     makeOpenLoan: makeOpenLoan, foldOpenLoan: foldOpenLoan, openLoanStatusAr: openLoanStatusAr,
     openLoanTermsAr: openLoanTermsAr, openLoanCanonical: openLoanCanonical, openLoanSeal: openLoanSeal,
-    verifyOpenLoan: verifyOpenLoan, payEvent: payEvent, forgiveEvent: forgiveEvent
+    verifyOpenLoan: verifyOpenLoan, payEvent: payEvent, forgiveEvent: forgiveEvent,
+    openLoanProgress: openLoanProgress, openLoanHistory: openLoanHistory
   };
 });

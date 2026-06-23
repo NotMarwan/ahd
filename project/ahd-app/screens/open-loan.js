@@ -19,15 +19,38 @@
     if (!app.openLoan || !app.OpenLoan) return '<div class="empty">لا يوجد قرضٌ مفتوح.</div>';
     var OL = app.OpenLoan, e = app.engine, loan = app.openLoan, st = app.openLoanState;
     var f = OL.foldOpenLoan(loan);
+    var pr = OL.openLoanProgress(loan);
+    var hist = OL.openLoanHistory(loan);
     var seal = OL.openLoanSeal(loan, e);
     var ver = OL.verifyOpenLoan(loan, e, st.tamper ? 9999 : null);
     var closed = (f.statusKey === "KEPT" || f.statusKey === "FORGIVEN");
     var flash = st.flash ? '<div class="flash" onclick="AhdApp.openLoanDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
 
+    /* a proportional bar (paid · صدقة · باقٍ) — flex-grow fractions, NO % text/score */
+    var seg = function (frac, cls) { return frac > 0 ? '<span class="ol-seg ' + cls + '" style="flex-grow:' + frac + '"></span>' : ""; };
+    var bar = '<div class="ol-bar" aria-hidden="true">' + seg(pr.paidFrac, "paid") + seg(pr.forgivenFrac, "forgiven") + seg(pr.remainingFrac, "rem") + "</div>";
+    var lg = [];
+    if (pr.paidMinor > 0) lg.push('<span class="ol-lg paid">سُدِّد ' + App.fmtN(pr.paidMinor / 100) + "</span>");
+    if (pr.forgivenMinor > 0) lg.push('<span class="ol-lg forgiven">صدقة ' + App.fmtN(pr.forgivenMinor / 100) + "</span>");
+    lg.push('<span class="ol-lg rem">باقٍ ' + App.fmtN(pr.remainingMinor / 100) + "</span>");
+    lg.push('<span class="ol-lg total">من ' + App.fmtN(pr.principalMinor / 100) + " ر.س</span>");
+    var progress = '<div class="ol-progress">' + bar + '<div class="ol-legend">' + lg.join("") + "</div></div>";
+
+    var moves = hist.filter(function (x) { return x.kind !== "sealed"; });
+    var journey = moves.length
+      ? '<div class="ol-journey"><div class="ol-jh">رحلة السداد · متى ما تيسّر</div>' +
+        hist.map(function (x) {
+          var amt = x.amountMinor > 0 ? " · " + App.fmtN(x.amountMinor / 100) + " ر.س" : "";
+          return '<div class="ol-jstep kind-' + App.esc(x.kind) + '"><span class="ol-jdot" aria-hidden="true"></span><span>' + App.esc(x.ar) + amt + "</span></div>";
+        }).join("") + "</div>"
+      : "";
+
     return '<div class="openloan">' + flash +
       '<div class="ol-head">قرضٌ مفتوحٌ بينك وبين ' + App.esc(loan.borrower) + ' — متى ما تيسّر</div>' +
       '<div class="ol-rem"><div class="ol-rl">المتبقّي</div><div class="ol-rv">' + App.fmtN(f.remainingMinor / 100) + ' <small>ر.س</small></div></div>' +
+      progress +
       '<div class="ol-status"><span class="chip ' + (closed ? "gold" : "teal") + '">' + App.esc(OL.openLoanStatusAr(loan)) + "</span></div>" +
+      journey +
       '<div class="ol-note">لا موعد، لا تذكير منك، لا حرج. حين ييسّر الله، يردّ — ولكِ أن تُبرئ متى شئتِ.</div>' +
       (closed ? "" :
         '<div class="ol-act">' +
