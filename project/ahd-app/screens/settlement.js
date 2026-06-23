@@ -12,23 +12,35 @@
     var e = app.engine, S = app.Settlement;
     if (!S) return '<div class="empty">وحدة المقاصّة غير محمّلة.</div>';
     var v = S.settlementView(e.IOUS, e);
+    var cp = S.conservationProof(e.IOUS, e);
     var transfers = v.after.map(function (t) {
       return '<div class="se-row"><span>' + App.esc(t.from) + " تدفع " + App.esc(t.to) + "</span><b>" + App.fmtN(t.amount) + " ر.س</b></div>";
     }).join("");
     var legs = v.legs.map(function (m) {
       var pays = (m.pays || []).map(function (p) { return "يدفع " + App.esc(p.to) + " " + App.fmtN(p.amount); });
       var gets = (m.gets || []).map(function (g) { return "يقبض من " + App.esc(g.from) + " " + App.fmtN(g.amount); });
-      return '<div class="se-leg"><b>' + App.esc(m.name) + "</b><span>" + pays.concat(gets).join(" · ") + "</span></div>";
+      return '<div class="se-leg"><b>' + App.esc(m.name) + "</b><span>" + (pays.concat(gets).join(" · ") || "متوازن — لا دفع ولا قبض") + "</span></div>";
     }).join("");
+    /* the strong proof, made visible: every member's net is identical before & after */
+    var members = cp.perMember.map(function (m) {
+      var role = m.netBefore > 0 ? "يقبض صافيًا" : (m.netBefore < 0 ? "يدفع صافيًا" : "متوازن");
+      var amt = m.netBefore === 0 ? "" : " " + App.fmtN(Math.abs(m.netBefore)) + " ر.س";
+      return '<div class="se-mem"><b>' + App.esc(m.name) + "</b>" +
+        '<span class="se-mem-net">' + role + amt + "</span>" +
+        '<span class="se-mem-ok' + (m.preserved ? "" : " bad") + '">' + (m.preserved ? "نفسه قبل وبعد ✓" : "تغيّر ✗") + "</span></div>";
+    }).join("");
+    var okProof = cp.conserved && cp.netsPreserved;
     return '<div class="settle">' +
       '<div class="se-head">المقاصّة — أقلّ التحويلات تُصفّي الجميع</div>' +
       '<div class="se-big"><span>' + v.beforeCount + "</span> التزامًا <em>⟶</em> <span>" + v.afterCount + "</span> " +
         (v.afterCount === 1 ? "تحويل" : v.afterCount === 2 ? "تحويلان" : "تحويلات") + "</div>" +
       '<div class="se-card">' + transfers + "</div>" +
-      '<div class="se-proof ' + (v.conserved ? "ok" : "bad") + '">' + (v.conserved
-        ? "✓ برهان الحفظ: مجموع صافي المراكز = 0 — لا ريال يُخلق ولا يضيع، ولا فائدة"
+      '<div class="se-proof ' + (okProof ? "ok" : "bad") + '">' + (okProof
+        ? "✓ برهان الحفظ: مجموع الصافي = 0، ومركز كلِّ عضوٍ نفسُه قبل وبعد — لا ريال يُخلق ولا يضيع، ولا فائدة"
         : "✗ خلل في الحفظ") + "</div>" +
-      '<div class="se-legs"><div class="se-sub">رِجل كلِّ عضوٍ (يوافق عليها قبل التنفيذ · مقاصّةٌ بالتراضي):</div>' + legs + "</div>" +
+      '<div class="se-moved">المال المتحرّك: <b>' + App.fmtN(cp.moneyMovedBefore) + '</b> ر.س لو سُدِّدت منفردةً ⟶ <b>' + App.fmtN(cp.moneyMovedAfter) + '</b> ر.س بالمقاصّة — حركةٌ أقلّ، ومراكزُ محفوظة.</div>' +
+      '<div class="se-members"><div class="se-sub">مركز كلِّ عضوٍ (لم يتغيّر — المقاصّة تُقلِّل التحويلات لا الحقوق):</div>' + members + "</div>" +
+      '<div class="se-legs"><div class="se-sub">رِجل كلِّ عضوٍ — حوالةٌ بالتراضي يوافق عليها قبل التنفيذ:</div>' + legs + "</div>" +
       '<div class="se-note">لا أحد يدفع أكثر ممّا عليه؛ المصرف يحسب ويشهد، والمال مالكم.</div>' +
     "</div>";
   }

@@ -160,6 +160,10 @@ ok(/المقاصّة|أقلّ التحويلات/.test(se), "settle shows the Mu
 ok(/التزامًا/.test(se) && /تحويلان/.test(se), "settle shows the N→M transfer reduction (9→2)");
 ok(/تدفع/.test(se), "settle lists the concrete minimal transfers");
 ok(/برهان الحفظ/.test(se), "settle shows the conservation proof (Σ net = 0)");
+ok(/مركز كلِّ عضوٍ/.test(se) && /نفسه قبل وبعد/.test(se), "settle proves every member's net is PRESERVED before & after (the strong proof)");
+ok(/المال المتحرّك/.test(se), "settle shows the money-moved reduction (efficiency, no creation)");
+ok(/حوالةٌ بالتراضي/.test(se), "settle frames each leg as consented novation (حوالةٌ بالتراضي)");
+ok(se.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(se), "no percentage/score on the Muqassa screen");
 
 /* ---- سِجلّ الشهادة (the witness timeline) ---- */
 ok(!!sandbox.Timeline, "Timeline module attaches to window");

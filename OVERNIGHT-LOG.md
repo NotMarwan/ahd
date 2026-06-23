@@ -158,7 +158,32 @@ byte-stable; «ما يفعله»/«ما لا يفعله»/model render; **0 cons
 Screenshot: `project/ahd-app/screenshots/deepening/ahd-settings-deepened.png`.
 Plan: `docs/superpowers/plans/deepen-05-settings.md` (see commit). **All 5 new features now woven + deepened.**
 
-**Gate (fresh, real output):** core **184/0** (135+9+40) · app **25/25 suites = 918/0** · **1102 total** (was
+**Gate (Deepen-05):** core **184/0** · app **25/25 = 918/0** · **1102 total** · demo tripwire unchanged · 0 console errors.
+
+### ✅ Deepen-06 — المقاصّة: a rigorous, judge-convincing conservation proof
+**What got deeper.** The Muqassa showed «9→2» + a thin «Σ net = 0». Now the proof is rigorous and visible
+(golden netting/balancesOf reused, never altered):
+- **`conservationProof`**: the strong claim — netting MINIMISES transfers but **PRESERVES every member's net
+  position EXACTLY** (`balancesOf(before) === balancesOf(after)` per member). The screen shows a per-member
+  table: «نورة يدفع صافيًا 900 — نفسه قبل وبعد ✓ · خالد يقبض 600 ✓ · فهد 300 ✓ · سارة/ليلى متوازن ✓».
+- **The money-moved reduction**: «المال المتحرّك: 1,800 ر.س لو سُدِّدت منفردةً ⟶ 900 ر.س بالمقاصّة — حركةٌ أقلّ،
+  ومراكزُ محفوظة» — efficiency without creating or destroying a riyal.
+- **Consent/novation framing**: each leg is «حوالةٌ بالتراضي يوافق عليها قبل التنفيذ».
+- A clean **3-cycle** (everyone owes 100 in a ring) nets to **ZERO** transfers — a perfect مقاصّة (tested).
+
+**Reshape (guarded).** `features/settlement.js` gained `conservationProof`; `screens/settlement.js` rebuilt to
+surface it. Golden netting untouched; no number/score (amounts are money).
+
+**Tests (TDD).** `app/settlement-conserve.test.cjs` (20 — nets preserved, Σ=0, 9→2, money-moved, 3-cycle→0,
+golden reuse, determinism) + DOM-smoke grown (+5). Existing `settlement.test.cjs` (10) stays green.
+
+**Real-browser verified** (Chromium): the 9→2 story, the per-member net-preservation (5 members), the
+money-moved 1,800→900, the consent legs all render; **0 console errors**; Arabic correct; no score.
+Screenshot: `project/ahd-app/screenshots/deepening/ahd-muqassa-conservation.png`.
+Plan: `docs/superpowers/plans/deepen-06-muqassa.md` (see commit). _Note: the circle→مقاصّة data hand-off is
+deferred (the circle/IOU shapes differ — a real mapping, not a hollow button); logged, not faked._
+
+**Gate (fresh, real output):** core **184/0** (135+9+40) · app **26/26 suites = 942/0** · **1126 total** (was
 817) · demo tripwire unchanged · 0 console errors.
 
 ---

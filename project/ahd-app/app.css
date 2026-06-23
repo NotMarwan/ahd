@@ -168,6 +168,13 @@ body{
 .se-row:first-child{border-top:0} .se-row b{color:var(--teal)}
 .se-proof{border-radius:12px; padding:11px 13px; font-size:13px}
 .se-proof.ok{background:var(--teal-soft); color:var(--teal)} .se-proof.bad{background:#fbe6e0; color:#a23b22}
+.se-moved{background:var(--mute-soft); border-radius:12px; padding:11px 13px; font-size:12.5px; line-height:1.8; color:var(--ink)}
+.se-moved b{color:var(--teal)}
+.se-members{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
+.se-mem{display:flex; align-items:center; gap:8px; padding:7px 0; border-top:1px solid var(--line); font-size:12.5px}
+.se-mem:first-of-type{border-top:0}
+.se-mem b{min-width:54px} .se-mem-net{color:var(--mut); flex:1}
+.se-mem-ok{color:var(--teal); font-size:11.5px} .se-mem-ok.bad{color:#a23b22}
 .se-legs{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
 .se-sub{color:var(--mut); font-size:12px; margin-bottom:7px}
 .se-leg{display:flex; gap:8px; padding:5px 0; font-size:12.5px} .se-leg b{min-width:48px}
