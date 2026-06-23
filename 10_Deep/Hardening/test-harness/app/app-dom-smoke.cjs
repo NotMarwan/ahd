@@ -53,6 +53,8 @@ ok(JSON.stringify(navKeys) === JSON.stringify(["home", "create", "daftari", "tim
 ok(navKeys.indexOf("settings") < 0, "settings is CONTEXTUAL (reached from home), not a nav pill — keeps nav to 2 rows");
 let hh = noThrow(() => App.go("home"), "go('home') renders the front door");
 ok(/قرضٌ حسن/.test(hh) && /لك عند الناس/.test(hh), "home shows the spine tagline + live دفتري summary");
+ok(/صافي مركزك/.test(hh) && /سجلّ الشهادة/.test(hh) && /سجلّ وفائك/.test(hh), "home's standing strip surfaces net + witnessed-moments + the standing WORD (the deepened product at a glance)");
+ok(/لحظة محفوظة/.test(hh) && !/\b\d{1,3}\s*[%٪]/.test(hh), "the witnessed-moments tally is a count (لحظة محفوظة), never a percentage/score");
 
 /* دفتري home renders */
 let h = noThrow(() => App.go("daftari"), "go('daftari') renders the creditor home");

@@ -39,6 +39,10 @@ body{
 .hcard .ht{font-weight:700} .hcard .hs{grid-column:2; color:var(--mut); font-size:12.5px}
 .hsummary{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center; font-size:13.5px; color:var(--mut)}
 .hsummary b{color:var(--ink)}
+.hstanding{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+.hst{appearance:none; text-align:center; background:var(--card); border:1px solid var(--line); border-radius:13px; padding:11px 8px; box-shadow:var(--shadow); cursor:pointer; font:inherit}
+.hst span{display:block; color:var(--mut); font-size:11px; margin-bottom:4px}
+.hst b{display:block; color:var(--teal); font-size:13.5px; font-weight:700}
 .hsteps{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
 .hsteps .step{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:12px 8px; text-align:center; font-size:12.5px}
 .hsteps .step span{display:inline-flex; width:24px; height:24px; align-items:center; justify-content:center; background:var(--teal); color:#fff; border-radius:50%; font-size:12px; margin-bottom:5px}

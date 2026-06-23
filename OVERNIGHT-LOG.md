@@ -24,8 +24,9 @@ genuinely helps — spine inviolable, gate green throughout. **No new features a
 | 06 | **المقاصّة** | a rigorous, judge-convincing **conservation proof** — every member's net **preserved** (9→2, money-moved 1,800→900). |
 | 07 | **القرض المفتوح** | the **«متى ما تيسّر» journey**: a paid·صدقة·باقٍ progress bar (no %) + a dotted payment history. |
 | 08 | **الدائرة** | a real **group reminder that never names the late** (a tested dignity guarantee). |
+| 09 | **الرئيسية** (cross-cutting front door) | a live **standing strip** surfacing the deepened product at a glance — **صافي مركزك** (net, exact halalas) · **سجلّ الشهادة** (witnessed-moments count) · **سجلّ وفائك** (the standing WORD, never a number) — each a tappable shortcut. |
 
-**🟢 Gate (fresh, real output):** core **184/0** (135+9+40) · app **28/28 suites = 989/0** · **1173 total**
+**🟢 Gate (fresh, real output):** core **184/0** (135+9+40) · app **28/28 suites = 991/0** · **1175 total**
 (was 817 at sprint start) · demo tripwire `e2f48467… OK` · **0 console errors** across all 12 screens (real Chromium).
 
 **🔍 Final code-review** (fresh subagent, spine + determinism sweep of all 7 new pure-logic files): timeline /

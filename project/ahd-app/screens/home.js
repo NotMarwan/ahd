@@ -15,7 +15,20 @@
 
   function render(app) {
     var e = app.engine, D = app.D;
-    var tiles = (D && app.records) ? D.summaryTiles(D.buildLedger(app.records, app.viewer, e, app.AS_OF)) : { me: { amountSAR: 0 }, on: { amountSAR: 0 } };
+    var led = (D && app.records) ? D.buildLedger(app.records, app.viewer, e, app.AS_OF) : null;
+    var tiles = led ? D.summaryTiles(led) : { me: { amountSAR: 0 }, on: { amountSAR: 0 } };
+    /* a live dashboard strip reflecting the deepened product — all factual (money +
+       a witnessed-moments count + the own standing WORD), never a trust score. */
+    var net = (led && D.netPosition) ? D.netPosition(led, e) : null;
+    var moments = (app.Timeline && led) ? app.Timeline.buildTimeline(app.records, app.reminderHistory, e, app.viewer, app.AS_OF).length : 0;
+    var band = (app.selfHistory && D.selfBand) ? D.selfBand(app.selfHistory, false, e) : null;
+    function hst(go, label, val) { return '<button class="hst" onclick="AhdApp.go(\'' + go + '\')"><span>' + label + '</span><b>' + val + "</b></button>"; }
+    var netVal = net ? (net.side === "balanced" ? "متوازن" : (net.side === "lak" ? "لك " : "عليك ") + App.fmtN(net.netSAR) + " ر.س") : "—";
+    var standing = led ? '<div class="hstanding">' +
+      hst("daftari", "صافي مركزك", netVal) +
+      hst("timeline", "سجلّ الشهادة", App.digit(moments) + " لحظة محفوظة") +
+      (band ? hst("daftari", "سجلّ وفائك", App.esc(band.word)) : "") +
+      "</div>" : "";
     return '<div class="home">' +
       '<div class="hero"><div class="brand">عهد</div>' +
         '<div class="tag">قرضٌ حسن — مكتوبٌ ومشهود، بكرامة.</div>' +
@@ -30,6 +43,7 @@
         card("settle", "🔗", "المقاصّة", "أقلّ التحويلات تُصفّي الجميع — بالتراضي") +
       "</div>" +
       '<div class="hsummary">لك عند الناس <b>' + App.fmtN(tiles.me.amountSAR) + ' ر.س</b> · عليك للناس <b>' + App.fmtN(tiles.on.amountSAR) + ' ر.س</b></div>' +
+      standing +
       '<div class="hsteps">' +
         '<div class="step"><span>١</span> اكتب العهد</div>' +
         '<div class="step"><span>٢</span> يُشهَد ويُختَم<br><small>نفاذ · SHA-256</small></div>' +
