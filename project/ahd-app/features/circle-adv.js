@@ -79,5 +79,19 @@
     };
   }
 
-  return { byCategorySplit: byCategorySplit, recurringPosts: recurringPosts, graduateShare: graduateShare, pledgeSketch: pledgeSketch };
+  /* a PER-ITEM conservation proof: each item's shares sum to its cost exactly
+     (golden respread), so no rounding ever invents or loses a halala. */
+  function splitConservation(items, engine) {
+    var e = engine || ENGINE;
+    var perItem = (items || []).map(function (it) {
+      var who = it.assignedTo || [];
+      var parts = e.respread(it.amountMinor, who.length || 1);
+      var got = parts.reduce(function (a, p) { return a + p; }, 0);
+      return { label: it.label || "", itemMinor: it.amountMinor, shareCount: who.length || 0, shares: parts, conserved: got === it.amountMinor };
+    });
+    var total = perItem.reduce(function (a, x) { return a + x.itemMinor; }, 0);
+    return { perItem: perItem, totalMinor: total, allConserved: perItem.every(function (x) { return x.conserved; }) };
+  }
+
+  return { byCategorySplit: byCategorySplit, splitConservation: splitConservation, recurringPosts: recurringPosts, graduateShare: graduateShare, pledgeSketch: pledgeSketch };
 });

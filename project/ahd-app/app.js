@@ -231,6 +231,12 @@
       return this.rerender();
     },
     circleAdvDismiss: function () { this.circleAdvState.flash = null; return this.rerender(); },
+    /* graduation → القرض المفتوح: load the new عهد into the (deepened) open-loan view */
+    circleGraduateView: function () {
+      var g = this.circleAdvState.graduated;
+      if (g && g.loan) { this.openLoan = g.loan; this.openLoanState = { sheet: false, tamper: false, flash: null }; return this.go("open"); }
+      return this.rerender();
+    },
 
     /* ---- الدائرة (treasurer dashboard) — the group reminder that names no one ---- */
     circleReminderToggle: function () { this.circleState.reminder = !this.circleState.reminder; return this.rerender(); },

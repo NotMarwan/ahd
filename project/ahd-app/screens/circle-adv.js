@@ -29,10 +29,14 @@
       { label: "عصائر", amountMinor: e.toMinor(90), assignedTo: ["ريم", "نورة"] }
     ];
     var bc = CA.byCategorySplit(items, ["خالد", "ريم", "نورة"], e);
+    var sc = CA.splitConservation(items, e);
+    var itemProof = '<div class="ca-items">' + sc.perItem.map(function (x) {
+      return '<div class="ca-item"><span>' + App.esc(x.label) + " · " + App.fmtN(x.itemMinor / 100) + " ر.س على " + App.digit(x.shareCount) + "</span><b>" + (x.conserved ? "محفوظ ✓" : "✗") + "</b></div>";
+    }).join("") + "</div>";
     var pAsnaf = '<div class="ca-card"><div class="ca-h">تقسيم بالأصناف · عشاء الخميس</div>' +
       '<div class="ca-sub">كلٌّ يدفع عمّا طلب — والمجموع محفوظٌ بالهللة (' + App.fmtN(bc.totalMinor / 100) + ' ر.س)</div>' +
-      rowsFromShares(bc.shares, e) +
-      '<div class="ca-ok">' + (bc.conserved ? "✓ المجموع محفوظ تمامًا — لا كَسْر يخلق ربا" : "✗ خلل في الحفظ") + "</div></div>";
+      rowsFromShares(bc.shares, e) + itemProof +
+      '<div class="ca-ok">' + (bc.conserved && sc.allConserved ? "✓ كلُّ صنفٍ يُقسَّم بالهللة بلا كَسْر — والمجموع محفوظ تمامًا، لا ربا" : "✗ خلل في الحفظ") + "</div></div>";
 
     /* 2 · recurring */
     var tmpl = { name: "الإيجار", amountMinor: e.toMinor(3600), payer: "تركي", members: ["سعود", "تركي", "عبدالله"], split: "equal" };
@@ -51,7 +55,8 @@
       pGrad = '<div class="ca-card grad"><div class="ca-h">صار عهدًا موثّقًا · ' + App.esc(g.borrower) + "</div>" +
         '<div class="ca-sub">' + App.esc(g.lender) + " ← " + App.esc(g.borrower) + " · " + App.fmtN(g.principalMinor / 100) + ' ر.س · قرضٌ مفتوح «متى ما تيسّر»</div>' +
         '<div class="ca-seal">SEAL: ' + App.esc(e.short(g.seal, 24)) + "…</div>" +
-        '<div class="ca-prov">من دائرة «' + App.esc(g.provenance.circleName) + "» — حُفِظت الصلة (provenance)</div></div>";
+        '<div class="ca-prov">من دائرة «' + App.esc(g.provenance.circleName) + "» — حُفِظت الصلة (provenance)</div>" +
+        '<button class="primary" onclick="AhdApp.circleGraduateView()">اعرض القرض المفتوح ←</button></div>';
     } else {
       pGrad = '<div class="ca-card"><div class="ca-h">تخريج قَيْد → عهد</div>' +
         '<div class="ca-sub">المبلغ بينك وبين تركي صار ١٬٥٠٠ ر.س — تحبّ توثّقونه كعهدٍ مكتوب؟</div>' +
