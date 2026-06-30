@@ -27,7 +27,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     let result: unknown;
     switch (name) {
       case 'project_glob': result = await projectGlob(args.pattern as string); break;
-      case 'git_log': result = gitLog(args.n as number || 10, args.path as string); break;
+      case 'git_log': result = gitLog(Number(args.n ?? 10), args.path as string); break;
       case 'git_diff': result = gitDiff(args.a as string, args.b as string); break;
       case 'check_integrity': result = checkIntegrity(); break;
       case 'find_coverage_gaps': result = await findCoverageGaps(); break;
