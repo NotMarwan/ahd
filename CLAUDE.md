@@ -34,3 +34,26 @@
 - `_meta/deep-work/` — backend specs, hardening reports.
 - `tests/` — the quality gate (core 184 + app 1008+ assertions).
 - `promo/` — Remotion motion promos; `out/ahd-new-features.mp4`.
+- `project/mcp/` — MCP servers (3 servers, 17 tools) for project-aware agent tooling. See `project/mcp/README.md`.
+
+## MCP servers (for AI agents)
+
+Three stdio MCP servers in `project/mcp/` give AI agents structured access to this project:
+
+| Server | Tools | What it does |
+|--------|-------|-------------|
+| `ahd-navigator` | 6 | Intent-based file lookup, architecture, conventions, feature graph, file roles, test cross-ref |
+| `ahd-knowledge` | 6 | Decisions, open threads, handoffs, full-text .md search, specs/plans listing |
+| `ahd-fs` | 5 | Project globbing (excludes node_modules/.git), git log/diff, tripwire check, coverage gaps |
+
+To activate (Claude Desktop / VS Code / Cline):
+```json
+{
+  "mcpServers": {
+    "ahd-navigator": { "command": "npx", "args": ["tsx", "project/mcp/packages/ahd-navigator/src/index.ts"] },
+    "ahd-knowledge": { "command": "npx", "args": ["tsx", "project/mcp/packages/ahd-knowledge/src/index.ts"] },
+    "ahd-fs":        { "command": "npx", "args": ["tsx", "project/mcp/packages/ahd-fs/src/index.ts"] }
+  }
+}
+```
+All paths (`demo/index.html`, `app/`, `tests/`) are relative to the project root (the `cwd`).
