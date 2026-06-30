@@ -1,0 +1,11 @@
+{
+  "agent_id": "Claude-Hardening",
+  "session_start": "2026-06-19T13:21:00+03:00",
+  "last_heartbeat": "2026-06-19T13:52:00+03:00",
+  "current_task": "EXITED. PROMPT 4 performance hardening of project/ahd-demo/index.html (logic/robustness only, ZERO styling changes). Determinism locked, robustness guards added, single state machine, offline-proof, test harness (92 assertions/0 fail, byte-identical run-to-run) + real-Chrome pass (0 console errors). Deliverables in 10_Deep/Hardening/ + DONE line in 10_Deep/STATUS.md + handoff-19.",
+  "files_claimed": [],
+  "tasks_claimed": [],
+  "status": "exited",
+  "model": "claude-opus-4-8",
+  "notes": "Net: hardened index.html logic (deterministic fmt, integer-halala money, tie-broken integer netting, named pure sealBlock/verifyRecord, stateless riba engine relocated to a pure marked region, state machine S with timer cancellation killing the orphaned-timer bug, double-tap guard, exhaustive null-guards, offline fallback, Esc/Home reset, nav clamp). NO visual/markup/CSS changes — every shown hash/balance/verdict is byte-identical to the pre-hardening build (golden-pinned). Did NOT touch 08_Ahd_Deep/** (Claude-A) or 10_Deep/Backend/** (Claude-Backend). Took index.html from Claude-Orchestrator's stale+expired claim cleanly. Known riba negation FP documented + handed to product, deliberately not changed on demo day. See handoffs/handoff-19.md."
+}
