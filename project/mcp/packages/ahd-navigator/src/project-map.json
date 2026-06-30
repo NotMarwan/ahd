@@ -177,34 +177,6 @@
       "screenFile": "app/screens/home.js",
       "testFiles": [],
       "description": "Home front door"
-    },
-    {
-      "name": "dispute",
-      "featureFile": "app/features/dispute.js",
-      "screenFile": null,
-      "testFiles": [],
-      "description": ""
-    },
-    {
-      "name": "proof",
-      "featureFile": "app/features/proof.js",
-      "screenFile": null,
-      "testFiles": [],
-      "description": ""
-    },
-    {
-      "name": "settings",
-      "featureFile": "app/features/settings.js",
-      "screenFile": null,
-      "testFiles": [],
-      "description": ""
-    },
-    {
-      "name": "timeline",
-      "featureFile": "app/features/timeline.js",
-      "screenFile": null,
-      "testFiles": [],
-      "description": ""
     }
   ]
 }

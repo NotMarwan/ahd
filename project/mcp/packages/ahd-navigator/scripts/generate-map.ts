@@ -106,14 +106,14 @@ const features: Array<Record<string, unknown>> = [
   },
 ];
 
-// Auto-discover feature files not in the static list
-const known = new Set(features.map(f => f.featureFile).filter(Boolean));
+// Auto-discover feature files not in the static list — track by name to prevent duplicates
+const knownNames = new Set(features.map(f => f.name));
 if (existsSync(featuresDir)) {
   for (const entry of readdirSync(featuresDir, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.js')) {
-      const rel = `app/features/${entry.name}`;
-      if (!known.has(rel)) {
-        features.push({ name: entry.name.replace(/\.js$/, ''), featureFile: rel, screenFile: null, testFiles: [], description: '' });
+      const name = entry.name.replace(/\.js$/, '');
+      if (!knownNames.has(name)) {
+        features.push({ name, featureFile: `app/features/${entry.name}`, screenFile: null, testFiles: [], description: '' });
       }
     }
   }

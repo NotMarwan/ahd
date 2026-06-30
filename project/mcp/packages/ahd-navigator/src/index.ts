@@ -38,7 +38,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
     return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
   } catch (e) {
-    return { content: [{ type: 'text', text: JSON.stringify({ error: (e as Error).message }) }], isError: true };
+    const msg = e instanceof Error ? e.message : String(e);
+    return { content: [{ type: 'text', text: JSON.stringify({ error: msg }) }], isError: true };
   }
 });
 
