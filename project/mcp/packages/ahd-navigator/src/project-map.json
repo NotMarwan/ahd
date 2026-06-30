@@ -2,56 +2,35 @@
   "builds": [
     {
       "name": "ahd-demo",
-      "path": "project/ahd-demo/index.html",
+      "path": "demo/index.html",
       "type": "frozen-presenter",
-      "tripwire": ""
+      "tripwire": "e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40"
     },
     {
       "name": "ahd-app",
-      "path": "project/ahd-app/",
+      "path": "app/",
       "type": "publishable-product",
-      "serveCmd": "node project/ahd-app/_serve-app.cjs"
+      "serveCmd": "node app/_serve-app.cjs"
     },
     {
       "name": "ahd-promo",
-      "path": "project/ahd-promo/",
+      "path": "promo/",
       "type": "remotion-video"
     }
   ],
-  "layers": [
-    {
-      "name": "legal-shariah-regulatory",
-      "path": "08_Ahd_Deep/Agent-1/",
-      "description": "Legal/Shariah foundations"
-    },
-    {
-      "name": "growth-adoption",
-      "path": "08_Ahd_Deep/Agent-2/",
-      "description": "KSA market + adoption strategy"
-    },
-    {
-      "name": "product-demo",
-      "path": "08_Ahd_Deep/Agent-3/",
-      "description": "Product spec + demo narrative"
-    },
-    {
-      "name": "circle",
-      "path": "08_Ahd_Deep/Agent-4/",
-      "description": "Circle (group lending) spec"
-    }
-  ],
+  "layers": [],
   "engineInfo": {
     "golden": {
-      "path": "project/ahd-demo/index.html",
+      "path": "demo/index.html",
       "markers": [
         "// ===AHD-LOGIC:BEGIN===",
         "// ===AHD-LOGIC:END==="
       ]
     },
     "parity": {
-      "path": "project/ahd-app/engine.js",
+      "path": "app/engine.js",
       "generatedBy": "build-engine.cjs",
-      "proof": "app/engine-parity.cjs"
+      "proof": "tests/app/engine-parity.cjs"
     }
   },
   "goldenFunctions": [
@@ -65,18 +44,20 @@
     "respread"
   ],
   "harness": {
-    "corePath": "10_Deep/Hardening/test-harness/",
-    "appPath": "10_Deep/Hardening/test-harness/app/",
-    "runTests": 135,
-    "offlineCheck": 9,
-    "domSmoke": 40,
-    "app": 29
+    "corePath": "tests/",
+    "appPath": "tests/app/",
+    "suites": {
+      "runTests": 135,
+      "offlineCheck": 9,
+      "domSmoke": 40,
+      "app": 29
+    }
   },
   "features": [
     {
       "name": "create",
-      "featureFile": "project/ahd-app/features/create.js",
-      "screenFile": "project/ahd-app/screens/create.js",
+      "featureFile": "app/features/create.js",
+      "screenFile": "app/screens/create.js",
       "testFiles": [
         "app/create.test.cjs"
       ],
@@ -84,7 +65,7 @@
     },
     {
       "name": "riba-lint",
-      "featureFile": "project/ahd-app/features/riba-lint.js",
+      "featureFile": "app/features/riba-lint.js",
       "screenFile": null,
       "testFiles": [
         "app/riba-lint.test.cjs",
@@ -94,8 +75,8 @@
     },
     {
       "name": "settlement",
-      "featureFile": "project/ahd-app/features/settlement.js",
-      "screenFile": "project/ahd-app/screens/settlement.js",
+      "featureFile": "app/features/settlement.js",
+      "screenFile": "app/screens/settlement.js",
       "testFiles": [
         "app/settlement.test.cjs",
         "app/settlement-conserve.test.cjs"
@@ -104,8 +85,8 @@
     },
     {
       "name": "daftari",
-      "featureFile": "project/ahd-app/features/daftari.js",
-      "screenFile": "project/ahd-app/screens/daftari.js",
+      "featureFile": "app/features/daftari.js",
+      "screenFile": "app/screens/daftari.js",
       "testFiles": [
         "app/daftari.test.cjs",
         "app/daftari-hub.test.cjs"
@@ -114,8 +95,8 @@
     },
     {
       "name": "open-loan",
-      "featureFile": "project/ahd-app/features/open-loan.js",
-      "screenFile": "project/ahd-app/screens/open-loan.js",
+      "featureFile": "app/features/open-loan.js",
+      "screenFile": "app/screens/open-loan.js",
       "testFiles": [
         "app/open-loan.test.cjs",
         "app/open-loan-progress.test.cjs"
@@ -124,8 +105,8 @@
     },
     {
       "name": "circle",
-      "featureFile": "project/ahd-app/features/circle.js",
-      "screenFile": "project/ahd-app/screens/circle.js",
+      "featureFile": "app/features/circle.js",
+      "screenFile": "app/screens/circle.js",
       "testFiles": [
         "app/circle.test.cjs",
         "app/circle-reminder.test.cjs"
@@ -134,8 +115,8 @@
     },
     {
       "name": "circle-adv",
-      "featureFile": "project/ahd-app/features/circle-adv.js",
-      "screenFile": "project/ahd-app/screens/circle-adv.js",
+      "featureFile": "app/features/circle-adv.js",
+      "screenFile": "app/screens/circle-adv.js",
       "testFiles": [
         "app/circle-adv.test.cjs",
         "app/circle-adv-split.test.cjs"
@@ -145,7 +126,7 @@
     {
       "name": "timeline",
       "featureFile": null,
-      "screenFile": "project/ahd-app/screens/timeline.js",
+      "screenFile": "app/screens/timeline.js",
       "testFiles": [
         "app/timeline.test.cjs",
         "app/timeline-connect.test.cjs"
@@ -155,7 +136,7 @@
     {
       "name": "proof",
       "featureFile": null,
-      "screenFile": "project/ahd-app/screens/proof.js",
+      "screenFile": "app/screens/proof.js",
       "testFiles": [
         "app/proof.test.cjs",
         "app/proof-provenance.test.cjs"
@@ -165,7 +146,7 @@
     {
       "name": "dispute",
       "featureFile": null,
-      "screenFile": "project/ahd-app/screens/dispute.js",
+      "screenFile": "app/screens/dispute.js",
       "testFiles": [
         "app/dispute.test.cjs"
       ],
@@ -173,8 +154,8 @@
     },
     {
       "name": "request",
-      "featureFile": "project/ahd-app/features/request.js",
-      "screenFile": "project/ahd-app/screens/request.js",
+      "featureFile": "app/features/request.js",
+      "screenFile": "app/screens/request.js",
       "testFiles": [
         "app/request.test.cjs"
       ],
@@ -183,7 +164,7 @@
     {
       "name": "settings",
       "featureFile": null,
-      "screenFile": "project/ahd-app/screens/settings.js",
+      "screenFile": "app/screens/settings.js",
       "testFiles": [
         "app/settings.test.cjs",
         "app/settings-deepen.test.cjs"
@@ -193,9 +174,37 @@
     {
       "name": "home",
       "featureFile": null,
-      "screenFile": "project/ahd-app/screens/home.js",
+      "screenFile": "app/screens/home.js",
       "testFiles": [],
       "description": "Home front door"
+    },
+    {
+      "name": "dispute",
+      "featureFile": "app/features/dispute.js",
+      "screenFile": null,
+      "testFiles": [],
+      "description": ""
+    },
+    {
+      "name": "proof",
+      "featureFile": "app/features/proof.js",
+      "screenFile": null,
+      "testFiles": [],
+      "description": ""
+    },
+    {
+      "name": "settings",
+      "featureFile": "app/features/settings.js",
+      "screenFile": null,
+      "testFiles": [],
+      "description": ""
+    },
+    {
+      "name": "timeline",
+      "featureFile": "app/features/timeline.js",
+      "screenFile": null,
+      "testFiles": [],
+      "description": ""
     }
   ]
 }

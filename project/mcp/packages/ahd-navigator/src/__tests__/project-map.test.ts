@@ -1,7 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
 
-// We'll test the generated JSON directly
 import manifest from '../project-map.json' assert { type: 'json' };
 
 test('project-map has required top-level keys', () => {
@@ -40,8 +39,8 @@ test('goldenFunctions lists all 8 pinned functions', () => {
 });
 
 test('harness has expected suite counts', () => {
-  assert.ok(manifest.harness.runTests >= 135);
-  assert.equal(manifest.harness.offlineCheck, 9);
-  assert.equal(manifest.harness.domSmoke, 40);
-  assert.ok(manifest.harness.app >= 29);
+  assert.ok(manifest.harness.suites.runTests >= 135);
+  assert.equal(manifest.harness.suites.offlineCheck, 9);
+  assert.equal(manifest.harness.suites.domSmoke, 40);
+  assert.ok(manifest.harness.suites.app >= 29);
 });

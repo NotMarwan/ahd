@@ -7,9 +7,14 @@
   "bin": "./dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "generate-map": "tsx scripts/generate-map.ts",
+    "test": "node --import tsx src/__tests__/project-map.test.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.16.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.4"
   }
 }

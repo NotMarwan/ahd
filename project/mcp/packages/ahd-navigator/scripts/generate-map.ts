@@ -14,103 +14,94 @@ const manifest: Record<string, unknown> = {
   builds: [
     {
       name: 'ahd-demo',
-      path: 'project/ahd-demo/index.html',
+      path: 'demo/index.html',
       type: 'frozen-presenter',
-      tripwire: sha256Of(join(PROJECT_ROOT, 'project/ahd-demo/index.html')),
+      tripwire: sha256Of(join(PROJECT_ROOT, 'demo/index.html')),
     },
     {
       name: 'ahd-app',
-      path: 'project/ahd-app/',
+      path: 'app/',
       type: 'publishable-product',
-      serveCmd: 'node project/ahd-app/_serve-app.cjs',
+      serveCmd: 'node app/_serve-app.cjs',
     },
     {
       name: 'ahd-promo',
-      path: 'project/ahd-promo/',
+      path: 'promo/',
       type: 'remotion-video',
     },
   ],
-  layers: [
-    { name: 'legal-shariah-regulatory', path: '08_Ahd_Deep/Agent-1/', description: 'Legal/Shariah foundations' },
-    { name: 'growth-adoption', path: '08_Ahd_Deep/Agent-2/', description: 'KSA market + adoption strategy' },
-    { name: 'product-demo', path: '08_Ahd_Deep/Agent-3/', description: 'Product spec + demo narrative' },
-    { name: 'circle', path: '08_Ahd_Deep/Agent-4/', description: 'Circle (group lending) spec' },
-  ],
+  layers: [],
   engineInfo: {
     golden: {
-      path: 'project/ahd-demo/index.html',
+      path: 'demo/index.html',
       markers: ['// ===AHD-LOGIC:BEGIN===', '// ===AHD-LOGIC:END==='],
     },
     parity: {
-      path: 'project/ahd-app/engine.js',
+      path: 'app/engine.js',
       generatedBy: 'build-engine.cjs',
-      proof: 'app/engine-parity.cjs',
+      proof: 'tests/app/engine-parity.cjs',
     },
   },
   goldenFunctions: ['sha256', 'canonical', 'sealBlock', 'recomputeSeal', 'verifyRecord', 'netting', 'fmt', 'respread'],
   harness: {
-    corePath: '10_Deep/Hardening/test-harness/',
-    appPath: '10_Deep/Hardening/test-harness/app/',
-    runTests: 135,
-    offlineCheck: 9,
-    domSmoke: 40,
-    app: 29,
+    corePath: 'tests/',
+    appPath: 'tests/app/',
+    suites: { runTests: 135, offlineCheck: 9, domSmoke: 40, app: 29 },
   },
 };
 
-const featuresDir = join(PROJECT_ROOT, 'project/ahd-app/features');
-
+const featuresDir = join(PROJECT_ROOT, 'app/features');
 const features: Array<Record<string, unknown>> = [
   {
-    name: 'create', featureFile: 'project/ahd-app/features/create.js', screenFile: 'project/ahd-app/screens/create.js',
+    name: 'create', featureFile: 'app/features/create.js', screenFile: 'app/screens/create.js',
     testFiles: ['app/create.test.cjs'], description: 'Create-عهد flow with riba linter',
   },
   {
-    name: 'riba-lint', featureFile: 'project/ahd-app/features/riba-lint.js', screenFile: null,
+    name: 'riba-lint', featureFile: 'app/features/riba-lint.js', screenFile: null,
     testFiles: ['app/riba-lint.test.cjs', 'app/riba-lint-corpus.test.cjs'], description: 'Deepened riba linter (additive over golden)',
   },
   {
-    name: 'settlement', featureFile: 'project/ahd-app/features/settlement.js', screenFile: 'project/ahd-app/screens/settlement.js',
+    name: 'settlement', featureFile: 'app/features/settlement.js', screenFile: 'app/screens/settlement.js',
     testFiles: ['app/settlement.test.cjs', 'app/settlement-conserve.test.cjs'], description: 'Muqassa netting + conservation proof',
   },
   {
-    name: 'daftari', featureFile: 'project/ahd-app/features/daftari.js', screenFile: 'project/ahd-app/screens/daftari.js',
+    name: 'daftari', featureFile: 'app/features/daftari.js', screenFile: 'app/screens/daftari.js',
     testFiles: ['app/daftari.test.cjs', 'app/daftari-hub.test.cjs'], description: 'Creditor home ledger + hub',
   },
   {
-    name: 'open-loan', featureFile: 'project/ahd-app/features/open-loan.js', screenFile: 'project/ahd-app/screens/open-loan.js',
+    name: 'open-loan', featureFile: 'app/features/open-loan.js', screenFile: 'app/screens/open-loan.js',
     testFiles: ['app/open-loan.test.cjs', 'app/open-loan-progress.test.cjs'], description: 'Open-term qard hasan',
   },
   {
-    name: 'circle', featureFile: 'project/ahd-app/features/circle.js', screenFile: 'project/ahd-app/screens/circle.js',
+    name: 'circle', featureFile: 'app/features/circle.js', screenFile: 'app/screens/circle.js',
     testFiles: ['app/circle.test.cjs', 'app/circle-reminder.test.cjs'], description: 'Circle treasurer dashboard + group reminder',
   },
   {
-    name: 'circle-adv', featureFile: 'project/ahd-app/features/circle-adv.js', screenFile: 'project/ahd-app/screens/circle-adv.js',
+    name: 'circle-adv', featureFile: 'app/features/circle-adv.js', screenFile: 'app/screens/circle-adv.js',
     testFiles: ['app/circle-adv.test.cjs', 'app/circle-adv-split.test.cjs'], description: 'Advanced circle (splits, recurring, graduation)',
   },
   {
-    name: 'timeline', featureFile: null, screenFile: 'project/ahd-app/screens/timeline.js',
+    name: 'timeline', featureFile: null, screenFile: 'app/screens/timeline.js',
     testFiles: ['app/timeline.test.cjs', 'app/timeline-connect.test.cjs'], description: 'Witness timeline (سِجلّ الشهادة)',
   },
   {
-    name: 'proof', featureFile: null, screenFile: 'project/ahd-app/screens/proof.js',
+    name: 'proof', featureFile: null, screenFile: 'app/screens/proof.js',
     testFiles: ['app/proof.test.cjs', 'app/proof-provenance.test.cjs'], description: 'Proof-pack / evidence export',
   },
   {
-    name: 'dispute', featureFile: null, screenFile: 'project/ahd-app/screens/dispute.js',
+    name: 'dispute', featureFile: null, screenFile: 'app/screens/dispute.js',
     testFiles: ['app/dispute.test.cjs'], description: 'Dispute pause (محلّ خلاف)',
   },
   {
-    name: 'request', featureFile: 'project/ahd-app/features/request.js', screenFile: 'project/ahd-app/screens/request.js',
+    name: 'request', featureFile: 'app/features/request.js', screenFile: 'app/screens/request.js',
     testFiles: ['app/request.test.cjs'], description: 'Borrower-initiated request (اطلب عهدًا)',
   },
   {
-    name: 'settings', featureFile: null, screenFile: 'project/ahd-app/screens/settings.js',
+    name: 'settings', featureFile: null, screenFile: 'app/screens/settings.js',
     testFiles: ['app/settings.test.cjs', 'app/settings-deepen.test.cjs'], description: 'Settings + privacy + digit toggle',
   },
   {
-    name: 'home', featureFile: null, screenFile: 'project/ahd-app/screens/home.js',
+    name: 'home', featureFile: null, screenFile: 'app/screens/home.js',
     testFiles: [], description: 'Home front door',
   },
 ];
@@ -120,7 +111,7 @@ const known = new Set(features.map(f => f.featureFile).filter(Boolean));
 if (existsSync(featuresDir)) {
   for (const entry of readdirSync(featuresDir, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.js')) {
-      const rel = `project/ahd-app/features/${entry.name}`;
+      const rel = `app/features/${entry.name}`;
       if (!known.has(rel)) {
         features.push({ name: entry.name.replace(/\.js$/, ''), featureFile: rel, screenFile: null, testFiles: [], description: '' });
       }
