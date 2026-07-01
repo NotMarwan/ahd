@@ -8,6 +8,10 @@ updated: 2026-06-19
 
 # 🧵 OPEN-THREADS TRACKER — so nothing falls through the cracks
 
+> **Superseded by `_meta/OPEN-ITEMS.md` as of 2026-07-01** for current open/resolved status. This file is
+> kept for the original P0/P1/P2/STRUCT prioritization rationale and source citations — do not treat its
+> items as still-open without checking `_meta/OPEN-ITEMS.md` first.
+
 > Every unresolved item, flag-for-counsel, pending validation, "demo-now vs v2" addition, and residual risk
 > surfaced anywhere this round — **consolidated, deduplicated, prioritized**, each with its source file and
 > owner. Many items were raised by *multiple* lanes (Review + Backend + 09 go-no-go all flag the same
