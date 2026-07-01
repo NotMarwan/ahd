@@ -7,10 +7,12 @@ github.txt
 # --- Heavy / generated / irrelevant to the Ahd product work ---
 claudecodeui/
 **/node_modules/
+**/dist/
 .pytest_cache/
 .playwright-mcp/
 .agent-presence/
 _overnight/backup/
+docs/research/**/.obsidian/
 
 # --- Large binaries / scratch ---
 *.zip
