@@ -1,5 +1,5 @@
 /* ============================================================================
-   app-dom-smoke.cjs — headless render smoke for project/ahd-app (the parallel
+   app-dom-smoke.cjs — headless render smoke for app/ (the parallel
    publishable app). Loads engine.js + features + app.js + screens into ONE fake
    DOM (browser-global simulation) and drives the دفتري screen + its actions,
    asserting nothing throws and the right warm copy renders. Mirrors the demo's
