@@ -21,6 +21,9 @@
   var Dispute = (typeof window !== "undefined" ? window.Dispute : null);
   var Settings = (typeof window !== "undefined" ? window.Settings : null);
   var RequestAhd = (typeof window !== "undefined" ? window.RequestAhd : null);
+  var Borrower = (typeof window !== "undefined" ? window.Borrower : null);
+  var CovenantLog = (typeof window !== "undefined" ? window.CovenantLog : null);
+  var Standing = (typeof window !== "undefined" ? window.Standing : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -92,6 +95,16 @@
     RequestAhd: RequestAhd,
     request: RequestAhd ? RequestAhd.makeRequest({ id: "REQ-NAIF", borrower: "نايف", lender: "خالد", amountSAR: 1500, months: 3, purpose: "تجهيز عربة القهوة" }) : null,
     requestState: { sent: false, accepted: null, flash: null },
+    /* ما عليّ (borrower home) — the debtor's mirror of دفتري; reads app.records/viewer */
+    Borrower: Borrower,
+    borrowerState: { flash: null },
+    /* سِجلّ المعروف (sealed good-faith trail) — CONTEXTUAL; seeded on Naif's café عهد */
+    CovenantLog: CovenantLog,
+    covenantState: { recordId: "R-CAFE", tamper: false, flash: null },
+    /* سُلفة بالمعروف (standing qard) — a recurring two-party قرض حسن (Musaned wedge) */
+    Standing: Standing,
+    standing: Standing ? Standing.makeStanding({ id: "STD-ABUFAHD-RAMESH", lender: "أبو فهد", borrower: "راميش", perCycleSAR: 800, cycleKeys: ["2026-01", "2026-02", "2026-03", "2026-04"], purpose: "سُلفةٌ شهريّةٌ بالمعروف على الراتب", timestamp: "2026-01-01T09:00:00+03:00" }) : null,
+    standingState: { tamper: false, repaid: ["2026-01", "2026-02"], flash: null },
 
     esc: esc,
     flashHTML: flashHTML,
@@ -208,6 +221,36 @@
       return this.rerender();
     },
     requestDismiss: function () { this.requestState.flash = null; return this.rerender(); },
+
+    /* ---- ما عليّ (borrower home) — borrower-INVOKABLE grace + pay-what-eased (2:280) ---- */
+    borrowerPay: function (id, amountSAR) {
+      var r = this.recordById(id), amt = Number(amountSAR);
+      if (r && this.Borrower && isFinite(amt) && amt > 0) {
+        r.events = r.events.concat(this.Borrower.payWhatEased(r, amt, this.engine));
+        this.borrowerState.flash = "سدّدتَ ما تيسّر — المتبقّي ينقص، بلا أيّ زيادة 🤍";
+      }
+      return this.rerender();
+    },
+    borrowerAskGrace: function (id, reasonKey) {
+      var r = this.recordById(id);
+      if (r && this.Borrower) {
+        r.events = r.events.concat(this.Borrower.graceRequest(r, reasonKey, this.AS_OF));
+        this.borrowerState.flash = "طلبتَ نظرةً إلى ميسرةٍ بكرامة — بلّغنا المُقرِض، والأمر إليه ﴿فنظرةٌ إلى ميسرة﴾.";
+      }
+      return this.rerender();
+    },
+    borrowerDismiss: function () { this.borrowerState.flash = null; return this.rerender(); },
+
+    /* ---- سِجلّ المعروف (covenant trail) — CONTEXTUAL (from دفتري / الخلاف); never a score ---- */
+    openCovenant: function (id) { if (this.recordById(id)) { this.covenantState = { recordId: id, tamper: false, flash: null }; this.daftariState.sheetId = null; return this.go("maroof"); } return this.rerender(); },
+    covenantTamperToggle: function () { this.covenantState.tamper = !this.covenantState.tamper; return this.rerender(); },
+    covenantExport: function () { this.covenantState.flash = "جُهّزت البيّنة المحايدة — الطرفان وبصمة الشروط والخطوات المختومة وحالتها فقط، مهيّأةٌ دليلًا عند الحاجة."; return this.rerender(); },
+    covenantBack: function () { return this.go("daftari"); },
+    covenantDismiss: function () { this.covenantState.flash = null; return this.rerender(); },
+
+    /* ---- سُلفة بالمعروف (standing qard) — recurring two-party قرض حسن ---- */
+    standingTamperToggle: function () { this.standingState.tamper = !this.standingState.tamper; return this.rerender(); },
+    standingDismiss: function () { this.standingState.flash = null; return this.rerender(); },
 
     /* ---- القرض المفتوح actions (integer halalas; bad input is a clean no-op) ---- */
     openLoanPay: function (amountSAR) {

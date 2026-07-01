@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/standing-loan.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -299,6 +299,54 @@ ok(/aria-current="page"/.test(acc), "nav marks the active screen with aria-curre
 ok(/role="tablist"/.test(acc) && /role="tab"/.test(acc) && /aria-selected/.test(acc), "دفتري tabs expose tablist/tab/aria-selected");
 noThrow(() => App.daftariCompose("bad-id"), "compose with unknown id is a safe no-op");
 noThrow(() => App.daftariTab("zzz"), "unknown tab is a safe no-op");
+
+/* ============================================================================
+   NEW FEATURES — F1 «ما عليّ» borrower home · F2 «سِجلّ المعروف» sealed mercy
+   trail · F3 «سُلفة بالمعروف» standing qard. Three CONTEXTUAL screens over new
+   pure modules; nav stays 8 pills (asserted above). Renders must not throw and
+   must carry the spine (no score/percentage; sealed + tamper-evident; 2:280).
+============================================================================ */
+/* ---- ما عليّ (borrower home): the debtor's own obligations + grace/pay (2:280) ---- */
+ok(!!sandbox.Borrower, "Borrower module attaches to window");
+ok(navKeys.indexOf("mine") < 0, "«ما عليّ» is CONTEXTUAL — a home card, not a nav pill");
+ok(/ما عليّ/.test(App.go("home")), "home surfaces the «ما عليّ» borrower card");
+let mine = noThrow(() => App.go("mine"), "go('mine') renders the borrower home");
+ok(/ما عليّ|التزامات/.test(mine), "borrower home shows «ما عليّ / التزاماتي»");
+ok(/فهد/.test(mine), "borrower home lists what Naif owes (فهد)");
+ok(mine.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(mine), "borrower home shows NO percentage/score");
+let mg = noThrow(() => App.borrowerAskGrace("R-FAHD", "salary_delay"), "borrower «أطلب مهلة» → a borrower-INITIATED grace request");
+ok(/ميسرة|مهلة/.test(mg), "grace request shows dignified 2:280 copy (no penalty)");
+ok((App.recordById("R-FAHD").events || []).some(e => e.type === "GRACE_REQUESTED"), "the grace request is recorded as a GRACE_REQUESTED event on the record");
+noThrow(() => App.borrowerPay("R-FAHD", 500), "borrower «سدِّد ما تيسّر» — a partial payment (clamped)");
+ok((App.recordById("R-FAHD").events || []).some(e => e.type === "PRINCIPAL_PAID"), "the partial payment is recorded as a PRINCIPAL_PAID event (integer halalas)");
+
+/* ---- سِجلّ المعروف (covenant trail): sealed, tamper-evident, neutral exhibit ---- */
+ok(!!sandbox.CovenantLog, "CovenantLog module attaches to window");
+ok(navKeys.indexOf("maroof") < 0, "«سِجلّ المعروف» is CONTEXTUAL — no nav pill");
+let cov = noThrow(() => App.openCovenant("R-CAFE"), "openCovenant('R-CAFE') navigates to the covenant trail");
+ok(App.current === "maroof", "openCovenant sets the current screen to maroof");
+ok(/سِجلّ المعروف/.test(cov), "covenant screen shows «سِجلّ المعروف»");
+ok(/السلسلة سليمة/.test(cov), "the sealed معروف chain verifies intact ✓");
+ok(cov.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(cov), "covenant screen shows no percentage/score");
+let covt = noThrow(() => App.covenantTamperToggle(), "covenant tamper toggle ON");
+ok(/عبثٌ مكشوف|انكسر الختم/.test(covt), "tampering an entry breaks the seal chain (live)");
+noThrow(() => App.covenantTamperToggle(), "covenant tamper toggle OFF (restore)");
+let cove = noThrow(() => App.covenantExport(), "export as a neutral exhibit");
+ok(/بيّنة محايدة/.test(cove), "export prepares the NEUTRAL court exhibit (the record, never a score)");
+noThrow(() => App.covenantBack(), "covenantBack returns to دفتري");
+
+/* ---- سُلفة بالمعروف (standing qard): Musaned wedge + honest counsel seam ---- */
+ok(!!sandbox.Standing, "Standing module attaches to window");
+ok(navKeys.indexOf("standing") < 0, "«سُلفة بالمعروف» is CONTEXTUAL — a home card");
+let stg = noThrow(() => App.go("standing"), "go('standing') renders the standing qard");
+ok(/سُلفة/.test(stg) && /قرضٌ حسن/.test(stg), "standing screen shows «سُلفةٌ بالمعروف — قرضٌ حسنٌ قائم»");
+ok(/أبو فهد/.test(stg) && /راميش/.test(stg), "standing shows the two fixed parties (employer → worker)");
+ok(/أُثبِت/.test(stg) && /باقٍ/.test(stg), "standing shows the conservation ledger (posted · repaid · outstanding)");
+ok(/المراجعة الشرعيّة/.test(stg) && /OT-VAL/.test(stg), "standing carries the VISIBLE counsel seam note (wage-linkage pending sign-off)");
+ok(stg.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(stg), "standing shows no percentage/score");
+let stgt = noThrow(() => App.standingTamperToggle(), "standing tamper toggle ON");
+ok(/عبثٌ مكشوف/.test(stgt), "tampering the standing amount breaks its seal (live)");
+noThrow(() => App.standingTamperToggle(), "standing tamper toggle OFF (restore)");
 
 console.log("\n" + "=".repeat(56));
 console.log("APP DOM SMOKE: " + passed + " passed, " + failed + " failed");
