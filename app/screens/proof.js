@@ -24,7 +24,7 @@
     var tamperSAR = r.amountSAR + 4000;                        // an obvious mutation for the demo
     var tr = PF.tamperReport(r, e, st.tamper ? tamperSAR : null);
     var canon = st.tamper ? PF.proofCanonical(r, e, tamperSAR) : pack.canonical;
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.proofDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "proofDismiss");
 
     var backLabel = st.fromDispute ? "→ رجوع إلى الخلاف" : "→ رجوع إلى دفتري";
     var exhibit = st.fromDispute

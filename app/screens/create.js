@@ -13,7 +13,7 @@
     if (!Cr || !draft) return '<div class="empty">تعذّر تحميل الإنشاء.</div>';
     var terms = Cr.draftTermsAr(draft, e) + (st.extra ? " " + st.extra : "");
     var v = Cr.ribaCheck(terms, e), clean = v.verdict === "clean";
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.createDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "createDismiss");
 
     var head = '<div class="cr-card"><div class="cr-h">أنشئ عهدًا · قرضٌ حسن</div>' +
       '<div class="cr-fields">' +

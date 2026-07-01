@@ -5,6 +5,7 @@
    asserting nothing throws and the right warm copy renders. Mirrors the demo's
    proven dom-smoke pattern (innerHTML strings + global action functions).
 ============================================================================ */
+const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
@@ -46,6 +47,13 @@ noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join
 const App = sandbox.AhdApp;
 ok(!!App, "window.AhdApp is defined");
 ok(!!sandbox.AHD && !!sandbox.Daftari, "engine (AHD) + Daftari attach to window");
+assert.strictEqual(
+  App.flashHTML("رسالة تجربة", "createDismiss"),
+  '<div class="flash" onclick="AhdApp.createDismiss()">رسالة تجربة <span class="x">×</span></div>',
+  "flashHTML renders the exact prior inline markup"
+);
+assert.strictEqual(App.flashHTML("", "createDismiss"), "", "flashHTML is empty when there is no message");
+assert.strictEqual(App.flashHTML(null, "createDismiss"), "", "flashHTML handles a null message");
 let booted = noThrow(() => App.boot(), "App.boot() initialises (nav + default screen)");
 ok(/عهد/.test(booted) && /دفتري/.test(booted), "boot lands on the home front door (brand + feature cards)");
 var navKeys = []; App.navHTML().replace(/AhdApp\.go\('([^']+)'\)/g, function (_, k) { navKeys.push(k); return _; });

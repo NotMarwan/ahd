@@ -20,7 +20,7 @@
     var e = app.engine, CA = app.CircleAdv;
     if (!CA) return '<div class="empty">وحدة الدائرة المتقدّمة غير محمّلة.</div>';
     var st = app.circleAdvState;
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.circleAdvDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "circleAdvDismiss");
 
     /* 1 · بالأصناف */
     var items = [
