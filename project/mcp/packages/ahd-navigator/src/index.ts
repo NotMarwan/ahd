@@ -1,47 +1,50 @@
 #!/usr/bin/env node
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { z } from 'zod';
+import { runMcpServer, defineTool } from 'ahd-mcp-common';
 import { findByIntent } from './intent-finder.js';
 import { getArchitecture } from './architecture.js';
 import { getConventions } from './conventions.js';
 import { getFeatureGraph, getFileRole, findTestsFor } from './features.js';
 
-const server = new Server(
-  { name: 'ahd-navigator', version: '0.1.0' },
-  { capabilities: { tools: {} } },
-);
+const filePath = z.string().min(1).describe('Project-relative file path, e.g. "app/features/riba-lint.js"');
 
-server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [
-    { name: 'find_by_intent', description: 'Find files by natural language description', inputSchema: { type: 'object', properties: { query: { type: 'string', description: 'What are you looking for?' } }, required: ['query'] } },
-    { name: 'get_architecture', description: 'Project architecture overview (builds, layers, engine)', inputSchema: { type: 'object', properties: {} } },
-    { name: 'get_conventions', description: 'Project conventions (spine, determinism, testing)', inputSchema: { type: 'object', properties: {} } },
-    { name: 'get_feature_graph', description: 'All features with file locations and dependencies', inputSchema: { type: 'object', properties: {} } },
-    { name: 'get_file_role', description: 'What a file does in the project', inputSchema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } },
-    { name: 'find_tests_for', description: 'Find test files covering a given source file', inputSchema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } },
-  ],
-}));
+const tools = [
+  defineTool({
+    name: 'find_by_intent',
+    description: 'Find files by a natural-language description of what you are looking for (e.g. "riba linter", "settlement muqassa", "test harness").',
+    schema: { query: z.string().min(1).describe('What are you looking for?') },
+    handler: ({ query }) => findByIntent(query),
+  }),
+  defineTool({
+    name: 'get_architecture',
+    description: 'Project architecture overview (builds, layers, engine info). Use this to orient before making structural changes.',
+    schema: {},
+    handler: () => getArchitecture(),
+  }),
+  defineTool({
+    name: 'get_conventions',
+    description: 'Project conventions (spine rules, determinism rules, testing rules). Use this before writing or reviewing any code change.',
+    schema: {},
+    handler: () => getConventions(),
+  }),
+  defineTool({
+    name: 'get_feature_graph',
+    description: 'All features with their file locations, dependencies, and test coverage.',
+    schema: {},
+    handler: () => getFeatureGraph(),
+  }),
+  defineTool({
+    name: 'get_file_role',
+    description: 'What a given file does in the project (feature/screen, golden-pinned, parity copy, or plain project file).',
+    schema: { path: filePath },
+    handler: ({ path }) => getFileRole(path),
+  }),
+  defineTool({
+    name: 'find_tests_for',
+    description: 'Find test files covering a given source file.',
+    schema: { path: filePath },
+    handler: ({ path }) => findTestsFor(path),
+  }),
+];
 
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args = {} } = request.params;
-  try {
-    let result: unknown;
-    switch (name) {
-      case 'find_by_intent': result = findByIntent(args.query as string); break;
-      case 'get_architecture': result = getArchitecture(); break;
-      case 'get_conventions': result = getConventions(); break;
-      case 'get_feature_graph': result = getFeatureGraph(); break;
-      case 'get_file_role': result = getFileRole(args.path as string); break;
-      case 'find_tests_for': result = findTestsFor(args.path as string); break;
-      default: throw new Error(`Unknown tool: ${name}`);
-    }
-    return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    return { content: [{ type: 'text', text: JSON.stringify({ error: msg }) }], isError: true };
-  }
-});
-
-const transport = new StdioServerTransport();
-await server.connect(transport);
+await runMcpServer({ name: 'ahd-navigator', version: '0.1.0' }, tools);

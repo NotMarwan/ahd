@@ -56,4 +56,30 @@ describe('ahd-knowledge', () => {
     const result = await getDecisions('zzznotexist');
     assert.equal(result.decisions.length, 0);
   });
+
+  test('get_open_threads filters by priority when a filter is given', async () => {
+    const { getOpenThreads } = await import('../status.js');
+    const all = await getOpenThreads();
+    const p2 = await getOpenThreads('P2');
+    assert.ok(p2.threads.every((t: any) => t.priority === 'P2'));
+    assert.ok(p2.threads.length <= all.threads.length);
+  });
+
+  test('get_handoffs(0) returns an empty list (no crash)', async () => {
+    const { getHandoffs } = await import('../handoffs.js');
+    const result = await getHandoffs(0);
+    assert.deepEqual(result.handoffs, []);
+  });
+
+  test('query_knowledge returns empty results for a query matching nothing (no crash)', async () => {
+    const { queryKnowledge } = await import('../status.js');
+    const result = await queryKnowledge('zzzznotexistanywhereinthisrepo');
+    assert.deepEqual(result.results, []);
+  });
+
+  test('get_specs returns an empty list for an unmatched area (no crash)', async () => {
+    const { getSpecs } = await import('../specs.js');
+    const result = await getSpecs('zzznotexist');
+    assert.deepEqual(result.specs, []);
+  });
 });

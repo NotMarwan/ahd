@@ -1,17 +1,14 @@
 {
-  "name": "ahd-navigator",
+  "name": "ahd-mcp-common",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "./dist/index.js",
-  "bin": "./dist/index.js",
+  "main": "./src/index.ts",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsx src/index.ts"
+    "build": "tsc"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.16.0",
-    "ahd-mcp-common": "^0.1.0",
     "zod": "^4.4.3"
   }
 }

@@ -46,4 +46,16 @@ describe('ahd-navigator', () => {
     const result = findByIntent('zzznotexist');
     assert.equal(result.results.length, 0);
   });
+
+  test('get_file_role falls back to "Project file" for an unmatched path (no crash)', () => {
+    const result = getFileRole('some/totally/unmatched/path.js');
+    assert.equal(result.role, 'Project file');
+    assert.equal(result.isGolden, false);
+    assert.equal(result.isParity, false);
+  });
+
+  test('find_tests_for returns an empty list for an unmatched path (no crash)', () => {
+    const result = findTestsFor('some/totally/unmatched/path.js');
+    assert.deepEqual(result.tests, []);
+  });
 });

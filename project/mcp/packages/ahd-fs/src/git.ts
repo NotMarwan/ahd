@@ -1,10 +1,8 @@
 import { execSync } from 'node:child_process';
-import { resolve } from 'node:path';
-
-const PROJECT_ROOT = resolve(import.meta.dirname, '../../../../..');
+import { PROJECT_ROOT } from 'ahd-mcp-common';
 
 function git(args: string): string {
-  return execSync(`git ${args}`, { cwd: PROJECT_ROOT, encoding: 'utf-8' }).trim();
+  return execSync(`git ${args}`, { cwd: PROJECT_ROOT, encoding: 'utf-8', timeout: 10000 }).trim();
 }
 
 export function gitLog(n: number = 10, path?: string): { commits: Array<{ hash: string; message: string }> } {

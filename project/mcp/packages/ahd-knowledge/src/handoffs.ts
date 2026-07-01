@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
-import { join, resolve } from 'node:path';
-
-const PROJECT_ROOT = resolve(import.meta.dirname, '../../../../..');
+import { join } from 'node:path';
+import { PROJECT_ROOT } from 'ahd-mcp-common';
 
 export function getHandoffs(n: number = 1): { handoffs: Array<{ id: string; summary: string }> } {
   const dir = join(PROJECT_ROOT, '_meta/handoffs');

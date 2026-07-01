@@ -1,44 +1,47 @@
 #!/usr/bin/env node
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { z } from 'zod';
+import { runMcpServer, defineTool } from 'ahd-mcp-common';
 import { projectGlob, findCoverageGaps } from './globber.js';
 import { gitLog, gitDiff } from './git.js';
 import { checkIntegrity } from './integrity.js';
 
-const server = new Server(
-  { name: 'ahd-fs', version: '0.1.0' },
-  { capabilities: { tools: {} } },
-);
+const tools = [
+  defineTool({
+    name: 'project_glob',
+    description: 'Glob for files in the project, with project-aware exclusions (no node_modules/.git/dist).',
+    schema: { pattern: z.string().min(1).describe('Glob pattern, e.g. "**/*.md" or "app/features/*.js"') },
+    handler: ({ pattern }) => projectGlob(pattern),
+  }),
+  defineTool({
+    name: 'git_log',
+    description: 'Git log for the whole project or a specific file, most recent first.',
+    schema: {
+      n: z.coerce.number().int().min(1).optional().describe('How many commits to return (default 10)'),
+      path: z.string().min(1).optional().describe('Limit to commits touching this project-relative path'),
+    },
+    handler: ({ n, path }) => gitLog(n, path),
+  }),
+  defineTool({
+    name: 'git_diff',
+    description: 'Git diff between two refs, or the currently staged diff if no refs are given.',
+    schema: {
+      a: z.string().min(1).optional().describe('First ref (e.g. a commit hash or HEAD~1)'),
+      b: z.string().min(1).optional().describe('Second ref (e.g. HEAD)'),
+    },
+    handler: ({ a, b }) => gitDiff(a, b),
+  }),
+  defineTool({
+    name: 'check_integrity',
+    description: "Verify the frozen demo's SHA-256 tripwire and report live git status.",
+    schema: {},
+    handler: () => checkIntegrity(),
+  }),
+  defineTool({
+    name: 'find_coverage_gaps',
+    description: 'Find app feature source files that have no corresponding test file.',
+    schema: {},
+    handler: () => findCoverageGaps(),
+  }),
+];
 
-server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [
-    { name: 'project_glob', description: 'Glob with project-aware exclusions (no node_modules/.git)', inputSchema: { type: 'object', properties: { pattern: { type: 'string' } }, required: ['pattern'] } },
-    { name: 'git_log', description: 'Git log for project or file', inputSchema: { type: 'object', properties: { n: { type: 'number' }, path: { type: 'string' } } } },
-    { name: 'git_diff', description: 'Git diff between references', inputSchema: { type: 'object', properties: { a: { type: 'string' }, b: { type: 'string' } } } },
-    { name: 'check_integrity', description: 'Verify demo SHA-256 tripwire + git status', inputSchema: { type: 'object', properties: {} } },
-    { name: 'find_coverage_gaps', description: 'Source files with no corresponding test', inputSchema: { type: 'object', properties: {} } },
-  ],
-}));
-
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args = {} } = request.params;
-  try {
-    let result: unknown;
-    switch (name) {
-      case 'project_glob': result = await projectGlob(args.pattern as string); break;
-      case 'git_log': result = gitLog(Number(args.n ?? 10), args.path as string); break;
-      case 'git_diff': result = gitDiff(args.a as string, args.b as string); break;
-      case 'check_integrity': result = checkIntegrity(); break;
-      case 'find_coverage_gaps': result = await findCoverageGaps(); break;
-      default: throw new Error(`Unknown tool: ${name}`);
-    }
-    return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    return { content: [{ type: 'text', text: JSON.stringify({ error: msg }) }], isError: true };
-  }
-});
-
-const transport = new StdioServerTransport();
-await server.connect(transport);
+await runMcpServer({ name: 'ahd-fs', version: '0.1.0' }, tools);

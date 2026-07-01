@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
-
-const PROJECT_ROOT = resolve(import.meta.dirname, '../../../../..');
+import { join } from 'node:path';
+import { PROJECT_ROOT } from 'ahd-mcp-common';
 
 interface Decision {
   id: string;

@@ -1,7 +1,6 @@
 import { glob } from 'tinyglobby';
-import { resolve } from 'node:path';
+import { PROJECT_ROOT } from 'ahd-mcp-common';
 
-const PROJECT_ROOT = resolve(import.meta.dirname, '../../../../..');
 const EXCLUDE = ['**/node_modules/**', '**/.git/**', '**/dist/**'];
 
 export async function projectGlob(pattern: string): Promise<{ files: string[] }> {

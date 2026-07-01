@@ -10,6 +10,8 @@
     "dev": "tsx src/index.ts"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.16.0"
+    "@modelcontextprotocol/sdk": "^1.16.0",
+    "ahd-mcp-common": "^0.1.0",
+    "zod": "^4.4.3"
   }
 }

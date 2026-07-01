@@ -1,7 +1,6 @@
 import { readdirSync } from 'node:fs';
-import { join, resolve } from 'node:path';
-
-const PROJECT_ROOT = resolve(import.meta.dirname, '../../../../..');
+import { join } from 'node:path';
+import { PROJECT_ROOT } from 'ahd-mcp-common';
 
 export function getSpecs(area?: string): { specs: Array<{ name: string; path: string; type: string }> } {
   const specs: Array<{ name: string; path: string; type: string }> = [];

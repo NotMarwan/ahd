@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.16.0",
-    "tinyglobby": "^0.2.0"
+    "ahd-mcp-common": "^0.1.0",
+    "tinyglobby": "^0.2.0",
+    "zod": "^4.4.3"
   }
 }

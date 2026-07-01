@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
-import { join, resolve, relative } from 'node:path';
-
-const PROJECT_ROOT = resolve(import.meta.dirname, '../../../../..');
+import { join, relative } from 'node:path';
+import { PROJECT_ROOT } from 'ahd-mcp-common';
 
 export function getOpenThreads(priority?: string): { threads: Array<{ id: string; title: string; priority: string; status: string }> } {
   const threadsPath = join(PROJECT_ROOT, '_meta/deep-work/ledger/open-threads.md');
