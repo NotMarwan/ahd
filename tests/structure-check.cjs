@@ -46,12 +46,15 @@ function checkAgentPresenceHealth(root) {
   const FORTY_FIVE_MIN_MS = 45 * 60 * 1000;
   const now = Date.now();
   const stale = [];
+  const malformed = [];
   const claimsByKey = new Map();
   for (const f of files) {
     const data = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
     if (data.status !== "active") continue;
     const hb = Date.parse(data.last_heartbeat);
-    if (!Number.isNaN(hb) && (now - hb) > FORTY_FIVE_MIN_MS) {
+    if (Number.isNaN(hb)) {
+      malformed.push({ file: f, agent_id: data.agent_id, last_heartbeat: data.last_heartbeat || null });
+    } else if ((now - hb) > FORTY_FIVE_MIN_MS) {
       stale.push({ file: f, agent_id: data.agent_id, last_heartbeat: data.last_heartbeat });
     }
     for (const claim of (data.files_claimed || [])) {
@@ -66,7 +69,7 @@ function checkAgentPresenceHealth(root) {
     }
   }
   const duplicateClaims = [...claimsByKey.entries()].filter(([, agents]) => agents.length > 1);
-  return { stale, duplicateClaims };
+  return { stale, malformed, duplicateClaims };
 }
 
 function checkSingleStatusFile(root) {
@@ -181,14 +184,34 @@ if (require.main === module) {
       threw ? "threw instead of returning" : JSON.stringify(result));
   }
 
+  section("0e) Self-teeth — checkAgentPresenceHealth surfaces an unparseable last_heartbeat");
+  {
+    const result = withFixture(
+      (dir) => {
+        const pdir = path.join(dir, "_meta/agent-presence");
+        fs.mkdirSync(pdir, { recursive: true });
+        fs.writeFileSync(path.join(pdir, "Broken.json"), JSON.stringify({
+          agent_id: "Broken", status: "active", last_heartbeat: "not-a-real-date",
+          files_claimed: [], tasks_claimed: [],
+        }));
+      },
+      (dir) => checkAgentPresenceHealth(dir)
+    );
+    ok((result.malformed || []).some(m => m.agent_id === "Broken"),
+      "flags an active agent whose last_heartbeat cannot be parsed", JSON.stringify(result.malformed));
+    ok(result.stale.every(s => s.agent_id !== "Broken"),
+      "a malformed heartbeat is reported as malformed, not miscounted as stale", JSON.stringify(result.stale));
+  }
+
   section("1) Project-map freshness — ahd-navigator vs. real app/ files");
   const mapResult = checkProjectMapFreshness(ROOT);
   ok(mapResult.missingFromMap.length === 0, "every app/features|screens file is in project-map.json", mapResult.missingFromMap.join(", "));
   ok(mapResult.missingOnDisk.length === 0, "every project-map.json feature file exists on disk", mapResult.missingOnDisk.join(", "));
 
-  section("2) Agent-presence health — staleness + duplicate claims");
+  section("2) Agent-presence health — staleness + malformed heartbeats + duplicate claims");
   const presenceResult = checkAgentPresenceHealth(ROOT);
   ok(presenceResult.stale.length === 0, "no 'active' presence file is >45min stale", JSON.stringify(presenceResult.stale));
+  ok(presenceResult.malformed.length === 0, "every 'active' presence file has a parseable last_heartbeat", JSON.stringify(presenceResult.malformed));
   ok(presenceResult.duplicateClaims.length === 0, "no two active agents claim the same file/task", JSON.stringify(presenceResult.duplicateClaims));
 
   section("3) Single status-file lint");
