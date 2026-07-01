@@ -16,7 +16,7 @@ There are **two** runnable surfaces. They share the **same pure computational co
 
 | | **Demo** | **Parallel app** |
 |---|---|---|
-| Entry | `project/ahd-demo/index.html` | `project/ahd-app/index.html` |
+| Entry | `demo/index.html` | `app/index.html` |
 | Status | **Frozen / read‑only** (tripwire SHA‑256 `e2f48467…d1b8be40`) | **Additive**, all new files |
 | Shape | One self‑contained HTML file (logic + DOM + styling inline) | Multi‑file: `engine.js` + feature modules + screens + `app.css` |
 | Logic source | The `AHD-LOGIC` region inside the HTML | `engine.js` — a **byte‑faithful copy** of that region |
@@ -24,7 +24,7 @@ There are **two** runnable surfaces. They share the **same pure computational co
 
 Why two builds? The demo's correctness is pinned by a tripwire hash and a golden‑vector test suite.
 There is **no way to add screens to `index.html` without changing its bytes**, which would trip the
-tripwire and risk the golden path. So new product surface is grown in `project/ahd-app/`, which reuses
+tripwire and risk the golden path. So new product surface is grown in `app/`, which reuses
 a **parity‑tested copy** of the demo's engine. The demo stays the safe presenter build; the app is
 where the missing consumer features live.
 
@@ -35,7 +35,7 @@ where the missing consumer features live.
 The demo keeps **all pure, DOM‑free logic** inside one clearly fenced region of its HTML:
 
 ```
-project/ahd-demo/index.html
+demo/index.html
   line 167:  /* ===AHD-LOGIC:BEGIN===  (pure, DOM-free, Node-testable …) */
    …          sha256 · canonical · sealBlock · verifyRecord · fold · netting ·
    …          ribaScan · trustSignal · makeCircle · foldCircle · …
@@ -44,13 +44,13 @@ project/ahd-demo/index.html
 
 Two consumers slice that exact region — **neither keeps its own copy of the logic**:
 
-1. **`10_Deep/Hardening/test-harness/load-logic.cjs`** — slices the bytes strictly between the two
+1. **`tests/load-logic.cjs`** — slices the bytes strictly between the two
    markers and evaluates them in an isolated `vm` context (`loadLogic()`), so the demo's tests run the
    *exact shipped bytes*. A copy could drift; a slice cannot.
 
-2. **`project/ahd-app/build-engine.cjs`** — **reads** the demo HTML (via the same `extractPure` /
-   `readHtml` from `load-logic.cjs`), wraps the verbatim slice in a header + a dual‑export footer, and
-   writes `project/ahd-app/engine.js`. It **never writes the demo**. Run with `node build-engine.cjs`.
+2. **`app/build-engine.cjs`** — **reads** the demo HTML (via the same `extractPure` /
+   `readHtml` from `tests/load-logic.cjs`), wraps the verbatim slice in a header + a dual‑export footer, and
+   writes `app/engine.js`. It **never writes the demo**. Run with `node app/build-engine.cjs`.
 
 `engine.js` is therefore **generated**, not hand‑authored — its banner says
 `AUTO-GENERATED — DO NOT EDIT BY HAND`. Its footer exposes the same public surface (≈50 symbols) under
@@ -68,7 +68,7 @@ three module systems so the one file loads everywhere:
 
 ### The drift‑guard
 
-`10_Deep/Hardening/test-harness/app/engine-parity.cjs` proves the copy can never silently diverge.
+`tests/app/engine-parity.cjs` proves the copy can never silently diverge.
 It runs three classes of check:
 
 - **(a) Surface** — `engine.js` exposes every symbol in the expected API list.
@@ -108,17 +108,17 @@ app.js  (AhdApp)     The shell: a tiny screen registry + router + the action met
                      mutate deterministic state and re-render. Holds the seed data.
 ```
 
-- **Feature modules** (`features/daftari.js`, `features/open-loan.js`, `features/circle-adv.js`) contain
+- **Feature modules** (`app/features/daftari.js`, `app/features/open-loan.js`, `app/features/circle-adv.js`) contain
   *only* business logic and receive the engine by injection — e.g. `rowFor(record, viewer, engine, asOf)`,
   `foldOpenLoan(loan)`, `byCategorySplit(items, members, engine)`. They never reference `document` or
-  `window.AHD` directly when running under Node; the UMD‑style wrapper hands them `require("../engine.js")`
+  `window.AHD` directly when running under Node; the UMD‑style wrapper hands them `require("./engine.js")`
   in Node and `root.AHD` in the browser. This is what makes them unit‑testable in plain Node.
 
-- **Screen modules** (`screens/*.js`) are render‑only. Each ends with
+- **Screen modules** (`app/screens/*.js`) are render‑only. Each ends with
   `App.registerScreen({ key:"daftari", label:"دفتري", icon:"📔", render })`. They read `AhdApp` state and
   the feature outputs, and emit strings. No business rule lives here.
 
-- **The shell** (`app.js`, the `AhdApp` object) is ~150 lines and does four things:
+- **The shell** (`app/app.js`, the `AhdApp` object) is ~150 lines and does four things:
   - **Registry**: `registerScreen(def)` records `{key → def}` and append‑orders keys for the nav.
   - **Router**: `go(key)` renders `navHTML() + <main>render(this)</main>` into `#app`; `boot()` opens the
     first registered screen on `DOMContentLoaded`; `rerender()` re‑runs the current screen.
@@ -131,7 +131,7 @@ app.js  (AhdApp)     The shell: a tiny screen registry + router + the action met
 
 ### Load order (it matters)
 
-`index.html` loads scripts in dependency order — engine first, then feature logic, then the shell, then
+`app/index.html` loads scripts in dependency order — engine first, then feature logic, then the shell, then
 screens:
 
 ```html
@@ -167,7 +167,7 @@ every machine, every run, with **no network**. The invariants (self‑checked ev
 - **Stateless rule engine** — `RIBA_RULES` use **no `/g` flag**, so there is no `RegExp.lastIndex`
   carry‑over between calls (the classic "works once, wrong the second time" bug). `ribaScan` sweeps by
   slicing and applies a negation guard so "بلا فائدة" reads **clean** while "فائدة" is **blocked**.
-- **Pure logic separated from DOM** — the whole `AHD-LOGIC` region (demo) and every `features/*.js` (app)
+- **Pure logic separated from DOM** — the whole `AHD-LOGIC` region (demo) and every `app/features/*.js`
   is DOM‑free, which is exactly why it can be sliced/required and tested headlessly.
 - **No network seams** — the demo path is statically proven to contain zero `fetch`/`XHR`/`WebSocket`;
   the app source is scanned the same way (see §5).
@@ -179,33 +179,33 @@ agreement's status from first principles.
 
 ## 5 · Test‑harness layers — and how they gate
 
-Tests live in `10_Deep/Hardening/test-harness/`. There are **two tiers**, both zero‑dependency
+Tests live in `tests/`. There are **two tiers**, both zero‑dependency
 (Node ≥ 18), both CI‑friendly (exit `0` green / `1` on any failure).
 
 ### Tier 1 — Core (guards the frozen demo)
 
-Run from the harness directory:
+Run from the tests directory:
 
 ```bash
-node run-tests.cjs      # logic assertions: SHA-256 NIST vectors, seal, tamper, Muqassa, riba …
-node offline-check.cjs  # offline invariants: zero network seams in the demo path
-node dom-smoke.cjs      # headless render of the whole demo <script> under a fake DOM
+node tests/run-tests.cjs      # logic assertions: SHA-256 NIST vectors, seal, tamper, Muqassa, riba …
+node tests/offline-check.cjs  # offline invariants: zero network seams in the demo path
+node tests/dom-smoke.cjs      # headless render of the whole demo <script> under a fake DOM
 ```
 
-These slice the **real** logic out of `index.html` on every run (via `load-logic.cjs`) and check it
+These slice the **real** logic out of `demo/index.html` on every run (via `tests/load-logic.cjs`) and check it
 against `golden-vectors.json`. If a hash input, the netting, or a riba rule changes and the output moves,
 they fail. Current core total: **184 assertions, 0 failures** (135 + 9 + 40).
 
-> **Note on the harness README:** `test-harness/README.md` documents an earlier core total
+> **Note on the harness README:** `tests/README.md` documents an earlier core total
 > (62 + 9 + 21 = 92) from before the Circle work landed; the authoritative current core count is **184**
-> (see `13_Circle/STATUS.md` and `OVERNIGHT-LOG.md`). The README also predates the `app/` suites below.
+> (see `OVERNIGHT-LOG.md`). The README also predates the `tests/app/` suites below.
 
 ### Tier 2 — App (additive; grows with the parallel app)
 
-Run from `10_Deep/Hardening/test-harness/app/`:
+Run from `tests/app/`:
 
 ```bash
-node run-app-tests.cjs   # auto-discovers and runs every app suite, aggregates, exits 0 iff all green
+node tests/app/run-app-tests.cjs   # auto-discovers and runs every app suite, aggregates, exits 0 iff all green
 ```
 
 `run-app-tests.cjs` discovers files matching `(.test|-parity|-smoke).cjs`, runs each in its own Node
@@ -218,7 +218,7 @@ process, and aggregates. The **8 suites** (≈283 assertions, all green):
 | `open-loan.test.cjs` | Open‑term qard hasan: never overdue, partial pay clamps to remaining, full/partial إبراء, **conservation** (`paid + forgiven + remaining == principal`) in every state, own canonical sealed with the golden primitives. |
 | `circle-adv.test.cjs` | بالأصناف split (sum‑preserving), recurring auto‑post, graduation قَيْد→عهد (reuses القرض المفتوح + golden seal), mode‑B pledge sketch flagged for review. |
 | `determinism.test.cjs` | Reload determinism: two independent `require`s of `engine.js` (cache busted) yield byte‑identical golden snapshots; pins the absolute seal + netting cardinality. |
-| `app-offline.test.cjs` | Static scan of every `.js` under `project/ahd-app/` (comments stripped first) for the forbidden primitives — `fetch(`, `XMLHttpRequest`, `WebSocket`, `Date.now`, `new Date`, `Math.random`, `Intl.`, `.toLocaleString`. |
+| `app-offline.test.cjs` | Static scan of every `.js` under `app/` (comments stripped first) for the forbidden primitives — `fetch(`, `XMLHttpRequest`, `WebSocket`, `Date.now`, `new Date`, `Math.random`, `Intl.`, `.toLocaleString`. |
 | `properties.test.cjs` | Property‑style invariants over many seeded‑LCG inputs: `respread` sum‑preservation, circle conservation + OPEN→KEPT, open‑loan conservation / `remaining ≥ 0` / never DEFAULTED. |
 | `app-dom-smoke.cjs` | Headless render of the whole app (engine + features + shell + screens) under a fake DOM; drives screen actions; asserts nothing throws and the right warm copy renders. |
 
@@ -235,7 +235,7 @@ Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step wit
 
 ```
                          ┌──────────────────────────────────────────────┐
-   project/ahd-demo/     │  index.html  (FROZEN — tripwire e2f48467…)    │
+   demo/                 │  index.html  (FROZEN — tripwire e2f48467…)    │
                          │  ┌──────────────────────────────────────────┐ │
                          │  │  AHD-LOGIC region (pure, DOM-free)        │ │ ◀── single source of truth
                          │  │  sha256 · canonical · sealBlock · fold ·  │ │
@@ -246,21 +246,21 @@ Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step wit
                        extractPure()     │               │   extractPure()
               (read-only slice)          │               │   (read-only slice)
                                          ▼               ▼
-   10_Deep/.../test-harness/   load-logic.cjs      build-engine.cjs   project/ahd-app/
-                 loadLogic() in vm  ◀──┘               └──▶  writes engine.js (byte-faithful copy)
-                        │                                          │
-                        ▼                                          ▼
-              ┌──────────────────┐                  ┌──────────────────────────────────┐
-   TESTS      │ Tier-1 core      │   engine-parity  │  engine.js  (window.AHD)          │
-              │ run-tests/offline│ ◀──────────────▶ │  ▲ DI                              │
-              │ /dom-smoke (184) │   proves copy    │  │                                 │
-              └──────────────────┘   == demo        │  features/*.js  (pure logic)      │
-              ┌──────────────────┐                  │  ▲ outputs                         │
-              │ Tier-2 app (283) │ ───────────────▶ │  │                                 │
-              │ parity·daftari·  │   exercise app   │  screens/*.js → AhdApp (app.js)    │
-              │ open-loan·circle·│                  │  → #app innerHTML  (RTL Arabic)    │
-              │ determinism·…    │                  └──────────────────────────────────┘
-              └──────────────────┘
+    tests/                      load-logic.cjs      build-engine.cjs   app/
+                  loadLogic() in vm  ◀──┘               └──▶  writes engine.js (byte-faithful copy)
+                         │                                          │
+                         ▼                                          ▼
+               ┌──────────────────┐                  ┌──────────────────────────────────┐
+    TESTS      │ Tier-1 core      │   engine-parity  │  engine.js  (window.AHD)          │
+               │ run-tests/offline│ ◀──────────────▶ │  ▲ DI                              │
+               │ /dom-smoke (184) │   proves copy    │  │                                 │
+               └──────────────────┘   == demo        │  features/*.js  (pure logic)      │
+               ┌──────────────────┐                  │  ▲ outputs                         │
+               │ Tier-2 app (283) │ ───────────────▶ │  │                                 │
+               │ parity·daftari·  │   exercise app   │  screens/*.js → AhdApp (app.js)    │
+               │ open-loan·circle·│                  │  → #app innerHTML  (RTL Arabic)    │
+               │ determinism·…    │                  └──────────────────────────────────┘
+               └──────────────────┘
 ```
 
 ### Seal flow — record → seal → verify
@@ -331,29 +331,30 @@ pooled deposit, and it is flagged for Shariah review rather than shipped.
 ## 8 · File map
 
 ```
-project/
-  ahd-demo/index.html          FROZEN demo (logic in the AHD-LOGIC region, lines 167–692)
-  ahd-app/
-    index.html                 shell host; loads engine → features → app.js → screens (RTL Arabic)
-    engine.js                  AUTO-GENERATED byte-faithful copy of the demo's logic (window.AHD)
-    build-engine.cjs           reads the demo, writes engine.js (never writes the demo)
-    app.js                     AhdApp shell: registry + router + actions + Naif's seed
-    app.css                    RTL Arabic baseline styling (late = amber, never red)
-    features/
-      daftari.js               pure: ledger rows, overdue sort, reminder cadence gate
-      open-loan.js             pure: open-term qard hasan, fold, conservation, إبراء, own seal
-      circle-adv.js            pure: بالأصناف split, recurring, graduation, pledge sketch
-    screens/
-      daftari.js               render + registerScreen("daftari", "دفتري", 📔)
-      open-loan.js             render + registerScreen("open", "قرضٌ مفتوح", ♾️)
-      circle-adv.js            render + registerScreen("circle-adv", "الدائرة+", 🔁)
+demo/
+  index.html                  FROZEN demo (logic in the AHD-LOGIC region, lines 167–692)
 
-10_Deep/Hardening/test-harness/
-  load-logic.cjs               slices the demo's AHD-LOGIC region for the core tests
+app/
+  index.html                  shell host; loads engine → features → app.js → screens (RTL Arabic)
+  engine.js                   AUTO-GENERATED byte-faithful copy of the demo's logic (window.AHD)
+  build-engine.cjs            reads the demo, writes engine.js (never writes the demo)
+  app.js                      AhdApp shell: registry + router + actions + Naif's seed
+  app.css                     RTL Arabic baseline styling (late = amber, never red)
+  features/
+    daftari.js                pure: ledger rows, overdue sort, reminder cadence gate
+    open-loan.js              pure: open-term qard hasan, fold, conservation, إبراء, own seal
+    circle-adv.js             pure: بالأصناف split, recurring, graduation, pledge sketch
+  screens/
+    daftari.js                render + registerScreen("daftari", "دفتري", 📔)
+    open-loan.js              render + registerScreen("open", "قرضٌ مفتوح", ♾️)
+    circle-adv.js             render + registerScreen("circle-adv", "الدائرة+", 🔁)
+
+tests/
+  load-logic.cjs              slices the demo's AHD-LOGIC region for the core tests
   run-tests.cjs / offline-check.cjs / dom-smoke.cjs   Tier-1 core (184)
   app/
-    run-app-tests.cjs          Tier-2 runner (auto-discovers suites)
-    engine-parity.cjs          drift-guard: engine.js == demo slice
+    run-app-tests.cjs         Tier-2 runner (auto-discovers suites)
+    engine-parity.cjs         drift-guard: engine.js == demo slice
     daftari.test.cjs · open-loan.test.cjs · circle-adv.test.cjs
     determinism.test.cjs · app-offline.test.cjs · properties.test.cjs · app-dom-smoke.cjs
 ```

@@ -1,5 +1,5 @@
 /* ============================================================================
-   daftari.test.cjs — TDD for project/ahd-app/features/daftari.js (pure logic).
+   daftari.test.cjs — TDD for app/features/daftari.js (pure logic).
    Reuses the parity-proven engine. Deterministic: fixed AS_OF, no Date.now.
 ============================================================================ */
 const assert = require("assert");

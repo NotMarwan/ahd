@@ -1,5 +1,5 @@
 /* ============================================================================
-   run-app-tests.cjs — runs every project/ahd-app test suite (auto-discovered)
+   run-app-tests.cjs — runs every app/ test suite (auto-discovered)
    in its own Node process and aggregates. Exits 0 iff all green. The original
    demo harness (run-tests/offline-check/dom-smoke) is separate and unchanged;
    this is the ADDITIVE app suite the overnight work grows.

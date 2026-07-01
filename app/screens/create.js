@@ -13,7 +13,7 @@
     if (!Cr || !draft) return '<div class="empty">تعذّر تحميل الإنشاء.</div>';
     var terms = Cr.draftTermsAr(draft, e) + (st.extra ? " " + st.extra : "");
     var v = Cr.ribaCheck(terms, e), clean = v.verdict === "clean";
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.createDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "createDismiss");
 
     var head = '<div class="cr-card"><div class="cr-h">أنشئ عهدًا · قرضٌ حسن</div>' +
       '<div class="cr-fields">' +
@@ -28,13 +28,13 @@
       linter = '<div class="cr-lint ok">✓ النصّ سليم — قرضٌ حسن بلا ربا ولا غرامة ولا أيّ زيادة</div>';
     } else {
       var n = v.hits.length;
-      var head = '<div class="cr-lint-head">✗ رصدَ عهد ' + App.digit(n) + ' ' +
+      var lintHead = '<div class="cr-lint-head">✗ رصدَ عهد ' + App.digit(n) + ' ' +
         (n === 1 ? "شرطًا مخالفًا" : (n === 2 ? "شرطين مخالفين" : "شروطٍ مخالفة")) + " — لا يُختَم حتى تُزال:</div>";
       var items = v.hits.map(function (h) {
         return '<div class="cr-hit"><div class="cr-why">• ' + App.esc(h.why) + "</div>" +
           '<div class="fix"><b>البديل الحلال:</b> ' + App.esc(h.fix) + "</div></div>";
       }).join("");
-      linter = '<div class="cr-lint bad">' + head + items + "</div>";
+      linter = '<div class="cr-lint bad">' + lintHead + items + "</div>";
     }
     var tryBar = st.extra
       ? '<button class="ghost" onclick="AhdApp.createClearRiba()">أزِل الشرط وأعد الصياغة</button>'

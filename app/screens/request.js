@@ -14,7 +14,7 @@
     if (!R || !req) return '<div class="empty">تعذّر تحميل الطلب.</div>';
     var terms = R.requestTermsAr(req, e);
     var clean = R.requestRibaCheck(req, e).verdict === "clean";
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.requestDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "requestDismiss");
 
     var head = '<div class="cr-card"><div class="cr-h">اطلب عهدًا · قرضٌ حسن</div>' +
       '<div class="cr-sub">أنت تطلب — وعهدٌ يكتبها بكرامة. لا حرج في أن تسأل، والكلمة محفوظة.</div>' +

@@ -26,7 +26,7 @@
     var r = app.recordById(st.recordId) || app.records[0];
     if (!r) return '<div class="empty">لا يوجد عهد لعرضه.</div>';
     var v = DP.disputeView(r, e);
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.disputeDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "disputeDismiss");
 
     return '<div class="dispute">' +
       '<button class="pf-back" onclick="AhdApp.disputeBack()">→ رجوع إلى دفتري</button>' + flash +

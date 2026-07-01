@@ -27,6 +27,9 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  function flashHTML(msg, dismissCall) {
+    return msg ? '<div class="flash" onclick="AhdApp.' + dismissCall + '()">' + esc(msg) + ' <span class="x">×</span></div>' : "";
+  }
   var ev = AHD ? AHD.ev : function (t, x) { return Object.assign({ type: t }, x || {}); };
   var sealedActive = function () {
     return [ev("AHD_DRAFTED", { installments: 1 }), ev("LENDER_SIGNED"), ev("COUNTERPARTY_SIGNED"), ev("RECORD_SEALED"), ev("ACTIVATED")];
@@ -91,6 +94,7 @@
     requestState: { sent: false, accepted: null, flash: null },
 
     esc: esc,
+    flashHTML: flashHTML,
     /* toggle-aware number formatter: golden engine.fmt + an optional display map.
        The engine bytes never change — only the rendered glyphs (D-2). */
     fmtN: function (n) {

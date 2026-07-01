@@ -24,7 +24,7 @@
     var seal = OL.openLoanSeal(loan, e);
     var ver = OL.verifyOpenLoan(loan, e, st.tamper ? 9999 : null);
     var closed = (f.statusKey === "KEPT" || f.statusKey === "FORGIVEN");
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.openLoanDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "openLoanDismiss");
 
     /* a proportional bar (paid · صدقة · باقٍ) — flex-grow fractions, NO % text/score */
     var seg = function (frac, cls) { return frac > 0 ? '<span class="ol-seg ' + cls + '" style="flex-grow:' + frac + '"></span>' : ""; };

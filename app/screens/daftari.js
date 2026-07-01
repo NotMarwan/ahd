@@ -128,7 +128,7 @@
     var sideRows = st.tab === "on" ? led.iOwe : led.owedToMe;
     var sections = app.D.groupLedger(app.D.filterRows(sideRows, st.filter || "all"));
 
-    var flash = st.flash ? '<div class="flash" onclick="AhdApp.daftariDismiss()">' + App.esc(st.flash) + ' <span class="x">×</span></div>' : "";
+    var flash = App.flashHTML(st.flash, "daftariDismiss");
     var head =
       '<div class="dhead"><div class="dtitle">دفتري</div><button class="dask" onclick="AhdApp.go(\'request\')">＋ اطلب عهدًا</button></div>' +
       '<div class="tiles">' +

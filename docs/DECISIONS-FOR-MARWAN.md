@@ -40,10 +40,10 @@ here so they're in one place. I will NOT act on them autonomously.
 
 ### D-4 · The frozen demo's fate after the merge — KEPT (safe path taken), confirm when you wake
 **Context:** Tonight's brief lifts the "demo frozen" rule and asks for ONE unified product. The
-cleanest target is **`project/ahd-app/` = THE product** (it already supersets the demo). That leaves
-`project/ahd-demo/index.html` (the byte-pinned presenter build) needing a fate: retire it, move it to
+cleanest target is **`app/` = THE product** (it already supersets the demo). That leaves
+`demo/index.html` (the byte-pinned presenter build) needing a fate: retire it, move it to
 `legacy/`, or keep it in place and relabel.
-**What I did (safe path):** I **kept `ahd-demo/index.html` exactly where it is, byte-for-byte
+**What I did (safe path):** I **kept `demo/index.html` exactly where it is, byte-for-byte
 untouched** (tripwire still `e2f48467…`), and only **relabelled** it as a frozen/legacy presenter
 reference in its README + the new root README. I did **not** delete or move it, because (a) deletion
 is irreversible and (b) moving it breaks the tripwire path `_overnight/backup/demo.sha256`.
@@ -51,8 +51,8 @@ is irreversible and (b) moving it breaks the tripwire path `_overnight/backup/de
 golden path live (my recommendation); (b) retire it into `legacy/` and re-point/remove the tripwire
 (reversible but touches the safety net — your call); (c) delete it entirely (irreversible — I will
 not do this alone).
-**My recommendation:** (a). One product to ship (`ahd-app`), one safe fallback to demo from. Nothing
-is lost; the merge reads as one product because `ahd-app` is the single front door.
+**My recommendation:** (a). One product to ship (`app`), one safe fallback to demo from. Nothing
+is lost; the merge reads as one product because `app` is the single front door.
 
 ### D-2 · Digit system for Arabic numerals — ✅ ADDRESSED (now a user setting)
 The دفتري reminder/amount copy renders **Western digits with grouping** (`2,500`) to stay byte-consistent with the engine's golden `fmt()`. The Agent-3 spec's illustrative copy used Arabic-Indic (`٢٬٥٠٠`). Both are deterministic; this is a Design-layer choice.

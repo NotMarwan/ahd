@@ -1,10 +1,11 @@
 /* ============================================================================
-   app-dom-smoke.cjs — headless render smoke for project/ahd-app (the parallel
+   app-dom-smoke.cjs — headless render smoke for app/ (the parallel
    publishable app). Loads engine.js + features + app.js + screens into ONE fake
    DOM (browser-global simulation) and drives the دفتري screen + its actions,
    asserting nothing throws and the right warm copy renders. Mirrors the demo's
    proven dom-smoke pattern (innerHTML strings + global action functions).
 ============================================================================ */
+const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
@@ -46,6 +47,13 @@ noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join
 const App = sandbox.AhdApp;
 ok(!!App, "window.AhdApp is defined");
 ok(!!sandbox.AHD && !!sandbox.Daftari, "engine (AHD) + Daftari attach to window");
+assert.strictEqual(
+  App.flashHTML("رسالة تجربة", "createDismiss"),
+  '<div class="flash" onclick="AhdApp.createDismiss()">رسالة تجربة <span class="x">×</span></div>',
+  "flashHTML renders the exact prior inline markup"
+);
+assert.strictEqual(App.flashHTML("", "createDismiss"), "", "flashHTML is empty when there is no message");
+assert.strictEqual(App.flashHTML(null, "createDismiss"), "", "flashHTML handles a null message");
 let booted = noThrow(() => App.boot(), "App.boot() initialises (nav + default screen)");
 ok(/عهد/.test(booted) && /دفتري/.test(booted), "boot lands on the home front door (brand + feature cards)");
 var navKeys = []; App.navHTML().replace(/AhdApp\.go\('([^']+)'\)/g, function (_, k) { navKeys.push(k); return _; });
@@ -147,6 +155,8 @@ ok(/النصّ سليم/.test(cr), "auto-drafted terms read CLEAN in the riba li
 let crb = noThrow(() => App.createInjectRiba(), "inject a late-penalty clause");
 ok(/✗/.test(crb) && /غرامة|تأخير/.test(crb), "linter BLOCKS the penalty clause with the reason + halal fix");
 ok(/disabled/.test(crb), "seal button is disabled while the terms are blocked");
+ok(/cr-fields/.test(crb), "create screen keeps the summary card (cr-fields) when the linter blocks");
+ok(/المُقرِض/.test(crb), "create screen still shows the lender label when the linter blocks");
 noThrow(() => App.createClearRiba(), "remove the offending clause");
 let crs = noThrow(() => App.createSeal(), "seal the clean عهد (Nafath + SHA-256)");
 ok(/SEAL:/.test(crs), "after seal: a witnessed record with a SHA-256 seal");
