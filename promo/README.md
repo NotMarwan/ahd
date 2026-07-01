@@ -1,6 +1,6 @@
 # عهد — App Feature Promo (Remotion)
 
-A **high-end motion-design film** of the new Ahd app's features (`project/ahd-app/`), each
+A **high-end motion-design film** of the new Ahd app's features (`app/`), each
 feature shown with its animated **Arabic caption**. This is the v2 redo: faster and far more
 alive than the first cut — one consistent motion language, real spring easing (settles with
 weight, slight overshoot), a floating device with depth (layered shadow, parallax, a specular
@@ -47,7 +47,7 @@ No voiceover. No on-screen text beyond the approved captions.
 ## Re-render
 
 ```bash
-cd "project/ahd-promo"
+cd promo
 npx remotion render src/index.ts Promo out/ahd-app-promo.mp4 --codec=h264 --crf=18
 # or: npm run render
 # preview interactively:  npm run dev   (remotion studio)

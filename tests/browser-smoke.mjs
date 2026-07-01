@@ -13,7 +13,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const INDEX = path.join(__dirname, "..", "..", "..", "project", "ahd-demo", "index.html");
+const INDEX = path.join(__dirname, "..", "demo", "index.html");
 const URL = pathToFileURL(INDEX).href;
 const GOLD_SEAL = "6c9410b95ba4715a3c2b174ff70aa2d7ab88fa0294868a41354d2f9e60f7fd18";
 

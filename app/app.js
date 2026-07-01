@@ -5,7 +5,7 @@
    strings; actions are AhdApp.* methods invoked from inline onclick.
 
    Determinism: a FIXED AS_OF (no Date.now); integer halalas via the engine.
-   The demo (ahd-demo/index.html) is never touched — this is all new files.
+   The demo (demo/index.html) is never touched — this is all new files.
 ============================================================================ */
 (function () {
   "use strict";

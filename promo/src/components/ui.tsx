@@ -1,7 +1,7 @@
 import React from "react";
 import { C, SHADOW, CARD_SHADOW, AR, MONO } from "../theme";
 
-/* App UI primitives — ported from project/ahd-app/app.css, sized up for 1080-wide
+/* App UI primitives — ported from app/app.css, sized up for 1080-wide
    video. These render INSIDE the phone screen (≈660px wide). Palette is exact. */
 
 export const chipColors: Record<string, { bg: string; fg: string; bd?: string }> = {

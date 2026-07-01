@@ -49,8 +49,8 @@ honest clauses (the negation/«أو» edge cases), while never touching the gold
 Shariah conscience, and it's now genuinely hard to fool.
 
 **▶️ How to review:** `git log main..overnight/deepening --oneline` · run the app
-(`node project/ahd-app/_serve-app.cjs` → http://localhost:8124) · run the gate from
-`10_Deep/Hardening/test-harness/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs`.
+(`node app/_serve-app.cjs` → http://localhost:8124) · run the gate from
+`tests/`: `node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs`.
 
 ### ✅ Deepen-01 — the riba linter (the centerpiece) is now genuinely hard to fool
 **What got deeper.** The golden `engine.ribaScan` is just 4 regex rules + an *immediate-preceding-negation*

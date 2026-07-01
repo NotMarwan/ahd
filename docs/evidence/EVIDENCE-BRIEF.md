@@ -6,7 +6,7 @@ created: 2026-06-21
 owner: Evidence-Consolidation pass (read-only; no existing file modified)
 sources_consolidated:
   - "Amad Obsidian Vault/AMAD-2026/10_Deep/Arsenal/{demand-evidence-ksa, market-and-stats-arsenal, legal-shariah-citations, rebuttal-playbook, ARSENAL-INDEX}.md"
-  - "10_Deep/Ledger/{sources-ledger, open-threads}.md"
+  - "_meta/deep-work/ledger/{sources-ledger, open-threads}.md"
   - "Amad Obsidian Vault/AMAD-2026/09_Finish/RedTeam/red-team-report.md"
   - "OVERNIGHT-LOG.md · AMAD_HACKATHON_2026_FULL_DOSSIER.md"
 web_verification_date: 2026-06-21
@@ -121,7 +121,7 @@ Three things the live check (2026-06-21) **materially updated** versus the proje
 |---|---|---|---|---|
 | **X-1** | Test harness is green and reproducible | **core 184/0 + app 283/0 = 467 assertions**, exit 0; byte-identical run-to-run | `OVERNIGHT-LOG.md` (READ-ME + Batch logs) | 🟢 | Pasted harness output. Frozen demo SHA-256 `e2f48467…` tripwire. |
 | **X-2** | Real cryptographic SEAL runs offline (SHA-256, not the FNV stand-in) | SHA-256 FIPS-180-4 conformance vectors; tamper toggle fails verification in red; 1 network request in real Chrome | `sources-ledger.md` §5/§6 · `OVERNIGHT-LOG.md` Batch 5 (Playwright) | 🟢 | **Honest caveat (red-team A3):** the *running* novelty is SHA-256 + a settlement schedule + greedy netting (≤P−1, NP-hard not claimed as min) + a deterministic riba-linter. **Nafath, emdha/TSP, sarie, ALLaM, RFC-3161 are MOCKED** — the file says so. The deep novelty (SEAL doctrine, scribe doctrine, tiers) is in Markdown, not all in code. |
-| **X-3** | New consumer features built, tested, on-spine | «دفتري», «القرض المفتوح» (open-term qard + إبراء), Advanced Circle (بالأصناف / recurring / graduation قَيْد→عهد) | `OVERNIGHT-LOG.md` Batches 1–5 | 🟡 | Built in a **parallel app** (`project/ahd-app/`), **not** the frozen presenter demo (`project/ahd-demo/index.html`). To show them live, load the app build. Don't claim the demo contains them. |
+| **X-3** | New consumer features built, tested, on-spine | «دفتري», «القرض المفتوح» (open-term qard + إبراء), Advanced Circle (بالأصناف / recurring / graduation قَيْد→عهد) | `OVERNIGHT-LOG.md` Batches 1–5 | 🟡 | Built in a **parallel app** (`app/`), **not** the frozen presenter demo (`demo/index.html`). To show them live, load the app build. Don't claim the demo contains them. |
 | **X-4** | Two SEAL hash-sets coexist (intentional, not a bug) | shipped demo (custom canonical, seal `6c9410b9…`) vs Backend spec/patch (JCS, leaf `f7999f87…`) | `sources-ledger.md` §6 · open-threads OT-04/OT-PATCH | 🟡 | Document it; do not "fix" before the demo. Migrating requires re-pinning golden vectors. |
 
 ---
@@ -174,5 +174,5 @@ Three things the live check (2026-06-21) **materially updated** versus the proje
 ## 7. Links
 - Companion: `docs/evidence/REBUTTAL-PLAYBOOK.md` (tough-question war-room, each answer graded + GAP-flagged)
 - Source Arsenal: `Amad Obsidian Vault/AMAD-2026/10_Deep/Arsenal/{demand-evidence-ksa, market-and-stats-arsenal, legal-shariah-citations, rebuttal-playbook, ARSENAL-INDEX}.md`
-- Ledgers: `10_Deep/Ledger/{sources-ledger, open-threads}.md` · Red-team: `…/09_Finish/RedTeam/red-team-report.md`
+- Ledgers: `_meta/deep-work/ledger/{sources-ledger, open-threads}.md` · Red-team: `…/09_Finish/RedTeam/red-team-report.md`
 - Build truth: `OVERNIGHT-LOG.md`
