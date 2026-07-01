@@ -1,8 +1,8 @@
 /* ============================================================================
    AUTO-GENERATED — DO NOT EDIT BY HAND.  Regenerate: node build-engine.cjs
    This is a BYTE-FAITHFUL copy of the pure AHD-LOGIC region of
-   project/ahd-demo/index.html (the demo is never modified). The parity test
-   tests/app/engine-parity.cjs proves this copy matches
+    demo/index.html (the demo is never modified). The parity test
+    tests/app/engine-parity.cjs proves this copy matches
    the demo's golden outputs and contains the exact slice.
    Reuse: Node  -> const AHD = require("./engine.js")
           Browser -> <script src="engine.js"></script> then window.AHD
