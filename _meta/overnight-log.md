@@ -277,7 +277,7 @@ Plan: `docs/superpowers/plans/deepen-08-circle-reminder.md`.
 
 ---
 
-## 🌙 TONIGHT — MERGE → SPRINT → REMOTION (newest; supersedes the summary below)
+## 🌙 2026-06-22 — MERGE → SPRINT → REMOTION (historical — see "DEEPEN SPRINT" above for the latest)
 
 **📦 Repo (pushed):** **https://github.com/NotMarwan/ahd** — private · branch `overnight/deepening`.
 The PAT (`github.txt`) is gitignored and verified **404 on the remote** (never leaked). Pushed after
