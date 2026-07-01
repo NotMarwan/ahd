@@ -147,6 +147,8 @@ ok(/النصّ سليم/.test(cr), "auto-drafted terms read CLEAN in the riba li
 let crb = noThrow(() => App.createInjectRiba(), "inject a late-penalty clause");
 ok(/✗/.test(crb) && /غرامة|تأخير/.test(crb), "linter BLOCKS the penalty clause with the reason + halal fix");
 ok(/disabled/.test(crb), "seal button is disabled while the terms are blocked");
+ok(/cr-fields/.test(crb), "create screen keeps the summary card (cr-fields) when the linter blocks");
+ok(/المُقرِض/.test(crb), "create screen still shows the lender label when the linter blocks");
 noThrow(() => App.createClearRiba(), "remove the offending clause");
 let crs = noThrow(() => App.createSeal(), "seal the clean عهد (Nafath + SHA-256)");
 ok(/SEAL:/.test(crs), "after seal: a witnessed record with a SHA-256 seal");
