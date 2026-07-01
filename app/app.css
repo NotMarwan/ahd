@@ -380,3 +380,89 @@ body{
 .set-model{background:var(--mute-soft); border-radius:13px; padding:12px 14px; font-size:12.5px; color:var(--ink); line-height:1.85}
 .set-basis{text-align:center; color:var(--gold); font-size:13px; line-height:2; padding:0 6px}
 .set-about{text-align:center; color:var(--mut); font-size:12.5px; line-height:1.8}
+
+/* ============================================================================
+   ما عليّ · سِجلّ المعروف · سُلفة بالمعروف — the three F1/F2/F3 screens.
+   Reuses the existing tokens + card/row/chip/seal/warn idioms so they read as
+   one family. Additive only; no markup, no logic, no golden touch.
+============================================================================ */
+
+/* ما عليّ — the borrower's own home (F1). Amber for a passed due, never red. */
+.borrower{display:flex; flex-direction:column; gap:12px}
+.bw-head{margin-bottom:2px}
+.bw-title{font-weight:800; font-size:20px}
+.bw-sub{color:var(--mut); font-size:12.5px; line-height:1.7; margin-top:3px}
+.bw-tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.bw-tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow)}
+.bw-tile.grace{background:var(--gold-soft); border-color:#ecdfb5}
+.bw-tl{color:var(--mut); font-size:12.5px}
+.bw-tv{font-size:22px; font-weight:800; margin-top:2px} .bw-tv small{font-size:13px; font-weight:400; color:var(--mut)}
+.bw-verse{text-align:center; color:var(--gold); font-size:13px; line-height:1.9; padding:2px 6px}
+.bw-list{display:flex; flex-direction:column; gap:10px}
+.bw-row{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:13px}
+.bw-row.overdue{border-inline-start:3px solid var(--amber)}
+.bw-main{display:flex; gap:11px; align-items:center}
+.bw-body{flex:1; min-width:0}
+.bw-who{font-weight:600}
+.bw-amt{font-size:13.5px; color:var(--ink); margin-top:1px} .bw-amt b{font-size:16px} .bw-amt small{color:var(--mut); font-size:12px}
+.bw-side{margin-inline-start:auto}
+.bw-act{display:flex; gap:8px; margin-top:11px}
+.bw-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:11px; padding:11px; font:inherit; font-weight:600; cursor:pointer}
+.bw-act .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 14px; font:inherit; cursor:pointer}
+.bw-grace{margin-top:10px; padding-top:10px; border-top:1px dashed var(--line)}
+.bw-glabel{font-size:12px; color:var(--mut); margin-bottom:7px}
+.bw-gopts{display:flex; gap:6px; flex-wrap:wrap}
+.bw-greason{appearance:none; border:1px solid var(--line); background:#fff; border-radius:999px; padding:7px 12px; font:inherit; font-size:12.5px; cursor:pointer}
+.bw-gnote{margin-top:8px; font-size:11.5px; color:var(--mut); line-height:1.7}
+
+/* سِجلّ المعروف — the sealed mercy/covenant trail (contextual). Timeline idiom. */
+.covenant{display:flex; flex-direction:column; gap:11px}
+.cv-head{font-weight:800; font-size:20px}
+.cv-sub{color:var(--mut); font-size:12.5px; margin-top:-2px}
+.cv-intro{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:13px; padding:12px 13px; font-size:12.5px; color:var(--mut); line-height:1.8}
+.cv-timeline{display:flex; flex-direction:column; gap:11px; border-inline-start:2px dashed var(--line); padding-inline-start:14px; margin-inline-start:5px; margin-top:2px}
+.cv-step{display:flex; gap:9px; align-items:flex-start}
+.cv-dot{flex:none; width:11px; height:11px; border-radius:50%; background:var(--gold); margin-top:4px; margin-inline-start:-20px; box-shadow:0 0 0 3px var(--bg)}
+.cv-step.broken .cv-dot{background:#c0553a}
+.cv-body{flex:1; min-width:0}
+.cv-line{font-size:13px; line-height:1.65}
+.cv-amt{color:var(--mut); margin-inline-start:6px}
+.cv-seal{font-family:"Consolas",monospace; font-size:10.5px; color:var(--mut); margin-top:3px; word-break:break-all}
+.cv-x{color:#a23b22; font-weight:700}
+.cv-status{display:flex; gap:6px; flex-wrap:wrap; margin-top:2px}
+.cv-status .chip.bad{background:#fbe6e0; color:#a23b22}
+.cv-note{color:var(--mut); font-size:11.5px; line-height:1.7; text-align:center}
+.cv-act{display:flex; gap:8px; flex-wrap:wrap}
+.cv-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:12px; font:inherit; font-weight:600; cursor:pointer}
+.cv-act .mini{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:12px 14px; font:inherit; font-size:12.5px; cursor:pointer}
+.cv-exhibit-note{color:var(--mut); font-size:11.5px; line-height:1.7; text-align:center}
+
+/* سُلفة بالمعروف — standing two-party qard (F3). Ledger + sealed posts + seam. */
+.standing{display:flex; flex-direction:column; gap:12px}
+.st-head{font-weight:800; font-size:18px; line-height:1.5}
+.st-parties{display:flex; align-items:center; justify-content:center; gap:10px; font-weight:700}
+.st-party{background:var(--teal-soft); color:var(--teal); border-radius:999px; padding:6px 14px; font-size:13.5px}
+.st-arrow{color:var(--gold); font-size:18px}
+.st-per{text-align:center; color:var(--mut); font-size:13px} .st-per strong{color:var(--ink); font-size:15px}
+.st-ledger{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+.st-lcell{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 8px; text-align:center; box-shadow:var(--shadow)}
+.st-ll{color:var(--mut); font-size:11.5px}
+.st-lv{font-size:17px; font-weight:800; margin-top:3px} .st-lv small{font-size:11px; font-weight:400; color:var(--mut)}
+.st-lv.paid{color:var(--teal)} .st-lv.rem{color:var(--gold)}
+.st-note{color:var(--mut); font-size:12.5px; text-align:center; line-height:1.8}
+.st-posts-h{font-weight:700; font-size:13px}
+.st-posts{display:flex; flex-direction:column; gap:8px}
+.st-post{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:11px 13px; display:grid; grid-template-columns:auto 1fr; gap:4px 8px; align-items:center}
+.st-post.done{border-inline-start:3px solid var(--teal)}
+.st-pk{font-size:12px; color:var(--mut)}
+.st-pa{font-weight:700; text-align:end} .st-pa small{font-weight:400; color:var(--mut); font-size:11px}
+.st-ps{grid-column:1/-1; font-size:12px; color:var(--teal)}
+.st-ph{grid-column:1/-1; font-family:"Consolas",monospace; font-size:10.5px; color:var(--mut); word-break:break-all}
+.st-terms{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:13px; font-size:13px; line-height:1.8; color:var(--ink)}
+.st-verify{background:#10201e; color:#dfeee9; border-radius:16px; padding:14px}
+.st-vl{color:#9ec7bd; font-weight:700; font-size:13px; margin-bottom:6px}
+.st-verify .sv.ok{color:#7fe0c0} .st-verify .sv.bad{color:#ffb4a2; font-weight:700}
+.st-verify .mini{margin-top:9px; appearance:none; border:1px solid #2f4a45; background:#16302c; color:#cfeae3; border-radius:9px; padding:8px 11px; font:inherit; font-size:12.5px; cursor:pointer}
+.st-seam{background:var(--amber-soft); border:1px solid #edd9bf; border-radius:13px; padding:12px 13px}
+.st-seam-h{color:var(--amber); font-weight:700; font-size:12.5px; margin-bottom:5px}
+.st-seam-b{color:var(--mut); font-size:12px; line-height:1.8}
