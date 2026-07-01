@@ -125,7 +125,7 @@
     },
     {
       "name": "timeline",
-      "featureFile": null,
+      "featureFile": "app/features/timeline.js",
       "screenFile": "app/screens/timeline.js",
       "testFiles": [
         "app/timeline.test.cjs",
@@ -135,7 +135,7 @@
     },
     {
       "name": "proof",
-      "featureFile": null,
+      "featureFile": "app/features/proof.js",
       "screenFile": "app/screens/proof.js",
       "testFiles": [
         "app/proof.test.cjs",
@@ -145,7 +145,7 @@
     },
     {
       "name": "dispute",
-      "featureFile": null,
+      "featureFile": "app/features/dispute.js",
       "screenFile": "app/screens/dispute.js",
       "testFiles": [
         "app/dispute.test.cjs"
@@ -163,7 +163,7 @@
     },
     {
       "name": "settings",
-      "featureFile": null,
+      "featureFile": "app/features/settings.js",
       "screenFile": "app/screens/settings.js",
       "testFiles": [
         "app/settings.test.cjs",

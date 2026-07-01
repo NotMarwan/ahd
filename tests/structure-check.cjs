@@ -70,7 +70,7 @@ function checkAgentPresenceHealth(root) {
 
 function checkSingleStatusFile(root) {
   const CANONICAL = new Set(["_meta/STATUS.md", "_meta/overnight-log.md"]);
-  const SKIP_DIR_NAMES = new Set(["node_modules", ".git", "dist"]);
+  const SKIP_DIR_NAMES = new Set(["node_modules", ".git", "dist", ".claude"]);
   const SKIP_DIR_EXACT = new Set(["_meta/archive", "docs/research"]);
   const offenders = [];
   function walk(dir) {
