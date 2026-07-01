@@ -19,18 +19,20 @@
 4. **The harness is the gate — keep it green, never weaken an assertion:**
    ```
    cd tests
-   node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs   # demo core: 184/0
+   node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core + structure: 184/0 + structure
    node app/run-app-tests.cjs                                           # app: 29 suites
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
 
 ## Where things are
+- `_meta/INDEX.md` — start here: one page linking to current status, open items, decisions, handoffs, and agent coordination.
 - `_meta/overnight-log.md` — running work log + morning briefing (deliverables index, how-to-review).
 - `docs/DECISIONS-FOR-MARWAN.md` — open decisions (D-1 self-disclosure, D-3 mode-B pooled deposit — Shariah-gated).
 - `docs/` — `ARCHITECTURE.md`, `DESIGN.md`, `PUBLISHABLE-PRODUCT-SPEC.md`, `PRESENTER-GUIDE.md`, `DECK-DRAFT-AR.md`, `evidence/` (graded brief + rebuttal playbook + demand-survey kit).
 - `docs/specs/` — consumer and Circle feature design specs.
 - `docs/research/` — source materials, AMAD dossier, agent prompts.
 - `docs/superpowers/` — planning/design docs from skill-driven work (`plans/`, `specs/`), incl. the MCP servers design and the project-restructure design.
+- `_meta/agent-presence/` — multi-agent coordination (presence, claims, collision protocol); see `_meta/agent-presence/README.md`.
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
 - `tests/` — the quality gate (core 184 + app 1008+ assertions).
