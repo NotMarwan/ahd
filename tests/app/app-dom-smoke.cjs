@@ -323,6 +323,10 @@ ok((App.recordById("R-FAHD").events || []).some(e => e.type === "PRINCIPAL_PAID"
 /* ---- سِجلّ المعروف (covenant trail): sealed, tamper-evident, neutral exhibit ---- */
 ok(!!sandbox.CovenantLog, "CovenantLog module attaches to window");
 ok(navKeys.indexOf("maroof") < 0, "«سِجلّ المعروف» is CONTEXTUAL — no nav pill");
+App.go("daftari"); App.daftariTab("me");
+let dsheet = noThrow(() => App.daftariOpenSheet("R-SULTAN"), "open the دفتري row sheet for R-SULTAN (a live record)");
+ok(/سِجلّ المعروف/.test(dsheet), "the دفتري row sheet offers «سِجلّ المعروف» → openCovenant (per-record reachable)");
+noThrow(() => App.daftariCloseSheet(), "close the دفتري sheet");
 let cov = noThrow(() => App.openCovenant("R-CAFE"), "openCovenant('R-CAFE') navigates to the covenant trail");
 ok(App.current === "maroof", "openCovenant sets the current screen to maroof");
 ok(/سِجلّ المعروف/.test(cov), "covenant screen shows «سِجلّ المعروف»");

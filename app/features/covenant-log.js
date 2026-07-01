@@ -160,7 +160,7 @@
   function covenantTermsAr(record, engine) {
     var e = engine || ENGINE;
     return "يُقِرّ الطرفان بأنّ «" + record.lender + "» أقرضت «" + record.borrower + "» مبلغ " +
-      e.fmt((principalMinorOf(record, e)) / 100) + " ريال على سبيل القرض الحسن، دون أيّ زيادةٍ أو فائدةٍ أو غرامة. " +
+      e.fmt((principalMinorOf(record, e)) / 100) + " ريال على سبيل القرض الحسن، دون أيّ زيادةٍ ولا فائدةٍ ولا غرامة. " +
       "وما جرى من تذكيرٍ لطيفٍ أو نظرةٍ إلى ميسرةٍ أو إبراءٍ فهو معروفٌ محفوظٌ بينهما. ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾.";
   }
 

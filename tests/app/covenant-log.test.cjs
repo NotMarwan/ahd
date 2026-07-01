@@ -127,6 +127,10 @@ exhibit.timeline.forEach(function (t) {
 });
 ok(typeof exhibit.finalStatus === "string" && exhibit.finalStatus.length > 0, "exhibit carries a finalStatus");
 
+/* --- the exhibit's terms text is ribaScan-CLEAN (interest-free قرض حسن; negation before EACH trigger) --- */
+eq(engine.ribaScan(C.covenantTermsAr(record, engine)).verdict, "clean",
+  "covenantTermsAr reads CLEAN in the golden riba linter (زيادة/فائدة/غرامة each negated with «ولا»)");
+
 /* --- an empty معروف (only draft/seal, no reminders/grace/pay/forgive) still builds & seals cleanly --- */
 const bare = { id: "R-BARE", lender: "أ", borrower: "ب", amountSAR: 100,
   installments: [{ dueISO: "2026-06-01", amountSAR: 100 }],
