@@ -30,6 +30,7 @@
 - `docs/` — `ARCHITECTURE.md`, `DESIGN.md`, `PUBLISHABLE-PRODUCT-SPEC.md`, `PRESENTER-GUIDE.md`, `DECK-DRAFT-AR.md`, `evidence/` (graded brief + rebuttal playbook + demand-survey kit).
 - `docs/specs/` — consumer and Circle feature design specs.
 - `docs/research/` — source materials, AMAD dossier, agent prompts.
+- `docs/superpowers/` — planning/design docs from skill-driven work (`plans/`, `specs/`), incl. the MCP servers design and the project-restructure design.
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
 - `tests/` — the quality gate (core 184 + app 1008+ assertions).

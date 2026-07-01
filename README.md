@@ -92,6 +92,12 @@ Total: **1192+ assertions, all green.** The gate is the hard boundary — never 
 
 ---
 
+## Agent Tooling
+
+Three MCP servers in `project/mcp/` (17 tools total) give AI coding agents structured, read-only access to this project — codebase navigation, decisions/handoffs/spec lookup, and git/filesystem helpers. See [project/mcp/README.md](project/mcp/README.md) for wiring instructions.
+
+---
+
 ## Project Map
 
 ```
@@ -137,12 +143,15 @@ ahd/
 │   ├── overnight-log.md
 │   └── STATUS.md
 │
+├── project/          # Dev/agent tooling, not core product
+│   └── mcp/          # 3 MCP servers (17 tools) for AI-agent access
+│
 ├── lib/              # Convenience scripts
 │   └── _serve-app.cjs
 │
 ├── _overnight/       # Demo backup + tripwire
 ├── README.md
-├── DESIGN.md
+├── docs/DESIGN.md
 └── CLAUDE.md
 ```
 

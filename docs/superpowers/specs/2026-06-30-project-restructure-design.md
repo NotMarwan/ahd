@@ -89,3 +89,7 @@ ahd/
 
 ## Audit plan
 After restructure: run tests, verify tripwire, check app serves, update CLAUDE.md paths.
+
+## Addendum (2026-07-01) — `project/` kept as a scoped exception
+
+`project/` was **not** flattened away as planned above. `project/mcp/` (3 MCP servers, 17 tools, for AI-agent tooling) was added after this doc was written, and is being kept deliberately: dev/agent tooling lives under `project/`; product surfaces (`app/`, `demo/`, `promo/`) stay flat at the root exactly as planned. Confirmed directly with the project owner — not re-litigated here. See `CLAUDE.md`'s "Where things are" and `project/mcp/README.md`. The stray untracked top-level `mcp/` duplicate (an earlier scaffold, pre-dating the move into `project/mcp/`) was deleted as clutter.
