@@ -19,7 +19,7 @@
 4. **The harness is the gate — keep it green, never weaken an assertion:**
    ```
    cd tests
-   node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core + structure: 184/0 + structure
+   node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core 184/0 + structure-check 14/0
    node app/run-app-tests.cjs                                           # app: 29 suites
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
