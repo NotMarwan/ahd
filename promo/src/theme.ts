@@ -27,7 +27,7 @@ export const HEIGHT = 1920;
 export const PACE = 1;
 export const p = (frames: number) => Math.round(frames * PACE);
 
-/* ── Palette — copied exactly from project/ahd-app/app.css :root ───────────── */
+/* ── Palette — copied exactly from app/app.css :root ───────────── */
 export const C = {
   bg: "#f7f4ee", ink: "#1c2b2a", mut: "#6b7a77", line: "#e6e0d4", card: "#fffdf8",
   teal: "#0e6b5c", tealSoft: "#e3f1ed", gold: "#9a7b27", goldSoft: "#f6efd9",

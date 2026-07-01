@@ -4,7 +4,7 @@
    hashes/results the hardened code must reproduce byte-for-byte. */
 const fs = require("fs"), path = require("path"), vm = require("vm");
 
-const HTML = fs.readFileSync(path.join(__dirname, "..", "..", "..", "project", "ahd-demo", "index.html"), "utf8");
+const HTML = fs.readFileSync(path.join(__dirname, "..", "demo", "index.html"), "utf8");
 const m = HTML.match(/<script>([\s\S]*?)<\/script>/);
 if (!m) { console.error("no <script> found"); process.exit(1); }
 const script = m[1];

@@ -210,4 +210,4 @@ based_on: "Arsenal/rebuttal-playbook.md (K1–K21) · red-team-report.md (A1–A
 - Evidence base (graded rows + GAPS): `docs/evidence/EVIDENCE-BRIEF.md`
 - Source war-room: `Amad Obsidian Vault/AMAD-2026/10_Deep/Arsenal/rebuttal-playbook.md` (K1–K21)
 - Red-team (A1–A12, the attacks these answer): `…/09_Finish/RedTeam/red-team-report.md`
-- Open threads (the 🔴 owners): `10_Deep/Ledger/open-threads.md`
+- Open threads (the 🔴 owners): `_meta/deep-work/ledger/open-threads.md`

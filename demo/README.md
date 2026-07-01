@@ -1,11 +1,11 @@
 > ## ⏸️ LEGACY / FROZEN PRESENTER BUILD — not the product
-> **The product is now the unified app at [`../ahd-app/`](../ahd-app/).** It supersets this demo
+> **The product is now the unified app at [`../app/`](../app/).** It supersets this demo
 > (witnessed record · Muqassa · Circle) **plus** the consumer features (create · دفتري · القرض
 > المفتوح · الدائرة treasurer · الدائرة+) in one cohesive 7-screen product.
 >
 > This single-file demo is **kept, byte-for-byte frozen** (tripwire SHA-256 `e2f48467…d1b8be40`),
 > as a known-good offline presenter fallback that runs the golden hash-chain + netting path live.
-> **`index.html` here is never edited.** Run the product instead: `node ../ahd-app/_serve-app.cjs`
+> **`index.html` here is never edited.** Run the product instead: `node ../app/_serve-app.cjs`
 > → http://localhost:8124. See the root [`README.md`](../../README.md) and decision **D-4**.
 
 # عهد · Ahd — prototype (deepened)

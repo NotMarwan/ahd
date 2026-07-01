@@ -6,7 +6,7 @@ never judges, charges no interest, and keeps no credit score**.
 
 This folder is the **parallel publishable surface**. It is **additive**: it reuses a parity‑tested copy
 of the demo's engine and adds the three consumer screens the demo was missing. **The demo
-(`project/ahd-demo/index.html`) is never touched** — it stays byte‑for‑byte frozen behind its tripwire.
+(`demo/index.html`) is never touched** — it stays byte‑for‑byte frozen behind its tripwire.
 
 ---
 
@@ -28,12 +28,12 @@ of the demo's engine and adds the three consumer screens the demo was missing. *
 
 **No dependencies, no build, no server required.**
 
-- **Just open the file.** Double‑click `project/ahd-app/index.html` (or drag it into a browser). It runs
+- **Just open the file.** Double‑click `index.html` (or drag it into a browser). It runs
   fully offline — everything is local `<script>`/`<link>` with no network requests.
 - **Or serve it statically** (any static server works), if you prefer a localhost origin:
 
   ```bash
-  # from project/ahd-app/
+  # from the app directory
   python -m http.server 8080        # then open http://localhost:8080/
   # or:  npx serve .                 # or any static file server
   ```
@@ -89,7 +89,7 @@ visual polish is intentionally left as a separate concern; the app is real and d
 
 The demo keeps all of its pure, DOM‑free logic in one fenced region of its HTML, between
 `// ===AHD-LOGIC:BEGIN===` and `// ===AHD-LOGIC:END===` (lines 167–692 of
-`project/ahd-demo/index.html`).
+`demo/index.html`).
 
 `engine.js` is **generated**, not hand‑written. `build-engine.cjs` **reads** the demo HTML (via the
 harness's `load-logic.cjs`), inserts that exact slice **verbatim (byte‑for‑byte)**, and wraps it with a
@@ -116,7 +116,7 @@ Zero dependencies; needs only **Node ≥ 18**. Each suite exits `0` on all‑gre
 ### Run the whole app suite
 
 ```bash
-cd 10_Deep/Hardening/test-harness/app
+cd tests/app
 node run-app-tests.cjs
 ```
 
@@ -127,7 +127,7 @@ its own Node process, aggregates, and exits `0` iff all are green. Current app t
 ### Run an individual suite
 
 ```bash
-cd 10_Deep/Hardening/test-harness/app
+cd tests/app
 node engine-parity.cjs     # engine.js IS a faithful copy of the demo slice:
                            #   surface + golden parity (same seal, netting 9→2, fmt, respread,
                            #   ribaScan) + byte-identical slice. The drift-guard.
@@ -140,7 +140,7 @@ node circle-adv.test.cjs   # بالأصناف split (sum-preserving), recurring 
                            #   قَيْد→عهد (reuses القرض المفتوح + golden seal), mode-B pledge sketch.
 node determinism.test.cjs  # reload determinism: two independent requires of engine.js (cache busted)
                            #   give byte-identical golden snapshots; pins the seal + netting count.
-node app-offline.test.cjs  # static scan of every .js under project/ahd-app/ (comments stripped):
+node app-offline.test.cjs  # static scan of every .js under app/ (comments stripped):
                            #   NO fetch/XHR/WebSocket/Date.now/new Date/Math.random/Intl/toLocaleString.
 node properties.test.cjs   # property-style invariants over many seeded-LCG inputs: respread sum,
                            #   circle conservation + OPEN→KEPT, open-loan conservation / never DEFAULTED.
@@ -153,7 +153,7 @@ node app-dom-smoke.cjs     # headless render of the WHOLE app (engine+features+s
 The app suite is **additive**; the original demo harness is separate and unchanged. To run it:
 
 ```bash
-cd 10_Deep/Hardening/test-harness
+cd tests
 node run-tests.cjs      # demo logic assertions (SHA-256 NIST, seal, tamper, Muqassa, riba)
 node offline-check.cjs  # zero network seams in the demo path
 node dom-smoke.cjs      # headless render of the whole demo <script>
