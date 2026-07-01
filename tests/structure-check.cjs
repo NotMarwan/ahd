@@ -197,7 +197,7 @@ if (require.main === module) {
       },
       (dir) => checkAgentPresenceHealth(dir)
     );
-    ok((result.malformed || []).some(m => m.agent_id === "Broken"),
+    ok(result.malformed.some(m => m.agent_id === "Broken"),
       "flags an active agent whose last_heartbeat cannot be parsed", JSON.stringify(result.malformed));
     ok(result.stale.every(s => s.agent_id !== "Broken"),
       "a malformed heartbeat is reported as malformed, not miscounted as stale", JSON.stringify(result.stale));
