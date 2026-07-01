@@ -41,6 +41,7 @@ function checkProjectMapFreshness(root) {
 
 function checkAgentPresenceHealth(root) {
   const dir = path.join(root, "_meta/agent-presence");
+  if (!fs.existsSync(dir)) return { stale: [], malformed: [], duplicateClaims: [] };
   const files = fs.readdirSync(dir).filter(f => f.endsWith(".json"));
   const FORTY_FIVE_MIN_MS = 45 * 60 * 1000;
   const now = Date.now();
@@ -164,6 +165,20 @@ if (require.main === module) {
       (dir) => checkSingleStatusFile(dir)
     );
     ok(offenders.length === 1 && offenders[0] === "docs/rogue/STATUS.md", "flags exactly the one rogue STATUS.md, exempting canonical/archive/research", JSON.stringify(offenders));
+  }
+
+  section("0d) Self-teeth — checkAgentPresenceHealth tolerates a missing presence dir");
+  {
+    let threw = false, result = null;
+    try {
+      result = withFixture(
+        (dir) => { /* build nothing — no _meta/agent-presence dir at all */ },
+        (dir) => checkAgentPresenceHealth(dir)
+      );
+    } catch (e) { threw = true; }
+    ok(!threw && result && result.stale.length === 0 && result.duplicateClaims.length === 0,
+      "returns an empty result (no throw) when _meta/agent-presence is absent",
+      threw ? "threw instead of returning" : JSON.stringify(result));
   }
 
   section("1) Project-map freshness — ahd-navigator vs. real app/ files");
