@@ -1,6 +1,6 @@
 /* ============================================================================
    app-offline.test.cjs — STATIC offline + determinism scan of the app source.
-   Reads every .js under project/ahd-app/ (engine.js, app.js, features/*, screens/*),
+   Reads every .js under app/ (engine.js, app.js, features/*, screens/*),
    STRIPS comments first (so prose like «no Date.now / no Math.random» in a comment
    doesn't trip the scan), then asserts NONE of the live code contains any networking
    or nondeterminism primitive. This proves the new app is as offline + deterministic

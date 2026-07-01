@@ -7,7 +7,7 @@
 > glosses.
 
 This spec describes the **v1.0 ship surface** as actually built across the frozen demo
-(`project/ahd-demo/index.html`) and the parallel app (`project/ahd-app/`). It is deliberately honest
+(`demo/index.html`) and the parallel app (`app/`). It is deliberately honest
 about what is shipped, what is v2, and what needs sign‑off before it can ship at all.
 
 ---

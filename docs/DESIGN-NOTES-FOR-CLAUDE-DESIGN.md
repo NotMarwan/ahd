@@ -1,4 +1,4 @@
-# 🎨 Design notes for Claude Design — `project/ahd-app/`
+# 🎨 Design notes for Claude Design — `app/`
 
 > The overnight work built a **functional baseline** UI for the new app, not a finished visual design.
 > Per the brief, visual polish is **Claude Design's lane** — this doc hands off the decisions made,
@@ -26,7 +26,7 @@
 - **🔗 المقاصّة:** the «9 ⟶ 2» reduction + the conservation proof are the wow; make the before→after legible (a small graph, like the demo's SVG, would be ideal — reuse the demo's `graphSVG` idea).
 
 ## Hard constraints for the design pass (non-negotiable)
-- **Do not touch `project/ahd-demo/index.html`** (the frozen presenter demo) or `engine.js`.
+- **Do not touch `demo/index.html`** (the frozen presenter demo) or `engine.js`.
 - Keep **amber-not-red** for late; keep the trust band a **word, never a number/%**; keep the open-loan panel **due-less and countdown-less**; keep the mode-B Shariah guard visible.
 - The app is **offline + deterministic** — no web fonts/CDNs that break offline (bundle any font locally) and no analytics/network.
 - Re-run the harness after any structural change (`node app/run-app-tests.cjs`); style-only changes shouldn't touch it, but the dom-smoke asserts key copy is present — don't remove the asserted strings.

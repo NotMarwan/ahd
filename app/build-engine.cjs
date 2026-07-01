@@ -1,11 +1,11 @@
 /* ============================================================================
-   build-engine.cjs — generate project/ahd-app/engine.js as a FAITHFUL copy of the
+   build-engine.cjs — generate app/engine.js as a FAITHFUL copy of the
    demo's pure AHD-LOGIC region, wrapped so it loads in BOTH Node (require) and the
    browser (window.AHD).
 
-   It READS project/ahd-demo/index.html and NEVER writes it. The slice is inserted
+   It READS demo/index.html and NEVER writes it. The slice is inserted
    verbatim (byte-for-byte), so engine.js is provably the same logic the presenter
-   ships — the parity test (app/engine-parity.cjs) enforces this on every run.
+   ships — the parity test (tests/app/engine-parity.cjs) enforces this on every run.
 
    Regenerate:  node build-engine.cjs
 ============================================================================ */
@@ -31,8 +31,8 @@ const HEADER =
 `/* ============================================================================
    AUTO-GENERATED — DO NOT EDIT BY HAND.  Regenerate: node build-engine.cjs
    This is a BYTE-FAITHFUL copy of the pure AHD-LOGIC region of
-   project/ahd-demo/index.html (the demo is never modified). The parity test
-   tests/app/engine-parity.cjs proves this copy matches
+    demo/index.html (the demo is never modified). The parity test
+    tests/app/engine-parity.cjs proves this copy matches
    the demo's golden outputs and contains the exact slice.
    Reuse: Node  -> const AHD = require("./engine.js")
           Browser -> <script src="engine.js"></script> then window.AHD
