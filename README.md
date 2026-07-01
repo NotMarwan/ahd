@@ -146,9 +146,6 @@ ahd/
 ├── project/          # Dev/agent tooling, not core product
 │   └── mcp/          # 3 MCP servers (17 tools) for AI-agent access
 │
-├── lib/              # Convenience scripts
-│   └── _serve-app.cjs
-│
 ├── _overnight/       # Demo backup + tripwire
 ├── README.md
 ├── docs/DESIGN.md
