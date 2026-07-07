@@ -1,6 +1,6 @@
 # CLAUDE.md — عهد (Ahd) project guide
 
-**What this is.** Ahd is a Saudi Islamic-finance prototype: a bank that **witnesses, seals, settles, and nets** interest-free interpersonal loans (قرض حسن / qard hasan) — but **never lends its own money, never judges disputes, never charges interest or penalty, and never scores credit.** Basis: Qur'an 2:282 (write the debt) + 2:280 (grace for the struggling). Soul: «كلمتك محفوظة، وعلاقتك محميّة».
+**What this is.** Ahd is a Saudi Islamic-finance prototype: a bank that **witnesses, seals, settles, and nets** interest-free interpersonal loans (قرض حسن / qard hasan) — but **never lends its own money, never judges disputes, never charges interest or penalty, and never scores credit.** Basis: Qur'an 2:282 (write the debt) + 2:280 (grace for the struggling). Soul: «كلمتك محفوظة، وعلاقتك محميّة». **Mission: 1st place at AMAD Hackathon 2026 (judging 18 July, 250k SAR, ~1000 rivals) — see `docs/JUDGE-LENS.md`.**
 
 ## The spine (non-negotiable — never violate)
 - Bank witnesses/seals/settles; does **not** lend, judge, charge on the loan, or score.
@@ -20,12 +20,17 @@
    ```
    cd tests
    node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core 184/0 + structure-check 14/0
-   node app/run-app-tests.cjs                                           # app: 29 suites
+   node app/run-app-tests.cjs                                           # app: 32 suites
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
+6. **The judge lens is the fifth gate:** any change a judge could see (app screens, deck, script,
+   evidence, demo path) gets scored against `docs/JUDGE-LENS.md` (five criteria, 1–10, evidence)
+   before the session ends; <8 on a judge-visible surface → a `JL-` item in `_meta/OPEN-ITEMS.md`.
+   The lens never overrides the spine.
 
 ## Where things are
 - `_meta/INDEX.md` — start here: one page linking to current status, open items, decisions, handoffs, and agent coordination.
+- `docs/JUDGE-LENS.md` — the competitive gate: mission, five judging bars, scoring protocol, judge-panel review procedure.
 - `_meta/overnight-log.md` — running work log + morning briefing (deliverables index, how-to-review).
 - `docs/DECISIONS-FOR-MARWAN.md` — open decisions (D-1 self-disclosure, D-3 mode-B pooled deposit — Shariah-gated).
 - `docs/` — `ARCHITECTURE.md`, `DESIGN.md`, `PUBLISHABLE-PRODUCT-SPEC.md`, `PRESENTER-GUIDE.md`, `DECK-DRAFT-AR.md`, `evidence/` (graded brief + rebuttal playbook + demand-survey kit).
@@ -35,7 +40,7 @@
 - `_meta/agent-presence/` — multi-agent coordination (presence, claims, collision protocol); see `_meta/agent-presence/README.md`.
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
-- `tests/` — the quality gate (core 184 + app 1008+ assertions).
+- `tests/` — the quality gate (core 184 + app 1200+ assertions).
 - `promo/` — Remotion motion promos; `out/ahd-new-features.mp4`.
 - `project/mcp/` — MCP servers (3 servers, 17 tools) for project-aware agent tooling. See `project/mcp/README.md`.
 
