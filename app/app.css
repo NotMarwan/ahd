@@ -57,8 +57,15 @@ body{
 /* home / front door */
 .home{display:flex; flex-direction:column; gap:14px}
 .hero{background:linear-gradient(135deg,#10201e,#163f37); color:#eaf6f2; border-radius:20px; padding:22px;
-  box-shadow:inset 0 0 0 1px rgba(154,123,39,.38), var(--shadow-lg)}
-.hero .brand{font-size:30px; font-weight:800; letter-spacing:1px}
+  box-shadow:inset 0 0 0 1px rgba(154,123,39,.38), var(--shadow-lg); position:relative; overflow:hidden}
+/* ponytail: geometry watermark = two CSS gradients, not an SVG asset pipeline */
+.hero::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.06;
+  background:repeating-linear-gradient(45deg,transparent 0 14px,#d4b968 14px 15px),
+             repeating-linear-gradient(-45deg,transparent 0 14px,#d4b968 14px 15px)}
+.hero>*{position:relative}
+.hero .brand{font-size:38px; font-weight:800; letter-spacing:2px;
+  background:linear-gradient(180deg,#f4e9c8,#d4b968); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:#e9d9a6}
 .hero .tag{font-size:16px; color:#bfe3da; margin-top:4px}
 .hero .sub{font-size:12.5px; color:#9ec7bd; margin-top:10px; line-height:1.8}
 .hcards{display:flex; flex-direction:column; gap:10px}
