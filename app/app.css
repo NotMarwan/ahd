@@ -8,6 +8,10 @@
   --teal:#0e6b5c; --teal-soft:#e3f1ed; --gold:#9a7b27; --gold-soft:#f6efd9;
   --amber:#9a5a1e; --amber-soft:#f7e9d6; --mute:#5b6b78; --mute-soft:#eceef0;
   --shadow:0 1px 2px rgba(28,43,42,.06),0 8px 24px rgba(28,43,42,.05);
+  /* scales (premium pass) — the sustainable foundation for consistent spacing/radius/type */
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:14px; --s-5:16px; --s-6:22px;
+  --r-sm:10px; --r-md:13px; --r-lg:16px; --r-xl:20px; --r-pill:999px;
+  --t-xs:12px; --t-sm:13px; --t-md:14px; --t-lg:16px; --t-xl:20px; --t-hero:30px;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
