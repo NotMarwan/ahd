@@ -570,3 +570,34 @@ body{
     transition-duration:.001s !important; scroll-behavior:auto !important;
   }
 }
+
+/* ============================================================================
+   Accessibility & touch (premium pass) — visible focus, honest tap targets,
+   a 12px type floor, and safe-area awareness. Pure additive overrides.
+============================================================================ */
+/* focus — the app previously had ZERO focus styles; teal ring everywhere,
+   seal-green ring on the dark sealed-document surfaces */
+:focus-visible{outline:2px solid var(--teal); outline-offset:2px}
+.ol-seal :focus-visible,.pf-doc :focus-visible,.pf-chain2 :focus-visible,.st-verify :focus-visible{outline-color:var(--seal-hash); outline-offset:3px}
+
+/* tap targets — comfortable thumbs, unchanged look */
+.dots{min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center}
+.navbtn{min-height:38px}
+.fchip{min-height:36px}
+.tab{min-height:42px}
+.tchip{min-height:40px}
+
+/* the 12px type floor — every sub-12px label raised in ONE documented place
+   (hash wells keep word-break, so longer lines simply wrap) */
+.hst span,.hsteps .step small,.chip,.selfband .sbnote,.net small,.snote,.tl-c,
+.cd-row small,.cd-seal,.cd-rfoot,.se-mem-ok,.ol-seal .sh,.cr-fields span,
+.ca-item b,.ca-seal,.dp-tag,.pf-can,.pf-hash,.pf-chain,.pf-chain2 .ch span,
+.pf-chain2 .ch code,.pf-diff .dd-hash,.bw-gnote,.cv-seal,.cv-note,
+.cv-exhibit-note,.st-ll,.st-lv small,.st-pa small,.st-ph,.im-card span{font-size:var(--t-xs)}
+
+/* legibility nudge — small grey text reads a step darker (contrast ≥ 4.5:1) */
+:root{--mut:#5f6e6b}
+
+/* safe-area insets (notched phones) — never let the seal hide under the chin */
+#app{padding-block:0 max(40px, env(safe-area-inset-bottom))}
+.nav{padding-top:max(14px, env(safe-area-inset-top))}
