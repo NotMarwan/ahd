@@ -9,6 +9,13 @@
 > **18 July 2026** against ~1000 projects. Every change is reviewed through the five published judging
 > criteria — **[docs/JUDGE-LENS.md](docs/JUDGE-LENS.md)** — before it counts as done. Good is the entry
 > fee; the bar is *unforgettable*.
+>
+> 📜 **الديدن — lessons from edition 1's actual winners** (closing-ceremony transcript, verified —
+> [full details](docs/research/amad-winners-research-ar.md)): **story beats features** (the fortune-teller
+> skit outshone slide decks) · **one shocking market number wins the room** (ours are better-sourced than
+> anything said on that stage) · **deep tech took 1st, simple human impact took 2nd** — we carry BOTH
+> (SHA-256 witness + 2:280 mercy) · **their panel rewarded credit scoring (3rd place); our spine refuses
+> it — say why refusal is strength (Q-E4)** · a 2-person team won — quality over headcount.
 
 ---
 

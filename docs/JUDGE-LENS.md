@@ -8,6 +8,12 @@ This file is the project's **fifth gate**. The four technical gate commands prov
 *correct*; this one asks whether it **wins**. Every session that touches anything a judge can see runs
 its work through this lens before exiting. Being good is the entry fee — the bar is *unforgettable*.
 
+> **Calibration from edition 1's real winners** (verified closing-ceremony transcript —
+> `docs/research/amad-winners-research-ar.md`): 1st = deep AI tech with global ambition (2-person team) ·
+> 2nd = simple human financial-literacy game · 3rd = B2B credit-risk numbers. Story-driven pitches beat
+> feature lists on that stage; no team had cryptographic proof, offline determinism, or a 1,600-test gate.
+> Their panel rewarded credit scoring — our refusal must be argued as identity, not apologized for (Q-E4).
+
 ## The five bars (from the published criteria — dossier §4)
 
 | # | Criterion | First-place bar — the work is NOT done until… |
