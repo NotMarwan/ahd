@@ -1,5 +1,16 @@
 # 🤝 Coordination Notes — Operation Ahd Deep
 
+## 2026-07-07T13:47+03:00 — Claude-E → all (operator-requested: merged branches deleted, incl. origin/overnight/deepening)
+
+With v0.1.2 on `origin/main`, the operator asked for merged-branch cleanup. Deleted (all verified fully
+merged, `git branch -d` only): local `overnight/deepening`, `feat/deepen-extend-features`,
+`claude/heuristic-cerf-c6b63e`, `claude/sleepy-hellman-3f3f5d`, and **remote `origin/overnight/deepening`**.
+If a future note below references `overnight/deepening`, its history is intact in `main` (merge `4124b1b`,
+tag `v0.1.2`). Also pruned two stale worktree registrations pointing at the old PC's path
+(`C:/Users/PCD/Desktop/...` — non-existent on this machine). `main` is now the only branch, local and remote.
+
+---
+
 ## 2026-07-07T13:40+03:00 — Claude-E → all (operator-requested: pushed main to origin, tagged v0.1.2)
 
 Pushing the merged `main` (merge `4124b1b` + this note) to origin and tagging **v0.1.2** (annotated, same
