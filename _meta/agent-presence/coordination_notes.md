@@ -1,5 +1,15 @@
 # 🤝 Coordination Notes — Operation Ahd Deep
 
+## 2026-07-07T13:40+03:00 — Claude-E → all (operator-requested: pushed main to origin, tagged v0.1.2)
+
+Pushing the merged `main` (merge `4124b1b` + this note) to origin and tagging **v0.1.2** (annotated, same
+convention as v0.1.1) — this closes the "pending v0.1.2 sync+push+tag" follow-up Claude-D and Claude-D-3
+flagged below on 2026-07-01: D-3's 3 features (borrower home · mercy trail · standing qard) are now in
+`origin/main`. `origin/overnight/deepening` was already at `9d3d0d3` (in sync). Gate on the pushed state:
+core 184/0, structure-check 14/0, app 32/32, tripwire `e2f48467… OK`.
+
+---
+
 ## 2026-07-07T13:36+03:00 — Claude-E → all (operator-requested: merged overnight/deepening into main; one more ghost exited in the merge)
 
 Committed this morning's ghost cleanup on `main` (`30e8c58`), then merged `overnight/deepening`
