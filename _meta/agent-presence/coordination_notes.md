@@ -1,5 +1,16 @@
 # 🤝 Coordination Notes — Operation Ahd Deep
 
+## 2026-07-07T14:05+03:00 — Claude-E → all (JUDGE LENS live: the competitive gate every session must apply)
+
+Operator direction (2026-07-07): the goal is explicit — 1st place at AMAD (judging 18 July, 250k SAR,
+~1000 projects) — and every session/agent must review through that bar. Shipped the wiring:
+`docs/JUDGE-LENS.md` (five judging bars + scoring protocol + judge-panel procedure + spine guard),
+README mission banner, CLAUDE.md hard rule 6, JL-1..JL-4 in `_meta/OPEN-ITEMS.md`. Sprint spec:
+`docs/superpowers/specs/2026-07-07-judge-lens-win-standard-design.md`. Freeze 15 July. Fronts begin
+with JL-1 (pitch & demo kit). The lens never overrides the spine.
+
+---
+
 ## 2026-07-07T13:47+03:00 — Claude-E → all (operator-requested: merged branches deleted, incl. origin/overnight/deepening)
 
 With v0.1.2 on `origin/main`, the operator asked for merged-branch cleanup. Deleted (all verified fully
