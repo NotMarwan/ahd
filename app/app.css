@@ -6,8 +6,13 @@
 :root{
   --bg:#f7f4ee; --ink:#1c2b2a; --mut:#6b7a77; --line:#e6e0d4; --card:#fffdf8;
   --teal:#0e6b5c; --teal-soft:#e3f1ed; --gold:#9a7b27; --gold-soft:#f6efd9;
-  --amber:#9a5a1e; --amber-soft:#f7e9d6; --mute:#5b6b78; --mute-soft:#eceef0;
+  --amber:#a9571a; --amber-soft:#f7e9d6; --mute:#5b6b78; --mute-soft:#eceef0;
   --shadow:0 1px 2px rgba(28,43,42,.06),0 8px 24px rgba(28,43,42,.05);
+  /* elevation scale (premium pass): sm = resting rows · default = cards · lg = hero/climax */
+  --shadow-sm:0 1px 2px rgba(28,43,42,.05),0 3px 10px rgba(28,43,42,.04);
+  --shadow-lg:0 2px 6px rgba(28,43,42,.08),0 18px 44px rgba(28,43,42,.12);
+  /* brick-red — RESERVED for cryptographic tamper-FAIL only (lateness stays amber) */
+  --bad:#8f2c14; --bad-deep:#7a2410; --bad-soft:#fbe4dc; --bad-line:#e7b3a2;
   /* scales (premium pass) — the sustainable foundation for consistent spacing/radius/type */
   --s-1:4px; --s-2:8px; --s-3:12px; --s-4:14px; --s-5:16px; --s-6:22px;
   --r-sm:10px; --r-md:13px; --r-lg:16px; --r-xl:20px; --r-pill:999px;
@@ -42,7 +47,8 @@ body{
 
 /* home / front door */
 .home{display:flex; flex-direction:column; gap:14px}
-.hero{background:linear-gradient(135deg,#10201e,#163f37); color:#eaf6f2; border-radius:20px; padding:22px; box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#10201e,#163f37); color:#eaf6f2; border-radius:20px; padding:22px;
+  box-shadow:inset 0 0 0 1px rgba(154,123,39,.38), var(--shadow-lg)}
 .hero .brand{font-size:30px; font-weight:800; letter-spacing:1px}
 .hero .tag{font-size:16px; color:#bfe3da; margin-top:4px}
 .hero .sub{font-size:12.5px; color:#9ec7bd; margin-top:10px; line-height:1.8}
@@ -66,7 +72,7 @@ body{
 
 /* tiles */
 .tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 14px}
-.tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow)}
+.tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow-sm)}
 .tl{color:var(--mut); font-size:13px}
 .tv{font-size:24px; font-weight:700; margin-top:2px} .tv small{font-size:13px; font-weight:400; color:var(--mut)}
 .tc{color:var(--mut); font-size:12px; margin-top:2px}
@@ -107,7 +113,7 @@ body{
 
 /* rows */
 .list{display:flex; flex-direction:column; gap:10px}
-.row{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
+.row{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow-sm); overflow:hidden}
 .row-main{display:flex; gap:11px; align-items:center; padding:13px}
 .ava{width:38px; height:38px; flex:0 0 38px; border-radius:50%; background:var(--teal-soft); color:var(--teal);
   display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px}
@@ -204,15 +210,18 @@ body{
 .se-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:6px 14px}
 .se-row{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-top:1px solid var(--line); font-size:14px}
 .se-row:first-child{border-top:0} .se-row b{color:var(--teal)}
-.se-proof{border-radius:12px; padding:11px 13px; font-size:13px}
-.se-proof.ok{background:var(--teal-soft); color:var(--teal)} .se-proof.bad{background:#fbe6e0; color:#a23b22}
+.se-proof{border-radius:12px; padding:11px 13px; font-size:13px; line-height:1.7}
+.se-proof::first-letter{font-size:1.3em; font-weight:800}
+.se-proof.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe6df}
+.se-proof.bad{background:var(--bad-soft); color:var(--bad); border:1px solid var(--bad-line); font-weight:700;
+  box-shadow:0 2px 6px rgba(143,44,20,.08), 0 12px 30px rgba(143,44,20,.12)}
 .se-moved{background:var(--mute-soft); border-radius:12px; padding:11px 13px; font-size:12.5px; line-height:1.8; color:var(--ink)}
 .se-moved b{color:var(--teal)}
 .se-members{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
 .se-mem{display:flex; align-items:center; gap:8px; padding:7px 0; border-top:1px solid var(--line); font-size:12.5px}
 .se-mem:first-of-type{border-top:0}
 .se-mem b{min-width:54px} .se-mem-net{color:var(--mut); flex:1}
-.se-mem-ok{color:var(--teal); font-size:11.5px} .se-mem-ok.bad{color:#a23b22}
+.se-mem-ok{color:var(--teal); font-size:11.5px} .se-mem-ok.bad{color:var(--bad)}
 .se-legs{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
 .se-sub{color:var(--mut); font-size:12px; margin-bottom:7px}
 .se-leg{display:flex; gap:8px; padding:5px 0; font-size:12.5px} .se-leg b{min-width:48px}
@@ -229,13 +238,26 @@ body{
 .cr-sub{color:var(--mut); font-size:12.5px; margin-bottom:6px}
 .cr-terms{background:var(--bg); border:1px dashed var(--line); border-radius:11px; padding:11px; font-size:13px; line-height:1.85}
 .cr-lint{margin-top:9px; border-radius:11px; padding:10px 12px; font-size:13px}
-.cr-lint.ok{background:var(--teal-soft); color:var(--teal)}
-.cr-lint.bad{background:#fbe6e0; color:#a23b22}
-.cr-lint .fix{margin-top:5px; font-size:12px; color:var(--ink)}
-.cr-lint-head{font-weight:700; margin-bottom:7px}
-.cr-hit{padding:7px 0; border-top:1px solid rgba(162,59,34,.18)}
+.cr-lint.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe6df}
+.cr-lint.ok::first-letter{font-size:1.3em; font-weight:800}
+/* the riba BLOCK — the warning owns the screen: brick-red, bordered, deep.
+   (Reserved red: this is a Shariah violation stop, not lateness.) */
+.cr-lint.bad{
+  background:linear-gradient(180deg,#fcece5,var(--bad-soft));
+  color:var(--bad); border:1px solid var(--bad-line); border-inline-start:4px solid var(--bad);
+  padding:13px 14px; box-shadow:0 2px 6px rgba(143,44,20,.08), 0 12px 30px rgba(143,44,20,.12);
+}
+.cr-lint-head{font-weight:800; font-size:14.5px; color:var(--bad-deep); margin-bottom:8px; line-height:1.65; word-spacing:1px}
+.cr-lint-head::first-letter{font-size:1.35em}
+.cr-hit{padding:8px 0; border-top:1px solid rgba(143,44,20,.14)}
 .cr-hit:first-of-type{border-top:0}
-.cr-why{font-weight:600; font-size:12.5px}
+.cr-why{font-weight:700; font-size:13px; color:var(--bad)}
+/* «البديل الحلال» — the SUBORDINATE constructive action: a calm teal-accented
+   suggestion card under the violation, never competing with the red */
+.cr-lint .fix{margin-top:7px; font-size:12.5px; color:var(--ink); background:#fffdf8;
+  border:1px solid #dcece6; border-inline-start:3px solid var(--teal); border-radius:9px;
+  padding:8px 11px; line-height:1.75; box-shadow:var(--shadow-sm)}
+.cr-lint .fix b{color:var(--teal)}
 .cr-trybar{margin-top:9px; display:flex; gap:7px; flex-wrap:wrap}
 .cr-trybar .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:9px 12px; font:inherit; font-size:12.5px; cursor:pointer}
 .cr-act .primary{width:100%; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:13px; font:inherit; font-weight:600; cursor:pointer}
@@ -319,9 +341,18 @@ body{
 .pf-hash{font-size:11px; color:var(--seal-hash); word-break:break-all; margin-top:9px}
 .pf-chain{margin-top:11px; font-size:11.5px; color:#bcd; display:flex; flex-direction:column; gap:5px}
 .pf-chain .lk{color:var(--seal-hash); word-break:break-all}
-.pf-verify{border-radius:12px; padding:13px 14px; font-size:14px; font-weight:700}
-.pf-verify.ok{background:var(--teal-soft); color:var(--teal)}
-.pf-verify.bad{background:#fbe6e0; color:#a23b22}
+.pf-verify{border-radius:12px; padding:14px 15px; font-size:14px; font-weight:700; line-height:1.65}
+.pf-verify.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe6df}
+/* the verdict mark (✓/✗ leads the copy) — scaled up via ::first-letter, no markup change */
+.pf-verify::first-letter{font-size:1.45em; font-weight:800}
+/* THE DEMO CLIMAX — tamper exposed. Brick-red, deep, unmistakable; reserved for FAIL. */
+.pf-verify.bad{
+  background:linear-gradient(180deg,#fcece5,var(--bad-soft));
+  color:var(--bad); border:1px solid var(--bad-line);
+  font-size:15.5px; font-weight:800; word-spacing:1.5px;
+  box-shadow:inset 0 0 0 1px rgba(143,44,20,.06), 0 2px 6px rgba(143,44,20,.10), 0 14px 34px rgba(143,44,20,.14);
+}
+.pf-verify.bad::first-letter{color:var(--bad-deep)}
 /* exhibit framing (arrived from محلّ خلاف) */
 .pf-exhibit{background:var(--mute-soft); border:1px solid var(--line); border-radius:14px; padding:12px 14px; font-size:13px; line-height:1.8; color:var(--ink)}
 .pf-exhibit b{color:var(--teal)}
@@ -338,17 +369,28 @@ body{
 .pf-chain2 .ch span{color:var(--seal-lbl); font-size:11.5px}
 .pf-chain2 .ch code{color:var(--seal-hash); font-size:11px; word-break:break-all}
 .pf-chain2 .ch.block code{color:#9ee6c4}
-.pf-chain2 .ch.broken{outline:2px solid #e0775c} .pf-chain2 .ch.broken code{color:#ffb59e}
+/* hash blocks read as engraved wells; the BROKEN block visibly fractures out */
+.pf-chain2 .ch{box-shadow:inset 0 1px 3px rgba(0,0,0,.35), inset 0 0 0 1px rgba(158,199,189,.08)}
+.pf-chain2 .ch.broken{outline:2px solid #e0775c; outline-offset:1px;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.4), 0 0 0 4px rgba(224,119,92,.14), 0 6px 16px rgba(143,44,20,.28)}
+.pf-chain2 .ch.broken code{color:#ffb59e}
+.pf-chain2 .ch.broken span{color:#f0b7a6}
 .pf-chain2 .ch-link{color:#5f8b81; text-align:center; font-size:14px; margin:2px 0}
-/* the precise tamper diff */
-.pf-diff{background:#fbe6e0; border-radius:14px; padding:13px 14px; color:#a23b22; font-size:12.5px}
-.pf-diff .dd-h{font-weight:700; margin-bottom:7px} .pf-diff .dd-h b{color:#7a2616}
+/* the precise tamper diff — evidence card under the verdict, same reserved red */
+.pf-diff{background:var(--bad-soft); border:1px solid var(--bad-line); border-inline-start:3px solid var(--bad);
+  border-radius:14px; padding:13px 14px; color:var(--bad); font-size:12.5px; box-shadow:0 6px 18px rgba(143,44,20,.10)}
+.pf-diff .dd-h{font-weight:700; margin-bottom:7px} .pf-diff .dd-h b{color:var(--bad-deep)}
 .pf-diff .dd-row{display:flex; justify-content:space-between; padding:3px 0}
 .pf-diff .dd-hash{font-size:10.5px; word-break:break-all; opacity:.85; margin-top:3px}
 .pf-diff .dd-note{margin-top:8px; font-size:12px; line-height:1.7; color:#8a3a26}
 .pf-act{display:flex; gap:8px; flex-wrap:wrap}
 .pf-act button{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 14px; font:inherit; font-size:13px; cursor:pointer}
-.pf-act .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600}
+.pf-act button:hover{border-color:var(--teal); color:var(--teal)}
+.pf-act .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600; box-shadow:0 4px 12px rgba(14,107,92,.22)}
+.pf-act .primary:hover{background:#0c5f52; color:#fff}
+/* while tampered, the repair action carries the climax palette — the way back is obvious */
+.pf-act .restore{border-color:var(--bad-line); background:#fff7f4; color:var(--bad); font-weight:700}
+.pf-act .restore:hover{border-color:var(--bad); color:var(--bad-deep); box-shadow:0 4px 12px rgba(143,44,20,.16)}
 .pf-note{color:var(--gold); font-size:12.5px; text-align:center; line-height:1.85}
 
 /* محلّ خلاف — dispute pause (the bank shows, never judges) */
@@ -436,14 +478,14 @@ body{
 .cv-timeline{display:flex; flex-direction:column; gap:11px; border-inline-start:2px dashed var(--line); padding-inline-start:14px; margin-inline-start:5px; margin-top:2px}
 .cv-step{display:flex; gap:9px; align-items:flex-start}
 .cv-dot{flex:none; width:11px; height:11px; border-radius:50%; background:var(--gold); margin-top:4px; margin-inline-start:-20px; box-shadow:0 0 0 3px var(--bg)}
-.cv-step.broken .cv-dot{background:#c0553a}
+.cv-step.broken .cv-dot{background:var(--bad); box-shadow:0 0 0 3px var(--bg), 0 0 0 5px rgba(143,44,20,.18)}
 .cv-body{flex:1; min-width:0}
 .cv-line{font-size:13px; line-height:1.65}
 .cv-amt{color:var(--mut); margin-inline-start:6px}
 .cv-seal{font-size:10.5px; color:var(--mut); margin-top:3px; word-break:break-all}
-.cv-x{color:#a23b22; font-weight:700}
+.cv-x{color:var(--bad); font-weight:700}
 .cv-status{display:flex; gap:6px; flex-wrap:wrap; margin-top:2px}
-.cv-status .chip.bad{background:#fbe6e0; color:#a23b22}
+.cv-status .chip.bad{background:var(--bad-soft); color:var(--bad); border:1px solid var(--bad-line)}
 .cv-note{color:var(--mut); font-size:11.5px; line-height:1.7; text-align:center}
 .cv-act{display:flex; gap:8px; flex-wrap:wrap}
 .cv-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:12px; font:inherit; font-weight:600; cursor:pointer}
@@ -601,3 +643,28 @@ body{
 /* safe-area insets (notched phones) — never let the seal hide under the chin */
 #app{padding-block:0 max(40px, env(safe-area-inset-bottom))}
 .nav{padding-top:max(14px, env(safe-area-inset-top))}
+
+/* ============================================================================
+   Depth & surface system (premium pass) — semantic accents kill card monotony:
+   gold inline-start = sealed/mercy surfaces (mirrors the .set-no idiom),
+   hover raises what is pressable, and the impact screen joins the family.
+============================================================================ */
+/* sealed/mercy surfaces carry the gold thread */
+.pf-prov,.cd-note,.selfband{border-inline-start:3px solid var(--gold)}
+
+/* pressable cards answer the cursor (transition lives in the motion layer) */
+.hcard:hover,.hst:hover{box-shadow:var(--shadow-lg); border-color:#d8cfba}
+.opt:hover,.tl-act:hover,.rem-act .ghost:hover,.cr-trybar .ghost:hover,.bw-act .ghost:hover,
+.cv-act .mini:hover,.dp-exhibit button:hover,.dp-acts button:not(.primary):hover,.pf-back:hover,.tl-clear:hover{border-color:var(--teal); color:var(--teal)}
+.fchip:hover:not(.on){border-color:var(--ink); color:var(--ink)}
+
+/* «أثر عهد» — the collapse visual is a demo star: give it stage depth */
+.im-collapse{background:radial-gradient(circle at 50% 40%, #ffffff 0%, var(--card) 68%); box-shadow:var(--shadow-lg); padding:14px}
+.im-dot{stroke:#fffdf8; stroke-width:2.5}
+.im-btn{box-shadow:0 4px 14px rgba(14,107,92,.28)}
+.im-btn:active{box-shadow:0 2px 6px rgba(14,107,92,.22)}
+.im-hero{border-inline-start:3px solid var(--teal); text-align:start}
+.im-saved{border-inline-start:3px solid var(--gold); text-align:start}
+.im-card b{font-size:22px; font-weight:800; letter-spacing:-.3px}
+.im-cards .im-card:nth-child(2) b{color:var(--gold)}
+.im-bar{box-shadow:inset 0 1px 2px rgba(28,43,42,.08)}

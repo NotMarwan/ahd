@@ -73,7 +73,7 @@
       '<div class="pf-sub">وثيقةٌ مختومة تقف على التعمية لا على حكم المصرف — مقبولةٌ كدليلٍ إلكتروني (نظام الإثبات).</div>' +
       prov + doc + chain + verify + diff +
       '<div class="pf-act">' +
-        '<button class="' + (st.tamper ? "" : "primary") + '" onclick="AhdApp.proofTamperToggle()">' + (st.tamper ? "أصلِح الوثيقة" : "جرّب العبث بالمبلغ 🧪") + "</button>" +
+        '<button class="' + (st.tamper ? "restore" : "primary") + '" onclick="AhdApp.proofTamperToggle()">' + (st.tamper ? "أصلِح الوثيقة" : "جرّب العبث بالمبلغ 🧪") + "</button>" +
         '<button onclick="AhdApp.proofExport()">صدّر / شارك الوثيقة</button>' +
       "</div>" +
       '<div class="pf-note">المصرف يشهد ويحفظ — لا يحكم بين الطرفين. الوثيقة لكما، ودليلٌ عند الحاجة.</div>' +
