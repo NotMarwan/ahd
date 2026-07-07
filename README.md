@@ -5,6 +5,11 @@
 > Basis: Qur'an 2:282 (write the debt) + 2:280 (grace for the struggling).
 > Soul: «كلمتك محفوظة، وعلاقتك محميّة» — Your word is kept, your relationship is protected.
 
+> 🏆 **Mission — AMAD Hackathon 2026:** this repo exists to take **1st place (250,000 SAR)** on
+> **18 July 2026** against ~1000 projects. Every change is reviewed through the five published judging
+> criteria — **[docs/JUDGE-LENS.md](docs/JUDGE-LENS.md)** — before it counts as done. Good is the entry
+> fee; the bar is *unforgettable*.
+
 ---
 
 ## المنتج · The Product
