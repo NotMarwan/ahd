@@ -6,6 +6,7 @@ created: 2026-06-21
 owner: Evidence-Consolidation pass (read-only; no existing file modified)
 companion: "docs/evidence/EVIDENCE-BRIEF.md"
 based_on: "Arsenal/rebuttal-playbook.md (K1–K21) · red-team-report.md (A1–A12), re-graded after web verification 2026-06-21"
+refreshed: "2026-07-07 (JL-1 Task 4) — Q-H1..Q-H4 appended (the hackathon-floor round); court figures vintage-labelled (2020–21); internet penetration pinned to 99.0% (DataReportal Digital 2025); gate counts recomputed live: core 184/0 + app 1,289/0 = 1,473/0"
 ---
 
 # 🛡️ REBUTTAL PLAYBOOK — Ahd (عهد)
@@ -27,8 +28,8 @@ based_on: "Arsenal/rebuttal-playbook.md (K1–K21) · red-team-report.md (A1–A
 ## 🥇 The two you memorize cold (round-deciders)
 
 ### Q-A1 — "Did you talk to a single Saudi who would use this? Where's the demand?" 🟢 (with a 🔴 tail)
-**30-sec answer:** *"Saudis already document money between people at the scale of a **national problem** — they just use a blunt, abuse-prone tool. **Promissory notes are 58.6% of the Kingdom's execution-court enforcement requests — SAR 115.4 billion across 571,251 cases.** The Ministry of Justice ran **43 million Najiz e-services in one half-year**, and the e-promissory platform Nafith issued **800,000 digital notes** in its first year. The habit and the instrument exist; the **fair, interest-free, structured** version doesn't. That's the measured gap — not an assumption. The relational percentages you may have seen are US surveys — illustrative only; our Saudi proof is the **court data**, and we're backing it with primary interviews."*
-- **Evidence:** `EVIDENCE-BRIEF.md` D-1 ([Argaam](https://www.argaam.com/ar/article/articledetail/id/1483475)), D-2 ([Arab News](https://www.arabnews.com/node/2551501/saudi-arabia)/[SPA](https://www.spa.gov.sa/en/N2140615)), D-3 ([SPA Nafith](https://www.spa.gov.sa/w1579948)). Promissory-note enforcement mechanism **web-confirmed today** ([ahysp.com](https://ahysp.com/how-promissory-notes-are-regulated-and-enforced-in-saudi-arabia/)).
+**30-sec answer:** *"Saudis already document money between people at the scale of a **national problem** — they just use a blunt, abuse-prone tool. **Promissory notes are 58.6% of the Kingdom's execution-court enforcement requests — SAR 115.4 billion across 571,251 cases (MoJ data, 2020–21 vintage).** The Ministry of Justice ran **43 million Najiz e-services in one half-year**, and the e-promissory platform Nafith issued **800,000 digital notes** in its first year. The habit and the instrument exist; the **fair, interest-free, structured** version doesn't. That's the measured gap — not an assumption. The relational percentages you may have seen are US surveys — illustrative only; our Saudi proof is the **court data**, and we're backing it with primary interviews."*
+- **Evidence:** `EVIDENCE-BRIEF.md` D-1 ([Argaam](https://www.argaam.com/ar/article/articledetail/id/1483475) — MoJ execution-court data, **2020–21 vintage**; 2024–25 refresh pending, OT-CITE), D-2 ([Arab News](https://www.arabnews.com/node/2551501/saudi-arabia)/[SPA](https://www.spa.gov.sa/en/N2140615)), D-3 ([SPA Nafith](https://www.spa.gov.sa/w1579948)). Promissory-note enforcement mechanism **web-confirmed today** ([ahysp.com](https://ahysp.com/how-promissory-notes-are-regulated-and-enforced-in-saudi-arabia/)).
 - **Grade:** 🟢 for the *scale/documentation* half. **⚠️ NEEDS THE GAP CLOSED** for the *relational-warmth* half (D-9 / OT-A1, 🔴): there is still **no KSA-primary survey or interview** proving Saudis want this *witnessed*. Do not claim "Saudis told us…" until that shard exists. The honest version: *"the court data is Saudi and hard; the warmth evidence is the interviews we are running."*
 
 ### Q-A2 — "Why Alinma and not Al-Rajhi? A bigger Islamic bank copies this in a month." 🟡 (the FATAL one — concede, then wedge)
@@ -104,8 +105,8 @@ based_on: "Arsenal/rebuttal-playbook.md (K1–K21) · red-team-report.md (A1–A
 - **Grade:** 🟢 on the differentiation logic; D-7 source is a secondary blog (🟡) — lead with the *capability* difference (witness + settle + admissible), not the blog. **⚠️ red-team A7 tail:** a **T0 soft note with no Nafath** *is* basically Splitwise — so anchor the comparison on the **full witnessed tier**, not the lightweight one.
 
 ### Q-D3 — "Most interpersonal money is small and trust-based — nice-to-have, not a rail." 🟢
-**30-sec:** *"The beachhead isn't casual small loans — it's **recurring, high-frequency** money (salaries, rent, installments) **plus** the **high-stakes family loan** where the pain is real. Recurring covenants turn ~4 events/year into ~18. And the court data shows interpersonal debt isn't trivial — it's **SAR 100B+ of enforcement traffic.**"*
-- **Evidence:** `EVIDENCE-BRIEF.md` D-1 (SAR 115.4B enforcement); recurring-covenant logic.
+**30-sec:** *"The beachhead isn't casual small loans — it's **recurring, high-frequency** money (salaries, rent, installments) **plus** the **high-stakes family loan** where the pain is real. Recurring covenants turn ~4 events/year into ~18. And the court data shows interpersonal debt isn't trivial — it's **SAR 100B+ of enforcement traffic (2020–21 court vintage).**"*
+- **Evidence:** `EVIDENCE-BRIEF.md` D-1 (SAR 115.4B enforcement, 2020–21 vintage); recurring-covenant logic.
 - **Grade:** 🟢. **⚠️ red-team A7 honesty:** the *adoptable* use-case (rent / paying a worker) is the *unemotional* one; the *emotional* hero (lending someone you love) is the *taboo-to-formalize* one. Reconcile by framing the warm-and-viable overlap (a worker's salary covenant as **dignity**; flatmates as **friendship-preserving**).
 
 ---
@@ -166,13 +167,13 @@ based_on: "Arsenal/rebuttal-playbook.md (K1–K21) · red-team-report.md (A1–A
 ## 💰 The business / "show me the money" exec
 
 ### Q-G1 — "Where's the revenue if there's no interest? Float is thin — this is a cost centre." 🟡
-**30-sec:** *"Five ways, **none of them interest**: **float** on in-flight balances (amana); **near-zero-CAC viral acquisition** (every ahd needs a second person → guest-Nafath); **deposit & primary-bank primacy** (a frequent trust product → halal cross-sell); an optional **flat B2B record-API fee** (HR/payroll, charity qard funds — never % of principal); and an **uncopyable brand moat.** It monetises **posture and presence**, not lending — on a TAM anchored in **SAR 213B** remittances and **SAR 115B+** of documented debt. And Alinma already runs the wallet + API rails this sits on."*
+**30-sec:** *"Five ways, **none of them interest**: **float** on in-flight balances (amana); **near-zero-CAC viral acquisition** (every ahd needs a second person → guest-Nafath); **deposit & primary-bank primacy** (a frequent trust product → halal cross-sell); an optional **flat B2B record-API fee** (HR/payroll, charity qard funds — never % of principal); and an **uncopyable brand moat.** It monetises **posture and presence**, not lending — on a TAM anchored in **SAR 213B** remittances and **SAR 115B+** of documented debt (2020–21 court vintage). And Alinma already runs the wallet + API rails this sits on."*
 - **Evidence:** `EVIDENCE-BRIEF.md` M-12 (streams, illustrative); D-5/D-1 (TAM floors); M-11 (Alinma rails, web-verified).
 - **Grade:** 🟡 **MODEL** — every figure is board-gated/illustrative; the *mechanisms* are real and Shariah-clean, the *numbers* need Alinma's data. Say "illustrative" out loud.
 
 ### Q-G2 — "Too religious / too niche for a national rail." 🟢
-**30-sec:** *"Ayat al-Dayn (2:282) is the **Qur'an's longest verse** — it commands **every** Muslim to write debts down. Ahd lets 35 million people obey it in one tap. The faith layer isn't a limit — it's the **distribution** and the moat a conventional bank can never copy. And the rails are universal: 99% internet penetration, 23.5M Nafath users, 79% cashless."*
-- **Evidence:** `EVIDENCE-BRIEF.md` L-6 (2:282); M-7 (Nafath), M-9 (99% internet, web-verified), M-2 (79% cashless).
+**30-sec:** *"Ayat al-Dayn (2:282) is the **Qur'an's longest verse** — it commands **every** Muslim to write debts down. Ahd lets 35 million people obey it in one tap. The faith layer isn't a limit — it's the **distribution** and the moat a conventional bank can never copy. And the rails are universal: **99.0% internet penetration (DataReportal Digital 2025)**, 23.5M Nafath users, 79% cashless."*
+- **Evidence:** `EVIDENCE-BRIEF.md` L-6 (2:282); M-7 (Nafath), M-9 (**99.0%** internet, DataReportal Digital 2025, web-verified — replaces the retired ~97%-smartphone / GASTAT-2017 figure), M-2 (79% cashless).
 - **Grade:** 🟢.
 
 ---
@@ -186,8 +187,36 @@ based_on: "Arsenal/rebuttal-playbook.md (K1–K21) · red-team-report.md (A1–A
 
 ---
 
+## 🏟️ The hackathon-floor round (appended 2026-07-07 · JL-1 Task 4)
+
+> The four questions the AMAD panel itself is most likely to ask at the booth — the scored data criterion,
+> provenance, verifiability, and revenue-in-one-breath. Same two rules: one breath first, evidence only if
+> pressed, never present a 🔴 as a 🟢.
+
+### Q-H1 — «أين تحليل البيانات؟» — "Where's the data analysis?" (a *scored* criterion) 🟢 (with a 🔴 tail)
+**30-sec answer:** *"Three honest layers. **On screen, in-product:** deterministic analytics — Muqassa compresses **9 tangled obligations into 2 transfers** and proves conservation live: **money-moved falls 1,800 → 900 SAR while every party's net stays exactly zero** — computed, verifiable, re-runnable, not a decorated chart; the next layer is **k-anonymous cohort aggregates**, and by spine rule **never an individual's number, never a trust score**. **Behind it, public scale:** promissory notes are **58.6% of 571,251 execution-court requests — SAR 115.4B** (MoJ via Argaam, **2020–21 vintage**). **Ahead, the honest path:** a ready, non-leading **demand-survey instrument** (`docs/evidence/DEMAND-SURVEY-KIT.md`) to acquire the numbers we don't yet have. We would rather show you a named gap than a faked dataset."*
+- **Evidence:** `docs/JUDGE-LENS.md` criterion 3 (تحليل البيانات — aggregates only, spine); `EVIDENCE-BRIEF.md` D-1 (court data, 2020–21 vintage) + X-1/X-2 (netting conservation, harness-proved: 9 IOUs Σ=1,800 SAR gross → 2 transfers, 900 SAR moved, all nets exact); `docs/evidence/DEMAND-SURVEY-KIT.md` (instrument only — reports no findings by design).
+- **Grade:** 🟢 for what exists — the netting analytics are built and harness-proved; the court figures are cited and vintage-labelled. **⚠️ NEEDS THE GAP CLOSED** for the survey (D-9 / OT-A1, 🔴): the instrument is ready but has **zero findings until fieldwork runs**, and the k-anonymous cohort aggregates are **planned, not yet on screen** — say both plainly. Never present the instrument as data; never fake a dataset.
+
+### Q-H2 — «بنيتم هذا قبل الهاكاثون؟» — "You built this before the hackathon?" 🟢
+**30-sec answer:** *"Yes — proudly, and inside the program's own structure. The idea was **submitted at registration** (the 26 June hard gate: initial idea + team), and the organisers' **enrichment program runs 5–16 July — twelve days explicitly before the onsite days (16–18)** — designed so teams arrive stronger. We used that runway the way it was designed to be used. The **72 onsite hours are for integration and polish**, not for pretending to start from zero. And every line is **ours and provable**: the full git history is open, and the whole claim is machine-checkable — **1,473/0 automated assertions** in a deterministic, offline gate anyone on this panel can run in seconds (Q-H3)."*
+- **Evidence:** `docs/research/AMAD_HACKATHON_2026_FULL_DOSSIER.md` §7 timeline (البرنامج الإثرائي **5–16 يوليو**; hackathon days **16–18 يوليو**) and FAQ; registration hard gate 26 June with initial idea (`docs/research/AMAD_2026_Agent_Prompt.md`); the repo's own git log; gate counts per Q-H3.
+- **Grade:** 🟢 — the timeline and the provenance are documented; the posture is confidence, not apology. If the judge means *"is that within the rules?"*: the published structure itself presupposes pre-hackathon work (an idea at registration, a 12-day preparation program) — and nothing in this build is imported that isn't in our history.
+
+### Q-H3 — «لماذا نصدّق أرقام اختباراتكم؟» — "Why should we believe your test numbers?" 🟢
+**30-sec answer:** *"Don't believe us — **run them**: `cd tests && node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs`. The gate is **deterministic and fully offline** — no `Date.now`, no `Math.random`, no network, fixed `AS_OF` — so it prints the **same result on any machine, in seconds**: **core 184/0** (135 logic + 9 offline + 40 DOM-smoke) **+ app 1,289/0** (32 suites) **= 1,473/0 assertions** — plus a docs structure gate (14/0) and a SHA-256 tripwire proving the presenter demo is byte-frozen (`e2f48467…`). These aren't slide numbers; they're a command — we'll hand you the laptop."*
+- **Evidence:** the harness itself (`tests/run-tests.cjs`, `tests/offline-check.cjs`, `tests/dom-smoke.cjs`, `tests/app/run-app-tests.cjs`); determinism enforced by `tests/app/app-offline.test.cjs`; counts **recomputed live 2026-07-07** for this entry (135+9+40 = 184 core; 1,289 app across 32/32 green suites).
+- **Grade:** 🟢 — the strongest kind of claim: self-verifying. **⚠️ keep it fresh:** re-run the gate the morning of 18 July and update this line if the counts move — a stale number here would turn our best answer into a bluff.
+
+### Q-H4 — «ما نموذج الربح إن لم تكن فائدة؟» — "What's the revenue model if not interest?" (the ONE-breath form of Q-G1) 🟡 (board-gated)
+**30-sec answer (one breath):** *"A **service/subscription fee at direct cost** — AAOIFI **SS-19** forbids linking any charge to the loan amount, and we never do — **plus what Ahd buys Alinma strategically: retention, daily relevance** through «دفتري» and «الدائرة», **and the qard-hasan CX wedge no competitor owns**; the fee methodology itself is **the Shariah board's to ratify**."*
+- **Evidence:** `EVIDENCE-BRIEF.md` L-5 ([AAOIFI SS-19](https://aaoifi.com/ss-19-loan-qard/?lang=en) cl. 10/3/2 — charge at actual *direct* cost only, never linked to amount); M-11 (Alinma platform assets, web-verified); Q-G1 above (the five-stream expansion) and Q-B1 (the free-at-consumer-layer default this stays consistent with).
+- **Grade:** 🟡 (board-gated) — say "board-gated" out loud and never quote a figure: the *mechanism* is standard-cited, the *pricing* is Alinma's board's. If pressed past one breath, expand into Q-G1 — float, near-zero-CAC acquisition, deposit primacy, flat B2B record-API fee, brand moat — all labelled illustrative.
+
+---
+
 ## 🎤 The 30-second close (when they ask for the one-liner)
-> *"Ahd is the **just scribe** of the Qur'an's longest verse, built on the Saudi Arabia that exists in 2026 — Nafath identity, sarie settlement, a licensed e-signature, and the 2022 Evidence Law where **the denier bears the burden.** It writes your word, witnesses it with a record engineered to meet the conditions of admissibility, settles it interest-free, and — because the lender gives first — it spreads without ever feeling like distrust. Promissory notes are already **59% of the Kingdom's enforcement courts**; we make the fair, interest-free version. **Only an Islamic bank could own it — and Alinma, which already runs the wallet and the fintech rails, must define the category before Al-Rajhi copies it.**"*
+> *"Ahd is the **just scribe** of the Qur'an's longest verse, built on the Saudi Arabia that exists in 2026 — Nafath identity, sarie settlement, a licensed e-signature, and the 2022 Evidence Law where **the denier bears the burden.** It writes your word, witnesses it with a record engineered to meet the conditions of admissibility, settles it interest-free, and — because the lender gives first — it spreads without ever feeling like distrust. Promissory notes are already **59% of the Kingdom's enforcement courts** (2020–21 data); we make the fair, interest-free version. **Only an Islamic bank could own it — and Alinma, which already runs the wallet and the fintech rails, must define the category before Al-Rajhi copies it.**"*
 
 ---
 
@@ -203,6 +232,7 @@ based_on: "Arsenal/rebuttal-playbook.md (K1–K21) · red-team-report.md (A1–A
 | **Q-F2 / Q-F3** | initiator stigma / borrower reason | A6 / A11 | Soften, don't claim solved; lead with the built gift-receipt + إبراء release. |
 | **Q-A10** | default/dunning brand risk | A10 (new hole) | Show the merciful-cadence + no-penalty design; it's a stance, not a solved problem. |
 | **Q-B5 (caveat)** | riba linter | OT-RIBA | Arabic negation FP is a known, off-stage-patched edge case. |
+| **Q-H1 (tail)** | pending demand survey / planned k-anon aggregates | D-9 / OT-A1 | "The survey instrument is ready and non-leading; it reports nothing until fieldwork runs — name the gap, never fake a dataset." |
 
 ---
 
