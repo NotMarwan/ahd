@@ -20,7 +20,8 @@
    ```
    cd tests
    node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core 184/0 + structure-check 14/0
-   node app/run-app-tests.cjs                                           # app: 32 suites
+   node app/run-app-tests.cjs                                           # app: 33 suites
+   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (1603/0)
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
 6. **The judge lens is the fifth gate:** any change a judge could see (app screens, deck, script,
@@ -40,7 +41,7 @@
 - `_meta/agent-presence/` — multi-agent coordination (presence, claims, collision protocol); see `_meta/agent-presence/README.md`.
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
-- `tests/` — the quality gate (core 184 + app 1200+ assertions).
+- `tests/` — the quality gate (core 184 + app 1400+ assertions; `run-all.cjs` = one-command banner).
 - `promo/` — Remotion motion promos; `out/ahd-new-features.mp4`.
 - `project/mcp/` — MCP servers (3 servers, 17 tools) for project-aware agent tooling. See `project/mcp/README.md`.
 

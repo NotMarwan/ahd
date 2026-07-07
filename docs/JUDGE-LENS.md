@@ -13,7 +13,7 @@ its work through this lens before exiting. Being good is the entry fee — the b
 | # | Criterion | First-place bar — the work is NOT done until… |
 |---|---|---|
 | 1 | **الابتكار والإبداع** — innovation | A judge who has seen 60 projects today says "I haven't seen this before" AND can retell it in one sentence: «البنك يشهد ولا يُقرض». |
-| 2 | **التطبيق التقني** — technical | One live moment makes an engineer-judge nod: tamper a sealed record on stage; the seal catches it. Depth (1,200+ automated assertions, byte-determinism, integer halalas, offline-complete) is *stated in numbers, not narrated*. |
+| 2 | **التطبيق التقني** — technical | One live moment makes an engineer-judge nod: tamper a sealed record on stage; the seal catches it. Depth (1,600+ automated assertions, byte-determinism, integer halalas, offline-complete) is *stated in numbers, not narrated*. |
 | 3 | **تحليل البيانات** — data analysis | A real dataset + insight narrative ON SCREEN: in-product analytics (netting compression, conservation proof, k-anonymous cohort aggregates) + the KSA market/court numbers from `docs/evidence/EVIDENCE-BRIEF.md`. **Never an individual's number, never a trust score — aggregates only** (spine). |
 | 4 | **تجربة المستخدم** — UX | Every screen a judge can reach photographs like a shipped Saudi fintech product. Arabic-first RTL typography, motion that clarifies, zero unstyled corners. The demo path feels choreographed, not clicked-through. |
 | 5 | **قابلية التنفيذ الفعلي** — feasibility | "Alinma could ship this": two-contract model, Shariah framing, integration path — with honest caveats. **Never assert unconfirmed approvals on stage** (OT-VAL/OT-CITE). |
