@@ -5,6 +5,15 @@
 > merges it with `docs/DECISIONS-FOR-MARWAN.md`'s "Standing items" and marks resolved items done rather
 > than deleting them, so IDs stay traceable.
 
+## JL — judge-lens gaps (win items, freeze 15 July; see `docs/JUDGE-LENS.md`)
+
+| ID | Item | Front | Status |
+|---|---|---|---|
+| **JL-1** | Pitch & demo kit: deck rebuilt from `docs/DECK-DRAFT-AR.md` + 3-minute Arabic script with second-by-second demo choreography (tamper-catch on stage, Muqassa 9→2, data slide, Alinma close) + rebuttal refresh | Front 1 | open |
+| **JL-2** | Premium UX pass: land the July-1 premium direction (`app/screenshots/premium/`, ui-premium-polish plan) across all 12 screens — `app/app.css` + screen markup only, zero unstyled corners | Front 2 | open |
+| **JL-3** | Data-analysis story: on-spine «أثر عهد» analytics screen (netting compression, conservation proof, k-anonymous aggregates; TDD) + evidence-brief data slide | Front 3 | open |
+| **JL-4** | Judge-visible depth (only if it strengthens the demo; cut first on slippage): borrower-protections panel (OT-P1other) and/or proof-pack polish | Front 4 | open |
+
 ## Genuinely still open
 
 | ID | Item | Type | Notes |
