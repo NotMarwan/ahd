@@ -9,9 +9,9 @@
 
 | ID | Item | Front | Status |
 |---|---|---|---|
-| **JL-1** | Pitch & demo kit: deck rebuilt from `docs/DECK-DRAFT-AR.md` + 3-minute Arabic script with second-by-second demo choreography (tamper-catch on stage, Muqassa 9→2, data slide, Alinma close) + rebuttal refresh | Front 1 | open |
-| **JL-2** | Premium UX pass: land the July-1 premium direction (`app/screenshots/premium/`, ui-premium-polish plan) across all 12 screens — `app/app.css` + screen markup only, zero unstyled corners | Front 2 | open |
-| **JL-3** | Data-analysis story: on-spine «أثر عهد» analytics screen (netting compression, conservation proof, k-anonymous aggregates; TDD) + evidence-brief data slide | Front 3 | open |
+| **JL-1** | Pitch & demo kit — **built + 6-judge panel-reviewed + fix round applied 2026-07-07** (`docs/pitch/`: deck-content-v2 · script-ar · top6-cards · guide §2). Panel (pre-fix): innovation 7 · technical 7 · data 6.5 · UX 7 · feasibility 7 · memorability 6 — fixes: cold-open on the tamper moment, live-gate terminal flash, riba corpus named, honest-urgency close. **Residual to close:** rehearsal validating every click, .pptx build (blocked on B1 template + B2 team names), re-score before 15-July freeze | Front 1 | in review |
+| **JL-2** | Premium UX pass: land the July-1 premium direction across all 12 screens — `app/app.css` + screen markup only, zero unstyled corners. **Panel priorities (UX lens 2026-07-07): ① proof-tampered screen (the demo climax — red palette, «✗ عبثٌ مكشوف» kerning, hash-block depth) ② riba-error hierarchy in create (halal-alternative must read as the action, subordinate to the warning)** | Front 2 | open |
+| **JL-3** | Data-analysis story: on-spine «أثر عهد» analytics screen (TDD) + evidence-brief data slide. **Panel blueprint (data lens 2026-07-07): k-anonymous netting-efficiency dashboard — (a) transfers-avoided-per-circle distribution, (b) total SAR moved vs net-settled (conservation), (c) circle-size distribution; k≥3 floor shown; fixture circles labeled «test circles» honestly; + an animated 9→2 compression visual in the app (today it exists only in the frozen demo)** | Front 3 | open |
 | **JL-4** | Judge-visible depth (only if it strengthens the demo; cut first on slippage): borrower-protections panel (OT-P1other) and/or proof-pack polish | Front 4 | open |
 
 ## Genuinely still open
