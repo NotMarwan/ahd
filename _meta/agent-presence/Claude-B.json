@@ -5,7 +5,7 @@
   "current_task": "MCP hardening pass complete, claim released, standing by for further direction in the same conversation.",
   "files_claimed": [],
   "tasks_claimed": [],
-  "status": "active",
+  "status": "exited",
   "model": "claude-sonnet-5",
   "notes": "Completed the project/mcp/ hardening: new ahd-mcp-common shared package (Zod-validated dispatch, z.toJSONSchema, actionable errors, DEBUG-gated logging), migrated all 3 servers onto it, fixed a real staleness bug found mid-task in ahd-fs's pending integrity.ts diff (git status was being cached at process start instead of read live per call), removed dead/duplicate debug-logging code, deduped PROJECT_ROOT across 7 files. Test count 32→60 (all green), tsc type-checks clean except one pre-existing unrelated error in ahd-navigator's project-map.test.ts (confirmed via git diff — not touched this session). See coordination_notes.md for the full handoff. Claim on project/mcp/** released — safe for Claude-D/D-2 to pick up work there now."
 }

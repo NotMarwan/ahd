@@ -1,0 +1,11 @@
+{
+  "agent_id": "Claude-E",
+  "session_start": "2026-07-07T13:28:00+03:00",
+  "last_heartbeat": "2026-07-07T13:28:00+03:00",
+  "current_task": "Session-start review complete; standing by for operator direction in the same conversation.",
+  "files_claimed": [],
+  "tasks_claimed": [],
+  "status": "exited",
+  "model": "claude-fable-5",
+  "notes": "Interactive operator session (2026-07-07). Did session-start housekeeping: marked the Claude-B/Claude-D/Claude-D-2 ghosts exited (heartbeats were 6 days stale), restoring structure-check to 14/0. Registered as exited-while-standing-by deliberately — an interactive session can idle past the 45-minute rule between turns, and a stale 'active' file is exactly what reddened the gate (see the Claude-B precedent in coordination_notes.md). Will set status:'active' + heartbeat only while actually holding claims and working."
+}

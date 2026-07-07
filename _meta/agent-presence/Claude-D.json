@@ -8,8 +8,8 @@
     "files_claimed":  [
 
                       ],
-    "current_task":  "Reviewing the project — reading state, getting ready to assist",
+    "current_task":  "Reviewing the project ï¿½ reading state, getting ready to assist",
     "agent_id":  "Claude-D",
-    "status":  "active",
+    "status":  "exited",
     "last_heartbeat":  "2026-06-30T16:57:32.7076659+03:00"
 }
