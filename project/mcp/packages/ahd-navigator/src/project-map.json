@@ -50,7 +50,7 @@
       "runTests": 135,
       "offlineCheck": 9,
       "domSmoke": 40,
-      "app": 29
+      "app": 32
     }
   },
   "features": [
@@ -170,6 +170,33 @@
         "app/settings-deepen.test.cjs"
       ],
       "description": "Settings + privacy + digit toggle"
+    },
+    {
+      "name": "borrower",
+      "featureFile": "app/features/borrower.js",
+      "screenFile": "app/screens/borrower.js",
+      "testFiles": [
+        "app/borrower.test.cjs"
+      ],
+      "description": "Borrower home «ما عليّ» + borrower-invokable grace/pay (2:280)"
+    },
+    {
+      "name": "covenant-log",
+      "featureFile": "app/features/covenant-log.js",
+      "screenFile": "app/screens/covenant.js",
+      "testFiles": [
+        "app/covenant-log.test.cjs"
+      ],
+      "description": "Sealed good-faith / mercy trail «سِجلّ المعروف» (neutral court exhibit)"
+    },
+    {
+      "name": "standing-loan",
+      "featureFile": "app/features/standing-loan.js",
+      "screenFile": "app/screens/standing.js",
+      "testFiles": [
+        "app/standing-loan.test.cjs"
+      ],
+      "description": "Standing/recurring two-party qard hasan «سُلفة بالمعروف» (Musaned wedge)"
     },
     {
       "name": "home",
