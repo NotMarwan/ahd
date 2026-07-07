@@ -42,6 +42,8 @@
       '<div class="se-members"><div class="se-sub">مركز كلِّ عضوٍ (لم يتغيّر — المقاصّة تُقلِّل التحويلات لا الحقوق):</div>' + members + "</div>" +
       '<div class="se-legs"><div class="se-sub">رِجل كلِّ عضوٍ — حوالةٌ بالتراضي يوافق عليها قبل التنفيذ:</div>' + legs + "</div>" +
       '<div class="se-note">لا أحد يدفع أكثر ممّا عليه؛ المصرف يحسب ويشهد، والمال مالكم.</div>' +
+      /* contextual bridge to «أثر عهد» (JL-3) — the same netting, measured across cohorts */
+      '<button class="se-impact-chip" onclick="AhdApp.go(\'impact\')">📊 أثر عهد — الأثر عبر الدوائر</button>' +
     "</div>";
   }
 

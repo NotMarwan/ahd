@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/standing-loan.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/impact.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/standing-loan.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -351,6 +351,27 @@ ok(stg.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(stg), "standing shows no perce
 let stgt = noThrow(() => App.standingTamperToggle(), "standing tamper toggle ON");
 ok(/عبثٌ مكشوف/.test(stgt), "tampering the standing amount breaks its seal (live)");
 noThrow(() => App.standingTamperToggle(), "standing tamper toggle OFF (restore)");
+
+/* ---- «أثر عهد» impact analytics (JL-3) — CONTEXTUAL (home card + settle chip):
+   k-anonymous netting-efficiency aggregates over honestly-labeled test circles
+   + the animated 9→2 collapse (CSS-only toggle). Spine: aggregates only, no
+   percentage glyph, no individual's number. ---- */
+ok(!!sandbox.Impact, "Impact module attaches to window");
+ok(navKeys.indexOf("impact") < 0, "«أثر عهد» is CONTEXTUAL — a home card + settle chip, not a nav pill");
+ok(/أثر عهد/.test(App.go("home")), "home surfaces the «أثر عهد» analytics card");
+ok(/أثر عهد/.test(App.go("settle")), "the settle screen offers the «أثر عهد» chip (contextual bridge)");
+let im = noThrow(() => App.go("impact"), "go('impact') renders the impact analytics screen");
+ok(/أثر عهد/.test(im), "impact shows the «أثر عهد» heading");
+ok(/دوائر تجريبيّة/.test(im) && /بيانات اختبار/.test(im), "impact honestly labels its data «دوائر تجريبيّة (بيانات اختبار)»");
+ok(/لا يُعرَض تجميعٌ لأقلّ من/.test(im), "the k-anonymity floor is stated on screen (no bucket under 3 circles)");
+ok(im.indexOf("%") < 0 && im.indexOf("٪") < 0, "impact renders NO percentage glyph anywhere (absolute numbers + words only)");
+ok(/im-collapse/.test(im) && /<svg/.test(im) && /شاهد الانهيار/.test(im), "the animated 9→2 collapse block renders (inline SVG + CSS-only class toggle)");
+ok(/المالُ المتحرّك/.test(im) && /1,800/.test(im) && /900/.test(im), "the collapse caption reuses the settle screen's computed values (1,800 → 900 SAR)");
+noThrow(() => App.impactCollapse(), "the collapse toggle flips a class (no rerender, no throw)");
+ok(/متوسّط التحويلات الموفَّرة/.test(im) && /٫/.test(im), "distribution rows render integer-tenths averages (Arabic decimal separator, no floats)");
+ok(/flex-grow/.test(im), "distribution bars are sized via integer flex-grow inline styles (no % text)");
+ok(/وفّرت المقاصّةُ تحريكَ/.test(im), "totals carry the saved-movement line «وفّرت المقاصّةُ تحريكَ …»");
+ok(!/م[١٢٣٤٥٦٧٨]/.test(im), "aggregates only — no individual member code (م١..م٨) appears anywhere on screen");
 
 console.log("\n" + "=".repeat(56));
 console.log("APP DOM SMOKE: " + passed + " passed, " + failed + " failed");

@@ -50,7 +50,7 @@
       "runTests": 135,
       "offlineCheck": 9,
       "domSmoke": 40,
-      "app": 32
+      "app": 33
     }
   },
   "features": [
@@ -82,6 +82,15 @@
         "app/settlement-conserve.test.cjs"
       ],
       "description": "Muqassa netting + conservation proof"
+    },
+    {
+      "name": "impact",
+      "featureFile": "app/features/impact.js",
+      "screenFile": "app/screens/impact.js",
+      "testFiles": [
+        "app/impact.test.cjs"
+      ],
+      "description": "«أثر عهد» impact analytics — k-anonymous netting-efficiency aggregates over labeled test circles + the 9→2 collapse visual (JL-3)"
     },
     {
       "name": "daftari",
