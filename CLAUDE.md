@@ -42,6 +42,8 @@
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
 - `tests/` — the quality gate (core 184 + app 1400+ assertions; `run-all.cjs` = one-command banner).
+- `AmadHackathon/` — the operator's Obsidian cockpit (living memory mirror: dashboard, plan, evidence). **Any session that changes project state updates it before exiting** (Home + plan checkboxes + topical note). Notes are summaries with `source:` pointers — `docs/`/`_meta/` stay canonical.
+- `swarm/` — 4-agent research workspace (press/academic/stats/global); iron rules in `swarm/README.md`; results in `findings*.md` + `headlines/`.
 - `promo/` — Remotion motion promos; `out/ahd-new-features.mp4`.
 - `project/mcp/` — MCP servers (3 servers, 17 tools) for project-aware agent tooling. See `project/mcp/README.md`.
 
