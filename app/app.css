@@ -693,3 +693,26 @@ body{
 .im-card b{font-size:22px; font-weight:800; letter-spacing:-.3px}
 .im-cards .im-card:nth-child(2) b{color:var(--gold)}
 .im-bar{box-shadow:inset 0 1px 2px rgba(28,43,42,.08)}
+
+/* ============================================================================
+   «الضمانات والحدود» (JL-4) — guarantees-as-code panel. Three premium columns;
+   every بند carries a mono LTR «يحرسه:» guard line; the run-command well reuses
+   the sealed-document palette; the bank column carries the gold thread.
+============================================================================ */
+.bounds{display:flex; flex-direction:column; gap:var(--s-4)}
+.bd-head{font-weight:700}
+.bd-hero{background:var(--mute-soft); border-inline-start:3px solid var(--teal); border-radius:var(--r-md); padding:11px 13px; font-size:var(--t-sm); line-height:1.9; text-align:start}
+.bd-cols{display:flex; flex-direction:column; gap:10px}
+.bd-card{background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:13px; box-shadow:var(--shadow)}
+.bd-card.bank{border-inline-start:3px solid var(--gold)}
+.bd-card.bank .bd-title{color:var(--gold)}
+.bd-title{font-weight:700; color:var(--teal); font-size:var(--t-md); margin-bottom:4px}
+.bd-item{padding:9px 0; border-top:1px solid var(--line); font-size:var(--t-sm); line-height:1.9}
+.bd-item:first-of-type{border-top:0}
+.bd-guard{color:var(--mut); font-size:var(--t-xs); margin-top:2px}
+.bd-guard code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; font-size:var(--t-xs); color:var(--mut); overflow-wrap:anywhere}
+.bd-foot{color:var(--mut); font-size:var(--t-xs); text-align:center; line-height:2}
+.bd-run{background:var(--seal-bg); color:var(--seal-hash); border-radius:var(--r-md); padding:10px 13px; font-family:var(--mono); direction:ltr; text-align:left; font-size:var(--t-sm); box-shadow:var(--shadow-sm)}
+.bd-chips{display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
+.bd-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal); border-radius:var(--r-pill); padding:6px 12px; font:inherit; font-size:var(--t-xs); cursor:pointer; min-height:36px}
+.bd-chip:hover{border-color:var(--teal)}

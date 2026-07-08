@@ -89,7 +89,9 @@
           : "") +
       "</div>";
 
-    var note = '<div class="bw-verse">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ — لك أن تطلب المهلة بكرامة، ولك أن تسدّد متى تيسّر.</div>';
+    var note = '<div class="bw-verse">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ — لك أن تطلب المهلة بكرامة، ولك أن تسدّد متى تيسّر.</div>' +
+      /* contextual bridge to «الضمانات والحدود» (JL-4) — what protects the debtor, each بند with its test */
+      '<button class="bd-chip" onclick="AhdApp.go(\'bounds\')">🧭 الضمانات والحدود — ما يحميك هنا، باختباره</button>';
 
     var body = obs.length
       ? '<div class="bw-list">' + obs.map(rowHTML).join("") + "</div>"

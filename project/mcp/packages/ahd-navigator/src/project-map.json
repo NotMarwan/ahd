@@ -50,7 +50,7 @@
       "runTests": 135,
       "offlineCheck": 9,
       "domSmoke": 40,
-      "app": 33
+      "app": 34
     }
   },
   "features": [
@@ -206,6 +206,15 @@
         "app/standing-loan.test.cjs"
       ],
       "description": "Standing/recurring two-party qard hasan «سُلفة بالمعروف» (Musaned wedge)"
+    },
+    {
+      "name": "bounds",
+      "featureFile": "app/features/bounds.js",
+      "screenFile": "app/screens/bounds.js",
+      "testFiles": [
+        "app/bounds.test.cjs"
+      ],
+      "description": "«الضمانات والحدود» guarantees-as-code panel — للمدين · للدائن · حدود المصرف, every guarantee names the real test/rule enforcing it (JL-4)"
     },
     {
       "name": "home",

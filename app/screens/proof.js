@@ -77,6 +77,8 @@
         '<button onclick="AhdApp.proofExport()">صدّر / شارك الوثيقة</button>' +
       "</div>" +
       '<div class="pf-note">المصرف يشهد ويحفظ — لا يحكم بين الطرفين. الوثيقة لكما، ودليلٌ عند الحاجة.</div>' +
+      /* contextual bridge to «الضمانات والحدود» (JL-4) — the guarantees behind this seal, each with its test */
+      '<button class="bd-chip" onclick="AhdApp.go(\'bounds\')">🧭 الضمانات والحدود — كلُّ ضمانةٍ باختبارها</button>' +
     "</div>";
   }
 

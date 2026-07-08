@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/impact.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/standing-loan.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/impact.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/standing-loan.js", "features/bounds.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -372,6 +372,23 @@ ok(/متوسّط التحويلات الموفَّرة/.test(im) && /٫/.test(im
 ok(/flex-grow/.test(im), "distribution bars are sized via integer flex-grow inline styles (no % text)");
 ok(/وفّرت المقاصّةُ تحريكَ/.test(im), "totals carry the saved-movement line «وفّرت المقاصّةُ تحريكَ …»");
 ok(!/م[١٢٣٤٥٦٧٨]/.test(im), "aggregates only — no individual member code (م١..م٨) appears anywhere on screen");
+
+/* ---- «الضمانات والحدود» (JL-4) — CONTEXTUAL (home card + chips on «ما عليّ» and
+   «حافظة الإثبات»): guarantees-as-code, every بند naming its real guard file. ---- */
+ok(!!sandbox.Bounds, "Bounds module attaches to window");
+ok(navKeys.indexOf("bounds") < 0, "«الضمانات والحدود» is CONTEXTUAL — a home card + chips, not a nav pill");
+ok(/الضمانات والحدود/.test(App.go("home")), "home surfaces the «الضمانات والحدود» card");
+ok(/الضمانات والحدود/.test(App.go("mine")), "«ما عليّ» offers the bounds chip (what protects the debtor)");
+let pfBounds = noThrow(() => App.openProof("R-SULTAN"), "open a proof to reach its bounds chip");
+ok(/الضمانات والحدود/.test(pfBounds), "«حافظة الإثبات» offers the bounds chip (the guarantees behind the seal)");
+let bd = noThrow(() => App.go("bounds"), "go('bounds') renders the guarantees panel");
+ok(/للمدين/.test(bd) && /للدائن/.test(bd) && /حدود المصرف/.test(bd), "bounds shows the three columns (للمدين · للدائن · حدود المصرف)");
+ok(/يحرسه:/.test(bd) && /riba-lint-corpus\.test\.cjs/.test(bd), "every guarantee names its guard — an enforcedBy file is visible on screen (يحرسه: …)");
+ok(/settlement-conserve\.test\.cjs/.test(bd) && /app-dom-smoke\.cjs/.test(bd), "the lender conservation + amber-not-red guards are named on screen");
+ok(/cd tests && node run-all\.cjs|cd tests &amp;&amp; node run-all\.cjs/.test(bd), "the printed run-command invites the judge to run the whole gate");
+ok(bd.indexOf("%") < 0 && bd.indexOf("٪") < 0, "bounds renders NO percentage glyph anywhere");
+ok(/اطلب تشغيله/.test(bd) && /دون إنترنت/.test(bd), "the footer states the guards run offline + invites «اطلب تشغيله»");
+ok(!/tone-red/.test(bd), "bounds carries no red tone (amber-not-red spine)");
 
 console.log("\n" + "=".repeat(56));
 console.log("APP DOM SMOKE: " + passed + " passed, " + failed + " failed");
