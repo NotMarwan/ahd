@@ -21,3 +21,6 @@ clipboard-*.png
 # --- OS ---
 Thumbs.db
 .DS_Store
+
+# Obsidian app state for the operator's focus vault (notes ARE tracked)
+AmadHackathon/.obsidian/
