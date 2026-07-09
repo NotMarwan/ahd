@@ -368,6 +368,12 @@ ok(/دوائر تجريبيّة/.test(im) && /بيانات اختبار/.test(im
 ok(/لا يُعرَض تجميعٌ لأقلّ من/.test(im), "the k-anonymity floor is stated on screen (no bucket under 3 circles)");
 ok(im.indexOf("%") < 0 && im.indexOf("٪") < 0, "impact renders NO percentage glyph anywhere (absolute numbers + words only)");
 ok(/im-collapse/.test(im) && /<svg/.test(im) && /شاهد الانهيار/.test(im), "the animated 9→2 collapse block renders (inline SVG + CSS-only class toggle)");
+const seSrcDigits = fs.readFileSync(path.join(APP, "screens", "settlement.js"), "utf8");
+const imSrcDigits = fs.readFileSync(path.join(APP, "screens", "impact.js"), "utf8");
+ok(/App\.digit\(v\.beforeCount\)/.test(seSrcDigits) && /App\.digit\(v\.afterCount\)/.test(seSrcDigits),
+  "settlement headline counts route through App.digit (one numeral system, user-toggled)");
+ok(!/شاهد الانهيار ٩/.test(imSrcDigits) && /شاهد الانهيار ' \+ App\.digit\(/.test(imSrcDigits),
+  "impact collapse button digits route through App.digit (no hardcoded Arabic-Indic glyphs)");
 ok(/المالُ المتحرّك/.test(im) && /1,800/.test(im) && /900/.test(im), "the collapse caption reuses the settle screen's computed values (1,800 → 900 SAR)");
 noThrow(() => App.impactCollapse(), "the collapse toggle flips a class (no rerender, no throw)");
 ok(/متوسّط التحويلات الموفَّرة/.test(im) && /٫/.test(im), "distribution rows render integer-tenths averages (Arabic decimal separator, no floats)");

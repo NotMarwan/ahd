@@ -55,7 +55,7 @@
     return '<div id="im-collapse" class="im-collapse">' +
       '<svg viewBox="0 0 360 282" role="img" aria-label="شبكة التزاماتٍ متشابكة تنهار إلى تحويلين">' +
         nine + two + dots + "</svg>" +
-      '<button class="im-btn" onclick="AhdApp.impactCollapse()">شاهد الانهيار ٩ ← ٢</button>' +
+      '<button class="im-btn" onclick="AhdApp.impactCollapse()">شاهد الانهيار ' + App.digit(cp.transfersBefore) + ' ← ' + App.digit(cp.transfersAfter) + '</button>' +
       '<div class="im-cap"><b>' + App.digit(cp.transfersBefore) + '</b> التزاماتٍ — <b>' + afterTxt +
         '</b>. المالُ المتحرّك: من <b>' + App.fmtN(cp.moneyMovedBefore) + '</b> إلى <b>' +
         App.fmtN(cp.moneyMovedAfter) + '</b> ريال، والمراكزُ محفوظة.</div>' +

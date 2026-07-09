@@ -32,7 +32,7 @@
     var okProof = cp.conserved && cp.netsPreserved;
     return '<div class="settle">' +
       '<div class="se-head">المقاصّة — أقلّ التحويلات تُصفّي الجميع</div>' +
-      '<div class="se-big"><span>' + v.beforeCount + "</span> التزامًا <em>⟶</em> <span>" + v.afterCount + "</span> " +
+      '<div class="se-big"><span>' + App.digit(v.beforeCount) + "</span> التزامًا <em>⟶</em> <span>" + App.digit(v.afterCount) + "</span> " +
         (v.afterCount === 1 ? "تحويل" : v.afterCount === 2 ? "تحويلان" : "تحويلات") + "</div>" +
       '<div class="se-card">' + transfers + "</div>" +
       '<div class="se-proof ' + (okProof ? "ok" : "bad") + '">' + (okProof
