@@ -1,0 +1,35 @@
+<!-- @dsCard group="Deck06" name="12 العرض واللقطات" -->
+<!doctype html>
+<!-- critique: P5 H5 E4 S5 R4 V4 -->
+<html dir="rtl" lang="ar"><head><meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;500;700&display=swap');
+:root{--navy:#002134;--deep:#02141E;--peach:#E2AD8B;--blush:#F3E4DE;--r:24px;
+--ar:"IBM Plex Sans Arabic","Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif;--mono:"Consolas",monospace}
+*{box-sizing:border-box;margin:0}body{background:#0a1620;display:grid;place-items:center;min-height:100vh;padding:16px}
+.slide{width:1280px;max-width:100%;aspect-ratio:16/9;color:#fff;font-family:var(--ar);
+background:linear-gradient(185deg,var(--navy) 55%,var(--deep));overflow:hidden;padding:56px 68px;display:grid;grid-template-rows:auto auto 1fr}
+.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(226,173,139,.25);padding-bottom:16px}
+.mast .lg{font-size:22px;font-weight:700;color:var(--peach)} .mast .no{font-size:12.5px;color:rgba(243,228,222,.55)}
+h2{font-size:26px;font-weight:700;margin:18px 0 16px}
+.shots{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-content:stretch}
+.shot{border:1px solid rgba(226,173,139,.3);border-radius:var(--r);background:rgba(243,228,222,.05);
+display:grid;place-items:center;text-align:center;padding:22px}
+.shot.ok{border-color:rgba(127,224,192,.4)}
+.shot.bad{border-color:rgba(245,144,124,.55)}
+.shot b{display:block;font-size:17px;margin-bottom:8px}
+.shot.ok b{color:#7fe0c0} .shot.bad b{color:#F5907C}
+.shot span{font-size:12.5px;color:rgba(243,228,222,.6);line-height:1.9}
+.shot code{font-family:var(--mono);direction:ltr;font-size:11px;color:var(--peach);display:block;margin-top:8px}
+.cap{grid-column:1/-1;font-size:14px;color:rgba(243,228,222,.7);text-align:center;padding-top:4px}
+</style></head>
+<body><section class="slide">
+  <header class="mast"><span class="lg">العرض / لقطات الشاشة</span><span class="no">عَهد · ١٢ / ١٤</span></header>
+  <h2>لحظتان تُثبتان أنّ الدليل حقيقيّ.</h2>
+  <main class="shots">
+    <div class="shot ok"><div><b>✓ سليمة — مطابقة للختم</b><span>الوثيقة المختومة كما وُلدت</span><code>premium-after/05-proof-verified.png</code></div></div>
+    <div class="shot bad"><div><b>✗ عبثٌ مكشوف</b><span>«غيّرنا حرفًا واحدًا، فانكشف فورًا. هذا ختمٌ يُحسَب فعلًا، لا صورة.»</span><code>premium-after/06-proof-tampered.png</code></div></div>
+    <div class="shot"><div><b>٩ ← ٢</b><span>تسع التزاماتٍ متشابكة تنهار إلى تحويلين، وتحتها جدول برهان الحفظ</span><code>premium-after/09-settle.png</code></div></div>
+    <div class="cap">اللقطات الحقيقيّة تُغرس عند بناء الـpptx — المسارات أعلاه من إعادة التصوير الفاخرة (17 لقطة @2x)</div>
+  </main>
+</section></body></html>
