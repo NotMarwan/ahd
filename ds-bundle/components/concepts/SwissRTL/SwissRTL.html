@@ -1,0 +1,36 @@
+<!-- @dsCard group="Concepts" name="03 Swiss RTL — سويسريّ صارم" -->
+<!doctype html>
+<!-- critique: P4 H5 E5 S4 R5 V5 -->
+<html dir="rtl" lang="ar">
+<head><meta charset="utf-8">
+<style>
+:root{ --field:#fafaf7; --ink:#101312; --ink-dim:#5c625f; --teal:#0e6b5c; --rule:#d9dcd8;
+  --mono:"Consolas",monospace; --ar:"Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif }
+*{box-sizing:border-box;margin:0} body{background:#e3e3de;display:grid;place-items:center;min-height:100vh;padding:16px}
+.slide{width:1280px;max-width:100%;aspect-ratio:16/9;background:var(--field);color:var(--ink);font-family:var(--ar);
+  position:relative;overflow:hidden;padding:64px 72px;display:grid;grid-template-rows:auto 1fr auto}
+.masthead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid var(--ink);padding-bottom:18px}
+.masthead .lg{font-size:26px;font-weight:800}
+.masthead .no{font-family:var(--mono);direction:ltr;font-size:13px;color:var(--ink-dim)}
+.stage{display:grid;align-content:center;gap:8px}
+.line{font-size:104px;line-height:1.08;font-weight:800;letter-spacing:-1px}
+.line.accent{color:var(--teal)}
+.line.dim{color:var(--ink-dim);font-weight:600;font-size:96px}
+.footer{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);padding-top:16px;gap:24px}
+.cell{font-size:13px;color:var(--ink-dim);line-height:1.8}
+.cell b{display:block;color:var(--ink);font-size:21px;font-weight:800}
+.cell code{font-family:var(--mono);direction:ltr;color:var(--teal)}
+</style></head>
+<body><section class="slide">
+  <header class="masthead"><span class="lg">عَهد</span><span class="no">AMAD — 18·07·2026</span></header>
+  <main class="stage">
+    <div class="line">البنكُ يَشهد.</div>
+    <div class="line accent">لا يُقرض.</div>
+    <div class="line dim">ولا يملكُ أن يُغيّر حرفًا.</div>
+  </main>
+  <footer class="footer">
+    <div class="cell"><b>٩ ← ٢</b>تسعة التزاماتٍ تُسوّى بتحويلين — والمراكز محفوظةٌ بالهللة</div>
+    <div class="cell"><b>58.6٪</b>من طلبات محاكم التنفيذ سنداتُ أمر — بيانات ٢٠٢٠–٢١</div>
+    <div class="cell"><b><code>1687/0</code></b>تأكيدًا آليًّا بأمرٍ واحدٍ يعمل دون إنترنت</div>
+  </footer>
+</section></body></html>

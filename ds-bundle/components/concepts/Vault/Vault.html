@@ -1,0 +1,42 @@
+<!-- @dsCard group="Concepts" name="01 Vault — خزنة سوداء منقوشة" -->
+<!doctype html>
+<!-- critique: P5 H4 E4 S5 R5 V5 -->
+<html dir="rtl" lang="ar">
+<head><meta charset="utf-8">
+<style>
+:root{ --bg:#050505; --panel:#0b0a08; --gold:#c9a227; --gold-hi:#f0dfae; --gold-dim:rgba(201,162,39,.28);
+  --ivory:#efe9dc; --ivory-dim:#9a948a; --mono:"Consolas",monospace;
+  --ar:"Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif }
+*{box-sizing:border-box;margin:0} body{background:#000;display:grid;place-items:center;min-height:100vh;padding:16px}
+.slide{width:1280px;max-width:100%;aspect-ratio:16/9;background:var(--bg);color:var(--ivory);
+  font-family:var(--ar);position:relative;overflow:hidden;display:grid;place-items:center}
+/* engraved concentric rings — a vault door, drawn not photographed */
+.rings{position:absolute;inset:0;display:grid;place-items:center}
+.rings i{position:absolute;border:1px solid var(--gold-dim);border-radius:50%}
+.rings i:nth-child(1){width:340px;height:340px} .rings i:nth-child(2){width:520px;height:520px;opacity:.6}
+.rings i:nth-child(3){width:760px;height:760px;opacity:.35} .rings i:nth-child(4){width:1060px;height:1060px;opacity:.18}
+.tick{position:absolute;width:2px;height:14px;background:var(--gold-dim)}
+.core{position:relative;text-align:center;z-index:1}
+.eyebrow{font-size:13px;letter-spacing:.35em;color:var(--gold);margin-bottom:22px}
+.wordmark{font-size:150px;line-height:1;font-weight:800;letter-spacing:4px;
+  background:linear-gradient(175deg,var(--gold-hi),var(--gold) 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.soul{font-size:23px;color:var(--ivory);margin-top:20px;font-weight:600}
+.law{font-size:15.5px;color:var(--ivory-dim);margin-top:12px}
+.law b{color:var(--gold-hi);font-weight:700}
+.keys{position:absolute;bottom:36px;inset-inline:0;display:flex;justify-content:center;gap:34px;font-size:13px;color:var(--ivory-dim)}
+.keys span b{color:var(--gold);font-family:var(--mono);direction:ltr;display:inline-block}
+</style></head>
+<body><section class="slide">
+  <div class="rings"><i></i><i></i><i></i><i></i></div>
+  <div class="core">
+    <div class="eyebrow">قَبْوُ الكَلِمَة</div>
+    <h1 class="wordmark">عَهد</h1>
+    <div class="soul">كلمتك محفوظة، وعلاقتك محميّة</div>
+    <div class="law">بنكٌ <b>يَشهد</b> ولا يُقرض — يختم، ولا يملك أن يُغيّر</div>
+  </div>
+  <div class="keys">
+    <span>ختمٌ يُحسب فعلًا <b>SHA-256</b></span>
+    <span>حارسُ الحزمة <b>1687/0</b></span>
+    <span>العرض مجمَّد <b>e2f48467…</b></span>
+  </div>
+</section></body></html>

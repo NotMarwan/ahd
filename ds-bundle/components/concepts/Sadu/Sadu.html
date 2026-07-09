@@ -1,0 +1,42 @@
+<!-- @dsCard group="Concepts" name="04 Sadu — نسيجٌ نجديّ حديث" -->
+<!doctype html>
+<!-- critique: P5 H4 E4 S5 R4 V5 -->
+<html dir="rtl" lang="ar">
+<head><meta charset="utf-8">
+<style>
+:root{ --sand:#ece2cd; --sand-deep:#e2d5b8; --night:#1f2f2b; --clay:#9c5335; --clay-deep:#7d3f26;
+  --gold:#a8822e; --mono:"Consolas",monospace; --ar:"Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif }
+*{box-sizing:border-box;margin:0} body{background:#cfc3a8;display:grid;place-items:center;min-height:100vh;padding:16px}
+.slide{width:1280px;max-width:100%;aspect-ratio:16/9;background:var(--sand);color:var(--night);font-family:var(--ar);
+  position:relative;overflow:hidden;display:grid;grid-template-columns:120px 1fr;align-items:stretch}
+/* sadu band — pure CSS weaving: repeating diamonds + hairlines, no images */
+.band{background:
+  repeating-linear-gradient(45deg,var(--clay) 0 9px,var(--sand-deep) 9px 12px,var(--night) 12px 21px,var(--sand-deep) 21px 24px),
+  var(--night)}
+.band::after{content:"";display:block;height:100%;width:14px;margin-inline-start:14px;
+  background:repeating-linear-gradient(180deg,var(--gold) 0 10px,transparent 10px 20px)}
+.stage{padding:70px 84px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.kicker{display:inline-flex;width:max-content;border:1px solid var(--clay);color:var(--clay-deep);
+  border-radius:999px;padding:5px 16px;font-size:12.5px;letter-spacing:.12em;margin-bottom:18px}
+.head{font-size:88px;line-height:1.15;font-weight:800}
+.head b{color:var(--clay-deep)}
+.sub{font-size:20px;color:#5d564a;margin-top:16px;line-height:1.9;max-width:26em}
+.weave-row{display:flex;gap:36px;margin-top:44px}
+.knot{border-inline-start:4px solid var(--clay);padding-inline-start:16px}
+.knot b{display:block;font-size:30px;font-weight:800}
+.knot span{font-size:13px;color:#5d564a}
+.knot code{font-family:var(--mono);direction:ltr;color:var(--clay-deep)}
+</style></head>
+<body><section class="slide">
+  <div class="band"></div>
+  <div class="stage">
+    <span class="kicker">من السدو إلى السجلّ — الغزلُ نفسه، خيوطٌ رقميّة</span>
+    <h1 class="head">كلمةٌ تُنسَج،<br><b>فلا تُنقَض</b></h1>
+    <p class="sub">كما يحفظ النسيجُ النقشَ جيلًا بعد جيل، يحفظ عهدُ الكلمةَ بين المتداينين: مكتوبةً، مشهودةً، مختومةً — بلا فائدة، بلا غرامة، بلا رقمٍ يصنّف البشر.</p>
+    <div class="weave-row">
+      <div class="knot"><b>عقدان منفصلان</b><span>القرض بين الناس، والخدمة على السكّة</span></div>
+      <div class="knot"><b>٩ ← ٢</b><span>مقاصّةٌ ببرهان حفظٍ رياضيّ</span></div>
+      <div class="knot"><b><code>1687/0</code></b><span>كلّ ادّعاءٍ يحرسه اختبارٌ آليّ</span></div>
+    </div>
+  </div>
+</section></body></html>

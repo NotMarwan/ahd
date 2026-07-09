@@ -1,0 +1,38 @@
+<!-- @dsCard group="Concepts" name="05 Cipher — ليلٌ تشفيريّ" -->
+<!doctype html>
+<!-- critique: P5 H4 E5 S5 R4 V5 -->
+<html dir="rtl" lang="ar">
+<head><meta charset="utf-8">
+<style>
+:root{ --void:#030706; --mint:#7fe0c0; --mint-dim:#3f7a68; --ivory:#e8f4ef; --ivory-dim:#88a29a;
+  --mono:"Consolas",monospace; --ar:"Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif }
+*{box-sizing:border-box;margin:0} body{background:#000;display:grid;place-items:center;min-height:100vh;padding:16px}
+.slide{width:1280px;max-width:100%;aspect-ratio:16/9;background:
+  radial-gradient(ellipse 60% 90% at 82% 50%, rgba(127,224,192,.07), transparent 60%), var(--void);
+  color:var(--ivory);font-family:var(--ar);position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr 380px}
+.stage{padding:80px 84px;display:flex;flex-direction:column;justify-content:center}
+.prompt-line{font-family:var(--mono);direction:ltr;text-align:left;font-size:14px;color:var(--mint-dim);margin-bottom:30px}
+.prompt-line b{color:var(--mint)}
+.head{font-size:92px;line-height:1.12;font-weight:800}
+.head .glow{color:var(--mint);text-shadow:0 0 34px rgba(127,224,192,.35)}
+.sub{font-size:18.5px;color:var(--ivory-dim);margin-top:22px;line-height:2;max-width:24em}
+.ledger{border-inline-start:1px solid rgba(127,224,192,.18);padding:80px 40px;display:flex;flex-direction:column;justify-content:center;gap:0;font-family:var(--mono)}
+.block{direction:ltr;text-align:left;font-size:12.5px;color:var(--ivory-dim);padding:16px 0;border-bottom:1px dashed rgba(127,224,192,.15)}
+.block .h{color:var(--mint);word-break:break-all}
+.block .k{color:var(--ivory)}
+.block:last-child{border-bottom:0}
+</style></head>
+<body><section class="slide">
+  <div class="stage">
+    <div class="prompt-line">$ node run-all.cjs → <b>AHD GATE ✅ 1687/0</b> · offline · deterministic</div>
+    <h1 class="head">الثقةُ هنا<br><span class="glow">تُحسَب، لا تُوعَد</span></h1>
+    <p class="sub">وثيقةُ كلّ قرضٍ حسنٍ تُختَم ببصمةٍ تُشتقّ من نصّها نفسه — غيّر حرفًا واحدًا، تنكشف فورًا. هذا ليس شعارًا: شغّل الأمر بنفسك.</p>
+  </div>
+  <aside class="ledger">
+    <div class="block"><span class="k">block #1 · covenant</span><br><span class="h">seal: 6c9410b9e4a01d22…</span></div>
+    <div class="block"><span class="k">block #2 · grace (2:280)</span><br><span class="h">seal: 9d41c07be2f81a35…</span></div>
+    <div class="block"><span class="k">block #3 · ibra — closed</span><br><span class="h">seal: e2f48467a70a958b…</span></div>
+    <div class="block"><span class="k">verify → ✓ chain intact</span></div>
+  </aside>
+</section></body></html>
