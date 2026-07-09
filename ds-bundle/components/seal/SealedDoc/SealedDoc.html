@@ -1,0 +1,18 @@
+<!-- @dsCard group="Seal" name="SealedDoc — وثيقة الختم" -->
+<!doctype html>
+<html dir="rtl" lang="ar">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../../styles.css"></head>
+<body><div id="app">
+  <div class="ol-seal" style="padding:16px; margin-bottom:10px">
+    <div class="sl">الوثيقة المختومة · نفاذ (محاكاة) + SHA-256</div>
+    <div class="sh">SEAL: 6c9410b9e4a01d22f7c8a3b5d6e9f012…</div>
+    <div class="sv ok">✓ سليمة — مطابقة للختم</div>
+    <button class="mini">🧪 جرّب العبث بالمبلغ</button>
+  </div>
+  <div class="ol-seal" style="padding:16px">
+    <div class="sl">الوثيقة المختومة · نفاذ (محاكاة) + SHA-256</div>
+    <div class="sh">SEAL: a11f00c3d9e8b7a6f5e4d3c2b1a09876…</div>
+    <div class="sv bad">✗ عبثٌ مكشوف! الختم لا يطابق</div>
+    <button class="mini">أعد الأصل</button>
+  </div>
+</div></body></html>

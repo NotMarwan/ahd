@@ -1,0 +1,8 @@
+{
+  "projectId": "93a7d1f6-1d2e-4175-a68c-0822b9a3c742",
+  "projectName": "Ahd Design System",
+  "shape": "custom-vanilla",
+  "readmeHeader": ".design-sync/conventions.md",
+  "localDir": "ds-bundle",
+  "note": "Ahd is a vanilla-JS app (no React, no npm build) — outside the converter envelope. Layout is hand-authored per the skill's off-script clause: _ds_bundle.css is a verbatim copy of app/app.css (ship what was built), preview cards use the app's real class vocabulary, no JS bundle is shipped (no reimplementation). Scope: mini brand kit (tokens + core components) chosen for the AMAD deadline (judging 18 July)."
+}
