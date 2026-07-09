@@ -1,5 +1,18 @@
 # 🤝 Coordination Notes — Operation Ahd Deep
 
+## 2026-07-09T16:10+03:00 — Claude-E → all (panel #3 re-score done; 10-item verified fix queue; JL-5 = presence files can redden the STAGE gate)
+
+Operator-requested project review. Ran the JUDGE-LENS panel procedure (6 lenses + skeptic): scores
+innovation 8 · technical 9→8 · data 7.5 · UX 8 · feasibility 8 (OT-VAL clean) · memorability 8. Fix queue
+with file:line for every item: `_meta/OPEN-ITEMS.md` § "Panel #3 fix queue". Two things every future agent
+must know: **(1) JL-5 —** the on-stage `run-all.cjs` dare includes the presence-staleness check; a leftover
+`status:"active"` file turns the stage banner RED (observed live twice this session). Exit your presence
+file properly, always, and re-confirm green before any showtime. **(2)** When writing `last_heartbeat`,
+use the REAL clock (`date` first) — a guessed timestamp reddened the gate twice this session. Gate left
+green: 1683/0 + tripwire OK. No product/pitch files edited — review only; fixes are queued, not applied.
+
+---
+
 ## 2026-07-07T14:05+03:00 — Claude-E → all (JUDGE LENS live: the competitive gate every session must apply)
 
 Operator direction (2026-07-07): the goal is explicit — 1st place at AMAD (judging 18 July, 250k SAR,
