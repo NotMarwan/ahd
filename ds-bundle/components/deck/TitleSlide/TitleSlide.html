@@ -1,0 +1,67 @@
+<!-- @dsCard group="Deck" name="TitleSlide — شريحة العنوان الأسطوريّة" -->
+<!doctype html>
+<!-- Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 -->
+<html dir="rtl" lang="ar">
+<head><meta charset="utf-8">
+<style>
+  /* locked tokens — Ahd seal palette, no mid-render improvisation */
+  :root{
+    --slide-bg:#0c1a18; --slide-field:#10201e; --slide-edge:#163f37;
+    --gold-hi:#f4e9c8; --gold:#d4b968; --gold-dim:rgba(154,123,39,.42);
+    --mint:#bfe3da; --mint-dim:#9ec7bd; --hash:#7fe0c0;
+    --font-ar:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif;
+    --mono:"Consolas","Courier New",monospace;
+  }
+  *{box-sizing:border-box; margin:0}
+  body{background:#000; display:grid; place-items:center; min-height:100vh; padding:16px}
+  .slide{
+    width:1280px; max-width:100%; aspect-ratio:16/9; position:relative; overflow:hidden;
+    background:
+      radial-gradient(ellipse 90% 130% at 50% 118%, var(--slide-edge) 0%, transparent 55%),
+      radial-gradient(ellipse 120% 90% at 50% -30%, #0e2320 0%, transparent 60%),
+      var(--slide-bg);
+    color:var(--mint); font-family:var(--font-ar);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    box-shadow:inset 0 0 0 1px var(--gold-dim);
+  }
+  /* geometry watermark — the product's own .hero::before idiom, slide-scaled */
+  .slide::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.05;
+    background:repeating-linear-gradient(45deg,transparent 0 26px,var(--gold) 26px 27px),
+               repeating-linear-gradient(-45deg,transparent 0 26px,var(--gold) 26px 27px)}
+  /* inner ceremonial frame — one hairline, offset, like a sealed certificate */
+  .slide::after{content:""; position:absolute; inset:22px; pointer-events:none;
+    border:1px solid var(--gold-dim); border-radius:4px;
+    mask:linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  }
+  .slide>*{position:relative; z-index:1}
+  .kicker{font-size:17px; letter-spacing:.14em; color:var(--mint-dim); margin-bottom:26px}
+  .wordmark{
+    font-size:190px; line-height:1.02; font-weight:800; letter-spacing:6px;
+    background:linear-gradient(178deg,var(--gold-hi) 12%,var(--gold) 58%,#b3934a 92%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow:0 30px 70px rgba(212,185,104,.14);
+  }
+  .soul{font-size:30px; color:var(--mint); margin-top:18px; font-weight:600}
+  .category{font-size:19px; color:var(--mint-dim); margin-top:14px}
+  .category b{color:var(--gold); font-weight:700}
+  .proofline{
+    position:absolute; z-index:1; bottom:40px; inset-inline:64px;
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+    border-top:1px solid rgba(158,199,189,.18); padding-top:16px;
+  }
+  .gate{font-family:var(--mono); direction:ltr; font-size:14.5px; color:var(--hash); letter-spacing:.02em}
+  .gate .shield{color:var(--mint-dim)}
+  .event{font-size:14.5px; color:var(--mint-dim)}
+</style></head>
+<body>
+  <section class="slide">
+    <div class="kicker">هاكاثون أمد ٢٠٢٦ · مصرف الإنماء × أكاديميّة طويق</div>
+    <h1 class="wordmark">عَهد</h1>
+    <div class="soul">كلمتك محفوظة، وعلاقتك محميّة</div>
+    <div class="category">فئةٌ جديدة: البنية التحتيّة للقرض الحسن — <b>بنكٌ يَشهد ولا يُقرض</b></div>
+    <div class="proofline">
+      <span class="event">قرضٌ حسنٌ مكتوبٌ ومشهودٌ ومختوم · ﴿فاكتبوه﴾ (٢:٢٨٢)</span>
+      <span class="gate">AHD GATE ✅ 1687/0 <span class="shield">· sealed e2f48467…</span></span>
+    </div>
+  </section>
+</body></html>
