@@ -46,13 +46,13 @@
     var sealArea;
     if (st.sealed) {
       var ver = Cr.verifyCreated(draft, e, st.tamper ? 9999 : null);
-      sealArea = '<div class="ol-seal"><div class="sl">الوثيقة المختومة · نفاذ + SHA-256</div>' +
+      sealArea = '<div class="ol-seal"><div class="sl">الوثيقة المختومة · نفاذ (محاكاة) + SHA-256</div>' +
         '<div class="sh">SEAL: ' + App.esc(e.short(st.sealed.seal, 24)) + "…</div>" +
         '<div class="sv ' + (ver.ok ? "ok" : "bad") + '">' + (ver.ok ? "✓ سليمة — مطابقة للختم" : "✗ عبثٌ مكشوف! الختم لا يطابق") + "</div>" +
         '<button class="mini" onclick="AhdApp.createTamperToggle()">' + (st.tamper ? "أعد الأصل" : "🧪 جرّب العبث بالمبلغ") + "</button>" +
         '<button class="mini" onclick="AhdApp.createAddToDaftari()">أضِفها إلى دفتري ←</button></div>';
     } else {
-      sealArea = '<div class="cr-act"><button class="primary"' + (clean ? "" : " disabled") + ' onclick="AhdApp.createSeal()">اختم العهد عبر نفاذ</button></div>' +
+      sealArea = '<div class="cr-act"><button class="primary"' + (clean ? "" : " disabled") + ' onclick="AhdApp.createSeal()">اختم العهد عبر نفاذ (محاكاة)</button></div>' +
         (clean ? "" : '<div class="cr-note">لا يُختَم حتى يُزال الشرط المخالف — هذا ما يحفظه عهد لكما.</div>');
     }
     return '<div class="create">' + flash + head + termsBox + sealArea + "</div>";

@@ -152,6 +152,7 @@ ok(!!sandbox.CreateAhd, "CreateAhd module attaches to window");
 let cr = noThrow(() => App.go("create"), "go('create') renders the create-عهد flow");
 ok(/أنشئ عهدًا/.test(cr) && /قرض/.test(cr), "create shows the form + قرض حسن");
 ok(/النصّ سليم/.test(cr), "auto-drafted terms read CLEAN in the riba linter");
+ok(/اختم العهد عبر نفاذ \(محاكاة\)/.test(cr), "the Nafath seal button carries the (محاكاة) honesty tag on the guaranteed demo path");
 let crb = noThrow(() => App.createInjectRiba(), "inject a late-penalty clause");
 ok(/✗/.test(crb) && /غرامة|تأخير/.test(crb), "linter BLOCKS the penalty clause with the reason + halal fix");
 ok(/disabled/.test(crb), "seal button is disabled while the terms are blocked");
@@ -160,6 +161,7 @@ ok(/المُقرِض/.test(crb), "create screen still shows the lender label whe
 noThrow(() => App.createClearRiba(), "remove the offending clause");
 let crs = noThrow(() => App.createSeal(), "seal the clean عهد (Nafath + SHA-256)");
 ok(/SEAL:/.test(crs), "after seal: a witnessed record with a SHA-256 seal");
+ok(/نفاذ \(محاكاة\) \+ SHA-256/.test(crs), "the sealed-doc label states نفاذ (محاكاة) — no unconfirmed-integration claim (OT-VAL)");
 noThrow(() => App.createAddToDaftari(), "add the created عهد to دفتري");
 ok(!!App.recordById("NEW-AHD-1"), "the created عهد is now a real record in دفتري (create→home loop)");
 
