@@ -1,0 +1,46 @@
+<!-- @dsCard group="Concepts" name="07 SaduAlinma — سدو بلوحة الإنماء" -->
+<!doctype html>
+<!-- critique: P5 H5 E4 S5 R4 V5 · palette scraped from alinma.com portal css 2026-07-09 -->
+<html dir="rtl" lang="ar">
+<head><meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;500;700&display=swap');
+:root{ /* locked tokens — scraped Alinma warm family over the winning Sadu structure */
+  --blush:#F3E4DE; --blush-deep:#FFE3DD; --navy:#002134; --terra:#CD907E; --peach:#E2AD8B;
+  --bronze:#803C1C; --ink-warm:#3a2c25;
+  --r-amad:24px; --ar:"IBM Plex Sans Arabic","Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif;
+  --mono:"Consolas",monospace }
+*{box-sizing:border-box;margin:0} body{background:#d8c7bf;display:grid;place-items:center;min-height:100vh;padding:16px}
+.slide{width:1280px;max-width:100%;aspect-ratio:16/9;background:var(--blush);color:var(--navy);font-family:var(--ar);
+  position:relative;overflow:hidden;display:grid;grid-template-columns:118px 1fr}
+/* sadu band — rewoven in the scraped Alinma warm family */
+.band{background:
+  repeating-linear-gradient(45deg,var(--terra) 0 9px,var(--blush-deep) 9px 12px,var(--navy) 12px 21px,var(--blush-deep) 21px 24px),
+  var(--navy)}
+.band::after{content:"";display:block;height:100%;width:14px;margin-inline-start:14px;
+  background:repeating-linear-gradient(180deg,var(--peach) 0 10px,transparent 10px 20px)}
+.stage{padding:66px 80px;display:flex;flex-direction:column;justify-content:center}
+.kicker{display:inline-flex;width:max-content;border:1px solid var(--terra);color:var(--bronze);
+  border-radius:999px;padding:6px 18px;font-size:12.5px;letter-spacing:.1em;margin-bottom:20px;font-weight:500}
+.head{font-size:86px;line-height:1.16;font-weight:700}
+.head b{color:var(--bronze)}
+.sub{font-size:19.5px;color:var(--ink-warm);margin-top:16px;line-height:1.95;max-width:26em;font-weight:300}
+.weave-row{display:flex;gap:16px;margin-top:40px}
+.knot{background:#fff;border:1px solid rgba(205,144,126,.35);border-radius:var(--r-amad);padding:18px 24px;box-shadow:0 10px 30px rgba(0,33,52,.06)}
+.knot b{display:block;font-size:28px;font-weight:700;color:var(--navy)}
+.knot span{font-size:13px;color:var(--ink-warm)}
+.knot code{font-family:var(--mono);direction:ltr;color:var(--bronze)}
+</style></head>
+<body><section class="slide">
+  <div class="band"></div>
+  <div class="stage">
+    <span class="kicker">من السدو إلى السجلّ — على أرض الإنماء وطويق</span>
+    <h1 class="head">كلمةٌ تُنسَج،<br><b>فلا تُنقَض</b></h1>
+    <p class="sub">عهد يجعل القرض الحسن منتجًا مصرفيًّا: المصرف يكتب ويُشهد ويختم — ولا يُقرض من عنده، ولا يُصنّف البشر بأرقام.</p>
+    <div class="weave-row">
+      <div class="knot"><b>عقدان منفصلان</b><span>القرض بين الناس، والخدمة على السكّة</span></div>
+      <div class="knot"><b>٩ ← ٢</b><span>مقاصّةٌ ببرهان حفظٍ رياضيّ</span></div>
+      <div class="knot"><b><code>1687/0</code></b><span>كلّ ادّعاءٍ يحرسه اختبار</span></div>
+    </div>
+  </div>
+</section></body></html>
