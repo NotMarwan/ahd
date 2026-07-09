@@ -129,7 +129,7 @@ refreshed: "2026-07-09 (JL-1 Task 4 + evening JL-3 sweep) — Q-H1..Q-H4 appende
 - **Grade:** 🟢 in design. **⚠️ build honesty:** the project's open-threads (OT-CONSENT) flag that the *per-member consent card* is specified but was a build gap — confirm it's actually in the build you demo, or narrate it as "the consent step is the keystone; here's where it sits."
 
 ### Q-E4 — "Your trust signal is an illegal credit score." 🟢
-**30-sec:** *"It's structurally **incapable** of being one: a windowed, decayed **kept-ratio over the user's own sealed history only**, shown as a **3-band qualitative mirror — no number, no ranking, never underwrites, never sold, never reaches SIMAH, never leaves the dyad.** Every output even carries guard flags: `is_number_exported:false`, `used_in_underwriting:false`, `sent_to_bureau:false`. It's a private reflection, not a score."*
+**30-sec:** *"**Refusing to score is our identity, not a limitation — we deliberately won't turn kindness into a rating.** And structurally it's **incapable** of being one: a windowed, decayed **kept-ratio over the user's own sealed history only**, shown as a **3-band qualitative mirror — no number, no ranking, never underwrites, never sold, never reaches SIMAH, never leaves the dyad.** Every output even carries guard flags: `is_number_exported:false`, `used_in_underwriting:false`, `sent_to_bureau:false`. It's a private reflection, not a score."*
 - **Evidence:** `sources-ledger.md` §5 (trust-signal guard flags).
 - **Grade:** 🟢. **⚠️ red-team tail (OT-PCT):** the project itself flags that any **numeric %** ring *would* look like a score — make sure the build shows the **3-band glyph**, not a percentage, or this answer contradicts the screen.
 
