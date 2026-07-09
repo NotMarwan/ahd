@@ -17,6 +17,11 @@
 
 ### Panel #3 fix queue (2026-07-09 six-lens re-score + skeptic verification — all items file/line-verified)
 
+> **✅ APPLIED 2026-07-09 evening** — items 1–8 + 10 landed (plan: `docs/superpowers/plans/2026-07-09-panel3-fix-round.md`;
+> commits `13588e3..`; TDD teeth added for items 5–6: +4 dom-smoke assertions, gate now **1687/0**; browser-verified
+> incl. the digit toggle flipping both screens together). **Still open:** item 9's command half (JL-5 row — operator
+> decides stage command vs hygiene-only) · rehearsal + pptx build (JL-1 residuals) · Gate B re-score 14 Jul.
+
 Scores: innovation 8= · technical **9→8** · data 7.5= · UX 8= · feasibility 8= (OT-VAL audit **clean**) · memorability 8=. Ordered by judge-impact; owners in brackets:
 
 1. **Number sweep 1,603→1,683 / 1,405→1,485 / 33→34 suites** (cause of the technical drop — the script has the presenter SPEAK «١٬٦٠٣/٠» at 0:25 then RUN the gate at Q&A which prints **1683/0**): `docs/pitch/script-ar.md:66,79` · `deck-content-v2.md:13-14,98,174` · `PRESENTER-GUIDE.md:38,47,154` · `EVIDENCE-BRIEF.md:122` · `REBUTTAL-PLAYBOOK.md:9,118,202,207` · `top6-cards-ar.md:5` · `ملخص-الجديد-ببساطة.md:13` · `ARCHITECTURE.md:228` · `PUBLISHABLE-PRODUCT-SPEC.md:150` · `CLAUDE.md:23-24`. Front-loads the planned 12-July grep — file list is ready. [agent, text-only]

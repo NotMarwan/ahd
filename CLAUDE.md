@@ -21,7 +21,7 @@
    cd tests
    node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core 184/0 + structure-check 14/0
    node app/run-app-tests.cjs                                           # app: 34 suites
-   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (1683/0)
+   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (1687/0)
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
 6. **The judge lens is the fifth gate:** any change a judge could see (app screens, deck, script,
