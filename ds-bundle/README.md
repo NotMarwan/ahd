@@ -38,6 +38,9 @@ seal: `.ol-seal`>`.sl`/`.sh`/`.sv.ok|.bad`. There is **no** generic `.btn`/`.car
 
 `styles.css` → `_ds_bundle.css` (the entire real system, ~690 lines) · per-component `components/<group>/<Name>/<Name>.prompt.md` · previews are real product markup.
 
+**Before designing anything, read `guidelines/anti-slop.md`** — the binding taste charter (banned
+defaults, required Editorial-Luxury texture, self-check). `guidelines/brand.md` holds the brand lines.
+
 ## Idiomatic snippet
 
 ```html
