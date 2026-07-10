@@ -233,6 +233,18 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 }
 @media (prefers-reduced-motion: reduce){ .gauge{ --sweep:272deg } }
 
+/* ---- chip pills: sealed/status/count tone (screens ⑧-⑩) ---- */
+.chip{display:inline-flex; align-items:center; gap:4px; padding:4px 9px; border-radius:999px; font-size:11px; font-weight:700}
+.chip.teal{background:var(--teal-soft); color:var(--teal-text)}
+.chip.gold{background:var(--gold-soft-bg); color:var(--gold-text)}
+.chip.amber{background:#f3e2c4; color:#8a5a1a}
+
+/* ---- open-loan segmented progress bar: flex-grow fractions, no % text ---- */
+.ol-bar{display:flex; height:8px; border-radius:4px; overflow:hidden; background:var(--track)}
+.ol-seg.paid{background:var(--teal)} .ol-seg.forgiven{background:var(--gold)} .ol-seg.rem{background:var(--track)}
+.ol-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; font-size:11px; color:var(--ink2)}
+.ol-legend .paid{color:var(--teal-text); font-weight:700} .ol-legend .forgiven{color:var(--gold-text); font-weight:700}
+
 /* ---- wallet rows breathe: one-time slide-up + fade, staggered per row ---- */
 @media (prefers-reduced-motion: no-preference){
   .breathe .cell{ animation:row-in .3s ease-out both }
