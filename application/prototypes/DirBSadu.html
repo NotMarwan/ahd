@@ -1,4 +1,4 @@
-<!-- @dsCard group="Mobile / Directions" name="DirBSadu" subtitle="السدو v5 — خطوات الختم · وثيقة رسميّة · عِبَر — ٧ شاشات" viewport="1300x940" -->
+<!-- @dsCard group="Mobile / Directions" name="DirBSadu" subtitle="السدو — التغطية الكاملة · ١٧ شاشة (كلّ ملامح المنتج)" viewport="1300x940" -->
 <title>عهد — السدو v3 (iOS)</title>
 <style>
 /* ============================================================================
@@ -25,6 +25,8 @@
   --stop:#7a2410; --stop-deep:#5e1a0a; --stop-soft:#f6e3da; --stop-line:#e0bcab;
   --seal-bg:#221d16; --seal-ink:#ece3d0; --seal-lbl:#b3a789; --seal-hash:#d8b978;
   --auth:#12312b;              /* official green-charcoal: emblem stroke + footer only */
+  --sand-chip:#e8e0cf; --track:#e2d7c0; --ico-sand:#efe8d8; --gold-soft-bg:#f3ead2; --disabled:#cbbfa9; --plain-soft:#ece5d4;
+  --amber:#8a3f14; --amber-soft:#f7e9d6;
   --mono:"Consolas","Courier New",monospace;
   --stage:#131109; --r:14px;
 }
@@ -61,10 +63,13 @@ body{margin:0; background:var(--stage); color:#e9e4da;
   background:
     repeating-linear-gradient(135deg, var(--terra) 0 5px, transparent 5px 10px),
     repeating-linear-gradient(45deg, var(--ink) 0 5px, transparent 5px 10px),
-    #e2d7c0}
+    var(--track)}
 .nav-lg .sub{font-size:13px; color:var(--ink2); margin-top:10px; line-height:1.8}
-.insight{margin-top:8px; font-size:12.5px; color:var(--ink2); background:var(--card); border-radius:10px;
-  padding:8px 12px; line-height:1.8; border-inline-start:3px solid var(--teal)}
+.callout{border-radius:11px; padding:10px 13px; font-size:12.5px; line-height:1.85; display:flex; gap:9px; align-items:flex-start; border:1px solid var(--hair)}
+.callout .ci{flex:none; font-size:14px; margin-top:2px}
+.callout.fixv{background:var(--teal-soft); color:var(--ink)} .callout.fixv b{color:var(--teal-text)}
+.callout.insight{background:var(--card); color:var(--ink2)}
+.callout.amber{background:var(--amber-soft); color:var(--amber)}
 
 /* ---- state emblem: octagonal seal enclosing «عهد», hairline gold + auth stroke.
        Authority through craft, not claim — no external logos, no official words. ---- */
@@ -84,12 +89,12 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .cell + .cell::before{content:""; position:absolute; top:0; inset-inline-start:66px; inset-inline-end:0; height:1px; background:var(--hair)}
 .cell.noicon + .cell.noicon::before{inset-inline-start:14px}
 .ico{width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; background:var(--terra-soft)}
-.ico.sand{background:#efe8d8} .ico.teal{background:var(--teal-soft)}
+.ico.sand{background:var(--ico-sand)} .ico.teal{background:var(--teal-soft)}
 .c-t{font-weight:600; font-size:15.5px}
 .c-s{display:block; color:var(--ink2); font-size:12px; font-weight:400; margin-top:1px}
 .chev{color:var(--ink3); font-size:17px; padding-bottom:2px}
 .amt{text-align:left; font-variant-numeric:tabular-nums}
-.amt b{font-size:16px; font-weight:700} .amt small{display:block; color:var(--ink3); font-size:10.5px; font-weight:400}
+.amt b{font-size:16px; font-weight:700} .amt small{display:block; color:var(--ink3); font-size:11px; font-weight:400}
 .amt.lak b{color:var(--teal)} .amt.alayk b{color:var(--gold-text)}
 
 /* ---- buttons: ONE accent, 44pt+, thumb zone ---- */
@@ -97,7 +102,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .btn{appearance:none; border:0; width:100%; min-height:50px; border-radius:14px; font:inherit; font-size:16px; font-weight:700; cursor:pointer;
   display:flex; align-items:center; justify-content:center; gap:8px}
 .btn.prominent{background:var(--terra); color:#fff; box-shadow:0 4px 14px rgba(161,68,46,.28)}
-.btn.prominent[disabled]{background:#cbbfa9; box-shadow:none; cursor:not-allowed}
+.btn.prominent[disabled]{background:var(--disabled); box-shadow:none; cursor:not-allowed}
 .btn.tinted{background:var(--terra-soft); color:var(--terra)}
 .btn.plain{background:transparent; color:var(--terra); min-height:44px; font-weight:600}
 .row-2{display:flex; gap:10px} .row-2 .btn{flex:1}
@@ -106,14 +111,14 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .banner{border-radius:var(--r); padding:12px 14px; font-size:13px; line-height:1.8; display:flex; gap:9px; align-items:flex-start}
 .banner .bi{flex:none; font-size:15px; margin-top:2px}
 .banner.ok{background:var(--teal-soft); color:var(--teal-text); font-weight:600}
-.banner.gold{background:#f3ead2; color:var(--gold-text)}
-.banner.plain{background:#ece5d4; color:var(--ink2)}
+.banner.gold{background:var(--gold-soft-bg); color:var(--gold-text)}
+.banner.plain{background:var(--plain-soft); color:var(--ink2)}
 .verse{text-align:center; color:var(--gold-text); font-size:12.5px; line-height:2; padding:2px 20px}
 
 /* ceremony (inline-title screens) */
 .ceremony{display:flex; flex-direction:column; align-items:center; gap:12px; padding:70px 24px 8px; text-align:center}
 .ring{width:112px; height:112px; border-radius:50%; padding:6px;
-  background:repeating-conic-gradient(var(--ink) 0 10deg, var(--terra) 10deg 20deg, #e2d7c0 20deg 30deg)}
+  background:repeating-conic-gradient(var(--ink) 0 10deg, var(--terra) 10deg 20deg, var(--track) 20deg 30deg)}
 .badge{width:100%; height:100%; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; color:#fff}
 .badge.ok{background:var(--teal)} .badge.stop{background:var(--stop)}
 .cer-h{font-size:24px; font-weight:800; line-height:1.35}
@@ -123,13 +128,13 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .steps{display:flex; align-items:center; justify-content:center; gap:6px; padding:2px 24px 0}
 .step{display:flex; flex-direction:column; align-items:center; gap:3px; font-size:11.5px; font-weight:700; color:var(--ink3)}
 .step i{font-style:normal; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-size:12.5px; background:#e8e0cf; color:var(--ink2)}
+  font-size:12.5px; background:var(--sand-chip); color:var(--ink2)}
 .step.done i{background:var(--teal); color:#fff}
 .step.done{color:var(--teal)}
 .step.active i{background:var(--terra); color:#fff; box-shadow:0 0 0 4px var(--terra-soft)}
 .step.active{color:var(--terra)}
 .step.locked i{background:transparent; border:1.5px dashed var(--ink3)}
-.step-line{width:34px; height:2px; border-radius:2px; background:#e8e0cf; margin-bottom:16px}
+.step-line{width:34px; height:2px; border-radius:2px; background:var(--sand-chip); margin-bottom:16px}
 .step-line.done{background:var(--teal)}
 
 /* riba stop */
@@ -137,14 +142,13 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .stopcard{background:var(--stop-soft); border:1px solid var(--stop-line); border-radius:var(--r); padding:13px 15px; color:var(--stop)}
 .stopcard .h{font-weight:800; font-size:14px; color:var(--stop-deep); display:flex; gap:7px; align-items:center}
 .stopcard .w{font-size:12.5px; margin-top:5px; line-height:1.85}
-.fix{margin-top:10px; background:var(--card); border-radius:11px; padding:10px 13px; font-size:12.5px; color:var(--ink); line-height:1.85; border-inline-start:3px solid var(--teal)}
-.fix b{color:var(--teal)}
 .footnote{text-align:center; color:var(--ink3); font-size:11.5px; line-height:1.9; padding:0 18px}
 
 /* stat split */
 .split{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; background:var(--card); border-radius:var(--r); padding:16px 8px; text-align:center; box-shadow:0 1px 2px rgba(28,24,18,.05)}
 .split .div{width:1px; height:44px; background:var(--hair)}
 .st .k{font-size:11px; font-weight:600; color:var(--ink3)}
+/* .ds serial stays 10.5px — decorative Latin monospace, not informational prose */
 .st .v{font-size:25px; font-weight:800; margin-top:3px; font-variant-numeric:tabular-nums}
 .st .v small{font-size:11.5px; color:var(--ink3); font-weight:400}
 
@@ -201,8 +205,8 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 }
 
 /* ---- official document line: thin, closes every screen ---- */
-.official-line{padding:8px 20px 4px; text-align:center; color:var(--auth); font-size:10.5px;
-  font-weight:600; opacity:.72}
+.official-line{padding:8px 20px 4px; text-align:center; color:#4a5a52; font-size:10.5px;
+  font-weight:600}
 
 /* ---- alive motion: money counters count up (registered custom properties).
        Fallback: real number stays as text content — never shows 0 without support. ---- */
@@ -222,15 +226,43 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 /* ---- دفتري net-balance gauge: conic ring sweeps once to ~270deg on load ---- */
 @property --sweep{ syntax:'<angle>'; inherits:false; initial-value:0deg; }
 .gauge{position:relative; width:64px; height:64px; border-radius:50%; flex:none;
-  background:conic-gradient(var(--teal) var(--sweep), #e2d7c0 0)}
+  background:conic-gradient(var(--teal) var(--sweep), var(--track) 0)}
 .gauge::after{content:""; position:absolute; inset:6px; border-radius:50%; background:var(--card)}
 .gauge .lbl{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  font-size:9px; font-weight:700; color:var(--ink2); text-align:center; line-height:1.3; z-index:1}
+  font-size:10.5px; font-weight:700; color:var(--ink2); text-align:center; line-height:1.3; z-index:1}
 @media (prefers-reduced-motion: no-preference){
   .gauge{ animation:gauge-sweep .9s cubic-bezier(.16,1,.3,1) 1 both; animation-delay:.1s }
   @keyframes gauge-sweep{ from{ --sweep:0deg } to{ --sweep:272deg } }
 }
 @media (prefers-reduced-motion: reduce){ .gauge{ --sweep:272deg } }
+
+/* ---- chip pills: sealed/status/count tone (screens ⑧-⑩) ---- */
+.chip{display:inline-flex; align-items:center; gap:4px; padding:4px 9px; border-radius:999px; font-size:11px; font-weight:700}
+.chip.teal{background:var(--teal-soft); color:var(--teal-text)}
+.chip.gold{background:var(--gold-soft-bg); color:var(--gold-text)}
+.chip.amber{background:#f3e2c4; color:#8a5a1a}
+
+/* ---- open-loan segmented progress bar: flex-grow fractions, no % text ---- */
+.ol-bar{display:flex; height:8px; border-radius:4px; overflow:hidden; background:var(--track)}
+.ol-seg.paid{background:var(--teal)} .ol-seg.forgiven{background:var(--gold)} .ol-seg.rem{background:var(--track)}
+.ol-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; font-size:11px; color:var(--ink2)}
+.ol-legend .paid{color:var(--teal-text); font-weight:700} .ol-legend .forgiven{color:var(--gold-text); font-weight:700}
+
+/* ---- covenant trail spine: structural timeline guide (documented exception) ---- */
+.cv-line{border-inline-start:2px dashed var(--hair); padding-inline-start:18px; display:flex; flex-direction:column; gap:14px}
+.cv-step{position:relative; font-size:13px; line-height:1.75}
+.cv-dot{position:absolute; inset-inline-start:-23px; top:3px; width:9px; height:9px; border-radius:50%; background:var(--gold)}
+.cv-seal{font-family:var(--mono); direction:ltr; text-align:left; font-size:10.5px; color:var(--ink3); margin-top:3px}
+
+/* ---- bounds: guard line + bank-section gold hairline; printed command well ---- */
+.bd-guard{display:block; font-family:var(--mono); direction:ltr; text-align:left; font-size:11px; color:var(--ink3); margin-top:4px}
+.bd-bank{border-top:2px solid var(--gold)}
+.cmd{font-family:var(--mono); direction:ltr; text-align:left; font-size:11.5px; color:var(--ink2); background:var(--card); border-radius:var(--r); padding:10px 14px; box-shadow:0 1px 2px rgba(28,24,18,.05)}
+
+/* ---- settings: digit/privacy segmented control ---- */
+.set-seg{display:flex; gap:8px; margin-top:8px}
+.set-seg button{flex:1; appearance:none; border:1px solid var(--hair); background:var(--card); border-radius:10px; padding:9px; font:inherit; font-size:12.5px; font-weight:700; color:var(--ink2); cursor:pointer}
+.set-seg button.on{background:var(--teal-soft); color:var(--teal-text); border-color:transparent}
 
 /* ---- wallet rows breathe: one-time slide-up + fade, staggered per row ---- */
 @media (prefers-reduced-motion: no-preference){
@@ -316,7 +348,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="stopcard">
               <div class="h">⛔ «غرامة» — شرطُ زيادةٍ عند التأخّر</div>
               <div class="w">هذا من ربا الجاهليّة، ولا يُختم عهدٌ فيه زيادةٌ مشروطة.</div>
-              <div class="fix"><b>البديل الحلال:</b> احذف الشرط — إن عسر المدين ﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾.</div>
+              <div class="callout fixv"><span class="ci">🌿</span><span><b>البديل الحلال:</b> احذف الشرط — إن عسر المدين ﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾.</span></div>
             </div>
           </div>
           <div class="actions">
@@ -420,7 +452,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
               <span class="gauge"><span class="lbl">صافي<br>لك</span></span>
               <span>صافي ما لك: <b class="count" style="--count-to:900; --count-color:var(--teal)">900</b> ريال عبر ثلاثة عهودٍ مختومة.</span>
             </div>
-            <div class="insight">كلّ عهودك القائمة موثّقة ومختومة — لا شيء على الكلام وحده.</div>
+            <div class="callout insight"><span class="ci">💡</span><span>كلّ عهودك القائمة موثّقة ومختومة — لا شيء على الكلام وحده.</span></div>
           </div>
           <div class="col">
             <div class="sec-h">العهود القائمة</div>
@@ -459,7 +491,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="lg-title">ما عليّ</div>
             <div class="sadu"></div>
             <div class="sub">ما عليك: <b style="color:var(--gold)">1,200 ريال</b> — بلا عدّادٍ يلاحقك، وبلا تصنيف.</div>
-            <div class="insight">لا فوائد تتراكم عليك — المبلغ اليوم هو المبلغ غدًا.</div>
+            <div class="callout insight"><span class="ci">💡</span><span>لا فوائد تتراكم عليك — المبلغ اليوم هو المبلغ غدًا.</span></div>
           </div>
           <div class="col">
             <div class="group breathe">
@@ -554,6 +586,423 @@ body{margin:0; background:var(--stage); color:#e9e4da;
           </div>
           <div class="actions">
             <div class="footnote">لا درجات، لا ترتيب، لا تصدير — الأثر يُروى جملةً، والأفراد في سترهم</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑧ اطلب عهدًا -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑧ اطلب عهدًا<small>طلبٌ وارد · قرضٌ حسن</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">قرضٌ حسن</div>
+            <div class="lg-title">اطلب عهدًا · قرضٌ حسن</div>
+            <div class="sadu"></div>
+            <div class="sub">أنت تطلب — وعهدٌ يكتبها بكرامة. لا حرج في أن تسأل، والكلمة محفوظة.</div>
+          </div>
+          <div class="steps" aria-hidden="true">
+            <span class="step done"><i>١</i>الصياغة</span>
+            <span class="step-line done"></span>
+            <span class="step active"><i>٢</i>الفحص</span>
+            <span class="step-line"></span>
+            <span class="step locked"><i>٣</i>الختم</span>
+          </div>
+          <div class="col">
+            <div class="sec-h">الطلب</div>
+            <div class="group">
+              <div class="cell"><span class="ico">🤝</span><span><span class="c-t">تطلب من<span class="c-s">نورة</span></span></span><span class="amt lak"><b>2,500</b><small>ريال</small></span></div>
+              <div class="cell noicon"><span><span class="c-t">السداد<span class="c-s">مفتوح · متى ما تيسّر</span></span></span></div>
+            </div>
+            <div class="sec-h">الشروط (صياغة علّام · محاكاة)</div>
+            <div class="quote">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه متى ما تيسّر، دون أيّ زيادةٍ أو غرامة.</div>
+            <div class="banner ok"><span class="bi">✓</span><span>النصّ سليم — قرضٌ حسن بلا ربا، ولا غرامة، ولا أيّ زيادة</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn prominent">اختم العهد عبر نفاذ (محاكاة)</button>
+            <button class="btn tinted">اعتذر بلا حرج</button>
+            <div class="footnote">الطلب لا يُلزم أحدًا — للمُقرض أن يوافق أو يعتذر بلا حرج</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑨ قرضٌ مفتوح -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑨ قرضٌ مفتوح<small>متى ما تيسّر — لا موعد، لا حرج</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">قرضٌ مفتوحٌ بينك وبين خالد</div>
+            <div class="lg-title">متى ما تيسّر</div>
+            <div class="sadu"></div>
+          </div>
+          <div class="col">
+            <div class="split"><div class="st"><div class="k">المتبقّي</div><div class="v">1,500 <small>ر.س</small></div></div></div>
+            <div class="sec-h">رحلة السداد · متى ما تيسّر</div>
+            <div class="ol-bar" aria-hidden="true"><span class="ol-seg paid" style="flex-grow:6"></span><span class="ol-seg forgiven" style="flex-grow:1"></span><span class="ol-seg rem" style="flex-grow:3"></span></div>
+            <div class="ol-legend"><span class="paid">سُدِّد 3,000</span><span class="forgiven">صدقة 500</span><span>باقٍ 1,500</span><span>من 5,000 ر.س</span></div>
+            <div class="group">
+              <div class="cell"><span class="ico">🔏</span><span><span class="c-t">وُثِّق وخُتم القرض المفتوح<span class="c-s">يُسدَّد متى ما تيسّر</span></span></span></div>
+              <div class="cell"><span class="ico teal">💳</span><span><span class="c-t">سُدِّدت دفعةٌ حين تيسّر<span class="c-s">المتبقّي ينقص، بلا أيّ زيادة</span></span></span></div>
+              <div class="cell"><span class="ico">🤍</span><span><span class="c-t">أُبرئ جزءٌ صدقةً<span class="c-s">والباقي يبقى مفتوحًا</span></span></span></div>
+            </div>
+            <div class="verse">﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
+            <div class="banner plain">لا موعد، لا تذكير منك، لا حرج. حين ييسّر الله، يردّ — ولكِ أن تُبرئ متى شئتِ.</div>
+            <div class="cell noicon"><span><span class="chip teal">سُدِّد جزءٌ منه — والباقي متى تيسّر</span></span></div>
+          </div>
+          <div class="actions">
+            <button class="btn prominent">سدِّد جزءًا الآن (٥٬٠٠٠)</button>
+            <button class="btn plain">🤍 اجعلها صدقة</button>
+            <div class="footnote">السداد: متى ما تيسّر (قرضٌ مفتوح — بلا موعد)</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑩ سِجلّ الشهادة -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑩ سِجلّ الشهادة<small>حسب العهد · حسب الوقت</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">المصرف يشهد ويحفظ</div>
+            <div class="lg-title">سِجلّ الشهادة</div>
+            <div class="sadu"></div>
+            <div class="sub">المصرف يشهد ويحفظ — لا يُقرض، ولا يحكم، ولا يُصنّف. هذا ما جرى توثيقه.</div>
+          </div>
+          <div class="col">
+            <div class="sec-h">العدّاد</div>
+            <div class="tl-counts" style="display:flex; flex-wrap:wrap; gap:8px">
+              <span class="chip teal">٥ موثّق</span>
+              <span class="chip gold">٢ ذمّة محفوظة</span>
+              <span class="chip gold">١ رحمة</span>
+              <span class="chip amber">١ تذكير لطيف</span>
+            </div>
+            <div class="sec-h">حسب العهد</div>
+            <div class="group">
+              <div class="cell"><span class="ico teal">🔏</span><span><span class="c-t">خالد<span class="c-s">وُثِّق وخُتم العهد — شهادةٌ محفوظة</span></span></span><span class="amt lak"><b>2,500</b><small>ريال</small></span></div>
+              <div class="cell"><span class="ico sand">📩</span><span><span class="c-t">فهد<span class="c-s">أرسل عهدٌ تذكيرًا لطيفًا بالنيابة عنك</span></span></span><span class="amt alayk"><b>600</b><small>ريال</small></span></div>
+              <div class="cell"><span class="ico teal">🤍</span><span><span class="c-t">سارة<span class="c-s">وُفِّي به — ذمّة محفوظة</span></span></span><span class="amt lak"><b>300</b><small>ريال</small></span></div>
+            </div>
+            <div class="group">
+              <div class="cell"><span><span class="c-t">حسب الوقت</span></span></div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="footnote">التأخّر يُذكر بلونٍ هادئ — لا أحمر، لا تشهير، لا غرامة</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑪ الدائرة -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑪ الدائرة<small>لوحة أمين الصندوق · تذكيرٌ جماعيّ لا يُسمّي أحدًا</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">لوحة أمين الصندوق</div>
+            <div class="lg-title">الدائرة</div>
+            <div class="sadu"></div>
+            <div class="sub" style="display:flex; align-items:center; gap:12px">
+              <span class="gauge"><span class="lbl">جُمِع<br>بعضها</span></span>
+              <span>دائرة «رحلة العلا» · أمين الصندوق لُجين</span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="split"><div class="st"><div class="k">جُمِع</div><div class="v">3,200 <small>ريال</small></div></div><div class="div"></div><div class="st"><div class="k">من</div><div class="v">8,000 <small>ريال</small></div></div></div>
+            <div class="banner plain">جُمِع بعضها</div>
+            <div class="sec-h">أعضاء الدائرة</div>
+            <div class="group breathe">
+              <div class="cell"><span class="ico teal">🤝</span><span><span class="c-t">لُجين<span class="c-s">أنتِ · أمينة الصندوق</span></span></span><span class="chip teal">دفعتِ عن الجميع</span></div>
+              <div class="cell"><span class="ico sand">🤍</span><span><span class="c-t">نورة</span></span><span class="chip gold">ذمّة محفوظة — وُفِّي به</span></div>
+              <div class="cell"><span class="ico sand">🤝</span><span><span class="c-t">سارة</span></span><span class="chip teal">نشِط</span></div>
+              <div class="cell"><span class="ico sand">🕊️</span><span><span class="c-t">خالد</span></span><span class="chip gold">مؤجّل بالتراضي</span></div>
+              <div class="cell noicon"><span><span class="c-t">ريم</span></span><span class="chip">مسودة</span></div>
+            </div>
+            <div class="callout insight"><span class="ci">🤍</span><span>التذكير جماعيٌّ يصل الجميع — لا يُسمّى المتأخّر ولا يُفضح. ومتى تعسّر عضوٌ: «أحتاج وقت» (٢٨٠) أو إبراءٌ صدقةً.</span></div>
+            <div class="sealdoc"><div class="sl">ختم الدائرة — دليلٌ واحدٌ للمناسبة كلِّها</div><div class="hash">6c9410b9 4e1a 22f7 …</div></div>
+          </div>
+          <div class="actions">
+            <button class="btn tinted">ذكّر الدائرة بلطف 🤍</button>
+            <div class="footnote">التأخّر يُذكر بلونٍ هادئ — لا أحمر، لا تشهير، لا غرامة</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑫ الدائرة+ -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑫ الدائرة+<small>بالأصناف · قِسمة دائمة · تخريج · تعهّد (مسودّة)</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">أربعة أنماط دائرة متقدّمة</div>
+            <div class="lg-title">الدائرة+</div>
+            <div class="sadu"></div>
+          </div>
+          <div class="col">
+            <div class="sec-h">تقسيم بالأصناف · عشاء الخميس</div>
+            <div class="quote">كلٌّ يدفع عمّا طلب — والمجموع محفوظٌ بالهللة (590 ر.س)</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">ستيك<span class="c-s">على ١</span></span></span><span class="amt lak"><b>300</b><small>ريال</small></span></div>
+              <div class="cell noicon"><span><span class="c-t">بيتزا مشتركة<span class="c-s">على ٣</span></span></span><span class="amt lak"><b>200</b><small>ريال</small></span></div>
+              <div class="cell noicon"><span><span class="c-t">عصائر<span class="c-s">على ٢</span></span></span><span class="amt lak"><b>90</b><small>ريال</small></span></div>
+            </div>
+            <div class="banner ok"><span class="bi">✓</span><span>كلُّ صنفٍ يُقسَّم بالهللة بلا كَسْر — والمجموع محفوظ تمامًا، لا ربا</span></div>
+            <div class="sec-h">قِسْمة دائمة · الإيجار</div>
+            <div class="quote">3,600 ر.س · كل شهر · يدفع تركي ثم تُقسَّم بالتساوي</div>
+            <div class="footnote">تُنشَر تلقائيًّا كل شهر — «عدّل» / «أوقف» متاحة دائمًا، بلا فائدة ولا غرامة.</div>
+            <div class="sec-h">تخريج قَيْد → عهد</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">المبلغ بينك وبين تركي صار ١٬٥٠٠ ر.س<span class="c-s">تحبّ توثّقونه كعهدٍ مكتوب؟</span></span></span></div>
+            </div>
+            <div class="footnote">«عهد» يَعرِض، ولا يفرض — يبقى في الميزان إن شئت.</div>
+            <div class="sec-h">نجمع للهدف معًا · رحلة العلا (مسودّة)</div>
+            <div class="quote">الهدف 8,000 ر.س · ٤ متعهّدين</div>
+            <div class="callout insight"><span class="ci">⚠️</span><span>تعهّدٌ فقط — لا وديعةٌ مجمّعة يحفظها المصرف. هذا النمط (ب) يحتاج مراجعةً شرعيّة قبل الإطلاق.</span></div>
+            <div class="sealdoc"><div class="sl">وثّقها كعهد</div><div class="hash">SEAL: 6c9410b9 4e1a 22f7 …</div></div>
+          </div>
+          <div class="actions">
+            <button class="btn prominent">وثّقها كعهد</button>
+            <div class="footnote">التذكير جماعيٌّ — لا حرج، لا فائدة، لا غرامة</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑬ سُلفة بالمعروف -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑬ سُلفة بالمعروف<small>قرضٌ حسنٌ قائمٌ متجدّد بين طرفين</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">سُلفةٌ بالمعروف — قرضٌ حسنٌ قائمٌ بين طرفين</div>
+            <div class="lg-title">سُلفة بالمعروف</div>
+            <div class="sadu"></div>
+            <div class="sub" style="display:flex; align-items:center; gap:10px; justify-content:center">
+              <span class="chip teal">أبو فهد</span><span aria-hidden="true" style="color:var(--gold)">↻</span><span class="chip teal">راميش</span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="footnote">في كلّ دورة: 800 ر.س · 4 دورات</div>
+            <div class="tiles">
+              <div class="tile"><b>3,200</b><span>أُثبِت ر.س</span></div>
+              <div class="tile"><b style="color:var(--gold-text)">0</b><span>سُدِّد ر.س</span></div>
+              <div class="tile"><b style="color:var(--gold-text)">3,200</b><span>باقٍ ر.س</span></div>
+            </div>
+            <div class="footnote">سُلفةٌ قائمةٌ متجدّدة — لا موعد، لا تذكير، لا حرج. في كلّ دورةٍ يُختم عهدٌ واحد، يُسدَّد متى ما تيسّر، بلا أيّ زيادة.</div>
+            <div class="sec-h">العهود المختومة · دورةً دورة</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">دورة 2026-01<span class="c-s">قائم — متى ما تيسّر</span></span></span><span class="amt lak"><b>800</b><small>ريال</small></span></div>
+              <div class="cell noicon"><span><span class="c-t">دورة 2026-02<span class="c-s">قائم — متى ما تيسّر</span></span></span><span class="amt lak"><b>800</b><small>ريال</small></span></div>
+              <div class="cell noicon"><span><span class="c-t">دورة 2026-03<span class="c-s">قائم — متى ما تيسّر</span></span></span><span class="amt lak"><b>800</b><small>ريال</small></span></div>
+              <div class="cell noicon"><span><span class="c-t">دورة 2026-04<span class="c-s">قائم — متى ما تيسّر</span></span></span><span class="amt lak"><b>800</b><small>ريال</small></span></div>
+            </div>
+            <div class="sealdoc"><div class="sl">SEAL لكلّ دورة</div><div class="hash">6c9410b9 4e1a 22f7 …</div></div>
+            <div class="quote">يُقِرّ الطرفان بأنّ «أبو فهد» تُسلِف «راميش» مبلغ 800 ريال في كلّ دورة على سبيل القرض الحسن، سُلفةٌ قائمةٌ بينهما تتكرّر عبر 4 دورةً، يُسدَّد متى تيسّر — بلا أيّ زيادةٍ ولا فائدةٍ ولا غرامة. ولا يحفظ المصرف في هذه السُّلفة مالًا، ولا يتقاضى عليها أجرًا؛ إنّما يشهد ويختم ويوثّق. ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾</div>
+            <div class="sec-h">التحقّق من ختم الترتيب القائم</div>
+            <div class="verify ok"><span class="bi">✓</span><span>الوثيقة سليمة — مطابقة للختم</span></div>
+            <div class="callout amber"><span class="ci">⚠️</span><span><b>حدُّ تكاملٍ موثّق — بانتظار المراجعة الشرعيّة (OT-VAL)</b><br>ربط هذه السُّلفة بالراتب أو بمنصّة «مساند» (توطين رواتب العمالة المنزليّة) هو حدُّ تكاملٍ موثّق لم يُبتّ فيه بعد؛ musanedIntegration = false، needsCounselSignOff = true. لا يُقرّر التطبيق هنا حكمًا نظاميًّا ولا شرعيًّا — يُحال لأهل الاختصاص.</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn plain">🧪 جرّب العبث بالمبلغ</button>
+            <div class="footnote">لا موعد، لا تذكير، لا حرج — بلا أيّ زيادة</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑭ سِجلّ المعروف -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑭ سِجلّ المعروف<small>الرحلة المختومة — كلّ تذكيرٍ وإمهالٍ وإبراء، مرتّبًا</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <button class="pf-back" style="all:unset; font-size:12.5px; font-weight:700; color:var(--ink3); cursor:pointer">→ رجوع إلى دفتري</button>
+            <div class="eyebrow" style="margin-top:8px">عهد «أنت» و«خالد» — 2,500 ريال</div>
+            <div class="lg-title">سِجلّ المعروف</div>
+            <div class="sadu"></div>
+            <div class="callout insight" style="margin-top:12px"><span class="ci">💡</span><span>كلُّ تذكيرٍ لطيف، وكلُّ نظرةٍ إلى ميسرة، وكلُّ إبراء — مختومٌ ومرتّبٌ هنا. هذا سِجلٌّ يشهد بحُسن النيّة، لا يُقيّم أحدًا ولا يُصنّفه.</span></div>
+          </div>
+          <div class="col">
+            <div class="sec-h">الرحلة — خطوةً خطوة</div>
+            <div class="cv-line">
+              <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
+                <div>وُثِّق وخُتم العهد — شهادةٌ محفوظة بين الطرفين</div>
+                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+              <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
+                <div>أرسل عهدٌ تذكيرًا لطيفًا بالنيابة عن المُقرِض — بلا حرج، بلا انحياز</div>
+                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+              <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
+                <div>أُعيدت الجدولة بالمعروف — نظرةٌ إلى ميسرة، بلا أيّ زيادة (٢٨٠)</div>
+                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+              <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
+                <div>سُدِّدت دفعةٌ حين تيسّر — المتبقّي ينقص، بلا أيّ زيادة</div>
+                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+            </div>
+            <div class="verify ok"><span class="bi">✓</span><span>السلسلة سليمة — كلّ خطوةٍ مطابقةٌ لختمها</span></div>
+            <div class="footnote">لا يظهر هنا عددُ أيّامٍ ولا تصنيفٌ ولا رقمُ سمعة — أصلُ المبلغ وحده، ومعروفٌ محفوظ.</div>
+          </div>
+          <div class="actions">
+            <button class="btn prominent">📤 صدِّرها كبيّنة محايدة</button>
+            <button class="btn plain">🧪 جرّب العبث بالسِّجل</button>
+            <div class="footnote">البيّنة المحايدة تحوي الطرفين وبصمة الشروط والخطوات المختومة وحالتها النهائية فقط — بلا أيّ سمعةٍ أو تقييم، كما تُقبل دليلًا (نظام الإثبات ٢٠٢٢).</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑮ محلّ خلاف -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑮ محلّ خلاف<small>عهدٌ يشهد ولا يحكم</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <button class="pf-back" style="all:unset; font-size:12.5px; font-weight:700; color:var(--ink3); cursor:pointer">→ رجوع إلى دفتري</button>
+            <div class="eyebrow" style="margin-top:8px">عهد «أنت» و«خالد» — 2,500 ريال</div>
+            <div class="lg-title">محلّ خلاف</div>
+            <div class="sadu"></div>
+          </div>
+          <div class="col">
+            <div class="banner plain" style="font-size:15px; padding:16px"><span class="bi">⚖️</span><span>عهدٌ يشهد ولا يحكم — يحفظ الوثيقة محايدةً للطرفين، ولا يقضي بينهما، ولا يضيف أيّ زيادة.</span></div>
+            <div class="stopcard" style="background:var(--card); border:1.5px dashed var(--hair); color:var(--ink2)">
+              <div class="w">⏸️ أوقف عهد التذكيرات هنا — بلا غرامة، بلا انحياز، بلا أيّ زيادة. الوقت الآن للصلح.</div>
+            </div>
+            <div class="sealdoc"><div class="sl">الوثيقة المحايدة</div><div class="body">السجلّ المختوم محفوظٌ كما هو — دليلٌ محايد لا يميل لأحد.</div></div>
+            <div class="sec-h">مسارٌ كريم لكلا الطرفين</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">🤝 تراضٍ — تصالُحٌ بالمعروف<span class="chip gold" style="margin-inline-start:6px">الأحبّ</span><span class="c-s">الأحبّ إلى عهد ﴿والصلح خير﴾ — يُقترَح إمهالٌ أو إبراءٌ بلا أيّ زيادة.</span></span></span></div>
+            </div>
+            <div class="row-2">
+              <button class="btn tinted">اقترِح إعادة جدولة 🌿</button>
+              <button class="btn plain">أبرئ ما تبقّى 🤲</button>
+            </div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">⚖️ قضاء — إن لزم<span class="c-s">تُقدَّم الوثيقة المختومة دليلًا محايدًا (نظام الإثبات)؛ عهد لا يكون خصمًا ولا حَكَمًا.</span></span></span></div>
+            </div>
+            <button class="btn plain">اعرض الوثيقة دليلًا 🔏</button>
+          </div>
+          <div class="actions">
+            <div class="footnote">المصرف ليس خصمًا ولا حَكَمًا — يشهد، ويحفظ الحقّ بكرامةٍ للطرفين.</div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑯ الضمانات والحدود -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑯ الضمانات والحدود<small>مكتوبةٌ في الكود، لا في الشعارات</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">🧭 الضمانات والحدود</div>
+            <div class="lg-title">مكتوبةٌ في الكود</div>
+            <div class="sadu"></div>
+            <div class="sub" style="font-size:13px; color:var(--ink2); margin-top:10px; line-height:1.8">ضماناتٌ مكتوبةٌ في الكود، لا في الشعارات — كلُّ بندٍ أدناه يحرسه ملفٌّ حقيقيٌّ باسمه، تقرؤه وتشغّله بنفسك.</div>
+          </div>
+          <div class="col">
+            <div class="sec-h">للمدين — كرامتُك محفوظة</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">لا غرامةَ تأخيرٍ أبدًا — التأخّرُ لا يزيد عليك هللةً واحدة.<span class="bd-guard">يحرسه: app/features/riba-lint.js · tests/app/riba-lint-corpus.test.cjs</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">«ادفع ما تيسّر» مقبولٌ دائمًا — أيُّ مبلغٍ يُنقص المتبقّي فورًا، بالهللة.<span class="bd-guard">يحرسه: app/features/borrower.js · tests/app/borrower.test.cjs</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">الخلافُ يوقف التذكيرَ فورًا — عهدٌ يشهد ولا يحكم.<span class="bd-guard">يحرسه: app/features/daftari.js · tests/app/daftari.test.cjs</span></span></span></div>
+            </div>
+            <div class="sec-h">للدائن — حقُّك موثَّق</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">وثيقةٌ مختومةٌ تفضح أيَّ عبث — يتغيّر حرفٌ فيتغيّر الختمُ كلُّه.<span class="bd-guard">يحرسه: app/engine.js · tests/app/proof.test.cjs</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">المقاصّةُ لا تغيّر صافيَ حقّك هللةً — مركزُك قبلها هو مركزُك بعدها.<span class="bd-guard">يحرسه: app/features/settlement.js · tests/app/settlement-conserve.test.cjs</span></span></span></div>
+            </div>
+            <div class="sec-h">حدود المصرف — يشهد ولا يتجاوز</div>
+            <div class="group bd-bank">
+              <div class="cell noicon"><span><span class="c-t">يكتب ويشهد ويحفظ — ولا يُقرض من عنده أبدًا.<span class="bd-guard">يحرسه: app/features/settings.js · tests/app/settings.test.cjs</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">لا يحكم في خلاف — يوقف ويحفظ البيّنةَ للطرفين وللقضاء.<span class="bd-guard">يحرسه: app/features/dispute.js · tests/app/dispute.test.cjs</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">لا رقمَ ائتمانٍ ولا تصدير — سجلُّ وفائك كلمةٌ تُقال لك وحدك، ولا تخرج.<span class="bd-guard">يحرسه: app/features/daftari.js · tests/app/daftari.test.cjs</span></span></span></div>
+            </div>
+            <div class="footnote">كلُّ بندٍ أعلاه يحرسه اختبارٌ آليٌّ يعمل دون إنترنت — اطلب تشغيله.</div>
+            <div class="cmd">cd tests &amp;&amp; node run-all.cjs</div>
+          </div>
+          <div class="actions">
+            <div class="row-2">
+              <button class="btn tinted">🫱 ما عليّ</button>
+              <button class="btn plain">🔏 حافظة الإثبات</button>
+            </div>
+            <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
+          </div>
+        </div>
+        <div class="homebar"></div>
+      </div></div>
+    </div>
+
+    <!-- ⑰ الإعدادات -->
+    <div class="phone-slot">
+      <div class="slot-lbl">⑰ الإعدادات<small>نظام الأرقام + منهج «ما نفعله / ما لا نفعله»</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">⚙️</div>
+            <div class="lg-title">الإعدادات · عن عهد</div>
+            <div class="sadu"></div>
+          </div>
+          <div class="col">
+            <div class="quote">
+              <div class="sec-h" style="padding:0; margin-bottom:8px">نظام الأرقام</div>
+              <div class="set-seg"><button class="on">0123 — غربية</button><button>٠١٢٣ — عربية</button></div>
+              <div class="footnote" style="padding:8px 0 0">مثال: <b>12,500</b> ر.س — يُطبَّق فورًا (والختم لا يتغيّر، فهو على المحتوى لا على شكل الأرقام).</div>
+            </div>
+            <div class="quote">
+              <div class="sec-h" style="padding:0; margin-bottom:8px">الخصوصيّة · إخفاء المبالغ</div>
+              <div class="set-seg"><button class="on">إظهار</button><button>إخفاء •••</button></div>
+              <div class="footnote" style="padding:8px 0 0">حين تُري شاشتك لأحد: تختفي المبالغ من التطبيق كلِّه (تُستبدَل بـ «•••»). عرضٌ فقط — لا يمسّ الوثيقة ولا الختم.</div>
+            </div>
+            <div class="sec-h">ما يفعله عهد</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">✓ نكتب ونشهد<span class="c-s">نوثّق العهد بصياغةٍ واضحة، ونختمه ختمًا لا يُزوَّر (نفاذ + تعمية).</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">✓ نُسوّي بالتراضي<span class="c-s">نُقاصّ الديون المتشابكة بأقلّ التحويلات — بموافقة الجميع، بلا أيّ زيادة.</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">✓ نُيسّر عند العُسر<span class="c-s">نقترح الإمهال والإبراء — والعُسرُ يُقابَل بالرحمة، لا بالزيادة.</span></span></span></div>
+            </div>
+            <div class="sec-h">ما لا يفعله عهد</div>
+            <div class="group">
+              <div class="cell noicon"><span><span class="c-t">⛔ لا نُقرض<span class="c-s">المال مالُكم؛ عهد يشهد ويحفظ، ولا يُقرض من عنده.</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">⛔ لا نحكم<span class="c-s">عند الخلاف نحفظ الوثيقة محايدةً، ولا نقضي بين الطرفين.</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">⛔ لا نأخذ زيادة<span class="c-s">لا فائدة، ولا غرامةَ تأخير، ولا أيّ زيادةٍ على القرض — أبدًا.</span></span></span></div>
+              <div class="cell noicon"><span><span class="c-t">⛔ لا نُصنّف<span class="c-s">لا رقم ولا درجةَ ائتمان؛ سجلّ وفائك مرآةٌ لك وحدك، لا يُصدَّر.</span></span></span></div>
+            </div>
+            <div class="footnote">النموذج: عقدان منفصلان — قرضٌ حسن بلا أيّ زيادة بينكما، وأجرةُ خدمةٍ ثابتةٌ للمصرف على التوثيق والحفظ (لا نسبةٌ من المبلغ، ولا تزيد بالتأخير). فصلٌ تامّ بين القرض والأجرة.</div>
+            <div class="verse">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ · ﴿وَأَن تَصَدَّقُوا خَيْرٌ لَّكُمْ﴾ (٢٨٠) — ﴿فَاكْتُبُوهُ﴾ (٢٨٢)</div>
+          </div>
+          <div class="actions">
+            <div class="footnote">عهد — قرضٌ حسن مكتوبٌ ومشهود، بكرامة. كلمتك محفوظة، وعلاقتك محميّة.</div>
             <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
           </div>
         </div>
