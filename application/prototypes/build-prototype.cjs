@@ -10,10 +10,9 @@ const ORDER = [
   "head.html",
   "s01-home.html","s02-create.html","s03-settle.html","s04-daftari.html",
   "s05-borrower.html","s06-proof.html","s07-impact.html",
-  // بقيّة الملامح — appended by later tasks:
-  // "s08-request.html","s09-open.html","s10-timeline.html","s11-circle.html",
-  // "s12-circle-adv.html","s13-standing.html","s14-covenant.html","s15-dispute.html",
-  // "s16-bounds.html","s17-settings.html",
+  "s08-request.html","s09-open.html","s10-timeline.html","s11-circle.html",
+  "s12-circle-adv.html","s13-standing.html","s14-covenant.html","s15-dispute.html",
+  "s16-bounds.html","s17-settings.html",
   "foot.html",
 ];
 const parts = ORDER.map((f) => {
