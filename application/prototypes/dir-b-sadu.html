@@ -153,6 +153,9 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 
 /* sealed doc */
 .sealdoc{background:var(--seal-bg); color:var(--seal-ink); border-radius:var(--r); padding:16px}
+.sealdoc.compact{padding:12px 14px}
+.sealdoc.compact .sl{margin-bottom:5px}
+/* الآية تظهر حيث أصلها القرآنيّ: الكتابة ٢:٢٨٢ أو الرحمة ٢:٢٨٠ */
 .doc-head{display:flex; align-items:center; gap:11px; padding-bottom:11px; margin-bottom:11px;
   border-bottom:1.5px dashed rgba(216,185,120,.4)}
 .doc-emblem{width:38px; height:38px; flex:none}
@@ -177,7 +180,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 
 /* ---- المقاصّة circle animation: 9 debts dissolve one by one, 2 transfers draw in.
        10s loop, pure CSS. Reduced motion → final state, no motion. ---- */
-.muq .e{opacity:.55}
+.muq .e{opacity:.4}
 .muq .f{stroke-dasharray:200; stroke-dashoffset:200; opacity:0}
 @media (prefers-reduced-motion: no-preference){
   .muq .e{animation:muq-fade 10s ease-in-out infinite}
@@ -192,8 +195,8 @@ body{margin:0; background:var(--stage); color:#e9e4da;
     100%{opacity:.55}
   }
   @keyframes muq-draw{
-    0%,38%{stroke-dashoffset:200; opacity:0}
-    44%{opacity:1}
+    0%,30%{stroke-dashoffset:200; opacity:0}
+    36%{opacity:1}
     58%,88%{stroke-dashoffset:0; opacity:1}
     96%,100%{stroke-dashoffset:200; opacity:0}
   }
@@ -254,7 +257,8 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .cv-seal{font-family:var(--mono); direction:ltr; text-align:left; font-size:10.5px; color:var(--ink3); margin-top:3px}
 
 /* ---- bounds: guard line + bank-section gold hairline; printed command well ---- */
-.bd-guard{display:block; font-family:var(--mono); direction:ltr; text-align:left; font-size:11px; color:var(--ink3); margin-top:4px}
+.bd-guard{display:block; font-family:var(--mono); direction:ltr; text-align:left; font-size:11px; color:var(--ink2);
+  margin-top:7px; background:var(--card); border-radius:var(--r); padding:8px 11px; box-shadow:0 1px 2px rgba(28,24,18,.05)}
 .bd-bank{border-top:2px solid var(--gold)}
 .cmd{font-family:var(--mono); direction:ltr; text-align:left; font-size:11.5px; color:var(--ink2); background:var(--card); border-radius:var(--r); padding:10px 14px; box-shadow:0 1px 2px rgba(28,24,18,.05)}
 
@@ -280,9 +284,9 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 
 <div class="stage">
   <div class="stage-head">
-    <div class="k">AHD · SADU V3 · iOS HIG PASS · 7 SCREENS</div>
+    <div class="k">AHD · SADU · FULL COVERAGE · 17 SCREENS</div>
     <h1>عهد — السدو بلغة iOS</h1>
-    <p>عناوين كبيرة، مجموعات مدمجة بفواصل شعريّة، لهجة واحدة، أفعالٌ في متناول الإبهام — وهويّة السدو باقية.</p>
+    <p>سبعة عشر شاشةً بلهجةٍ واحدة — عناوين كبيرة، مجموعات مدمجة بفواصل شعريّة، أفعالٌ في متناول الإبهام — وهويّة السدو باقية.</p>
   </div>
 
   <div class="phones">
@@ -386,8 +390,8 @@ body{margin:0; background:var(--stage); color:#e9e4da;
                 <line class="e e9" x1="88"  y1="74" x2="112" y2="146"/>
               </g>
               <g stroke-linecap="round" fill="none">
-                <line class="f f1" x1="150" y1="30" x2="212" y2="74"  stroke="#177f6d" stroke-width="5"/>
-                <line class="f f2" x1="150" y1="30" x2="188" y2="146" stroke="#177f6d" stroke-width="5"/>
+                <line class="f f1" x1="150" y1="30" x2="212" y2="74"  stroke="#177f6d" stroke-width="6"/>
+                <line class="f f2" x1="150" y1="30" x2="188" y2="146" stroke="#177f6d" stroke-width="6"/>
               </g>
               <g>
                 <circle cx="150" cy="30"  r="11" fill="#a8863f"/>
@@ -447,9 +451,9 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="eyebrow">سجلّ الدائن</div>
             <div class="lg-title">دفتري</div>
             <div class="sadu"></div>
-            <div class="sub" style="display:flex; align-items:center; gap:12px">
+            <div class="sub" style="display:flex; align-items:center; gap:16px; margin-top:6px">
               <span class="gauge"><span class="lbl">صافي<br>لك</span></span>
-              <span>صافي ما لك: <b class="count" style="--count-to:900; --count-color:var(--teal)">900</b> ريال عبر ثلاثة عهودٍ مختومة.</span>
+              <span>صافي ما لك: <b class="count" style="--count-to:2200; --count-color:var(--teal)">2,200</b> ريال عبر ثلاثة عهودٍ مختومة.<small style="display:block; opacity:.65">بعد مقاصّة ما لك بما عليك</small></span>
             </div>
             <div class="callout insight"><span class="ci">💡</span><span>كلّ عهودك القائمة موثّقة ومختومة — لا شيء على الكلام وحده.</span></div>
           </div>
@@ -579,7 +583,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
               <div class="tile"><b>12</b><span>دائرة مقاصّة</span></div>
               <div class="tile"><b>63</b><span>تحويلًا أُلغيت حاجتُه</span></div>
               <div class="tile"><b>31,400</b><span>ريال سُوّيت صافيًا</span></div>
-              <div class="tile"><b>«7 من 9»</b><span>متوسّط انطواء التحويلات</span></div>
+              <div class="tile"><b style="font-size:19px; font-weight:800">«7 من 9»</b><span>متوسّط انطواء التحويلات</span></div>
             </div>
             <div class="banner ok"><span class="bi">⚖️</span><span>الحساب محفوظ: ما دخل الدائرة خرج منها — لا زيادة ولا نقصان</span></div>
           </div>
@@ -607,7 +611,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
           <div class="steps" aria-hidden="true">
             <span class="step done"><i>١</i>الصياغة</span>
             <span class="step-line done"></span>
-            <span class="step active"><i>٢</i>الفحص</span>
+            <span class="step done"><i>٢</i>الفحص</span>
             <span class="step-line"></span>
             <span class="step locked"><i>٣</i>الختم</span>
           </div>
@@ -622,9 +626,8 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="banner ok"><span class="bi">✓</span><span>النصّ سليم — قرضٌ حسن بلا ربا، ولا غرامة، ولا أيّ زيادة</span></div>
           </div>
           <div class="actions">
-            <button class="btn prominent">اختم العهد عبر نفاذ (محاكاة)</button>
-            <button class="btn tinted">اعتذر بلا حرج</button>
-            <div class="footnote">الطلب لا يُلزم أحدًا — للمُقرض أن يوافق أو يعتذر بلا حرج</div>
+            <button class="btn prominent">أرسِل الطلب بالمعروف</button>
+            <div class="footnote">الطلب لا يُلزم أحدًا — للمُقرض أن يوافق أو يعتذر بلا حرج (محاكاة)</div>
             <div class="official-line">وثيقةٌ تُختم ولا تُروى — عهد</div>
           </div>
         </div>
@@ -639,7 +642,12 @@ body{margin:0; background:var(--stage); color:#e9e4da;
         <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
         <div class="viewport">
           <div class="nav-lg">
-            <div class="eyebrow">قرضٌ مفتوحٌ بينك وبين خالد</div>
+            <div class="emblem" aria-hidden="true"><svg viewBox="0 0 40 40">
+              <polygon class="oct" points="20,3 32,8 37,20 32,32 20,37 8,32 3,20 8,8"/>
+              <polygon class="oct-in" points="20,7 29,11 33,20 29,29 20,33 11,29 7,20 11,11"/>
+              <text x="20" y="21">عهد</text>
+            </svg></div>
+            <div class="eyebrow">قرضٌ مفتوحٌ بينك وبين ماجد</div>
             <div class="lg-title">متى ما تيسّر</div>
             <div class="sadu"></div>
           </div>
@@ -679,6 +687,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="lg-title">سِجلّ الشهادة</div>
             <div class="sadu"></div>
             <div class="sub">المصرف يشهد ويحفظ — لا يُقرض، ولا يحكم، ولا يُصنّف. هذا ما جرى توثيقه.</div>
+            <div class="verse">﴿إِذَا تَدَايَنتُم بِدَيْنٍ إِلَىٰ أَجَلٍ مُّسَمًّى فَاكْتُبُوهُ﴾</div>
           </div>
           <div class="col">
             <div class="sec-h">العدّاد</div>
@@ -717,7 +726,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="eyebrow">لوحة أمين الصندوق</div>
             <div class="lg-title">الدائرة</div>
             <div class="sadu"></div>
-            <div class="sub" style="display:flex; align-items:center; gap:12px">
+            <div class="sub" style="display:flex; align-items:center; gap:16px; margin-top:6px">
               <span class="gauge"><span class="lbl">جُمِع<br>بعضها</span></span>
               <span>دائرة «رحلة العلا» · أمين الصندوق لُجين</span>
             </div>
@@ -727,14 +736,14 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="banner plain">جُمِع بعضها</div>
             <div class="sec-h">أعضاء الدائرة</div>
             <div class="group breathe">
-              <div class="cell"><span class="ico teal">🤝</span><span><span class="c-t">لُجين<span class="c-s">أنتِ · أمينة الصندوق</span></span></span><span class="chip teal">دفعتِ عن الجميع</span></div>
-              <div class="cell"><span class="ico sand">🤍</span><span><span class="c-t">نورة</span></span><span class="chip gold">ذمّة محفوظة — وُفِّي به</span></div>
-              <div class="cell"><span class="ico sand">🤝</span><span><span class="c-t">سارة</span></span><span class="chip teal">نشِط</span></div>
-              <div class="cell"><span class="ico sand">🕊️</span><span><span class="c-t">خالد</span></span><span class="chip gold">مؤجّل بالتراضي</span></div>
-              <div class="cell noicon"><span><span class="c-t">ريم</span></span><span class="chip">مسودة</span></div>
+              <div class="cell"><span class="ico teal">🤝</span><span><span class="c-t">لُجين<span class="c-s">أنتِ · أمينة الصندوق</span></span></span><span class="amt lak"><b>1,600</b><small>ريال</small></span><span class="chip teal">دفعتِ عن الجميع</span></div>
+              <div class="cell"><span class="ico sand">🤍</span><span><span class="c-t">نورة</span></span><span class="amt lak"><b>1,600</b><small>ريال</small></span><span class="chip gold">ذمّة محفوظة — وُفِّي به</span></div>
+              <div class="cell"><span class="ico sand">🤝</span><span><span class="c-t">سارة</span></span><span class="amt"><b>1,600</b><small>ريال</small></span><span class="chip teal">نشِط</span></div>
+              <div class="cell"><span class="ico sand">🌿</span><span><span class="c-t">خالد</span></span><span class="amt"><b>1,600</b><small>ريال</small></span><span class="chip gold">مؤجّل بالتراضي</span></div>
+              <div class="cell noicon"><span><span class="c-t">ريم</span></span><span class="amt"><b>1,600</b><small>ريال</small></span><span class="chip">مسودة</span></div>
             </div>
             <div class="callout insight"><span class="ci">🤍</span><span>التذكير جماعيٌّ يصل الجميع — لا يُسمّى المتأخّر ولا يُفضح. ومتى تعسّر عضوٌ: «أحتاج وقت» (٢٨٠) أو إبراءٌ صدقةً.</span></div>
-            <div class="sealdoc"><div class="sl">ختم الدائرة — دليلٌ واحدٌ للمناسبة كلِّها</div><div class="hash">6c9410b9 4e1a 22f7 …</div></div>
+            <div class="sealdoc compact"><div class="sl">ختم الدائرة — دليلٌ واحدٌ للمناسبة كلِّها</div><div class="hash">b3e2c9d4 71a0 55e8 …</div></div>
           </div>
           <div class="actions">
             <button class="btn tinted">ذكّر الدائرة بلطف 🤍</button>
@@ -777,7 +786,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="sec-h">نجمع للهدف معًا · رحلة العلا (مسودّة)</div>
             <div class="quote">الهدف 8,000 ر.س · ٤ متعهّدين</div>
             <div class="callout insight"><span class="ci">⚠️</span><span>تعهّدٌ فقط — لا وديعةٌ مجمّعة يحفظها المصرف. هذا النمط (ب) يحتاج مراجعةً شرعيّة قبل الإطلاق.</span></div>
-            <div class="sealdoc"><div class="sl">وثّقها كعهد</div><div class="hash">SEAL: 6c9410b9 4e1a 22f7 …</div></div>
+            <div class="sealdoc compact"><div class="sl">وثّقها كعهد</div><div class="hash">SEAL: c58e91d3 4a6f 7b02 …</div></div>
           </div>
           <div class="actions">
             <button class="btn prominent">وثّقها كعهد</button>
@@ -796,6 +805,11 @@ body{margin:0; background:var(--stage); color:#e9e4da;
         <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
         <div class="viewport">
           <div class="nav-lg">
+            <div class="emblem" aria-hidden="true"><svg viewBox="0 0 40 40">
+              <polygon class="oct" points="20,3 32,8 37,20 32,32 20,37 8,32 3,20 8,8"/>
+              <polygon class="oct-in" points="20,7 29,11 33,20 29,29 20,33 11,29 7,20 11,11"/>
+              <text x="20" y="21">عهد</text>
+            </svg></div>
             <div class="eyebrow">سُلفةٌ بالمعروف — قرضٌ حسنٌ قائمٌ بين طرفين</div>
             <div class="lg-title">سُلفة بالمعروف</div>
             <div class="sadu"></div>
@@ -818,7 +832,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
               <div class="cell noicon"><span><span class="c-t">دورة 2026-03<span class="c-s">قائم — متى ما تيسّر</span></span></span><span class="amt lak"><b>800</b><small>ريال</small></span></div>
               <div class="cell noicon"><span><span class="c-t">دورة 2026-04<span class="c-s">قائم — متى ما تيسّر</span></span></span><span class="amt lak"><b>800</b><small>ريال</small></span></div>
             </div>
-            <div class="sealdoc"><div class="sl">SEAL لكلّ دورة</div><div class="hash">6c9410b9 4e1a 22f7 …</div></div>
+            <div class="sealdoc compact"><div class="sl">SEAL لكلّ دورة</div><div class="hash">a7f01e58 c92b 3d46 …</div></div>
             <div class="quote">يُقِرّ الطرفان بأنّ «أبو فهد» تُسلِف «راميش» مبلغ 800 ريال في كلّ دورة على سبيل القرض الحسن، سُلفةٌ قائمةٌ بينهما تتكرّر عبر 4 دورةً، يُسدَّد متى تيسّر — بلا أيّ زيادةٍ ولا فائدةٍ ولا غرامة. ولا يحفظ المصرف في هذه السُّلفة مالًا، ولا يتقاضى عليها أجرًا؛ إنّما يشهد ويختم ويوثّق. ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾</div>
             <div class="sec-h">التحقّق من ختم الترتيب القائم</div>
             <div class="verify ok"><span class="bi">✓</span><span>الوثيقة سليمة — مطابقة للختم</span></div>
@@ -846,22 +860,23 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="lg-title">سِجلّ المعروف</div>
             <div class="sadu"></div>
             <div class="callout insight" style="margin-top:12px"><span class="ci">💡</span><span>كلُّ تذكيرٍ لطيف، وكلُّ نظرةٍ إلى ميسرة، وكلُّ إبراء — مختومٌ ومرتّبٌ هنا. هذا سِجلٌّ يشهد بحُسن النيّة، لا يُقيّم أحدًا ولا يُصنّفه.</span></div>
+            <div class="verse">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
           </div>
           <div class="col">
             <div class="sec-h">الرحلة — خطوةً خطوة</div>
             <div class="cv-line">
               <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
                 <div>وُثِّق وخُتم العهد — شهادةٌ محفوظة بين الطرفين</div>
-                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+                <div class="cv-seal">SEAL: d29c44b1 06e7 91af…</div></div>
               <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
                 <div>أرسل عهدٌ تذكيرًا لطيفًا بالنيابة عن المُقرِض — بلا حرج، بلا انحياز</div>
-                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+                <div class="cv-seal">SEAL: d29c44b1 06e7 91af…</div></div>
               <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
                 <div>أُعيدت الجدولة بالمعروف — نظرةٌ إلى ميسرة، بلا أيّ زيادة (٢٨٠)</div>
-                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+                <div class="cv-seal">SEAL: d29c44b1 06e7 91af…</div></div>
               <div class="cv-step"><span class="cv-dot" aria-hidden="true"></span>
                 <div>سُدِّدت دفعةٌ حين تيسّر — المتبقّي ينقص، بلا أيّ زيادة</div>
-                <div class="cv-seal">SEAL: 6c9410b9 4e1a 22f7…</div></div>
+                <div class="cv-seal">SEAL: d29c44b1 06e7 91af…</div></div>
             </div>
             <div class="verify ok"><span class="bi">✓</span><span>السلسلة سليمة — كلّ خطوةٍ مطابقةٌ لختمها</span></div>
             <div class="footnote">لا يظهر هنا عددُ أيّامٍ ولا تصنيفٌ ولا رقمُ سمعة — أصلُ المبلغ وحده، ومعروفٌ محفوظ.</div>
@@ -969,6 +984,11 @@ body{margin:0; background:var(--stage); color:#e9e4da;
         <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
         <div class="viewport">
           <div class="nav-lg">
+            <div class="emblem" aria-hidden="true"><svg viewBox="0 0 40 40">
+              <polygon class="oct" points="20,3 32,8 37,20 32,32 20,37 8,32 3,20 8,8"/>
+              <polygon class="oct-in" points="20,7 29,11 33,20 29,29 20,33 11,29 7,20 11,11"/>
+              <text x="20" y="21">عهد</text>
+            </svg></div>
             <div class="eyebrow">⚙️</div>
             <div class="lg-title">الإعدادات · عن عهد</div>
             <div class="sadu"></div>
