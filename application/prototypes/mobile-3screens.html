@@ -1,227 +1,232 @@
-<title>عهد — نماذج ثلاث شاشات (Mobile Prototype)</title>
+<title>عهد — نماذج ثلاث شاشات (Tides-style)</title>
 <style>
 /* ============================================================================
-   Ahd mobile prototype — 3 screens on the CLOUD DESIGN system.
-   Tokens + component classes copied VERBATIM from ds-bundle/_ds_bundle.css
-   (the app's real stylesheet). Only the phone-frame chrome is new.
-   Spine: no riba copy except negated · no numeric trust · red = tamper only ·
-   no ٪ glyphs · integer SAR · (محاكاة) on simulated integrations.
+   Ahd mobile prototype v2 — "Tides" cozy night style, requested by the operator.
+   Visual language: deep night sky + illustrated scene + cream bottom sheet +
+   soft coral accents. Ahd content + spine rules unchanged:
+   no riba copy except negated · no numeric trust · red reserved (Shariah stop /
+   tamper only) · no ٪ glyphs · integer SAR · (محاكاة) on simulated integrations.
 ============================================================================ */
 :root{
-  --bg:#f7f4ee; --ink:#1c2b2a; --mut:#6b7a77; --line:#e6e0d4; --card:#fffdf8;
-  --teal:#0e6b5c; --teal-soft:#e3f1ed; --gold:#9a7b27; --gold-soft:#f6efd9;
-  --amber:#a9571a; --amber-soft:#f7e9d6; --mute:#5b6b78; --mute-soft:#eceef0;
-  --shadow:0 1px 2px rgba(28,43,42,.06),0 8px 24px rgba(28,43,42,.05);
-  --shadow-sm:0 1px 2px rgba(28,43,42,.05),0 3px 10px rgba(28,43,42,.04);
-  --shadow-lg:0 2px 6px rgba(28,43,42,.08),0 18px 44px rgba(28,43,42,.12);
-  --bad:#8f2c14; --bad-deep:#7a2410; --bad-soft:#fbe4dc; --bad-line:#e7b3a2;
-  --r-sm:10px; --r-md:13px; --r-lg:16px; --r-xl:20px; --r-pill:999px;
-  --seal-bg:#10201e; --seal-ink:#dfeee9; --seal-lbl:#9ec7bd; --seal-hash:#7fe0c0; --seal-well:#0c1a18;
+  --night-1:#0c1526; --night-2:#22304e; --night-3:#3a4a6b;
+  --dusk:#b96a5e; --dusk-soft:#d98f7e;
+  --cream:#faf3e8; --cream-2:#fffaf1; --cream-line:#eee2cd;
+  --ink:#22303f; --mut:#8a8375;
+  --coral:#e8836f; --coral-deep:#d96a55; --coral-soft:#fbe3dc;
+  --teal:#177f6d; --teal-soft:#dff0ea;
+  --gold:#c9a45c;
+  --stop:#b4432c; --stop-deep:#93331f; --stop-soft:#f8e2da;
+  --r-sheet:30px; --r-card:18px; --r-pill:999px;
+  --shadow:0 2px 6px rgba(12,21,38,.10), 0 14px 34px rgba(12,21,38,.12);
   --mono:"Consolas","Courier New",monospace;
-  /* prototype-page chrome only (not part of the DS) */
-  --stage:#0f1d1b; --stage-ink:#dfeee9;
+  --stage:#101418; --stage-ink:#e9e4da;
 }
 *{box-sizing:border-box}
 body{margin:0; background:var(--stage); color:var(--stage-ink);
   font-family:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif; line-height:1.6}
 
-/* ---- stage (prototype page chrome) ---- */
+/* ---- stage chrome ---- */
 .stage{direction:rtl; max-width:1440px; margin:0 auto; padding:34px 22px 60px}
 .stage-head{text-align:center; margin-bottom:8px}
-.stage-head .k{font-size:12px; letter-spacing:3px; color:#9ec7bd; text-transform:uppercase}
-.stage-head h1{margin:6px 0 4px; font-size:30px; font-weight:800;
-  background:linear-gradient(180deg,#f4e9c8,#d4b968); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
-.stage-head p{margin:0 auto; max-width:62ch; color:#9fb8b2; font-size:13.5px}
+.stage-head .k{font-size:11.5px; letter-spacing:3px; color:#8fa3c9; text-transform:uppercase}
+.stage-head h1{margin:6px 0 4px; font-size:29px; font-weight:800; color:#f3e7cf}
+.stage-head p{margin:0 auto; max-width:62ch; color:#a9a294; font-size:13.5px}
 .phones{display:flex; gap:30px; justify-content:center; flex-wrap:wrap; margin-top:30px}
 .phone-slot{display:flex; flex-direction:column; gap:12px; align-items:center}
-.slot-lbl{font-size:13px; color:#cfe9e0; font-weight:700}
-.slot-lbl small{display:block; font-weight:400; color:#7fa79e; font-size:11.5px; margin-top:2px}
-.phone{width:390px; height:780px; border-radius:52px; background:#000; padding:12px;
-  box-shadow:0 2px 8px rgba(0,0,0,.5), 0 30px 70px rgba(0,0,0,.55), inset 0 0 0 2px #2a2a2a}
-.phone .glass{position:relative; width:100%; height:100%; border-radius:40px; overflow:hidden; background:var(--bg)}
-.phone .notch{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:118px; height:30px; background:#000; border-radius:999px; z-index:20}
-.viewport{direction:rtl; color:var(--ink); height:100%; overflow-y:auto; padding:56px 16px 84px; scrollbar-width:none}
+.slot-lbl{font-size:13px; color:#d9cfba; font-weight:700}
+.slot-lbl small{display:block; font-weight:400; color:#8f8878; font-size:11.5px; margin-top:2px}
+.phone{width:390px; height:800px; border-radius:52px; background:#05080f; padding:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.55), 0 34px 80px rgba(0,0,0,.6), inset 0 0 0 2px #262c38}
+.phone .glass{position:relative; width:100%; height:100%; border-radius:40px; overflow:hidden;
+  background:linear-gradient(180deg, var(--night-1) 0%, var(--night-2) 46%, var(--night-3) 62%);
+  color:#e8ecf4}
+.phone .notch{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:112px; height:28px; background:#05080f; border-radius:999px; z-index:30}
+.viewport{direction:rtl; height:100%; overflow-y:auto; scrollbar-width:none; display:flex; flex-direction:column}
 .viewport::-webkit-scrollbar{display:none}
-/* bottom tab bar (mobile chrome — maps to the app's .nav) */
-.tabbar{position:absolute; bottom:0; inset-inline:0; display:flex; justify-content:space-around; align-items:center;
-  padding:10px 8px 22px; background:linear-gradient(transparent, rgba(247,244,238,.9) 26%); backdrop-filter:blur(10px); z-index:10}
-.tb{display:flex; flex-direction:column; align-items:center; gap:2px; font-size:10.5px; color:var(--mut); min-width:56px}
-.tb .i{font-size:19px; line-height:1}
-.tb.on{color:var(--teal); font-weight:700}
-.tb.on .i{filter:drop-shadow(0 1px 2px rgba(14,107,92,.35))}
 
-/* ---- DS components (verbatim idioms from _ds_bundle.css) ---- */
-.home{display:flex; flex-direction:column; gap:14px}
-.hero{background:linear-gradient(135deg,#10201e,#163f37); color:#eaf6f2; border-radius:20px; padding:22px;
-  box-shadow:inset 0 0 0 1px rgba(154,123,39,.38), var(--shadow-lg); position:relative; overflow:hidden}
-.hero::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.06;
-  background:repeating-linear-gradient(45deg,transparent 0 14px,#d4b968 14px 15px),
-             repeating-linear-gradient(-45deg,transparent 0 14px,#d4b968 14px 15px)}
-.hero>*{position:relative}
-.hero .brand{font-size:38px; font-weight:800; letter-spacing:2px;
-  background:linear-gradient(180deg,#f4e9c8,#d4b968); -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent; color:#e9d9a6}
-.hero .tag{font-size:16px; color:#bfe3da; margin-top:4px}
-.hero .sub{font-size:12.5px; color:#9ec7bd; margin-top:10px; line-height:1.8}
-.hcards{display:flex; flex-direction:column; gap:10px}
-.hcard{appearance:none; text-align:right; border:1px solid var(--line); background:var(--card); border-radius:16px; padding:14px; box-shadow:var(--shadow); cursor:pointer; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center; font:inherit; color:var(--ink)}
-.hico{font-size:24px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--teal-soft); border-radius:12px}
-.hcard .ht{font-weight:700} .hcard .hs{grid-column:2; color:var(--mut); font-size:12.5px}
-.hsummary{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center; font-size:13.5px; color:var(--mut)}
-.hsummary b{color:var(--ink)}
-.hbasis{text-align:center; color:var(--gold); font-size:13px; line-height:1.9; padding:0 6px}
+/* ---- night sky scene ---- */
+.sky{position:relative; flex:none; padding:64px 24px 18px; min-height:236px}
+.stars, .stars::after{content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:radial-gradient(1.3px 1.3px at 12% 22%, #dfe8ff 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 12%, #cdd9f2 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 58% 30%, #f2ead2 50%, transparent 51%),
+    radial-gradient(1px 1px at 76% 16%, #dfe8ff 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 88% 34%, #cdd9f2 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 44%, #f2ead2 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 66% 48%, #dfe8ff 50%, transparent 51%)}
+.stars::after{transform:translate(9%,13%) scale(1.15); opacity:.6}
+.moon{position:absolute; top:56px; inset-inline-start:26px; width:54px; height:54px; border-radius:50%;
+  background:transparent; box-shadow:inset 14px -8px 0 2px #f2ead2; transform:rotate(-38deg)}
+.glow{position:absolute; top:78px; inset-inline-end:52px; width:16px; height:16px; border-radius:50%;
+  background:var(--coral); box-shadow:0 0 0 7px rgba(232,131,111,.22), 0 0 0 15px rgba(232,131,111,.10), 0 0 22px rgba(232,131,111,.6)}
+.skyline{position:absolute; bottom:0; inset-inline:0; height:74px; pointer-events:none}
+.skyline i{position:absolute; bottom:0; background:#0a1120; display:block}
+.skyline .b1{inset-inline-start:8%;  width:34px; height:44px; border-radius:6px 6px 0 0}
+.skyline .b2{inset-inline-start:20%; width:20px; height:64px; border-radius:10px 10px 0 0}
+.skyline .b2::before{content:""; position:absolute; top:-13px; left:50%; transform:translateX(-50%); width:8px; height:14px; background:#0a1120; border-radius:50% 50% 0 0}
+.skyline .b3{inset-inline-start:33%; width:44px; height:36px; border-radius:8px 8px 0 0}
+.skyline .b4{inset-inline-end:24%;  width:26px; height:56px; border-radius:12px 12px 0 0}
+.skyline .b5{inset-inline-end:9%;   width:38px; height:40px; border-radius:6px 6px 0 0}
+.skyline .dome{inset-inline-end:38%; width:34px; height:26px; border-radius:17px 17px 0 0}
+.sky-title{position:relative; z-index:2; margin-top:34px}
+.sky-title .w{font-size:34px; font-weight:800; color:#f3e7cf; letter-spacing:1px}
+.sky-title .t{font-size:13.5px; color:#b7c3da; margin-top:2px}
 
-.create{display:flex; flex-direction:column; gap:12px}
-.scr-title{font-weight:800; font-size:20px}
-.cr-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:14px}
-.cr-h{font-weight:700; margin-bottom:9px}
-.cr-fields{display:grid; grid-template-columns:1fr 1fr; gap:8px}
-.cr-fields > div{display:flex; flex-direction:column; background:var(--bg); border-radius:10px; padding:8px 10px}
-.cr-fields span{color:var(--mut); font-size:11.5px} .cr-fields b{font-size:14px}
-.cr-sub{color:var(--mut); font-size:12.5px; margin-bottom:6px}
-.cr-terms{background:var(--bg); border:1px dashed var(--line); border-radius:11px; padding:11px; font-size:13px; line-height:1.85}
-.cr-lint{margin-top:9px; border-radius:11px; padding:10px 12px; font-size:13px}
-.cr-lint.bad{
-  background:linear-gradient(180deg,#fcece5,var(--bad-soft));
-  color:var(--bad); border:1px solid var(--bad-line); border-inline-start:4px solid var(--bad);
-  padding:13px 14px; box-shadow:0 2px 6px rgba(143,44,20,.08), 0 12px 30px rgba(143,44,20,.12)}
-.cr-lint-head{font-weight:800; font-size:14.5px; color:var(--bad-deep); margin-bottom:8px; line-height:1.65; word-spacing:1px}
-.cr-hit{padding:8px 0}
-.cr-why{font-weight:700; font-size:13px; color:var(--bad)}
-.cr-lint .fix{margin-top:7px; font-size:12.5px; color:var(--ink); background:#fffdf8;
-  border:1px solid #dcece6; border-inline-start:3px solid var(--teal); border-radius:9px;
-  padding:8px 11px; line-height:1.75; box-shadow:var(--shadow-sm)}
-.cr-lint .fix b{color:var(--teal)}
-.cr-trybar{margin-top:9px; display:flex; gap:7px; flex-wrap:wrap}
-.cr-trybar .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:9px 12px; font:inherit; font-size:12.5px; cursor:pointer}
-.cr-act .primary{width:100%; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:13px; font:inherit; font-weight:600; cursor:pointer}
-.cr-act .primary[disabled]{background:#b8c6c2; cursor:not-allowed}
-.cr-note{margin-top:7px; color:var(--amber); font-size:12px; text-align:center}
+/* big ceremonial badge (screens 2·3) */
+.badge-scene{display:flex; flex-direction:column; align-items:center; gap:14px; padding-top:26px}
+.badge{width:112px; height:112px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:44px; position:relative; z-index:2}
+.badge.ok{background:var(--coral); color:#fff; box-shadow:0 0 0 10px rgba(232,131,111,.25), 0 0 0 20px rgba(232,131,111,.10), 0 16px 40px rgba(0,0,0,.35)}
+.badge.stop{background:var(--stop); color:#fff; box-shadow:0 0 0 10px rgba(180,67,44,.25), 0 0 0 20px rgba(180,67,44,.10), 0 16px 40px rgba(0,0,0,.35)}
+.badge-h{font-size:26px; font-weight:800; color:#f3e7cf; text-align:center; line-height:1.4; z-index:2}
+.badge-s{font-size:13px; color:#b7c3da; text-align:center; margin-top:-8px; z-index:2; padding:0 26px; line-height:1.8}
 
-.settle{display:flex; flex-direction:column; gap:12px}
-.se-big{text-align:center; font-size:20px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
-.se-big span{font-size:30px; font-weight:800; color:var(--teal)} .se-big em{color:var(--mut); font-style:normal; margin:0 8px}
-.se-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:6px 14px}
-.se-row{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-top:1px solid var(--line); font-size:14px}
-.se-row:first-child{border-top:0} .se-row b{color:var(--teal)}
-.se-proof{border-radius:12px; padding:11px 13px; font-size:13px; line-height:1.7}
-.se-proof.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe6df}
-.se-proof.ok::first-letter{font-size:1.3em; font-weight:800}
-.se-moved{background:var(--mute-soft); border-radius:12px; padding:11px 13px; font-size:12.5px; line-height:1.8; color:var(--ink)}
-.se-moved b{color:var(--teal)}
-.se-note{color:var(--mut); font-size:12px; text-align:center}
+/* ---- cream bottom sheet ---- */
+.sheet{flex:1; background:var(--cream); color:var(--ink); border-radius:var(--r-sheet) var(--r-sheet) 0 0;
+  margin-top:auto; padding:20px 20px 30px; box-shadow:0 -10px 40px rgba(0,0,0,.28); position:relative; z-index:5}
+.grab{width:44px; height:5px; border-radius:999px; background:#ddd0b8; margin:0 auto 16px}
+.sh-title{font-size:22px; font-weight:800}
+.sh-sub{color:var(--mut); font-size:12.5px; margin-top:2px; margin-bottom:14px}
+.rows{display:flex; flex-direction:column; gap:10px}
+.rowc{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+  background:var(--cream-2); border:1px solid var(--cream-line); border-radius:var(--r-card); padding:13px 14px; box-shadow:0 1px 2px rgba(34,48,63,.05)}
+.rico{width:40px; height:40px; border-radius:12px; background:var(--coral-soft); display:flex; align-items:center; justify-content:center; font-size:19px}
+.rt{font-weight:800; font-size:15.5px}
+.rs{display:block; color:var(--mut); font-size:11.5px; font-weight:400; margin-top:1px}
+.go{width:38px; height:38px; border-radius:50%; background:var(--ink); color:#fff; border:0; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center}
+.go.coral{background:var(--coral-deep)}
+.versel{text-align:center; color:var(--gold); font-size:12.5px; line-height:1.9; margin-top:14px}
 
-.stage-foot{margin-top:36px; text-align:center; color:#7fa79e; font-size:12px; line-height:2}
-.stage-foot code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:#9ee6c4}
+/* stat split panel (screen 3, like DURATION | AVG HR) */
+.statsplit{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px;
+  background:var(--cream-2); border:1px solid var(--cream-line); border-radius:var(--r-card); padding:15px 10px; text-align:center}
+.statsplit .divider{width:1px; height:44px; background:var(--cream-line)}
+.stat .k{font-size:10.5px; letter-spacing:1.5px; color:var(--mut); font-weight:700}
+.stat .v{font-size:26px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums}
+.stat .v small{font-size:12px; color:var(--mut); font-weight:400}
+.dots-q{text-align:center; color:var(--ink); font-weight:700; font-size:13.5px; margin-top:14px}
+.mood{display:flex; justify-content:center; gap:12px; margin-top:10px}
+.mood i{width:34px; height:34px; border-radius:50%; display:block}
+.m1{background:#7fc4dd}.m2{background:#a8d8e8}.m3{background:#b9b3a6}.m4{background:var(--dusk-soft)}.m5{background:var(--coral-deep)}
+.footline{text-align:center; color:var(--mut); font-size:11.5px; margin-top:12px; line-height:1.8}
+.footline b{color:var(--teal)}
 
-@media (max-width:1320px){ .phone{width:360px; height:720px} }
+/* riba stop card (screen 2) — red reserved for the Shariah stop */
+.stopcard{background:var(--stop-soft); border:1px solid #ecc2b4; border-inline-start:4px solid var(--stop);
+  border-radius:var(--r-card); padding:13px 14px; color:var(--stop)}
+.stopcard .h{font-weight:800; font-size:14px; color:var(--stop-deep)}
+.stopcard .w{font-size:12.5px; margin-top:5px; line-height:1.75}
+.fixcard{margin-top:9px; background:var(--cream-2); border:1px solid #d6e8e1; border-inline-start:3px solid var(--teal);
+  border-radius:12px; padding:9px 12px; font-size:12.5px; color:var(--ink); line-height:1.8}
+.fixcard b{color:var(--teal)}
+.actbar{display:flex; gap:8px; margin-top:12px}
+.actbar .primary{flex:1; appearance:none; border:0; background:var(--ink); color:#fff; border-radius:14px; padding:14px; font:inherit; font-weight:700; cursor:pointer}
+.actbar .primary[disabled]{background:#c9beaa; cursor:not-allowed}
+.actbar .ghost{appearance:none; border:1px solid var(--cream-line); background:var(--cream-2); color:var(--ink); border-radius:14px; padding:14px 16px; font:inherit; cursor:pointer}
+.termsq{background:var(--cream-2); border:1px dashed var(--cream-line); border-radius:12px; padding:11px 13px; font-size:12.5px; line-height:1.9}
+.simnote{text-align:center; color:var(--mut); font-size:11px; margin-top:8px}
+
+.stage-foot{margin-top:36px; text-align:center; color:#8f8878; font-size:12px; line-height:2}
+.stage-foot code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:#c9a45c}
+@media (max-width:1320px){ .phone{width:360px; height:740px} }
 </style>
 
 <div class="stage">
   <div class="stage-head">
-    <div class="k">AHD · MOBILE PROTOTYPE · CLOUD DESIGN BASE</div>
-    <h1>عهد — ثلاث شاشات نموذجيّة</h1>
-    <p>نماذج ثابتة على نظام التصميم الحقيقيّ (<span dir="ltr">ds-bundle/_ds_bundle.css</span>) — للمراجعة والتعديل قبل أيّ بناء. المحتوى من التطبيق المنشور حرفيًّا.</p>
+    <div class="k">AHD · MOBILE PROTOTYPE V2 · COZY NIGHT STYLE</div>
+    <h1>عهد — ثلاث شاشات بأسلوب «الليل الهادئ»</h1>
+    <p>سماء ليلٍ + مشهدٌ مرسوم + لوحٌ قشديّ سفليّ — الروح الدافئة المطلوبة، والمحتوى والقواعد الشرعيّة كما هي.</p>
   </div>
 
   <div class="phones">
 
     <!-- ①  الرئيسيّة -->
     <div class="phone-slot">
-      <div class="slot-lbl">① الرئيسيّة<small>hero + بطاقات الدخول</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div>
-        <div class="viewport"><div class="home">
-          <div class="hero">
-            <div class="brand">عهد</div>
-            <div class="tag">كلمتك محفوظة، وعلاقتك محميّة</div>
-            <div class="sub">المصرف يشهد ويختم ويقاصّ — لا يُقرض، ولا يحكم، ولا يُصنّف.</div>
-          </div>
-          <div class="hcards">
-            <button class="hcard"><span class="hico">🤝</span><span class="ht">أنشئ عهدًا</span><span class="hs">وثّق قرضًا حسنًا بختمٍ مصرفيّ</span></button>
-            <button class="hcard"><span class="hico">📒</span><span class="ht">دفتري</span><span class="hs">ما لك — بعهودٍ مختومة</span></button>
-            <button class="hcard"><span class="hico">🌿</span><span class="ht">ما عليّ</span><span class="hs">ما عليك — بلا عدّاد، بلا تصنيف</span></button>
-            <button class="hcard"><span class="hico">🔄</span><span class="ht">المقاصّة</span><span class="hs">٩ تحويلات تنطوي إلى ٢</span></button>
-          </div>
-          <div class="hsummary">وفّى بعهوده — <b>كلمةٌ</b> لا رقم، من سجلّك أنت وحدك</div>
-          <div class="hbasis">﴿يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا تَدَايَنتُم بِدَيْنٍ إِلَىٰ أَجَلٍ مُّسَمًّى فَاكْتُبُوهُ﴾</div>
-        </div></div>
-        <div class="tabbar">
-          <div class="tb on"><span class="i">🏠</span>الرئيسيّة</div>
-          <div class="tb"><span class="i">🤝</span>أنشئ</div>
-          <div class="tb"><span class="i">📒</span>دفتري</div>
-          <div class="tb"><span class="i">🔄</span>المقاصّة</div>
+      <div class="slot-lbl">① الرئيسيّة<small>مشهد الليل + لوح الدخول</small></div>
+      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
+        <div class="sky">
+          <span class="stars"></span><span class="moon"></span><span class="glow"></span>
+          <div class="skyline"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="dome"></i><i class="b4"></i><i class="b5"></i></div>
+          <div class="sky-title"><div class="w">عهد</div><div class="t">كلمتك محفوظة، وعلاقتك محميّة</div></div>
         </div>
-      </div></div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="sh-title">أهلًا نورة</div>
+          <div class="sh-sub">المصرف يشهد ويختم ويقاصّ — لا يُقرض، ولا يحكم، ولا يُصنّف.</div>
+          <div class="rows">
+            <div class="rowc"><span class="rico">🤝</span><span><span class="rt">أنشئ عهدًا<span class="rs">وثّق قرضًا حسنًا بختمٍ مصرفيّ</span></span></span><button class="go coral">◀</button></div>
+            <div class="rowc"><span class="rico">📒</span><span><span class="rt">دفتري<span class="rs">ما لك — بعهودٍ مختومة</span></span></span><button class="go">◀</button></div>
+            <div class="rowc"><span class="rico">🌿</span><span><span class="rt">ما عليّ<span class="rs">ما عليك — بلا عدّاد، بلا تصنيف</span></span></span><button class="go">◀</button></div>
+            <div class="rowc"><span class="rico">🔄</span><span><span class="rt">المقاصّة<span class="rs">٩ تحويلات تنطوي إلى ٢</span></span></span><button class="go">◀</button></div>
+          </div>
+          <div class="versel">﴿إِذَا تَدَايَنتُم بِدَيْنٍ إِلَىٰ أَجَلٍ مُّسَمًّى فَاكْتُبُوهُ﴾</div>
+        </div>
+      </div></div></div>
     </div>
 
-    <!-- ②  أنشئ عهدًا — فاحص الربا يوقف الختم -->
+    <!-- ②  فاحص الرِّبا -->
     <div class="phone-slot">
-      <div class="slot-lbl">② أنشئ عهدًا<small>فاحص الرِّبا يمنع الختم — لحظة الورع</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div>
-        <div class="viewport"><div class="create">
-          <div class="scr-title">أنشئ عهدًا</div>
-          <div class="cr-card">
-            <div class="cr-h">أطراف العهد</div>
-            <div class="cr-fields">
-              <div><span>الدائن</span><b>نورة</b></div>
-              <div><span>المدين</span><b>خالد</b></div>
-              <div><span>المبلغ</span><b>2,500 ريال</b></div>
-              <div><span>الأجل</span><b>محرّم ١٤٤٨</b></div>
-            </div>
+      <div class="slot-lbl">② أنشئ عهدًا<small>فاحص الرِّبا يوقف الختم</small></div>
+      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
+        <div class="sky" style="min-height:290px">
+          <span class="stars"></span><span class="moon"></span>
+          <div class="badge-scene">
+            <div class="badge stop">✋</div>
+            <div class="badge-h">توقّف قبل الختم</div>
+            <div class="badge-s">وُجد في نصّ العهد شرطٌ لا يصفو — والختم لا يقع إلّا على الطاهر</div>
           </div>
-          <div class="cr-card">
-            <div class="cr-h">نصّ العهد</div>
-            <div class="cr-sub">يُفحص النصّ قبل الختم — لا ربا، لا غرامة، لا شرطَ جزائيّ.</div>
-            <div class="cr-terms">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه في أجله، <u>وإن تأخّرتُ فعليّ غرامة 50 ريالًا</u>.</div>
-            <div class="cr-lint bad">
-              <div class="cr-lint-head">⛔ لا يمكن ختم هذا العهد</div>
-              <div class="cr-hit">
-                <div class="cr-why">«غرامة» — شرطُ زيادةٍ عند التأخّر، وهذا من ربا الجاهليّة</div>
-                <div class="fix"><b>البديل الحلال:</b> احذف الشرط. إن عسر المدين ﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ — التيسير لا الغرامة.</div>
-              </div>
-              <div class="cr-trybar"><button class="ghost">أزِل الشرط وأعد الصياغة</button></div>
-            </div>
-          </div>
-          <div class="cr-act"><button class="primary" disabled>اختم العهد عبر نفاذ (محاكاة)</button></div>
-          <div class="cr-note">الختم متوقّف حتى يصفو النصّ من كلّ شرطٍ ربويّ</div>
-        </div></div>
-        <div class="tabbar">
-          <div class="tb"><span class="i">🏠</span>الرئيسيّة</div>
-          <div class="tb on"><span class="i">🤝</span>أنشئ</div>
-          <div class="tb"><span class="i">📒</span>دفتري</div>
-          <div class="tb"><span class="i">🔄</span>المقاصّة</div>
         </div>
-      </div></div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="termsq">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه في أجله، <u>وإن تأخّرتُ فعليّ غرامة 50 ريالًا</u>.</div>
+          <div style="height:10px"></div>
+          <div class="stopcard">
+            <div class="h">«غرامة» — شرطُ زيادةٍ عند التأخّر</div>
+            <div class="w">هذا من ربا الجاهليّة، ولا يُختم عهدٌ فيه زيادةٌ مشروطة.</div>
+            <div class="fixcard"><b>البديل الحلال:</b> احذف الشرط — إن عسر المدين ﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾.</div>
+          </div>
+          <div class="actbar">
+            <button class="ghost">أزِل الشرط وأعد الصياغة</button>
+            <button class="primary" disabled>اختم عبر نفاذ (محاكاة)</button>
+          </div>
+          <div class="simnote">الختم متوقّف حتى يصفو النصّ من كلّ شرطٍ ربويّ</div>
+        </div>
+      </div></div></div>
     </div>
 
-    <!-- ③  المقاصّة ٩ ← ٢ -->
+    <!-- ③  المقاصّة -->
     <div class="phone-slot">
-      <div class="slot-lbl">③ المقاصّة<small>٩ تحويلات تنطوي إلى ٢ — أبهى مشهد</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div>
-        <div class="viewport"><div class="settle">
-          <div class="scr-title">المقاصّة</div>
-          <div class="se-big"><span>٩</span><em>←</em><span>٢</span><div style="color:var(--mut); font-size:13px; margin-top:4px">تسع ديونٍ متشابكة تُسوّى بتحويلَين فقط</div></div>
-          <div class="se-card">
-            <div class="se-row"><span>نورة ← فهد</span><b>600 ريال</b></div>
-            <div class="se-row"><span>نورة ← خالد</span><b>300 ريال</b></div>
+      <div class="slot-lbl">③ المقاصّة<small>٩ تنطوي إلى ٢ — لحظة الصفاء</small></div>
+      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
+        <div class="sky" style="min-height:290px">
+          <span class="stars"></span><span class="moon"></span>
+          <div class="badge-scene">
+            <div class="badge ok">✓</div>
+            <div class="badge-h">تمّت المقاصّة</div>
+            <div class="badge-s">تسع ديونٍ متشابكة سُوِّيت بتحويلَين — والدائرة كلّها بذمّةٍ صافية</div>
           </div>
-          <div class="se-proof ok">✓ صحّ الحساب: مجموع ما يُدفع = مجموع ما يُستحقّ، لا زيادة ولا نقصان</div>
-          <div class="se-moved">تحرّك <b>900 ريال</b> بدل 1,800 — والدائرة كلّها بذمّةٍ صافية</div>
-          <div class="se-note">المصرف يُقاصّ برضا الجميع — ولا يمسّ مالًا إلّا بأمرهم</div>
-        </div></div>
-        <div class="tabbar">
-          <div class="tb"><span class="i">🏠</span>الرئيسيّة</div>
-          <div class="tb"><span class="i">🤝</span>أنشئ</div>
-          <div class="tb"><span class="i">📒</span>دفتري</div>
-          <div class="tb on"><span class="i">🔄</span>المقاصّة</div>
         </div>
-      </div></div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="statsplit">
+            <div class="stat"><div class="k">التحويلات</div><div class="v">٩ ← ٢</div></div>
+            <div class="divider"></div>
+            <div class="stat"><div class="k">تحرّك فعلًا</div><div class="v">900 <small>بدل 1,800 ريال</small></div></div>
+          </div>
+          <div class="rows" style="margin-top:12px">
+            <div class="rowc"><span class="rico">💸</span><span><span class="rt">نورة ← فهد<span class="rs">تحويل التسوية الأوّل</span></span></span><b style="color:var(--teal)">600 ريال</b></div>
+            <div class="rowc"><span class="rico">💸</span><span><span class="rt">نورة ← خالد<span class="rs">تحويل التسوية الثاني</span></span></span><b style="color:var(--teal)">300 ريال</b></div>
+          </div>
+          <div class="dots-q">صحّ الحساب — لا زيادة ولا نقصان</div>
+          <div class="mood"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i></div>
+          <div class="footline">مجموع ما يُدفع = مجموع ما يُستحقّ · <b>المصرف يُقاصّ برضا الجميع</b></div>
+        </div>
+      </div></div></div>
     </div>
 
   </div>
 
   <div class="stage-foot">
-    نموذج ثابت — لا منطق، لا شبكة. المصدر: <code>application/prototypes/mobile-3screens.html</code><br>
-    التوكِنات والأصناف من <code>ds-bundle/_ds_bundle.css</code> حرفيًّا · إطار الهاتف فقط جديد
+    نموذج ثابت — لا منطق، لا شبكة · المصدر: <code>application/prototypes/mobile-3screens.html</code><br>
+    أسلوب «الليل الهادئ» فوق محتوى عهد الحقيقيّ — الأحمر محجوزٌ للإيقاف الشرعيّ/العبث فقط
   </div>
 </div>
