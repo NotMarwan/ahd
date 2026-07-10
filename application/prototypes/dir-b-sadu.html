@@ -1,357 +1,385 @@
-<title>عهد — السدو (٧ شاشات)</title>
+<title>عهد — السدو v3 (iOS)</title>
 <style>
 /* ============================================================================
-   Ahd mobile prototype — «السدو» v2, minimal pass (the chosen direction).
-   One signature: a thin precise Sadu band under each screen title — on the
-   settlement screen the band itself resolves from 9 strands to 2.
-   Everything else quiet: light sand field, paper cards, charcoal type,
-   ONE terracotta accent. Spine unchanged: riba only negated · trust is a word ·
-   red reserved (Shariah stop / tamper) · no ٪ glyphs · integer SAR · (محاكاة).
+   Ahd mobile prototype — «السدو» v3: iOS-grade pass (Apple HIG applied).
+   Large-title nav · inset-grouped lists (hairline separators, 44pt rows) ·
+   one terracotta accent · 8pt grid · thumb-zone actions · status bar + home
+   indicator chrome. Signature kept: the thin Sadu band + the 9→2 weave.
+   Spine: riba only negated · trust is a word · red reserved (stop/tamper) ·
+   no ٪ glyphs · integer SAR · (محاكاة) on simulated integrations.
 ============================================================================ */
 :root{
-  --sand:#efe7d6; --sand-deep:#e5dac2;
-  --paper:#fdfaf2; --line:#e2d6ba;
-  --ink:#2b2620; --mut:#8b7f6a;
-  --terra:#a1442e; --terra-soft:#f0ddd3;
-  --teal:#177f6d; --teal-soft:#e0efe9;
-  --gold:#a88a45;
-  --stop:#7a2410; --stop-deep:#5e1a0a; --stop-soft:#f3ded4; --stop-line:#d9b1a0;
-  --seal-bg:#26211b; --seal-ink:#e9e0cd; --seal-lbl:#b3a789; --seal-hash:#d8b978;
-  --r-sheet:30px; --r-card:16px;
+  --ground:#f2ece0;            /* systemGroupedBackground, warm */
+  --card:#ffffff;              /* secondarySystemGroupedBackground */
+  --hair:rgba(60,50,30,.12);   /* hairline separator */
+  --ink:#1c1812;               /* label */
+  --ink2:#6d6353;              /* secondaryLabel */
+  --ink3:#9b917e;              /* tertiaryLabel */
+  --terra:#a1442e;             /* THE accent (all interactive) */
+  --terra-soft:#f4e2da;
+  --teal:#177f6d; --teal-soft:#e3f0eb;   /* semantic ok */
+  --gold:#a8863f;                         /* verse / covenant */
+  --stop:#7a2410; --stop-deep:#5e1a0a; --stop-soft:#f6e3da; --stop-line:#e0bcab;
+  --seal-bg:#221d16; --seal-ink:#ece3d0; --seal-lbl:#b3a789; --seal-hash:#d8b978;
   --mono:"Consolas","Courier New",monospace;
-  --stage:#151310; --stage-ink:#e9e4da;
+  --stage:#131109; --r:14px;
 }
 *{box-sizing:border-box}
-body{margin:0; background:var(--stage); color:var(--stage-ink);
+body{margin:0; background:var(--stage); color:#e9e4da;
   font-family:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif; line-height:1.6}
 
 /* ---- stage chrome ---- */
 .stage{direction:rtl; max-width:1500px; margin:0 auto; padding:36px 22px 64px}
-.stage-head{text-align:center; margin-bottom:6px}
+.stage-head{text-align:center; margin-bottom:4px}
 .stage-head .k{font-size:11px; letter-spacing:3px; color:#c9a688; text-transform:uppercase}
 .stage-head h1{margin:6px 0 4px; font-size:28px; font-weight:800; color:#f3e7cf}
 .stage-head p{margin:0 auto; max-width:60ch; color:#a9a294; font-size:13.5px}
 .phones{display:flex; gap:28px; justify-content:center; flex-wrap:wrap; margin-top:28px}
 .phone-slot{display:flex; flex-direction:column; gap:11px; align-items:center}
 .slot-lbl{font-size:13px; color:#d9cfba; font-weight:700; text-align:center}
-.slot-lbl small{display:block; font-weight:400; color:#8f8878; font-size:11.5px; margin-top:1px}
-.phone{width:375px; height:790px; border-radius:50px; background:#0f0c09; padding:11px;
-  box-shadow:0 2px 8px rgba(0,0,0,.55), 0 30px 70px rgba(0,0,0,.55), inset 0 0 0 2px #2c241c}
-.phone .glass{position:relative; width:100%; height:100%; border-radius:40px; overflow:hidden; background:var(--sand); color:var(--ink)}
-.phone .notch{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:108px; height:26px; background:#0f0c09; border-radius:999px; z-index:30}
-.viewport{direction:rtl; height:100%; overflow-y:auto; scrollbar-width:none; display:flex; flex-direction:column}
+.slot-lbl small{display:block; font-weight:400; color:#8f8878; font-size:11.5px}
+.phone{width:375px; height:800px; border-radius:54px; background:#0d0b08; padding:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.55), 0 30px 70px rgba(0,0,0,.55), inset 0 0 0 2px #2b241b}
+.glass{position:relative; width:100%; height:100%; border-radius:44px; overflow:hidden; background:var(--ground); color:var(--ink)}
+.island{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:100px; height:26px; background:#0d0b08; border-radius:999px; z-index:40}
+.status{position:absolute; top:12px; inset-inline:26px; display:flex; justify-content:space-between; z-index:35;
+  font-size:13px; font-weight:700; font-variant-numeric:tabular-nums}
+.status .r{letter-spacing:1px}
+.homebar{position:absolute; bottom:7px; left:50%; transform:translateX(-50%); width:120px; height:5px; border-radius:999px; background:rgba(28,24,18,.28); z-index:40}
+.viewport{direction:rtl; height:100%; overflow-y:auto; scrollbar-width:none; display:flex; flex-direction:column; padding:0 0 26px}
 .viewport::-webkit-scrollbar{display:none}
 
-/* ---- the signature: one thin precise Sadu band ---- */
-.sadu{height:10px; border-radius:3px; overflow:hidden;
+/* ---- iOS large-title header ---- */
+.nav-lg{padding:64px 20px 6px}
+.eyebrow{font-size:12px; font-weight:600; color:var(--ink3); letter-spacing:.3px}
+.lg-title{font-size:32px; font-weight:800; letter-spacing:.2px; line-height:1.25; text-wrap:balance}
+.sadu{height:8px; border-radius:2.5px; margin-top:10px; overflow:hidden;
   background:
     repeating-linear-gradient(135deg, var(--terra) 0 5px, transparent 5px 10px),
     repeating-linear-gradient(45deg, var(--ink) 0 5px, transparent 5px 10px),
-    var(--sand-deep)}
-.sadu.thin{height:6px; opacity:.9}
+    #e2d7c0}
+.nav-lg .sub{font-size:13px; color:var(--ink2); margin-top:10px; line-height:1.8}
 
-/* ---- calm header ---- */
-.head{flex:none; padding:64px 24px 18px}
-.head .greet{font-size:13px; color:var(--mut)}
-.head .title{font-size:26px; font-weight:800; letter-spacing:.3px; margin-top:2px; text-wrap:balance}
-.head .sadu{margin-top:12px}
-.head .sub{font-size:12.5px; color:var(--mut); margin-top:10px; line-height:1.85}
-.head.center{text-align:center}
-.head.center .sadu{margin-inline:auto; width:120px}
+/* content column: 8pt grid */
+.col{display:flex; flex-direction:column; gap:16px; padding:16px 16px 0; flex:1}
+.sec-h{font-size:12px; font-weight:600; color:var(--ink3); letter-spacing:1px; padding:0 12px; margin-bottom:-8px}
 
-/* ceremonial badge (stop / done) */
-.badge-scene{display:flex; flex-direction:column; align-items:center; gap:12px; padding-top:8px}
-.ring{width:118px; height:118px; border-radius:50%; padding:7px;
-  background:repeating-conic-gradient(var(--ink) 0 10deg, var(--terra) 10deg 20deg, var(--sand-deep) 20deg 30deg)}
-.badge{width:100%; height:100%; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:38px; color:#fff}
-.badge.ok{background:var(--teal)}
-.badge.stop{background:var(--stop)}
-.badge-h{font-size:24px; font-weight:800; text-align:center; line-height:1.4}
-.badge-s{font-size:12.5px; color:var(--mut); text-align:center; padding:0 30px; line-height:1.85}
+/* ---- inset-grouped list ---- */
+.group{background:var(--card); border-radius:var(--r); overflow:hidden; box-shadow:0 1px 2px rgba(28,24,18,.05)}
+.cell{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; min-height:52px; padding:10px 14px; position:relative}
+.cell + .cell::before{content:""; position:absolute; top:0; inset-inline-start:66px; inset-inline-end:0; height:1px; background:var(--hair)}
+.cell.noicon + .cell.noicon::before{inset-inline-start:14px}
+.ico{width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; background:var(--terra-soft)}
+.ico.sand{background:#efe8d8} .ico.teal{background:var(--teal-soft)}
+.c-t{font-weight:600; font-size:15.5px}
+.c-s{display:block; color:var(--ink2); font-size:12px; font-weight:400; margin-top:1px}
+.chev{color:var(--ink3); font-size:17px; padding-bottom:2px}
+.amt{text-align:left; font-variant-numeric:tabular-nums}
+.amt b{font-size:16px; font-weight:700} .amt small{display:block; color:var(--ink3); font-size:10.5px; font-weight:400}
+.amt.lak b{color:var(--teal)} .amt.alayk b{color:var(--gold)}
 
-/* ---- paper sheet ---- */
-.sheet{flex:1; background:var(--paper); border-radius:var(--r-sheet) var(--r-sheet) 0 0;
-  margin-top:auto; padding:18px 20px 30px; box-shadow:0 -8px 30px rgba(43,38,32,.14); display:flex; flex-direction:column; gap:12px}
-.grab{width:42px; height:5px; border-radius:999px; background:var(--line); margin:0 auto 4px; flex:none}
-.lbl{font-size:11px; letter-spacing:2px; color:var(--mut); font-weight:700}
-.rows{display:flex; flex-direction:column; gap:9px}
-.rowc{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
-  background:var(--paper); border:1px solid var(--line); border-radius:var(--r-card); padding:13px 14px}
-.rico{width:40px; height:40px; border-radius:12px; background:var(--sand); display:flex; align-items:center; justify-content:center; font-size:18px}
-.rt{font-weight:700; font-size:15px}
-.rs{display:block; color:var(--mut); font-size:11.5px; font-weight:400; margin-top:1px}
-.go{width:36px; height:36px; border-radius:50%; background:var(--paper); color:var(--ink); border:1px solid var(--line); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding-bottom:2px}
-.rowc.prime .go{background:var(--terra); border-color:var(--terra); color:#fff}
-.rowc.prime .rico{background:var(--terra-soft)}
-.amtside{text-align:left; font-variant-numeric:tabular-nums}
-.amtside b{font-size:15.5px} .amtside small{display:block; color:var(--mut); font-size:10.5px; font-weight:400}
-.amtside.lak b{color:var(--teal)} .amtside.alayk b{color:var(--gold)}
-.chip{display:inline-block; font-size:11px; padding:3px 10px; border-radius:999px; background:var(--sand); color:var(--mut)}
-.chip.teal{background:var(--teal-soft); color:var(--teal)}
-.chip.gold{background:#f2e8cf; color:var(--gold)}
-.versel{text-align:center; color:var(--gold); font-size:12.5px; line-height:1.95; margin-top:auto; padding-top:8px}
-.wordband{background:#f2e8cf; border:1px solid #e5d5a8; border-radius:12px; padding:10px 13px; font-size:12.5px; color:var(--mut); text-align:center}
-.wordband b{color:var(--gold)}
+/* ---- buttons: ONE accent, 44pt+, thumb zone ---- */
+.actions{margin-top:auto; padding:16px 16px 14px; display:flex; flex-direction:column; gap:10px}
+.btn{appearance:none; border:0; width:100%; min-height:50px; border-radius:14px; font:inherit; font-size:16px; font-weight:700; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px}
+.btn.prominent{background:var(--terra); color:#fff; box-shadow:0 4px 14px rgba(161,68,46,.28)}
+.btn.prominent[disabled]{background:#cbbfa9; box-shadow:none; cursor:not-allowed}
+.btn.tinted{background:var(--terra-soft); color:var(--terra)}
+.btn.plain{background:transparent; color:var(--terra); min-height:44px; font-weight:600}
+.row-2{display:flex; gap:10px} .row-2 .btn{flex:1}
+
+/* banners / states — icon + text, never color alone */
+.banner{border-radius:var(--r); padding:12px 14px; font-size:13px; line-height:1.8; display:flex; gap:9px; align-items:flex-start}
+.banner .bi{flex:none; font-size:15px; margin-top:2px}
+.banner.ok{background:var(--teal-soft); color:var(--teal); font-weight:600}
+.banner.gold{background:#f3ead2; color:var(--gold)}
+.banner.plain{background:#ece5d4; color:var(--ink2)}
+.verse{text-align:center; color:var(--gold); font-size:12.5px; line-height:2; padding:2px 20px}
+
+/* ceremony (inline-title screens) */
+.ceremony{display:flex; flex-direction:column; align-items:center; gap:12px; padding:70px 24px 8px; text-align:center}
+.ring{width:112px; height:112px; border-radius:50%; padding:6px;
+  background:repeating-conic-gradient(var(--ink) 0 10deg, var(--terra) 10deg 20deg, #e2d7c0 20deg 30deg)}
+.badge{width:100%; height:100%; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; color:#fff}
+.badge.ok{background:var(--teal)} .badge.stop{background:var(--stop)}
+.cer-h{font-size:24px; font-weight:800; line-height:1.35}
+.cer-s{font-size:13px; color:var(--ink2); line-height:1.85; max-width:30ch}
+
+/* riba stop */
+.quote{background:var(--card); border-radius:var(--r); padding:13px 15px; font-size:13px; line-height:2; box-shadow:0 1px 2px rgba(28,24,18,.05)}
+.stopcard{background:var(--stop-soft); border:1px solid var(--stop-line); border-radius:var(--r); padding:13px 15px; color:var(--stop)}
+.stopcard .h{font-weight:800; font-size:14px; color:var(--stop-deep); display:flex; gap:7px; align-items:center}
+.stopcard .w{font-size:12.5px; margin-top:5px; line-height:1.85}
+.fix{margin-top:10px; background:var(--card); border-radius:11px; padding:10px 13px; font-size:12.5px; color:var(--ink); line-height:1.85; border-inline-start:3px solid var(--teal)}
+.fix b{color:var(--teal)}
+.footnote{text-align:center; color:var(--ink3); font-size:11.5px; line-height:1.9; padding:0 18px}
 
 /* stat split */
-.statsplit{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px;
-  background:var(--paper); border:1px solid var(--line); border-radius:var(--r-card); padding:14px 8px; text-align:center}
-.statsplit .divider{width:1px; height:42px; background:var(--line)}
-.stat .k{font-size:10.5px; letter-spacing:1.5px; color:var(--mut); font-weight:700}
-.stat .v{font-size:24px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums}
-.stat .v small{font-size:11.5px; color:var(--mut); font-weight:400}
-.okline{background:var(--teal-soft); color:var(--teal); border-radius:12px; padding:10px 13px; font-size:12.5px; font-weight:700; text-align:center}
-.footnote{text-align:center; color:var(--mut); font-size:11.5px; line-height:1.85}
+.split{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; background:var(--card); border-radius:var(--r); padding:16px 8px; text-align:center; box-shadow:0 1px 2px rgba(28,24,18,.05)}
+.split .div{width:1px; height:44px; background:var(--hair)}
+.st .k{font-size:11px; font-weight:600; color:var(--ink3); letter-spacing:1px}
+.st .v{font-size:25px; font-weight:800; margin-top:3px; font-variant-numeric:tabular-nums}
+.st .v small{font-size:11.5px; color:var(--ink3); font-weight:400}
 
-/* riba stop + fix */
-.termsq{background:var(--paper); border:1px dashed var(--line); border-radius:12px; padding:11px 13px; font-size:12.5px; line-height:1.95}
-.stopcard{background:var(--stop-soft); border:1px solid var(--stop-line); border-inline-start:4px solid var(--stop);
-  border-radius:var(--r-card); padding:12px 14px; color:var(--stop)}
-.stopcard .h{font-weight:800; font-size:13.5px; color:var(--stop-deep)}
-.stopcard .w{font-size:12.5px; margin-top:4px; line-height:1.8}
-.fixcard{margin-top:9px; background:var(--paper); border:1px solid #cfe3db; border-inline-start:3px solid var(--teal);
-  border-radius:11px; padding:9px 12px; font-size:12.5px; color:var(--ink); line-height:1.85}
-.fixcard b{color:var(--teal)}
-.actbar{display:flex; gap:8px}
-.actbar .primary{flex:1.4; appearance:none; border:0; background:var(--terra); color:#fff; border-radius:13px; padding:14px 10px; font:inherit; font-weight:700; font-size:13.5px; cursor:pointer}
-.actbar .primary[disabled]{background:#c9bda6; cursor:not-allowed}
-.actbar .ghost{flex:1; appearance:none; border:1px solid var(--line); background:var(--paper); color:var(--ink); border-radius:13px; padding:14px 10px; font:inherit; font-size:13px; cursor:pointer}
-.simnote{text-align:center; color:var(--mut); font-size:11px}
-
-/* sealed document (proof screen) */
-.sealdoc{background:var(--seal-bg); color:var(--seal-ink); border-radius:var(--r-card); padding:15px}
-.sealdoc .sl{color:var(--seal-lbl); font-size:11px; letter-spacing:2px; font-weight:700; margin-bottom:8px}
-.sealdoc .body{font-size:12.5px; line-height:2}
+/* sealed doc */
+.sealdoc{background:var(--seal-bg); color:var(--seal-ink); border-radius:var(--r); padding:16px}
+.sealdoc .sl{color:var(--seal-lbl); font-size:11px; letter-spacing:2px; font-weight:700; margin-bottom:9px}
+.sealdoc .body{font-size:13px; line-height:2}
 .sealdoc .hash{font-family:var(--mono); direction:ltr; text-align:left; font-size:10.5px; color:var(--seal-hash);
-  word-break:break-all; background:rgba(0,0,0,.28); border-radius:8px; padding:8px 10px; margin-top:9px}
-.verify{border-radius:12px; padding:12px 14px; font-size:13.5px; font-weight:800; line-height:1.7}
-.verify.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe3db}
-.verify.bad{background:linear-gradient(180deg,#f8e6dd,var(--stop-soft)); color:var(--stop); border:1px solid var(--stop-line)}
+  word-break:break-all; background:rgba(0,0,0,.3); border-radius:9px; padding:9px 11px; margin-top:10px}
+.verify{border-radius:var(--r); padding:13px 15px; font-size:13px; font-weight:700; line-height:1.8; display:flex; gap:9px}
+.verify .bi{flex:none; margin-top:2px}
+.verify.ok{background:var(--teal-soft); color:var(--teal)}
+.verify.bad{background:var(--stop-soft); color:var(--stop); border:1px solid var(--stop-line)}
 
-/* impact tiles */
-.tiles2{display:grid; grid-template-columns:1fr 1fr; gap:9px}
-.tile2{background:var(--paper); border:1px solid var(--line); border-radius:var(--r-card); padding:13px 11px; text-align:center}
-.tile2 b{display:block; font-size:21px; color:var(--teal); font-variant-numeric:tabular-nums}
-.tile2 span{display:block; color:var(--mut); font-size:11px; line-height:1.6; margin-top:2px}
-.fixture{background:var(--sand); border-radius:11px; padding:9px 12px; font-size:11.5px; color:var(--mut); text-align:center}
+/* impact */
+.tiles{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.tile{background:var(--card); border-radius:var(--r); padding:14px 12px; text-align:center; box-shadow:0 1px 2px rgba(28,24,18,.05)}
+.tile b{display:block; font-size:22px; color:var(--teal); font-variant-numeric:tabular-nums}
+.tile span{display:block; color:var(--ink2); font-size:11.5px; line-height:1.65; margin-top:3px}
 
 .stage-foot{margin-top:34px; text-align:center; color:#8f8878; font-size:12px; line-height:2}
 .stage-foot code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:#c9a45c}
-@media (max-width:820px){ .phone{width:340px; height:716px} }
+@media (max-width:820px){ .phone{width:340px; height:724px} }
 </style>
 
 <div class="stage">
   <div class="stage-head">
-    <div class="k">AHD · SADU · MINIMAL PASS · 7 SCREENS</div>
-    <h1>عهد — السدو، النسخة الهادئة</h1>
-    <p>حقلٌ رمليّ ساكن، بطاقات ورقيّة، لهجة تراكوتا واحدة — وشريط سدوٍ دقيق تحت كلّ عنوان هو التوقيع.</p>
+    <div class="k">AHD · SADU V3 · iOS HIG PASS · 7 SCREENS</div>
+    <h1>عهد — السدو بلغة iOS</h1>
+    <p>عناوين كبيرة، مجموعات مدمجة بفواصل شعريّة، لهجة واحدة، أفعالٌ في متناول الإبهام — وهويّة السدو باقية.</p>
   </div>
 
   <div class="phones">
 
     <!-- ① الرئيسيّة -->
     <div class="phone-slot">
-      <div class="slot-lbl">① الرئيسيّة<small>هدوء + أربع بوّابات</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
-        <div class="head">
-          <div class="greet">مساء الخير</div>
-          <div class="title">أهلًا نورة</div>
-          <div class="sadu"></div>
-          <div class="sub">المصرف يشهد ويختم ويقاصّ — لا يُقرض، ولا يحكم، ولا يُصنّف.</div>
-        </div>
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="rows">
-            <div class="rowc prime"><span class="rico">🤝</span><span><span class="rt">أنشئ عهدًا<span class="rs">وثّق قرضًا حسنًا بختمٍ مصرفيّ</span></span></span><button class="go">‹</button></div>
-            <div class="rowc"><span class="rico">📒</span><span><span class="rt">دفتري<span class="rs">ما لك — بعهودٍ مختومة</span></span></span><button class="go">‹</button></div>
-            <div class="rowc"><span class="rico">🌿</span><span><span class="rt">ما عليّ<span class="rs">ما عليك — بلا عدّاد، بلا تصنيف</span></span></span><button class="go">‹</button></div>
-            <div class="rowc"><span class="rico">🔄</span><span><span class="rt">المقاصّة<span class="rs">٩ تحويلات تنطوي إلى ٢</span></span></span><button class="go">‹</button></div>
+      <div class="slot-lbl">① الرئيسيّة<small>large title + مجموعتان</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">مساء الخير</div>
+            <div class="lg-title">أهلًا نورة</div>
+            <div class="sadu"></div>
+            <div class="sub">المصرف يشهد ويختم ويقاصّ — لا يُقرض، ولا يحكم، ولا يُصنّف.</div>
           </div>
-          <div class="versel">﴿إِذَا تَدَايَنتُم بِدَيْنٍ إِلَىٰ أَجَلٍ مُّسَمًّى فَاكْتُبُوهُ﴾</div>
+          <div class="col">
+            <div class="group">
+              <div class="cell"><span class="ico">🤝</span><span><span class="c-t">أنشئ عهدًا<span class="c-s">وثّق قرضًا حسنًا بختمٍ مصرفيّ</span></span></span><span class="chev">‹</span></div>
+              <div class="cell"><span class="ico sand">📒</span><span><span class="c-t">دفتري<span class="c-s">ما لك — بعهودٍ مختومة</span></span></span><span class="chev">‹</span></div>
+              <div class="cell"><span class="ico sand">🌿</span><span><span class="c-t">ما عليّ<span class="c-s">ما عليك — بلا عدّاد، بلا تصنيف</span></span></span><span class="chev">‹</span></div>
+              <div class="cell"><span class="ico sand">🔄</span><span><span class="c-t">المقاصّة<span class="c-s">٩ تحويلات تنطوي إلى ٢</span></span></span><span class="chev">‹</span></div>
+            </div>
+            <div class="banner gold"><span class="bi">🕊️</span><span>أنت عند وعدك: <b>«وفّى بعهوده»</b> — كلمةٌ من سجلّك، لا رقمٌ يصنّفك</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn prominent">🤝 أنشئ عهدًا جديدًا</button>
+            <div class="verse">﴿إِذَا تَدَايَنتُم بِدَيْنٍ إِلَىٰ أَجَلٍ مُّسَمًّى فَاكْتُبُوهُ﴾</div>
+          </div>
         </div>
-      </div></div></div>
+        <div class="homebar"></div>
+      </div></div>
     </div>
 
     <!-- ② أنشئ عهدًا -->
     <div class="phone-slot">
       <div class="slot-lbl">② أنشئ عهدًا<small>فاحص الرِّبا يوقف الختم</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
-        <div class="head center">
-          <div class="badge-scene">
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="ceremony">
             <div class="ring"><div class="badge stop">✋</div></div>
-            <div class="badge-h">توقّف قبل الختم</div>
-            <div class="badge-s">في نصّ العهد شرطٌ لا يصفو — والختم لا يقع إلّا على النصّ الصافي</div>
+            <div class="cer-h">توقّف قبل الختم</div>
+            <div class="cer-s">في نصّ العهد شرطٌ لا يصفو — والختم لا يقع إلّا على النصّ الصافي</div>
           </div>
-          <div class="sadu thin" style="margin-inline:auto; width:120px; margin-top:14px"></div>
+          <div class="col">
+            <div class="sec-h">نصّ العهد</div>
+            <div class="quote">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه في أجله، <u>وإن تأخّرتُ فعليّ غرامة 50 ريالًا</u>.</div>
+            <div class="stopcard">
+              <div class="h">⛔ «غرامة» — شرطُ زيادةٍ عند التأخّر</div>
+              <div class="w">هذا من ربا الجاهليّة، ولا يُختم عهدٌ فيه زيادةٌ مشروطة.</div>
+              <div class="fix"><b>البديل الحلال:</b> احذف الشرط — إن عسر المدين ﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾.</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn tinted">أزِل الشرط وأعد الصياغة</button>
+            <button class="btn prominent" disabled>اختم عبر نفاذ (محاكاة)</button>
+            <div class="footnote">الختم متوقّف حتى يصفو النصّ من كلّ شرطٍ ربويّ</div>
+          </div>
         </div>
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="lbl">نصّ العهد</div>
-          <div class="termsq">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه في أجله، <u>وإن تأخّرتُ فعليّ غرامة 50 ريالًا</u>.</div>
-          <div class="stopcard">
-            <div class="h">«غرامة» — شرطُ زيادةٍ عند التأخّر</div>
-            <div class="w">هذا من ربا الجاهليّة، ولا يُختم عهدٌ فيه زيادةٌ مشروطة.</div>
-            <div class="fixcard"><b>البديل الحلال:</b> احذف الشرط — إن عسر المدين ﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾.</div>
-          </div>
-          <div class="actbar">
-            <button class="primary" disabled>اختم عبر نفاذ (محاكاة)</button>
-            <button class="ghost">أزِل الشرط وأعد الصياغة</button>
-          </div>
-          <div class="simnote">الختم متوقّف حتى يصفو النصّ من كلّ شرطٍ ربويّ</div>
-        </div>
-      </div></div></div>
+        <div class="homebar"></div>
+      </div></div>
     </div>
 
     <!-- ③ المقاصّة -->
     <div class="phone-slot">
-      <div class="slot-lbl">③ المقاصّة<small>الشريط نفسه يروي ٩ ← ٢</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
-        <div class="head center">
-          <div class="title" style="margin-top:0">تمّت المقاصّة</div>
-          <!-- signature moment: 9 strands weave into 2 -->
-          <svg viewBox="0 0 300 90" style="width:100%; max-width:280px; margin:10px auto 0; display:block" aria-hidden="true">
-            <g stroke="#a1442e" stroke-width="1.4" fill="none" opacity=".55">
-              <path d="M8,6  C110,10 190,38 292,38"/>
-              <path d="M8,16 C110,18 190,40 292,40"/>
-              <path d="M8,26 C110,26 190,42 292,42"/>
-              <path d="M8,36 C110,34 190,44 292,44"/>
-              <path d="M8,46 C110,44 190,46 292,46"/>
-            </g>
-            <g stroke="#2b2620" stroke-width="1.4" fill="none" opacity=".55">
-              <path d="M8,56 C110,54 190,48 292,48"/>
-              <path d="M8,66 C110,62 190,50 292,50"/>
-              <path d="M8,76 C110,70 190,52 292,52"/>
-              <path d="M8,86 C110,78 190,54 292,54"/>
-            </g>
-            <rect x="196" y="34" width="96" height="10" rx="3" fill="#177f6d"/>
-            <rect x="196" y="48" width="96" height="10" rx="3" fill="#a1442e"/>
-          </svg>
-          <div class="badge-s" style="margin-top:8px">تسعة خيوطٍ متشابكة تُنسج في شريطَين — تحويلان فقط، والدائرة كلّها بذمّةٍ صافية</div>
-        </div>
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="statsplit">
-            <div class="stat"><div class="k">التحويلات</div><div class="v">٩ ← ٢</div></div>
-            <div class="divider"></div>
-            <div class="stat"><div class="k">تحرّك فعلًا</div><div class="v">900 <small>بدل 1,800 ريال</small></div></div>
+      <div class="slot-lbl">③ المقاصّة<small>الخيوط التسعة تُنسج في شريطَين</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="ceremony" style="padding-bottom:0">
+            <div class="cer-h">تمّت المقاصّة</div>
+            <svg viewBox="0 0 300 90" style="width:100%; max-width:270px; display:block" aria-hidden="true">
+              <g stroke="#a1442e" stroke-width="1.4" fill="none" opacity=".5">
+                <path d="M8,6  C110,10 190,38 292,38"/><path d="M8,16 C110,18 190,40 292,40"/>
+                <path d="M8,26 C110,26 190,42 292,42"/><path d="M8,36 C110,34 190,44 292,44"/>
+                <path d="M8,46 C110,44 190,46 292,46"/>
+              </g>
+              <g stroke="#1c1812" stroke-width="1.4" fill="none" opacity=".5">
+                <path d="M8,56 C110,54 190,48 292,48"/><path d="M8,66 C110,62 190,50 292,50"/>
+                <path d="M8,76 C110,70 190,52 292,52"/><path d="M8,86 C110,78 190,54 292,54"/>
+              </g>
+              <rect x="196" y="34" width="96" height="10" rx="3" fill="#177f6d"/>
+              <rect x="196" y="48" width="96" height="10" rx="3" fill="#a1442e"/>
+            </svg>
+            <div class="cer-s">تسعة خيوطٍ متشابكة تُنسج في شريطَين — والدائرة كلّها بذمّةٍ صافية</div>
           </div>
-          <div class="rows">
-            <div class="rowc"><span class="rico">💸</span><span><span class="rt">نورة ← فهد<span class="rs">تحويل التسوية الأوّل</span></span></span><span class="amtside lak"><b>600</b><small>ريال</small></span></div>
-            <div class="rowc"><span class="rico">💸</span><span><span class="rt">نورة ← خالد<span class="rs">تحويل التسوية الثاني</span></span></span><span class="amtside lak"><b>300</b><small>ريال</small></span></div>
+          <div class="col">
+            <div class="split">
+              <div class="st"><div class="k">التحويلات</div><div class="v">٩ ← ٢</div></div>
+              <div class="div"></div>
+              <div class="st"><div class="k">تحرّك فعلًا</div><div class="v">900 <small>بدل 1,800 ريال</small></div></div>
+            </div>
+            <div class="group">
+              <div class="cell"><span class="ico teal">💸</span><span><span class="c-t">نورة ← فهد<span class="c-s">تحويل التسوية الأوّل</span></span></span><span class="amt lak"><b>600</b><small>ريال</small></span></div>
+              <div class="cell"><span class="ico teal">💸</span><span><span class="c-t">نورة ← خالد<span class="c-s">تحويل التسوية الثاني</span></span></span><span class="amt lak"><b>300</b><small>ريال</small></span></div>
+            </div>
+            <div class="banner ok"><span class="bi">✓</span><span>صحّ الحساب — مجموع ما يُدفع = مجموع ما يُستحقّ</span></div>
           </div>
-          <div class="okline">✓ صحّ الحساب — مجموع ما يُدفع = مجموع ما يُستحقّ</div>
-          <div class="footnote">المصرف يُقاصّ برضا الجميع — ولا يمسّ مالًا إلّا بأمرهم</div>
+          <div class="actions">
+            <div class="footnote">المصرف يُقاصّ برضا الجميع — ولا يمسّ مالًا إلّا بأمرهم</div>
+          </div>
         </div>
-      </div></div></div>
+        <div class="homebar"></div>
+      </div></div>
     </div>
 
     <!-- ④ دفتري -->
     <div class="phone-slot">
-      <div class="slot-lbl">④ دفتري<small>ما لك — بعهودٍ مختومة</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
-        <div class="head">
-          <div class="greet">سجلّ الدائن</div>
-          <div class="title">دفتري</div>
-          <div class="sadu"></div>
-          <div class="sub">صافي ما لك: <b style="color:var(--teal)">900 ريال</b> عبر ثلاثة عهودٍ مختومة.</div>
-        </div>
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="wordband">أنت عند وعدك: <b>«وفّى بعهوده»</b> — كلمةٌ من سجلّك، لا رقمٌ يصنّفك</div>
-          <div class="lbl">العهود القائمة</div>
-          <div class="rows">
-            <div class="rowc"><span class="rico">🧾</span><span><span class="rt">خالد<span class="rs">يحلّ في محرّم ١٤٤٨</span></span></span><span class="amtside lak"><b>2,500</b><small>ريال</small></span></div>
-            <div class="rowc"><span class="rico">🧾</span><span><span class="rt">فهد<span class="rs">تأخّر — والتيسير أولى</span></span></span><span class="amtside lak"><b>600</b><small>ريال</small></span></div>
-            <div class="rowc"><span class="rico">♾️</span><span><span class="rt">سارة<span class="rs">قرضٌ مفتوح — متى ما تيسّر</span></span></span><span class="amtside lak"><b>300</b><small>ريال</small></span></div>
+      <div class="slot-lbl">④ دفتري<small>inset-grouped + بند الثقة كلمةً</small></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">سجلّ الدائن</div>
+            <div class="lg-title">دفتري</div>
+            <div class="sadu"></div>
+            <div class="sub">صافي ما لك: <b style="color:var(--teal)">900 ريال</b> عبر ثلاثة عهودٍ مختومة.</div>
           </div>
-          <div class="rows"><div class="rowc"><span class="rico">🔏</span><span><span class="rt">حافظة الإثبات<span class="rs">وثيقةٌ مختومة تصلح سندًا</span></span></span><button class="go">‹</button></div></div>
-          <div class="footnote">التأخّر يُذكر بلونٍ هادئ — لا أحمر، لا تشهير، لا غرامة</div>
+          <div class="col">
+            <div class="sec-h">العهود القائمة</div>
+            <div class="group">
+              <div class="cell"><span class="ico sand">🧾</span><span><span class="c-t">خالد<span class="c-s">يحلّ في محرّم ١٤٤٨</span></span></span><span class="amt lak"><b>2,500</b><small>ريال</small></span></div>
+              <div class="cell"><span class="ico sand">🧾</span><span><span class="c-t">فهد<span class="c-s">تأخّر — والتيسير أولى</span></span></span><span class="amt lak"><b>600</b><small>ريال</small></span></div>
+              <div class="cell"><span class="ico sand">♾️</span><span><span class="c-t">سارة<span class="c-s">قرضٌ مفتوح — متى ما تيسّر</span></span></span><span class="amt lak"><b>300</b><small>ريال</small></span></div>
+            </div>
+            <div class="group">
+              <div class="cell"><span class="ico">🔏</span><span><span class="c-t">حافظة الإثبات<span class="c-s">وثيقةٌ مختومة تصلح سندًا</span></span></span><span class="chev">‹</span></div>
+            </div>
+            <div class="banner gold"><span class="bi">🕊️</span><span><b>«وفّى بعهوده»</b> — كلمةٌ من سجلّك، لا رقمٌ يصنّفك</span></div>
+          </div>
+          <div class="actions">
+            <div class="footnote">التأخّر يُذكر بلونٍ هادئ — لا أحمر، لا تشهير، لا غرامة</div>
+          </div>
         </div>
-      </div></div></div>
+        <div class="homebar"></div>
+      </div></div>
     </div>
 
     <!-- ⑤ ما عليّ -->
     <div class="phone-slot">
       <div class="slot-lbl">⑤ ما عليّ<small>مرآة المدين — رحمة ٢:٢٨٠</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
-        <div class="head">
-          <div class="greet">سجلّ المدين</div>
-          <div class="title">ما عليّ</div>
-          <div class="sadu"></div>
-          <div class="sub">ما عليك: <b style="color:var(--gold)">1,200 ريال</b> — بلا عدّادٍ يلاحقك، وبلا تصنيف.</div>
-        </div>
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="rows">
-            <div class="rowc"><span class="rico">🧾</span><span><span class="rt">لعمر<span class="rs">يحلّ في صفر ١٤٤٨</span></span></span><span class="amtside alayk"><b>800</b><small>ريال</small></span></div>
-            <div class="rowc"><span class="rico">🧾</span><span><span class="rt">لريم<span class="rs">حلّ الأجل — اطلب وقتًا إن عسرت</span></span></span><span class="amtside alayk"><b>400</b><small>ريال</small></span></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">سجلّ المدين</div>
+            <div class="lg-title">ما عليّ</div>
+            <div class="sadu"></div>
+            <div class="sub">ما عليك: <b style="color:var(--gold)">1,200 ريال</b> — بلا عدّادٍ يلاحقك، وبلا تصنيف.</div>
           </div>
-          <div class="actbar">
-            <button class="primary">سدّد ما تيسّر</button>
-            <button class="ghost">🌿 أحتاج وقتًا</button>
+          <div class="col">
+            <div class="group">
+              <div class="cell"><span class="ico sand">🧾</span><span><span class="c-t">لعمر<span class="c-s">يحلّ في صفر ١٤٤٨</span></span></span><span class="amt alayk"><b>800</b><small>ريال</small></span></div>
+              <div class="cell"><span class="ico sand">🧾</span><span><span class="c-t">لريم<span class="c-s">حلّ الأجل — اطلب وقتًا إن عسرت</span></span></span><span class="amt alayk"><b>400</b><small>ريال</small></span></div>
+            </div>
+            <div class="banner plain"><span class="bi">🌿</span><span>طلب المهلة لا يضيف ريالًا واحدًا — الزيادة على العسر ربًا، والرحمة عهدٌ</span></div>
           </div>
-          <div class="footnote">طلب المهلة لا يضيف ريالًا واحدًا — الزيادة على العسر ربًا، والرحمة عهدٌ</div>
-          <div class="versel">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
+          <div class="actions">
+            <button class="btn prominent">سدّد ما تيسّر</button>
+            <button class="btn tinted">🌿 أحتاج وقتًا</button>
+            <div class="verse">﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</div>
+          </div>
         </div>
-      </div></div></div>
+        <div class="homebar"></div>
+      </div></div>
     </div>
 
     <!-- ⑥ حافظة الإثبات -->
     <div class="phone-slot">
       <div class="slot-lbl">⑥ حافظة الإثبات<small>الوثيقة المختومة — والعبث يفتضح</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
-        <div class="head">
-          <div class="greet">سندٌ محايد</div>
-          <div class="title">حافظة الإثبات</div>
-          <div class="sadu"></div>
-          <div class="sub">وثيقةُ عهدٍ مختومةٌ بالبصمة — تُعرض كما هي، والمصرف لا يحكم بين الطرفين.</div>
-        </div>
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="sealdoc">
-            <div class="sl">الوثيقة المختومة · نفاذ (محاكاة) + SHA-256</div>
-            <div class="body">عهدُ قرضٍ حسن: نورة ← خالد · 2,500 ريال · الأجل محرّم ١٤٤٨ · شهد المصرف وختم.</div>
-            <div class="hash">6c9410b9 4e1a 22f7 …  bank_seal ✓</div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">سندٌ محايد</div>
+            <div class="lg-title">حافظة الإثبات</div>
+            <div class="sadu"></div>
+            <div class="sub">وثيقةُ عهدٍ مختومةٌ بالبصمة — تُعرض كما هي، والمصرف لا يحكم بين الطرفين.</div>
           </div>
-          <div class="verify ok">✓ الختم سليم — الوثيقة لم تُمسّ منذ لحظة الشهادة</div>
-          <div class="verify bad">✗ عبثٌ مكشوف — تغيّر حرفٌ واحد فانكسرت البصمة (هكذا يفتضح التزوير أمام القاضي)</div>
-          <div class="actbar">
-            <button class="primary">صدّر سند القاضي</button>
-            <button class="ghost">جرّب العبث بنفسك</button>
+          <div class="col">
+            <div class="sealdoc">
+              <div class="sl">الوثيقة المختومة · نفاذ (محاكاة) + SHA-256</div>
+              <div class="body">عهدُ قرضٍ حسن: نورة ← خالد · 2,500 ريال · الأجل محرّم ١٤٤٨ · شهد المصرف وختم.</div>
+              <div class="hash">6c9410b9 4e1a 22f7 …  bank_seal ✓</div>
+            </div>
+            <div class="verify ok"><span class="bi">✓</span><span>الختم سليم — الوثيقة لم تُمسّ منذ لحظة الشهادة</span></div>
+            <div class="verify bad"><span class="bi">✗</span><span>عبثٌ مكشوف — تغيّر حرفٌ واحد فانكسرت البصمة؛ هكذا يفتضح التزوير أمام القاضي</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn prominent">صدّر سند القاضي</button>
+            <button class="btn plain">جرّب العبث بنفسك</button>
           </div>
         </div>
-      </div></div></div>
+        <div class="homebar"></div>
+      </div></div>
     </div>
 
     <!-- ⑦ أثر عهد -->
     <div class="phone-slot">
       <div class="slot-lbl">⑦ أثر عهد<small>أرقامٌ مجهّلة — لا أفراد، لا تصنيف</small></div>
-      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
-        <div class="head">
-          <div class="greet">تحليلاتٌ بضمير</div>
-          <div class="title">أثر عهد</div>
-          <div class="sadu"></div>
-          <div class="sub">مجاميع دوائر لا أفراد — ولا يُعرض جمعٌ أقلّ من ثلاثة أعضاء.</div>
-        </div>
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="fixture">دوائر تجريبيّة (بيانات اختبار) — للعرض لا للادّعاء</div>
-          <div class="tiles2">
-            <div class="tile2"><b>12</b><span>دائرة مقاصّة</span></div>
-            <div class="tile2"><b>63</b><span>تحويلًا أُلغيت حاجتُه</span></div>
-            <div class="tile2"><b>31,400</b><span>ريال سُوّيت صافيًا</span></div>
-            <div class="tile2"><b>«7 من 9»</b><span>متوسّط انطواء التحويلات</span></div>
+      <div class="phone"><div class="glass"><div class="island"></div>
+        <div class="status"><span>٩:٤١</span><span class="r">●●●●</span></div>
+        <div class="viewport">
+          <div class="nav-lg">
+            <div class="eyebrow">تحليلاتٌ بضمير</div>
+            <div class="lg-title">أثر عهد</div>
+            <div class="sadu"></div>
+            <div class="sub">مجاميع دوائر لا أفراد — ولا يُعرض جمعٌ أقلّ من ثلاثة أعضاء.</div>
           </div>
-          <div class="okline">الحساب محفوظ: ما دخل الدائرة خرج منها — لا زيادة ولا نقصان</div>
-          <div class="footnote">لا درجات، لا ترتيب، لا تصدير — الأثر يُروى جملةً، والأفراد في سترهم</div>
+          <div class="col">
+            <div class="banner plain"><span class="bi">🧪</span><span>دوائر تجريبيّة (بيانات اختبار) — للعرض لا للادّعاء</span></div>
+            <div class="tiles">
+              <div class="tile"><b>12</b><span>دائرة مقاصّة</span></div>
+              <div class="tile"><b>63</b><span>تحويلًا أُلغيت حاجتُه</span></div>
+              <div class="tile"><b>31,400</b><span>ريال سُوّيت صافيًا</span></div>
+              <div class="tile"><b>«7 من 9»</b><span>متوسّط انطواء التحويلات</span></div>
+            </div>
+            <div class="banner ok"><span class="bi">⚖️</span><span>الحساب محفوظ: ما دخل الدائرة خرج منها — لا زيادة ولا نقصان</span></div>
+          </div>
+          <div class="actions">
+            <div class="footnote">لا درجات، لا ترتيب، لا تصدير — الأثر يُروى جملةً، والأفراد في سترهم</div>
+          </div>
         </div>
-      </div></div></div>
+        <div class="homebar"></div>
+      </div></div>
     </div>
 
   </div>
 
   <div class="stage-foot">
-    «السدو» النسخة الهادئة — ٧ شاشات · المصدر: <code>application/prototypes/dir-b-sadu.html</code><br>
-    التراكوتا لهجةٌ واحدة · الأحمر الغامق محجوزٌ للإيقاف الشرعيّ والعبث فقط · الأرقام صحيحةٌ بلا فواصل عشريّة
+    «السدو» v3 — لغة iOS (HIG): عناوين كبيرة · مجموعات مدمجة · فواصل شعريّة · لهجة واحدة · أفعالٌ في متناول الإبهام<br>
+    المصدر: <code>application/prototypes/dir-b-sadu.html</code> · الأحمر محجوزٌ للإيقاف الشرعيّ والعبث فقط
   </div>
 </div>
