@@ -247,6 +247,22 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .ol-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; font-size:11px; color:var(--ink2)}
 .ol-legend .paid{color:var(--teal-text); font-weight:700} .ol-legend .forgiven{color:var(--gold-text); font-weight:700}
 
+/* ---- covenant trail spine: structural timeline guide (documented exception) ---- */
+.cv-line{border-inline-start:2px dashed var(--hair); padding-inline-start:18px; display:flex; flex-direction:column; gap:14px}
+.cv-step{position:relative; font-size:13px; line-height:1.75}
+.cv-dot{position:absolute; inset-inline-start:-23px; top:3px; width:9px; height:9px; border-radius:50%; background:var(--gold)}
+.cv-seal{font-family:var(--mono); direction:ltr; text-align:left; font-size:10.5px; color:var(--ink3); margin-top:3px}
+
+/* ---- bounds: guard line + bank-section gold hairline; printed command well ---- */
+.bd-guard{display:block; font-family:var(--mono); direction:ltr; text-align:left; font-size:11px; color:var(--ink3); margin-top:4px}
+.bd-bank{border-top:2px solid var(--gold)}
+.cmd{font-family:var(--mono); direction:ltr; text-align:left; font-size:11.5px; color:var(--ink2); background:var(--card); border-radius:var(--r); padding:10px 14px; box-shadow:0 1px 2px rgba(28,24,18,.05)}
+
+/* ---- settings: digit/privacy segmented control ---- */
+.set-seg{display:flex; gap:8px; margin-top:8px}
+.set-seg button{flex:1; appearance:none; border:1px solid var(--hair); background:var(--card); border-radius:10px; padding:9px; font:inherit; font-size:12.5px; font-weight:700; color:var(--ink2); cursor:pointer}
+.set-seg button.on{background:var(--teal-soft); color:var(--teal-text); border-color:transparent}
+
 /* ---- wallet rows breathe: one-time slide-up + fade, staggered per row ---- */
 @media (prefers-reduced-motion: no-preference){
   .breathe .cell{ animation:row-in .3s ease-out both }
