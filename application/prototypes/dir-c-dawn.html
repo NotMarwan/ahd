@@ -1,0 +1,244 @@
+<title>عهد — فجر الميسرة (Direction C)</title>
+<!-- @dsCard group="Mobile / Directions" title="عهد — فجر الميسرة" -->
+<style>
+/* ============================================================================
+   Ahd prototype — Direction C «فجر الميسرة» (Dawn of Ease).
+   Visual language: dawn-sky gradient + layered dunes + sun disc + palms +
+   cream bottom sheet. Ahd content + spine rules unchanged: no riba copy
+   except negated · no numeric trust · reserved-red only for Shariah stop /
+   tamper · no ٪ glyphs · integer SAR · (محاكاة) on simulated integrations.
+============================================================================ */
+:root{
+  --dawn-1:#f7d9b8; --dawn-2:#e8a87c; --dawn-3:#c97d63;
+  --dune-1:#d9c19a; --dune-2:#b89a70; --dune-3:#9a7c56;
+  --cream:#faf3e8; --cream-2:#fffaf1; --cream-line:#eee2cd;
+  --ink:#3a2f28; --mut:#8a8375;
+  --coral:#d96a55; --coral-deep:#c65540; --coral-soft:#fbe3dc;
+  --teal:#177f6d; --teal-soft:#dff0ea;
+  --gold:#c9a45c;
+  --stop:#8f2c14; --stop-deep:#73220f; --stop-soft:#f8e2da;
+  --sun:#f4b860;
+  --r-sheet:30px; --r-card:18px; --r-pill:999px;
+  --mono:"Consolas","Courier New",monospace;
+  --stage:#171008; --stage-ink:#f0e4d4;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--stage); color:var(--stage-ink);
+  font-family:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif; line-height:1.6}
+
+/* ---- stage chrome ---- */
+.stage{direction:rtl; max-width:1440px; margin:0 auto; padding:34px 22px 60px}
+.stage-head{text-align:center; margin-bottom:8px}
+.stage-head .k{font-size:11.5px; letter-spacing:3px; color:#dba876; text-transform:uppercase}
+.stage-head h1{margin:6px 0 4px; font-size:29px; font-weight:800; color:#f6e9d4}
+.stage-head p{margin:0 auto; max-width:62ch; color:#c2ab90; font-size:13.5px}
+.phones{display:flex; gap:30px; justify-content:center; flex-wrap:wrap; margin-top:30px}
+.phone-slot{display:flex; flex-direction:column; gap:12px; align-items:center}
+.slot-lbl{font-size:13px; color:#e3d3b6; font-weight:700}
+.slot-lbl small{display:block; font-weight:400; color:#a8916f; font-size:11.5px; margin-top:2px}
+.phone{width:390px; height:800px; border-radius:52px; background:#140d06; padding:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.55), 0 34px 80px rgba(0,0,0,.6), inset 0 0 0 2px #3a2c1c}
+.phone .glass{position:relative; width:100%; height:100%; border-radius:40px; overflow:hidden;
+  background:linear-gradient(180deg, var(--dawn-1) 0%, var(--dawn-2) 46%, var(--dawn-3) 66%);
+  color:#3a2f28}
+.phone .notch{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:112px; height:28px; background:#140d06; border-radius:999px; z-index:30}
+.viewport{direction:rtl; height:100%; overflow-y:auto; scrollbar-width:none; display:flex; flex-direction:column}
+.viewport::-webkit-scrollbar{display:none}
+
+/* ---- dawn dune scene ---- */
+.sky{position:relative; flex:none; padding:64px 24px 18px; min-height:236px; overflow:hidden}
+.sun{position:absolute; top:38px; inset-inline-end:44px; width:64px; height:64px; border-radius:50%;
+  background:radial-gradient(circle at 42% 38%, #fff3da 0%, var(--sun) 46%, #e08c46 100%);
+  box-shadow:0 0 0 10px rgba(244,184,96,.28), 0 0 0 22px rgba(244,184,96,.14), 0 0 40px rgba(244,184,96,.55)}
+.palm{position:absolute; bottom:70px; width:6px; height:52px; background:#5a4128; border-radius:3px 3px 0 0}
+.palm::before, .palm::after, .palm i{content:""; position:absolute; top:-4px; inset-inline-start:-2px; width:30px; height:9px;
+  background:#3f6b3f; border-radius:0 60% 60% 0; transform-origin:left center}
+.palm::before{transform:rotate(-38deg)}
+.palm::after{transform:rotate(4deg)}
+.palm i{display:block; transform:rotate(44deg)}
+.palm i.i2{transform:rotate(76deg)}
+.p1{inset-inline-start:20px}
+.p2{inset-inline-start:52px; height:38px; opacity:.85; transform:scale(.82)}
+.p3{inset-inline-end:70px; height:42px; opacity:.7; transform:scale(.7) scaleX(-1)}
+.dunes{position:absolute; bottom:0; inset-inline:0; height:96px; pointer-events:none}
+.dunes i{position:absolute; bottom:-30px; display:block; border-radius:50%}
+.d1{width:340px; height:140px; inset-inline-start:-70px; background:var(--dune-1)}
+.d2{width:300px; height:120px; inset-inline-end:-60px; background:var(--dune-2)}
+.d3{width:420px; height:150px; inset-inline-start:40%; transform:translateX(-50%); background:var(--dune-3)}
+.bird{position:absolute; width:16px; height:7px}
+.bird::before, .bird::after{content:""; position:absolute; top:0; width:9px; height:2px; background:#5a3d2a; border-radius:2px}
+.bird::before{inset-inline-start:0; transform:rotate(28deg)}
+.bird::after{inset-inline-end:0; transform:rotate(-28deg)}
+.bird.b-a{top:96px; inset-inline-start:30%}
+.bird.b-b{top:118px; inset-inline-start:38%; transform:scale(.8)}
+.sky-title{position:relative; z-index:2; margin-top:34px}
+.sky-title .w{font-size:34px; font-weight:800; color:#3a2318; letter-spacing:1px}
+.sky-title .t{font-size:13.5px; color:#5c3f2c; margin-top:2px}
+
+/* big ceremonial badge (screens 2·3) — sun-disc badge */
+.badge-scene{display:flex; flex-direction:column; align-items:center; gap:14px; padding-top:26px; position:relative; z-index:2}
+.badge{width:112px; height:112px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:44px; position:relative; z-index:2;
+  background:radial-gradient(circle at 40% 34%, #fff3da 0%, var(--sun) 44%, var(--coral) 100%)}
+.badge.ok{color:#0f3a30; box-shadow:0 0 0 10px rgba(244,184,96,.30), 0 0 0 20px rgba(23,127,109,.16), 0 16px 40px rgba(0,0,0,.30)}
+.badge.stop{color:#4a1206; box-shadow:0 0 0 10px rgba(244,184,96,.30), 0 0 0 20px rgba(143,44,20,.20), 0 16px 40px rgba(0,0,0,.30)}
+.badge-h{font-size:26px; font-weight:800; color:#3a2318; text-align:center; line-height:1.4; z-index:2}
+.badge-s{font-size:13px; color:#5c3f2c; text-align:center; margin-top:-8px; z-index:2; padding:0 26px; line-height:1.8}
+.mercy-cap{position:relative; z-index:2; text-align:center; color:#4a2f1e; font-size:13px; margin-top:10px; padding:0 22px; line-height:1.9; font-weight:700}
+
+/* ---- cream bottom sheet ---- */
+.sheet{flex:1; background:var(--cream); color:var(--ink); border-radius:var(--r-sheet) var(--r-sheet) 0 0;
+  margin-top:auto; padding:20px 20px 30px; box-shadow:0 -10px 40px rgba(0,0,0,.28); position:relative; z-index:5}
+.grab{width:44px; height:5px; border-radius:999px; background:#ddd0b8; margin:0 auto 16px}
+.sh-title{font-size:22px; font-weight:800}
+.sh-sub{color:var(--mut); font-size:12.5px; margin-top:2px; margin-bottom:14px}
+.rows{display:flex; flex-direction:column; gap:10px}
+.rowc{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+  background:var(--cream-2); border:1px solid var(--cream-line); border-radius:var(--r-card); padding:13px 14px; box-shadow:0 1px 2px rgba(58,47,40,.05)}
+.rico{width:40px; height:40px; border-radius:12px; background:var(--coral-soft); display:flex; align-items:center; justify-content:center; font-size:19px}
+.rt{font-weight:800; font-size:15.5px}
+.rs{display:block; color:var(--mut); font-size:11.5px; font-weight:400; margin-top:1px}
+.go{width:38px; height:38px; border-radius:50%; background:var(--ink); color:#fff; border:0; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center}
+.go.coral{background:var(--coral-deep)}
+.versel{text-align:center; color:var(--gold); font-size:12.5px; line-height:1.9; margin-top:14px}
+
+/* stat split panel (screen 3, like DURATION | AVG HR) */
+.statsplit{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px;
+  background:var(--cream-2); border:1px solid var(--cream-line); border-radius:var(--r-card); padding:15px 10px; text-align:center}
+.statsplit .divider{width:1px; height:44px; background:var(--cream-line)}
+.stat .k{font-size:10.5px; letter-spacing:1.5px; color:var(--mut); font-weight:700}
+.stat .v{font-size:26px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums}
+.stat .v small{font-size:12px; color:var(--mut); font-weight:400}
+.dots-q{text-align:center; color:var(--ink); font-weight:700; font-size:13.5px; margin-top:14px}
+.mood{display:flex; justify-content:center; gap:12px; margin-top:10px}
+.mood i{width:34px; height:34px; border-radius:50%; display:block}
+.m1{background:#7fc4dd}.m2{background:#a8d8e8}.m3{background:#b9b3a6}.m4{background:var(--dune-2)}.m5{background:var(--coral-deep)}
+.footline{text-align:center; color:var(--mut); font-size:11.5px; margin-top:12px; line-height:1.8}
+.footline b{color:var(--teal)}
+
+/* riba stop card (screen 2) — red reserved for the Shariah stop */
+.stopcard{background:var(--stop-soft); border:1px solid #ecc2b4; border-inline-start:4px solid var(--stop);
+  border-radius:var(--r-card); padding:13px 14px; color:var(--stop)}
+.stopcard .h{font-weight:800; font-size:14px; color:var(--stop-deep)}
+.stopcard .w{font-size:12.5px; margin-top:5px; line-height:1.75}
+.fixcard{margin-top:9px; background:var(--cream-2); border:1px solid #d6e8e1; border-inline-start:3px solid var(--teal);
+  border-radius:12px; padding:9px 12px; font-size:12.5px; color:var(--ink); line-height:1.8}
+.fixcard b{color:var(--teal)}
+.actbar{display:flex; gap:8px; margin-top:12px}
+.actbar .primary{flex:1; appearance:none; border:0; background:var(--ink); color:#fff; border-radius:14px; padding:14px; font:inherit; font-weight:700; cursor:pointer}
+.actbar .primary[disabled]{background:#c9beaa; cursor:not-allowed}
+.actbar .ghost{appearance:none; border:1px solid var(--cream-line); background:var(--cream-2); color:var(--ink); border-radius:14px; padding:14px 16px; font:inherit; cursor:pointer}
+.termsq{background:var(--cream-2); border:1px dashed var(--cream-line); border-radius:12px; padding:11px 13px; font-size:12.5px; line-height:1.9}
+.simnote{text-align:center; color:var(--mut); font-size:11px; margin-top:8px}
+
+.stage-foot{margin-top:36px; text-align:center; color:#a8916f; font-size:12px; line-height:2}
+.stage-foot code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:#c9a45c}
+@media (max-width:1320px){ .phone{width:360px; height:740px} }
+</style>
+
+<div class="stage">
+  <div class="stage-head">
+    <div class="k">AHD · MOBILE PROTOTYPE · DIRECTION C · DAWN OF EASE</div>
+    <h1>عهد — ثلاث شاشات بأسلوب «فجر الميسرة»</h1>
+    <p>سماء فجرٍ متدرّجة + كثبانٌ متراكبة + نخيلٌ وقرص شمسٍ متوهّج — العسر يُصبح ميسرةً، والميسرة تُرسم نورًا.</p>
+  </div>
+
+  <div class="phones">
+
+    <!-- ①  الرئيسيّة -->
+    <div class="phone-slot">
+      <div class="slot-lbl">① الرئيسيّة<small>مشهد الفجر + لوح الدخول</small></div>
+      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
+        <div class="sky">
+          <span class="sun"></span>
+          <div class="dunes"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div>
+          <div class="palm p1"><i class="i2"></i></div>
+          <div class="palm p2"><i class="i2"></i></div>
+          <div class="palm p3"><i class="i2"></i></div>
+          <div class="sky-title"><div class="w">عهد</div><div class="t">كلمتك محفوظة، وعلاقتك محميّة</div></div>
+        </div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="sh-title">أهلًا نورة</div>
+          <div class="sh-sub">المصرف يشهد ويختم ويقاصّ — لا يُقرض، ولا يحكم، ولا يُصنّف.</div>
+          <div class="rows">
+            <div class="rowc"><span class="rico">🤝</span><span><span class="rt">أنشئ عهدًا<span class="rs">وثّق قرضًا حسنًا بختمٍ مصرفيّ</span></span></span><button class="go coral">◀</button></div>
+            <div class="rowc"><span class="rico">📒</span><span><span class="rt">دفتري<span class="rs">ما لك — بعهودٍ مختومة</span></span></span><button class="go">◀</button></div>
+            <div class="rowc"><span class="rico">🌿</span><span><span class="rt">ما عليّ<span class="rs">ما عليك — بلا عدّاد، بلا تصنيف</span></span></span><button class="go">◀</button></div>
+            <div class="rowc"><span class="rico">🔄</span><span><span class="rt">المقاصّة<span class="rs">٩ تحويلات تنطوي إلى ٢</span></span></span><button class="go">◀</button></div>
+          </div>
+          <div class="versel">﴿إِذَا تَدَايَنتُم بِدَيْنٍ إِلَىٰ أَجَلٍ مُّسَمًّى فَاكْتُبُوهُ﴾</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- ②  فاحص الرِّبا -->
+    <div class="phone-slot">
+      <div class="slot-lbl">② أنشئ عهدًا<small>فاحص الرِّبا يوقف الختم</small></div>
+      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
+        <div class="sky" style="min-height:290px">
+          <span class="sun"></span>
+          <div class="dunes"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div>
+          <div class="badge-scene">
+            <div class="badge stop">✋</div>
+            <div class="badge-h">توقّف قبل الختم</div>
+            <div class="badge-s">وُجد في نصّ العهد شرطٌ لا يصفو — والختم لا يقع إلّا على الطاهر</div>
+            <div class="mercy-cap">﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ — العسر يُصبح ميسرةً، لا زيادة</div>
+          </div>
+        </div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="termsq">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه في أجله، <u>وإن تأخّرتُ فعليّ غرامة 50 ريالًا</u>.</div>
+          <div style="height:10px"></div>
+          <div class="stopcard">
+            <div class="h">«غرامة» — شرطُ زيادةٍ عند التأخّر</div>
+            <div class="w">هذا من ربا الجاهليّة، ولا يُختم عهدٌ فيه زيادةٌ مشروطة.</div>
+            <div class="fixcard"><b>البديل الحلال:</b> احذف الشرط — إن عسر المدين ﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾.</div>
+          </div>
+          <div class="actbar">
+            <button class="ghost">أزِل الشرط وأعد الصياغة</button>
+            <button class="primary" disabled>اختم عبر نفاذ (محاكاة)</button>
+          </div>
+          <div class="simnote">الختم متوقّف حتى يصفو النصّ من كلّ شرطٍ ربويّ</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- ③  المقاصّة -->
+    <div class="phone-slot">
+      <div class="slot-lbl">③ المقاصّة<small>٩ تنطوي إلى ٢ — لحظة الصفاء</small></div>
+      <div class="phone"><div class="glass"><div class="notch"></div><div class="viewport">
+        <div class="sky" style="min-height:290px">
+          <span class="sun"></span>
+          <div class="dunes"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div>
+          <span class="bird b-a"></span><span class="bird b-b"></span>
+          <div class="badge-scene">
+            <div class="badge ok">✓</div>
+            <div class="badge-h">تمّت المقاصّة</div>
+            <div class="badge-s">تسع ديونٍ متشابكة سُوِّيت بتحويلَين — والدائرة كلّها بذمّةٍ صافية</div>
+          </div>
+        </div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="statsplit">
+            <div class="stat"><div class="k">التحويلات</div><div class="v">٩ ← ٢</div></div>
+            <div class="divider"></div>
+            <div class="stat"><div class="k">تحرّك فعلًا</div><div class="v">900 <small>بدل 1,800 ريال</small></div></div>
+          </div>
+          <div class="rows" style="margin-top:12px">
+            <div class="rowc"><span class="rico">💸</span><span><span class="rt">نورة ← فهد<span class="rs">تحويل التسوية الأوّل</span></span></span><b style="color:var(--teal)">600 ريال</b></div>
+            <div class="rowc"><span class="rico">💸</span><span><span class="rt">نورة ← خالد<span class="rs">تحويل التسوية الثاني</span></span></span><b style="color:var(--teal)">300 ريال</b></div>
+          </div>
+          <div class="dots-q">صحّ الحساب — لا زيادة ولا نقصان</div>
+          <div class="mood"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i></div>
+          <div class="footline">مجموع ما يُدفع = مجموع ما يُستحقّ · <b>المصرف يُقاصّ برضا الجميع</b></div>
+        </div>
+      </div></div></div>
+    </div>
+
+  </div>
+
+  <div class="stage-foot">
+    نموذج ثابت — لا منطق، لا شبكة · المصدر: <code>application/prototypes/dir-c-dawn.html</code><br>
+    أسلوب «فجر الميسرة» فوق محتوى عهد الحقيقيّ — الأحمر محجوزٌ للإيقاف الشرعيّ/العبث فقط
+  </div>
+</div>

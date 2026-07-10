@@ -1,0 +1,68 @@
+<title>عهد — اختيار الاتّجاه البصريّ (٣ اتّجاهات)</title>
+<style>
+:root{--bg:#14100c; --ink:#efe6d5; --mut:#9b917e; --line:#2c261d;
+  --a:#b8892e; --b:#a1442e; --c:#e8a87c; --mono:"Consolas","Courier New",monospace}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif; line-height:1.7}
+.wrap{direction:rtl; max-width:1200px; margin:0 auto; padding:44px 24px 70px}
+.k{font-size:11.5px; letter-spacing:3px; color:var(--mut); text-transform:uppercase; text-align:center}
+h1{text-align:center; margin:8px 0 6px; font-size:30px; font-weight:800}
+.lead{text-align:center; color:var(--mut); max-width:64ch; margin:0 auto 36px; font-size:14px}
+.cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px}
+.col{border:1px solid var(--line); border-radius:20px; padding:22px; background:#1a150f; display:flex; flex-direction:column; gap:12px}
+.col .tagbar{height:6px; border-radius:999px}
+.col.a .tagbar{background:linear-gradient(90deg,#b8892e,#f0e6d2)}
+.col.b .tagbar{background:repeating-linear-gradient(90deg,#a1442e 0 14px,#2e2a26 14px 22px,#e8dcc8 22px 34px)}
+.col.c .tagbar{background:linear-gradient(90deg,#f7d9b8,#e8a87c,#c97d63)}
+.col h2{margin:4px 0 0; font-size:20px}
+.col h2 small{display:block; font-size:11.5px; color:var(--mut); font-weight:400; letter-spacing:1px}
+.col ul{margin:0; padding-inline-start:18px; color:var(--mut); font-size:13px; display:flex; flex-direction:column; gap:6px}
+.col ul b{color:var(--ink)}
+.open{margin-top:auto; display:block; text-align:center; text-decoration:none; font-weight:700; font-size:14px;
+  border-radius:12px; padding:13px; color:#14100c; background:var(--ink)}
+.col.a .open{background:#e6c988}.col.b .open{background:#d9a08c}.col.c .open{background:#f2c9a4}
+.foot{text-align:center; color:var(--mut); font-size:12px; margin-top:34px; line-height:2}
+.foot code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:#c9a45c}
+</style>
+<div class="wrap">
+  <div class="k">AHD · DESIGN DIRECTION VOTE</div>
+  <h1>ثلاثة اتّجاهات — اختر واحدًا</h1>
+  <p class="lead">المحتوى واحد في الثلاثة (الرئيسيّة · فاحص الرِّبا · المقاصّة) والكوزينس المعتمد باقٍ — يتنافس العالم البصريّ فقط. افتح كلًّا منها بحجمه الكامل ثم قرّر.</p>
+  <div class="cols">
+    <div class="col a">
+      <div class="tagbar"></div>
+      <h2>أ · المخطوطة والختم<small>MANUSCRIPT &amp; SEAL</small></h2>
+      <ul>
+        <li>يملك قصّة <b>﴿فَاكْتُبُوهُ﴾</b> — الكتابة والتوثيق هي روح المنتج</li>
+        <li>لحظة الختم = <b>ختم شمعٍ</b> حقيقيّ — نفس ذروة العرض الحيّ</li>
+        <li>ورقٌ دافئ + ذهبٌ + حبر — وقارٌ مصرفيّ تراثيّ</li>
+      </ul>
+      <a class="open" href="https://claude.ai/code/artifact/d257be17-c514-4b22-993a-56ad944d2bb7">افتح الاتّجاه أ ↗</a>
+    </div>
+    <div class="col b">
+      <div class="tagbar"></div>
+      <h2>ب · السدو<small>SADU WEAVE</small></h2>
+      <ul>
+        <li>يملك قصّة <b>المقاصّة</b> — ٩ خيوطٍ متشابكة تُنسج في حزامَين</li>
+        <li>هويّة سعوديّة صريحة أمام لجنة أماد — نسيج السدو الوطنيّ</li>
+        <li>دفءٌ بالملمس لا بالإضاءة — هندسة تراثيّة حديثة</li>
+      </ul>
+      <a class="open" href="https://claude.ai/code/artifact/86976c09-7e4f-4cda-b807-b0c46cc686d6">افتح الاتّجاه ب ↗</a>
+    </div>
+    <div class="col c">
+      <div class="tagbar"></div>
+      <h2>ج · فجر الميسرة<small>DAWN OF EASE</small></h2>
+      <ul>
+        <li>يملك قصّة <b>﴿فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</b> — الرحمة ضوءُ فجرٍ لا عتمة</li>
+        <li>كثبانٌ ونخيلٌ وشمسٌ تصعد — وطائران فقط لصدى <b>٩←٢</b></li>
+        <li>الأقرب لكوزينس النسخة الليليّة التي أعجبتك — لكن بضوء</li>
+      </ul>
+      <a class="open" href="https://claude.ai/code/artifact/77bb5e91-e658-4704-87af-89042a2bca11">افتح الاتّجاه ج ↗</a>
+    </div>
+  </div>
+  <div class="foot">
+    المصادر: <code>application/prototypes/dir-{a,b,c}-*.html</code> · القواعد الشرعيّة ثابتة في الثلاثة<br>
+    الخاسران يبقيان في التاريخ؛ الفائز يصبح أساس ثيم الهيكل المحمول
+  </div>
+</div>
