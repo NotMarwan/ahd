@@ -15,6 +15,7 @@
 - **Gate frozen:** `cd tests && node run-all.cjs` must print exactly `AHD GATE ✅ 1687/0` after every task.
 - **Determinism in logic files:** no `Date.now`/`new Date()`/`Math.random`/`Intl`/`.toLocaleString`/float money in `application/ahd-mobile/src/features/**` (UI files may use platform APIs).
 - **Skeleton means skeleton:** screen stubs render title + placeholder only; feature modules export typed signatures + `NOT_IMPLEMENTED` bodies; NO business logic beyond what the engine already provides.
+- `application/design/RN-MAPPING.md` is binding; 🔴 rows block the build.
 - All new directories/files under `application/`; root repo files untouched except `docs/superpowers/plans/` and the vault sync at the end.
 - Node ≥18 for scripts; scripts are CJS (`"use strict"`, zero deps) matching repo harness style.
 - Arabic UI text: copy strings verbatim from `app/screens/*.js` when naming screens — do not invent new Arabic.
@@ -70,7 +71,7 @@ git commit -m "feat(mobile): application/ blueprint - RN+Expo decision record, 1
 Run (in `application/`): `npx create-expo-app@latest ahd-mobile --template blank-typescript`
 Expected: project created; then `cd ahd-mobile && npx expo-doctor` reports no blocking issues (warnings OK, note them).
 
-- [ ] **Step 2: `src/theme/tokens.ts`** — port the app's premium tokens (READ the `:root` block of `app/app.css` and copy the actual hex values; the names below are the contract, values must come from app.css):
+- [ ] **Step 2: `src/theme/tokens.ts`** — port the app's premium tokens (import values from `application/design/tokens.json` — run `check-tokens.cjs` first; the names below are the contract, values must come from tokens.json):
 
 ```ts
 // Ported from app/app.css :root — keep values byte-equal to the CSS custom properties.
