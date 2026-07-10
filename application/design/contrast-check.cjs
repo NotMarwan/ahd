@@ -27,6 +27,7 @@ const PAIRS = [
   ["stop on stop-soft",      "#7a2410", "#f6e3da", 4.5],
   ["seal ink on seal bg",    "#ece3d0", "#221d16", 4.5],
   ["seal hash on seal well", "#d8b978", "#221d16", 4.5],
+  ["official footer",        "#4a5a52", "#efe9dc", 4.5],
 ];
 let failed = 0;
 for (const [name, fg, bg, min] of PAIRS) {
