@@ -27,6 +27,7 @@
 | 19 | underline on riba term | `textDecorationLine:'underline'` | 🟢 | |
 | 20 | backdrop blur (if reintroduced) | `expo-blur` — partial on Android | 🟡 | prefer solid fills |
 | 21 | `dominant-baseline` on emblem SVG text | `alignmentBaseline` prop on `react-native-svg` `<Text>` | 🟡 | partial Android support — verify vertical centering on Samsung in Task 5 |
+| 22 | emoji icons | @expo/vector-icons or bundled SVG set — emoji render differently per platform | 🟡 | swap at port time, one icon component |
 
 Grep of `application/prototypes/dir-b-sadu.html` (v5) for `gradient`, `@property`, `animation`, `backdrop`, `mask`, `grid`, `sticky`, `::before`, `dashed`, `letter-spacing`, `dominant-baseline`, `filter` found no uses of `mask`, `sticky`, or `filter`, and no new categories beyond rows 1–20 plus the `dominant-baseline` use captured as row 21 above.
 
