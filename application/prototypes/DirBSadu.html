@@ -1,4 +1,4 @@
-<!-- @dsCard group="Mobile / Directions" name="DirBSadu" subtitle="السدو v4 — وقارٌ رسميّ + حركةٌ حيّة · ٧ شاشات" viewport="1300x940" -->
+<!-- @dsCard group="Mobile / Directions" name="DirBSadu" subtitle="السدو v5 — خطوات الختم · وثيقة رسميّة · عِبَر — ٧ شاشات" viewport="1300x940" -->
 <title>عهد — السدو v3 (iOS)</title>
 <style>
 /* ============================================================================
@@ -15,11 +15,13 @@
   --hair:rgba(60,50,30,.12);   /* hairline separator */
   --ink:#1c1812;               /* label */
   --ink2:#6d6353;              /* secondaryLabel */
-  --ink3:#9b917e;              /* tertiaryLabel */
+  --ink3:#6f6555;              /* tertiaryLabel */
   --terra:#a1442e;             /* THE accent (all interactive) */
   --terra-soft:#f4e2da;
-  --teal:#177f6d; --teal-soft:#e3f0eb;   /* semantic ok */
-  --gold:#a8863f;                         /* verse / covenant */
+  --teal:#177f6d; --teal-soft:#e3f0eb;   /* semantic ok (fills/rings) */
+  --teal-text:#116153;                    /* teal text-on-soft, WCAG AA */
+  --gold:#a8863f;                         /* decorative (emblem stroke) */
+  --gold-text:#7a5f27;                    /* verse / covenant text, WCAG AA */
   --stop:#7a2410; --stop-deep:#5e1a0a; --stop-soft:#f6e3da; --stop-line:#e0bcab;
   --seal-bg:#221d16; --seal-ink:#ece3d0; --seal-lbl:#b3a789; --seal-hash:#d8b978;
   --auth:#12312b;              /* official green-charcoal: emblem stroke + footer only */
@@ -53,14 +55,16 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 
 /* ---- iOS large-title header ---- */
 .nav-lg{padding:64px 20px 6px}
-.eyebrow{font-size:12px; font-weight:600; color:var(--ink3); letter-spacing:.3px}
-.lg-title{font-size:34px; font-weight:800; letter-spacing:.2px; line-height:1.18; text-wrap:balance}
+.eyebrow{font-size:12px; font-weight:600; color:var(--ink3)}
+.lg-title{font-size:34px; font-weight:800; line-height:1.18; text-wrap:balance}
 .sadu{height:8px; border-radius:2.5px; margin-top:10px; overflow:hidden;
   background:
     repeating-linear-gradient(135deg, var(--terra) 0 5px, transparent 5px 10px),
     repeating-linear-gradient(45deg, var(--ink) 0 5px, transparent 5px 10px),
     #e2d7c0}
 .nav-lg .sub{font-size:13px; color:var(--ink2); margin-top:10px; line-height:1.8}
+.insight{margin-top:8px; font-size:12.5px; color:var(--ink2); background:var(--card); border-radius:10px;
+  padding:8px 12px; line-height:1.8; border-inline-start:3px solid var(--teal)}
 
 /* ---- state emblem: octagonal seal enclosing «عهد», hairline gold + auth stroke.
        Authority through craft, not claim — no external logos, no official words. ---- */
@@ -72,7 +76,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 
 /* content column: 8pt grid */
 .col{display:flex; flex-direction:column; gap:16px; padding:16px 16px 0; flex:1}
-.sec-h{font-size:11px; font-weight:600; color:var(--ink3); letter-spacing:2px; padding:0 12px; margin-bottom:-8px; text-transform:uppercase}
+.sec-h{font-size:11.5px; font-weight:700; color:var(--ink2); opacity:.85; padding:0 12px; margin-bottom:-8px}
 
 /* ---- inset-grouped list ---- */
 .group{background:var(--card); border-radius:var(--r); overflow:hidden; box-shadow:0 1px 2px rgba(28,24,18,.05)}
@@ -86,7 +90,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .chev{color:var(--ink3); font-size:17px; padding-bottom:2px}
 .amt{text-align:left; font-variant-numeric:tabular-nums}
 .amt b{font-size:16px; font-weight:700} .amt small{display:block; color:var(--ink3); font-size:10.5px; font-weight:400}
-.amt.lak b{color:var(--teal)} .amt.alayk b{color:var(--gold)}
+.amt.lak b{color:var(--teal)} .amt.alayk b{color:var(--gold-text)}
 
 /* ---- buttons: ONE accent, 44pt+, thumb zone ---- */
 .actions{margin-top:auto; padding:16px 16px 14px; display:flex; flex-direction:column; gap:10px}
@@ -101,10 +105,10 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 /* banners / states — icon + text, never color alone */
 .banner{border-radius:var(--r); padding:12px 14px; font-size:13px; line-height:1.8; display:flex; gap:9px; align-items:flex-start}
 .banner .bi{flex:none; font-size:15px; margin-top:2px}
-.banner.ok{background:var(--teal-soft); color:var(--teal); font-weight:600}
-.banner.gold{background:#f3ead2; color:var(--gold)}
+.banner.ok{background:var(--teal-soft); color:var(--teal-text); font-weight:600}
+.banner.gold{background:#f3ead2; color:var(--gold-text)}
 .banner.plain{background:#ece5d4; color:var(--ink2)}
-.verse{text-align:center; color:var(--gold); font-size:12.5px; line-height:2; padding:2px 20px}
+.verse{text-align:center; color:var(--gold-text); font-size:12.5px; line-height:2; padding:2px 20px}
 
 /* ceremony (inline-title screens) */
 .ceremony{display:flex; flex-direction:column; align-items:center; gap:12px; padding:70px 24px 8px; text-align:center}
@@ -114,6 +118,19 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 .badge.ok{background:var(--teal)} .badge.stop{background:var(--stop)}
 .cer-h{font-size:24px; font-weight:800; line-height:1.35}
 .cer-s{font-size:13px; color:var(--ink2); line-height:1.85; max-width:30ch}
+
+/* micro-step seal rail (Nafath ceremony pattern) */
+.steps{display:flex; align-items:center; justify-content:center; gap:6px; padding:2px 24px 0}
+.step{display:flex; flex-direction:column; align-items:center; gap:3px; font-size:11.5px; font-weight:700; color:var(--ink3)}
+.step i{font-style:normal; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:12.5px; background:#e8e0cf; color:var(--ink2)}
+.step.done i{background:var(--teal); color:#fff}
+.step.done{color:var(--teal)}
+.step.active i{background:var(--terra); color:#fff; box-shadow:0 0 0 4px var(--terra-soft)}
+.step.active{color:var(--terra)}
+.step.locked i{background:transparent; border:1.5px dashed var(--ink3)}
+.step-line{width:34px; height:2px; border-radius:2px; background:#e8e0cf; margin-bottom:16px}
+.step-line.done{background:var(--teal)}
 
 /* riba stop */
 .quote{background:var(--card); border-radius:var(--r); padding:13px 15px; font-size:13px; line-height:2; box-shadow:0 1px 2px rgba(28,24,18,.05)}
@@ -127,19 +144,26 @@ body{margin:0; background:var(--stage); color:#e9e4da;
 /* stat split */
 .split{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; background:var(--card); border-radius:var(--r); padding:16px 8px; text-align:center; box-shadow:0 1px 2px rgba(28,24,18,.05)}
 .split .div{width:1px; height:44px; background:var(--hair)}
-.st .k{font-size:11px; font-weight:600; color:var(--ink3); letter-spacing:1px}
+.st .k{font-size:11px; font-weight:600; color:var(--ink3)}
 .st .v{font-size:25px; font-weight:800; margin-top:3px; font-variant-numeric:tabular-nums}
 .st .v small{font-size:11.5px; color:var(--ink3); font-weight:400}
 
 /* sealed doc */
 .sealdoc{background:var(--seal-bg); color:var(--seal-ink); border-radius:var(--r); padding:16px}
-.sealdoc .sl{color:var(--seal-lbl); font-size:11px; letter-spacing:2px; font-weight:700; margin-bottom:9px}
+.doc-head{display:flex; align-items:center; gap:11px; padding-bottom:11px; margin-bottom:11px;
+  border-bottom:1.5px dashed rgba(216,185,120,.4)}
+.doc-emblem{width:38px; height:38px; flex:none}
+.doc-emblem polygon{stroke:var(--seal-hash)}
+.doc-emblem text{fill:var(--seal-ink)}
+.doc-id .dt{font-weight:800; font-size:14.5px}
+.doc-id .ds{font-family:var(--mono); direction:ltr; text-align:left; font-size:10.5px; color:var(--seal-lbl); letter-spacing:1.5px}
+.sealdoc .sl{color:var(--seal-lbl); font-size:11px; font-weight:700; margin-bottom:9px}
 .sealdoc .body{font-size:13px; line-height:2}
 .sealdoc .hash{font-family:var(--mono); direction:ltr; text-align:left; font-size:10.5px; color:var(--seal-hash);
   word-break:break-all; background:rgba(0,0,0,.3); border-radius:9px; padding:9px 11px; margin-top:10px}
 .verify{border-radius:var(--r); padding:13px 15px; font-size:13px; font-weight:700; line-height:1.8; display:flex; gap:9px}
 .verify .bi{flex:none; margin-top:2px}
-.verify.ok{background:var(--teal-soft); color:var(--teal)}
+.verify.ok{background:var(--teal-soft); color:var(--teal-text)}
 .verify.bad{background:var(--stop-soft); color:var(--stop); border:1px solid var(--stop-line)}
 
 /* impact */
@@ -176,9 +200,9 @@ body{margin:0; background:var(--stage); color:#e9e4da;
   .muq .f{stroke-dashoffset:0; opacity:1}
 }
 
-/* ---- official document line: thin, letterspaced, closes every screen ---- */
+/* ---- official document line: thin, closes every screen ---- */
 .official-line{padding:8px 20px 4px; text-align:center; color:var(--auth); font-size:10.5px;
-  font-weight:600; letter-spacing:1.5px; opacity:.72}
+  font-weight:600; opacity:.72}
 
 /* ---- alive motion: money counters count up (registered custom properties).
        Fallback: real number stays as text content — never shows 0 without support. ---- */
@@ -278,6 +302,13 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="ring"><div class="badge stop">✋</div></div>
             <div class="cer-h">توقّف قبل الختم</div>
             <div class="cer-s">في نصّ العهد شرطٌ لا يصفو — والختم لا يقع إلّا على النصّ الصافي</div>
+          </div>
+          <div class="steps" aria-hidden="true">
+            <span class="step done"><i>١</i>الصياغة</span>
+            <span class="step-line done"></span>
+            <span class="step active"><i>٢</i>الفحص</span>
+            <span class="step-line"></span>
+            <span class="step locked"><i>٣</i>الختم</span>
           </div>
           <div class="col">
             <div class="sec-h">نصّ العهد</div>
@@ -389,6 +420,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
               <span class="gauge"><span class="lbl">صافي<br>لك</span></span>
               <span>صافي ما لك: <b class="count" style="--count-to:900; --count-color:var(--teal)">900</b> ريال عبر ثلاثة عهودٍ مختومة.</span>
             </div>
+            <div class="insight">كلّ عهودك القائمة موثّقة ومختومة — لا شيء على الكلام وحده.</div>
           </div>
           <div class="col">
             <div class="sec-h">العهود القائمة</div>
@@ -427,6 +459,7 @@ body{margin:0; background:var(--stage); color:#e9e4da;
             <div class="lg-title">ما عليّ</div>
             <div class="sadu"></div>
             <div class="sub">ما عليك: <b style="color:var(--gold)">1,200 ريال</b> — بلا عدّادٍ يلاحقك، وبلا تصنيف.</div>
+            <div class="insight">لا فوائد تتراكم عليك — المبلغ اليوم هو المبلغ غدًا.</div>
           </div>
           <div class="col">
             <div class="group breathe">
@@ -465,6 +498,16 @@ body{margin:0; background:var(--stage); color:#e9e4da;
           </div>
           <div class="col">
             <div class="sealdoc">
+              <div class="doc-head">
+                <svg viewBox="0 0 40 40" class="doc-emblem" aria-hidden="true">
+                  <polygon points="20,2 33,7 38,20 33,33 20,38 7,33 2,20 7,7" fill="none" stroke-width="1.2"/>
+                  <text x="20" y="24" text-anchor="middle" font-size="11" font-weight="800">عهد</text>
+                </svg>
+                <div class="doc-id">
+                  <div class="dt">وثيقة عهد</div>
+                  <div class="ds">AHD-0001</div>
+                </div>
+              </div>
               <div class="sl">الوثيقة المختومة · نفاذ (محاكاة) + SHA-256</div>
               <div class="body">عهدُ قرضٍ حسن: نورة ← خالد · 2,500 ريال · الأجل محرّم ١٤٤٨ · شهد المصرف وختم.</div>
               <div class="hash">6c9410b9 4e1a 22f7 …  bank_seal ✓</div>
