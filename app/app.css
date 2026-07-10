@@ -602,9 +602,17 @@ body{
   @keyframes ahd-fade{from{opacity:0} to{opacity:1}}
   @keyframes ahd-flag{0%,100%{transform:none} 20%{transform:translateX(-4px)} 45%{transform:translateX(3px)} 70%{transform:translateX(-2px)}}
   @keyframes ahd-grow{from{transform:scaleX(0)} to{transform:scaleX(1)}}
+  /* RTL-aware screen entrance: reading direction is right-to-left, so a
+     forward navigation reads as advancing toward the left — the incoming
+     screen settles in FROM the left (translateX negative→0), paired with the
+     existing gentle rise. Compositor-only (transform+opacity). */
+  @keyframes ahd-screen-in{from{opacity:0; transform:translate(-10px,6px)} to{opacity:1; transform:none}}
 
-  /* screen entrance — fires on every go() innerHTML swap; no JS needed */
-  .screen{animation:ahd-rise .34s cubic-bezier(.16,1,.3,1) both}
+  /* screen entrance — fires on every go() innerHTML swap; no JS needed.
+     .screen-enter is re-added by app.js on each render to force the
+     animation to restart (a fresh element already restarts it, but the
+     explicit class also covers any future element-reuse refactor). */
+  .screen{animation:ahd-screen-in .24s cubic-bezier(.16,1,.3,1) both}
 
   /* gentle list/card stagger, capped so long ledgers never feel slow */
   .list .row,.tl-feed .tl-item,.tl-stories .story,.hcards .hcard{animation:ahd-rise .32s cubic-bezier(.16,1,.3,1) both}
