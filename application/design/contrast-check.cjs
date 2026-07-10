@@ -28,6 +28,7 @@ const PAIRS = [
   ["seal ink on seal bg",    "#ece3d0", "#221d16", 4.5],
   ["seal hash on seal well", "#d8b978", "#221d16", 4.5],
   ["official footer",        "#4a5a52", "#efe9dc", 4.5],
+  ["amber on amber-soft",    "#8a3f14", "#f7e9d6", 4.5],
 ];
 let failed = 0;
 for (const [name, fg, bg, min] of PAIRS) {
