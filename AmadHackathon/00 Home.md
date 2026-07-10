@@ -47,3 +47,5 @@ updated: 2026-07-09
 > المستودع الكامل فوق هذا المجلّد — الدليل الحاكم `CLAUDE.md` + عدسة `docs/JUDGE-LENS.md`.
 > خوادم MCP للمشروع: `project/mcp/` (ahd-navigator · ahd-knowledge · ahd-fs، 17 أداة).
 > هذا الـvault = قمرة قيادة الإنسان؛ الملفّات المرجعيّة تبقى في `docs/`.
+
+- **11 يوليو:** جولة التصميم والقابليّة للنقل (v5): تدقيق تباين WCAG مُبرمَج + إزالة تباعد الحروف العربيّة + خطوات الختم + وثيقة رسميّة بسريال + عقد نقلٍ مُلزم إلى React Native (tokens.json + RN-MAPPING) — البوّابة خضراء 1687/0. المتبقّي: إثبات الجهاز الحقيقيّ (Expo Go على الجوّالين، ~15 دقيقة من المشغّل). `source: docs/superpowers/plans/2026-07-10-design-deep-dive-portability.md`
