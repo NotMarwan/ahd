@@ -738,3 +738,13 @@ body{
 .cv-ex-tl{margin:8px 0;padding:6px 10px;border-inline-start:2px solid var(--line)}
 .cv-ex-row{font-size:var(--t-sm,13px);padding:2px 0;direction:rtl}
 .cv-ex-f{color:var(--mut);font-size:var(--t-sm,13px);padding:2px 0}
+
+/* bounds guards as no-JS disclosures (Sadu prototype idiom) */
+details.bd-item{padding:6px 0}
+details.bd-item summary{cursor:pointer;list-style:none}
+details.bd-item summary::-webkit-details-marker{display:none}
+details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12px);margin-top:2px}
+.bd-detail{margin:6px 0 2px;padding:6px 10px;border-inline-start:2px solid var(--line)}
+.bd-file code{font-size:var(--t-xs,12px)}
+.bd-cmd{font-family:var(--mono,monospace);direction:ltr;text-align:left;background:var(--seal-well,#f3f3f0);padding:4px 8px;border-radius:6px;margin:4px 0;font-size:var(--t-xs,12px)}
+.bd-invite{color:var(--mut);font-size:var(--t-xs,12px)}

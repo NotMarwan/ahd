@@ -19,9 +19,20 @@
   var RUN_CMD = "cd tests && node run-all.cjs";
 
   function itemHTML(it) {
-    return '<div class="bd-item">' + App.esc(it.text) +
-      '<div class="bd-guard">يحرسه: <code>' + App.esc(it.enforcedBy) + "</code></div>" +
-    "</div>";
+    var BD = (typeof window !== "undefined") ? window.BoundsDetail : null;
+    var d = BD ? BD.detailAr(it) : null;
+    var body = "";
+    if (d) {
+      body = '<div class="bd-detail">' +
+        d.files.map(function (f) { return '<div class="bd-file"><code>' + App.esc(f) + "</code></div>"; }).join("") +
+        (d.runCmd ? '<div class="bd-cmd" dir="ltr">' + App.esc(d.runCmd) + "</div>" : "") +
+        '<div class="bd-invite">' + App.esc(d.invite) + "</div>" +
+      "</div>";
+    }
+    return '<details class="bd-item"><summary>' + App.esc(it.text) +
+      '<span class="bd-guard">يحرسه: <code>' + App.esc(it.enforcedBy) + "</code></span></summary>" +
+      body +
+    "</details>";
   }
 
   function cardHTML(sec) {
