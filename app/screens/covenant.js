@@ -52,6 +52,17 @@
 
     var status = (typeof e.statusLabel === "function") ? e.statusLabel(r.events || []) : "";
 
+    var exhibitBlock = "";
+    if (st.exhibit && window.ExhibitView) {
+      var ex = C.exhibitFor(sealed, r, e);
+      var L = window.ExhibitView.exhibitLinesAr(ex);
+      exhibitBlock = '<div class="cv-exhibit">' +
+        L.headerLines.map(function (l) { return '<div class="cv-ex-h">' + App.esc(l) + "</div>"; }).join("") +
+        '<div class="cv-ex-tl">' + L.timelineLines.map(function (l) { return '<div class="cv-ex-row">' + App.esc(l) + "</div>"; }).join("") + "</div>" +
+        L.footerLines.map(function (l) { return '<div class="cv-ex-f">' + App.esc(l) + "</div>"; }).join("") +
+      "</div>";
+    }
+
     return '<div class="covenant">' +
       '<button class="pf-back" onclick="AhdApp.covenantBack()">→ رجوع إلى دفتري</button>' + flash +
       '<div class="cv-head">سِجلّ المعروف</div>' +
@@ -65,9 +76,10 @@
         (status ? ' <span class="chip gold">' + App.esc(status) + "</span>" : "") + "</div>" +
       '<div class="cv-note">لا يظهر هنا عددُ أيّامٍ ولا تصنيفٌ ولا رقمُ سمعة — أصلُ المبلغ وحده، ومعروفٌ محفوظ.</div>' +
       '<div class="cv-act">' +
-        '<button class="primary" onclick="AhdApp.covenantExport()">📤 صدِّرها كبيّنة محايدة</button>' +
+        '<button class="primary" onclick="AhdApp.covenantExport()">' + (st.exhibit ? "أخفِ البيّنة" : "📤 صدِّرها كبيّنة محايدة") + "</button>" +
         '<button class="mini" onclick="AhdApp.covenantTamperToggle()">' + (st.tamper ? "أعد الأصل" : "🧪 جرّب العبث بالسِّجل") + "</button>" +
       "</div>" +
+      exhibitBlock +
       '<div class="cv-exhibit-note">البيّنة المحايدة تحوي الطرفين وبصمة الشروط والخطوات المختومة وحالتها النهائية فقط — بلا أيّ سمعةٍ أو تقييم، كما تُقبل دليلًا (نظام الإثبات ٢٠٢٢).</div>' +
     "</div>";
   }

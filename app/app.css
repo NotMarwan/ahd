@@ -731,3 +731,10 @@ body{
 .im-caret{color:var(--mut)}
 .im-drill{padding:4px 12px 10px;border-inline-start:2px solid var(--line)}
 .im-circle{padding:4px 0;font-size:var(--t-sm,13px)}
+
+/* the rendered neutral exhibit («سِجلّ المعروف») */
+.cv-exhibit{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:var(--r-md,10px);background:var(--card)}
+.cv-ex-h{font-weight:700;padding:2px 0}
+.cv-ex-tl{margin:8px 0;padding:6px 10px;border-inline-start:2px solid var(--line)}
+.cv-ex-row{font-size:var(--t-sm,13px);padding:2px 0;direction:rtl}
+.cv-ex-f{color:var(--mut);font-size:var(--t-sm,13px);padding:2px 0}
