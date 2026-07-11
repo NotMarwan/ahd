@@ -1,0 +1,781 @@
+<!doctype html>
+<html dir="rtl" lang="ar"><head><meta charset="utf-8">
+<title>عهد — جولة التعميق (٥ شاشات) · 2026-07-11</title>
+<style>/* ============================================================================
+   app.css — «عهد» app baseline styling (RTL, Arabic). Tasteful, dignified,
+   warm — late is AMBER never red. Fine visual polish is Claude Design's job;
+   this is a clean, readable, on-brand baseline so the app is real & demoable.
+============================================================================ */
+:root{
+  --bg:#f7f4ee; --ink:#1c2b2a; --mut:#6b7a77; --line:#e6e0d4; --card:#fffdf8;
+  --teal:#0e6b5c; --teal-soft:#e3f1ed; --gold:#9a7b27; --gold-soft:#f6efd9;
+  --amber:#a9571a; --amber-soft:#f7e9d6; --mute:#5b6b78; --mute-soft:#eceef0;
+  --shadow:0 1px 2px rgba(28,43,42,.06),0 8px 24px rgba(28,43,42,.05);
+  /* elevation scale (premium pass): sm = resting rows · default = cards · lg = hero/climax */
+  --shadow-sm:0 1px 2px rgba(28,43,42,.05),0 3px 10px rgba(28,43,42,.04);
+  --shadow-lg:0 2px 6px rgba(28,43,42,.08),0 18px 44px rgba(28,43,42,.12);
+  /* brick-red — RESERVED for cryptographic tamper-FAIL only (lateness stays amber) */
+  --bad:#8f2c14; --bad-deep:#7a2410; --bad-soft:#fbe4dc; --bad-line:#e7b3a2;
+  /* scales (premium pass) — the sustainable foundation for consistent spacing/radius/type */
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:14px; --s-5:16px; --s-6:22px;
+  --r-sm:10px; --r-md:13px; --r-lg:16px; --r-xl:20px; --r-pill:999px;
+  --t-xs:12px; --t-sm:13px; --t-md:14px; --t-lg:16px; --t-xl:20px; --t-hero:30px;
+  /* the ONE place to tune the dark sealed-document aesthetic (seal / proof / verify) */
+  --seal-bg:#10201e; --seal-ink:#dfeee9; --seal-lbl:#9ec7bd; --seal-hash:#7fe0c0; --seal-well:#0c1a18;
+  --mono:"Consolas","Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--ink); direction:rtl;
+  font-family:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6;
+}
+#app{max-width:430px; margin:0 auto; padding-block:0 40px; padding-inline:14px; min-height:100vh}
+
+/* shared sealed-document surface — ONE idiom for every dark seal card (RTL-safe) */
+.ol-seal,.pf-doc,.pf-chain2,.st-verify{background:var(--seal-bg); color:var(--seal-ink); border-radius:var(--r-lg)}
+/* shared LTR monospace hash/canonical treatment (hashes read left-to-right) */
+.pf-can,.pf-hash,.pf-chain .lk,.pf-chain2 .ch code,.pf-diff .dd-hash{font-family:var(--mono); direction:ltr; text-align:left}
+.ol-seal .sh,.cd-seal,.ca-seal,.cv-seal,.st-ph{font-family:var(--mono)}
+
+/* header / nav — ONE tidy horizontal-scroll row (was 2–3 wrapping rows); the
+   trailing fade hints there is more, the hidden scrollbar keeps it premium */
+.nav{display:flex; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  gap:6px; align-items:center; padding:14px 2px 11px; position:sticky; top:0; z-index:5;
+  background:linear-gradient(var(--bg) 80%,transparent);
+  mask-image:linear-gradient(90deg, transparent 0, #000 26px, #000 100%);
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 26px, #000 100%)}
+.nav::-webkit-scrollbar{display:none}
+@supports (backdrop-filter: blur(8px)){
+  .nav{background:linear-gradient(rgba(247,244,238,.82) 80%, rgba(247,244,238,0)); backdrop-filter:blur(10px) saturate(1.15)}
+}
+.navbtn{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--ink); flex:none;
+  border-radius:999px; padding:6px 12px; font:inherit; font-size:12.5px; cursor:pointer; display:inline-flex; gap:5px; align-items:center; white-space:nowrap; transition:background .15s ease,color .15s ease,border-color .15s ease}
+.navbtn:hover{border-color:var(--teal)}
+.navbtn.on{background:var(--teal); color:#fff; border-color:var(--teal)}
+.navico{font-size:14px}
+.screen{padding-top:6px}
+
+/* home / front door */
+.home{display:flex; flex-direction:column; gap:14px}
+.hero{background:linear-gradient(135deg,#10201e,#163f37); color:#eaf6f2; border-radius:20px; padding:22px;
+  box-shadow:inset 0 0 0 1px rgba(154,123,39,.38), var(--shadow-lg); position:relative; overflow:hidden}
+/* ponytail: geometry watermark = two CSS gradients, not an SVG asset pipeline */
+.hero::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.06;
+  background:repeating-linear-gradient(45deg,transparent 0 14px,#d4b968 14px 15px),
+             repeating-linear-gradient(-45deg,transparent 0 14px,#d4b968 14px 15px)}
+.hero>*{position:relative}
+.hero .brand{font-size:38px; font-weight:800; letter-spacing:2px;
+  background:linear-gradient(180deg,#f4e9c8,#d4b968); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:#e9d9a6}
+.hero .tag{font-size:16px; color:#bfe3da; margin-top:4px}
+.hero .sub{font-size:12.5px; color:#9ec7bd; margin-top:10px; line-height:1.8}
+.hcards{display:flex; flex-direction:column; gap:10px}
+.hcard{appearance:none; text-align:right; border:1px solid var(--line); background:var(--card); border-radius:16px; padding:14px; box-shadow:var(--shadow); cursor:pointer; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center}
+.hico{font-size:24px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--teal-soft); border-radius:12px}
+.hcard .ht{font-weight:700} .hcard .hs{grid-column:2; color:var(--mut); font-size:12.5px}
+.hsummary{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center; font-size:13.5px; color:var(--mut)}
+.hsummary b{color:var(--ink)}
+.hstanding{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+.hst{appearance:none; text-align:center; background:var(--card); border:1px solid var(--line); border-radius:13px; padding:11px 8px; box-shadow:var(--shadow); cursor:pointer; font:inherit}
+.hst span{display:block; color:var(--mut); font-size:11px; margin-bottom:4px}
+.hst b{display:block; color:var(--teal); font-size:13.5px; font-weight:700}
+.hsteps{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+.hsteps .step{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:12px 8px; text-align:center; font-size:12.5px}
+.hsteps .step span{display:inline-flex; width:24px; height:24px; align-items:center; justify-content:center; background:var(--teal); color:#fff; border-radius:50%; font-size:12px; margin-bottom:5px}
+.hsteps .step small{color:var(--mut); font-size:10.5px}
+.hbasis{text-align:center; color:var(--gold); font-size:13px; line-height:1.9; padding:0 6px}
+.hsettings{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--mut); border-radius:12px; padding:11px; font:inherit; font-size:12.5px; cursor:pointer; margin-top:2px}
+.hsettings:hover{border-color:var(--teal); color:var(--teal)}
+
+/* tiles */
+.tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 14px}
+.tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow-sm)}
+.tl{color:var(--mut); font-size:13px}
+.tv{font-size:24px; font-weight:700; margin-top:2px} .tv small{font-size:13px; font-weight:400; color:var(--mut)}
+.tc{color:var(--mut); font-size:12px; margin-top:2px}
+
+/* tabs */
+.tabs{display:flex; gap:6px; background:var(--mute-soft); padding:4px; border-radius:12px; margin-bottom:12px}
+.tab{flex:1; appearance:none; border:0; background:transparent; padding:8px; border-radius:9px; font:inherit; color:var(--mut); cursor:pointer}
+.tab.on{background:#fff; color:var(--ink); font-weight:600; box-shadow:var(--shadow)}
+
+/* own trust band (own mirror — a word, never a number) */
+.selfband{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:13px; padding:11px 13px; margin-bottom:11px; font-size:13px; color:var(--mut); display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.selfband b{color:var(--gold); font-size:14px}
+.selfband .sbnote{font-size:11px; opacity:.8}
+
+/* دفتري as the hub: header action · net balance · filter chips · grouped sections · pending request */
+.dhead{display:flex; align-items:center; justify-content:space-between; margin:2px 0 8px}
+.dtitle{font-size:19px; font-weight:700}
+.dask{appearance:none; border:1px solid var(--teal); background:var(--teal-soft); color:var(--teal); border-radius:999px; padding:7px 13px; font:inherit; font-size:12.5px; font-weight:600; cursor:pointer}
+.net{margin:0 0 13px; padding:9px 13px; border-radius:13px; font-size:13px; display:flex; align-items:center; gap:7px; flex-wrap:wrap}
+.net b{font-size:15px}
+.net small{color:var(--mut); font-size:11px; margin-inline-start:auto}
+.net.lak{background:var(--teal-soft); color:var(--teal)}
+.net.alayk{background:var(--gold-soft); color:var(--gold)}
+.net.bal{background:var(--mute-soft); color:var(--mut)}
+.dfilter{display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap}
+.fchip{appearance:none; border:1px solid var(--line); background:#fff; color:var(--mut); border-radius:999px; padding:6px 12px; font:inherit; font-size:12.5px; cursor:pointer}
+.fchip.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+.dsection{margin-bottom:15px}
+.shead{display:flex; align-items:center; gap:8px; margin:0 2px 8px}
+.slabel{font-weight:700; font-size:13px}
+.scount{background:var(--mute-soft); color:var(--mut); border-radius:999px; padding:1px 9px; font-size:12px; font-weight:600}
+.snote{color:var(--mut); font-size:11px; margin-inline-start:auto; font-weight:400}
+.dpending{display:flex; align-items:center; gap:10px; background:var(--gold-soft); border:1px dashed #ecdfb5; border-radius:14px; padding:11px 13px; margin-bottom:12px}
+.dpending .pbody{flex:1}
+.dpending .ptitle{font-weight:600; font-size:13px}
+.dpending .psub{color:var(--mut); font-size:12px; margin-top:2px}
+.dpending .pgo{appearance:none; border:0; background:var(--gold); color:#fff; border-radius:10px; padding:8px 11px; font:inherit; font-size:12px; cursor:pointer}
+
+/* rows */
+.list{display:flex; flex-direction:column; gap:10px}
+.row{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow-sm); overflow:hidden}
+.row-main{display:flex; gap:11px; align-items:center; padding:13px}
+.ava{width:38px; height:38px; flex:0 0 38px; border-radius:50%; background:var(--teal-soft); color:var(--teal);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px}
+.row-body{flex:1; min-width:0}
+.who{font-weight:600}
+.amt{font-size:14px; color:var(--ink)}
+.due{font-size:12.5px; color:var(--mut); margin-top:1px}
+.due.late{color:var(--amber)}
+.row-side{display:flex; flex-direction:column; align-items:flex-start; gap:6px}
+.chip{font-size:11.5px; padding:3px 9px; border-radius:999px; white-space:nowrap}
+.chip.teal{background:var(--teal-soft); color:var(--teal)}
+.chip.gold{background:var(--gold-soft); color:var(--gold)}
+.chip.amber{background:var(--amber-soft); color:var(--amber)}
+.chip.mute{background:var(--mute-soft); color:var(--mute)}
+.dots{appearance:none; border:0; background:transparent; font-size:20px; color:var(--mut); cursor:pointer; line-height:1; padding:0 2px}
+
+/* action sheet */
+.sheet{display:flex; flex-direction:column; gap:7px; padding:0 13px 13px}
+.opt{appearance:none; text-align:right; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 13px; font:inherit; cursor:pointer}
+.opt.primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600}
+.opt.sober{color:var(--mute)}
+
+/* reminder compose */
+.compose{padding:0 13px 14px}
+.rem-from{font-size:12px; color:var(--teal); font-weight:700; margin-bottom:5px}
+.rem-card{background:var(--teal-soft); border:1px solid #cfe6df; border-radius:14px; padding:13px; font-size:14px}
+.rem-act{display:flex; gap:8px; margin-top:9px}
+.rem-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:11px; padding:11px; font:inherit; font-weight:600; cursor:pointer}
+.rem-act .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 14px; font:inherit; cursor:pointer}
+.rem-sim{margin-top:11px; padding-top:10px; border-top:1px dashed var(--line); font-size:12px; color:var(--mut); display:flex; gap:7px; align-items:center; flex-wrap:wrap}
+.rem-sim .mini{appearance:none; border:1px solid var(--line); background:#fff; border-radius:9px; padding:7px 10px; font:inherit; font-size:12.5px; cursor:pointer}
+
+/* القرض المفتوح — the quiet panel (no red, no countdown) */
+.openloan{display:flex; flex-direction:column; gap:12px}
+.ol-head{font-size:15px; color:var(--mut)}
+.ol-rem{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:22px; text-align:center}
+.ol-rl{color:var(--mut); font-size:13px}
+.ol-rv{font-size:34px; font-weight:800; letter-spacing:-.5px} .ol-rv small{font-size:15px; font-weight:400; color:var(--mut)}
+.ol-status{text-align:center}
+/* progress breakdown (paid · صدقة · باقٍ) — proportional, no % text */
+.ol-progress{display:flex; flex-direction:column; gap:7px}
+.ol-bar{display:flex; height:12px; border-radius:999px; overflow:hidden; background:var(--mute-soft)}
+.ol-seg{display:block; min-width:0}
+.ol-seg.paid{background:var(--teal)} .ol-seg.forgiven{background:var(--gold)} .ol-seg.rem{background:#cdd9d4}
+.ol-legend{display:flex; gap:9px; flex-wrap:wrap; font-size:12px; color:var(--mut)}
+.ol-lg.paid{color:var(--teal); font-weight:600} .ol-lg.forgiven{color:var(--gold); font-weight:600}
+.ol-lg.rem{color:var(--ink)} .ol-lg.total{margin-inline-start:auto}
+/* the «متى ما تيسّر» journey */
+.ol-journey{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
+.ol-jh{font-weight:700; font-size:13px; margin-bottom:9px}
+.ol-jstep{display:flex; gap:9px; align-items:flex-start; font-size:12.5px; line-height:1.7; padding:4px 0; color:var(--ink)}
+.ol-jdot{flex:none; width:9px; height:9px; border-radius:50%; background:var(--teal); margin-top:5px}
+.ol-jstep.kind-forgiven-partial .ol-jdot,.ol-jstep.kind-forgiven-all .ol-jdot{background:var(--gold)}
+.ol-jstep.kind-sealed .ol-jdot{background:var(--mute)}
+.ol-note{color:var(--mut); font-size:13px; text-align:center; line-height:1.7}
+.ol-act{display:flex; gap:8px}
+.ol-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:13px; font:inherit; font-weight:600; cursor:pointer}
+.ol-act .ghost{appearance:none; border:1px solid var(--gold); color:var(--gold); background:var(--gold-soft); border-radius:12px; padding:13px 16px; font:inherit; cursor:pointer}
+.ol-sheet{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:16px; padding:15px; display:flex; flex-direction:column; gap:8px}
+.ayah{text-align:center; color:var(--gold); font-size:15px; margin-bottom:4px}
+.ol-terms{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:14px; font-size:13.5px; color:var(--ink); line-height:1.8}
+.ol-seal{padding:15px; font-size:13px}
+.ol-seal .sl{color:var(--seal-lbl); font-weight:700; margin-bottom:6px}
+.ol-seal .sk{color:#bcd; margin-bottom:6px}
+.ol-seal .sh{font-size:11.5px; color:#8fb; word-break:break-all; margin-bottom:8px}
+.ol-seal .sv.ok{color:#7fe0c0} .ol-seal .sv.bad{color:#ffb4a2; font-weight:700}
+.ol-seal .mini{margin-top:9px; appearance:none; border:1px solid #2f4a45; background:#16302c; color:#cfeae3; border-radius:9px; padding:8px 11px; font:inherit; font-size:12.5px; cursor:pointer}
+
+/* الدائرة — treasurer dashboard */
+.circledash{display:flex; flex-direction:column; gap:12px}
+.cd-head{font-weight:700}
+.cd-prog{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:15px}
+.cd-pl{font-size:15px; font-weight:600}
+.cd-bar{height:9px; background:var(--mute-soft); border-radius:999px; margin:9px 0 7px; overflow:hidden}
+.cd-fill{height:100%; background:var(--teal); border-radius:999px}
+.cd-status{color:var(--gold); font-size:13px}
+.cd-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:4px 14px}
+.cd-row{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:11px 0; border-top:1px solid var(--line); font-size:13.5px}
+.cd-row:first-child{border-top:0} .cd-row small{color:var(--mut); font-size:11px}
+.cd-note{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:13px; padding:11px 13px; font-size:12.5px; color:var(--mut); line-height:1.8}
+.cd-remind{display:flex; flex-direction:column; gap:9px}
+.cd-rbtn{appearance:none; border:1px solid var(--teal); background:var(--teal-soft); color:var(--teal); border-radius:12px; padding:11px; font:inherit; font-weight:600; font-size:13px; cursor:pointer}
+.cd-rcard{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px; box-shadow:var(--shadow)}
+.cd-rfrom{font-weight:700; font-size:12px; color:var(--teal); margin-bottom:7px}
+.cd-rtext{font-size:13px; line-height:1.9; color:var(--ink)}
+.cd-rfoot{margin-top:9px; padding-top:9px; border-top:1px solid var(--line); font-size:11.5px; color:var(--mut)}
+.cd-seal{font-size:11px; color:var(--mut); word-break:break-all}
+
+/* المقاصّة */
+.settle{display:flex; flex-direction:column; gap:12px}
+.se-head{font-weight:700}
+.se-big{text-align:center; font-size:20px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
+.se-big span{font-size:30px; font-weight:800; color:var(--teal)} .se-big em{color:var(--mut); font-style:normal; margin:0 8px}
+.se-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:6px 14px}
+.se-row{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-top:1px solid var(--line); font-size:14px}
+.se-row:first-child{border-top:0} .se-row b{color:var(--teal)}
+.se-proof{border-radius:12px; padding:11px 13px; font-size:13px; line-height:1.7}
+.se-proof::first-letter{font-size:1.3em; font-weight:800}
+.se-proof.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe6df}
+.se-proof.bad{background:var(--bad-soft); color:var(--bad); border:1px solid var(--bad-line); font-weight:700;
+  box-shadow:0 2px 6px rgba(143,44,20,.08), 0 12px 30px rgba(143,44,20,.12)}
+.se-moved{background:var(--mute-soft); border-radius:12px; padding:11px 13px; font-size:12.5px; line-height:1.8; color:var(--ink)}
+.se-moved b{color:var(--teal)}
+.se-members{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
+.se-mem{display:flex; align-items:center; gap:8px; padding:7px 0; border-top:1px solid var(--line); font-size:12.5px}
+.se-mem:first-of-type{border-top:0}
+.se-mem b{min-width:54px} .se-mem-net{color:var(--mut); flex:1}
+.se-mem-ok{color:var(--teal); font-size:11.5px} .se-mem-ok.bad{color:var(--bad)}
+.se-legs{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px}
+.se-sub{color:var(--mut); font-size:12px; margin-bottom:7px}
+.se-leg{display:flex; gap:8px; padding:5px 0; font-size:12.5px} .se-leg b{min-width:48px}
+.se-leg span{color:var(--mut)}
+.se-note{color:var(--mut); font-size:12px; text-align:center}
+
+/* create-عهد */
+.create{display:flex; flex-direction:column; gap:12px}
+.cr-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:14px}
+.cr-h{font-weight:700; margin-bottom:9px}
+.cr-fields{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.cr-fields > div{display:flex; flex-direction:column; background:var(--bg); border-radius:10px; padding:8px 10px}
+.cr-fields span{color:var(--mut); font-size:11.5px} .cr-fields b{font-size:14px}
+.cr-sub{color:var(--mut); font-size:12.5px; margin-bottom:6px}
+.cr-terms{background:var(--bg); border:1px dashed var(--line); border-radius:11px; padding:11px; font-size:13px; line-height:1.85}
+.cr-lint{margin-top:9px; border-radius:11px; padding:10px 12px; font-size:13px}
+.cr-lint.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe6df}
+.cr-lint.ok::first-letter{font-size:1.3em; font-weight:800}
+/* the riba BLOCK — the warning owns the screen: brick-red, bordered, deep.
+   (Reserved red: this is a Shariah violation stop, not lateness.) */
+.cr-lint.bad{
+  background:linear-gradient(180deg,#fcece5,var(--bad-soft));
+  color:var(--bad); border:1px solid var(--bad-line); border-inline-start:4px solid var(--bad);
+  padding:13px 14px; box-shadow:0 2px 6px rgba(143,44,20,.08), 0 12px 30px rgba(143,44,20,.12);
+}
+.cr-lint-head{font-weight:800; font-size:14.5px; color:var(--bad-deep); margin-bottom:8px; line-height:1.65; word-spacing:1px}
+.cr-lint-head::first-letter{font-size:1.35em}
+.cr-hit{padding:8px 0; border-top:1px solid rgba(143,44,20,.14)}
+.cr-hit:first-of-type{border-top:0}
+.cr-why{font-weight:700; font-size:13px; color:var(--bad)}
+/* «البديل الحلال» — the SUBORDINATE constructive action: a calm teal-accented
+   suggestion card under the violation, never competing with the red */
+.cr-lint .fix{margin-top:7px; font-size:12.5px; color:var(--ink); background:#fffdf8;
+  border:1px solid #dcece6; border-inline-start:3px solid var(--teal); border-radius:9px;
+  padding:8px 11px; line-height:1.75; box-shadow:var(--shadow-sm)}
+.cr-lint .fix b{color:var(--teal)}
+.cr-trybar{margin-top:9px; display:flex; gap:7px; flex-wrap:wrap}
+.cr-trybar .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:9px 12px; font:inherit; font-size:12.5px; cursor:pointer}
+.cr-act .primary{width:100%; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:13px; font:inherit; font-weight:600; cursor:pointer}
+.cr-act .primary[disabled]{background:#b8c6c2; cursor:not-allowed}
+.cr-note{margin-top:7px; color:var(--amber); font-size:12px; text-align:center}
+.ol-seal .mini{margin-inline-start:6px}
+
+/* advanced Circle */
+.circleadv{display:flex; flex-direction:column; gap:12px}
+.ca-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:14px}
+.ca-card.grad{border-color:#cfe6df; background:var(--teal-soft)}
+.ca-card.pledge{border-color:#ecdfb5; background:#fffdf5}
+.ca-h{font-weight:700; margin-bottom:2px}
+.ca-sub{color:var(--mut); font-size:13px; margin-bottom:8px}
+.ca-line{display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid var(--line); font-size:14px}
+.ca-items{margin-top:8px; background:var(--bg); border-radius:11px; padding:4px 11px}
+.ca-item{display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-top:1px solid var(--line); font-size:12.5px; color:var(--mut)}
+.ca-item:first-child{border-top:0} .ca-item b{color:var(--teal); font-size:11.5px}
+.ca-ok{margin-top:8px; color:var(--teal); font-size:12.5px}
+.ca-note{margin-top:8px; color:var(--mut); font-size:12px}
+.ca-warn{margin-top:9px; color:var(--amber); background:var(--amber-soft); border-radius:10px; padding:9px 11px; font-size:12.5px}
+.ca-seal{font-size:11.5px; color:var(--teal); margin-top:6px; word-break:break-all}
+.ca-prov{color:var(--mut); font-size:12px; margin-top:4px}
+.ca-card .primary{margin-top:6px; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:11px; padding:11px 14px; font:inherit; font-weight:600; cursor:pointer}
+
+/* flash + empty */
+.flash{background:var(--gold-soft); border:1px solid #ecdfb5; color:var(--gold); border-radius:13px; padding:11px 13px; margin-bottom:12px; font-size:13.5px; cursor:pointer}
+.flash .x{float:left; opacity:.6}
+.empty{background:var(--card); border:1px dashed var(--line); border-radius:16px; padding:26px 18px; text-align:center; color:var(--mut)}
+.fallback{padding:24px; text-align:center; color:var(--mut)}
+
+/* سِجلّ الشهادة — the witness timeline */
+.timeline{display:flex; flex-direction:column; gap:12px}
+.tl-head{font-weight:800; font-size:20px}
+.tl-sub{color:var(--mut); font-size:12.5px; line-height:1.8; margin-top:-6px}
+.tl-counts{display:flex; flex-wrap:wrap; gap:6px}
+.tl-c{font-size:11.5px; padding:4px 9px; border-radius:999px; background:var(--mute-soft); color:var(--mute)}
+.tl-c.sealed{background:var(--teal-soft); color:var(--teal)}
+.tl-c.kept{background:var(--gold-soft); color:var(--gold)}
+.tl-c.mercy{background:var(--gold-soft); color:var(--gold)}
+.tl-c.amber{background:var(--amber-soft); color:var(--amber)}
+.tl-feed{display:flex; flex-direction:column; gap:9px}
+.tl-item{display:grid; grid-template-columns:auto 1fr; gap:11px; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--line); border-radius:14px; padding:12px 13px; box-shadow:var(--shadow)}
+.tl-item.tone-sealed{border-inline-start-color:var(--teal)}
+.tl-item.tone-kept{border-inline-start-color:#2f9e86}
+.tl-item.tone-mercy{border-inline-start-color:var(--gold)}
+.tl-item.tone-neutral{border-inline-start-color:var(--mute)}
+.tl-item.tone-amber{border-inline-start-color:var(--amber)}
+.tl-ico{font-size:20px; width:38px; height:38px; display:flex; align-items:center; justify-content:center; background:var(--bg); border-radius:11px}
+.tl-ar{font-size:13.5px; line-height:1.7}
+.tl-meta{color:var(--mut); font-size:12px; margin-top:3px}
+.tl-item.tone-progress{border-inline-start-color:#2f9e86}
+/* view toggle + per-عهد story cards (connective tissue) */
+.tl-toggle{display:flex; gap:6px; background:var(--mute-soft); padding:4px; border-radius:12px; margin:11px 0}
+.tchip{flex:1; appearance:none; border:0; background:transparent; padding:8px; border-radius:9px; font:inherit; font-size:13px; color:var(--mut); cursor:pointer}
+.tchip.on{background:#fff; color:var(--ink); font-weight:600; box-shadow:var(--shadow)}
+.tl-clear{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:7px 12px; font:inherit; font-size:12.5px; cursor:pointer; margin-bottom:11px}
+.tl-stories{display:flex; flex-direction:column; gap:12px}
+.story{background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--line); border-radius:16px; padding:13px 14px; box-shadow:var(--shadow)}
+.story.tone-kept{border-inline-start-color:#2f9e86} .story.tone-mercy{border-inline-start-color:var(--gold)}
+.story.tone-neutral{border-inline-start-color:var(--mute)} .story.tone-sealed{border-inline-start-color:var(--teal)}
+.story.tone-amber{border-inline-start-color:var(--amber)} .story.tone-progress{border-inline-start-color:#2f9e86}
+.story.focus{box-shadow:0 0 0 2px var(--teal), var(--shadow)}
+.story-head{display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:9px}
+.story-who{font-weight:700; font-size:15px}
+.story-meta{color:var(--mut); font-size:12px}
+.story-steps{display:flex; flex-direction:column; gap:7px; border-inline-start:2px dashed var(--line); padding-inline-start:11px; margin-inline-start:4px}
+.story-step{display:flex; gap:8px; align-items:flex-start; font-size:13px; line-height:1.65}
+.ss-ico{flex:none}
+.story-acts{display:flex; gap:7px; flex-wrap:wrap; margin-top:11px; padding-top:10px; border-top:1px solid var(--line)}
+.tl-act{appearance:none; border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:999px; padding:7px 12px; font:inherit; font-size:12px; cursor:pointer}
+
+/* حافظة الإثبات — proof-pack / evidence export */
+.proof{display:flex; flex-direction:column; gap:12px}
+.pf-back{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:7px 12px; font:inherit; font-size:12.5px; cursor:pointer; align-self:flex-start}
+.pf-head{font-weight:800; font-size:20px}
+.pf-sub{color:var(--mut); font-size:12.5px; line-height:1.85; margin-top:-4px}
+.pf-doc{padding:16px; box-shadow:var(--shadow)}
+.pf-doc .pl{color:var(--seal-lbl); font-weight:700; margin-bottom:8px; font-size:13px}
+.pf-can{font-size:11.5px; line-height:1.95; color:#cfe9e0; white-space:pre-wrap; word-break:break-word; background:var(--seal-well); border-radius:10px; padding:11px}
+.pf-hash{font-size:11px; color:var(--seal-hash); word-break:break-all; margin-top:9px}
+.pf-chain{margin-top:11px; font-size:11.5px; color:#bcd; display:flex; flex-direction:column; gap:5px}
+.pf-chain .lk{color:var(--seal-hash); word-break:break-all}
+.pf-verify{border-radius:12px; padding:14px 15px; font-size:14px; font-weight:700; line-height:1.65}
+.pf-verify.ok{background:var(--teal-soft); color:var(--teal); border:1px solid #cfe6df}
+/* the verdict mark (✓/✗ leads the copy) — scaled up via ::first-letter, no markup change */
+.pf-verify::first-letter{font-size:1.45em; font-weight:800}
+/* THE DEMO CLIMAX — tamper exposed. Brick-red, deep, unmistakable; reserved for FAIL. */
+.pf-verify.bad{
+  background:linear-gradient(180deg,#fcece5,var(--bad-soft));
+  color:var(--bad); border:1px solid var(--bad-line);
+  font-size:15.5px; font-weight:800; word-spacing:1.5px;
+  box-shadow:inset 0 0 0 1px rgba(143,44,20,.06), 0 2px 6px rgba(143,44,20,.10), 0 14px 34px rgba(143,44,20,.14);
+}
+.pf-verify.bad::first-letter{color:var(--bad-deep)}
+/* exhibit framing (arrived from محلّ خلاف) */
+.pf-exhibit{background:var(--mute-soft); border:1px solid var(--line); border-radius:14px; padding:12px 14px; font-size:13px; line-height:1.8; color:var(--ink)}
+.pf-exhibit b{color:var(--teal)}
+/* provenance (سَنَد) */
+.pf-prov{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow)}
+.pf-prov .pl{font-weight:700; font-size:13px; color:var(--mut); margin-bottom:9px}
+.pv-row{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-top:1px solid var(--line); font-size:13px}
+.pv-row:first-of-type{border-top:0}
+.pv-row span{color:var(--mut)} .pv-row b{text-align:end}
+/* clearer hash-chain */
+.pf-chain2{padding:14px; box-shadow:var(--shadow)}
+.pf-chain2 .pl{color:var(--seal-lbl); font-weight:700; font-size:13px; margin-bottom:9px}
+.pf-chain2 .ch{background:var(--seal-well); border-radius:10px; padding:9px 11px; display:flex; flex-direction:column; gap:3px}
+.pf-chain2 .ch span{color:var(--seal-lbl); font-size:11.5px}
+.pf-chain2 .ch code{color:var(--seal-hash); font-size:11px; word-break:break-all}
+.pf-chain2 .ch.block code{color:#9ee6c4}
+/* hash blocks read as engraved wells; the BROKEN block visibly fractures out */
+.pf-chain2 .ch{box-shadow:inset 0 1px 3px rgba(0,0,0,.35), inset 0 0 0 1px rgba(158,199,189,.08)}
+.pf-chain2 .ch.broken{outline:2px solid #e0775c; outline-offset:1px;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.4), 0 0 0 4px rgba(224,119,92,.14), 0 6px 16px rgba(143,44,20,.28)}
+.pf-chain2 .ch.broken code{color:#ffb59e}
+.pf-chain2 .ch.broken span{color:#f0b7a6}
+.pf-chain2 .ch-link{color:#5f8b81; text-align:center; font-size:14px; margin:2px 0}
+/* the precise tamper diff — evidence card under the verdict, same reserved red */
+.pf-diff{background:var(--bad-soft); border:1px solid var(--bad-line); border-inline-start:3px solid var(--bad);
+  border-radius:14px; padding:13px 14px; color:var(--bad); font-size:12.5px; box-shadow:0 6px 18px rgba(143,44,20,.10)}
+.pf-diff .dd-h{font-weight:700; margin-bottom:7px} .pf-diff .dd-h b{color:var(--bad-deep)}
+.pf-diff .dd-row{display:flex; justify-content:space-between; padding:3px 0}
+.pf-diff .dd-hash{font-size:10.5px; word-break:break-all; opacity:.85; margin-top:3px}
+.pf-diff .dd-note{margin-top:8px; font-size:12px; line-height:1.7; color:#8a3a26}
+.pf-act{display:flex; gap:8px; flex-wrap:wrap}
+.pf-act button{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 14px; font:inherit; font-size:13px; cursor:pointer}
+.pf-act button:hover{border-color:var(--teal); color:var(--teal)}
+.pf-act .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600; box-shadow:0 4px 12px rgba(14,107,92,.22)}
+.pf-act .primary:hover{background:#0c5f52; color:#fff}
+/* while tampered, the repair action carries the climax palette — the way back is obvious */
+.pf-act .restore{border-color:var(--bad-line); background:#fff7f4; color:var(--bad); font-weight:700}
+.pf-act .restore:hover{border-color:var(--bad); color:var(--bad-deep); box-shadow:0 4px 12px rgba(143,44,20,.16)}
+.pf-note{color:var(--gold); font-size:12.5px; text-align:center; line-height:1.85}
+
+/* محلّ خلاف — dispute pause (the bank shows, never judges) */
+.dispute{display:flex; flex-direction:column; gap:12px}
+.dp-head{font-weight:800; font-size:20px}
+.dp-sub{color:var(--mut); font-size:13px; margin-top:-4px}
+.dp-stance{background:var(--mute-soft); color:var(--ink); border-radius:14px; padding:14px 15px; font-size:14.5px; line-height:1.8; font-weight:600; text-align:center}
+.dp-paused{background:#fff; border:1px dashed var(--line); border-radius:12px; padding:11px 13px; font-size:12.5px; color:var(--mut); text-align:center; line-height:1.8}
+.dp-exhibit{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px 14px; box-shadow:var(--shadow)}
+.dp-exhibit b{color:var(--ink)}
+.dp-exhibit .dp-ex-ar{color:var(--mut); font-size:12.5px; margin:5px 0 9px; line-height:1.7}
+.dp-exhibit button, .dp-acts button{appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:9px 13px; font:inherit; font-size:12.5px; cursor:pointer}
+.dp-paths{display:flex; flex-direction:column; gap:10px}
+.dp-path{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px 14px; box-shadow:var(--shadow)}
+.dp-path.enc{border-color:#cfe6df; background:var(--teal-soft)}
+.dp-pt{font-weight:700; font-size:14px; display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.dp-tag{font-size:11px; font-weight:600; background:var(--teal); color:#fff; border-radius:999px; padding:2px 8px}
+.dp-pn{color:var(--mut); font-size:12.5px; margin:6px 0 9px; line-height:1.75}
+.dp-acts{display:flex; gap:8px; flex-wrap:wrap}
+.dp-acts .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600}
+.dp-note{color:var(--mut); font-size:12px; text-align:center; line-height:1.8}
+
+/* الإعدادات · عن عهد — settings + the «ما لا نفعله» manifesto */
+.settings{display:flex; flex-direction:column; gap:13px}
+.set-head{font-weight:800; font-size:20px}
+.set-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:15px; box-shadow:var(--shadow)}
+.set-lbl{font-weight:700; margin-bottom:9px}
+.set-seg{display:flex; gap:6px; background:var(--mute-soft); padding:4px; border-radius:12px}
+.set-seg button{flex:1; appearance:none; border:0; background:transparent; padding:9px; border-radius:9px; font:inherit; font-size:13px; color:var(--mut); cursor:pointer}
+.set-seg button.on{background:#fff; color:var(--ink); font-weight:600; box-shadow:var(--shadow)}
+.set-prev{margin-top:11px; color:var(--mut); font-size:12.5px; line-height:1.8}
+.set-prev b{color:var(--ink); font-size:15px}
+.set-h2{font-weight:800; font-size:16px; margin-top:4px}
+.set-nos{display:flex; flex-direction:column; gap:9px}
+.set-no{background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--gold); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow)}
+.set-no b{color:var(--ink); font-size:14px}
+.set-no div{color:var(--mut); font-size:12.5px; margin-top:4px; line-height:1.75}
+.set-yeses{display:flex; flex-direction:column; gap:9px}
+.set-yes{background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--teal); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow)}
+.set-yes b{color:var(--teal); font-size:14px}
+.set-yes div{color:var(--mut); font-size:12.5px; margin-top:4px; line-height:1.75}
+.set-model{background:var(--mute-soft); border-radius:13px; padding:12px 14px; font-size:12.5px; color:var(--ink); line-height:1.85}
+.set-basis{text-align:center; color:var(--gold); font-size:13px; line-height:2; padding:0 6px}
+.set-about{text-align:center; color:var(--mut); font-size:12.5px; line-height:1.8}
+
+/* ============================================================================
+   ما عليّ · سِجلّ المعروف · سُلفة بالمعروف — the three F1/F2/F3 screens.
+   Reuses the existing tokens + card/row/chip/seal/warn idioms so they read as
+   one family. Additive only; no markup, no logic, no golden touch.
+============================================================================ */
+
+/* ما عليّ — the borrower's own home (F1). Amber for a passed due, never red. */
+.borrower{display:flex; flex-direction:column; gap:12px}
+.bw-head{margin-bottom:2px}
+.bw-title{font-weight:800; font-size:20px}
+.bw-sub{color:var(--mut); font-size:12.5px; line-height:1.7; margin-top:3px}
+.bw-tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.bw-tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow)}
+.bw-tile.grace{background:var(--gold-soft); border-color:#ecdfb5}
+.bw-tl{color:var(--mut); font-size:12.5px}
+.bw-tv{font-size:22px; font-weight:800; margin-top:2px} .bw-tv small{font-size:13px; font-weight:400; color:var(--mut)}
+.bw-verse{text-align:center; color:var(--gold); font-size:13px; line-height:1.9; padding:2px 6px}
+.bw-list{display:flex; flex-direction:column; gap:10px}
+.bw-row{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:13px}
+.bw-row.overdue{border-inline-start:3px solid var(--amber)}
+.bw-main{display:flex; gap:11px; align-items:center}
+.bw-body{flex:1; min-width:0}
+.bw-who{font-weight:600}
+.bw-amt{font-size:13.5px; color:var(--ink); margin-top:1px} .bw-amt b{font-size:16px} .bw-amt small{color:var(--mut); font-size:12px}
+.bw-side{margin-inline-start:auto}
+.bw-act{display:flex; gap:8px; margin-top:11px}
+.bw-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:11px; padding:11px; font:inherit; font-weight:600; cursor:pointer}
+.bw-act .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 14px; font:inherit; cursor:pointer}
+.bw-grace{margin-top:10px; padding-top:10px; border-top:1px dashed var(--line)}
+.bw-glabel{font-size:12px; color:var(--mut); margin-bottom:7px}
+.bw-gopts{display:flex; gap:6px; flex-wrap:wrap}
+.bw-greason{appearance:none; border:1px solid var(--line); background:#fff; border-radius:999px; padding:7px 12px; font:inherit; font-size:12.5px; cursor:pointer}
+.bw-gnote{margin-top:8px; font-size:11.5px; color:var(--mut); line-height:1.7}
+
+/* سِجلّ المعروف — the sealed mercy/covenant trail (contextual). Timeline idiom. */
+.covenant{display:flex; flex-direction:column; gap:11px}
+.cv-head{font-weight:800; font-size:20px}
+.cv-sub{color:var(--mut); font-size:12.5px; margin-top:-2px}
+.cv-intro{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:13px; padding:12px 13px; font-size:12.5px; color:var(--mut); line-height:1.8}
+.cv-timeline{display:flex; flex-direction:column; gap:11px; border-inline-start:2px dashed var(--line); padding-inline-start:14px; margin-inline-start:5px; margin-top:2px}
+.cv-step{display:flex; gap:9px; align-items:flex-start}
+.cv-dot{flex:none; width:11px; height:11px; border-radius:50%; background:var(--gold); margin-top:4px; margin-inline-start:-20px; box-shadow:0 0 0 3px var(--bg)}
+.cv-step.broken .cv-dot{background:var(--bad); box-shadow:0 0 0 3px var(--bg), 0 0 0 5px rgba(143,44,20,.18)}
+.cv-body{flex:1; min-width:0}
+.cv-line{font-size:13px; line-height:1.65}
+.cv-amt{color:var(--mut); margin-inline-start:6px}
+.cv-seal{font-size:10.5px; color:var(--mut); margin-top:3px; word-break:break-all}
+.cv-x{color:var(--bad); font-weight:700}
+.cv-status{display:flex; gap:6px; flex-wrap:wrap; margin-top:2px}
+.cv-status .chip.bad{background:var(--bad-soft); color:var(--bad); border:1px solid var(--bad-line)}
+.cv-note{color:var(--mut); font-size:11.5px; line-height:1.7; text-align:center}
+.cv-act{display:flex; gap:8px; flex-wrap:wrap}
+.cv-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:12px; padding:12px; font:inherit; font-weight:600; cursor:pointer}
+.cv-act .mini{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:12px 14px; font:inherit; font-size:12.5px; cursor:pointer}
+.cv-exhibit-note{color:var(--mut); font-size:11.5px; line-height:1.7; text-align:center}
+
+/* سُلفة بالمعروف — standing two-party qard (F3). Ledger + sealed posts + seam. */
+.standing{display:flex; flex-direction:column; gap:12px}
+.st-head{font-weight:800; font-size:18px; line-height:1.5}
+.st-parties{display:flex; align-items:center; justify-content:center; gap:10px; font-weight:700}
+.st-party{background:var(--teal-soft); color:var(--teal); border-radius:999px; padding:6px 14px; font-size:13.5px}
+.st-arrow{color:var(--gold); font-size:18px}
+.st-per{text-align:center; color:var(--mut); font-size:13px} .st-per strong{color:var(--ink); font-size:15px}
+.st-ledger{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+.st-lcell{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 8px; text-align:center; box-shadow:var(--shadow)}
+.st-ll{color:var(--mut); font-size:11.5px}
+.st-lv{font-size:17px; font-weight:800; margin-top:3px} .st-lv small{font-size:11px; font-weight:400; color:var(--mut)}
+.st-lv.paid{color:var(--teal)} .st-lv.rem{color:var(--gold)}
+.st-note{color:var(--mut); font-size:12.5px; text-align:center; line-height:1.8}
+.st-posts-h{font-weight:700; font-size:13px}
+.st-posts{display:flex; flex-direction:column; gap:8px}
+.st-post{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:11px 13px; display:grid; grid-template-columns:auto 1fr; gap:4px 8px; align-items:center}
+.st-post.done{border-inline-start:3px solid var(--teal)}
+.st-pk{font-size:12px; color:var(--mut)}
+.st-pa{font-weight:700; text-align:end} .st-pa small{font-weight:400; color:var(--mut); font-size:11px}
+.st-ps{grid-column:1/-1; font-size:12px; color:var(--teal)}
+.st-ph{grid-column:1/-1; font-size:10.5px; color:var(--mut); word-break:break-all}
+.st-terms{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:13px; font-size:13px; line-height:1.8; color:var(--ink)}
+.st-verify{padding:14px}
+.st-vl{color:var(--seal-lbl); font-weight:700; font-size:13px; margin-bottom:6px}
+.st-verify .sv.ok{color:#7fe0c0} .st-verify .sv.bad{color:#ffb4a2; font-weight:700}
+.st-verify .mini{margin-top:9px; appearance:none; border:1px solid #2f4a45; background:#16302c; color:#cfeae3; border-radius:9px; padding:8px 11px; font:inherit; font-size:12.5px; cursor:pointer}
+.st-seam{background:var(--amber-soft); border:1px solid #edd9bf; border-radius:13px; padding:12px 13px}
+.st-seam-h{color:var(--amber); font-weight:700; font-size:12.5px; margin-bottom:5px}
+.st-seam-b{color:var(--mut); font-size:12px; line-height:1.8}
+
+/* «أثر عهد» — impact analytics (JL-3). k-anon aggregates + the 9→2 collapse.
+   Motion is opacity-only (compositor-friendly) and guarded by reduced-motion. */
+.impact{display:flex; flex-direction:column; gap:14px}
+.im-head{font-weight:700}
+.im-banner{background:var(--teal-soft); color:var(--teal); border-radius:var(--r-md); padding:11px 13px; font-size:var(--t-xs); line-height:1.9}
+.im-collapse{background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:12px; box-shadow:var(--shadow); text-align:center}
+.im-collapse svg{width:100%; height:auto; display:block}
+.im-dot{fill:var(--teal)}
+.im-l9{stroke:var(--gold); stroke-width:1.6; opacity:.75}
+.im-l2{stroke:var(--teal); stroke-width:4.5; stroke-linecap:round; opacity:0}
+.im-collapse.on .im-l9{opacity:.08}
+.im-collapse.on .im-l2{opacity:1}
+@media (prefers-reduced-motion: no-preference){
+  .im-l9{transition:opacity .55s ease}
+  /* stepped collapse (Gate-A data-lens fix): the 9 tangle lines let go ONE BY ONE,
+     then the 2 surviving transfers draw in — frame-sequence feel, still pure CSS. */
+  .im-collapse.on .im-l9:nth-of-type(1){transition-delay:0s}
+  .im-collapse.on .im-l9:nth-of-type(2){transition-delay:.09s}
+  .im-collapse.on .im-l9:nth-of-type(3){transition-delay:.18s}
+  .im-collapse.on .im-l9:nth-of-type(4){transition-delay:.27s}
+  .im-collapse.on .im-l9:nth-of-type(5){transition-delay:.36s}
+  .im-collapse.on .im-l9:nth-of-type(6){transition-delay:.45s}
+  .im-collapse.on .im-l9:nth-of-type(7){transition-delay:.54s}
+  .im-collapse.on .im-l9:nth-of-type(8){transition-delay:.63s}
+  .im-collapse.on .im-l9:nth-of-type(9){transition-delay:.72s}
+  .im-l2{stroke-dasharray:400; stroke-dashoffset:400;
+    transition:opacity .45s ease, stroke-dashoffset 1.1s cubic-bezier(.16,1,.3,1), filter .6s ease}
+  .im-collapse.on .im-l2{stroke-dashoffset:0; transition-delay:1s; filter:drop-shadow(0 1px 3px rgba(14,107,92,.35))}
+  .im-dot{transition:filter .6s ease}
+  .im-collapse.on .im-dot{filter:drop-shadow(0 1px 2px rgba(14,107,92,.4))}
+}
+.im-btn{appearance:none; border:0; background:var(--teal); color:#fff; border-radius:var(--r-pill); padding:9px 18px; font:inherit; font-size:var(--t-sm); font-weight:600; cursor:pointer; margin-top:8px}
+.im-btn:hover{filter:brightness(1.08)}
+.im-cap{color:var(--mut); font-size:var(--t-xs); line-height:1.9; margin-top:9px}
+.im-cap b{color:var(--teal)}
+.im-hero{background:var(--mute-soft); border-radius:var(--r-md); padding:11px 13px; font-size:var(--t-sm); line-height:1.8; color:var(--ink); text-align:center}
+.im-cards{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.im-card{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:12px; box-shadow:var(--shadow); text-align:center}
+.im-card b{display:block; font-size:var(--t-xl); color:var(--teal)}
+.im-card span{color:var(--mut); font-size:11.5px; line-height:1.6; display:block; margin-top:2px}
+.im-saved{background:var(--gold-soft); color:var(--gold); border-radius:var(--r-md); padding:11px 13px; font-size:var(--t-xs); line-height:1.8; text-align:center}
+.im-dist{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:13px}
+.im-sub{color:var(--mut); font-size:var(--t-xs); margin-bottom:7px}
+.im-row{display:flex; flex-direction:column; gap:5px; padding:8px 0; border-top:1px solid var(--line); font-size:var(--t-xs)}
+.im-row:first-of-type{border-top:0}
+.im-row-l{color:var(--ink); line-height:1.7}
+.im-bar{display:flex; height:8px; border-radius:5px; overflow:hidden; background:var(--mute-soft)}
+.im-bar i{background:var(--teal); border-radius:5px}
+.im-cons{color:var(--mut); font-size:var(--t-xs); text-align:center; line-height:2}
+.im-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal); border-radius:var(--r-pill); padding:6px 12px; font:inherit; font-size:var(--t-xs); cursor:pointer}
+.im-chip:hover{border-color:var(--teal)}
+.se-impact-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal); border-radius:var(--r-pill); padding:9px 14px; font:inherit; font-size:var(--t-sm); cursor:pointer; align-self:center}
+.se-impact-chip:hover{border-color:var(--teal)}
+
+/* ============================================================================
+   Motion layer (premium pass) — smooth, purposeful, guarded. Every animation
+   and transition lives inside the no-preference query; the reduce query at the
+   end is the global kill-switch. CSS-only: clock-independent, no JS hooks.
+============================================================================ */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes ahd-rise{from{opacity:0; transform:translateY(7px)} to{opacity:1; transform:none}}
+  @keyframes ahd-fade{from{opacity:0} to{opacity:1}}
+  @keyframes ahd-flag{0%,100%{transform:none} 20%{transform:translateX(-4px)} 45%{transform:translateX(3px)} 70%{transform:translateX(-2px)}}
+  @keyframes ahd-grow{from{transform:scaleX(0)} to{transform:scaleX(1)}}
+  /* RTL-aware screen entrance: reading direction is right-to-left, so a
+     forward navigation reads as advancing toward the left — the incoming
+     screen settles in FROM the left (translateX negative→0), paired with the
+     existing gentle rise. Compositor-only (transform+opacity). */
+  @keyframes ahd-screen-in{from{opacity:0; transform:translate(-10px,6px)} to{opacity:1; transform:none}}
+
+  /* screen entrance — fires on every go() innerHTML swap; no JS needed.
+     .screen-enter is re-added by app.js on each render to force the
+     animation to restart (a fresh element already restarts it, but the
+     explicit class also covers any future element-reuse refactor). */
+  .screen{animation:ahd-screen-in .24s cubic-bezier(.16,1,.3,1) both}
+
+  /* gentle list/card stagger, capped so long ledgers never feel slow */
+  .list .row,.tl-feed .tl-item,.tl-stories .story,.hcards .hcard{animation:ahd-rise .32s cubic-bezier(.16,1,.3,1) both}
+  .list .row:nth-child(2),.tl-feed .tl-item:nth-child(2),.tl-stories .story:nth-child(2),.hcards .hcard:nth-child(2){animation-delay:.04s}
+  .list .row:nth-child(3),.tl-feed .tl-item:nth-child(3),.tl-stories .story:nth-child(3),.hcards .hcard:nth-child(3){animation-delay:.08s}
+  .list .row:nth-child(4),.tl-feed .tl-item:nth-child(4),.tl-stories .story:nth-child(4),.hcards .hcard:nth-child(4){animation-delay:.12s}
+  .list .row:nth-child(n+5),.tl-feed .tl-item:nth-child(n+5),.tl-stories .story:nth-child(n+5),.hcards .hcard:nth-child(n+5){animation-delay:.15s}
+
+  /* press feedback — every button breathes under the finger */
+  button{transition:transform .13s ease}
+  button:active{transform:scale(.965)}
+  .navbtn{transition:background .15s ease, color .15s ease, border-color .15s ease, transform .13s ease}
+  .hcard,.hst,.tile,.im-collapse{transition:transform .18s ease, box-shadow .25s ease, border-color .2s ease}
+  .hcard:active,.hst:active{transform:scale(.985)}
+  .hcard:hover{transform:translateY(-1px)}
+
+  /* hero reveal beats: linter verdicts, seal verdicts, the sealed doc, the flash */
+  .cr-lint,.pf-verify,.se-proof,.ol-seal,.pf-diff,.flash{animation:ahd-fade .5s ease both}
+  /* the tamper climax: a brief non-looping flag shake on the FAIL verdict */
+  .pf-verify.bad,.cr-lint.bad,.se-proof.bad{animation:ahd-fade .3s ease both, ahd-flag .5s cubic-bezier(.36,.07,.19,.97) .25s 1}
+
+  /* proportional bars grow in from the inline start (right, in RTL) */
+  .ol-bar .ol-seg,.im-bar i,.cd-fill{animation:ahd-grow .6s cubic-bezier(.16,1,.3,1) both; transform-origin:100% 50%}
+}
+
+/* the REQUIRED kill-switch: reduced motion collapses all movement to ~0 */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001s !important; animation-iteration-count:1 !important;
+    transition-duration:.001s !important; scroll-behavior:auto !important;
+  }
+}
+
+/* ============================================================================
+   Accessibility & touch (premium pass) — visible focus, honest tap targets,
+   a 12px type floor, and safe-area awareness. Pure additive overrides.
+============================================================================ */
+/* focus — the app previously had ZERO focus styles; teal ring everywhere,
+   seal-green ring on the dark sealed-document surfaces */
+:focus-visible{outline:2px solid var(--teal); outline-offset:2px}
+.ol-seal :focus-visible,.pf-doc :focus-visible,.pf-chain2 :focus-visible,.st-verify :focus-visible{outline-color:var(--seal-hash); outline-offset:3px}
+
+/* tap targets — comfortable thumbs, unchanged look */
+.dots{min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center}
+.navbtn{min-height:38px}
+.fchip{min-height:36px}
+.tab{min-height:42px}
+.tchip{min-height:40px}
+
+/* the 12px type floor — every sub-12px label raised in ONE documented place
+   (hash wells keep word-break, so longer lines simply wrap) */
+.hst span,.hsteps .step small,.chip,.selfband .sbnote,.net small,.snote,.tl-c,
+.cd-row small,.cd-seal,.cd-rfoot,.se-mem-ok,.ol-seal .sh,.cr-fields span,
+.ca-item b,.ca-seal,.dp-tag,.pf-can,.pf-hash,.pf-chain,.pf-chain2 .ch span,
+.pf-chain2 .ch code,.pf-diff .dd-hash,.bw-gnote,.cv-seal,.cv-note,
+.cv-exhibit-note,.st-ll,.st-lv small,.st-pa small,.st-ph,.im-card span{font-size:var(--t-xs)}
+
+/* legibility nudge — small grey text reads a step darker (contrast ≥ 4.5:1) */
+:root{--mut:#5f6e6b}
+
+/* safe-area insets (notched phones) — never let the seal hide under the chin */
+#app{padding-block:0 max(40px, env(safe-area-inset-bottom))}
+.nav{padding-top:max(14px, env(safe-area-inset-top))}
+
+/* ============================================================================
+   Depth & surface system (premium pass) — semantic accents kill card monotony:
+   gold inline-start = sealed/mercy surfaces (mirrors the .set-no idiom),
+   hover raises what is pressable, and the impact screen joins the family.
+============================================================================ */
+/* sealed/mercy surfaces carry the gold thread */
+.pf-prov,.cd-note,.selfband{border-inline-start:3px solid var(--gold)}
+
+/* pressable cards answer the cursor (transition lives in the motion layer) */
+.hcard:hover,.hst:hover{box-shadow:var(--shadow-lg); border-color:#d8cfba}
+.opt:hover,.tl-act:hover,.rem-act .ghost:hover,.cr-trybar .ghost:hover,.bw-act .ghost:hover,
+.cv-act .mini:hover,.dp-exhibit button:hover,.dp-acts button:not(.primary):hover,.pf-back:hover,.tl-clear:hover{border-color:var(--teal); color:var(--teal)}
+.fchip:hover:not(.on){border-color:var(--ink); color:var(--ink)}
+
+/* «أثر عهد» — the collapse visual is a demo star: give it stage depth */
+.im-collapse{background:radial-gradient(circle at 50% 40%, #ffffff 0%, var(--card) 68%); box-shadow:var(--shadow-lg); padding:14px}
+.im-dot{stroke:#fffdf8; stroke-width:2.5}
+.im-btn{box-shadow:0 4px 14px rgba(14,107,92,.28)}
+.im-btn:active{box-shadow:0 2px 6px rgba(14,107,92,.22)}
+.im-hero{border-inline-start:3px solid var(--teal); text-align:start}
+.im-saved{border-inline-start:3px solid var(--gold); text-align:start}
+.im-card b{font-size:22px; font-weight:800; letter-spacing:-.3px}
+.im-cards .im-card:nth-child(2) b{color:var(--gold)}
+.im-bar{box-shadow:inset 0 1px 2px rgba(28,43,42,.08)}
+
+/* ============================================================================
+   «الضمانات والحدود» (JL-4) — guarantees-as-code panel. Three premium columns;
+   every بند carries a mono LTR «يحرسه:» guard line; the run-command well reuses
+   the sealed-document palette; the bank column carries the gold thread.
+============================================================================ */
+.bounds{display:flex; flex-direction:column; gap:var(--s-4)}
+.bd-head{font-weight:700}
+.bd-hero{background:var(--mute-soft); border-inline-start:3px solid var(--teal); border-radius:var(--r-md); padding:11px 13px; font-size:var(--t-sm); line-height:1.9; text-align:start}
+.bd-cols{display:flex; flex-direction:column; gap:10px}
+.bd-card{background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:13px; box-shadow:var(--shadow)}
+.bd-card.bank{border-inline-start:3px solid var(--gold)}
+.bd-card.bank .bd-title{color:var(--gold)}
+.bd-title{font-weight:700; color:var(--teal); font-size:var(--t-md); margin-bottom:4px}
+.bd-item{padding:9px 0; border-top:1px solid var(--line); font-size:var(--t-sm); line-height:1.9}
+.bd-item:first-of-type{border-top:0}
+.bd-guard{color:var(--mut); font-size:var(--t-xs); margin-top:2px}
+.bd-guard code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; font-size:var(--t-xs); color:var(--mut); overflow-wrap:anywhere}
+.bd-foot{color:var(--mut); font-size:var(--t-xs); text-align:center; line-height:2}
+.bd-run{background:var(--seal-bg); color:var(--seal-hash); border-radius:var(--r-md); padding:10px 13px; font-family:var(--mono); direction:ltr; text-align:left; font-size:var(--t-sm); box-shadow:var(--shadow-sm)}
+.bd-chips{display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
+.bd-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal); border-radius:var(--r-pill); padding:6px 12px; font:inherit; font-size:var(--t-xs); cursor:pointer; min-height:36px}
+.bd-chip:hover{border-color:var(--teal)}
+
+/* «أثر عهد» drill-down (bucket rows are now buttons) */
+.im-row{display:flex;align-items:center;gap:8px;width:100%;text-align:inherit;background:none;border:0;cursor:pointer;padding:6px 0;font:inherit;color:inherit}
+.im-row.on .im-row-l{font-weight:700}
+.im-caret{color:var(--mut)}
+.im-drill{padding:4px 12px 10px;border-inline-start:2px solid var(--line)}
+.im-circle{padding:4px 0;font-size:var(--t-sm,13px)}
+
+/* the rendered neutral exhibit («سِجلّ المعروف») */
+.cv-exhibit{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:var(--r-md,10px);background:var(--card)}
+.cv-ex-h{font-weight:700;padding:2px 0}
+.cv-ex-tl{margin:8px 0;padding:6px 10px;border-inline-start:2px solid var(--line)}
+.cv-ex-row{font-size:var(--t-sm,13px);padding:2px 0;direction:rtl}
+.cv-ex-f{color:var(--mut);font-size:var(--t-sm,13px);padding:2px 0}
+
+/* bounds guards as no-JS disclosures (Sadu prototype idiom) */
+details.bd-item{padding:6px 0}
+details.bd-item summary{cursor:pointer;list-style:none}
+details.bd-item summary::-webkit-details-marker{display:none}
+details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12px);margin-top:2px}
+.bd-detail{margin:6px 0 2px;padding:6px 10px;border-inline-start:2px solid var(--line)}
+.bd-file code{font-size:var(--t-xs,12px)}
+.bd-cmd{font-family:var(--mono,monospace);direction:ltr;text-align:left;background:var(--seal-well,#f3f3f0);padding:4px 8px;border-radius:6px;margin:4px 0;font-size:var(--t-xs,12px)}
+.bd-invite{color:var(--mut);font-size:var(--t-xs,12px)}
+
+.se-presets{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+
+.ca-stopped span{color:var(--mut)}
+</style>
+<style>
+body{background:#e9e2d4;margin:0;padding:24px;font-family:"Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif}
+.tour-head{max-width:920px;margin:0 auto 18px;text-align:center}
+.tour-head h1{margin:0 0 6px}
+.tour-head p{color:#6d6155;margin:0}
+.tour-grid{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;align-items:flex-start}
+.tour-card{width:430px;background:transparent}
+.tour-title{font-weight:800;font-size:17px;margin:0 0 4px}
+.tour-note{color:#6d6155;font-size:13px;margin:0 0 8px;line-height:1.7}
+.tour-frame{background:var(--bg,#faf6ee);border:1px solid #d8cfba;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(40,30,10,.10)}
+.tour-frame #app{width:auto}
+</style></head><body>
+<div class="tour-head"><h1>عهد — جولة التعميق</h1>
+<p>خمس شاشات صارت تفاعليّةً بعمق — البوّابة 1809/0 · 40/40 · 2026-07-11 · هذه لقطات مولّدة من الكود الحقيقي نفسه (نفس محرّك التطبيق)</p></div>
+<div class="tour-grid">
+<div class="tour-card"><div class="tour-title">📊 أثر عهد — الفئة تنفتح على دوائرها</div><div class="tour-note">اضغط فئةً في التوزيع ← دوائرها المجهّلة تظهر ببرهان الحفظ</div><div class="tour-frame"><div id="app"><nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات"><button class="navbtn" onclick="AhdApp.go('home')"><span class="navico" aria-hidden="true">🏠</span>الرئيسية</button><button class="navbtn" onclick="AhdApp.go('create')"><span class="navico" aria-hidden="true">➕</span>أنشئ عهدًا</button><button class="navbtn" onclick="AhdApp.go('daftari')"><span class="navico" aria-hidden="true">📔</span>دفتري</button><button class="navbtn" onclick="AhdApp.go('timeline')"><span class="navico" aria-hidden="true">📜</span>السجلّ</button><button class="navbtn" onclick="AhdApp.go('open')"><span class="navico" aria-hidden="true">♾️</span>قرضٌ مفتوح</button><button class="navbtn" onclick="AhdApp.go('circle')"><span class="navico" aria-hidden="true">👥</span>الدائرة</button><button class="navbtn" onclick="AhdApp.go('circle-adv')"><span class="navico" aria-hidden="true">🔁</span>الدائرة+</button><button class="navbtn" onclick="AhdApp.go('settle')"><span class="navico" aria-hidden="true">🔗</span>المقاصّة</button></nav><main class="screen"><div class="impact"><div class="im-head">أثر عهد — أثر المقاصّة عبر الدوائر</div><div class="im-banner">تحليلاتٌ حتميّةٌ من دوائر تجريبيّة (بيانات اختبار) — مجاميع مجهّلة فقط، ولا رقمَ فردٍ أبدًا. لا يُعرَض تجميعٌ لأقلّ من 3 دوائر — حُجِبت 3 فئاتٍ دون الحدّ.</div><div id="im-collapse" class="im-collapse"><svg viewBox="0 0 360 282" role="img" aria-label="شبكة التزاماتٍ متشابكة تنهار إلى تحويلين"><line class="im-l9" x1="180" y1="34" x2="292" y2="116"/><line class="im-l9" x1="292" y1="116" x2="249" y2="247"/><line class="im-l9" x1="180" y1="34" x2="111" y2="247"/><line class="im-l9" x1="111" y1="247" x2="68" y2="116"/><line class="im-l9" x1="180" y1="34" x2="249" y2="247"/><line class="im-l9" x1="180" y1="34" x2="68" y2="116"/><line class="im-l9" x1="292" y1="116" x2="111" y2="247"/><line class="im-l9" x1="111" y1="247" x2="249" y2="247"/><line class="im-l9" x1="249" y1="247" x2="292" y2="116"/><line class="im-l2" x1="180" y1="34" x2="249" y2="247"/><line class="im-l2" x1="180" y1="34" x2="68" y2="116"/><circle class="im-dot" cx="180" cy="34" r="10"/><circle class="im-dot" cx="292" cy="116" r="10"/><circle class="im-dot" cx="249" cy="247" r="10"/><circle class="im-dot" cx="111" cy="247" r="10"/><circle class="im-dot" cx="68" cy="116" r="10"/></svg><button class="im-btn" onclick="AhdApp.impactCollapse()">شاهد الانهيار 9 ← 2</button><div class="im-cap"><b>9</b> التزاماتٍ — <b>تحويلان</b>. المالُ المتحرّك: من <b>1,800</b> إلى <b>900</b> ريال، والمراكزُ محفوظة.</div></div><div class="im-hero">عبر 12 دائرة تجريبيّة: من 54 التزامًا إلى 18 تحويلًا — والمراكز محفوظة</div><div class="im-cards"><div class="im-card"><b>54</b><span>التزامًا قبل المقاصّة</span></div><div class="im-card"><b>18</b><span>تحويلًا بعدها — وُفِّر 36</span></div><div class="im-card"><b>7,400</b><span>ر.س كانت ستتحرّك منفردةً</span></div><div class="im-card"><b>2,470</b><span>ر.س تتحرّك بالمقاصّة</span></div></div><div class="im-saved">وفّرت المقاصّةُ تحريكَ 4,930 ر.س — والحقوق نفسُها بالهللة</div><div class="im-dist"><div class="im-sub">توزيع الأثر حسب حجم الدائرة (مجاميع مجهّلة):</div><button class="im-row on" onclick="AhdApp.impactBucket(3)"><span class="im-row-l">دوائر من 3 أعضاء (العدد 3): متوسّط التحويلات الموفَّرة 2٫0</span><span class="im-bar" aria-hidden="true"><i style="flex-grow:20"></i><em style="flex-grow:10"></em></span><span class="im-caret" aria-hidden="true">▾</span></button><div class="im-drill"><div class="im-circle">«عشاء العُلا» (دائرة تجريبيّة): من 3 التزاماتٍ إلى 1 — وُفِّر تحريكُ 200 ر.س، والمراكز محفوظة <span class="chip teal">✓</span></div><div class="im-circle">«قهوة الحيّ» (دائرة تجريبيّة): من 3 التزاماتٍ إلى 0 — وُفِّر تحريكُ 450 ر.س، والمراكز محفوظة <span class="chip teal">✓</span></div><div class="im-circle">«هديّة زميل» (دائرة تجريبيّة): من 3 التزاماتٍ إلى 2 — وُفِّر تحريكُ 50 ر.س، والمراكز محفوظة <span class="chip teal">✓</span></div></div><button class="im-row" onclick="AhdApp.impactBucket(4)"><span class="im-row-l">دوائر من 4 أعضاء (العدد 3): متوسّط التحويلات الموفَّرة 1٫6</span><span class="im-bar" aria-hidden="true"><i style="flex-grow:16"></i><em style="flex-grow:14"></em></span><span class="im-caret" aria-hidden="true">◂</span></button><button class="im-row" onclick="AhdApp.impactBucket(5)"><span class="im-row-l">دوائر من 5 أعضاء (العدد 3): متوسّط التحويلات الموفَّرة 3٫0</span><span class="im-bar" aria-hidden="true"><i style="flex-grow:30"></i><em style="flex-grow:0"></em></span><span class="im-caret" aria-hidden="true">◂</span></button></div><div class="im-cons">في كلّ دائرة: صافي كلّ عضوٍ قبل المقاصّة = صافيه بعدها — بالهللة. <button class="im-chip" onclick="AhdApp.go('settle')">🔗 المقاصّة — البرهان الحيّ</button></div></div></main></div></div></div>
+<div class="tour-card"><div class="tour-title">🕊️ سِجلّ المعروف — البيّنة المحايدة معروضة</div><div class="tour-note">«صدِّرها كبيّنة محايدة» تعرض الوثيقة نفسها: الطرفان، بصمة الشروط، الخطوات المختومة</div><div class="tour-frame"><div id="app"><nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات"><button class="navbtn" onclick="AhdApp.go('home')"><span class="navico" aria-hidden="true">🏠</span>الرئيسية</button><button class="navbtn" onclick="AhdApp.go('create')"><span class="navico" aria-hidden="true">➕</span>أنشئ عهدًا</button><button class="navbtn" onclick="AhdApp.go('daftari')"><span class="navico" aria-hidden="true">📔</span>دفتري</button><button class="navbtn" onclick="AhdApp.go('timeline')"><span class="navico" aria-hidden="true">📜</span>السجلّ</button><button class="navbtn" onclick="AhdApp.go('open')"><span class="navico" aria-hidden="true">♾️</span>قرضٌ مفتوح</button><button class="navbtn" onclick="AhdApp.go('circle')"><span class="navico" aria-hidden="true">👥</span>الدائرة</button><button class="navbtn" onclick="AhdApp.go('circle-adv')"><span class="navico" aria-hidden="true">🔁</span>الدائرة+</button><button class="navbtn" onclick="AhdApp.go('settle')"><span class="navico" aria-hidden="true">🔗</span>المقاصّة</button></nav><main class="screen"><div class="covenant"><button class="pf-back" onclick="AhdApp.covenantBack()">→ رجوع إلى دفتري</button><div class="flash" onclick="AhdApp.covenantDismiss()">هذه هي البيّنة المحايدة نفسُها — كما تُصدَّر دليلًا. <span class="x">×</span></div><div class="cv-head">سِجلّ المعروف</div><div class="cv-sub">عهد «نايف» و«مقهى الحي» — 2,500 ر.س</div><div class="cv-intro">كلُّ تذكيرٍ لطيف، وكلُّ نظرةٍ إلى ميسرة، وكلُّ إبراء — مختومٌ ومرتّبٌ هنا. هذا سِجلٌّ يشهد بحُسن النيّة، لا يُقيّم أحدًا ولا يُصنّفه.</div><div class="cv-timeline"><div class="cv-step kind-sealed"><span class="cv-dot" aria-hidden="true"></span><div class="cv-body"><div class="cv-line">وُثِّق وخُتم العهد — شهادةٌ محفوظة بين الطرفين<span class="cv-amt">2,500 ر.س</span></div><div class="cv-seal">SEAL: 15237DDB1585EE086181F5AE…</div></div></div></div><div class="cv-status"><span class="chip teal">✓ السلسلة سليمة — كلّ خطوةٍ مطابقةٌ لختمها</span> <span class="chip gold">نشِط</span></div><div class="cv-note">لا يظهر هنا عددُ أيّامٍ ولا تصنيفٌ ولا رقمُ سمعة — أصلُ المبلغ وحده، ومعروفٌ محفوظ.</div><div class="cv-act"><button class="primary" onclick="AhdApp.covenantExport()">أخفِ البيّنة</button><button class="mini" onclick="AhdApp.covenantTamperToggle()">🧪 جرّب العبث بالسِّجل</button></div><div class="cv-exhibit"><div class="cv-ex-h">وثيقة بيّنة محايدة — AHD-COVENANT-EXHIBIT-v1</div><div class="cv-ex-h">الطرفان: «نايف» و«مقهى الحي» — عهد R-CAFE</div><div class="cv-ex-h">بصمة الشروط (terms-hash): 58ca93d133ab708f…</div><div class="cv-ex-h">الأساس: قرضٌ حسنٌ دون أيّ زيادة — Quran:2:280 ﴿فنظرةٌ إلى ميسرة﴾</div><div class="cv-ex-tl"><div class="cv-ex-row">1. خُتم العهد — 2026-06-21 — 2500.00 ر.س — SEAL 15237DDB1585EE086181F5AE…</div></div><div class="cv-ex-f">الحالة النهائيّة: نشِط</div><div class="cv-ex-f">رأس السلسلة (head): 15237ddb1585ee08…</div><div class="cv-ex-f">وقائعُ مختومةٌ فقط — لا عدَّ أيّامٍ فيها ولا حكمَ على أحد (نظام الإثبات ٢٠٢٢).</div></div><div class="cv-exhibit-note">البيّنة المحايدة تحوي الطرفين وبصمة الشروط والخطوات المختومة وحالتها النهائية فقط — بلا أيّ سمعةٍ أو تقييم، كما تُقبل دليلًا (نظام الإثبات ٢٠٢٢).</div></div></main></div></div></div>
+<div class="tour-card"><div class="tour-title">🧭 الضمانات والحدود — كلّ بندٍ ينفتح على حارسه</div><div class="tour-note">كلّ ضمانة = ملفّها الحقيقيّ + أمر تشغيل اختبارها (افتح أيّ بند)</div><div class="tour-frame"><div id="app"><nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات"><button class="navbtn" onclick="AhdApp.go('home')"><span class="navico" aria-hidden="true">🏠</span>الرئيسية</button><button class="navbtn" onclick="AhdApp.go('create')"><span class="navico" aria-hidden="true">➕</span>أنشئ عهدًا</button><button class="navbtn" onclick="AhdApp.go('daftari')"><span class="navico" aria-hidden="true">📔</span>دفتري</button><button class="navbtn" onclick="AhdApp.go('timeline')"><span class="navico" aria-hidden="true">📜</span>السجلّ</button><button class="navbtn" onclick="AhdApp.go('open')"><span class="navico" aria-hidden="true">♾️</span>قرضٌ مفتوح</button><button class="navbtn" onclick="AhdApp.go('circle')"><span class="navico" aria-hidden="true">👥</span>الدائرة</button><button class="navbtn" onclick="AhdApp.go('circle-adv')"><span class="navico" aria-hidden="true">🔁</span>الدائرة+</button><button class="navbtn" onclick="AhdApp.go('settle')"><span class="navico" aria-hidden="true">🔗</span>المقاصّة</button></nav><main class="screen"><div class="bounds"><div class="bd-head">الضمانات والحدود — مكتوبةٌ في الكود</div><div class="bd-hero">ضماناتٌ مكتوبةٌ في الكود، لا في الشعارات — كلُّ بندٍ أدناه يحرسه ملفٌّ حقيقيٌّ باسمه، تقرؤه وتشغّله بنفسك.</div><div class="bd-cols"><div class="bd-card borrower"><div class="bd-title">للمدين — كرامتُك محفوظة</div><details class="bd-item"><summary>لا غرامةَ تأخيرٍ أبدًا — التأخّرُ لا يزيد عليك هللةً واحدة.<span class="bd-guard">يحرسه: <code>app/features/riba-lint.js · tests/app/riba-lint-corpus.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/riba-lint.js</code></div><div class="bd-file"><code>tests/app/riba-lint-corpus.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/riba-lint-corpus.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>«أحتاج وقتًا» تعيد الجدولة بلا زيادةِ هللةٍ — ﴿فنظرةٌ إلى ميسرة﴾.<span class="bd-guard">يحرسه: <code>app/features/borrower.js · tests/app/borrower.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/borrower.js</code></div><div class="bd-file"><code>tests/app/borrower.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/borrower.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>«ادفع ما تيسّر» مقبولٌ دائمًا — أيُّ مبلغٍ يُنقص المتبقّي فورًا، بالهللة.<span class="bd-guard">يحرسه: <code>app/features/borrower.js · tests/app/borrower.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/borrower.js</code></div><div class="bd-file"><code>tests/app/borrower.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/borrower.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>لا عدّادَ تأخيرٍ أحمر — المتأخّرُ كهرمانيٌّ بكلمةٍ كريمة، بلا عدِّ أيّام.<span class="bd-guard">يحرسه: <code>tests/app/app-dom-smoke.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>tests/app/app-dom-smoke.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/app-dom-smoke.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>الخلافُ يوقف التذكيرَ فورًا — عهدٌ يشهد ولا يحكم.<span class="bd-guard">يحرسه: <code>app/features/daftari.js · tests/app/daftari.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/daftari.js</code></div><div class="bd-file"><code>tests/app/daftari.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/daftari.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details></div><div class="bd-card lender"><div class="bd-title">للدائن — حقُّك موثَّق</div><details class="bd-item"><summary>وثيقةٌ مختومةٌ تفضح أيَّ عبث — يتغيّر حرفٌ فيتغيّر الختمُ كلُّه.<span class="bd-guard">يحرسه: <code>app/engine.js · tests/app/proof.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/engine.js</code></div><div class="bd-file"><code>tests/app/proof.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/proof.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>المصرفُ يُذكِّر نيابةً عنك بالمعروف — فلا تصير أنت «المُطالِب».<span class="bd-guard">يحرسه: <code>app/features/daftari.js · tests/app/daftari.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/daftari.js</code></div><div class="bd-file"><code>tests/app/daftari.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/daftari.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>الإبراءُ بيدك وحدك — تُغلقه صدقةً بكرامةٍ متى شئت.<span class="bd-guard">يحرسه: <code>app/features/open-loan.js · tests/app/open-loan.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/open-loan.js</code></div><div class="bd-file"><code>tests/app/open-loan.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/open-loan.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>المقاصّةُ لا تغيّر صافيَ حقّك هللةً — مركزُك قبلها هو مركزُك بعدها.<span class="bd-guard">يحرسه: <code>app/features/settlement.js · tests/app/settlement-conserve.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/settlement.js</code></div><div class="bd-file"><code>tests/app/settlement-conserve.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/settlement-conserve.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details></div><div class="bd-card bank"><div class="bd-title">حدود المصرف — يشهد ولا يتجاوز</div><details class="bd-item"><summary>يكتب ويشهد ويحفظ — ولا يُقرض من عنده أبدًا.<span class="bd-guard">يحرسه: <code>app/features/settings.js · tests/app/settings.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/settings.js</code></div><div class="bd-file"><code>tests/app/settings.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/settings.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>لا يحكم في خلاف — يوقف ويحفظ البيّنةَ للطرفين وللقضاء.<span class="bd-guard">يحرسه: <code>app/features/dispute.js · tests/app/dispute.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/dispute.js</code></div><div class="bd-file"><code>tests/app/dispute.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/dispute.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>لا يأخذ على القرض شيئًا — لا رسمَ ولا عمولةَ ولا أجرَ خدمةٍ عليه.<span class="bd-guard">يحرسه: <code>app/engine.js · tests/app/riba-lint-corpus.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/engine.js</code></div><div class="bd-file"><code>tests/app/riba-lint-corpus.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/riba-lint-corpus.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>لا رقمَ ائتمانٍ ولا تصدير — سجلُّ وفائك كلمةٌ تُقال لك وحدك، ولا تخرج.<span class="bd-guard">يحرسه: <code>app/features/daftari.js · tests/app/daftari.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/daftari.js</code></div><div class="bd-file"><code>tests/app/daftari.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/daftari.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details><details class="bd-item"><summary>الذكاءُ يصوغ ويستشهد ولا يُفتي — يرصد الشبهةَ ويقترح البديلَ الحلال.<span class="bd-guard">يحرسه: <code>app/features/riba-lint.js · tests/app/riba-lint.test.cjs</code></span></summary><div class="bd-detail"><div class="bd-file"><code>app/features/riba-lint.js</code></div><div class="bd-file"><code>tests/app/riba-lint.test.cjs</code></div><div class="bd-cmd" dir="ltr">node tests/app/riba-lint.test.cjs</div><div class="bd-invite">شغّل حارسَه بنفسك دون إنترنت — الاختبار يفشل إن خالف الكودُ هذا الوعد.</div></div></details></div></div><div class="bd-foot">كلُّ بندٍ أعلاه يحرسه اختبارٌ آليٌّ يعمل دون إنترنت — اطلب تشغيله.</div><div class="bd-run" aria-label="أمر تشغيل الحزمة">cd tests &amp;&amp; node run-all.cjs</div><div class="bd-chips"><button class="bd-chip" onclick="AhdApp.go('mine')">🫱 ما عليّ</button><button class="bd-chip" onclick="AhdApp.go('proof')">🔏 حافظة الإثبات</button><button class="bd-chip" onclick="AhdApp.go('home')">🏠 الرئيسية</button></div></div></main></div></div></div>
+<div class="tour-card"><div class="tour-title">🔗 المقاصّة — ثلاث شبكاتٍ تجرّبها بنفسك</div><div class="tour-note">شريحة «سلسلة تسديد»: ٦ التزامات تنهار إلى تحويلين — الخوارزميّة الذهبيّة نفسها</div><div class="tour-frame"><div id="app"><nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات"><button class="navbtn" onclick="AhdApp.go('home')"><span class="navico" aria-hidden="true">🏠</span>الرئيسية</button><button class="navbtn" onclick="AhdApp.go('create')"><span class="navico" aria-hidden="true">➕</span>أنشئ عهدًا</button><button class="navbtn" onclick="AhdApp.go('daftari')"><span class="navico" aria-hidden="true">📔</span>دفتري</button><button class="navbtn" onclick="AhdApp.go('timeline')"><span class="navico" aria-hidden="true">📜</span>السجلّ</button><button class="navbtn" onclick="AhdApp.go('open')"><span class="navico" aria-hidden="true">♾️</span>قرضٌ مفتوح</button><button class="navbtn" onclick="AhdApp.go('circle')"><span class="navico" aria-hidden="true">👥</span>الدائرة</button><button class="navbtn" onclick="AhdApp.go('circle-adv')"><span class="navico" aria-hidden="true">🔁</span>الدائرة+</button><button class="navbtn on" aria-current="page" onclick="AhdApp.go('settle')"><span class="navico" aria-hidden="true">🔗</span>المقاصّة</button></nav><main class="screen"><div class="settle"><div class="se-head">المقاصّة — أقلّ التحويلات تُصفّي الجميع</div><div class="se-presets"><button class="fchip" onclick="AhdApp.settlePreset('golden')">شبكة العرض (٩ التزامات)</button><button class="fchip on" onclick="AhdApp.settlePreset('chain')">سلسلة تسديد (٦ التزامات)</button><button class="fchip" onclick="AhdApp.settlePreset('hub')">الكلّ يدين لواحد (٥ التزامات)</button></div><div class="se-big"><span>6</span> التزامًا <em>⟶</em> <span>2</span> تحويلان</div><div class="se-card"><div class="se-row"><span>نورة تدفع خالد</span><b>200 ر.س</b></div><div class="se-row"><span>نورة تدفع فهد</span><b>200 ر.س</b></div></div><div class="se-proof ok">✓ برهان الحفظ: مجموع الصافي = 0، ومركز كلِّ عضوٍ نفسُه قبل وبعد — لا ريال يُخلق ولا يضيع، ولا فائدة</div><div class="se-moved">المال المتحرّك: <b>2,500</b> ر.س لو سُدِّدت منفردةً ⟶ <b>400</b> ر.س بالمقاصّة — حركةٌ أقلّ، ومراكزُ محفوظة.</div><div class="se-members"><div class="se-sub">مركز كلِّ عضوٍ (لم يتغيّر — المقاصّة تُقلِّل التحويلات لا الحقوق):</div><div class="se-mem"><b>نورة</b><span class="se-mem-net">يدفع صافيًا 400 ر.س</span><span class="se-mem-ok">نفسه قبل وبعد ✓</span></div><div class="se-mem"><b>سارة</b><span class="se-mem-net">متوازن</span><span class="se-mem-ok">نفسه قبل وبعد ✓</span></div><div class="se-mem"><b>خالد</b><span class="se-mem-net">يقبض صافيًا 200 ر.س</span><span class="se-mem-ok">نفسه قبل وبعد ✓</span></div><div class="se-mem"><b>ليلى</b><span class="se-mem-net">متوازن</span><span class="se-mem-ok">نفسه قبل وبعد ✓</span></div><div class="se-mem"><b>فهد</b><span class="se-mem-net">يقبض صافيًا 200 ر.س</span><span class="se-mem-ok">نفسه قبل وبعد ✓</span></div></div><div class="se-legs"><div class="se-sub">رِجل كلِّ عضوٍ — حوالةٌ بالتراضي يوافق عليها قبل التنفيذ:</div><div class="se-leg"><b>نورة</b><span>يدفع خالد 200 · يدفع فهد 200</span></div><div class="se-leg"><b>خالد</b><span>يقبض من نورة 200</span></div><div class="se-leg"><b>فهد</b><span>يقبض من نورة 200</span></div></div><div class="se-note">لا أحد يدفع أكثر ممّا عليه؛ المصرف يحسب ويشهد، والمال مالكم.</div><button class="se-impact-chip" onclick="AhdApp.go('impact')">📊 أثر عهد — الأثر عبر الدوائر</button></div></main></div></div></div>
+<div class="tour-card"><div class="tour-title">🔁 الدائرة+ — «أوقف القِسْمة» حقيقيّة</div><div class="tour-note">الإيقاف يمنع الدورات القادمة فقط — لا أثر رجعيًّا، والزرّ يعمل فعلًا</div><div class="tour-frame"><div id="app"><nav class="nav" role="navigation" aria-label="التنقّل بين الشاشات"><button class="navbtn" onclick="AhdApp.go('home')"><span class="navico" aria-hidden="true">🏠</span>الرئيسية</button><button class="navbtn" onclick="AhdApp.go('create')"><span class="navico" aria-hidden="true">➕</span>أنشئ عهدًا</button><button class="navbtn" onclick="AhdApp.go('daftari')"><span class="navico" aria-hidden="true">📔</span>دفتري</button><button class="navbtn" onclick="AhdApp.go('timeline')"><span class="navico" aria-hidden="true">📜</span>السجلّ</button><button class="navbtn" onclick="AhdApp.go('open')"><span class="navico" aria-hidden="true">♾️</span>قرضٌ مفتوح</button><button class="navbtn" onclick="AhdApp.go('circle')"><span class="navico" aria-hidden="true">👥</span>الدائرة</button><button class="navbtn on" aria-current="page" onclick="AhdApp.go('circle-adv')"><span class="navico" aria-hidden="true">🔁</span>الدائرة+</button><button class="navbtn" onclick="AhdApp.go('settle')"><span class="navico" aria-hidden="true">🔗</span>المقاصّة</button></nav><main class="screen"><div class="circleadv"><div class="flash" onclick="AhdApp.circleAdvDismiss()">أُوقفت القِسْمة الدائمة — لا أثر رجعيًّا، وما نُشر يبقى كما هو. <span class="x">×</span></div><div class="ca-card"><div class="ca-h">تقسيم بالأصناف · عشاء الخميس</div><div class="ca-sub">كلٌّ يدفع عمّا طلب — والمجموع محفوظٌ بالهللة (590 ر.س)</div><div class="ca-line"><span>خالد</span><span>367 ر.س</span></div><div class="ca-line"><span>ريم</span><span>112 ر.س</span></div><div class="ca-line"><span>نورة</span><span>112 ر.س</span></div><div class="ca-items"><div class="ca-item"><span>ستيك · 300 ر.س على 1</span><b>محفوظ ✓</b></div><div class="ca-item"><span>بيتزا مشتركة · 200 ر.س على 3</span><b>محفوظ ✓</b></div><div class="ca-item"><span>عصائر · 90 ر.س على 2</span><b>محفوظ ✓</b></div></div><div class="ca-ok">✓ كلُّ صنفٍ يُقسَّم بالهللة بلا كَسْر — والمجموع محفوظ تمامًا، لا ربا</div></div><div class="ca-card"><div class="ca-h">قِسْمة دائمة · الإيجار</div><div class="ca-sub">3,600 ر.س · كل شهر · يدفع تركي ثم تُقسَّم بالتساوي</div><div class="ca-line ca-stopped"><span>القِسْمة مُوقَفة — لا تُنشَر دوراتٌ جديدة، وما نُشر سابقًا يبقى كما هو.</span></div><button class="mini" onclick="AhdApp.circleRecurringToggle()">استأنف القِسْمة</button><div class="ca-note">تُنشَر تلقائيًّا كلَّ شهر ما دامت جارية — بلا فائدةٍ ولا غرامة.</div></div><div class="ca-card"><div class="ca-h">تخريج قَيْد → عهد</div><div class="ca-sub">المبلغ بينك وبين تركي صار ١٬٥٠٠ ر.س — تحبّ توثّقونه كعهدٍ مكتوب؟</div><button class="primary" onclick="AhdApp.circleGraduate()">وثّقها كعهد</button><div class="ca-note">«عهد» يَعرِض، ولا يفرض — يبقى في الميزان إن شئت.</div></div><div class="ca-card pledge"><div class="ca-h">نجمع للهدف معًا · رحلة العلا (مسودّة)</div><div class="ca-sub">الهدف 8,000 ر.س · 4 متعهّدين</div><div class="ca-line"><span>لُجين</span><span>تعهّد 2,000 ر.س</span></div><div class="ca-line"><span>نورة</span><span>تعهّد 2,000 ر.س</span></div><div class="ca-line"><span>سارة</span><span>تعهّد 2,000 ر.س</span></div><div class="ca-line"><span>خالد</span><span>تعهّد 2,000 ر.س</span></div><div class="ca-warn">⚠️ تعهّدٌ فقط — لا وديعةٌ مجمّعة يحفظها المصرف. هذا النمط (ب) يحتاج مراجعةً شرعيّة قبل الإطلاق.</div></div></div></main></div></div></div>
+</div>
+<script>document.querySelectorAll('button,details summary').forEach(function(b){b.style.pointerEvents='none'});</script>
+</body></html>
