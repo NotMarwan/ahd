@@ -8,7 +8,9 @@
     "render": "remotion render src/index.ts Promo out/ahd-app-promo.mp4 --codec=h264 --crf=18",
     "render:new": "remotion render src/index.ts AhdNew out/ahd-new-features.mp4 --codec=h264 --crf=18",
     "still": "remotion still src/index.ts Promo out/still.png",
-    "still:new": "remotion still src/index.ts AhdNew out/check.png"
+    "still:new": "remotion still src/index.ts AhdNew out/check.png",
+    "render:sadu": "remotion render src/index.ts SaduPromo out/ahd-sadu-promo.mp4 --codec=h264 --crf=18",
+    "still:sadu": "remotion still src/index.ts SaduPromo out/sadu-check.png --frame=300"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.481",
