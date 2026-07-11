@@ -1,0 +1,441 @@
+<!doctype html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عَهد — العرض الحيّ · هاكاثون أمد ٢٠٢٦</title>
+<style>
+/* ============================================================
+   عَهد — motion deck. Palette = canonical tokens-amad.css
+   (ds-bundle/guidelines/tokens-amad.css — do not drift).
+   Motion: View Transitions API + staggered reveals.
+   All offline: no CDN, system Arabic font stack.
+============================================================ */
+:root{
+  --navy:#002134; --navy-deep:#02141E; --blush:#F3E4DE; --ice:#edf2f5; --white:#fff;
+  --peach:#E2AD8B; --terra:#CD907E; --bronze:#803C1C;
+  --r-amad:24px;
+  --ar:"IBM Plex Sans Arabic","Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif;
+  --mono:"Consolas",monospace;
+  --spring:cubic-bezier(.22,1,.36,1);          /* expo-out enter */
+  --spring-in:cubic-bezier(.64,0,.78,0);       /* exit */
+  --dur:.6s;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--ar); background:var(--navy-deep); color:var(--blush);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* living background: slow aurora drift + sadu weave floor */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+.bg .aurora{
+  position:absolute;inset:-30%;
+  background:
+    radial-gradient(38% 45% at 22% 28%, rgba(226,173,139,.14), transparent 70%),
+    radial-gradient(45% 55% at 78% 72%, rgba(0,66,104,.55), transparent 70%),
+    radial-gradient(30% 35% at 65% 15%, rgba(205,144,126,.10), transparent 70%);
+  animation:aurora 26s var(--spring) infinite alternate;
+}
+@keyframes aurora{
+  0%{transform:translate3d(-2%,-1%,0) scale(1)}
+  100%{transform:translate3d(2%,2%,0) scale(1.06)}
+}
+.bg .weave{
+  position:absolute;left:0;right:0;bottom:0;height:88px;opacity:.5;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 26px, rgba(226,173,139,.16) 26px 30px),
+    repeating-linear-gradient(45deg, transparent 0 9px, rgba(205,144,126,.10) 9px 11px),
+    linear-gradient(0deg, rgba(2,20,30,.9), transparent);
+  mask:linear-gradient(0deg,#000 55%,transparent);
+  animation:weave 40s linear infinite;
+}
+@keyframes weave{from{background-position:0 0,0 0,0 0}to{background-position:520px 0,180px 0,0 0}}
+
+/* deck stage */
+.stage{position:relative;z-index:1;height:100dvh;display:flex;flex-direction:column}
+main.slide{
+  flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:5vh 8vw 10vh;text-align:center;view-transition-name:slide-body;
+}
+
+/* --- persistent transition objects (morph between slides) --- */
+.emblem{
+  position:fixed;top:34px;inset-inline-start:44px;z-index:5;
+  font-weight:800;font-size:26px;letter-spacing:.5px;
+  background:linear-gradient(135deg,#e9c188,var(--peach) 45%,#b57a49);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  view-transition-name:emblem;
+}
+.soul{
+  position:fixed;top:40px;inset-inline-end:44px;z-index:5;color:var(--terra);
+  font-size:13px;opacity:.85;view-transition-name:soul;
+}
+.counter{
+  position:fixed;bottom:26px;inset-inline-end:44px;z-index:5;
+  font-family:var(--mono);direction:ltr;font-size:13px;color:var(--terra);
+  view-transition-name:counter;
+}
+.progress{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:6;background:rgba(226,173,139,.12);
+}
+.progress i{
+  display:block;height:100%;background:linear-gradient(90deg,var(--bronze),var(--peach));
+  transition:width .5s var(--spring);view-transition-name:progressbar;
+}
+.dots{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5}
+.dots button{
+  width:9px;height:9px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(226,173,139,.25);transition:all .3s var(--spring);padding:0;
+}
+.dots button.on{background:var(--peach);transform:scale(1.45)}
+.dots button:focus-visible{outline:2px solid var(--peach);outline-offset:3px}
+
+/* --- typography scale --- */
+.kicker{
+  font-size:clamp(13px,1.4vw,17px);color:var(--peach);font-weight:600;
+  letter-spacing:.4px;margin-bottom:14px;
+}
+h1{font-size:clamp(40px,7.5vw,108px);font-weight:800;line-height:1.15;color:var(--blush)}
+h2{font-size:clamp(26px,3.6vw,52px);font-weight:800;line-height:1.3;color:var(--blush);margin-bottom:22px;max-width:22ch}
+.sub{font-size:clamp(15px,1.8vw,23px);color:var(--terra);line-height:2;max-width:60ch}
+.gold{
+  background:linear-gradient(135deg,#efcf9a,var(--peach) 40%,#a86a3c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* --- reveal choreography (staggered) --- */
+.slide [data-r]{opacity:0;transform:translateY(26px)}
+.slide.in [data-r]{
+  opacity:1;transform:none;
+  transition:opacity var(--dur) var(--spring), transform var(--dur) var(--spring);
+}
+.slide.in [data-r="1"]{transition-delay:.05s}.slide.in [data-r="2"]{transition-delay:.16s}
+.slide.in [data-r="3"]{transition-delay:.27s}.slide.in [data-r="4"]{transition-delay:.38s}
+.slide.in [data-r="5"]{transition-delay:.49s}.slide.in [data-r="6"]{transition-delay:.60s}
+.slide.in [data-r="7"]{transition-delay:.71s}.slide.in [data-r="8"]{transition-delay:.82s}
+
+/* --- shared components --- */
+.rows{display:flex;flex-direction:column;gap:18px;max-width:880px;text-align:start}
+.row{
+  display:flex;gap:18px;align-items:flex-start;background:rgba(0,33,52,.55);
+  border:1px solid rgba(226,173,139,.16);border-radius:var(--r-amad);
+  padding:20px 24px;backdrop-filter:blur(6px);
+}
+.row .ico{font-size:26px;flex:0 0 auto;filter:saturate(.8)}
+.row b{color:var(--peach)}
+.row p{font-size:clamp(14px,1.5vw,18px);line-height:1.95;color:var(--blush)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:1040px}
+.cell{
+  background:rgba(0,33,52,.55);border:1px solid rgba(226,173,139,.16);
+  border-radius:var(--r-amad);padding:22px;text-align:start;
+  transition:transform .3s var(--spring), border-color .3s;
+}
+.cell:hover{transform:translateY(-4px);border-color:rgba(226,173,139,.45)}
+.cell b{display:block;color:var(--peach);margin-bottom:8px;font-size:clamp(15px,1.5vw,18px)}
+.cell p{font-size:clamp(13px,1.3vw,15px);line-height:1.9;color:var(--blush);opacity:.92}
+
+.stat{display:flex;flex-direction:column;gap:6px;align-items:center}
+.stat b{
+  font-size:clamp(34px,4.6vw,64px);font-weight:800;
+  background:linear-gradient(135deg,#efcf9a,var(--peach));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-variant-numeric:tabular-nums;
+}
+.stat span{font-size:clamp(12px,1.25vw,15px);color:var(--terra);max-width:26ch;line-height:1.8}
+.stat .src{font-size:11px;opacity:.65}
+
+.cmd{
+  font-family:var(--mono);direction:ltr;background:rgba(2,20,30,.85);
+  border:1px solid rgba(226,173,139,.3);color:#8fe0c0;border-radius:14px;
+  padding:14px 22px;font-size:clamp(13px,1.5vw,18px);margin-top:18px;
+  box-shadow:0 0 40px rgba(226,173,139,.08);
+}
+.gate{
+  display:inline-flex;align-items:center;gap:10px;margin-top:14px;
+  font-family:var(--mono);direction:ltr;font-size:clamp(15px,1.8vw,22px);color:#8fe0c0;
+}
+.gate .pulse{
+  width:10px;height:10px;border-radius:50%;background:#4cc596;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(76,197,150,.5)}50%{box-shadow:0 0 0 9px rgba(76,197,150,0)}}
+
+.shots{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.shot{
+  width:min(230px,26vw);border-radius:20px;overflow:hidden;
+  border:1px solid rgba(226,173,139,.25);box-shadow:0 18px 50px rgba(0,0,0,.45);
+  transition:transform .35s var(--spring);background:var(--navy);
+}
+.shot:hover{transform:translateY(-8px) scale(1.03)}
+.shot img{width:100%;display:block}
+.shot figcaption{font-size:12px;color:var(--terra);padding:8px 10px}
+.shot.bad{border-color:rgba(200,80,60,.55)}
+
+.honesty{
+  margin-top:26px;font-size:clamp(12px,1.25vw,15px);color:var(--terra);
+  border-inline-start:3px solid var(--bronze);padding:6px 14px;text-align:start;
+  max-width:72ch;line-height:1.9;background:rgba(128,60,28,.08);border-radius:0 12px 12px 0;
+}
+.verse{color:var(--peach);font-weight:600}
+
+.boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;max-width:1080px}
+.box{background:rgba(0,33,52,.55);border:1px solid rgba(226,173,139,.16);border-radius:var(--r-amad);padding:22px;text-align:start}
+.box h3{color:var(--peach);font-size:clamp(15px,1.6vw,19px);margin-bottom:10px}
+.box p{font-size:clamp(13px,1.3vw,15px);line-height:1.95;color:var(--blush)}
+
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;max-width:900px;counter-reset:toc}
+.toc div{
+  counter-increment:toc;text-align:start;background:rgba(0,33,52,.5);
+  border:1px solid rgba(226,173,139,.14);border-radius:16px;padding:14px 18px;
+  font-size:clamp(13px,1.4vw,17px);
+}
+.toc div::before{
+  content:counter(toc,arabic-indic) " · ";color:var(--peach);font-weight:800;
+}
+
+/* nine-to-two collapse mini-visual */
+.net{width:min(300px,50vw);margin-top:10px}
+.net line{stroke:rgba(226,173,139,.4);stroke-width:2;transition:opacity .8s var(--spring)}
+.net line.two{stroke:#4cc596;stroke-width:3.5;opacity:0}
+.net circle{fill:var(--peach)}
+.slide.collapsed .net line.nine{opacity:.08}
+.slide.collapsed .net line.two{opacity:1}
+.netbtn{
+  margin-top:14px;background:linear-gradient(135deg,var(--bronze),#a86a3c);
+  color:var(--blush);border:0;border-radius:999px;padding:12px 28px;cursor:pointer;
+  font:inherit;font-size:15px;font-weight:700;transition:transform .25s var(--spring);
+}
+.netbtn:hover{transform:scale(1.05)}
+.netbtn:active{transform:scale(.96)}
+
+footer.hint{
+  position:fixed;bottom:26px;inset-inline-start:44px;z-index:5;
+  font-size:12px;color:rgba(205,144,126,.7);
+}
+
+/* --- View Transitions choreography --- */
+::view-transition-old(slide-body){
+  animation:slideOut .38s var(--spring-in) both;
+}
+::view-transition-new(slide-body){
+  animation:slideIn .62s var(--spring) both;
+}
+@keyframes slideOut{to{opacity:0;transform:translateX(-6%) scale(.98)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(7%) scale(1.015)}}
+::view-transition-group(emblem),::view-transition-group(counter),
+::view-transition-group(soul),::view-transition-group(progressbar){
+  animation-duration:.55s;animation-timing-function:var(--spring);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .slide [data-r]{opacity:1;transform:none}
+}
+@media (max-width:700px){
+  .emblem{inset-inline-start:20px;top:20px}.soul{display:none}
+  .counter{inset-inline-end:20px}
+  main.slide{padding:4vh 6vw 12vh}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="aurora"></div><div class="weave"></div></div>
+<div class="progress" aria-hidden="true"><i id="pbar"></i></div>
+<div class="emblem">عَهد</div>
+<div class="soul">«كلمتك محفوظة، وعلاقتك محميّة»</div>
+<div class="counter" id="counter">1 / 14</div>
+<div class="dots" id="dots" role="tablist" aria-label="الشرائح"></div>
+<footer class="hint">← / → للتنقّل · مسافة للتالي</footer>
+
+<div class="stage"><main class="slide" id="slide"></main></div>
+
+<script>
+"use strict";
+/* Content = docs/pitch/deck-content-v2.md (source of truth), numbers recomputed
+   2026-07-11: gate 1,809/0 = core 184 + app 1,611 + structure 14 (40 suites). */
+const GATE = "1,809/0";
+const SHOT = (f) => "../../app/screenshots/premium-after/" + f;
+
+const SLIDES = [
+/* 1 — العنوان */ () => `
+  <div class="kicker" data-r="1">هاكاثون أمد ٢٠٢٦ · مصرف الإنماء × أكاديميّة طويق</div>
+  <h1 data-r="2"><span class="gold">عَهد</span></h1>
+  <p class="sub" data-r="3">«كلمتك محفوظة، وعلاقتك محميّة»</p>
+  <p class="sub" data-r="4">مصرفٌ يَشهد على القرض الحسن — ولا يُقرض، ولا يحكم، ولا يأخذ فائدة.</p>
+  <p class="sub" data-r="5" style="font-size:15px;opacity:.7">فريق: {TEAM}</p>`,
+
+/* 2 — الفريق */ () => `
+  <div class="kicker" data-r="1">الفريق</div>
+  <h2 data-r="2">{TEAM}</h2>
+  <p class="sub" data-r="3">«بنَينا عهد بأنفسنا: كلّ سطرٍ لنا، وكلّ ادّعاءٍ مُثبَتٌ باختبارٍ آليّ.»</p>`,
+
+/* 3 — المحتويات */ () => `
+  <div class="kicker" data-r="1">المحتويات</div>
+  <h2 data-r="2">سبع محطّات</h2>
+  <div class="toc" data-r="3">
+    <div>المشكلة والحلّ</div><div>الدليل والبيانات</div><div>التقنيات</div>
+    <div>فكرة المنتج</div><div>البيانات: جمعًا واستخدامًا</div>
+    <div>التوافق مع محاور المسابقة</div><div>الاختبار والعرض الحيّ وخطّة المستقبل</div>
+  </div>`,
+
+/* 4 — المشكلة والحلّ */ () => `
+  <div class="kicker" data-r="1">المشكلة والحلّ</div>
+  <h2 data-r="2">الدَّين بين الأهل والأصدقاء: نفعله كلّ يوم، ونكرهه كلّ مرّة.</h2>
+  <div class="rows">
+    <div class="row" data-r="3"><span class="ico">😬</span><p><b>الحرج يقتل المعاملة:</b> أن تطلب مالك حقٌّ، لكنّ رسالة «وينك؟» تجعلك أنت «المُطالِب» — فإمّا صداقةٌ تُجرَح، أو صمتٌ يُضيّع المال والعلاقة معًا. ولا يوجد لأكثر معاملةٍ ماليّةٍ شيوعًا أيّ منتجٍ مصرفيّ.</p></div>
+    <div class="row" data-r="4"><span class="ico">💸</span><p><b>لا أثر، لا إثبات:</b> «ردّها متى ما تيسّر» تُقال كلامًا وتُكتب في دفتر المطبخ أو لا تُكتب — فإذا اختُلف عليها فلا وثيقة ولا شاهد.</p></div>
+    <div class="row" data-r="5"><span class="ico">🛡️</span><p><b>الحلّ «عَهد»:</b> بنكٌ <b>شاهدٌ محايد</b>: يكتب القرض الحسن، يُشهِد عليه عبر نفاذ، يختمه بـSHA-256 فيصير دليلًا لا يُعبَث به — <b>دون أن يُقرض مالًا من عنده أبدًا</b>. <span class="verse">﴿فاكتبوه﴾ (٢:٢٨٢)</span> للتوثيق · <span class="verse">﴿فنظرةٌ إلى ميسرة﴾ (٢:٢٨٠)</span> للرحمة.</p></div>
+  </div>`,
+
+/* 5 — البيانات والأدلّة */ () => `
+  <div class="kicker" data-r="1">الدليل والبيانات</div>
+  <h2 data-r="2">مشكلةٌ بحجم وطن — بأرقامٍ مصدَّرة</h2>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+    <div class="stat" data-r="3"><b>٣٥٫٨٪</b><span>من البالغين السعوديّين اقترضوا من الأهل أو الأصدقاء خلال ١٢ شهرًا (مقابل ١٣٫٧٪ في الدول مرتفعة الدخل)</span><span class="src">البنك الدوليّ — Findex 2021 🟢</span></div>
+    <div class="stat" data-r="4"><b>٥٨٫٦٪</b><span>من ٥٧١٬٢٥١ طلب تنفيذٍ سنداتٌ لأمر — الناس يوثّقون المال بحجم مشكلةٍ وطنيّة</span><span class="src">وزارة العدل عبر أرقام — بيانات ٢٠٢٠–٢١</span></div>
+    <div class="stat" data-r="5"><b>١١٥٫٤ مليار</b><span>ريال قيمة السندات محلّ التنفيذ في ١١ شهرًا — كلفة غياب التوثيق ليست هامشيّة</span><span class="src">المصدر نفسه والعُمر نفسه</span></div>
+    <div class="stat" data-r="6"><b>٩٩٫٠٪</b><span>نفاذ الإنترنت في السعوديّة (٣٣٫٩ مليون مستخدم) — الجاهزيّة الرقميّة ليست عائقًا</span><span class="src">DataReportal 2025 🟢</span></div>
+  </div>
+  <p class="honesty" data-r="7">وحيث لا رقم سعوديٌّ موثَّق لنسبة الإقراض غير الموثَّق بين الأفراد — عندنا أداة الإثبات لا الادّعاء: استبيان طلبٍ جاهزٌ للنزول الميدانيّ.</p>`,
+
+/* 6 — التقنيات */ () => `
+  <div class="kicker" data-r="1">التقنيات</div>
+  <h2 data-r="2">ستّ قطعٍ تعمل الآن — لا وعود</h2>
+  <div class="grid">
+    <div class="cell" data-r="3"><b>ختم SHA-256 حقيقيّ</b><p>WebCrypto، متحقَّق بمتّجهات FIPS-180-4 — أيّ عبثٍ يُكشَف فورًا.</p></div>
+    <div class="cell" data-r="4"><b>محرّك مقاصّةٍ حتميّ</b><p>٩ التزاماتٍ ← تحويلان، مع برهان حفظ المجموع (Σ قبل = Σ بعد).</p></div>
+    <div class="cell" data-r="5"><b>فاحص رِبا يحرس العقد</b><p>0/60 إفلاتًا على مِحَكٍّ عدائيٍّ منشورٍ في المستودع — ويوقف الختم عند المخالفة.</p></div>
+    <div class="cell" data-r="6"><b>مقاعد نفاذ وسريع</b><p>مصمَّمة على المواصفة الحقيقيّة — محاكاةٌ حاليًّا، بلا ادّعاء تكامل.</p></div>
+    <div class="cell" data-r="7"><b>عربيّ RTL دون إنترنت</b><p>حتميّ البايت، أموالٌ بالهللة الصحيحة — لا كسور عائمة.</p></div>
+    <div class="cell" data-r="8"><b>${GATE} تأكيدًا آليًّا</b><p>بأمرٍ واحد: نواة 184 + تطبيق 1,611 + بنية 14 + حارس النسخة الذهبيّة.</p></div>
+  </div>`,
+
+/* 7 — الفكرة */ () => `
+  <div class="kicker" data-r="1">فكرة المنتج</div>
+  <h1 data-r="2" style="font-size:clamp(34px,5.5vw,76px)"><span class="gold">«يَشهد… لا يُقرض.»</span></h1>
+  <p class="sub" data-r="3">هذه ليست ميزةً في تطبيق — هذه <b style="color:var(--peach)">فئةٌ جديدة: البنية التحتيّة للقرض الحسن.</b></p>
+  <p class="sub" data-r="4" style="max-width:66ch">المصرف طرفٌ ثالثٌ محايد: يصوغ الشروط بعربيّةٍ واضحة (والذكاء لا يُفتي)، يُشهِد الطرفين عبر نفاذ، يختم الوثيقة ببصمةٍ مترابطة، يُذكِّر بلطفٍ نيابةً عن الدائن، يُعيد الجدولة عند العُسر بلا زيادة، ويُقاصّ الديون بأقلّ تحويلات.</p>`,
+
+/* 8 — البيانات: جمعًا واستخدامًا */ () => `
+  <div class="kicker" data-r="1">البيانات: كيف حُصِّلت وكيف تُستخدم</div>
+  <h2 data-r="2">أرقامٌ عامّةٌ موثوقة + تحليلاتٌ حتميّة — ولا رقم فردٍ أبدًا</h2>
+  <div class="rows">
+    <div class="row" data-r="3"><span class="ico">🏛️</span><p><b>بياناتٌ عامّة</b> من مصادر رسميّة تُحدّد حجم المشكلة — تُعرَض دائمًا بمصدرها وتاريخها.</p></div>
+    <div class="row" data-r="4"><span class="ico">📊</span><p><b>تحليلاتٌ داخل المنتج</b> يحسبها المحرّك حتميًّا: كفاءة المقاصّة، برهان الحفظ، ومجاميع k-anonymous مجهّلة — <b>لا رقم ائتمانيّ، لا درجة، لا تصدير لسجلّ فرد.</b></p></div>
+    <div class="row" data-r="5"><span class="ico">📋</span><p><b>أداة تحقّقٍ ميدانيّ:</b> استبيان طلبٍ سعوديٌّ جاهز — نُسمّيه عمل تحقّقٍ قادمًا، لا حقيقةً مقاسة.</p></div>
+  </div>`,
+
+/* 9 — التوافق */ () => `
+  <div class="kicker" data-r="1">توافق الفكرة مع محاور المسابقة</div>
+  <h2 data-r="2">في صميم الهاكاثون، وفي صميم هويّة الشريك</h2>
+  <div class="grid" style="max-width:900px">
+    <div class="cell" data-r="3"><b>الذكاء الاصطناعيّ</b><p>صياغة «علّام» + فاحص الرِّبا — يرصد ويستشهد ولا يُفتي.</p></div>
+    <div class="cell" data-r="4"><b>تحليل البيانات</b><p>تحليلات المحرّك الحتميّة + قصّة أرقام التنفيذ الوطنيّة.</p></div>
+    <div class="cell" data-r="5"><b>تجربة العملاء</b><p>توثيقٌ بلا حرج، وتذكيرٌ يحفظ ماء الوجه.</p></div>
+  </div>
+  <p class="sub" data-r="6" style="max-width:66ch;margin-top:18px">وللشريك <b style="color:var(--peach)">مصرف الإنماء</b> — منتجٌ في صميم هويّته لا على هامشها. <b>طلبُنا: جلسةُ تقييمٍ مع أمانة الهيئة الشرعيّة، وشريحةُ تجربةٍ من عملاء AlinmaPay — والتنفيذ يبدأ غداة القرار.</b></p>`,
+
+/* 10 — الملخّص */ () => `
+  <div class="kicker" data-r="1">الملخّص</div>
+  <h2 data-r="2">«البنك يَشهد ولا يُقرض» — جملةٌ واحدة، منتجٌ كامل</h2>
+  <div class="grid" style="max-width:980px">
+    <div class="cell" data-r="3"><b>دفتري</b><p>بيت الدائن — والمصرف يُذكِّر بالمعروف نيابةً عنك.</p></div>
+    <div class="cell" data-r="4"><b>القرض المفتوح</b><p>بلا موعد، لا يُنتج «متأخّرًا»، وفيه زرّ 🤍 اجعلها صدقة.</p></div>
+    <div class="cell" data-r="5"><b>الدائرة+</b><p>مناسبةٌ واحدة ← N عهودٍ موثّقة، وتذكيرٌ جماعيٌّ لا يفضح أحدًا.</p></div>
+    <div class="cell" data-r="6"><b>المقاصّة</b><p>٩←٢ ببرهان حفظٍ بالهللة.</p></div>
+  </div>
+  <p class="sub" data-r="7" style="margin-top:16px">كلّها فوق محرّكٍ واحدٍ مختوم: لا رِبا، لا غرامة، لا رقم ائتمانيّ، لا فتوى من آلة.</p>`,
+
+/* 11 — الاختبار والتحقّق */ () => `
+  <div class="kicker" data-r="1">الاختبار والتحقّق</div>
+  <h2 data-r="2">كلّ ادّعاءٍ على هذه الشرائح قابلٌ للتشغيل أمامكم الآن</h2>
+  <div class="stat" data-r="3"><b>${GATE}</b><span>تأكيدًا آليًّا، صفر إخفاق — دون إنترنت، بنتيجةٍ متطابقة البايت في كلّ تشغيل</span></div>
+  <div class="cmd" data-r="4">cd tests &amp;&amp; node run-all.cjs</div>
+  <div class="gate" data-r="5"><span class="pulse"></span> AHD GATE ✅ — المتّجهات والمِحَكّات كلّها منشورةٌ في tests/ — لا صندوق أسود</div>
+  <p class="honesty" data-r="6"><b>وما لم نختبره لا ندّعيه:</b> اعتماد الهيئة الشرعيّة، إذن نفاذ للدَّين بين الأفراد، ومسح الطلب الميدانيّ — أعمال تحقّقٍ قادمة نُسمّيها بأسمائها.</p>`,
+
+/* 12 — العرض / اللقطات */ () => `
+  <div class="kicker" data-r="1">العرض</div>
+  <h2 data-r="2">لحظتان تُثبتان أنّ الدليل حقيقيّ</h2>
+  <div class="shots">
+    <figure class="shot" data-r="3"><img src="${SHOT('05-proof-verified.png')}" alt="حافظة الإثبات — سليمة"><figcaption>✓ سليم — الختم مطابق</figcaption></figure>
+    <figure class="shot bad" data-r="4"><img src="${SHOT('06-proof-tampered.png')}" alt="حافظة الإثبات — عبث مكشوف"><figcaption>✗ عبثٌ مكشوف — غيّرنا حرفًا واحدًا</figcaption></figure>
+    <figure class="shot" data-r="5"><img src="${SHOT('09-settle.png')}" alt="المقاصّة ٩ إلى ٢"><figcaption>٩ التزاماتٍ تنهار إلى تحويلين — ببرهان</figcaption></figure>
+  </div>
+  <p class="sub" data-r="6" style="margin-top:14px;font-size:15px">«هذا ختمٌ يُحسَب فعلًا، لا صورة.»</p>`,
+
+/* 13 — التحدّيات والطريق */ () => `
+  <div class="kicker" data-r="1">التحدّيات وخطّة المستقبل</div>
+  <h2 data-r="2">نُسمّي الأشياء بأسمائها</h2>
+  <div class="boxes">
+    <div class="box" data-r="3"><h3>ما نطلبه</h3><p>اعتماد الهيئة الشرعيّة (فصل العقدين — الرسم على السكّة لا على القرض) · تأكيدٌ تنظيميّ لنفاذ في توثيق الدَّين + ختمٌ زمنيٌّ معتمَد · بيانات تنفيذٍ بمصدرٍ أوّليّ محدَّث.</p></div>
+    <div class="box" data-r="4"><h3>التحدّيات — بصدق</h3><p>لا رقم سعوديٌّ منشورٌ لحجم الإقراض غير الموثَّق (أداة المسح جاهزة) · التكاملات محاكاةٌ على المواصفة حتى الأذونات · حجّيّة السجلّ تقديرها للقاضي.</p></div>
+    <div class="box" data-r="5"><h3>الطريق</h3><p>تجربةٌ موجَّهة مع الإنماء (تصميمها الكامل صفحةٌ جاهزة) · إكمال سلسلة الختم الخمسة · نزول المسح وتحديث أرقام ٢٠٢٤–٢٥ · ثم التوسّع للجمعيّات والأوقاف الصغيرة.</p></div>
+  </div>`,
+
+/* 14 — الشكر */ () => `
+  <h1 data-r="1"><span class="gold">عَهد</span></h1>
+  <p class="sub" data-r="2">«كلمتهم محفوظة، وعلاقتهم محميّة.»</p>
+  <p class="sub" data-r="3" style="opacity:.6;font-size:14px">شكرًا لكم — والحزمة تعمل أمامكم متى شئتم.</p>`
+];
+
+let cur = 0;
+const stage = document.getElementById("slide");
+const counter = document.getElementById("counter");
+const pbar = document.getElementById("pbar");
+const dots = document.getElementById("dots");
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+SLIDES.forEach((_, i) => {
+  const b = document.createElement("button");
+  b.setAttribute("role", "tab");
+  b.setAttribute("aria-label", "شريحة " + (i + 1));
+  b.onclick = () => go(i);
+  dots.appendChild(b);
+});
+
+function paint() {
+  stage.classList.remove("in", "collapsed");
+  stage.innerHTML = SLIDES[cur]();
+  counter.textContent = (cur + 1) + " / " + SLIDES.length;
+  pbar.style.width = (((cur + 1) / SLIDES.length) * 100) + "%";
+  [...dots.children].forEach((d, i) => d.classList.toggle("on", i === cur));
+  /* setTimeout, not rAF: rAF is throttled in hidden/embedded panes and the
+     reveal would never fire; 40ms is past first style flush in practice */
+  setTimeout(() => stage.classList.add("in"), 40);
+}
+
+function go(i) {
+  if (i < 0 || i >= SLIDES.length || i === cur) return;
+  cur = i;
+  if (!reduced && document.startViewTransition) document.startViewTransition(paint);
+  else paint();
+}
+const next = () => go(cur + 1), prev = () => go(cur - 1);
+
+addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft" || e.key === " " || e.key === "Enter" || e.key === "PageDown") { e.preventDefault(); next(); }
+  else if (e.key === "ArrowRight" || e.key === "PageUp") { e.preventDefault(); prev(); }
+  else if (e.key === "Home") go(0);
+  else if (e.key === "End") go(SLIDES.length - 1);
+});
+let tx = null;
+addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+addEventListener("touchend", (e) => {
+  if (tx == null) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if (dx > 60) next(); else if (dx < -60) prev();   // RTL: swipe right = forward
+  tx = null;
+});
+addEventListener("click", (e) => {
+  if (e.target.closest("button, a, figure, .dots")) return;
+  next();
+});
+
+paint();
+</script>
+</body>
+</html>
