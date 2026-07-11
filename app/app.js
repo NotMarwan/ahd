@@ -81,6 +81,8 @@
     createDraft: CreateAhd ? CreateAhd.makeDraft({ id: "NEW-AHD-1", lender: "أنت", borrower: "سلطان", amountSAR: 1200, months: 3 }) : null,
     createState: { extra: "", sealed: null, tamper: false, flash: null },
     Settlement: Settlement,
+    SettlePresets: (typeof window !== "undefined" ? window.SettlePresets : null),
+    settleState: { preset: "golden" },
     CircleDash: CircleDash,
     circleState: { reminder: false },
     /* «أثر عهد» drill-down: which size-bucket is expanded (number|null) */
@@ -296,6 +298,14 @@
 
     /* ---- الدائرة (treasurer dashboard) — the group reminder that names no one ---- */
     circleReminderToggle: function () { this.circleState.reminder = !this.circleState.reminder; return this.rerender(); },
+
+    /* ---- المقاصّة: switch the demo tangle (golden netting unchanged) ---- */
+    settlePreset: function (key) {
+      var P = this.SettlePresets;
+      var known = P && P.PRESETS.some(function (p) { return p.key === key; });
+      this.settleState.preset = known ? key : "golden";
+      return this.rerender();
+    },
 
     /* ---- أثر عهد: expand/collapse one k-anonymous size-bucket ---- */
     impactBucket: function (size) {

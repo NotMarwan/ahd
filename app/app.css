@@ -748,3 +748,5 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .bd-file code{font-size:var(--t-xs,12px)}
 .bd-cmd{font-family:var(--mono,monospace);direction:ltr;text-align:left;background:var(--seal-well,#f3f3f0);padding:4px 8px;border-radius:6px;margin:4px 0;font-size:var(--t-xs,12px)}
 .bd-invite{color:var(--mut);font-size:var(--t-xs,12px)}
+
+.se-presets{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}

@@ -11,8 +11,15 @@
   function render(app) {
     var e = app.engine, S = app.Settlement;
     if (!S) return '<div class="empty">وحدة المقاصّة غير محمّلة.</div>';
-    var v = S.settlementView(e.IOUS, e);
-    var cp = S.conservationProof(e.IOUS, e);
+    var P = (typeof window !== "undefined") ? window.SettlePresets : null;
+    var presetKey = (app.settleState && app.settleState.preset) || "golden";
+    var edges = P ? P.edgesFor(presetKey, e) : e.IOUS;
+    var v = S.settlementView(edges, e);
+    var cp = S.conservationProof(edges, e);
+    var chips = P ? '<div class="se-presets">' + P.PRESETS.map(function (p) {
+      var on = p.key === presetKey;
+      return '<button class="fchip' + (on ? " on" : "") + '" onclick="AhdApp.settlePreset(\'' + p.key + '\')">' + App.esc(p.labelAr) + "</button>";
+    }).join("") + "</div>" : "";
     var transfers = v.after.map(function (t) {
       return '<div class="se-row"><span>' + App.esc(t.from) + " تدفع " + App.esc(t.to) + "</span><b>" + App.fmtN(t.amount) + " ر.س</b></div>";
     }).join("");
@@ -32,6 +39,7 @@
     var okProof = cp.conserved && cp.netsPreserved;
     return '<div class="settle">' +
       '<div class="se-head">المقاصّة — أقلّ التحويلات تُصفّي الجميع</div>' +
+      chips +
       '<div class="se-big"><span>' + App.digit(v.beforeCount) + "</span> التزامًا <em>⟶</em> <span>" + App.digit(v.afterCount) + "</span> " +
         (v.afterCount === 1 ? "تحويل" : v.afterCount === 2 ? "تحويلان" : "تحويلات") + "</div>" +
       '<div class="se-card">' + transfers + "</div>" +
