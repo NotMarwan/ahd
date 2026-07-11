@@ -752,3 +752,54 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .se-presets{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
 
 .ca-stopped span{color:var(--mut)}
+
+/* ===== الأجرة والخطط (plans / revenue) — Phase A ===== */
+.plans{display:flex;flex-direction:column;gap:13px}
+.pl-head{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.pl-thesis{background:var(--teal);color:#fff;border-radius:16px;padding:15px 16px;font-size:14px;line-height:1.7;box-shadow:var(--shadow)}
+.pl-thesis b{font-size:16px;font-weight:800}
+.pl-sub{color:var(--mut);font-size:12.5px;line-height:1.85;padding:0 2px}
+/* the memorable proof: two contractually-separate lines, gold-framed */
+.pl-receipt{background:var(--gold-soft);border:1px solid #ecdfb5;border-radius:16px;padding:15px 16px;box-shadow:var(--shadow-sm)}
+.pl-rtitle{font-weight:800;color:var(--gold);font-size:13.5px;margin-bottom:10px}
+.pl-rline{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-top:1px dashed #e6d9ad}
+.pl-rline:first-of-type{border-top:0}
+.pl-rline span{color:var(--ink);font-size:13.5px}
+.pl-rline b{font-size:15px;font-weight:800;color:var(--gold);direction:ltr}
+.pl-rline.zero b{color:var(--teal)}
+.pl-rnote{margin-top:10px;color:var(--mut);font-size:12px;line-height:1.8}
+/* the tiers: bento-ish grid, free tier lifted */
+.pl-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px}
+.pl-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:8px}
+.pl-card.is-free{border-color:var(--teal);background:var(--teal-soft)}
+.pl-name{font-weight:800;color:var(--ink);font-size:15px}
+.pl-payer{color:var(--mut);font-size:12px}
+.pl-price{color:var(--ink);font-size:13px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.pl-price b{font-size:20px;font-weight:800;color:var(--teal);direction:ltr}
+.pl-price span{color:var(--mut);font-size:11.5px}
+.pl-price.free{font-size:17px;font-weight:800;color:var(--teal)}
+.pl-feats{list-style:none;margin:2px 0;padding:0;display:flex;flex-direction:column;gap:5px}
+.pl-feats li{color:var(--ink);font-size:12.5px;line-height:1.6;padding-inline-start:16px;position:relative}
+.pl-feats li::before{content:"◆";position:absolute;inset-inline-start:0;color:var(--gold);font-size:9px;top:3px}
+.pl-note{color:var(--mut);font-size:11.5px;line-height:1.7;border-top:1px solid var(--line);padding-top:8px}
+.pl-free{color:var(--teal);font-size:12px;font-weight:700}
+.pl-badge{align-self:flex-start;background:var(--gold-soft);border:1px solid #ecdfb5;color:var(--gold);border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:700}
+.pl-badge.free{background:var(--teal-soft);border-color:#cfe6df;color:var(--teal)}
+.pl-basis{color:var(--mut);font-size:12px;line-height:1.9;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px 14px}
+
+/* ===== لوحة المؤسسة (org / institution admin) — Phase B ===== */
+.org{display:flex;flex-direction:column;gap:13px}
+.org-head{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.org-fund{background:var(--teal-soft);border:1px solid #cfe6df;border-radius:13px;padding:11px 13px;font-size:13.5px;color:var(--ink)}
+.org-fund b{color:var(--teal);font-weight:800}
+.org-fund span{color:var(--mut);font-size:12px}
+.org-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.org-kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow-sm);text-align:center}
+.org-kpi span{display:block;color:var(--mut);font-size:12px;margin-bottom:5px}
+.org-kpi b{color:var(--ink);font-size:18px;font-weight:800}
+.org-proof{background:var(--teal-soft);border:1px solid #cfe6df;border-radius:12px;padding:10px 13px;color:var(--teal);font-size:12.5px;font-weight:600}
+.org-link{appearance:none;text-align:right;width:100%;border:1px solid var(--teal);background:var(--teal-soft);color:var(--teal);border-radius:13px;padding:12px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.org-link:hover{background:var(--teal);color:#fff}
+.org-guard{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;color:var(--mut);font-size:12.5px;line-height:1.7}
+.org-cta{display:flex;gap:9px;flex-wrap:wrap}
+.org-cta .org-link{flex:1;width:auto}

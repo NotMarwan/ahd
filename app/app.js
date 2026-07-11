@@ -24,6 +24,8 @@
   var Borrower = (typeof window !== "undefined" ? window.Borrower : null);
   var CovenantLog = (typeof window !== "undefined" ? window.CovenantLog : null);
   var Standing = (typeof window !== "undefined" ? window.Standing : null);
+  var Billing = (typeof window !== "undefined" ? window.Billing : null);
+  var FeeReceipt = (typeof window !== "undefined" ? window.FeeReceipt : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -110,6 +112,10 @@
     Standing: Standing,
     standing: Standing ? Standing.makeStanding({ id: "STD-ABUFAHD-RAMESH", lender: "أبو فهد", borrower: "راميش", perCycleSAR: 800, cycleKeys: ["2026-01", "2026-02", "2026-03", "2026-04"], purpose: "سُلفةٌ شهريّةٌ بالمعروف على الراتب", timestamp: "2026-01-01T09:00:00+03:00" }) : null,
     standingState: { tamper: false, repaid: ["2026-01", "2026-02"], flash: null },
+    /* «الأجرة والخطط» revenue surfaces (Phase A) — the قرض is 0 to the bank; the
+       flat أجرة is a separate service fee, surfaced at the seal moment (spine). */
+    Billing: Billing,
+    FeeReceipt: FeeReceipt,
 
     esc: esc,
     flashHTML: flashHTML,

@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/impact.js", "features/impact-drill.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js"];
+const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/impact.js", "features/impact-drill.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -162,6 +162,12 @@ noThrow(() => App.createClearRiba(), "remove the offending clause");
 let crs = noThrow(() => App.createSeal(), "seal the clean عهد (Nafath + SHA-256)");
 ok(/SEAL:/.test(crs), "after seal: a witnessed record with a SHA-256 seal");
 ok(/نفاذ \(محاكاة\) \+ SHA-256/.test(crs), "the sealed-doc label states نفاذ (محاكاة) — no unconfirmed-integration claim (OT-VAL)");
+/* Phase A revenue: the fee receipt surfaces AT the seal moment — the money story, spine-clean */
+ok(!!sandbox.Billing && !!sandbox.FeeReceipt, "Billing + FeeReceipt modules attach to window");
+ok(/الزيادة على القرض/.test(crs) && /أجرة توثيقٍ ثابتة/.test(crs), "the seal moment surfaces the TWO-LINE fee receipt (الزيادة على القرض · أجرة توثيقٍ ثابتة)");
+ok(/0\.00 ر\.س/.test(crs) && /5\.00 ر\.س/.test(crs), "the receipt shows 0.00 on the قرض + a flat 5.00 أجرة — two separate lines, never summed (spine)");
+ok(/قيد المراجعة الشرعيّة/.test(crs), "the seal receipt carries the honest «قيد المراجعة الشرعيّة» badge (D-6)");
+ok(crs.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(crs), "the seal receipt adds no percentage/score glyph");
 noThrow(() => App.createAddToDaftari(), "add the created عهد to دفتري");
 ok(!!App.recordById("NEW-AHD-1"), "the created عهد is now a real record in دفتري (create→home loop)");
 
@@ -397,6 +403,35 @@ ok(/cd tests && node run-all\.cjs|cd tests &amp;&amp; node run-all\.cjs/.test(bd
 ok(bd.indexOf("%") < 0 && bd.indexOf("٪") < 0, "bounds renders NO percentage glyph anywhere");
 ok(/اطلب تشغيله/.test(bd) && /دون إنترنت/.test(bd), "the footer states the guards run offline + invites «اطلب تشغيله»");
 ok(!/tone-red/.test(bd), "bounds carries no red tone (amber-not-red spine)");
+
+/* ---- «الأجرة والخطط» (Phase A revenue) — CONTEXTUAL (home card), spine-clean ---- */
+ok(!!App.screens.plans, "the plans screen registered over the Billing engine");
+ok(navKeys.indexOf("plans") < 0, "«الأجرة والخطط» is CONTEXTUAL — a home card, not a nav pill (nav stays 8)");
+ok(/الأجرة والخطط/.test(App.go("home")), "home surfaces the «الأجرة والخطط» revenue card");
+let plans = noThrow(() => App.go("plans"), "go('plans') renders the revenue page");
+ok(/أجرة على الخدمة، لا على القرض/.test(plans) && /القرض مجاني/.test(plans), "plans states the thesis + «القرض مجانيٌّ للأبد»");
+ok(/الزيادة على القرض/.test(plans) && /0\.00 ر\.س/.test(plans) && /5\.00 ر\.س/.test(plans), "plans shows the live two-line fee receipt (0.00 on the قرض / flat 5.00 أجرة)");
+ok(/2,900/.test(plans) && /250,000/.test(plans), "plans shows the institutional + white-label flat prices");
+ok(plans.indexOf("%") < 0 && plans.indexOf("٪") < 0, "the revenue page carries no percentage/score glyph");
+noThrow(() => App.go("home"), "return home after plans");
+
+/* ---- «لوحة المؤسسة» (Phase B) — CONTEXTUAL; the first paying customer's surface ---- */
+ok(!!sandbox.Org, "Org module attaches to window");
+ok(!!App.screens.org, "the org screen registered over the Org + Billing engines");
+ok(navKeys.indexOf("org") < 0, "«لوحة المؤسسة» is CONTEXTUAL — a home card, not a nav pill (nav stays 8)");
+ok(/لوحة المؤسسة/.test(App.go("home")), "home surfaces the «لوحة المؤسسة» card");
+let orgv = noThrow(() => App.go("org"), "go('org') renders the institution dashboard");
+ok(/لوحة المؤسسة · صندوق قرض حسن/.test(orgv), "org shows the «لوحة المؤسسة · صندوق قرض حسن» header");
+ok(/صندوق البِرّ للقرض الحسن/.test(orgv) && /بيانات اختبار/.test(orgv), "org names the (honestly-labelled) test fund");
+ok(/17,300/.test(orgv) && /5,650/.test(orgv), "org shows aggregate money (17,300 disbursed · 5,650 outstanding ر.س)");
+ok(/360\.00 ر\.س\/شهر/.test(orgv), "org shows the FLAT monthly SaaS invoice (360.00 ر.س/شهر, from Billing)");
+ok(/نسبةٌ من قروض الأعضاء/.test(orgv) && /0\.00 ر\.س/.test(orgv), "org states «نسبةٌ من قروض الأعضاء 0.00» — the fee never scales with member loans");
+ok(/لا يحتفظ الصندوق بمالٍ مجمَّع/.test(orgv), "org guard: the fund holds NO pooled money (spine)");
+ok(/لا رقمَ فردٍ/.test(orgv) && /لا تصنيف/.test(orgv), "org guard: aggregates only, no per-person number/score");
+ok(/قيد المراجعة الشرعيّة/.test(orgv), "org's invoice carries the honest «قيد المراجعة الشرعيّة» badge");
+ok(orgv.indexOf("%") < 0 && orgv.indexOf("٪") < 0, "the institution dashboard carries no percentage/score glyph");
+ok(!/C-\d\d/.test(orgv), "aggregates only — no covenant id (C-01…) leaks onto the dashboard");
+noThrow(() => App.go("home"), "return home after org");
 
 console.log("\n" + "=".repeat(56));
 console.log("APP DOM SMOKE: " + passed + " passed, " + failed + " failed");

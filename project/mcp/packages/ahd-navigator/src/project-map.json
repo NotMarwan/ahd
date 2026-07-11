@@ -258,6 +258,34 @@
         "app/settle-presets.test.cjs"
       ],
       "description": "Alternative demo tangles for «المقاصّة» over the golden five — judge-pokeable netting"
+    },
+    {
+      "name": "billing",
+      "featureFile": "app/features/billing.js",
+      "screenFile": "app/screens/plans.js",
+      "testFiles": [
+        "app/billing.test.cjs",
+        "app/plans-smoke.cjs"
+      ],
+      "description": "«الأجرة والخطط» pluggable flat-fee engine + plans/paywall screen — spine-clean revenue surfaces (flat, never % of loan; D-6 shariah-review flagged) (Phase A)"
+    },
+    {
+      "name": "fee-receipt",
+      "featureFile": "app/features/fee-receipt.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/fee-receipt.test.cjs"
+      ],
+      "description": "«إيصال أجرة التوثيق» — the two-line, never-summed seal receipt (الزيادة على القرض: 0.00 · أجرة ثابتة: 5.00), the judge-legible proof the money story is spine-clean (Phase A)"
+    },
+    {
+      "name": "org",
+      "featureFile": "app/features/org.js",
+      "screenFile": "app/screens/org.js",
+      "testFiles": [
+        "app/org.test.cjs"
+      ],
+      "description": "«لوحة المؤسسة» institution/waqf admin dashboard — aggregate KPIs + flat SaaS invoice (from Billing), the surface the first paying customer logs into; aggregates only, k-anon, no pooled custody (Phase B)"
     }
   ]
 }

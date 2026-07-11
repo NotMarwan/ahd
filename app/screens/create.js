@@ -51,6 +51,19 @@
         '<div class="sv ' + (ver.ok ? "ok" : "bad") + '">' + (ver.ok ? "✓ سليمة — مطابقة للختم" : "✗ عبثٌ مكشوف! الختم لا يطابق") + "</div>" +
         '<button class="mini" onclick="AhdApp.createTamperToggle()">' + (st.tamper ? "أعد الأصل" : "🧪 جرّب العبث بالمبلغ") + "</button>" +
         '<button class="mini" onclick="AhdApp.createAddToDaftari()">أضِفها إلى دفتري ←</button></div>';
+      /* the money story at the seal moment: the قرض costs nothing, the flat أجرة is a
+         SEPARATE line — never summed into the loan (spine). Guarded so screens that
+         don't load Billing (e.g. an isolated smoke) render exactly as before. */
+      if (App.Billing && App.FeeReceipt) {
+        var fr = App.FeeReceipt.build(App.Billing.feeForSeal(draft), App.Billing.sarStr);
+        var frLines = fr.lines.map(function (ln) {
+          return '<div class="pl-rline' + (ln.zero ? " zero" : "") + '"><span>' + App.esc(ln.k) + "</span><b>" + App.digit(ln.v) + " ر.س</b></div>";
+        }).join("");
+        sealArea += '<div class="pl-receipt"><div class="pl-rtitle">' + App.esc(fr.title) + "</div>" + frLines +
+          '<div class="pl-rnote">' + App.esc(fr.note) + "</div>" +
+          '<div class="pl-badge">🕋 ' + App.esc(fr.badge) + "</div>" +
+          '<button class="mini" onclick="AhdApp.go(\'plans\')">الأجرة والخطط ←</button></div>';
+      }
     } else {
       sealArea = '<div class="cr-act"><button class="primary"' + (clean ? "" : " disabled") + ' onclick="AhdApp.createSeal()">اختم العهد عبر نفاذ (محاكاة)</button></div>' +
         (clean ? "" : '<div class="cr-note">لا يُختَم حتى يُزال الشرط المخالف — هذا ما يحفظه عهد لكما.</div>');
