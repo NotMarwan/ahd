@@ -76,7 +76,7 @@
     CircleAdv: CircleAdv,
     advCircle: { id: "CIR-STD-MALQA", organizer: "سعود", name: "شقة الملقا" },
     advShare: { name: "تركي", amountMinor: (AHD ? AHD.toMinor(1500) : 150000) },
-    circleAdvState: { graduated: null, flash: null },
+    circleAdvState: { graduated: null, recStopped: false, flash: null },
     CreateAhd: CreateAhd,
     createDraft: CreateAhd ? CreateAhd.makeDraft({ id: "NEW-AHD-1", lender: "أنت", borrower: "سلطان", amountSAR: 1200, months: 3 }) : null,
     createState: { extra: "", sealed: null, tamper: false, flash: null },
@@ -289,6 +289,14 @@
       return this.rerender();
     },
     circleAdvDismiss: function () { this.circleAdvState.flash = null; return this.rerender(); },
+    /* recurring قِسْمة: stop/resume — stopping is honest (future cycles only, no retro effect) */
+    circleRecurringToggle: function () {
+      this.circleAdvState.recStopped = !this.circleAdvState.recStopped;
+      this.circleAdvState.flash = this.circleAdvState.recStopped
+        ? "أُوقفت القِسْمة الدائمة — لا أثر رجعيًّا، وما نُشر يبقى كما هو."
+        : "استُؤنفت القِسْمة الدائمة — تُنشَر تلقائيًّا كلَّ شهر.";
+      return this.rerender();
+    },
     /* graduation → القرض المفتوح: load the new عهد into the (deepened) open-loan view */
     circleGraduateView: function () {
       var g = this.circleAdvState.graduated;

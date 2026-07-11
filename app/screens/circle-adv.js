@@ -38,15 +38,20 @@
       rowsFromShares(bc.shares, e) + itemProof +
       '<div class="ca-ok">' + (bc.conserved && sc.allConserved ? "✓ كلُّ صنفٍ يُقسَّم بالهللة بلا كَسْر — والمجموع محفوظ تمامًا، لا ربا" : "✗ خلل في الحفظ") + "</div></div>";
 
-    /* 2 · recurring */
+    /* 2 · recurring — with a REAL stop/resume control (no advertised-but-dead buttons) */
     var tmpl = { name: "الإيجار", amountMinor: e.toMinor(3600), payer: "تركي", members: ["سعود", "تركي", "عبدالله"], split: "equal" };
-    var posts = CA.recurringPosts(tmpl, ["2026-07", "2026-08", "2026-09"]);
+    var stopped = !!st.recStopped;
+    var posts = stopped ? [] : CA.recurringPosts(tmpl, ["2026-07", "2026-08", "2026-09"]);
+    var recBody = stopped
+      ? '<div class="ca-line ca-stopped"><span>القِسْمة مُوقَفة — لا تُنشَر دوراتٌ جديدة، وما نُشر سابقًا يبقى كما هو.</span></div>'
+      : posts.map(function (p) {
+          return '<div class="ca-line"><span>' + arMonth(p.cycleKey, e) + "</span><span>نصيب سعود وعبدالله: " + App.fmtN(p.owed["سعود"] / 100) + " ر.س لكلٍّ</span></div>";
+        }).join("");
     var pRec = '<div class="ca-card"><div class="ca-h">قِسْمة دائمة · الإيجار</div>' +
       '<div class="ca-sub">' + App.fmtN(tmpl.amountMinor / 100) + ' ر.س · كل شهر · يدفع تركي ثم تُقسَّم بالتساوي</div>' +
-      posts.map(function (p) {
-        return '<div class="ca-line"><span>' + arMonth(p.cycleKey, e) + "</span><span>نصيب سعود وعبدالله: " + App.fmtN(p.owed["سعود"] / 100) + " ر.س لكلٍّ</span></div>";
-      }).join("") +
-      '<div class="ca-note">تُنشَر تلقائيًّا كل شهر — «عدّل» / «أوقف» متاحة دائمًا، بلا فائدة ولا غرامة.</div></div>';
+      recBody +
+      '<button class="mini" onclick="AhdApp.circleRecurringToggle()">' + (stopped ? "استأنف القِسْمة" : "أوقف القِسْمة") + "</button>" +
+      '<div class="ca-note">تُنشَر تلقائيًّا كلَّ شهر ما دامت جارية — بلا فائدةٍ ولا غرامة.</div></div>';
 
     /* 3 · graduation */
     var pGrad;

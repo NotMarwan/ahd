@@ -750,3 +750,5 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .bd-invite{color:var(--mut);font-size:var(--t-xs,12px)}
 
 .se-presets{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+
+.ca-stopped span{color:var(--mut)}
