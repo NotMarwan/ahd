@@ -724,3 +724,10 @@ body{
 .bd-chips{display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
 .bd-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal); border-radius:var(--r-pill); padding:6px 12px; font:inherit; font-size:var(--t-xs); cursor:pointer; min-height:36px}
 .bd-chip:hover{border-color:var(--teal)}
+
+/* «أثر عهد» drill-down (bucket rows are now buttons) */
+.im-row{display:flex;align-items:center;gap:8px;width:100%;text-align:inherit;background:none;border:0;cursor:pointer;padding:6px 0;font:inherit;color:inherit}
+.im-row.on .im-row-l{font-weight:700}
+.im-caret{color:var(--mut)}
+.im-drill{padding:4px 12px 10px;border-inline-start:2px solid var(--line)}
+.im-circle{padding:4px 0;font-size:var(--t-sm,13px)}

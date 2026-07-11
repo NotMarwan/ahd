@@ -81,10 +81,24 @@
        house trick) — no percentage text is ever rendered */
     var maxT = 0;
     agg.buckets.forEach(function (b) { if (b.avgTransfersAvoidedTenths > maxT) maxT = b.avgTransfersAvoidedTenths; });
+    var drill = (typeof window !== "undefined") ? window.ImpactDrill : null;
+    var openBucket = app.impactState ? app.impactState.bucket : null;
     var rows = agg.buckets.map(function (b, i) {
       var t = b.avgTransfersAvoidedTenths;
-      return '<div class="im-row"><span class="im-row-l">' + App.esc(d.bucketLines[i]) + '</span>' +
-        '<span class="im-bar" aria-hidden="true"><i style="flex-grow:' + t + '"></i><em style="flex-grow:' + (maxT - t) + '"></em></span></div>';
+      var isOpen = (openBucket === b.size);
+      var head = '<button class="im-row' + (isOpen ? " on" : "") + '" onclick="AhdApp.impactBucket(' + b.size + ')">' +
+        '<span class="im-row-l">' + App.esc(d.bucketLines[i]) + '</span>' +
+        '<span class="im-bar" aria-hidden="true"><i style="flex-grow:' + t + '"></i><em style="flex-grow:' + (maxT - t) + '"></em></span>' +
+        '<span class="im-caret" aria-hidden="true">' + (isOpen ? "▾" : "◂") + "</span></button>";
+      var body = "";
+      if (isOpen && drill) {
+        var circles = drill.circlesForBucket(b.size, Impact.FIXTURE_CIRCLES, Impact.makeSettleFn(e));
+        body = '<div class="im-drill">' + circles.map(function (c) {
+          return '<div class="im-circle">' + App.esc(drill.describeCircleAr(c, function (n) { return App.fmtN(n); })) +
+            ' <span class="chip ' + (c.conservationOk ? "teal" : "bad") + '">' + (c.conservationOk ? "✓" : "✗") + "</span></div>";
+        }).join("") + "</div>";
+      }
+      return head + body;
     }).join("");
 
     return '<div class="impact">' +

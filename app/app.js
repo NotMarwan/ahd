@@ -83,6 +83,9 @@
     Settlement: Settlement,
     CircleDash: CircleDash,
     circleState: { reminder: false },
+    /* «أثر عهد» drill-down: which size-bucket is expanded (number|null) */
+    ImpactDrill: (typeof window !== "undefined" ? window.ImpactDrill : null),
+    impactState: { bucket: null },
     Timeline: Timeline,
     timelineState: { view: "story", focus: null },
     Proof: Proof,
@@ -287,6 +290,13 @@
 
     /* ---- الدائرة (treasurer dashboard) — the group reminder that names no one ---- */
     circleReminderToggle: function () { this.circleState.reminder = !this.circleState.reminder; return this.rerender(); },
+
+    /* ---- أثر عهد: expand/collapse one k-anonymous size-bucket ---- */
+    impactBucket: function (size) {
+      var s = Number(size);
+      this.impactState.bucket = (this.impactState.bucket === s) ? null : s;
+      return this.rerender();
+    },
 
     /* ---- create-عهد actions (the riba linter gates the seal) ---- */
     createInjectRiba: function () { this.createState.extra = "وعليه غرامةُ تأخيرٍ ٢٪ شهريًّا."; this.createState.sealed = null; return this.rerender(); },
