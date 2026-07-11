@@ -15,6 +15,12 @@
 | **JL-4** | Judge-visible depth (only if it strengthens the demo; cut first on slippage): borrower-protections panel (OT-P1other) and/or proof-pack polish — **built 2026-07-08**: «الضمانات والحدود» guarantees-as-code panel (`app/features/bounds.js` + `app/screens/bounds.js` + `tests/app/bounds.test.cjs` 60/0; dom-smoke +14; suites 34/34; gate 1683/0) — three columns للمدين·للدائن·حدود المصرف, every بند names its real guard file and the suite fs.existsSync's each one; contextual (home card + chips on «ما عليّ»/«حافظة الإثبات», NAV_ORDER untouched); closes OT-P1other's panel ask + OT-DEPTH P15 | Front 4 | **scored 9 Jul (panel #3)** — helps technical/feasibility/UX, correctly parked below the climax for Q&A depth; done |
 | **JL-5** | **Stage-dare gate risk (found live 9 Jul, twice):** the on-stage «شغّلها الآن أمامك» command `node run-all.cjs` bundles the agent-presence 45-min staleness check into the same red/green banner — a leftover `status:"active"` presence file turns the pitch's highest-stakes proof moment RED for a non-product reason (observed: `AHD GATE ❌ 1682/1` mid-review). Fix before 15-Jul freeze, without weakening any assertion: (a) pre-stage hygiene step in PRESENTER-GUIDE + morning-of-18 checklist («all presence files exited, then confirm green»), and/or (b) an additive stage command (product suites + tripwire, no meta/process checks) the script points at — decision on (b) is operator's since the script currently names `run-all.cjs` | Front 1 | **closed 2026-07-10 (stage-preflight.cjs + guide step ٤; run-all.cjs stays the stage command)** |
 
+> **JL-3 depth (2026-07-11):** per-circle drill-down shipped — «أثر عهد» buckets now expand to
+> anonymized per-circle rows (k-floor enforced structurally in `app/features/impact-drill.js`).
+> Same round: neutral exhibit rendered on-screen (سِجلّ المعروف), bounds guards expandable with
+> run commands, settlement preset tangles (judge-pokeable), circle-adv real stop/resume.
+> Gate **1809/0**, suites 40/40. Re-score data criterion at the 14-Jul Gate-B panel; target ≥8 (was 7.5).
+
 ### Panel #3 fix queue (2026-07-09 six-lens re-score + skeptic verification — all items file/line-verified)
 
 > **✅ APPLIED 2026-07-09 evening** — items 1–8 + 10 landed (plan: `docs/superpowers/plans/2026-07-09-panel3-fix-round.md`;

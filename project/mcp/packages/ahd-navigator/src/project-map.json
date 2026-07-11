@@ -222,6 +222,42 @@
       "screenFile": "app/screens/home.js",
       "testFiles": [],
       "description": "Home front door"
+    },
+    {
+      "name": "impact-drill",
+      "featureFile": "app/features/impact-drill.js",
+      "screenFile": "app/screens/impact.js",
+      "testFiles": [
+        "app/impact-drill.test.cjs"
+      ],
+      "description": "Per-circle drill-down under an «أثر عهد» size-bucket (k-floor enforced structurally)"
+    },
+    {
+      "name": "exhibit-view",
+      "featureFile": "app/features/exhibit-view.js",
+      "screenFile": "app/screens/covenant.js",
+      "testFiles": [
+        "app/exhibit-view.test.cjs"
+      ],
+      "description": "Arabic line projection of the neutral court exhibit (CovenantLog.exhibitFor) rendered on-screen"
+    },
+    {
+      "name": "bounds-detail",
+      "featureFile": "app/features/bounds-detail.js",
+      "screenFile": "app/screens/bounds.js",
+      "testFiles": [
+        "app/bounds-detail.test.cjs"
+      ],
+      "description": "Parse each guarantee's «يحرسه» line into guard files + run command for the bounds disclosures"
+    },
+    {
+      "name": "settle-presets",
+      "featureFile": "app/features/settle-presets.js",
+      "screenFile": "app/screens/settlement.js",
+      "testFiles": [
+        "app/settle-presets.test.cjs"
+      ],
+      "description": "Alternative demo tangles for «المقاصّة» over the golden five — judge-pokeable netting"
     }
   ]
 }
