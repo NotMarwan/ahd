@@ -1,8 +1,8 @@
 import React from "react";
-import { useCurrentFrame, useVideoConfig, interpolate } from "remotion";
+import { useCurrentFrame, useVideoConfig, interpolate, Img, staticFile } from "remotion";
 import { AR, MONO, SOFT_SHADOW } from "../theme";
-import { S, SADU_BAND } from "../sadu";
-import { spr, breathe, drift, draw, SPRING } from "../motion";
+import { S, SADU_BAND, USE_LOGO_ASSET } from "../sadu";
+import { spr, draw, SPRING } from "../motion";
 
 /* ── the sadu band — THE transition object: appears in every beat ─────────── */
 export const SaduBand: React.FC<{ t?: number; h?: number; style?: React.CSSProperties }> = ({ t = 1, h = 8, style }) => (
@@ -14,6 +14,9 @@ export const SaduBand: React.FC<{ t?: number; h?: number; style?: React.CSSPrope
 /* ── the octagonal «عهد» emblem — strokes draw in (SVG dash reveal) ────────── */
 export const Emblem: React.FC<{ size?: number; drawT?: number; textT?: number; dark?: boolean }> = ({ size = 40, drawT = 1, textT = 1, dark = false }) => {
   const dash = 120;
+  if (USE_LOGO_ASSET) {
+    return <Img src={staticFile("logo/ahd-mark.png")} style={{ width: size, height: size, display: "block", opacity: Math.max(drawT, textT) }} />;
+  }
   return (
     <svg viewBox="0 0 40 40" width={size} height={size} style={{ display: "block" }}>
       <polygon points="20,3 32,8 37,20 32,32 20,37 8,32 3,20 8,8" fill="none"
@@ -31,19 +34,18 @@ export const Emblem: React.FC<{ size?: number; drawT?: number; textT?: number; d
       beats: screens change INSIDE it (spatial continuity). ─────────────────── */
 export const PHONE_W = 660;
 export const PHONE_H = 1370;
-export const SaduPhone: React.FC<{ children: React.ReactNode; enterDelay?: number; top?: number }> = ({ children, enterDelay = 0, top = 210 }) => {
+/* v2: STATIC device (operator feedback — float read as jitter). One spring
+   entrance (~45f), then the transform is CONSTANT: screens move, device never. */
+export const SaduPhone: React.FC<{ children: React.ReactNode; enterDelay?: number; top?: number }> = ({ children, enterDelay = 0, top = 250 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const enter = spr(frame, fps, enterDelay, SPRING.soft);
-  const floatY = drift(frame, fps, 8, 0.2) * enter;
-  const bre = breathe(frame, fps, 0.004, 0.2);
-  const tilt = (1 - enter) * 3;
+  const enter = Math.min(1, spr(frame, fps, enterDelay, SPRING.soft));
   return (
     <div style={{
       position: "absolute", left: "50%", top, width: PHONE_W, height: PHONE_H,
       opacity: enter,
-      transform: `translateX(-50%) translateY(${(1 - enter) * 60 + floatY}px) scale(${(0.93 + enter * 0.07) * bre}) perspective(1500px) rotateX(${tilt}deg)`,
-      transformOrigin: "center top", willChange: "transform",
+      transform: `translateX(-50%) translateY(${(1 - enter) * 60}px) scale(${0.93 + enter * 0.07})`,
+      transformOrigin: "center top",
     }}>
       <div style={{ position: "absolute", inset: 0, borderRadius: 58, boxShadow: SOFT_SHADOW }} />
       <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: 58, background: "#0d0b08", padding: 12, boxShadow: "inset 0 0 0 2px #2b241b" }}>
@@ -58,6 +60,8 @@ export const SaduPhone: React.FC<{ children: React.ReactNode; enterDelay?: numbe
 };
 
 /* ── large-title header (nav-lg) with animated band + rising title ─────────── */
+/* v2 header — explicit flex column, three clean rows (emblem / eyebrow / title):
+   no negative margins, no absolute positioning, zero collision (operator's red circle). */
 export const NavLg: React.FC<{ eyebrow: string; title: string; sub?: string; base?: number }> = ({ eyebrow, title, sub, base = 0 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -66,12 +70,12 @@ export const NavLg: React.FC<{ eyebrow: string; title: string; sub?: string; bas
   const tBand = draw(frame, base + 12, 26);
   const tSub = spr(frame, fps, base + 18, SPRING.enter);
   return (
-    <div style={{ padding: "88px 34px 8px" }}>
-      <div style={{ opacity: spr(frame, fps, base, SPRING.enter), marginBottom: 14 }}><Emblem size={58} drawT={tEye} textT={tEye} /></div>
-      <div style={{ fontSize: 19, fontWeight: 600, color: S.ink3, opacity: tEye, transform: `translateY(${(1 - tEye) * 14}px)` }}>{eyebrow}</div>
-      <div style={{ fontSize: 52, fontWeight: 800, lineHeight: 1.18, opacity: tTit, transform: `translateY(${(1 - tTit) * 20}px)` }}>{title}</div>
-      <SaduBand t={tBand} h={12} style={{ marginTop: 16 }} />
-      {sub ? <div style={{ fontSize: 20, color: S.ink2, marginTop: 14, lineHeight: 1.8, opacity: tSub, transform: `translateY(${(1 - tSub) * 12}px)` }}>{sub}</div> : null}
+    <div style={{ padding: "70px 34px 8px", display: "flex", flexDirection: "column", gap: 10 }}>
+      <div style={{ opacity: tEye }}><Emblem size={54} drawT={tEye} textT={tEye} /></div>
+      <div style={{ fontSize: 20, fontWeight: 600, color: S.ink3, lineHeight: 1.4, opacity: tEye, transform: `translateY(${(1 - tEye) * 14}px)` }}>{eyebrow}</div>
+      <div style={{ fontSize: 46, fontWeight: 800, lineHeight: 1.25, opacity: tTit, transform: `translateY(${(1 - tTit) * 20}px)` }}>{title}</div>
+      <SaduBand t={tBand} h={12} style={{ marginTop: 4 }} />
+      {sub ? <div style={{ fontSize: 20, color: S.ink2, marginTop: 4, lineHeight: 1.8, opacity: tSub, transform: `translateY(${(1 - tSub) * 12}px)` }}>{sub}</div> : null}
     </div>
   );
 };
@@ -101,15 +105,17 @@ export const Hash: React.FC<{ text: string; style?: React.CSSProperties }> = ({ 
 );
 
 /* ── big beat caption under/over the phone (stage text) ────────────────────── */
-export const StageCaption: React.FC<{ k: string; title: string; base?: number; y?: number }> = ({ k, title, base = 0, y = 92 }) => {
+/* v2: fixed top band (64..214 — inside the top 12% safe zone); the phone starts
+   at top:250, so caption and device can never collide. Holds >= 2s by beat design. */
+export const StageCaption: React.FC<{ k: string; title: string; base?: number }> = ({ k, title, base = 0 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const tK = spr(frame, fps, base, SPRING.enter);
   const tT = spr(frame, fps, base + 6, SPRING.enter);
   return (
-    <div style={{ position: "absolute", top: y, left: 0, right: 0, textAlign: "center", direction: "rtl", fontFamily: AR }}>
-      <div style={{ fontSize: 19, letterSpacing: 6, color: "#c9a688", fontWeight: 600, opacity: tK }}>{k}</div>
-      <div style={{ fontSize: 46, fontWeight: 800, color: "#f3e7cf", marginTop: 8, opacity: tT, transform: `translateY(${(1 - tT) * 18}px)` }}>{title}</div>
+    <div style={{ position: "absolute", top: 64, height: 150, left: 40, right: 40, textAlign: "center", direction: "rtl", fontFamily: AR, display: "flex", flexDirection: "column", justifyContent: "center", gap: 10 }}>
+      <div style={{ fontSize: 22, letterSpacing: 6, color: "#c9a688", fontWeight: 600, opacity: tK }}>{k}</div>
+      <div style={{ fontSize: 46, fontWeight: 800, color: "#f3e7cf", lineHeight: 1.3, opacity: tT, transform: `translateY(${(1 - tT) * 18}px)` }}>{title}</div>
     </div>
   );
 };

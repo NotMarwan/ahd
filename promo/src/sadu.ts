@@ -13,6 +13,7 @@ export const S = {
   stop: "#7a2410", stopDeep: "#5e1a0a", stopSoft: "#f6e3da", stopLine: "#e0bcab",
   sealBg: "#221d16", sealInk: "#ece3d0", sealLbl: "#b3a789", sealHash: "#d8b978",
   auth: "#12312b", sandChip: "#e8e0cf", track: "#e2d7c0", icoSand: "#efe8d8",
+  amber: "#8a3f14", amberSoft: "#f7e9d6",
   stage: "#131109", r: 14,
 } as const;
 
@@ -26,12 +27,20 @@ export const SADU_BAND =
   `repeating-linear-gradient(45deg, ${S.ink} 0 5px, transparent 5px 10px),` +
   `${S.track}`;
 
-/* per-beat durations (frames @60fps, before PACE) — heroes run longest */
+/* operator flips to true after dropping promo/public/logo/ahd-mark.png (Gemini asset);
+   false = the built-in octagon SVG emblem */
+export const USE_LOGO_ASSET = false;
+
+/* per-beat durations (frames @60fps, before PACE) — heroes run longest.
+   v2 pacing (reference scout): 3s hook, beats 1.5-3s/idea, montage accelerates, calm close. */
 export const SDUR = {
-  cold: 190,   // 3.2s — emblem draws, band weaves
-  home: 280,   // 4.7s — hero screen assembles
-  create: 400, // 6.7s — riba stop → seal ceremony (HERO)
-  proof: 310,  // 5.2s — hash locks, tamper caught
-  settle: 340, // 5.7s — CLIMAX: 9→2 weave
-  close: 190,  // 3.2s — calm close
+  cold: 190,    // 3.2s — emblem draws, band weaves (the hook)
+  home: 240,    // 4.0s — hero screen assembles
+  daftari: 300, // 5.0s — wallet: gauge + real rows + odometer amounts
+  mine: 260,    // 4.3s — ما عليّ: pay-eased roll + amber grace
+  create: 400,  // 6.7s — riba stop → seal ceremony (HERO)
+  proof: 280,   // 4.7s — hash locks, tamper caught
+  settle: 400,  // 6.7s — CLIMAX: named 9→2 + savings pill
+  montage: 300, // 5.0s — 4 rapid screens (circle · سلفة · متى ما تيسر · المعروف)
+  close: 190,   // 3.2s — calm close
 };

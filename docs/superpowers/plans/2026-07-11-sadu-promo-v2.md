@@ -124,6 +124,17 @@ each amount odometer-rolls in place → «المصرف يُذكِّر بالمع
 
 **Verify:** stills at roll moment + amber banner.
 
+## Task 7b — NEW beat: rapid montage (the screens the operator pasted 2026-07-11)
+**Files:** `promo/src/beats-sadu/SaduMontage.tsx` (new), `sadu.ts` (SDUR.montage = 300)
+
+Reference pacing: sub-1s accelerating cuts before the close. Four mini-screens, ~72f each,
+hard wipes between, each ONE hero element + one number:
+1. **الدائرة** — «جُمع ٣٬٢٠٠ من ٨٬٠٠٠» odometer + ring arc + member chips (لُجين دفعت عن الجميع).
+2. **سُلفة بالمعروف** — «في كلّ دورة: ٨٠٠ ر.س · ٤ دورات» + cycle rows cascade.
+3. **متى ما تيسّر** — remaining ١٬٥٠٠ + segmented progress bar (سُدّد/صدقة/باقٍ) fills.
+4. **سِجلّ المعروف** — covenant dots cascade down the dashed spine + «السلسلة سليمة ✓».
+Caption for the whole beat: «وأكثر — كلُّه مختوم».
+
 ## Task 8 — In-phone screen wipes (film flows as ONE device)
 **Files:** `promo/src/SaduPromo.tsx`
 
