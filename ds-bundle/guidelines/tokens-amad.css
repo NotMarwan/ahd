@@ -1,0 +1,34 @@
+/* ============================================================================
+   tokens-amad.css — CANONICAL AMAD/Alinma palette for deck06 + Alinma concepts.
+
+   This file is the single source of truth for the Alinma-derived deck palette.
+   deck06 slides and concepts/AlinmaOfficial + concepts/SaduAlinma each embed a
+   verbatim copy of the tokens they use (files must open standalone, offline).
+   Change a value HERE first, then propagate; the drift gate
+   tests/app/ds-amad-tokens-parity.test.cjs pins every embedded copy to these
+   exact values and fails the harness on any divergence.
+
+   NOTE: this is the DECK palette (Alinma brand navy/peach). The product app's
+   token system (--bg/--teal/--gold/... in _ds_bundle.css) is separate and
+   governed by guidelines/brand.md.
+============================================================================ */
+:root {
+  /* surfaces */
+  --navy: #002134;        /* Alinma navy — primary dark surface */
+  --navy-deep: #02141E;   /* deepest backdrop (deck06 aliases this as --deep) */
+  --blush: #F3E4DE;       /* warm light surface */
+  --ice: #edf2f5;         /* cool light surface */
+  --white: #fff;
+
+  /* accents */
+  --peach: #E2AD8B;       /* primary accent */
+  --terra: #CD907E;       /* secondary accent */
+  --bronze: #803C1C;      /* strong accent / emphasis */
+
+  /* shape */
+  --r-amad: 24px;         /* signature radius (deck06 aliases this as --r) */
+
+  /* typography */
+  --ar: "IBM Plex Sans Arabic","Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif;
+  --mono: "Consolas",monospace;
+}
