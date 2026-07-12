@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/impact.js", "features/impact-drill.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -63,6 +63,22 @@ let hh = noThrow(() => App.go("home"), "go('home') renders the front door");
 ok(/قرضٌ حسن/.test(hh) && /لك عند الناس/.test(hh), "home shows the spine tagline + live دفتري summary");
 ok(/صافي مركزك/.test(hh) && /سجلّ الشهادة/.test(hh) && /سجلّ وفائك/.test(hh), "home's standing strip surfaces net + witnessed-moments + the standing WORD (the deepened product at a glance)");
 ok(/لحظة محفوظة/.test(hh) && !/\b\d{1,3}\s*[%٪]/.test(hh), "the witnessed-moments tally is a count (لحظة محفوظة), never a percentage/score");
+/* Front A — the front door has hierarchy + the Sadu identity, not a flat menu */
+ok(/sadu-band/.test(hh), "Front A: the woven Sadu identity strip renders in the shell (every screen)");
+ok(/home-hero-tile/.test(hh) && /أنشئ عهدًا/.test(hh), "Front A: one dominant hero tile carries أنشئ عهدًا");
+ok((hh.match(/class="hgrid[^"]*"/g) || []).length >= 1, "Front A: primary destinations render in a grid, not a flat list");
+ok(/class="hmore"/.test(hh) && /المزيد/.test(hh), "Front A: secondary destinations fold into a «المزيد» disclosure");
+ok(/home-emblem/.test(hh) && /class="oct"/.test(hh), "Front A: the octagon seal emblem marks the front door");
+ok(/أثر عهد/.test(hh) && /الأجرة والخطط/.test(hh) && /لوحة المؤسسة/.test(hh), "Front A: every destination stays reachable (folded into المزيد, still in the DOM)");
+/* Front B — the refusal is SEEN (block-and-explain), not merely spoken */
+let rf = noThrow(() => App.go("refusal"), "go('refusal') renders «ما لا يفعله عهد»");
+ok(/لا يُقرض/.test(rf) && /لا يُقيّم/.test(rf) && /لا يحكم/.test(rf), "Front B: all three refusals render");
+ok((rf.match(/rf-card/g) || []).length === 3, "Front B: exactly three block-and-explain refusal cards");
+ok(/rf-ctl/.test(rf) && /معطّل/.test(rf), "Front B: each refusal greys out the bank control it refuses");
+ok(/rf-charity/.test(rf) && /صدقة/.test(rf), "Front B: the charity beat (اجعلها صدقة) is a celebrated hero card, not a fallback");
+ok(/app\/features\/(bounds|daftari|dispute)\.js/.test(rf), "Front B: refusals cite their real guard files on screen");
+ok(/ما لا يفعله عهد/.test(App.go("home")), "Front B: the refusal screen is reachable from home");
+ok(/rf-do/.test(rf) && /القرض المفتوح/.test(rf), "Front B+: the charity beat is an actionable DOORWAY to the real إبراء flow, not just a poster");
 
 /* دفتري home renders */
 let h = noThrow(() => App.go("daftari"), "go('daftari') renders the creditor home");
@@ -232,6 +248,21 @@ ok(/عبثٌ مكشوف/.test(pft) && /pf-verify bad/.test(pft), "tampering brea
 ok(/الحقل المتغيّر/.test(pft) && /المبلغ/.test(pft), "tamper shows the PRECISE changed field (المبلغ) + diverging seals");
 noThrow(() => App.proofTamperToggle(), "tamper toggle OFF (restore)");
 ok(/سليمة/.test(App.go("proof")), "restored record verifies ✓ again");
+/* Front C — the judge types their OWN tamper amount; full-hash nibble diff */
+ok(/pf-try/.test(App.go("proof")) && /اعبث بنفسك/.test(App.go("proof")), "Front C: the proof screen invites the judge to type their own tamper amount");
+let pcSet = noThrow(() => App.proofTamperSet(String(App.recordById("R-CAFE").amountSAR + 1)), "proofTamperSet(+1) applies a judge-chosen tamper");
+ok(/عبثٌ مكشوف/.test(pcSet) && /hexfull/.test(pcSet), "Front C: a judge-typed amount breaks the seal and renders the FULL hash");
+ok(/<span class="d">/.test(pcSet), "Front C: the diverging hex nibbles are highlighted (the avalanche is SEEN, not narrated)");
+let pcSame = noThrow(() => App.proofTamperSet(String(App.recordById("R-CAFE").amountSAR)), "proofTamperSet(original) — the same amount");
+ok(/سليمة/.test(pcSame), "Front C: typing the ORIGINAL amount is not tampering → still ✓ سليمة");
+noThrow(() => App.proofTamperSet(""), "proofTamperSet('') clears the judge tamper cleanly");
+/* Front D — the national compression scenario is ON the guaranteed settle screen */
+let seD = App.go("settle");
+ok(/se-nat/.test(seD) && /حجم المشكلة الوطنيّة/.test(seD), "Front D: the national scenario card renders on the settle screen");
+ok(/571|٥٧١/.test(seD), "Front D: the cited 571,251 execution-request figure is on screen");
+ok(/توضيحيّ/.test(seD) && /لا رقمٌ مُقاس/.test(seD), "Front D: the scenario is hard-labelled illustrative, not measured");
+ok(/محاكم التنفيذ/.test(seD) && /EVIDENCE-BRIEF/.test(seD), "Front D: the D-1 source is cited on screen");
+ok(/من كلّ ١٠٠/.test(seD), "Front D: the share reads «من كلّ ١٠٠» — no % glyph");
 noThrow(() => App.proofBack(), "proofBack returns to دفتري");
 ok(App.current === "daftari", "proofBack lands on دفتري");
 noThrow(() => App.openProof("does-not-exist"), "openProof with a bad id is a safe no-op");

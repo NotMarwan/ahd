@@ -13,6 +13,16 @@
 
   function shortH(e, h, n) { return (typeof e.short === "function") ? e.short(h, n) : String(h).slice(0, n); }
 
+  /* Front C: render `after` with the nibbles that diverge from `before` highlighted */
+  function hexDiffHTML(before, after) {
+    var HD = (typeof window !== "undefined" && window.HashDiff) ? window.HashDiff : null;
+    if (!HD) return App.esc(String(after == null ? "" : after));
+    var idx = HD.diverging(before, after);
+    return HD.spans(after, idx).map(function (s) {
+      return s.changed ? '<span class="d">' + App.esc(s.ch) + "</span>" : App.esc(s.ch);
+    }).join("");
+  }
+
   function render(app) {
     var e = app.engine, PF = app.Proof, st = app.proofState;
     if (!PF) return '<div class="empty">وحدة الإثبات غير محمّلة.</div>';
@@ -21,7 +31,8 @@
 
     var pv = PF.provenance(r, e);
     var pack = PF.buildProofPack(r, e);
-    var tamperSAR = r.amountSAR + 4000;                        // an obvious mutation for the demo
+    /* Front C: the judge types the tampered amount; default is an obvious +4000 delta */
+    var tamperSAR = (st.tamper && st.tamperAmountSAR != null) ? st.tamperAmountSAR : r.amountSAR + 4000;
     var tr = PF.tamperReport(r, e, st.tamper ? tamperSAR : null);
     var canon = st.tamper ? PF.proofCanonical(r, e, tamperSAR) : pack.canonical;
     var flash = App.flashHTML(st.flash, "proofDismiss");
@@ -58,20 +69,29 @@
 
     var verify = '<div class="pf-verify ' + (tr.ok ? "ok" : "bad") + '">' +
       (tr.ok ? "✓ سليمة — يطابق الختمُ الأصلي، لم تُمَسّ" : "✗ عبثٌ مكشوف — تغيّر الختم، فلا تُقبل") + "</div>";
+    var nMoved = (typeof window !== "undefined" && window.HashDiff) ? window.HashDiff.count(tr.sealBefore, tr.sealAfter) : 0;
     var diff = st.tamper
       ? '<div class="pf-diff"><div class="dd-h">الحقل المتغيّر: <b>المبلغ</b></div>' +
         '<div class="dd-row"><span>قبل</span><b>' + App.fmtN(tr.before) + ' ر.س</b></div>' +
         '<div class="dd-row"><span>بعد العبث</span><b>' + App.fmtN(tr.after) + ' ر.س</b></div>' +
-        '<div class="dd-hash">الختم قبل: ' + App.esc(shortH(e, tr.sealBefore, 22)) + "…</div>" +
-        '<div class="dd-hash">الختم بعد: ' + App.esc(shortH(e, tr.sealAfter, 22)) + "…</div>" +
-        '<div class="dd-note">تغيّر رقمٌ واحد ⇒ تغيّر الختمُ كلّه. لا يمكن تزوير الوثيقة دون أن ينكشف.</div></div>'
+        '<div class="dd-hlabel">الختم قبل:</div><div class="hexfull">' + App.esc(tr.sealBefore) + "</div>" +
+        '<div class="dd-hlabel">الختم بعد (الخانات الحمراء هي ما تحرّك):</div><div class="hexfull hexafter">' + hexDiffHTML(tr.sealBefore, tr.sealAfter) + "</div>" +
+        '<div class="dd-note">تغيّرُ رقمٍ واحد ⇒ تحرّك <b>' + App.digit(nMoved) + '</b> خانةً في الختم. لا يمكن تزوير الوثيقة دون أن ينكشف.</div></div>'
       : "";
+    /* Front C: the judge-driven tamper input — type your OWN amount, watch it break */
+    var tinVal = (st.tamper && st.tamperAmountSAR != null) ? st.tamperAmountSAR : r.amountSAR;
+    var tamperTry = '<div class="pf-try"><div class="pf-try-l">🧪 اعبث بنفسك — اكتب مبلغًا مختلفًا ثم اضغط Enter:</div>' +
+      '<div class="pf-try-row"><input type="number" inputmode="numeric" class="pf-tin" value="' + App.esc(String(tinVal)) + '" onchange="AhdApp.proofTamperSet(this.value)" aria-label="مبلغ العبث بالريال"><span class="pf-tin-u">ر.س</span></div>' +
+      (st.tamper
+        ? '<div class="pf-try-hint">غيّرتَ المبلغ — انظر أدناه كم خانةً تحرّكت في الختم.</div>'
+        : '<div class="pf-try-hint">الأصل ' + App.fmtN(r.amountSAR) + ' ر.س — أيُّ تغييرٍ يكسر الختم.</div>') +
+      "</div>";
 
     return '<div class="proof">' +
       '<button class="pf-back" onclick="AhdApp.proofBack()">' + backLabel + "</button>" + flash + exhibit +
       '<div class="pf-head">حافظة الإثبات</div>' +
       '<div class="pf-sub">وثيقةٌ مختومة تقف على التعمية لا على حكم المصرف — مقبولةٌ كدليلٍ إلكتروني (نظام الإثبات).</div>' +
-      prov + doc + chain + verify + diff +
+      prov + doc + chain + tamperTry + verify + diff +
       '<div class="pf-act">' +
         '<button class="' + (st.tamper ? "restore" : "primary") + '" onclick="AhdApp.proofTamperToggle()">' + (st.tamper ? "أصلِح الوثيقة" : "جرّب العبث بالمبلغ 🧪") + "</button>" +
         '<button onclick="AhdApp.proofExport()">صدّر / شارك الوثيقة</button>' +

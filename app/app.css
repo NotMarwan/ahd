@@ -803,3 +803,134 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .org-guard{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;color:var(--mut);font-size:12.5px;line-height:1.7}
 .org-cta{display:flex;gap:9px;flex-wrap:wrap}
 .org-cta .org-link{flex:1;width:auto}
+
+/* ============================================================================
+   Front A (2026-07-12) — Sadu identity + home hierarchy.
+   The woven Sadu band (the motif the whole direction is named after) becomes a
+   persistent identity strip under the nav; an octagon seal marks the door; and
+   the flat 14-card menu becomes hero → primary grid → «المزيد». Additive only.
+============================================================================ */
+/* the woven Sadu band — Najdi weaving in teal + gold over the hairline. Static
+   (reduced-motion-safe by construction); ported from application/prototypes. */
+.sadu-band{height:6px; border-radius:3px; margin:0 0 12px; overflow:hidden;
+  background:
+    repeating-linear-gradient(135deg, var(--teal) 0 5px, transparent 5px 10px),
+    repeating-linear-gradient(45deg, var(--gold) 0 5px, transparent 5px 10px),
+    var(--line)}
+
+/* octagon seal emblem enclosing «عهد» — sits on the dark hero */
+.home-emblem{width:46px; height:46px; margin-bottom:10px}
+.home-emblem svg{width:100%; height:100%; display:block}
+.home-emblem .oct{fill:none; stroke:#d4b968; stroke-width:1.1}
+.home-emblem .oct-in{fill:none; stroke:#7fbfae; stroke-width:.75; opacity:.65}
+.home-emblem text{font-size:13px; font-weight:800; fill:#e9d9a6; text-anchor:middle; dominant-baseline:middle; letter-spacing:1px}
+
+/* the ONE dominant action — أنشئ عهدًا as a full-width filled tile */
+.home-hero-tile{appearance:none; width:100%; text-align:right; cursor:pointer; border:0;
+  display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center;
+  padding:20px; border-radius:var(--r-xl); color:#eaf6f2;
+  background:linear-gradient(135deg,#0e6b5c 0%,#0b5348 100%);
+  box-shadow:inset 0 0 0 1px rgba(154,123,39,.30), var(--shadow-lg)}
+.home-hero-tile .hht-ico{font-size:26px; width:50px; height:50px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.14); border-radius:14px}
+.home-hero-tile .t{font-size:19px; font-weight:800; display:block}
+.home-hero-tile .s{font-size:12.5px; color:#bfe3da; margin-top:3px; display:block; line-height:1.6}
+.home-hero-tile .hht-go{font-size:26px; color:#9ec7bd; font-weight:700}
+
+/* the primary grid — the core surfaces as 2-up tiles (icon stacked over label) */
+.hgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.hgrid .hcard{grid-template-columns:1fr; align-content:start; gap:8px; padding:14px}
+.hgrid .hcard .hico{width:40px; height:40px; font-size:22px}
+.hgrid .hcard .ht{font-size:14px}
+.hgrid .hcard .hs{grid-column:1; font-size:11.5px; line-height:1.55; color:var(--mut)}
+
+/* «المزيد» — the rest, folded behind one calm disclosure (no-JS <details>) */
+.hmore{margin-top:2px}
+.hmore>summary{list-style:none; cursor:pointer; font-size:13px; font-weight:700; color:var(--teal);
+  padding:11px 13px; background:var(--card); border:1px solid var(--line); border-radius:12px;
+  display:flex; align-items:center; gap:6px; box-shadow:var(--shadow-sm); min-height:44px}
+.hmore>summary::-webkit-details-marker{display:none}
+.hmore>summary::after{content:"⌄"; margin-inline-start:auto; font-size:16px}
+.hmore[open]>summary{margin-bottom:10px}
+.hmore:hover>summary{border-color:var(--teal)}
+
+/* keep the premium stagger + press feedback now that the grid replaced .hcards */
+@media (prefers-reduced-motion: no-preference){
+  .hgrid .hcard{animation:ahd-rise .32s cubic-bezier(.16,1,.3,1) both}
+  .hgrid .hcard:nth-child(2){animation-delay:.05s}
+  .hgrid .hcard:nth-child(3){animation-delay:.10s}
+  .hgrid .hcard:nth-child(4){animation-delay:.15s}
+  .home-hero-tile{animation:ahd-rise .34s cubic-bezier(.16,1,.3,1) both; transition:transform .13s ease, box-shadow .25s ease}
+  .home-hero-tile:hover{box-shadow:inset 0 0 0 1px rgba(154,123,39,.5), var(--shadow-lg)}
+  .home-hero-tile:active{transform:scale(.99)}
+  .hmore>summary::after{transition:transform .2s ease}
+  .hmore[open]>summary::after{transform:rotate(180deg)}
+}
+
+/* ============================================================================
+   Front B (2026-07-12) — «ما لا يفعله عهد»: the refusal made visible. Reuses the
+   riba-block's own red block-and-explain language (a hard stop = reserved red),
+   with a struck-through bank control; the charity beat carries the mercy gold.
+============================================================================ */
+.refusal{display:flex; flex-direction:column; gap:13px}
+.rf-head{font-weight:800; font-size:21px; line-height:1.5; letter-spacing:-.01em}
+.rf-sub{color:var(--mut); font-size:13px; line-height:1.9; margin-top:-4px}
+.rf-card{background:linear-gradient(180deg,#fcece5,var(--bad-soft)); border:1px solid var(--bad-line);
+  border-inline-start:4px solid var(--bad); border-radius:var(--r-lg); padding:14px 15px;
+  box-shadow:0 2px 6px rgba(143,44,20,.08), 0 12px 30px rgba(143,44,20,.10)}
+.rf-act{font-weight:800; font-size:16px; color:var(--bad-deep); margin-bottom:9px}
+.rf-ctl{display:flex; align-items:center; justify-content:space-between; gap:10px; background:#fff;
+  border:1px dashed var(--bad-line); border-radius:10px; padding:10px 12px; margin-bottom:9px; opacity:.62}
+.rf-ctl-l{color:var(--mut); font-size:13px; text-decoration:line-through wavy var(--bad)}
+.rf-lock{color:var(--bad); font-size:11.5px; font-weight:700; white-space:nowrap}
+.rf-bank{color:var(--bad-deep); font-size:12.5px; line-height:1.75; margin-bottom:8px}
+.rf-why{color:var(--ink); font-size:13.5px; line-height:1.85; background:#fffdf8; border:1px solid #dcece6;
+  border-inline-start:3px solid var(--teal); border-radius:9px; padding:9px 12px; box-shadow:var(--shadow-sm)}
+.rf-guard{color:var(--mut); font-size:var(--t-xs); margin-top:8px}
+.rf-guard code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:var(--mut); overflow-wrap:anywhere}
+.rf-charity{background:var(--gold-soft); border:1px solid #ecdfb5; border-inline-start:4px solid var(--gold);
+  border-radius:var(--r-lg); padding:15px 16px; box-shadow:var(--shadow-sm)}
+.rf-ch-act{font-weight:800; color:var(--gold); font-size:16px; margin-bottom:7px}
+.rf-ch-line{color:var(--ink); font-size:13.5px; line-height:1.9}
+.rf-ayah{text-align:center; color:var(--gold); font-size:15px; margin:9px 0 4px}
+.rf-chips{display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
+.rf-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal);
+  border-radius:var(--r-pill); padding:9px 14px; font:inherit; font-size:var(--t-sm); cursor:pointer; min-height:44px}
+.rf-chip:hover{border-color:var(--teal)}
+/* the charity beat is a DOORWAY to the real إبراء flow, not just a poster to read */
+.rf-do{appearance:none; border:0; background:var(--gold); color:#fff; border-radius:var(--r-pill);
+  padding:11px 16px; font:inherit; font-weight:700; font-size:var(--t-sm); cursor:pointer; margin-top:11px; min-height:44px}
+.rf-do:hover{filter:brightness(1.06)}
+
+/* ============================================================================
+   Front C (2026-07-12) — judge-driven tamper. The judge types their OWN amount
+   into a sealed-document input; the recomputed seal renders in full beside the
+   original, with every diverging hex nibble highlighted (the avalanche, SEEN).
+============================================================================ */
+.pf-try{background:var(--seal-bg); color:var(--seal-ink); border-radius:var(--r-md); padding:13px 14px; box-shadow:var(--shadow)}
+.pf-try-l{color:var(--seal-lbl); font-weight:700; font-size:var(--t-sm); margin-bottom:9px}
+.pf-try-row{display:flex; align-items:center; gap:8px}
+.pf-tin{flex:1; min-width:0; appearance:none; background:var(--seal-well); color:var(--seal-hash);
+  border:1px solid #2f4a45; border-radius:10px; padding:11px 12px; font:inherit; font-size:16px;
+  font-family:var(--mono); direction:ltr; text-align:left}
+.pf-tin:focus-visible{outline:2px solid var(--seal-hash); outline-offset:2px}
+.pf-tin-u{color:var(--seal-lbl); font-size:13px}
+.pf-try-hint{color:#9ec7bd; font-size:11.5px; margin-top:8px; line-height:1.7}
+/* the full seal hashes in the diff, with diverging nibbles highlighted white-on-red */
+.pf-diff .dd-hlabel{font-weight:700; font-size:var(--t-xs); margin-top:8px}
+.pf-diff .hexfull{font-family:var(--mono); direction:ltr; text-align:left; word-break:break-all; font-size:11px;
+  line-height:1.85; background:#fff7f4; border:1px solid var(--bad-line); border-radius:8px; padding:7px 9px; margin-top:3px}
+.pf-diff .hexfull .d{background:var(--bad); color:#fff; border-radius:2px; font-weight:800; padding:0 1.5px; box-shadow:0 0 0 1px rgba(143,44,20,.25)}
+
+/* ============================================================================
+   Front D (2026-07-12) — national compression scenario on the settle screen.
+   The measured ratio at the scale of the cited execution-court load; gold =
+   illustrative/context (mirrors the mercy/gold thread), with a dashed honesty rule.
+============================================================================ */
+.se-nat{background:var(--gold-soft); border:1px solid #ecdfb5; border-inline-start:4px solid var(--gold);
+  border-radius:var(--r-lg); padding:14px 15px; box-shadow:var(--shadow-sm)}
+.se-nat-h{font-weight:800; color:var(--gold); font-size:14.5px; margin-bottom:8px}
+.se-nat-anchor{color:var(--ink); font-size:12.5px; line-height:1.9}
+.se-nat-anchor b{color:var(--gold)}
+.se-nat-proj{color:var(--ink); font-size:13.5px; line-height:1.95; margin-top:8px}
+.se-nat-proj b{color:var(--teal); font-weight:800}
+.se-nat-label{color:var(--mut); font-size:var(--t-xs); line-height:1.8; margin-top:9px; border-top:1px dashed #e6d9ad; padding-top:8px}

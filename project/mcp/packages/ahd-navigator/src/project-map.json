@@ -55,6 +55,42 @@
   },
   "features": [
     {
+      "name": "home-layout",
+      "featureFile": "app/features/home-layout.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/home-layout.test.cjs"
+      ],
+      "description": "Pure 3-tier grouping of the home destinations (hero · primary grid · المزيد disclosure) — Front A UX hierarchy"
+    },
+    {
+      "name": "refusal",
+      "featureFile": "app/features/refusal.js",
+      "screenFile": "app/screens/refusal.js",
+      "testFiles": [
+        "app/refusal.test.cjs"
+      ],
+      "description": "«ما لا يفعله عهد» — the three refusals (no lending/scoring/judging) made visible as block-and-explain cards + the charity hero, each citing its guard file (Front B)"
+    },
+    {
+      "name": "hash-diff",
+      "featureFile": "app/features/hash-diff.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/hash-diff.test.cjs"
+      ],
+      "description": "Pure hex-nibble divergence for the judge-driven tamper — highlights which seal characters moved (Front C)"
+    },
+    {
+      "name": "impact-national",
+      "featureFile": "app/features/impact-national.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/impact-national.test.cjs"
+      ],
+      "description": "National compression scenario — applies Ahd's measured netting ratio to the cited execution-court load (EVIDENCE-BRIEF D-1), illustrative + integer, rendered on the settle screen (Front D)"
+    },
+    {
       "name": "create",
       "featureFile": "app/features/create.js",
       "screenFile": "app/screens/create.js",

@@ -93,7 +93,7 @@
     Timeline: Timeline,
     timelineState: { view: "story", focus: null },
     Proof: Proof,
-    proofState: { recordId: null, tamper: false, flash: null },
+    proofState: { recordId: null, tamper: false, tamperAmountSAR: null, flash: null },
     Dispute: Dispute,
     disputeState: { recordId: null, flash: null },
     Settings: Settings,
@@ -148,7 +148,7 @@
       this.current = key;
       var body = "";
       try { body = s.render(this); } catch (e) { body = '<div class="fallback">تعذّر العرض مؤقّتًا — أعد المحاولة.</div>'; }
-      var html = this.navHTML() + '<main class="screen">' + body + "</main>";
+      var html = this.navHTML() + '<div class="sadu-band" aria-hidden="true"></div>' + '<main class="screen">' + body + "</main>";
       if (typeof document !== "undefined") { var m = document.getElementById("app"); if (m) m.innerHTML = html; }
       return html;
     },
@@ -187,10 +187,19 @@
     daftariDismiss: function () { this.daftariState.flash = null; return this.rerender(); },
 
     /* ---- حافظة الإثبات (proof-pack) — a CONTEXTUAL screen reached from دفتري ---- */
-    openProof: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, flash: null, fromDispute: false }; this.daftariState.sheetId = null; return this.go("proof"); } return this.rerender(); },
+    openProof: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, tamperAmountSAR: null, flash: null, fromDispute: false }; this.daftariState.sheetId = null; return this.go("proof"); } return this.rerender(); },
     /* opened from محلّ خلاف → the proof is framed as the NEUTRAL EXHIBIT; back goes to the dispute */
-    openProofAsExhibit: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, flash: null, fromDispute: true }; return this.go("proof"); } return this.rerender(); },
+    openProofAsExhibit: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, tamperAmountSAR: null, flash: null, fromDispute: true }; return this.go("proof"); } return this.rerender(); },
     proofTamperToggle: function () { this.proofState.tamper = !this.proofState.tamper; return this.rerender(); },
+    /* Front C — the judge types their OWN tamper amount; setting it to the original is NOT tampering */
+    proofTamperSet: function (v) {
+      var r = this.recordById(this.proofState.recordId);
+      var amt = Number(v);
+      if (v === "" || v == null || !isFinite(amt) || !r) { this.proofState.tamperAmountSAR = null; this.proofState.tamper = false; return this.rerender(); }
+      this.proofState.tamperAmountSAR = amt;
+      this.proofState.tamper = (amt !== r.amountSAR);
+      return this.rerender();
+    },
     proofExport: function () { this.proofState.flash = "جُهّزت الوثيقة كملفٍ موقّع — مهيّأةٌ للمشاركة دليلًا عند الحاجة."; return this.rerender(); },
     proofBack: function () { if (this.proofState && this.proofState.fromDispute) { this.proofState.fromDispute = false; return this.go("dispute"); } return this.go("daftari"); },
     proofDismiss: function () { this.proofState.flash = null; return this.rerender(); },

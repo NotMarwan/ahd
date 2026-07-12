@@ -37,6 +37,26 @@
         '<span class="se-mem-ok' + (m.preserved ? "" : " bad") + '">' + (m.preserved ? "نفسه قبل وبعد ✓" : "تغيّر ✗") + "</span></div>";
     }).join("");
     var okProof = cp.conserved && cp.netsPreserved;
+
+    /* Front D: the national compression SCENARIO — Ahd's MEASURED ratio (obligations→
+       transfers, live from the golden engine over the test circles) at the scale of
+       the cited execution-court load (EVIDENCE-BRIEF D-1). Illustrative, integer,
+       provenance kept separate, caveat carried. */
+    var Imp = (typeof window !== "undefined") ? window.Impact : null;
+    var IN = (typeof window !== "undefined") ? window.ImpactNational : null;
+    var natCard = "";
+    if (Imp && IN) {
+      var measured = Imp.computeImpact(Imp.FIXTURE_CIRCLES, Imp.makeSettleFn(e)).totals;
+      var sc = IN.scenario(measured, IN.EXTERNAL_STAT);
+      var grp = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); };
+      natCard = '<div class="se-nat">' +
+        '<div class="se-nat-h">لو صمدت نفس النسبة على حجم المشكلة الوطنيّة</div>' +
+        '<div class="se-nat-anchor">سنداتُ الأمر هي الفئةُ الأكبر أمام محاكم التنفيذ: <b>' + App.esc(sc.sharePer100) + '</b> من كلّ ١٠٠ طلب — <b>' + App.digit(grp(sc.requests)) + '</b> طلبًا، <b>' + App.esc(sc.enforcementSAR_B) + '</b> مليار ريال (' + App.digit(String(sc.months)) + ' شهرًا).</div>' +
+        '<div class="se-nat-proj">نسبةُ الضغط المقاسة في عهد (<b>' + App.digit(grp(sc.ratioObligations)) + '</b> التزامًا ← <b>' + App.digit(grp(sc.ratioTransfers)) + '</b> تحويلًا) لو انطبقت على تلك الطلبات: نحو <b>' + App.digit(grp(sc.projectedSettlements)) + '</b> تسويةً بدل <b>' + App.digit(grp(sc.requests)) + '</b> — أي قرابةَ <b>' + App.digit(grp(sc.avoided)) + '</b> مطالبةٍ أقلّ.</div>' +
+        '<div class="se-nat-label">🟡 ' + App.esc(sc.label) + ' — المصدر: ' + App.esc(sc.source) + '، ' + App.esc(sc.vintage) + '. القضايا ليست دوائرَ متبادلةً بالضرورة؛ الغرضُ إظهارُ قوّة النسبة لا التنبّؤ.</div>' +
+      "</div>";
+    }
+
     return '<div class="settle">' +
       '<div class="se-head">المقاصّة — أقلّ التحويلات تُصفّي الجميع</div>' +
       chips +
@@ -47,6 +67,7 @@
         ? "✓ برهان الحفظ: مجموع الصافي = 0، ومركز كلِّ عضوٍ نفسُه قبل وبعد — لا ريال يُخلق ولا يضيع، ولا فائدة"
         : "✗ خلل في الحفظ") + "</div>" +
       '<div class="se-moved">المال المتحرّك: <b>' + App.fmtN(cp.moneyMovedBefore) + '</b> ر.س لو سُدِّدت منفردةً ⟶ <b>' + App.fmtN(cp.moneyMovedAfter) + '</b> ر.س بالمقاصّة — حركةٌ أقلّ، ومراكزُ محفوظة.</div>' +
+      natCard +
       '<div class="se-members"><div class="se-sub">مركز كلِّ عضوٍ (لم يتغيّر — المقاصّة تُقلِّل التحويلات لا الحقوق):</div>' + members + "</div>" +
       '<div class="se-legs"><div class="se-sub">رِجل كلِّ عضوٍ — حوالةٌ بالتراضي يوافق عليها قبل التنفيذ:</div>' + legs + "</div>" +
       '<div class="se-note">لا أحد يدفع أكثر ممّا عليه؛ المصرف يحسب ويشهد، والمال مالكم.</div>' +
