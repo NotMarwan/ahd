@@ -42,6 +42,21 @@ Scores: innovation 8= · technical **9→8** · data 7.5= · UX 8= · feasibilit
 9. **JL-5 stage-dare red risk** — see the JL-5 row above. [operator decision on command choice + agent for guide text] — **closed 2026-07-10 (stage-preflight.cjs + guide step ٤; run-all.cjs stays the stage command)**
 10. **Commit the working tree**: `docs/pitch/fallback/{02,03,04,06}.png` verified byte-identical to their `premium-after/` counterparts (the stage safety net is already resynced — good) but uncommitted since the 8-Jul 15:40 regeneration; could be lost before freeze. [operator or agent: `git add docs/pitch/fallback && commit`]
 
+### Real-leap re-score residuals (2026-07-12 — 3 Opus adversarial critics, told to REFUTE)
+
+> Honest verified re-scores on the UPDATED product (baseline = the adversarial baseline, NOT the inflated internal 8s):
+> UX **5→6** · innovation **7→7 (refuted — the panel restates, doesn't demonstrate)** · technical **6→6** · data **5→6** ·
+> feasibility **4→5 (communication only; 0 external gates moved)** · memorability **6→6.5**. Spine audit: **PASS (all 6 axes).**
+> Gains were ~+1 on three criteria, NOT the +2/+3 hoped — the deeper ceilings below are the real work. Full report:
+> `docs/عهد-تقرير-صارم-٢٠٢٦-٠٧-١٢.md`.
+
+| ID | Item | Type | Notes |
+|---|---|---|---|
+| **JL-6** | **No-drift gate test** — assert the count printed on every judge surface (deck/script/guide/brief/rebuttals/README) equals the live `run-all.cjs` banner; red on mismatch | Test, recommended | The number regrew 2031→2072 this session and re-split the surfaces; I swept them by hand to 2,072/0 but the drift keeps recurring (memory: gate-number-drift). A test is the durable fix — **unbuilt** |
+| **JL-7** | **Sadu design-language port** — carry the FULL `dir-b-sadu.html` language (large titles, poetic separators, grouped sections) + a distinctive Arabic display font into `app/` | Design, UX ceiling | Front A ported only the thinnest signifier (6px band + emblem); `app/app.css:28` still uses the OS `Segoe UI` stack — the root of "looks templated" |
+| **JL-8** | **Real dataset for «أثر عهد»** (= OT-A1) — replace the 12 reverse-engineered fixture circles with a real survey (n≥150) or real circle data; harden `impact-drill.js` k-floor (aggregate, don't reveal per-record once a bucket clears k) + add the missing no-leak regression test | Data, data ceiling | The national scenario is honest but the ratio is a synthetic ÷3; the drill-down currently reveals per-record detail once k passes (harmless on fixtures, unsafe on real data) |
+| **JL-9** | **Judge-driven tamper in the SCRIPT** — the scripted cold-open still fires the canned `+4000` toggle; point it at the new judge-typed input so a passive judge sees the real path | Pitch copy | Front C built the interaction; the governing `script-ar.md` beat-1 wasn't repointed |
+
 ## Genuinely still open
 
 | ID | Item | Type | Notes |
