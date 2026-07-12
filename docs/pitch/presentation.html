@@ -255,8 +255,13 @@ footer.hint{
 <script>
 "use strict";
 /* Content = docs/pitch/deck-content-v2.md (source of truth), numbers recomputed
-   2026-07-11: gate 1,809/0 = core 184 + app 1,611 + structure 14 (40 suites). */
-const GATE = "1,809/0";
+   2026-07-12: gate 2,031/0 = core 184 + app 1,833 + structure 14 (44 app suites)
+   — verified live via `cd tests && node run-all.cjs` (5.0s, offline). */
+const GATE = "2,031/0";
+/* FILL BEFORE 18 JULY — the single place team names live (OPEN-ITEMS B2).
+   Graceful honest default so slides 1 & 2 never render a raw {TEAM} token.
+   Replace with real member names, e.g. "مروان … · … · …". */
+const TEAM = "فريق عَهد";
 const SHOT = (f) => "../../app/screenshots/premium-after/" + f;
 
 const SLIDES = [
@@ -265,7 +270,7 @@ const SLIDES = [
   <h1 data-r="2"><span class="gold">عَهد</span></h1>
   <p class="sub" data-r="3">«كلمتك محفوظة، وعلاقتك محميّة»</p>
   <p class="sub" data-r="4">مصرفٌ يَشهد على القرض الحسن — ولا يُقرض، ولا يحكم، ولا يأخذ فائدة.</p>
-  <p class="sub" data-r="5" style="font-size:15px;opacity:.7">فريق: {TEAM}</p>`,
+  <p class="sub" data-r="5" style="font-size:15px;opacity:.7">{TEAM}</p>`,
 
 /* 2 — الفريق */ () => `
   <div class="kicker" data-r="1">الفريق</div>
@@ -295,7 +300,7 @@ const SLIDES = [
   <h2 data-r="2">مشكلةٌ بحجم وطن — بأرقامٍ مصدَّرة</h2>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
     <div class="stat" data-r="3"><b>٣٥٫٨٪</b><span>من البالغين السعوديّين اقترضوا من الأهل أو الأصدقاء خلال ١٢ شهرًا (مقابل ١٣٫٧٪ في الدول مرتفعة الدخل)</span><span class="src">البنك الدوليّ — Findex 2021 🟢</span></div>
-    <div class="stat" data-r="4"><b>٥٨٫٦٪</b><span>من ٥٧١٬٢٥١ طلب تنفيذٍ سنداتٌ لأمر — الناس يوثّقون المال بحجم مشكلةٍ وطنيّة</span><span class="src">وزارة العدل عبر أرقام — بيانات ٢٠٢٠–٢١</span></div>
+    <div class="stat" data-r="4"><b>٥٨٫٦٪</b><span>من ٥٧١٬٢٥١ طلب تنفيذٍ سنداتٌ لأمر — الناس يوثّقون المال بحجم مشكلةٍ وطنيّة</span><span class="src">وزارة العدل عبر أرقام — بيانات ٢٠٢٠–٢١، تحديثها جارٍ</span></div>
     <div class="stat" data-r="5"><b>١١٥٫٤ مليار</b><span>ريال قيمة السندات محلّ التنفيذ في ١١ شهرًا — كلفة غياب التوثيق ليست هامشيّة</span><span class="src">المصدر نفسه والعُمر نفسه</span></div>
     <div class="stat" data-r="6"><b>٩٩٫٠٪</b><span>نفاذ الإنترنت في السعوديّة (٣٣٫٩ مليون مستخدم) — الجاهزيّة الرقميّة ليست عائقًا</span><span class="src">DataReportal 2025 🟢</span></div>
   </div>
@@ -310,7 +315,7 @@ const SLIDES = [
     <div class="cell" data-r="5"><b>فاحص رِبا يحرس العقد</b><p>0/60 إفلاتًا على مِحَكٍّ عدائيٍّ منشورٍ في المستودع — ويوقف الختم عند المخالفة.</p></div>
     <div class="cell" data-r="6"><b>مقاعد نفاذ وسريع</b><p>مصمَّمة على المواصفة الحقيقيّة — محاكاةٌ حاليًّا، بلا ادّعاء تكامل.</p></div>
     <div class="cell" data-r="7"><b>عربيّ RTL دون إنترنت</b><p>حتميّ البايت، أموالٌ بالهللة الصحيحة — لا كسور عائمة.</p></div>
-    <div class="cell" data-r="8"><b>${GATE} تأكيدًا آليًّا</b><p>بأمرٍ واحد: نواة 184 + تطبيق 1,611 + بنية 14 + حارس النسخة الذهبيّة.</p></div>
+    <div class="cell" data-r="8"><b>${GATE} تأكيدًا آليًّا</b><p>بأمرٍ واحد: نواة 184 + تطبيق 1,833 + بنية 14 + حارس النسخة الذهبيّة.</p></div>
   </div>`,
 
 /* 7 — الفكرة */ () => `
@@ -399,7 +404,7 @@ SLIDES.forEach((_, i) => {
 
 function paint() {
   stage.classList.remove("in", "collapsed");
-  stage.innerHTML = SLIDES[cur]();
+  stage.innerHTML = SLIDES[cur]().replace(/\{TEAM\}/g, TEAM);
   counter.textContent = (cur + 1) + " / " + SLIDES.length;
   pbar.style.width = (((cur + 1) / SLIDES.length) * 100) + "%";
   [...dots.children].forEach((d, i) => d.classList.toggle("on", i === cur));

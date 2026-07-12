@@ -85,22 +85,19 @@ See `DESIGN.md` for the full design system (colors, typography, layout, componen
 ## Quality Gate
 
 ```bash
-# Demo core (184 assertions)
 cd tests
-node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs
 
-# App suites (29 suites, 1008+ assertions)
+# Demo core (184) + offline seams + structure gate (14)
+node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs
+
+# App suites (44 suites, 1,833 assertions)
 node app/run-app-tests.cjs
 
-# Tripwire — the demo is NEVER modified
-# Requires sha256sum (Git for Windows / WSL / Linux)
-sha256sum -c _overnight/backup/demo.sha256
-
-# Or full gate in one line:
-cd tests && node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node app/run-app-tests.cjs
+# Or the whole gate in ONE command — core + app + structure + tripwire, one banner:
+node run-all.cjs        # → AHD GATE ✅ 2031/0   (≈5s, fully offline, deterministic)
 ```
 
-Total: **1192+ assertions, all green.** The gate is the hard boundary — never weaken an assertion, never merge red.
+Total: **2,031 assertions, 0 failed** — demo core 184 + app 1,833 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red.
 
 ---
 
@@ -130,8 +127,10 @@ ahd/
 │   ├── run-tests.cjs         # Core demo logic tests (135)
 │   ├── offline-check.cjs     # Zero network seams (9)
 │   ├── dom-smoke.cjs         # Headless render + robustness (40)
+│   ├── structure-check.cjs   # Repo-structure gate (14)
+│   ├── run-all.cjs           # One-command gate + tripwire (2031/0)
 │   ├── load-logic.cjs        # Engine slicer
-│   └── app/                  # App test suites (29 files)
+│   └── app/                  # App test suites (44 files)
 │
 ├── promo/            # Remotion motion promos
 │   └── out/          # Rendered MP4s
