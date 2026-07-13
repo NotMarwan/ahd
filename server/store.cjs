@@ -9,14 +9,20 @@
    PUT naturally supersedes its earlier draft PUT). Reads (getLoan/listLoans)
    are served from that in-memory Map — no disk hit per read.
 
-   Atomicity: each append opens the file in "a" (O_APPEND) mode, performs a
-   SINGLE fs.writeSync of the whole line (one syscall — the OS either writes
-   it in full or not at all), then fsyncSync's the fd before closing. A crash
-   mid-write can only ever leave a torn/incomplete FINAL line; replay() parses
+   Durability guarantee (corrected, honest version — a single writeSync() call
+   is NOT itself a guarantee of all-or-nothing atomicity: POSIX makes no such
+   promise for write(2), and Node's fs.writeSync can perform a PARTIAL write on
+   some platforms/filesystems, e.g. if interrupted): each append opens the file
+   in "a" (O_APPEND) mode, writes the whole line via fs.writeSync, then calls
+   fs.fsyncSync on the fd before closing — this makes the write DURABLE (it
+   survives a crash/power-loss once fsync returns) but does NOT by itself make
+   it ATOMIC. The actual safety net is at the READ side: a crash/interruption
+   mid-append can leave a torn/incomplete FINAL line on disk; replay() parses
    each line independently and SKIPS any line that fails JSON.parse or lacks
-   the expected shape — so a torn tail is never loaded as a phantom record.
-   This is the "append + fsync" atomic-write idiom (the alternative to
-   temp-file + fsync + rename for an append-only log).
+   the expected shape, so a torn tail is never loaded as a phantom record (see
+   tests/app/server-persistence.test.cjs section (c)). In other words: the
+   guarantee this store actually provides is "append + fsync durability, with
+   torn-tail-tolerant replay" — not "one syscall = all-or-nothing."
 
    Backward-compatible by construction: createStore() with NO dataDir stays a
    pure in-memory, non-durable store (zero disk I/O) — exactly the prior
