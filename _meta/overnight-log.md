@@ -545,3 +545,10 @@ _Backlog (from brief §4, priority order):_
 3. **Advanced Circle**: recurring auto-post, graduation-to-عهد, بالأصناف split (Agent-4/1 v2). _(mode-B pooled deposit → `DECISIONS-FOR-MARWAN.md`, Shariah review.)_
 4. **Lane B:** deepen tests (property-style respread/fold, new-screen dom-smoke, determinism re-audit).
 5. **Lane C/D/E:** evidence arsenal, architecture/README/deck docs, additive hardening.
+## 2026-07-14 — Figma baseline transfer planning
+
+- Approved architecture: baseline first, Expo judge flow second, V2 redesign third.
+- Added the canonical design spec and an implementation-ready 11-task transfer plan.
+- Token-efficiency rule: deterministic hashes/captures first; high-reasoning visual review only at architecture and final gates; approved screens are cached by source/token SHA-256.
+- Graph-backed sources: Sadu prototype partials, design tokens, RN mapping, Expo proof, golden engine, create/proof/settlement feature paths.
+- No implementation started. Next action is Task 1 in `docs/superpowers/plans/2026-07-14-figma-baseline-transfer.md`.
