@@ -31,9 +31,9 @@
 
 ## Reasoning and model routing
 
-- **High reasoning:** Tasks 1, 4, 6 design taxonomy, 10, and 11 approval decisions.
-- **Medium reasoning:** Tasks 5, 6 component construction, 7, 8, and 9.
-- **Low-cost deterministic worker:** Tasks 2 and 3 commands, hashes, captures, exports, and unchanged-screen checks.
+- **Medium is the default executor:** follow the written steps for Tasks 1–9 when repository/Figma reality matches this plan.
+- **High reasoning is escalation-only:** use it when source inventory conflicts with the manifest, Figma cannot represent the specified taxonomy, a new exception is required, Arabic/spine intent is ambiguous, or Tasks 10–11 need final visual/judge approval.
+- **Low-cost deterministic worker:** use it for Tasks 2 and 3 commands, hashes, captures, exports, and unchanged-screen checks.
 - Low-cost workers may not change Arabic copy, variables, component taxonomy, layout hierarchy, exception policy, or approval status.
 - Model switching is manual. Stop at the next task boundary and ask the controller to switch when the stated level changes.
 
@@ -69,7 +69,7 @@ Ahd — Baseline v1 — Sadu
 
 ### Task 1: Create the baseline contract and structural gate
 
-**Reasoning level:** High.
+**Reasoning level:** Medium execution. Escalate to high only if source inventory conflicts with this contract.
 
 **Files:**
 
@@ -532,7 +532,7 @@ Do not change baseline source partials after this commit. If any source must cha
 
 ### Task 4: Create and lock the Figma file architecture
 
-**Reasoning level:** High.
+**Reasoning level:** Medium execution. Escalate to high only if Figma cannot represent the locked page/variable architecture.
 
 **Files:**
 
@@ -721,7 +721,7 @@ Acceptance: zero unaliased colors in later components except documented SVG/deta
 
 ### Task 6: Build the baseline component library
 
-**Reasoning level:** High for taxonomy; medium for construction.
+**Reasoning level:** Medium execution. Escalate to high only if the specified taxonomy cannot reproduce a source state without detaching instances.
 
 **Files:**
 
