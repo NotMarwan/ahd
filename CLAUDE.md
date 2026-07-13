@@ -21,7 +21,7 @@
    cd tests
    node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core 184/0 + structure-check 14/0
    node app/run-app-tests.cjs                                           # app: 56 suites
-   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (2516/0)
+   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (2517/0)
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
 6. **The judge lens is the fifth gate:** any change a judge could see (app screens, deck, script,
@@ -37,12 +37,13 @@
 - `docs/` — `ARCHITECTURE.md`, `DESIGN.md`, `PUBLISHABLE-PRODUCT-SPEC.md`, `PRESENTER-GUIDE.md`, `DECK-DRAFT-AR.md`, `evidence/` (graded brief + rebuttal playbook + demand-survey kit).
 - `docs/specs/` — consumer and Circle feature design specs; `docs/specs/open-witness-v1.md` — the Open-Witness seal standard (independent verifiability, I1).
 - `protocol/` — `verify-ahd-seal.cjs`, a standalone zero-dep reference verifier (Node `crypto` only, never imports `app/engine.js`/`app/`/`demo/`) for the Open-Witness v1 spec; `fixtures/` holds worked golden + tampered records.
+- `server/demo-bank-node.cjs` — T3: a one-command, judge-facing terminal walkthrough of the LIVE server (real durable store + HMAC auth ON, real HTTP) → seals `NEW-1` → verifies via the server's own `/verify` → runs the independent `protocol/verify-ahd-seal.cjs` on the result. A SEPARATE terminal surface a presenter runs by hand alongside the app — never called by app/ or demo/ (offline guarantee untouched). Script: `docs/pitch/script-ar.md` "بيتٌ تقنيّ إضافيّ".
 - `docs/research/` — source materials, AMAD dossier, agent prompts.
 - `docs/superpowers/` — planning/design docs from skill-driven work (`plans/`, `specs/`), incl. the MCP servers design and the project-restructure design.
 - `_meta/agent-presence/` — multi-agent coordination (presence, claims, collision protocol); see `_meta/agent-presence/README.md`.
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
-- `tests/` — the quality gate (**2,516 assertions**: core 184 + structure 14 + app 2,318 across 56 suites; `run-all.cjs` = one-command banner — single source of truth, re-run it rather than trusting any cited count).
+- `tests/` — the quality gate (**2,517 assertions**: core 184 + structure 14 + app 2,319 across 56 suites; `run-all.cjs` = one-command banner — single source of truth, re-run it rather than trusting any cited count).
 - `AmadHackathon/` — the operator's Obsidian cockpit (living memory mirror: dashboard, plan, evidence). **Any session that changes project state updates it before exiting** (Home + plan checkboxes + topical note). Notes are summaries with `source:` pointers — `docs/`/`_meta/` stay canonical.
 - `swarm/` — 4-agent research workspace (press/academic/stats/global); iron rules in `swarm/README.md`; results in `findings*.md` + `headlines/`.
 - `promo/` — Remotion motion promos; `out/ahd-new-features.mp4`.

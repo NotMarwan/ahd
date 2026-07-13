@@ -80,7 +80,22 @@ but each has an OFFLINE lever under it the earlier loop under-exploited — espe
 deploy is a BUILD, not a human gate). Execution order: T1 persistence → T2 auth → I1 Open-Witness protocol+verifier
 → T3 server-judge-visible → D1+D2 data rigor → F2 roadmap+F3 economics → T4 CI parity+T5 deploy → D3 fixtures →
 full 4-criteria re-score. Human residue (flag, don't fake): D-4 pick (Innovation→8), scholar (Feas→8), survey (Data→8).
-Prior UX iter4 (font-stack) is in flight — UX is now out of focus; bank it if green, then pivot to plan iter1 (T1).
+**PROGRESS (committed, opus-verified, gate green, spine PASS):**
+- iter4 UX font-stack → UX 6.9 (banked, out-of-focus) — `6c7f1a3`
+- T1 durable persistence (JSONL event log + restart-replay) → **Technical 6.5→7** — `16a8553`
+- T2 real HMAC session-token auth (opt-in, forged→401, teeth) → **Technical 7→7.2** — `5592bd5`
+- I1 Open-Witness protocol + standalone engine-independent verifier (reproduces both golden seals, zero engine import) → **Innovation 7→7.5** — `5469d62`
+- **T3 make backend+protocol JUDGE-VISIBLE — DONE** (`wba8murnb`, 3 opus refute-critics, all delta-confirmed, **inflation=FALSE**). `server/demo-bank-node.cjs`: one command, exit 0, over a real ephemeral socket — real 401 on unauth POST, minted HMAC token, sealed NEW-1 = golden `0463553997c8…` live, `/verify` VALID+INVALID (server tamper-evidence), 2-line fsync'd log on disk, then the **independent** `protocol/verify-ahd-seal.cjs` (zero Ahd code) recomputes VALID + INVALID-on-+1-SAR. Presenter beats Q&A-only (never in 3-min path). **Conservative floor: Technical 7.2→7.6, Innovation 7.5→7.6** (critics: 7.6/7.7/7.8 tech, 7.6/7.7/7.7 innov — Math.min taken). I re-verified myself: gate 2517/0, tripwire e2f48467 INTACT (portable Get-FileHash — the run-all RED was only PowerShell lacking `sha256sum`), demo exit 0, offline 9/0, spine PASS. **Honest cap (critic-named, kept):** it's a terminal moment a presenter runs by hand (not in-app), NOT gate-wired (only static-scanned +1), durability step asserts ≥2 lines but doesn't restart-replay in-run. Committed `<T3>`.
+- NEXT: D1+D2 data rigor (sensitivity band + integrate swarm real stats) → F2+F3 feasibility (roadmap + unit economics) → T4/T5 (CI parity + deploy) → full 4-criteria re-score.
+Live gate now **2517/0**. Human-gated (flag, don't fake): D-4 pick (Innovation→8), scholar (Feas→8), survey (Data→8).
+
+## 4-criteria running scorecard (conservative floor, opus-refute-verified)
+| Criterion | Panel base | Now | Committed levers |
+|---|---|---|---|
+| Technical | 6.5 | **7.6** | T1 persistence + T2 auth + T3 judge-visible |
+| Innovation | 7 | **7.6** | I1 Open-Witness protocol + verifier + T3 live-perceivable |
+| Data | 6.5 | 6.5 | (D1+D2 next) |
+| Feasibility | 6 | 6 | (F1 backend real; F2+F3 next) |
 
 **Commits on `judge-lens-real-leap` (branch only, never pushed): dc25ffb (loop1) · 26514ef (L2 data+docs) · 60c79aa (panel scorecard) · + L2-iter3 checkpoint.**
 
