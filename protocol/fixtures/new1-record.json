@@ -1,0 +1,14 @@
+{
+  "profile": "ahd-create-v1",
+  "ahd_id": "NEW-1",
+  "type": "قرض حسن",
+  "lender": "أنت",
+  "borrower": "سلطان",
+  "amount_sar": 1200,
+  "open": false,
+  "months": 3,
+  "start": { "y": 2026, "m": 7 },
+  "timestamp": "2026-07-01T10:00:00+03:00",
+  "chain": { "genesis_seed": "AHD-CHAIN-GENESIS-ALINMA-2026", "seq": 1 },
+  "sealed_seal": "0463553997c80d77e65d1a411acc0e0bd9d4bef67a92dc96af045dfa24a2b8f8"
+}

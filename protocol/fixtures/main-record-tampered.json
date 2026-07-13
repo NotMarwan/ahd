@@ -1,0 +1,18 @@
+{
+  "profile": "ahd-main-v1",
+  "ahd_id": "AHD-01HZ-NOURA-SARA",
+  "type": "قرض حسن",
+  "lender": "نورة العتيبي",
+  "borrower": "سارة الزهراني",
+  "amount_sar": 9999,
+  "months": 5,
+  "start": { "y": 2026, "m": 7 },
+  "timestamp": "2026-07-01T10:30:00+03:00",
+  "terms_ar": "يُقِرّ الطرفان بأنّ «نورة العتيبي» أقرضت «سارة الزهراني» مبلغ 5,000 ريال على سبيل القرض الحسن، يُسدَّد على 5 أقساطٍ شهريّةٍ متساوية قدر كلٍّ منها 1,000 ريال، دون أيّ زيادة أو فائدة أو غرامة تأخير. عند العجز يُمهَل المقترض بالمعروف.",
+  "consent": [
+    { "party": "نورة العتيبي", "role": "المُقرِضة", "assurance": "NAFATH_BIOMETRIC", "signed_at": "2026-07-01T10:29:40+03:00" },
+    { "party": "سارة الزهراني", "role": "المقترضة", "assurance": "NAFATH_BIOMETRIC", "signed_at": "2026-07-01T10:29:58+03:00" }
+  ],
+  "chain": { "genesis_seed": "AHD-CHAIN-GENESIS-ALINMA-2026", "seq": 1 },
+  "sealed_seal": "6c9410b95ba4715a3c2b174ff70aa2d7ab88fa0294868a41354d2f9e60f7fd18"
+}
