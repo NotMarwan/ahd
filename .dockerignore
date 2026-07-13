@@ -1,0 +1,15 @@
+# .dockerignore — keep the image to what server/http.cjs actually needs to run
+# (server/, app/, demo/, protocol/). Excludes docs/media/vault/tooling that
+# add nothing to the running process but bloat build context + image size.
+# Nothing here changes server behavior — pure build-context hygiene.
+.git
+node_modules
+promo/out
+graphify-out
+AmadHackathon
+_overnight
+docs
+swarm
+project
+_meta
+.claude

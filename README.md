@@ -71,6 +71,46 @@ The **engine** is the same code in both. `build-engine.cjs` reads the demo's log
 
 ---
 
+## Server & Deploy (honest status)
+
+A zero-dependency Node server (`server/http.cjs` — built-ins only, no `npm install`) exposes the SAME golden
+engine over real HTTP (`/create-loan`, `/seal`, `/verify`, `/net`, `/list`, `/health`), with durable
+append-only persistence (`server/store.cjs`) and HMAC session auth on the mutating routes (`server/auth.cjs`).
+It is a **separate terminal surface** — the app/demo themselves stay fully offline and never call it (see
+`tests/offline-check.cjs` + `tests/app/app-offline.test.cjs`); a presenter runs it by hand alongside the app
+(`server/demo-bank-node.cjs` is a one-command judge-facing walkthrough).
+
+```bash
+# run the server locally (no npm install — zero deps)
+node server/http.cjs                # → http://127.0.0.1:8225
+
+# or in a container
+docker build -t ahd-server .
+docker run --rm -p 8225:8225 ahd-server
+```
+
+**`GET /health`** returns a static, deterministic `{ "ok": true }` (no auth required, no wall-clock
+timestamp) — wired into the `Dockerfile`'s `HEALTHCHECK` and tested in `tests/app/server-health.test.cjs`.
+Over-the-wire HTTP parity (a real socket reproducing the same pinned golden seals the pure router already
+proves in-process) is proven on every gate run by `server/smoke-live.cjs`, wired into `tests/run-all.cjs` as
+a meta step (ephemeral OS-assigned port — never the fixed 8225 — so it can never collide with an already-running
+server on the same machine).
+
+**Honest limits — read before assuming more than this provides:**
+- This is **LOCALHOST-HARDENED, NOT a cloud deployment.** There is no managed hosting, no TLS/reverse proxy,
+  no autoscaling, and no KSA data-residency story here — those remain real, not-yet-built work (see
+  `docs/evidence/PATH-TO-PRODUCTION.md`).
+- `server/http.cjs` binds `127.0.0.1` **only**, by deliberate design (never `0.0.0.0`). Inside the Docker
+  image this means the port is reachable from *within* the container's own network namespace (which is all
+  the `HEALTHCHECK` needs) but is **not** automatically reachable from outside via `-p 8225:8225` the way an
+  `0.0.0.0`-bound server would be — on Linux, `docker run --network host` shares the host's network namespace
+  and makes it reachable that way. A configurable, non-loopback bind for real external access is a genuine
+  residual gap, flagged here rather than silently worked around.
+- The Dockerfile has not been build-tested in every environment — verify with `docker build .` on your
+  machine before relying on it for a live demo.
+
+---
+
 ## Design Highlights
 
 - **Dignity-first** — late is amber, never red. No shaming, no countdowns, no scores.
@@ -90,14 +130,14 @@ cd tests
 # Demo core (184) + offline seams + structure gate (14)
 node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs
 
-# App suites (57 suites, 2,377 assertions)
+# App suites (58 suites, 2,388 assertions)
 node app/run-app-tests.cjs
 
 # Or the whole gate in ONE command — core + app + structure + tripwire, one banner:
-node run-all.cjs        # → AHD GATE ✅ 2575/0   (≈6s, fully offline, deterministic)
+node run-all.cjs        # → AHD GATE ✅ 2586/0   (≈6s, fully offline, deterministic)
 ```
 
-Total: **2,575 assertions, 0 failed** — demo core 184 + app 2,377 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red. (Single source of truth: re-run `run-all.cjs` — its banner outranks any number cited in a doc.)
+Total: **2,586 assertions, 0 failed** — demo core 184 + app 2,388 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red. (Single source of truth: re-run `run-all.cjs` — its banner outranks any number cited in a doc.)
 
 ---
 
@@ -128,9 +168,9 @@ ahd/
 │   ├── offline-check.cjs     # Zero network seams (9)
 │   ├── dom-smoke.cjs         # Headless render + robustness (40)
 │   ├── structure-check.cjs   # Repo-structure gate (14)
-│   ├── run-all.cjs           # One-command gate + tripwire (2575/0)
+│   ├── run-all.cjs           # One-command gate + tripwire (2586/0)
 │   ├── load-logic.cjs        # Engine slicer
-│   └── app/                  # App test suites (56 files)
+│   └── app/                  # App test suites (58 files)
 │
 ├── protocol/         # Open-Witness v1 — standalone reference verifier
 │   ├── verify-ahd-seal.cjs   # Zero-dep (Node crypto only), never imports app/engine.js

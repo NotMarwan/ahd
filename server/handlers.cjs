@@ -149,4 +149,17 @@ function listLoans(body, ctx) {
   return { status: 200, body: { items: items, count: items.length } };
 }
 
-module.exports = { createLoan: createLoan, sealLoan: sealLoan, verifyLoan: verifyLoan, netLoans: netLoans, listLoans: listLoans, MAIN_ID: MAIN_ID };
+/* ---- GET /health — T5 deploy story: additive healthcheck for a container/
+   orchestrator (Docker HEALTHCHECK, load-balancer probe, etc). Deterministic
+   by construction: a STATIC body, never a wall-clock timestamp/uptime — this
+   file must stay Date.now/new Date-free (server-parity.test.cjs's static
+   scan enforces it project-wide). Public (never gated by auth, see
+   server/router.cjs's ROUTES table: mutating: false). ---- */
+function health(body, ctx) {
+  return { status: 200, body: { ok: true } };
+}
+
+module.exports = {
+  createLoan: createLoan, sealLoan: sealLoan, verifyLoan: verifyLoan, netLoans: netLoans,
+  listLoans: listLoans, health: health, MAIN_ID: MAIN_ID
+};

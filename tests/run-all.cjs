@@ -73,6 +73,25 @@ var dc = extractCounts(driftOut);
 if (!driftOk || dc.failed > 0) broken.push("no-drift    (gate-drift-check)");
 console.log((driftOk && dc.failed === 0 ? "  ✓ " : "  ✗ ") + "no-drift    (gate-drift-check) — " + dc.passed + " passed, " + dc.failed + " failed (meta, not in the product total)");
 
+/* T4: smoke-live — a REAL over-the-wire HTTP round trip (ephemeral OS-assigned
+   port, never the fixed 8225 the live process uses — see server/smoke-live.cjs's
+   header for why a fixed port here would risk a false-red port-collision hang)
+   proving server/router.cjs's golden-seal parity holds over an actual socket,
+   not just the pure in-process calls tests/app/server-parity.test.cjs already
+   covers. META step (like tripwire + no-drift below): its own pass/fail line,
+   excluded from the product assertion total — it is a robustness proof, not a
+   pile of additional product assertions to count. */
+var smoke = "", smokeOk = false;
+try {
+  smoke = cp.execSync("node smoke-live.cjs", { cwd: path.join(ROOT, "server"), encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  smokeOk = /SMOKE-LIVE: OK/.test(smoke);
+} catch (e) {
+  smokeOk = false;
+  smoke = String((e && e.stdout) || "") + String((e && e.stderr) || "");
+}
+if (!smokeOk) broken.push("smoke-live  (over-the-wire parity)");
+console.log((smokeOk ? "  ✓ " : "  ✗ ") + "smoke-live  (over-the-wire parity) — " + (smokeOk ? "real HTTP round-trip reproduces every pinned golden seal (meta, not in the product total)" : "FAILED:\n" + smoke));
+
 var trip = "", tripOk = false;
 try {
   trip = cp.execSync("sha256sum -c _overnight/backup/demo.sha256", { cwd: ROOT, encoding: "utf8" });

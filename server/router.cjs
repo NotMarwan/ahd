@@ -27,7 +27,8 @@ const ROUTES = [
   { method: "POST", path: "/seal", fn: Handlers.sealLoan, mutating: true },
   { method: "POST", path: "/verify", fn: Handlers.verifyLoan, mutating: false },
   { method: "POST", path: "/net", fn: Handlers.netLoans, mutating: true },
-  { method: "GET", path: "/list", fn: Handlers.listLoans, mutating: false }
+  { method: "GET", path: "/list", fn: Handlers.listLoans, mutating: false },
+  { method: "GET", path: "/health", fn: Handlers.health, mutating: false }
 ];
 
 /* extract "Bearer <token>" from a case-insensitive Authorization header */

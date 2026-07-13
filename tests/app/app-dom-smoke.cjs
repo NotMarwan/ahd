@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -296,6 +296,19 @@ ok(!/١٩٠٬٤١٧|190,417|١٩٠،٤١٧/.test(seD), "Front D: the projected s
 ok(!/٣٨٠٬٨٣٤|380,834|٣٨٠،٨٣٤/.test(seD), "Front D: the avoided-claims figure is NOT the spurious 6-figure literal");
 ok(/se-nat-caveat/.test(seD) && /دائرةَ اختبارٍ/.test(seD), "Front D: an on-card caveat states the ratio is computed over synthetic test circles");
 ok(/بيانات تجريبيّة/.test(seD), "Front D: the on-card caveat plainly says «test data», not real usage");
+/* D1 gate-coverage fix: features/impact-band.js is now in the DOM-smoke FILES
+   list (window.ImpactBand is defined), so the settle screen's Front D card
+   renders the p10-p50-p90 SENSITIVITY BAND, not the old single-point fallback
+   (see screens/settlement.js: bandLine is only "" when window.ImpactBand is
+   undefined). Assert the BAND-specific text renders and the old fallback's
+   headline text does NOT — proving this suite exercises the real, current
+   render path, not a stale one silently masked by a missing FILES entry. */
+ok(!!sandbox.ImpactBand, "ImpactBand module attaches to window (now loaded in the DOM smoke)");
+ok(/نطاق توضيحيّ حتميّ/.test(seD), "Front D (D1): the sensitivity-band label renders on the settle screen");
+ok(/نسبةُ الانضغاط تتفاوت بتفاوت شكل الدائرة/.test(seD), "Front D (D1): the band's own headline sentence renders (replaces the fragile single-point ratio)");
+ok(/دائرةَ اختبارٍ توليديّة/.test(seD) && /200/.test(seD), "Front D (D1): the band names its 200 generative test circles");
+ok(!/نسبةُ الضغط في دوائر عهد التجريبيّة/.test(seD), "Front D (D1): the OLD single-point fallback headline is gone now that ImpactBand is loaded (no silent double-render)");
+ok(/نقطةُ عهد الأصليّة/.test(seD), "Front D (D1): the old single point is kept only as a labelled reference value shown to sit inside the band, never the headline");
 noThrow(() => App.proofBack(), "proofBack returns to دفتري");
 ok(App.current === "daftari", "proofBack lands on دفتري");
 noThrow(() => App.openProof("does-not-exist"), "openProof with a bad id is a safe no-op");
