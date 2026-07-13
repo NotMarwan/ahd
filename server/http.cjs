@@ -7,19 +7,27 @@
    called directly by tests/app/server-parity.test.cjs. Use server/smoke-live.cjs
    for an optional, manual, real-socket smoke check of this file.
 
+   Durable by default: the live process persists every witnessed/sealed loan
+   to an append-only log under DATA_DIR (server/data/ unless AHD_DATA_DIR
+   overrides it — see server/store.cjs) so restarting this process does NOT
+   lose server-created loans. Callers that want an ephemeral store (e.g. a
+   one-off script) can still pass their own `store` argument explicitly.
+
    Run:  node server/http.cjs   ->  http://127.0.0.1:8225
 ============================================================================ */
 "use strict";
 const http = require("http");
+const path = require("path");
 const route = require("./router.cjs").route;
 const engine = require("./engine.cjs");
 const Store = require("./store.cjs");
 
 const PORT = 8225;
 const HOST = "127.0.0.1"; // localhost only — never binds 0.0.0.0
+const DATA_DIR = process.env.AHD_DATA_DIR || path.join(__dirname, "data");
 
 function createAhdServer(store) {
-  var ctx = { engine: engine, store: store || Store.createStore() };
+  var ctx = { engine: engine, store: store || Store.createStore(DATA_DIR) };
   return http.createServer(function (req, res) {
     var chunks = [];
     req.on("data", function (c) { chunks.push(c); });
@@ -52,4 +60,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createAhdServer: createAhdServer, PORT: PORT, HOST: HOST };
+module.exports = { createAhdServer: createAhdServer, PORT: PORT, HOST: HOST, DATA_DIR: DATA_DIR };

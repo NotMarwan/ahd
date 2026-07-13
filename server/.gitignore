@@ -1,0 +1,4 @@
+# Runtime durable-store data (append-only event log written by store.cjs
+# when the live server runs — see http.cjs's DATA_DIR). Not source; never
+# commit witnessed/sealed loan data written by a running instance.
+data/

@@ -225,7 +225,7 @@ process, and aggregates. The **8 suites** (≈283 assertions, all green):
 **How they gate:** the two tiers are independent. Tier 1 keeps the frozen demo correct and unchanged;
 Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step with the demo (via
 `engine-parity.cjs`) and provably offline/deterministic (via `app-offline.test.cjs` +
-`determinism.test.cjs`). Combined (recomputed live 2026-07-13; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,254 (53 suites) + structure 14 = 2,452 assertions, all green** — one command: `cd tests && node run-all.cjs`.
+`determinism.test.cjs`). Combined (recomputed live 2026-07-13; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,271 (54 suites) + structure 14 = 2,469 assertions, all green** — one command: `cd tests && node run-all.cjs`.
 
 ---
 
@@ -361,7 +361,7 @@ tests/
 
 server/
   engine.cjs                  THIN ADAPTER: re-exports app/engine.js unmodified (one require path)
-  store.cjs                   deterministic in-memory persistence (a Map; not a real DB — §9)
+  store.cjs                   durable append-only JSONL event log + replay (opt-in dataDir; §9) — not a real DB
   handlers.cjs                pure route handlers: (body, ctx) -> { status, body }; call the golden
                                engine + app/features/create.js + app/features/riba-lint.js only
   router.cjs                  pure dispatcher: route(method, pathname, body, ctx) -> { status, body }
@@ -413,6 +413,16 @@ seal it, and get literally the same hash either way.
   and makes a real HTTP round‑trip to `POST /verify`; it is not named to match the auto‑discovery pattern
   and is not invoked by `run-all.cjs`, so it can never make the gate flaky. Run it by hand:
   `node server/smoke-live.cjs`.
+- **Durable persistence (T1, 2026‑07‑13)**: `server/store.cjs` is an append‑only JSONL event log, not a bare
+  `Map`. Every `putLoan` (draft create, seal) appends one JSON line via `fs.openSync(..., "a")` +
+  `fs.writeSync` (one syscall, whole line) + `fs.fsyncSync` before close — durable, atomic‑append. On
+  startup the store **replays** the log to rebuild state; a torn/truncated tail line (a simulated crash
+  mid‑write) is parsed defensively and skipped, never loaded as a record. `server/http.cjs` (the live
+  process) opts into this by default at `server/data/` (override via `AHD_DATA_DIR`); `Store.createStore()`
+  with no `dataDir` stays the old ephemeral, in‑memory‑only shape (used by `server-parity.test.cjs`, which
+  needs a fresh, isolated store per assertion). Proved by `tests/app/server-persistence.test.cjs`: create+seal
+  through one store instance, construct a **fresh** instance reading the same log file (a real simulated
+  restart), and the record — including the pinned golden seal — is still there.
 
 ### What is NOT real — explicit, not hidden
 
@@ -421,12 +431,13 @@ gaps:
 
 - **No authentication or authorization** — any caller can create/seal/verify/list any loan; there is no
   session, token, Nafath integration, or per‑party access control.
-- **No real database** — `server/store.cjs` is a process‑local `Map`. Restarting the process loses every
-  server‑created loan (the MAIN frozen record is unaffected — it is baked into the engine, not the store).
-  No transactions, no migrations, no backup.
-- **No concurrency control** — a `Map` is not safe under concurrent writers beyond Node's single‑threaded
-  event loop; there is no locking, no optimistic concurrency, no idempotency key beyond the simple
-  "id already exists" 409 check.
+- **No real database engine** — `server/store.cjs` is a durable append‑only log + in‑memory replay, not a
+  relational/document DB. No transactions, no indexes, no query language, no migrations, no compaction of
+  superseded records (a loan's draft line is never removed once its seal line is appended — the log only
+  grows), no backup/replication story.
+- **No concurrency control** — writes are not safe under multiple concurrent processes sharing one log file
+  (only Node's single‑threaded event loop within one process is assumed); there is no file locking, no
+  optimistic concurrency, no idempotency key beyond the simple "id already exists" 409 check.
 - **No rate limiting, no request size limits, no TLS** — `server/http.cjs` is a bare `http.createServer`,
   offline‑only, meant to be run on `localhost` for a demo, not exposed to the internet.
 - **No deployment story** — no process manager, no container, no environment config, no health checks
