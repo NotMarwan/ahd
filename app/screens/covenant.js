@@ -66,7 +66,8 @@
     return '<div class="covenant">' +
       '<button class="pf-back" onclick="AhdApp.covenantBack()">→ رجوع إلى دفتري</button>' + flash +
       '<div class="cv-head">سِجلّ المعروف</div>' +
-      '<div class="cv-sub">عهد «' + App.esc(r.lender) + '» و«' + App.esc(r.borrower) + '» — ' + App.fmtN(r.amountSAR) + ' ر.س</div>' +
+      '<div class="cv-sub">عهد «' + App.esc(r.lender) + '» و«' + App.esc(r.borrower) + '»</div>' +
+      '<div class="cv-amt-hero">' + App.fmtN(r.amountSAR) + ' <small>ر.س</small></div>' +
       '<div class="cv-intro">كلُّ تذكيرٍ لطيف، وكلُّ نظرةٍ إلى ميسرة، وكلُّ إبراء — مختومٌ ومرتّبٌ هنا. ' +
         'هذا سِجلٌّ يشهد بحُسن النيّة، لا يُقيّم أحدًا ولا يُصنّفه.</div>' +
       '<div class="cv-timeline">' + steps + "</div>" +

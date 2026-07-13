@@ -69,6 +69,7 @@
       '</div>' +
       '<div class="st-per">في كلّ دورة: <strong>' + App.fmtN(standing.perCycleMinor / 100) + '</strong> ر.س · ' +
         App.esc(String((standing.cycleKeys || []).length)) + ' دورات</div>' +
+      '<div class="st-hero-num">' + App.fmtN(ledger.outstandingMinor / 100) + ' <small>ر.س باقٍ</small></div>' +
       ledgerHTML +
       '<div class="st-note">سُلفةٌ قائمةٌ متجدّدة — لا موعد، لا تذكير، لا حرج. في كلّ دورةٍ يُختم عهدٌ واحد، يُسدَّد متى ما تيسّر، بلا أيّ زيادة.</div>' +
       '<div class="st-posts-h">العهود المختومة · دورةً دورة</div>' +

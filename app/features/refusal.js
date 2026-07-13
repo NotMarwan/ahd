@@ -16,6 +16,11 @@
 
   var HEADING = "عهد لا يُقرض، لا يُقيّم، لا يحكم";
   var SUB = "ثلاثة أبوابٍ يطرقها كلُّ بنكٍ تقليديّ — وعهد يُغلقها عمدًا. ليست نقصًا نعتذر عنه، بل هُويّتنا.";
+  /* W5 (memorability): the quotable, on-screen pull-quote — «what we refuse to
+     do IS the product», stated plainly, no hedge. Echoed verbatim in the
+     presenter script's closing beat (docs/pitch/script-ar.md) so a judge who
+     later opens the app hears the SAME words they were told on stage. */
+  var QUOTE = "ما لا يفعله عهدٌ هو المنتج — لا نعتذر عنه، بل نبنيه على رفضه.";
 
   var ITEMS = [
     Object.freeze({
@@ -52,8 +57,8 @@
   });
 
   function model() {
-    return Object.freeze({ heading: HEADING, sub: SUB, items: Object.freeze(ITEMS.slice()), charity: CHARITY });
+    return Object.freeze({ heading: HEADING, sub: SUB, quote: QUOTE, items: Object.freeze(ITEMS.slice()), charity: CHARITY });
   }
 
-  return { HEADING: HEADING, model: model };
+  return { HEADING: HEADING, QUOTE: QUOTE, model: model };
 });

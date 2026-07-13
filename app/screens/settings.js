@@ -30,7 +30,8 @@
           '<button class="' + (ar ? "" : "on") + '" onclick="AhdApp.setDigitMode(\'western\')">0123 — غربية</button>' +
           '<button class="' + (ar ? "on" : "") + '" onclick="AhdApp.setDigitMode(\'arabic\')">٠١٢٣ — عربية</button>' +
         "</div>" +
-        '<div class="set-prev">مثال: <b>' + sample + ' ر.س</b> — يُطبَّق فورًا (والختم لا يتغيّر، فهو على المحتوى لا على شكل الأرقام).</div>' +
+        '<div class="set-hero-num">' + sample + ' <small>ر.س — مثال</small></div>' +
+        '<div class="set-prev">يُطبَّق فورًا (والختم لا يتغيّر، فهو على المحتوى لا على شكل الأرقام).</div>' +
       "</div>" +
       '<div class="set-card">' +
         '<div class="set-lbl">الخصوصيّة · إخفاء المبالغ</div>' +

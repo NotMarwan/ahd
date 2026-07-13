@@ -58,7 +58,8 @@
     if (st.graduated) {
       var g = st.graduated;
       pGrad = '<div class="ca-card grad"><div class="ca-h">صار عهدًا موثّقًا · ' + App.esc(g.borrower) + "</div>" +
-        '<div class="ca-sub">' + App.esc(g.lender) + " ← " + App.esc(g.borrower) + " · " + App.fmtN(g.principalMinor / 100) + ' ر.س · قرضٌ مفتوح «متى ما تيسّر»</div>' +
+        '<div class="ca-hero-num">' + App.fmtN(g.principalMinor / 100) + ' <small>ر.س</small></div>' +
+        '<div class="ca-sub">' + App.esc(g.lender) + " ← " + App.esc(g.borrower) + ' · قرضٌ مفتوح «متى ما تيسّر»</div>' +
         '<div class="ca-seal">SEAL: ' + App.esc(e.short(g.seal, 24)) + "…</div>" +
         '<div class="ca-prov">من دائرة «' + App.esc(g.provenance.circleName) + "» — حُفِظت الصلة (provenance)</div>" +
         '<button class="primary" onclick="AhdApp.circleGraduateView()">اعرض القرض المفتوح ←</button></div>';
@@ -76,7 +77,7 @@
       ps.pledges.map(function (p) { return '<div class="ca-line"><span>' + App.esc(p.member) + "</span><span>تعهّد " + App.fmtN(p.amountMinor / 100) + " ر.س</span></div>"; }).join("") +
       '<div class="ca-warn">⚠️ تعهّدٌ فقط — لا وديعةٌ مجمّعة يحفظها المصرف. هذا النمط (ب) يحتاج مراجعةً شرعيّة قبل الإطلاق.</div></div>';
 
-    return '<div class="circleadv">' + flash + pAsnaf + pRec + pGrad + pPledge + "</div>";
+    return '<div class="circleadv"><div class="ca-scr-head">الدائرة+ · تقسيمٌ وتخريجٌ وتعهّد</div>' + flash + pAsnaf + pRec + pGrad + pPledge + "</div>";
   }
 
   App.registerScreen({ key: "circle-adv", label: "الدائرة+", icon: "🔁", render: render });

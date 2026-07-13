@@ -60,15 +60,22 @@
       '<div class="pf-can">' + App.esc(canon) + "</div>" +
       '<div class="pf-hash">content hash: ' + App.esc(st.tamper ? tr.hashAfter : tr.hashBefore) + "</div></div>";
 
-    var chain = '<div class="pf-chain2"><div class="pl">سلسلة الختم (hash-chain)</div>' +
+    /* Front C sharpened: a TRUE cascade, not just an endpoint flag. genesis is a
+       fixed root (untouched by the tampered content, so it stays calm); the
+       content-hash link AND the seal link both derive from the tampered text,
+       so BOTH turn red — the tear visibly propagates down the chain in one
+       breath. «كلّ قرضٍ خيط، والسجلّ نسيج»: this IS the thread tearing. */
+    var broke = !tr.ok;
+    var chain = '<div class="pf-chain2' + (broke ? " cascade" : "") + '"><div class="pl">سلسلة الختم (hash-chain)</div>' +
       '<div class="ch"><span>genesis</span><code>' + App.esc(shortH(e, pack.chain[0].hash, 28)) + "…</code></div>" +
       '<div class="ch-link" aria-hidden="true">↓</div>' +
-      '<div class="ch"><span>المحتوى · SHA-256</span><code>' + App.esc(shortH(e, st.tamper ? tr.hashAfter : tr.hashBefore, 28)) + "…</code></div>" +
-      '<div class="ch-link" aria-hidden="true">↓</div>' +
-      '<div class="ch block' + (tr.ok ? "" : " broken") + '"><span>الختم · block #1</span><code>' + App.esc(shortH(e, st.tamper ? tr.sealAfter : tr.sealBefore, 28)) + "…</code></div></div>";
+      '<div class="ch ch-content' + (broke ? " broken" : "") + '"><span>المحتوى · SHA-256</span><code>' + App.esc(shortH(e, st.tamper ? tr.hashAfter : tr.hashBefore, 28)) + "…</code></div>" +
+      '<div class="ch-link' + (broke ? " tear" : "") + '" aria-hidden="true">↓</div>' +
+      '<div class="ch block ch-seal' + (broke ? " broken" : "") + '"><span>الختم · block #1</span><code>' + App.esc(shortH(e, st.tamper ? tr.sealAfter : tr.sealBefore, 28)) + "…</code></div></div>";
 
     var verify = '<div class="pf-verify ' + (tr.ok ? "ok" : "bad") + '">' +
-      (tr.ok ? "✓ سليمة — يطابق الختمُ الأصلي، لم تُمَسّ" : "✗ عبثٌ مكشوف — تغيّر الختم، فلا تُقبل") + "</div>";
+      (tr.ok ? "✓ سليمة — يطابق الختمُ الأصلي، لم تُمَسّ" : "✗ عبثٌ مكشوف — تغيّر الختم، فلا تُقبل") + "</div>" +
+      (broke ? '<div class="pf-tear-note">🧵 خيطُ هذا العهد يتمزّق في نسيجك — رقمٌ واحد كسر السلسلة كلّها، من المحتوى إلى الختم.</div>' : "");
     var nMoved = (typeof window !== "undefined" && window.HashDiff) ? window.HashDiff.count(tr.sealBefore, tr.sealAfter) : 0;
     var diff = st.tamper
       ? '<div class="pf-diff"><div class="dd-h">الحقل المتغيّر: <b>المبلغ</b></div>' +
@@ -96,6 +103,7 @@
         '<button class="' + (st.tamper ? "restore" : "primary") + '" onclick="AhdApp.proofTamperToggle()">' + (st.tamper ? "أصلِح الوثيقة" : "جرّب العبث بالمبلغ 🧪") + "</button>" +
         '<button onclick="AhdApp.proofExport()">صدّر / شارك الوثيقة</button>' +
       "</div>" +
+      (broke ? '<button class="pf-weave-link" onclick="AhdApp.go(\'home\')">🧵 شاهد الخيط يتمزّق في نسيج عهودك ←</button>' : "") +
       '<div class="pf-note">المصرف يشهد ويحفظ — لا يحكم بين الطرفين. الوثيقة لكما، ودليلٌ عند الحاجة.</div>' +
       /* contextual bridge to «الضمانات والحدود» (JL-4) — the guarantees behind this seal, each with its test */
       '<button class="bd-chip" onclick="AhdApp.go(\'bounds\')">🧭 الضمانات والحدود — كلُّ ضمانةٍ باختبارها</button>' +

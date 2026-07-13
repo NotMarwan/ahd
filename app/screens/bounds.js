@@ -54,6 +54,7 @@
       '<div class="bd-chips">' +
         '<button class="bd-chip" onclick="AhdApp.go(\'mine\')">🫱 ما عليّ</button>' +
         '<button class="bd-chip" onclick="AhdApp.go(\'proof\')">🔏 حافظة الإثبات</button>' +
+        '<button class="bd-chip" onclick="AhdApp.go(\'shariah\')">📜 الأساس الشرعي</button>' +
         '<button class="bd-chip" onclick="AhdApp.go(\'home\')">🏠 الرئيسية</button>' +
       "</div>" +
     "</div>";

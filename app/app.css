@@ -16,7 +16,17 @@
   /* scales (premium pass) — the sustainable foundation for consistent spacing/radius/type */
   --s-1:4px; --s-2:8px; --s-3:12px; --s-4:14px; --s-5:16px; --s-6:22px;
   --r-sm:10px; --r-md:13px; --r-lg:16px; --r-xl:20px; --r-pill:999px;
-  --t-xs:12px; --t-sm:13px; --t-md:14px; --t-lg:16px; --t-xl:20px; --t-hero:30px;
+  /* ALL SIX --t-* steps are ALIASES onto the Sadu scale (app/styles/sadu-tokens.css),
+     not a second independent set of literal values — one type scale, one source of
+     truth. sadu-tokens.css loads before this file, but CSS custom-property lookup is
+     resolved at computed-value time (final cascade), so the forward reference is safe.
+     W1-iter3 (2026-07-13): --t-xs/sm/lg/xl folded in too (were independent literals
+     12/13/16/20px until now) — values are UNCHANGED, only the source of truth moved.
+     --t-hero has no remaining consumer in this file (superseded app-wide by the more
+     specific --sadu-type-display / --sadu-type-hero-num) but is kept, aliased, as a
+     public custom property — removing it is a breaking change for anything outside
+     this file that may reference it, and an existing test pins its alias form. */
+  --t-xs:var(--sadu-type-xs); --t-sm:var(--sadu-type-sm); --t-md:var(--sadu-type-body); --t-lg:var(--sadu-type-lg); --t-xl:var(--sadu-type-xl); --t-hero:var(--sadu-type-display);
   /* the ONE place to tune the dark sealed-document aesthetic (seal / proof / verify) */
   --seal-bg:#10201e; --seal-ink:#dfeee9; --seal-lbl:#9ec7bd; --seal-hash:#7fe0c0; --seal-well:#0c1a18;
   --mono:"Consolas","Courier New",monospace;
@@ -63,7 +73,10 @@ body{
   background:repeating-linear-gradient(45deg,transparent 0 14px,#d4b968 14px 15px),
              repeating-linear-gradient(-45deg,transparent 0 14px,#d4b968 14px 15px)}
 .hero>*{position:relative}
-.hero .brand{font-size:38px; font-weight:800; letter-spacing:2px;
+/* the brand wordmark: the single most prominent mark on stage, so it takes the TOP
+   of the Sadu type scale (--sadu-type-display, monotonic-largest — see sadu-tokens.css).
+   ONE rule for .hero .brand's font-size in the whole file — no competing duplicate. */
+.hero .brand{font-family:var(--font-display); font-size:var(--sadu-type-display); font-weight:800; letter-spacing:2px;
   background:linear-gradient(180deg,#f4e9c8,#d4b968); -webkit-background-clip:text; background-clip:text;
   -webkit-text-fill-color:transparent; color:#e9d9a6}
 .hero .tag{font-size:16px; color:#bfe3da; margin-top:4px}
@@ -72,8 +85,6 @@ body{
 .hcard{appearance:none; text-align:right; border:1px solid var(--line); background:var(--card); border-radius:16px; padding:14px; box-shadow:var(--shadow); cursor:pointer; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center}
 .hico{font-size:24px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--teal-soft); border-radius:12px}
 .hcard .ht{font-weight:700} .hcard .hs{grid-column:2; color:var(--mut); font-size:12.5px}
-.hsummary{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center; font-size:13.5px; color:var(--mut)}
-.hsummary b{color:var(--ink)}
 .hstanding{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
 .hst{appearance:none; text-align:center; background:var(--card); border:1px solid var(--line); border-radius:13px; padding:11px 8px; box-shadow:var(--shadow); cursor:pointer; font:inherit}
 .hst span{display:block; color:var(--mut); font-size:11px; margin-bottom:4px}
@@ -90,7 +101,10 @@ body{
 .tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 14px}
 .tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow-sm)}
 .tl{color:var(--mut); font-size:13px}
-.tv{font-size:24px; font-weight:700; margin-top:2px} .tv small{font-size:13px; font-weight:400; color:var(--mut)}
+/* hero numeral — same token as home's .hstat-v / settlement's .se-big span /
+   timeline's .tl-count-hero (W1 defect: numeral fragmentation was 24/34/36/38px
+   across screens; now ONE --sadu-type-hero-num everywhere a screen leads with money) */
+.tv{font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:700; font-variant-numeric:tabular-nums; margin-top:2px} .tv small{font-size:13px; font-weight:400; color:var(--mut)}
 .tc{color:var(--mut); font-size:12px; margin-top:2px}
 
 /* tabs */
@@ -167,7 +181,7 @@ body{
 .ol-head{font-size:15px; color:var(--mut)}
 .ol-rem{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:22px; text-align:center}
 .ol-rl{color:var(--mut); font-size:13px}
-.ol-rv{font-size:34px; font-weight:800; letter-spacing:-.5px} .ol-rv small{font-size:15px; font-weight:400; color:var(--mut)}
+.ol-rv{font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.5px} .ol-rv small{font-size:15px; font-weight:400; color:var(--mut)}
 .ol-status{text-align:center}
 /* progress breakdown (paid · صدقة · باقٍ) — proportional, no % text */
 .ol-progress{display:flex; flex-direction:column; gap:7px}
@@ -200,21 +214,25 @@ body{
 
 /* الدائرة — treasurer dashboard */
 .circledash{display:flex; flex-direction:column; gap:12px}
-.cd-head{font-weight:700}
 .cd-prog{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:15px}
+/* hero numeral — the amount collected so far, same --sadu-type-hero-num token
+   as every other screen's leading figure (W1-iter3 sweep) */
+.cd-hero-num{display:block; font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; color:var(--teal); margin-bottom:2px}
+.cd-hero-num small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut)}
 .cd-pl{font-size:15px; font-weight:600}
 .cd-bar{height:9px; background:var(--mute-soft); border-radius:999px; margin:9px 0 7px; overflow:hidden}
 .cd-fill{height:100%; background:var(--teal); border-radius:999px}
-.cd-status{color:var(--gold); font-size:13px}
+.cd-status{color:var(--gold); font-size:var(--t-sm)}
 .cd-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:4px 14px}
 .cd-row{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:11px 0; border-top:1px solid var(--line); font-size:13.5px}
 .cd-row:first-child{border-top:0} .cd-row small{color:var(--mut); font-size:11px}
 .cd-note{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:13px; padding:11px 13px; font-size:12.5px; color:var(--mut); line-height:1.8}
 .cd-remind{display:flex; flex-direction:column; gap:9px}
-.cd-rbtn{appearance:none; border:1px solid var(--teal); background:var(--teal-soft); color:var(--teal); border-radius:12px; padding:11px; font:inherit; font-weight:600; font-size:13px; cursor:pointer}
+.cd-rbtn{appearance:none; border:1px solid var(--teal); background:var(--teal-soft); color:var(--teal); border-radius:12px; padding:11px; font:inherit; font-weight:600; font-size:var(--t-sm); cursor:pointer; transition:background var(--sadu-motion-fast) var(--sadu-ease), color var(--sadu-motion-fast) var(--sadu-ease)}
+.cd-rbtn:hover{background:var(--teal); color:#fff}
 .cd-rcard{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px; box-shadow:var(--shadow)}
-.cd-rfrom{font-weight:700; font-size:12px; color:var(--teal); margin-bottom:7px}
-.cd-rtext{font-size:13px; line-height:1.9; color:var(--ink)}
+.cd-rfrom{font-weight:700; font-size:var(--t-xs); color:var(--teal); margin-bottom:7px}
+.cd-rtext{font-size:var(--t-sm); line-height:1.9; color:var(--ink)}
 .cd-rfoot{margin-top:9px; padding-top:9px; border-top:1px solid var(--line); font-size:11.5px; color:var(--mut)}
 .cd-seal{font-size:11px; color:var(--mut); word-break:break-all}
 
@@ -222,7 +240,7 @@ body{
 .settle{display:flex; flex-direction:column; gap:12px}
 .se-head{font-weight:700}
 .se-big{text-align:center; font-size:20px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
-.se-big span{font-size:30px; font-weight:800; color:var(--teal)} .se-big em{color:var(--mut); font-style:normal; margin:0 8px}
+.se-big span{font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; color:var(--teal)} .se-big em{color:var(--mut); font-style:normal; margin:0 8px}
 .se-card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:6px 14px}
 .se-row{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-top:1px solid var(--line); font-size:14px}
 .se-row:first-child{border-top:0} .se-row b{color:var(--teal)}
@@ -287,17 +305,26 @@ body{
 .ca-card.grad{border-color:#cfe6df; background:var(--teal-soft)}
 .ca-card.pledge{border-color:#ecdfb5; background:#fffdf5}
 .ca-h{font-weight:700; margin-bottom:2px}
-.ca-sub{color:var(--mut); font-size:13px; margin-bottom:8px}
-.ca-line{display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid var(--line); font-size:14px}
+.ca-sub{color:var(--mut); font-size:var(--t-sm); margin-bottom:8px}
+/* hero numeral — the graduated عهد's principal, the ONE moment this screen
+   leads with a real amount (same --sadu-type-hero-num token app-wide) */
+.ca-hero-num{display:block; font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; color:var(--teal); margin:2px 0}
+.ca-hero-num small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut)}
+.ca-line{display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid var(--line); font-size:var(--t-md)}
 .ca-items{margin-top:8px; background:var(--bg); border-radius:11px; padding:4px 11px}
 .ca-item{display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-top:1px solid var(--line); font-size:12.5px; color:var(--mut)}
 .ca-item:first-child{border-top:0} .ca-item b{color:var(--teal); font-size:11.5px}
 .ca-ok{margin-top:8px; color:var(--teal); font-size:12.5px}
-.ca-note{margin-top:8px; color:var(--mut); font-size:12px}
+.ca-note{margin-top:8px; color:var(--mut); font-size:var(--t-xs)}
 .ca-warn{margin-top:9px; color:var(--amber); background:var(--amber-soft); border-radius:10px; padding:9px 11px; font-size:12.5px}
 .ca-seal{font-size:11.5px; color:var(--teal); margin-top:6px; word-break:break-all}
-.ca-prov{color:var(--mut); font-size:12px; margin-top:4px}
+.ca-prov{color:var(--mut); font-size:var(--t-xs); margin-top:4px}
 .ca-card .primary{margin-top:6px; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:11px; padding:11px 14px; font:inherit; font-weight:600; cursor:pointer}
+/* the recurring-قِسْمة stop/resume control was rendering with ZERO style (a
+   real unstyled corner — no ancestor selector matched a bare .mini button
+   inside .ca-card); gets the same mini-button idiom as .cv-act/.st-verify */
+.ca-card .mini{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:9px 12px; font:inherit; font-size:var(--t-sm); cursor:pointer; margin-top:6px}
+.ca-card .mini:hover{border-color:var(--teal); color:var(--teal)}
 
 /* flash + empty */
 .flash{background:var(--gold-soft); border:1px solid #ecdfb5; color:var(--gold); border-radius:13px; padding:11px 13px; margin-bottom:12px; font-size:13.5px; cursor:pointer}
@@ -392,6 +419,15 @@ body{
 .pf-chain2 .ch.broken code{color:#ffb59e}
 .pf-chain2 .ch.broken span{color:#f0b7a6}
 .pf-chain2 .ch-link{color:#5f8b81; text-align:center; font-size:14px; margin:2px 0}
+/* W5: the cascade — the tear propagates from content → seal, genesis stays calm
+   (it never derives from the tampered text). The arrow between the two broken
+   links turns the same reserved red, selling "one number breaks the whole chain"
+   in a single glance. Staggered in the animation block below. */
+.pf-chain2.cascade .ch-link.tear{color:var(--bad-deep); font-weight:800}
+.pf-tear-note{color:var(--bad-deep); font-size:var(--t-xs); font-weight:600; line-height:1.7; margin-top:-6px}
+.pf-weave-link{appearance:none; border:1px dashed var(--bad-line); background:var(--bad-soft); color:var(--bad-deep);
+  border-radius:11px; padding:10px 14px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; text-align:center}
+.pf-weave-link:hover{border-style:solid; border-color:var(--bad)}
 /* the precise tamper diff — evidence card under the verdict, same reserved red */
 .pf-diff{background:var(--bad-soft); border:1px solid var(--bad-line); border-inline-start:3px solid var(--bad);
   border-radius:14px; padding:13px 14px; color:var(--bad); font-size:12.5px; box-shadow:0 6px 18px rgba(143,44,20,.10)}
@@ -411,8 +447,12 @@ body{
 
 /* محلّ خلاف — dispute pause (the bank shows, never judges) */
 .dispute{display:flex; flex-direction:column; gap:12px}
-.dp-head{font-weight:800; font-size:20px}
-.dp-sub{color:var(--mut); font-size:13px; margin-top:-4px}
+.dp-sub{color:var(--mut); font-size:var(--t-sm); margin-top:-4px}
+/* hero numeral — the disputed عهد's amount, pulled out of the sentence it used
+   to be buried in so it reads at the same weight as every other screen's
+   leading figure (same --sadu-type-hero-num token) */
+.dp-amt-hero{display:block; font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; color:var(--ink); text-align:center; margin:-2px 0 2px}
+.dp-amt-hero small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut)}
 .dp-stance{background:var(--mute-soft); color:var(--ink); border-radius:14px; padding:14px 15px; font-size:14.5px; line-height:1.8; font-weight:600; text-align:center}
 .dp-paused{background:#fff; border:1px dashed var(--line); border-radius:12px; padding:11px 13px; font-size:12.5px; color:var(--mut); text-align:center; line-height:1.8}
 .dp-exhibit{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px 14px; box-shadow:var(--shadow)}
@@ -422,34 +462,38 @@ body{
 .dp-paths{display:flex; flex-direction:column; gap:10px}
 .dp-path{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px 14px; box-shadow:var(--shadow)}
 .dp-path.enc{border-color:#cfe6df; background:var(--teal-soft)}
-.dp-pt{font-weight:700; font-size:14px; display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.dp-pt{font-weight:700; font-size:var(--t-md); display:flex; align-items:center; gap:6px; flex-wrap:wrap}
 .dp-tag{font-size:11px; font-weight:600; background:var(--teal); color:#fff; border-radius:999px; padding:2px 8px}
 .dp-pn{color:var(--mut); font-size:12.5px; margin:6px 0 9px; line-height:1.75}
 .dp-acts{display:flex; gap:8px; flex-wrap:wrap}
 .dp-acts .primary{background:var(--teal); color:#fff; border-color:var(--teal); font-weight:600}
-.dp-note{color:var(--mut); font-size:12px; text-align:center; line-height:1.8}
+.dp-note{color:var(--mut); font-size:var(--t-xs); text-align:center; line-height:1.8}
 
 /* الإعدادات · عن عهد — settings + the «ما لا نفعله» manifesto */
 .settings{display:flex; flex-direction:column; gap:13px}
-.set-head{font-weight:800; font-size:20px}
 .set-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:15px; box-shadow:var(--shadow)}
 .set-lbl{font-weight:700; margin-bottom:9px}
 .set-seg{display:flex; gap:6px; background:var(--mute-soft); padding:4px; border-radius:12px}
-.set-seg button{flex:1; appearance:none; border:0; background:transparent; padding:9px; border-radius:9px; font:inherit; font-size:13px; color:var(--mut); cursor:pointer}
+.set-seg button{flex:1; appearance:none; border:0; background:transparent; padding:9px; border-radius:9px; font:inherit; font-size:var(--t-sm); color:var(--mut); cursor:pointer; transition:background var(--sadu-motion-fast) var(--sadu-ease)}
 .set-seg button.on{background:#fff; color:var(--ink); font-weight:600; box-shadow:var(--shadow)}
-.set-prev{margin-top:11px; color:var(--mut); font-size:12.5px; line-height:1.8}
-.set-prev b{color:var(--ink); font-size:15px}
-.set-h2{font-weight:800; font-size:16px; margin-top:4px}
+.set-seg button:not(.on):hover{color:var(--ink)}
+/* hero numeral — the live digit-toggle preview IS the feature this screen
+   demonstrates, so it gets the same --sadu-type-hero-num weight as every
+   other screen's leading figure, not a buried inline <b> */
+.set-hero-num{display:block; font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; color:var(--teal); margin-top:11px}
+.set-hero-num small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut)}
+.set-prev{margin-top:6px; color:var(--mut); font-size:12.5px; line-height:1.8}
+.set-h2{font-weight:800; font-size:var(--t-lg); margin-top:4px}
 .set-nos{display:flex; flex-direction:column; gap:9px}
 .set-no{background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--gold); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow)}
-.set-no b{color:var(--ink); font-size:14px}
+.set-no b{color:var(--ink); font-size:var(--t-md)}
 .set-no div{color:var(--mut); font-size:12.5px; margin-top:4px; line-height:1.75}
 .set-yeses{display:flex; flex-direction:column; gap:9px}
 .set-yes{background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--teal); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow)}
-.set-yes b{color:var(--teal); font-size:14px}
+.set-yes b{color:var(--teal); font-size:var(--t-md)}
 .set-yes div{color:var(--mut); font-size:12.5px; margin-top:4px; line-height:1.75}
 .set-model{background:var(--mute-soft); border-radius:13px; padding:12px 14px; font-size:12.5px; color:var(--ink); line-height:1.85}
-.set-basis{text-align:center; color:var(--gold); font-size:13px; line-height:2; padding:0 6px}
+.set-basis{text-align:center; color:var(--gold); font-size:var(--t-sm); line-height:2; padding:0 6px}
 .set-about{text-align:center; color:var(--mut); font-size:12.5px; line-height:1.8}
 
 /* ============================================================================
@@ -461,13 +505,15 @@ body{
 /* ما عليّ — the borrower's own home (F1). Amber for a passed due, never red. */
 .borrower{display:flex; flex-direction:column; gap:12px}
 .bw-head{margin-bottom:2px}
-.bw-title{font-weight:800; font-size:20px}
 .bw-sub{color:var(--mut); font-size:12.5px; line-height:1.7; margin-top:3px}
 .bw-tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px}
 .bw-tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow)}
 .bw-tile.grace{background:var(--gold-soft); border-color:#ecdfb5}
 .bw-tl{color:var(--mut); font-size:12.5px}
-.bw-tv{font-size:22px; font-weight:800; margin-top:2px} .bw-tv small{font-size:13px; font-weight:400; color:var(--mut)}
+/* hero numeral — «إجمالي ما عليك», the borrower's ONE lead figure (same
+   --sadu-type-hero-num token as .tv/.hstat-v/.se-big span/.tl-count-hero —
+   proven safe in an identical 2-col tile grid by .tv already) */
+.bw-tv{font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; margin-top:2px} .bw-tv small{font-size:var(--t-sm); font-weight:400; color:var(--mut)}
 .bw-verse{text-align:center; color:var(--gold); font-size:13px; line-height:1.9; padding:2px 6px}
 .bw-list{display:flex; flex-direction:column; gap:10px}
 .bw-row{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:13px}
@@ -475,28 +521,32 @@ body{
 .bw-main{display:flex; gap:11px; align-items:center}
 .bw-body{flex:1; min-width:0}
 .bw-who{font-weight:600}
-.bw-amt{font-size:13.5px; color:var(--ink); margin-top:1px} .bw-amt b{font-size:16px} .bw-amt small{color:var(--mut); font-size:12px}
+.bw-amt{font-size:13.5px; color:var(--ink); margin-top:1px} .bw-amt b{font-size:var(--t-lg)} .bw-amt small{color:var(--mut); font-size:var(--t-xs)}
 .bw-side{margin-inline-start:auto}
 .bw-act{display:flex; gap:8px; margin-top:11px}
 .bw-act .primary{flex:1; appearance:none; border:0; background:var(--teal); color:#fff; border-radius:11px; padding:11px; font:inherit; font-weight:600; cursor:pointer}
 .bw-act .ghost{appearance:none; border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px 14px; font:inherit; cursor:pointer}
 .bw-grace{margin-top:10px; padding-top:10px; border-top:1px dashed var(--line)}
-.bw-glabel{font-size:12px; color:var(--mut); margin-bottom:7px}
+.bw-glabel{font-size:var(--t-xs); color:var(--mut); margin-bottom:7px}
 .bw-gopts{display:flex; gap:6px; flex-wrap:wrap}
 .bw-greason{appearance:none; border:1px solid var(--line); background:#fff; border-radius:999px; padding:7px 12px; font:inherit; font-size:12.5px; cursor:pointer}
+.bw-greason:hover{border-color:var(--teal); color:var(--teal)}
 .bw-gnote{margin-top:8px; font-size:11.5px; color:var(--mut); line-height:1.7}
 
 /* سِجلّ المعروف — the sealed mercy/covenant trail (contextual). Timeline idiom. */
 .covenant{display:flex; flex-direction:column; gap:11px}
-.cv-head{font-weight:800; font-size:20px}
 .cv-sub{color:var(--mut); font-size:12.5px; margin-top:-2px}
+/* hero numeral — the عهد's amount, pulled out of the sentence (same token
+   as دفتري/المقاصّة/محلّ خلاف's leading figure) */
+.cv-amt-hero{display:block; font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; color:var(--ink); text-align:center; margin:-2px 0 2px}
+.cv-amt-hero small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut)}
 .cv-intro{background:var(--gold-soft); border:1px solid #ecdfb5; border-radius:13px; padding:12px 13px; font-size:12.5px; color:var(--mut); line-height:1.8}
 .cv-timeline{display:flex; flex-direction:column; gap:11px; border-inline-start:2px dashed var(--line); padding-inline-start:14px; margin-inline-start:5px; margin-top:2px}
 .cv-step{display:flex; gap:9px; align-items:flex-start}
 .cv-dot{flex:none; width:11px; height:11px; border-radius:50%; background:var(--gold); margin-top:4px; margin-inline-start:-20px; box-shadow:0 0 0 3px var(--bg)}
 .cv-step.broken .cv-dot{background:var(--bad); box-shadow:0 0 0 3px var(--bg), 0 0 0 5px rgba(143,44,20,.18)}
 .cv-body{flex:1; min-width:0}
-.cv-line{font-size:13px; line-height:1.65}
+.cv-line{font-size:var(--t-sm); line-height:1.65}
 .cv-amt{color:var(--mut); margin-inline-start:6px}
 .cv-seal{font-size:10.5px; color:var(--mut); margin-top:3px; word-break:break-all}
 .cv-x{color:var(--bad); font-weight:700}
@@ -510,38 +560,40 @@ body{
 
 /* سُلفة بالمعروف — standing two-party qard (F3). Ledger + sealed posts + seam. */
 .standing{display:flex; flex-direction:column; gap:12px}
-.st-head{font-weight:800; font-size:18px; line-height:1.5}
 .st-parties{display:flex; align-items:center; justify-content:center; gap:10px; font-weight:700}
 .st-party{background:var(--teal-soft); color:var(--teal); border-radius:999px; padding:6px 14px; font-size:13.5px}
 .st-arrow{color:var(--gold); font-size:18px}
-.st-per{text-align:center; color:var(--mut); font-size:13px} .st-per strong{color:var(--ink); font-size:15px}
+.st-per{text-align:center; color:var(--mut); font-size:var(--t-sm)} .st-per strong{color:var(--ink); font-size:15px}
+/* hero numeral — the outstanding balance, this screen's ONE lead figure (the
+   3-col ledger below stays compact so all three cells still fit side by side) */
+.st-hero-num{display:block; font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; font-variant-numeric:tabular-nums; color:var(--ink); text-align:center; margin:4px 0 2px}
+.st-hero-num small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut)}
 .st-ledger{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
 .st-lcell{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 8px; text-align:center; box-shadow:var(--shadow)}
 .st-ll{color:var(--mut); font-size:11.5px}
 .st-lv{font-size:17px; font-weight:800; margin-top:3px} .st-lv small{font-size:11px; font-weight:400; color:var(--mut)}
 .st-lv.paid{color:var(--teal)} .st-lv.rem{color:var(--gold)}
 .st-note{color:var(--mut); font-size:12.5px; text-align:center; line-height:1.8}
-.st-posts-h{font-weight:700; font-size:13px}
+.st-posts-h{font-weight:700; font-size:var(--t-sm)}
 .st-posts{display:flex; flex-direction:column; gap:8px}
 .st-post{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:11px 13px; display:grid; grid-template-columns:auto 1fr; gap:4px 8px; align-items:center}
 .st-post.done{border-inline-start:3px solid var(--teal)}
-.st-pk{font-size:12px; color:var(--mut)}
+.st-pk{font-size:var(--t-xs); color:var(--mut)}
 .st-pa{font-weight:700; text-align:end} .st-pa small{font-weight:400; color:var(--mut); font-size:11px}
-.st-ps{grid-column:1/-1; font-size:12px; color:var(--teal)}
+.st-ps{grid-column:1/-1; font-size:var(--t-xs); color:var(--teal)}
 .st-ph{grid-column:1/-1; font-size:10.5px; color:var(--mut); word-break:break-all}
-.st-terms{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:13px; font-size:13px; line-height:1.8; color:var(--ink)}
+.st-terms{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:13px; font-size:var(--t-sm); line-height:1.8; color:var(--ink)}
 .st-verify{padding:14px}
-.st-vl{color:var(--seal-lbl); font-weight:700; font-size:13px; margin-bottom:6px}
+.st-vl{color:var(--seal-lbl); font-weight:700; font-size:var(--t-sm); margin-bottom:6px}
 .st-verify .sv.ok{color:#7fe0c0} .st-verify .sv.bad{color:#ffb4a2; font-weight:700}
 .st-verify .mini{margin-top:9px; appearance:none; border:1px solid #2f4a45; background:#16302c; color:#cfeae3; border-radius:9px; padding:8px 11px; font:inherit; font-size:12.5px; cursor:pointer}
 .st-seam{background:var(--amber-soft); border:1px solid #edd9bf; border-radius:13px; padding:12px 13px}
 .st-seam-h{color:var(--amber); font-weight:700; font-size:12.5px; margin-bottom:5px}
-.st-seam-b{color:var(--mut); font-size:12px; line-height:1.8}
+.st-seam-b{color:var(--mut); font-size:var(--t-xs); line-height:1.8}
 
 /* «أثر عهد» — impact analytics (JL-3). k-anon aggregates + the 9→2 collapse.
    Motion is opacity-only (compositor-friendly) and guarded by reduced-motion. */
 .impact{display:flex; flex-direction:column; gap:14px}
-.im-head{font-weight:700}
 .im-banner{background:var(--teal-soft); color:var(--teal); border-radius:var(--r-md); padding:11px 13px; font-size:var(--t-xs); line-height:1.9}
 .im-collapse{background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:12px; box-shadow:var(--shadow); text-align:center}
 .im-collapse svg{width:100%; height:auto; display:block}
@@ -589,6 +641,24 @@ body{
 .im-cons{color:var(--mut); font-size:var(--t-xs); text-align:center; line-height:2}
 .im-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal); border-radius:var(--r-pill); padding:6px 12px; font:inherit; font-size:var(--t-xs); cursor:pointer}
 .im-chip:hover{border-color:var(--teal)}
+
+/* «المصادر والمنهجيّة» (W3, data criterion) — every external/aggregate figure
+   named with its year + measured(🟢)-vs-illustrative(🟡) flag; collapsed by
+   default (native <details>), one tap from any judge who asks "sources?" */
+.im-sources{margin-top:2px}
+.im-sources>summary{list-style:none; cursor:pointer; font-size:var(--t-sm); font-weight:700; color:var(--teal);
+  padding:11px 13px; background:var(--card); border:1px solid var(--line); border-radius:var(--r-md);
+  display:flex; align-items:center; gap:6px; box-shadow:var(--shadow-sm); min-height:44px}
+.im-sources>summary::-webkit-details-marker{display:none}
+.im-sources>summary::after{content:"⌄"; margin-inline-start:auto; font-size:16px}
+.im-sources[open]>summary{margin-bottom:10px}
+.im-src-list{display:flex; flex-direction:column; gap:9px}
+.im-src-row{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:11px 13px}
+.im-src-h{display:flex; align-items:center; flex-wrap:wrap; gap:7px; font-weight:700; color:var(--ink); font-size:var(--t-sm)}
+.im-src-year{margin-inline-start:auto; color:var(--mut); font-size:var(--t-xs); font-variant-numeric:tabular-nums}
+.im-src-fig{color:var(--ink); font-size:var(--t-xs); line-height:1.8; margin-top:5px}
+.im-src-cite{color:var(--mut); font-size:var(--t-xs); line-height:1.8; margin-top:4px}
+.im-src-used{color:var(--mut); font-size:11px; margin-top:5px; opacity:.85}
 .se-impact-chip{appearance:none; border:1px solid var(--line); background:var(--card); color:var(--teal); border-radius:var(--r-pill); padding:9px 14px; font:inherit; font-size:var(--t-sm); cursor:pointer; align-self:center}
 .se-impact-chip:hover{border-color:var(--teal)}
 
@@ -633,6 +703,15 @@ body{
   .cr-lint,.pf-verify,.se-proof,.ol-seal,.pf-diff,.flash{animation:ahd-fade .5s ease both}
   /* the tamper climax: a brief non-looping flag shake on the FAIL verdict */
   .pf-verify.bad,.cr-lint.bad,.se-proof.bad{animation:ahd-fade .3s ease both, ahd-flag .5s cubic-bezier(.36,.07,.19,.97) .25s 1}
+  /* W5: the cascade — the tear visibly propagates top→bottom over ~0.9s:
+     content link flags first, the arrow reddens, THEN the seal link flags —
+     one number breaks the whole chain, in the order it actually breaks. */
+  .pf-chain2 .ch-content.broken{animation:ahd-fade .3s ease both, ahd-flag .45s cubic-bezier(.36,.07,.19,.97) .1s 1}
+  .pf-chain2.cascade .ch-link.tear{animation:ahd-fade .3s ease .4s both}
+  .pf-chain2 .ch-seal.broken{animation:ahd-fade .3s ease both, ahd-flag .45s cubic-bezier(.36,.07,.19,.97) .55s 1}
+  /* the weave payoff: the ONE tampered thread tears — a brief shake, then it
+     settles red; every other thread is untouched (spine: red stays local) */
+  .hw-thread.tamper{animation:ahd-fade .3s ease both, ahd-flag .5s cubic-bezier(.36,.07,.19,.97) .2s 1}
 
   /* proportional bars grow in from the inline start (right, in RTL) */
   .ol-bar .ol-seg,.im-bar i,.cd-fill{animation:ahd-grow .6s cubic-bezier(.16,1,.3,1) both; transform-origin:100% 50%}
@@ -698,7 +777,9 @@ body{
 .im-btn:active{box-shadow:0 2px 6px rgba(14,107,92,.22)}
 .im-hero{border-inline-start:3px solid var(--teal); text-align:start}
 .im-saved{border-inline-start:3px solid var(--gold); text-align:start}
-.im-card b{font-size:22px; font-weight:800; letter-spacing:-.3px}
+/* hero numeral — the impact dashboard's headline figures, same token as
+   .tv (proven safe in an identical 2-col tile grid) */
+.im-card b{font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800; letter-spacing:-.3px; font-variant-numeric:tabular-nums}
 .im-cards .im-card:nth-child(2) b{color:var(--gold)}
 .im-bar{box-shadow:inset 0 1px 2px rgba(28,43,42,.08)}
 
@@ -708,7 +789,6 @@ body{
    the sealed-document palette; the bank column carries the gold thread.
 ============================================================================ */
 .bounds{display:flex; flex-direction:column; gap:var(--s-4)}
-.bd-head{font-weight:700}
 .bd-hero{background:var(--mute-soft); border-inline-start:3px solid var(--teal); border-radius:var(--r-md); padding:11px 13px; font-size:var(--t-sm); line-height:1.9; text-align:start}
 .bd-cols{display:flex; flex-direction:column; gap:10px}
 .bd-card{background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:13px; box-shadow:var(--shadow)}
@@ -755,9 +835,9 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 
 /* ===== الأجرة والخطط (plans / revenue) — Phase A ===== */
 .plans{display:flex;flex-direction:column;gap:13px}
-.pl-head{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
-.pl-thesis{background:var(--teal);color:#fff;border-radius:16px;padding:15px 16px;font-size:14px;line-height:1.7;box-shadow:var(--shadow)}
-.pl-thesis b{font-size:16px;font-weight:800}
+.pl-head{color:var(--ink);letter-spacing:-.01em}
+.pl-thesis{background:var(--teal);color:#fff;border-radius:16px;padding:15px 16px;font-size:var(--t-md);line-height:1.7;box-shadow:var(--shadow)}
+.pl-thesis b{font-size:var(--t-lg);font-weight:800}
 .pl-sub{color:var(--mut);font-size:12.5px;line-height:1.85;padding:0 2px}
 /* the memorable proof: two contractually-separate lines, gold-framed */
 .pl-receipt{background:var(--gold-soft);border:1px solid #ecdfb5;border-radius:16px;padding:15px 16px;box-shadow:var(--shadow-sm)}
@@ -767,38 +847,44 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .pl-rline span{color:var(--ink);font-size:13.5px}
 .pl-rline b{font-size:15px;font-weight:800;color:var(--gold);direction:ltr}
 .pl-rline.zero b{color:var(--teal)}
-.pl-rnote{margin-top:10px;color:var(--mut);font-size:12px;line-height:1.8}
+.pl-rnote{margin-top:10px;color:var(--mut);font-size:var(--t-xs);line-height:1.8}
 /* the tiers: bento-ish grid, free tier lifted */
 .pl-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px}
 .pl-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:8px}
 .pl-card.is-free{border-color:var(--teal);background:var(--teal-soft)}
 .pl-name{font-weight:800;color:var(--ink);font-size:15px}
-.pl-payer{color:var(--mut);font-size:12px}
-.pl-price{color:var(--ink);font-size:13px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
-.pl-price b{font-size:20px;font-weight:800;color:var(--teal);direction:ltr}
+.pl-payer{color:var(--mut);font-size:var(--t-xs)}
+.pl-price{color:var(--ink);font-size:var(--t-sm);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+/* hero numeral — the plan's price, this card's ONE lead figure (a 220px-min
+   card is proven-wide enough for the token — see .tv precedent in a tighter grid) */
+.pl-price b{font-family:var(--font-display);font-size:var(--sadu-type-hero-num);font-weight:800;color:var(--teal);direction:ltr;font-variant-numeric:tabular-nums}
 .pl-price span{color:var(--mut);font-size:11.5px}
 .pl-price.free{font-size:17px;font-weight:800;color:var(--teal)}
 .pl-feats{list-style:none;margin:2px 0;padding:0;display:flex;flex-direction:column;gap:5px}
 .pl-feats li{color:var(--ink);font-size:12.5px;line-height:1.6;padding-inline-start:16px;position:relative}
 .pl-feats li::before{content:"◆";position:absolute;inset-inline-start:0;color:var(--gold);font-size:9px;top:3px}
 .pl-note{color:var(--mut);font-size:11.5px;line-height:1.7;border-top:1px solid var(--line);padding-top:8px}
-.pl-free{color:var(--teal);font-size:12px;font-weight:700}
+.pl-free{color:var(--teal);font-size:var(--t-xs);font-weight:700}
 .pl-badge{align-self:flex-start;background:var(--gold-soft);border:1px solid #ecdfb5;color:var(--gold);border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:700}
 .pl-badge.free{background:var(--teal-soft);border-color:#cfe6df;color:var(--teal)}
-.pl-basis{color:var(--mut);font-size:12px;line-height:1.9;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px 14px}
+.pl-basis{color:var(--mut);font-size:var(--t-xs);line-height:1.9;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px 14px}
 
 /* ===== لوحة المؤسسة (org / institution admin) — Phase B ===== */
 .org{display:flex;flex-direction:column;gap:13px}
-.org-head{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.org-head{color:var(--ink);letter-spacing:-.01em}
 .org-fund{background:var(--teal-soft);border:1px solid #cfe6df;border-radius:13px;padding:11px 13px;font-size:13.5px;color:var(--ink)}
 .org-fund b{color:var(--teal);font-weight:800}
-.org-fund span{color:var(--mut);font-size:12px}
+.org-fund span{color:var(--mut);font-size:var(--t-xs)}
+/* hero numeral — the fund's outstanding balance, this screen's ONE lead
+   figure (the KPI tiles stay compact so all of them keep fitting the grid) */
+.org-hero-num{display:block;font-family:var(--font-display);font-size:var(--sadu-type-hero-num);font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);margin:2px 0}
+.org-hero-num small{font-size:var(--sadu-type-body);font-weight:400;color:var(--mut)}
 .org-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
 .org-kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow-sm);text-align:center}
-.org-kpi span{display:block;color:var(--mut);font-size:12px;margin-bottom:5px}
+.org-kpi span{display:block;color:var(--mut);font-size:var(--t-xs);margin-bottom:5px}
 .org-kpi b{color:var(--ink);font-size:18px;font-weight:800}
 .org-proof{background:var(--teal-soft);border:1px solid #cfe6df;border-radius:12px;padding:10px 13px;color:var(--teal);font-size:12.5px;font-weight:600}
-.org-link{appearance:none;text-align:right;width:100%;border:1px solid var(--teal);background:var(--teal-soft);color:var(--teal);border-radius:13px;padding:12px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.org-link{appearance:none;text-align:right;width:100%;border:1px solid var(--teal);background:var(--teal-soft);color:var(--teal);border-radius:13px;padding:12px 14px;font:inherit;font-size:var(--t-sm);font-weight:600;cursor:pointer}
 .org-link:hover{background:var(--teal);color:#fff}
 .org-guard{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;color:var(--mut);font-size:12.5px;line-height:1.7}
 .org-cta{display:flex;gap:9px;flex-wrap:wrap}
@@ -810,13 +896,23 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
    persistent identity strip under the nav; an octagon seal marks the door; and
    the flat 14-card menu becomes hero → primary grid → «المزيد». Additive only.
 ============================================================================ */
-/* the woven Sadu band — Najdi weaving in teal + gold over the hairline. Static
-   (reduced-motion-safe by construction); ported from application/prototypes. */
-.sadu-band{height:6px; border-radius:3px; margin:0 0 12px; overflow:hidden;
+/* the woven Sadu band — Najdi weaving in teal + gold over the hairline, rendered on
+   EVERY screen (app.js's shell, right under the nav) so the identity reads app-wide,
+   not just on home. Derives straight from the Sadu tokens (app/styles/sadu-tokens.css)
+   rather than app.css's own --teal/--gold/--line, so this strip is provably ONE
+   language with the rest of the Sadu surfaces. The leading ::before segment is the
+   SEAL MARK — a solid --sadu-terra knot at the strip's opening edge (RTL: the visual
+   right, where the weave "begins"), meaning «this screen is witnessed by عهد». --sadu-
+   terra is the ONE canonical Sadu accent (application/prototypes/dir-b-sadu.html); this
+   is its real, app-wide, non-decorative use (defect W1-2). Static — reduced-motion-safe
+   by construction; ported from application/prototypes. */
+.sadu-band{height:6px; border-radius:3px; margin:0 0 12px; overflow:hidden; position:relative;
   background:
-    repeating-linear-gradient(135deg, var(--teal) 0 5px, transparent 5px 10px),
-    repeating-linear-gradient(45deg, var(--gold) 0 5px, transparent 5px 10px),
-    var(--line)}
+    repeating-linear-gradient(135deg, var(--sadu-teal) 0 5px, transparent 5px 10px),
+    repeating-linear-gradient(45deg, var(--sadu-gold) 0 5px, transparent 5px 10px),
+    var(--sadu-hair)}
+.sadu-band::before{content:""; position:absolute; inset-inline-start:0; top:0; bottom:0;
+  width:var(--sadu-space-4); background:var(--sadu-terra)}
 
 /* octagon seal emblem enclosing «عهد» — sits on the dark hero */
 .home-emblem{width:46px; height:46px; margin-bottom:10px}
@@ -872,15 +968,22 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
    with a struck-through bank control; the charity beat carries the mercy gold.
 ============================================================================ */
 .refusal{display:flex; flex-direction:column; gap:13px}
-.rf-head{font-weight:800; font-size:21px; line-height:1.5; letter-spacing:-.01em}
-.rf-sub{color:var(--mut); font-size:13px; line-height:1.9; margin-top:-4px}
+/* W5: the quotable pull-quote — «what we refuse to do IS the product», stated
+   loud before the heading, not buried under it. Teal (product-identity tone),
+   never red/amber — this is an identity statement, not a tamper/overdue flag. */
+.rf-quote{background:linear-gradient(180deg,var(--teal-soft),var(--card)); border:1px solid #cfe6df;
+  border-inline-start:4px solid var(--teal); border-radius:var(--r-lg); padding:18px 20px 16px;
+  font-family:var(--font-display); font-size:var(--t-lg); font-weight:800; color:var(--ink); line-height:1.65}
+.rf-quote-mark{color:var(--teal); font-size:1.6em; font-weight:800; margin-inline-end:2px; vertical-align:-.15em}
+.rf-head{line-height:1.5; letter-spacing:-.01em}
+.rf-sub{color:var(--mut); font-size:var(--t-sm); line-height:1.9; margin-top:-4px}
 .rf-card{background:linear-gradient(180deg,#fcece5,var(--bad-soft)); border:1px solid var(--bad-line);
   border-inline-start:4px solid var(--bad); border-radius:var(--r-lg); padding:14px 15px;
   box-shadow:0 2px 6px rgba(143,44,20,.08), 0 12px 30px rgba(143,44,20,.10)}
-.rf-act{font-weight:800; font-size:16px; color:var(--bad-deep); margin-bottom:9px}
+.rf-act{font-weight:800; font-size:var(--t-lg); color:var(--bad-deep); margin-bottom:9px}
 .rf-ctl{display:flex; align-items:center; justify-content:space-between; gap:10px; background:#fff;
   border:1px dashed var(--bad-line); border-radius:10px; padding:10px 12px; margin-bottom:9px; opacity:.62}
-.rf-ctl-l{color:var(--mut); font-size:13px; text-decoration:line-through wavy var(--bad)}
+.rf-ctl-l{color:var(--mut); font-size:var(--t-sm); text-decoration:line-through wavy var(--bad)}
 .rf-lock{color:var(--bad); font-size:11.5px; font-weight:700; white-space:nowrap}
 .rf-bank{color:var(--bad-deep); font-size:12.5px; line-height:1.75; margin-bottom:8px}
 .rf-why{color:var(--ink); font-size:13.5px; line-height:1.85; background:#fffdf8; border:1px solid #dcece6;
@@ -889,7 +992,7 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .rf-guard code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:var(--mut); overflow-wrap:anywhere}
 .rf-charity{background:var(--gold-soft); border:1px solid #ecdfb5; border-inline-start:4px solid var(--gold);
   border-radius:var(--r-lg); padding:15px 16px; box-shadow:var(--shadow-sm)}
-.rf-ch-act{font-weight:800; color:var(--gold); font-size:16px; margin-bottom:7px}
+.rf-ch-act{font-weight:800; color:var(--gold); font-size:var(--t-lg); margin-bottom:7px}
 .rf-ch-line{color:var(--ink); font-size:13.5px; line-height:1.9}
 .rf-ayah{text-align:center; color:var(--gold); font-size:15px; margin:9px 0 4px}
 .rf-chips{display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
@@ -934,3 +1037,115 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .se-nat-proj{color:var(--ink); font-size:13.5px; line-height:1.95; margin-top:8px}
 .se-nat-proj b{color:var(--teal); font-weight:800}
 .se-nat-label{color:var(--mut); font-size:var(--t-xs); line-height:1.8; margin-top:9px; border-top:1px dashed #e6d9ad; padding-top:8px}
+
+/* ============================================================================
+   W1 (2026-07-12) — Sadu design tokens applied to Home: real type hierarchy
+   (a distinct DISPLAY face for the brand + section titles, hero numerals for
+   the two دفتري totals) and the woven-band motif made MEANINGFUL — one real
+   thread per witnessed عهد, coloured by its actual status, not decoration
+   repeated for its own sake. Tokens: app/styles/sadu-tokens.css (loaded
+   before this file in index.html). Additive only: no existing --teal/--gold/
+   --ink/etc. token is redefined, so nothing already on screen shifts colour.
+   Thread tone reuses the SAME vocabulary as دفتري's chipClass (teal/gold/
+   amber/mute) — one colour language app-wide, never a second one invented.
+============================================================================ */
+/* the weave's title takes the TITLE step (the brand's own font-family + size is set
+   ONCE at its original .hero .brand rule above — no second, competing declaration
+   here; that duplicate previously fought the cascade and silently shrank the brand
+   from 38px to 30px, which is the defect this comment replaces). */
+.hw-title{font-family:var(--font-display); font-size:var(--sadu-type-title); font-weight:800; color:var(--ink)}
+
+/* hero numerals — the two totals that open دفتري, now a real stat pair
+   (was inline text inside a sentence; tabular numerals, bold, unmistakable) */
+.home-stats{display:flex; align-items:center; gap:var(--sadu-space-3); background:var(--card);
+  border:1px solid var(--line); border-radius:var(--sadu-r-lg); padding:var(--sadu-space-4) var(--sadu-space-3);
+  box-shadow:var(--shadow-sm)}
+.hstat{flex:1; text-align:center; min-width:0}
+.hstat-l{display:block; color:var(--mut); font-size:var(--t-xs)}
+.hstat-v{display:block; margin-top:3px; font-family:var(--font-display); font-size:var(--sadu-type-hero-num);
+  font-weight:800; font-variant-numeric:tabular-nums; color:var(--ink); letter-spacing:-.02em}
+.hstat-v small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut); letter-spacing:0}
+.hstat-div{width:1px; align-self:stretch; background:var(--line)}
+
+/* the weave — «كلّ قرضٍ خيط، والسجلّ نسيج». One thread per witnessed عهد;
+   the diagonal texture echoes dir-b-sadu's own .sadu weave motif, but the
+   MEANING is the count + the colour, both driven by real دفتري data. */
+.home-weave{background:var(--sadu-ground); border:1px solid var(--sadu-hair); border-radius:var(--sadu-r-lg);
+  padding:var(--sadu-space-4) var(--sadu-space-3); display:flex; flex-direction:column; gap:var(--sadu-space-2)}
+.hw-head{display:flex; align-items:baseline; justify-content:space-between; gap:var(--sadu-space-2); flex-wrap:wrap}
+.hw-cap{color:var(--sadu-ink-soft); font-size:var(--t-xs)}
+.hw-threads{display:flex; align-items:flex-end; gap:5px; height:34px; padding:0 2px}
+.hw-thread{flex:1; max-width:14px; min-width:5px; height:100%; border-radius:3px; cursor:help; outline-offset:2px;
+  background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.24) 0 3px, transparent 3px 6px);
+  background-blend-mode:soft-light}
+.hw-thread.teal{background-color:var(--teal)}
+.hw-thread.gold{background-color:var(--gold); box-shadow:0 0 0 1px rgba(154,123,39,.35), 0 1px 4px rgba(154,123,39,.3)}
+.hw-thread.amber{background-color:var(--amber)}
+.hw-thread.mute{background-color:var(--mute)}
+/* W5: the ONLY red in the weave — reserved for a live tampered seal (spine).
+   An overdue thread is ALWAYS .amber, never this class (see threadTone). */
+.hw-thread.tamper{background-color:var(--bad); background-image:repeating-linear-gradient(135deg, rgba(0,0,0,.18) 0 2px, transparent 2px 5px);
+  box-shadow:0 0 0 2px rgba(143,44,20,.22), 0 2px 8px rgba(143,44,20,.35)}
+.home-weave.torn{border-color:var(--bad-line)}
+.hw-legend{display:flex; flex-wrap:wrap; gap:8px var(--sadu-space-3); font-size:var(--t-xs); color:var(--mut)}
+.hw-lg{position:relative; padding-inline-start:14px}
+.hw-lg::before{content:""; position:absolute; inset-inline-start:0; top:3px; width:9px; height:9px; border-radius:3px}
+.hw-lg.teal::before{background:var(--teal)}
+.hw-lg.gold::before{background:var(--gold)}
+.hw-lg.amber::before{background:var(--amber)}
+.hw-lg.mute::before{background:var(--mute)}
+.hw-lg.tamper{color:var(--bad-deep); font-weight:700}
+.hw-lg.tamper::before{background:var(--bad)}
+/* empty state — no عهد woven yet (same dashed idiom as .empty elsewhere) */
+.hw-empty{border:1px dashed var(--sadu-hair); border-radius:var(--sadu-r-md); padding:var(--sadu-space-4);
+  text-align:center; color:var(--mut); font-size:var(--t-sm)}
+
+@media (prefers-reduced-motion: no-preference){
+  .hw-thread{transition:transform var(--sadu-motion-fast) var(--sadu-ease), box-shadow var(--sadu-motion-fast) var(--sadu-ease)}
+  .hw-thread:hover,.hw-thread:focus-visible{transform:scaleY(1.18); box-shadow:0 2px 6px rgba(28,24,18,.18)}
+  .hw-thread:active{transform:scaleY(.92)}
+  .home-weave{animation:ahd-fade .5s ease both}
+}
+
+/* ============================================================================
+   W1 sweep (2026-07-13) — the Sadu type-scale + terra section-marker carried
+   onto the primary demo-path screens' titles (دفتري · سِجلّ الشهادة · حافظة
+   الإثبات · المقاصّة · أنشئ عهدًا). Additive-only: every selector below already
+   owns its font-size at its original rule (kept as-is, no competing duplicate —
+   the exact bug this whole front fixes for .hero .brand); this block only adds
+   the DISPLAY typeface + the --sadu-terra "witnessed" marker (the same accent
+   role as the .sadu-band seal knot — one meaning, two places, never a colour
+   sprinkled for its own sake). .se-head and .cr-h had NO font-size before this
+   block (a real gap, a title-less title); this is their first and only one. */
+.dtitle,.tl-head,.pf-head,.se-head,.cr-h{
+  font-family:var(--font-display);
+  border-inline-start:3px solid var(--sadu-terra);
+  padding-inline-start:10px;
+}
+.se-head,.cr-h{font-size:var(--sadu-type-title); font-weight:800}
+
+/* «سِجلّ الشهادة» hero numeral — the total witnessed moments leading the screen,
+   same token as home's .hstat-v / daftari's .tv / open-loan's .ol-rv / settlement's
+   .se-big span (W1 defect: numeral fragmentation, now ONE --sadu-type-hero-num) */
+.tl-count-hero{font-family:var(--font-display); font-size:var(--sadu-type-hero-num); font-weight:800;
+  font-variant-numeric:tabular-nums; color:var(--ink); letter-spacing:-.02em; margin:-2px 0 2px}
+.tl-count-hero small{font-size:var(--sadu-type-body); font-weight:400; color:var(--mut); letter-spacing:0}
+
+/* ============================================================================
+   W1-iter3 sweep (2026-07-13) — the SAME terra title-marker + display typeface
+   carried onto the remaining 12 screens (الدائرة · الدائرة+ · أثر عهد · الضمانات
+   والحدود · ما لا يفعله عهد · محلّ خلاف · الإعدادات · ما عليّ · سِجلّ المعروف ·
+   سُلفة بالمعروف · الأجرة والخطط · لوحة المؤسسة). A SEPARATE rule (not appended
+   to the block above) so the iter-2 selector list stays byte-for-byte intact —
+   this block instead OWNS font-size for these 12 titles (their old per-screen
+   literals — 18/19/20/21px — are removed at the source, not shadowed), so
+   every screen's title now reads at the exact same --sadu-type-title step:
+   truly ONE scale, not eleven near-misses. .ca-scr-head is new markup
+   (circle-adv had no screen-level title at all — a real gap, closed here). */
+.cd-head,.im-head,.bd-head,.rf-head,.dp-head,.set-head,.bw-title,.cv-head,.st-head,.pl-head,.org-head,.ca-scr-head{
+  font-family:var(--font-display);
+  border-inline-start:3px solid var(--sadu-terra);
+  padding-inline-start:10px;
+  font-size:var(--sadu-type-title);
+  font-weight:800;
+}

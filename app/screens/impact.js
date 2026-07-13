@@ -62,6 +62,30 @@
     "</div>";
   }
 
+  /* «المصادر والمنهجية» (W3, data criterion): every external/aggregate figure
+     the app shows, named with its year + a measured-vs-illustrative flag, from
+     the checked-in features/sources.js dataset — never fetched, never invented.
+     Rendered collapsed by default (an expandable <details>) so it stays out of
+     the way of the live proof but is one tap from any judge who asks "sources?" */
+  function sourcesHTML() {
+    var Src = (typeof window !== "undefined") ? window.Sources : null;
+    if (!Src || !Src.SOURCES || !Src.SOURCES.length) return "";
+    var rows = Src.SOURCES.map(function (s) {
+      var measured = Src.isMeasured(s);
+      var badge = '<span class="chip ' + (measured ? "teal" : "gold") + '">' +
+        (measured ? "🟢 مقاسٌ ومُوثَّق" : "🟡 توضيحيّ") + "</span>";
+      return '<div class="im-src-row">' +
+        '<div class="im-src-h"><span class="im-src-name">' + App.esc(s.nameAr) + "</span>" + badge +
+          '<span class="im-src-year">' + App.esc(s.year) + "</span></div>" +
+        '<div class="im-src-fig">' + App.esc(s.figureAr) + "</div>" +
+        '<div class="im-src-cite">' + App.esc(s.citeAr) + "</div>" +
+        '<div class="im-src-used">يظهر في: ' + App.esc(s.usedOnAr) + "</div>" +
+      "</div>";
+    }).join("");
+    return '<details class="im-sources"><summary>المصادر والمنهجيّة (' + App.digit(Src.SOURCES.length) + " مصادر)</summary>" +
+      '<div class="im-src-list">' + rows + "</div></details>";
+  }
+
   function render(app) {
     var e = app.engine, S = app.Settlement;
     if (!S || !Impact) return '<div class="empty">وحدة أثر عهد غير محمّلة.</div>';
@@ -111,6 +135,7 @@
       '<div class="im-dist"><div class="im-sub">توزيع الأثر حسب حجم الدائرة (مجاميع مجهّلة):</div>' + rows + "</div>" +
       '<div class="im-cons">' + App.esc(d.conservationLine) +
         ' <button class="im-chip" onclick="AhdApp.go(\'settle\')">🔗 المقاصّة — البرهان الحيّ</button></div>' +
+      sourcesHTML() +
     "</div>";
   }
 

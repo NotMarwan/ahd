@@ -1,0 +1,99 @@
+/* ============================================================================
+   sadu-tokens.css — «عهد» Sadu design-language tokens (W1, 2026-07-12).
+
+   Source of truth: application/prototypes/dir-b-sadu.html — the canonical
+   Sadu direction for this project (17-screen iOS pass; project memory:
+   "Sadu direction = the base"). This file lifts its palette, a real 3-step
+   type scale (+ a hero-numeral step for money), a spacing rhythm, radii and
+   motion durations into reusable custom properties. ADDITIVE to app.css: no
+   existing --teal/--gold/--ink/etc. token is renamed or redefined here, so
+   nothing already on screen shifts colour by accident. New surfaces opt in
+   to the --sadu-* / --font-* names explicitly.
+
+   Offline rule: no remote stylesheet pull-in, no url(http…), no remote font
+   service. Fonts are vendored-only or not at all — see the FONT-BUNDLED note
+   below.
+============================================================================ */
+:root{
+  /* ---- Sadu palette, lifted 1:1 from dir-b-sadu.html :root ---- */
+  --sadu-ground:#efe9dc;        /* warm-stone background — the loom's canvas */
+  --sadu-card:#fffefb;
+  --sadu-ink:#1c1812;           /* label */
+  --sadu-ink-soft:#6d6353;      /* secondary label */
+  --sadu-hair:rgba(60,50,30,.14);
+  --sadu-terra:#a1442e;         /* the ONE accent in the canonical prototype */
+  --sadu-terra-soft:#f4e2da;
+  --sadu-teal:#177f6d;          /* kept/settled — mirrors app.css --teal */
+  --sadu-teal-soft:#e3f0eb;
+  --sadu-gold:#a8863f;          /* mercy / verse — mirrors app.css --gold */
+  --sadu-gold-soft:#f3ead2;
+  --sadu-stop:#7a2410;          /* riba-block red — RESERVED, never for lateness */
+
+  /* ---- type scale: a real 6-step scale (xs / sm / body / lg / title / xl /
+     hero-num / display — see below), not a pile of near-identical sizes.
+     The ratio between the four LOAD-BEARING steps is deliberate, and the
+     scale is MONOTONIC: body < title < hero-num < display. --sadu-type-
+     display is the single largest step, reserved for the ONE most prominent
+     mark on a screen (the «عهد» brand wordmark) — it does NOT double as a
+     generic screen-title size (screens use --sadu-type-title for that), so
+     raising it here never shrinks anything else. This is also the ONE
+     source of truth for app.css's legacy --t-hero/--t-md aliases (app.css
+     no longer hardcodes those two values — see app.css :root).
+     W1-iter3 (2026-07-13) fixed the APEX COLLISION defect: display was
+     38px vs hero-num's 36px — a 1.05× near-tie that read as ONE tier, not
+     two. display is now 44px (1.22× hero-num), a real, visible step, while
+     staying the app's single largest element (>=38px, unchanged floor). ---- */
+  --sadu-type-display:44px;   /* the brand wordmark — top of the scale, a real step above hero-num */
+  --sadu-type-title:17px;     /* section + screen titles */
+  --sadu-type-body:14px;      /* body copy — the floor */
+  --sadu-type-hero-num:36px;  /* money/count that leads a screen — tabular, bold */
+
+  /* ---- W1-iter3: --sadu-type-xs/sm/lg/xl — the four FINE steps that used to
+     live only as independent literals inside app.css's --t-xs/--t-sm/--t-lg/
+     --t-xl. Folded in here so there is exactly ONE type-scale source of
+     truth across the app (app.css's --t-* now alias these — see app.css
+     :root); values are UNCHANGED from what they replaced, so nothing on
+     screen shifts size — this is a consolidation, not a redesign. ---- */
+  --sadu-type-xs:12px;
+  --sadu-type-sm:13px;
+  --sadu-type-lg:16px;
+  --sadu-type-xl:20px;
+
+  /* ---- Arabic typefaces — READY for @font-face, not yet wired.
+     FONT-BUNDLED: false.
+     This repo carries ZERO bundled Arabic-script font files (checked: only
+     Latin display/mono faces under .claude/skills/ui-styling/canvas-fonts —
+     none are Arabic, none are licensed for shipping in this product). Per
+     the offline rule we do NOT fetch a font from a CDN or a hosted Google
+     Fonts service to fake this — these two variables fall back to the system Arabic UI
+     stack until a real OFL pairing (e.g. a Kufi/Naskh display+text pair) is
+     vendored into app/assets/fonts/ as .woff2. The moment that file lands,
+     add its @font-face rule directly above and swap the family name here —
+     every selector in app.css that already points at var(--font-display)/
+     var(--font-body) starts using the real face with NO further edits. ---- */
+  --font-display:"Segoe UI","Tahoma",system-ui,sans-serif;
+  --font-body:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif;
+
+  /* ---- spacing rhythm: distinct steps, not one uniform gap everywhere ---- */
+  --sadu-space-1:4px;
+  --sadu-space-2:8px;
+  --sadu-space-3:14px;
+  --sadu-space-4:20px;
+  --sadu-space-5:28px;
+  --sadu-space-6:40px;
+
+  /* ---- radii ---- */
+  --sadu-r-sm:10px;
+  --sadu-r-md:14px;
+  --sadu-r-lg:20px;
+  --sadu-r-pill:999px;
+
+  /* ---- motion durations (compositor-friendly properties only — transform/
+     opacity/box-shadow; app.css's existing reduced-motion kill-switch
+     already zeroes every animation/transition app-wide, this file adds no
+     second switch) ---- */
+  --sadu-motion-fast:120ms;
+  --sadu-motion-base:220ms;
+  --sadu-motion-slow:420ms;
+  --sadu-ease:cubic-bezier(.16,1,.3,1);
+}

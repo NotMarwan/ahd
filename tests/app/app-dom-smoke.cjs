@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -70,6 +70,10 @@ ok((hh.match(/class="hgrid[^"]*"/g) || []).length >= 1, "Front A: primary destin
 ok(/class="hmore"/.test(hh) && /المزيد/.test(hh), "Front A: secondary destinations fold into a «المزيد» disclosure");
 ok(/home-emblem/.test(hh) && /class="oct"/.test(hh), "Front A: the octagon seal emblem marks the front door");
 ok(/أثر عهد/.test(hh) && /الأجرة والخطط/.test(hh) && /لوحة المؤسسة/.test(hh), "Front A: every destination stays reachable (folded into المزيد, still in the DOM)");
+/* W5 spine regression: the weave's «tamper» red is reserved for a live tampered
+   seal ONLY — an overdue thread is always amber, never red (2:280 grace) */
+ok(/hw-thread amber/.test(hh), "W5 spine: an overdue عهد's thread renders amber in the weave");
+ok(!/hw-thread tamper/.test(hh) && !/hw-lg tamper/.test(hh), "W5 spine: with nothing tampered, the weave carries NO tamper/red thread or legend entry");
 /* Front B — the refusal is SEEN (block-and-explain), not merely spoken */
 let rf = noThrow(() => App.go("refusal"), "go('refusal') renders «ما لا يفعله عهد»");
 ok(/لا يُقرض/.test(rf) && /لا يُقيّم/.test(rf) && /لا يحكم/.test(rf), "Front B: all three refusals render");
@@ -79,6 +83,9 @@ ok(/rf-charity/.test(rf) && /صدقة/.test(rf), "Front B: the charity beat (ا�
 ok(/app\/features\/(bounds|daftari|dispute)\.js/.test(rf), "Front B: refusals cite their real guard files on screen");
 ok(/ما لا يفعله عهد/.test(App.go("home")), "Front B: the refusal screen is reachable from home");
 ok(/rf-do/.test(rf) && /القرض المفتوح/.test(rf), "Front B+: the charity beat is an actionable DOORWAY to the real إبراء flow, not just a poster");
+/* W5 refusal beat: a strong, quotable on-screen pull-quote leads the screen */
+ok(/rf-quote/.test(rf) && new RegExp(sandbox.Refusal.QUOTE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).test(rf), "W5: the quotable pull-quote («what we refuse to do IS the product») renders on screen");
+ok(rf.indexOf("rf-quote") < rf.indexOf("rf-head"), "W5: the pull-quote leads the screen, ahead of the heading");
 
 /* دفتري home renders */
 let h = noThrow(() => App.go("daftari"), "go('daftari') renders the creditor home");
@@ -246,8 +253,25 @@ ok(/سليمة/.test(pf), "untouched record verifies ✓ «سليمة»");
 let pft = noThrow(() => App.proofTamperToggle(), "tamper toggle ON");
 ok(/عبثٌ مكشوف/.test(pft) && /pf-verify bad/.test(pft), "tampering breaks the seal → ✗ «عبثٌ مكشوف» (bad)");
 ok(/الحقل المتغيّر/.test(pft) && /المبلغ/.test(pft), "tamper shows the PRECISE changed field (المبلغ) + diverging seals");
+/* W5 signature moment: the cascade is sharpened — BOTH the content-hash link and
+   the seal link break (not just the endpoint), genesis (a fixed root) stays calm,
+   and the connecting arrow visibly tears — narratable in one breath. */
+ok(/ch-content broken/.test(pft) && /ch-seal broken/.test(pft), "W5: tamper cascades — both the content-hash link and the seal link break, not just the endpoint");
+ok(/ch-link tear/.test(pft), "W5: the arrow connecting the two broken links visibly tears (red)");
+ok(/class="ch"><span>genesis/.test(pft), "W5: genesis stays a plain, untouched root — it never derives from the tampered text");
+ok(/pf-tear-note/.test(pft) && /خيط.*يتمزّق/.test(pft), "W5: a one-breath caption ties the cascade to the ONE metaphor (the thread tears)");
+ok(/pf-weave-link/.test(pft) && /نسيج عهودك/.test(pft), "W5: a live doorway from the tamper cascade to the home weave payoff");
+/* W5 metaphor payoff: the SAME live tamper state tears exactly ONE thread on the home weave */
+let homeTorn = noThrow(() => App.go("home"), "W5: follow the tamper state to the home weave");
+ok(/hw-thread tamper/.test(homeTorn), "W5: the home weave renders the tampered record's thread torn/red");
+ok((homeTorn.match(/hw-thread tamper/g) || []).length === 1, "W5: ONLY the one tampered thread turns red — every other thread keeps its normal tone");
+ok(/hw-lg tamper/.test(homeTorn) && /عبثٌ مكشوف/.test(homeTorn), "W5: the weave legend explains the live tear (shown only while a tamper is active)");
+noThrow(() => App.go("proof"), "back to the proof screen");
 noThrow(() => App.proofTamperToggle(), "tamper toggle OFF (restore)");
 ok(/سليمة/.test(App.go("proof")), "restored record verifies ✓ again");
+let homeRestored = noThrow(() => App.go("home"), "W5: after restore, the weave carries no torn thread");
+ok(!/hw-thread tamper/.test(homeRestored) && !/hw-lg tamper/.test(homeRestored), "W5: red disappears from the weave once the tamper is fixed — it is a LIVE state, never sticky");
+noThrow(() => App.go("proof"), "back to proof for the remaining Front C assertions");
 /* Front C — the judge types their OWN tamper amount; full-hash nibble diff */
 ok(/pf-try/.test(App.go("proof")) && /اعبث بنفسك/.test(App.go("proof")), "Front C: the proof screen invites the judge to type their own tamper amount");
 let pcSet = noThrow(() => App.proofTamperSet(String(App.recordById("R-CAFE").amountSAR + 1)), "proofTamperSet(+1) applies a judge-chosen tamper");
@@ -417,6 +441,16 @@ ok(/متوسّط التحويلات الموفَّرة/.test(im) && /٫/.test(im
 ok(/flex-grow/.test(im), "distribution bars are sized via integer flex-grow inline styles (no % text)");
 ok(/وفّرت المقاصّةُ تحريكَ/.test(im), "totals carry the saved-movement line «وفّرت المقاصّةُ تحريكَ …»");
 ok(!/م[١٢٣٤٥٦٧٨]/.test(im), "aggregates only — no individual member code (م١..م٨) appears anywhere on screen");
+
+/* ---- «المصادر والمنهجيّة» (W3, data criterion) — every external/aggregate
+   figure named with its year + measured-vs-illustrative flag, one collapsed
+   tap away on the impact screen; ties the honest label to a real dataset. ---- */
+ok(!!sandbox.Sources, "Sources module attaches to window");
+ok(/im-sources/.test(im) && /المصادر والمنهجيّة/.test(im), "impact screen renders the «المصادر والمنهجيّة» expandable section");
+ok(/٥٧١٬٢٥١/.test(im) && /٢٠٢٠–٢١/.test(im), "the sources section names the real D-1 figure (571,251) with its year (2020–21)");
+ok(/🟢 مقاسٌ ومُوثَّق/.test(im) && /🟡 توضيحيّ/.test(im), "the sources section visibly flags at least one MEASURED and one ILLUSTRATIVE entry");
+ok((im.match(/im-src-row/g) || []).length === sandbox.Sources.SOURCES.length, "every dataset entry renders exactly one source row (no drift between the data and the screen)");
+ok(/دوائر تجريبيّة/.test(im.split("im-sources")[1] || ""), "the sources section itself names the fixture circles as test data (ties the JL-8 gap to a citation)");
 
 /* ---- «الضمانات والحدود» (JL-4) — CONTEXTUAL (home card + chips on «ما عليّ» and
    «حافظة الإثبات»): guarantees-as-code, every بند naming its real guard file. ---- */

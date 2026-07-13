@@ -50,6 +50,11 @@
         '<div class="empty">لا شيء بعد — حين تُنشئ عهدًا أو يجري عليه شيء، يُسجَّل هنا شهادةً محفوظة.</div></div>';
     }
 
+    /* the hero numeral leading the screen — total witnessed moments, same
+       --sadu-type-hero-num token as home/settlement (W1 defect: numeral
+       fragmentation). Only in the populated branch — the empty state above
+       stays calm, no giant "0" (data, not decoration for its own sake). */
+    var countHero = '<div class="tl-count-hero">' + App.digit(feed.length) + '<small> لحظة محفوظة</small></div>';
     var counts = '<div class="tl-counts">' + chip(c.sealed, "موثّق", "sealed") + chip(c.kept, "ذمّة محفوظة", "kept") +
       chip(c.mercy, "رحمة", "mercy") + chip(c.neutral, "محلّ خلاف", "neutral") + chip(c.amber, "تذكير لطيف", "amber") + "</div>";
     var toggle = '<div class="tl-toggle" role="tablist">' +
@@ -69,7 +74,7 @@
       body = focusBar + '<div class="tl-stories">' + groups.map(function (g) { return storyCard(g, focused); }).join("") + "</div>";
     }
 
-    return '<div class="timeline">' + header + counts + toggle + body + "</div>";
+    return '<div class="timeline">' + header + countHero + counts + toggle + body + "</div>";
   }
 
   App.registerScreen({ key: "timeline", label: "السجلّ", icon: "📜", render: render });

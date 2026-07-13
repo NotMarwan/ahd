@@ -37,12 +37,16 @@
       '<button class="rf-do" onclick="AhdApp.go(\'open\')">🤍 جرّبها الآن في «القرض المفتوح» ←</button>' +
       "</div>";
 
+    var quote = m.quote ? '<div class="rf-quote"><span class="rf-quote-mark" aria-hidden="true">”</span>' + App.esc(m.quote) + "</div>" : "";
+
     return '<div class="refusal">' +
+      quote +
       '<div class="rf-head">' + App.esc(m.heading) + "</div>" +
       '<div class="rf-sub">' + App.esc(m.sub) + "</div>" +
       cards + charity +
       '<div class="rf-chips">' +
         '<button class="rf-chip" onclick="AhdApp.go(\'bounds\')">الضمانات والحدود ←</button>' +
+        '<button class="rf-chip" onclick="AhdApp.go(\'shariah\')">📜 الأساس الشرعي ←</button>' +
         '<button class="rf-chip" onclick="AhdApp.go(\'create\')">جرّب مانع الربا ←</button>' +
       "</div>" +
     "</div>";

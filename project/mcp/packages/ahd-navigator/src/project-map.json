@@ -91,6 +91,15 @@
       "description": "National compression scenario — applies Ahd's measured netting ratio to the cited execution-court load (EVIDENCE-BRIEF D-1), illustrative + integer, rendered on the settle screen (Front D)"
     },
     {
+      "name": "sources",
+      "featureFile": "app/features/sources.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/sources.test.cjs"
+      ],
+      "description": "«المصادر والمنهجيّة» — checked-in dataset naming every external/aggregate figure a judge can see, each tagged measured (real, cited, with a year) or illustrative (labelled scenario); rendered as an expandable section on the impact screen (W3, data criterion)"
+    },
+    {
       "name": "create",
       "featureFile": "app/features/create.js",
       "screenFile": "app/screens/create.js",
@@ -258,6 +267,16 @@
       "screenFile": "app/screens/home.js",
       "testFiles": [],
       "description": "Home front door"
+    },
+    {
+      "name": "shariah-basis",
+      "featureFile": "app/features/shariah-basis.js",
+      "screenFile": "app/screens/shariah-basis.js",
+      "testFiles": [
+        "app/shariah-basis.test.cjs",
+        "app/shariah-basis-smoke.cjs"
+      ],
+      "description": "«الأساس الشرعي» (feasibility gate, W4) — every core mechanic cited to its verse/AAOIFI standard/law, honestly graded; every open Shariah question (Hilah, D-1, D-3, multilateral netting) phrased as a question for a scholar, never a ruling"
     },
     {
       "name": "impact-drill",

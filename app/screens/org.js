@@ -58,6 +58,7 @@
     return '<div class="org">' +
       '<div class="org-head">لوحة المؤسسة · صندوق قرض حسن</div>' +
       '<div class="org-fund"><b>' + App.esc(org.name) + "</b><span> · دورة " + App.digit(App.esc(org.cycleKey)) + " · بيانات اختبار</span></div>" +
+      '<div class="org-hero-num">' + App.fmtN(sar(L.outstandingHalalas)) + ' <small>ر.س متبقٍّ للصندوق</small></div>' +
       '<div class="org-kpis">' + tiles + "</div>" +
       conservation +
       invoiceHTML +

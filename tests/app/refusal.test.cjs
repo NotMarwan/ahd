@@ -19,6 +19,11 @@ const m = Refusal.model();
 ok(/يُقرض/.test(m.heading) && /يُقيّم/.test(m.heading) && /يحكم/.test(m.heading), "heading names all three refusals");
 ok(Array.isArray(m.items) && m.items.length === 3, "exactly three refusals");
 
+/* W5: the quotable, on-screen pull-quote — «what we refuse to do IS the product» */
+ok(typeof m.quote === "string" && m.quote.length > 10, "the model carries a quotable pull-quote");
+ok(/المنتج/.test(m.quote), "the quote states the refusal itself IS the product (no apology)");
+ok(Refusal.QUOTE === m.quote, "the module also exports QUOTE directly (stable, importable)");
+
 m.items.forEach(function (it) {
   ok(!!(it.act && it.control && it.bankDoes && it.whyRefused && it.enforcedBy),
      "refusal «" + it.act + "» is complete (act · control · bankDoes · why · guard)");

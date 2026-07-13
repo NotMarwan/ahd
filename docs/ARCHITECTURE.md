@@ -357,4 +357,96 @@ tests/
     engine-parity.cjs         drift-guard: engine.js == demo slice
     daftari.test.cjs · open-loan.test.cjs · circle-adv.test.cjs
     determinism.test.cjs · app-offline.test.cjs · properties.test.cjs · app-dom-smoke.cjs
+    server-parity.test.cjs    server-side seal parity proof (§9) — same golden engine, over HTTP handlers
+
+server/
+  engine.cjs                  THIN ADAPTER: re-exports app/engine.js unmodified (one require path)
+  store.cjs                   deterministic in-memory persistence (a Map; not a real DB — §9)
+  handlers.cjs                pure route handlers: (body, ctx) -> { status, body }; call the golden
+                               engine + app/features/create.js + app/features/riba-lint.js only
+  router.cjs                  pure dispatcher: route(method, pathname, body, ctx) -> { status, body }
+  http.cjs                    LIVE Node http binder (localhost only) wiring router.cjs to a real socket
+  smoke-live.cjs               OPTIONAL manual real-socket check — NOT part of the deterministic gate
 ```
+
+---
+
+## 9 · The server slice — proving the engine runs server‑side too (2026‑07)
+
+The demo and the app (§1–8) are both **client‑side**: the engine runs in a browser or in Node‑as‑test‑
+runner, but nothing ever answered an HTTP request. `server/` is a small, additive, **thin** slice that
+closes that gap for one purpose: prove the exact same golden engine — the same `sha256`, `canonical`,
+`sealBlock`, `recomputeSeal`, `verifyRecord`, netting core, and the app's `create.js`/`riba-lint.js`
+feature layers over it — produces **byte‑identical seals** whether it runs in a browser tab or behind an
+HTTP endpoint. **The seal is the API**: a client can seal a record locally (browser) or ask the server to
+seal it, and get literally the same hash either way.
+
+### What is real here
+
+- **`server/engine.cjs`** does not reimplement anything — it is `module.exports = require("../app/engine.js")`,
+  the identical module instance the app uses. `tests/app/server-parity.test.cjs` asserts this by reference
+  equality (`engine === AppEngine`), not just by output equality.
+- **`server/handlers.cjs`** calls **only** golden primitives (via the engine) and the already‑tested
+  `app/features/create.js` (`makeDraft`, `draftTermsAr`, `createSeal`, `verifyCreated`) and
+  `app/features/riba-lint.js` (`ribaCheck`/`ribaScan`). No handler computes a hash, a seal, or a netting
+  result itself.
+- **`POST /verify`** with no `id` (or `id:"MAIN"`) calls `engine.verifyRecord()` on the single frozen demo
+  agreement (نورة→سارة, 5000 SAR / 5 months) baked into the engine at module load, and returns
+  `sealed: "6c9410b9…"` — **the project's one pinned golden main seal**, reproduced through an HTTP
+  request‑handler with zero reimplementation. This is the core parity proof.
+- **`POST /create-loan` → `POST /seal`** for the exact same vector `golden-vectors.test.cjs` pins
+  (`id: NEW-1`, أنت→سلطان, 1200 SAR / 3) reproduces **that suite's** pinned seal
+  (`0463553997c8…`) exactly — proving server‑side sealing of a **brand‑new** record, not just the frozen
+  one, is byte‑identical to the app path.
+- **On‑spine by construction**: `POST /seal` refuses (`422`) to witness any draft whose terms the riba
+  linter flags — the bank never seals an interest/penalty clause, mirroring the spine in code, not just in
+  copy. There is no lending primitive (no money ever moves inside the server), no dispute‑judging
+  endpoint, and no credit‑score field anywhere in a response.
+- **Deterministic and offline**: `server/*.cjs` contains no `Date.now`/`new Date`/`Math.random`/`Intl`/
+  `.toLocaleString`/`fetch`/`XMLHttpRequest`/`WebSocket` — checked by a static scan inside
+  `server-parity.test.cjs` (mirroring `tests/app/app-offline.test.cjs`'s method). Node built‑ins only
+  (`http`); zero npm dependencies; `server/http.cjs` binds `127.0.0.1` only.
+- **The parity test never opens a socket.** `server/router.cjs`'s `route(method, pathname, body, ctx)` is
+  a pure function — the exact one `server/http.cjs` wires to a real `http.createServer` — so
+  `tests/app/server-parity.test.cjs` calls it directly (mock request, real logic) and stays inside the
+  fast, deterministic gate. A **separate, optional** script, `server/smoke-live.cjs`, opens a real socket
+  and makes a real HTTP round‑trip to `POST /verify`; it is not named to match the auto‑discovery pattern
+  and is not invoked by `run-all.cjs`, so it can never make the gate flaky. Run it by hand:
+  `node server/smoke-live.cjs`.
+
+### What is NOT real — explicit, not hidden
+
+This is a **hackathon proof slice**, not a production backend. Specifically absent, all left as residual
+gaps:
+
+- **No authentication or authorization** — any caller can create/seal/verify/list any loan; there is no
+  session, token, Nafath integration, or per‑party access control.
+- **No real database** — `server/store.cjs` is a process‑local `Map`. Restarting the process loses every
+  server‑created loan (the MAIN frozen record is unaffected — it is baked into the engine, not the store).
+  No transactions, no migrations, no backup.
+- **No concurrency control** — a `Map` is not safe under concurrent writers beyond Node's single‑threaded
+  event loop; there is no locking, no optimistic concurrency, no idempotency key beyond the simple
+  "id already exists" 409 check.
+- **No rate limiting, no request size limits, no TLS** — `server/http.cjs` is a bare `http.createServer`,
+  offline‑only, meant to be run on `localhost` for a demo, not exposed to the internet.
+- **No deployment story** — no process manager, no container, no environment config, no health checks
+  beyond "the process is listening."
+- **No pagination, filtering, or auth‑scoped listing** on `GET /list` — it returns every loan in the
+  in‑memory store.
+- **PKI/TSA are still seams** (unchanged from the demo/app): the hashing is real; a licensed timestamp
+  authority and each party's real Nafath signature are simulated, exactly as documented in §2 of
+  `app/engine.js`'s header comment.
+
+### Endpoints (thin, on‑spine)
+
+| Method | Path | Calls | Notes |
+|---|---|---|---|
+| `POST` | `/create-loan` | `app/features/create.js: makeDraft, draftTermsAr, ribaCheck` | writes a DRAFT (unsealed); `id:"MAIN"` reserved |
+| `POST` | `/seal` | `create.js: createSeal` (golden `sha256`/`sealBlock`/`GENESIS`) | 422 if riba‑flagged; idempotent re‑seal |
+| `POST` | `/verify` | no `id` → golden `engine.verifyRecord`; else `create.js: verifyCreated` | tamper‑evidence both ways |
+| `POST` | `/net` | golden `engine.netting` | defaults to the golden 9‑IOU demo tangle |
+| `GET` | `/list` | `store.listLoans` | every loan in the process‑local store |
+
+Run the live server for manual inspection: `node server/http.cjs` → `http://127.0.0.1:8225` (offline). Run
+its deterministic proof as part of the gate: `cd tests && node run-all.cjs` (the suite is
+`tests/app/server-parity.test.cjs`, auto‑discovered by `tests/app/run-app-tests.cjs`).

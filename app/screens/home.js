@@ -31,6 +31,7 @@
     { id: "standing",   ico: "🗓️",  title: "سُلفة بالمعروف",   sub: "سُلفةٌ متجدّدةٌ بين طرفين — بلا فائدة، متى تيسّر" },
     { id: "maroof",     ico: "🕊️",  title: "سِجلّ المعروف",    sub: "كلُّ تذكيرٍ ونظرةٍ وإبراءٍ — مختومٌ ومحفوظٌ كبيّنة" },
     { id: "bounds",     ico: "🧭",  title: "الضمانات والحدود", sub: "ما يحمي الطرفين وما لا يفعله المصرف — كلُّ ضمانةٍ باختبارها" },
+    { id: "shariah",    ico: "📜",  title: "الأساس الشرعي",    sub: "كلّ آليّةٍ ونصّها أو معيارها — وأسئلةٌ مفتوحةٌ بانتظار مراجعة عالِم" },
     { id: "refusal",    ico: "🛡️",  title: "ما لا يفعله عهد",   sub: "لا يُقرض، لا يُقيّم، لا يحكم — هُويّةٌ لا اعتذار" },
     { id: "plans",      ico: "🧾",  title: "الأجرة والخطط",    sub: "كيف يربح عهد — أجرةٌ على الخدمة لا على القرض، والقرض مجانيٌّ للأبد" },
     { id: "org",        ico: "🏛️",  title: "لوحة المؤسسة",     sub: "صندوق قرض حسن كـ SaaS — مجاميع مجهّلة وفاتورةٌ ثابتة، بلا مالٍ مجمَّع" }
@@ -61,6 +62,52 @@
       '<span class="hht-go" aria-hidden="true">›</span></button>';
   }
 
+  /* ---- «كلّ قرضٍ خيط، والسجلّ نسيج» — the Sadu weave, made literal (W1).
+     One thread per witnessed عهد; colour reuses the SAME tone vocabulary as
+     the rest of the app (teal/gold/amber/mute — mirrors screens/daftari.js
+     chipClass), so a judge who has already seen دفتري reads the colours for
+     free. Late is amber, never red (spine). Data-driven, not decoration.
+
+     W5 (metaphor payoff): tied to the LIVE tamper state on «حافظة الإثبات».
+     When a record is actively tampered (app.proofState), its ONE thread —
+     and ONLY that thread — renders torn/red; every other thread keeps its
+     normal tone. This is the ONLY place «tamper» red appears in the weave;
+     an overdue thread is always amber, never this class (spine: 2:280 grace,
+     never punish the struggling — see app-dom-smoke.cjs's amber-not-red guard). ---- */
+  function threadTone(row, tamperedId) {
+    if (tamperedId && row.id === tamperedId) return "tamper";
+    if (row.isOverdue) return "amber";
+    if (row.statusKey === "KEPT" || row.statusKey === "FORGIVEN" || row.graced) return "gold";
+    if (row.statusKey === "DISPUTED") return "mute";
+    return "teal";
+  }
+  function weaveHTML(led, tamperedId) {
+    var rows = led ? [].concat(led.owedToMe, led.iOwe) : [];
+    if (!rows.length) {
+      return '<div class="home-weave"><div class="hw-head"><span class="hw-title">نسيج عهودك</span></div>' +
+        '<div class="hw-empty">لم يُنسج أيّ خيطٍ بعد — أنشئ عهدك الأوّل ويبدأ النسيج</div></div>';
+    }
+    var torn = !!(tamperedId && rows.some(function (r) { return r.id === tamperedId; }));
+    var threads = rows.map(function (r) {
+      var tone = threadTone(r, tamperedId);
+      var isTear = tone === "tamper";
+      return '<span class="hw-thread ' + tone + '" role="listitem" tabindex="0" ' +
+        'title="' + App.esc(r.counterparty + " · " + (isTear ? "✗ عبثٌ مكشوف — الخيط يتمزّق" : r.chipLabel)) + '"></span>';
+    }).join("");
+    return '<div class="home-weave' + (torn ? " torn" : "") + '">' +
+      '<div class="hw-head"><span class="hw-title">نسيج عهودك</span><span class="hw-cap">' +
+        (torn ? "✗ عبثٌ مكشوف — خيطٌ واحد يتمزّق بالأحمر" : "كلّ قرضٍ خيط، والسجلّ نسيج") + "</span></div>" +
+      '<div class="hw-threads" role="list" aria-label="خيوط عهودك — كلّ خيطٍ عهدٌ واحد">' + threads + "</div>" +
+      '<div class="hw-legend">' +
+        '<span class="hw-lg teal">مختومٌ وقائم</span>' +
+        '<span class="hw-lg amber">وعدٌ متأخّر — بالمعروف</span>' +
+        '<span class="hw-lg gold">وُفِّي أو أُبرئ</span>' +
+        '<span class="hw-lg mute">محلّ خلاف — يشهد ولا يحكم</span>' +
+        (torn ? '<span class="hw-lg tamper">عبثٌ مكشوف — الختم انكسر</span>' : "") +
+      "</div>" +
+    "</div>";
+  }
+
   function render(app) {
     var e = app.engine, D = app.D;
     var led = (D && app.records) ? D.buildLedger(app.records, app.viewer, e, app.AS_OF) : null;
@@ -81,16 +128,22 @@
     var G = groupsOf(DESTS);
     var primaryCards = G.primary.map(card).join("");
     var moreCards = G.more.map(card).join("");
+    var tamperedId = (app.proofState && app.proofState.tamper) ? app.proofState.recordId : null;
 
     return '<div class="home">' +
       '<div class="hero">' + EMBLEM +
         '<div class="brand">عهد</div>' +
         '<div class="tag">قرضٌ حسن — مكتوبٌ ومشهود، بكرامة.</div>' +
         '<div class="sub">المصرف يكتب ويشهد ويحفظ ويُسوّي — ولا يُقرض، ولا يحكم، ولا يأخذ على القرض شيئًا. بلا ربا، بلا غرامة، بلا تصنيف.</div></div>' +
+      weaveHTML(led, tamperedId) +
       heroTile(G.hero) +
       '<div class="hgrid" role="list">' + primaryCards + "</div>" +
       '<details class="hmore"><summary>المزيد من عهد…</summary><div class="hgrid hmore-grid" role="list">' + moreCards + "</div></details>" +
-      '<div class="hsummary">لك عند الناس <b>' + App.fmtN(tiles.me.amountSAR) + ' ر.س</b> · عليك للناس <b>' + App.fmtN(tiles.on.amountSAR) + ' ر.س</b></div>' +
+      '<div class="home-stats">' +
+        '<div class="hstat"><span class="hstat-l">لك عند الناس</span><span class="hstat-v">' + App.fmtN(tiles.me.amountSAR) + '<small> ر.س</small></span></div>' +
+        '<div class="hstat-div" aria-hidden="true"></div>' +
+        '<div class="hstat"><span class="hstat-l">عليك للناس</span><span class="hstat-v">' + App.fmtN(tiles.on.amountSAR) + '<small> ر.س</small></span></div>' +
+      "</div>" +
       standing +
       '<div class="hsteps">' +
         '<div class="step"><span>١</span> اكتب العهد</div>' +

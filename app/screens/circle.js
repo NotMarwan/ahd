@@ -31,7 +31,8 @@
     }).join("");
     return '<div class="circledash">' +
       '<div class="cd-head">دائرة «' + App.esc(d.name) + '» · أمين الصندوق ' + App.esc(d.organizer) + "</div>" +
-      '<div class="cd-prog"><div class="cd-pl">جُمِع ' + App.fmtN(d.collectedSAR) + " من " + App.fmtN(d.owedSAR) + ' ر.س</div>' +
+      '<div class="cd-prog"><div class="cd-hero-num">' + App.fmtN(d.collectedSAR) + ' <small>ر.س</small></div>' +
+        '<div class="cd-pl">جُمِع من إجمالي ' + App.fmtN(d.owedSAR) + ' ر.س</div>' +
         '<div class="cd-bar"><div class="cd-fill" style="width:' + pct + '%"></div></div>' +
         '<div class="cd-status">' + App.esc(d.statusAr) + "</div></div>" +
       '<div class="cd-card">' + rows + "</div>" +
