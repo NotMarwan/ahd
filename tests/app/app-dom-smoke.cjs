@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -461,6 +461,11 @@ ok(/أثر عهد/.test(App.go("home")), "home surfaces the «أثر عهد» an
 ok(/أثر عهد/.test(App.go("settle")), "the settle screen offers the «أثر عهد» chip (contextual bridge)");
 let im = noThrow(() => App.go("impact"), "go('impact') renders the impact analytics screen");
 ok(/أثر عهد/.test(im), "impact shows the «أثر عهد» heading");
+ok(!!sandbox.DataRigor && !!sandbox.MarketModel, "impact dependencies load into the browser realm");
+ok(/dr-ladder/.test(im), "impact renders the evidence-ladder container");
+ok(/dr-details/.test(im), "impact keeps detailed evidence behind a readable disclosure");
+ok(/سلّم الدليل/.test(im) && /GASTAT/.test(im) && /TAM/.test(im) && /نافذ/.test(im), "impact renders the source-bounded evidence ladder");
+ok(/ليست توزيعًا لقروض الأفراد/.test(im) && /دوائر تجريبيّة/.test(im), "impact separates GASTAT context from synthetic fixtures");
 ok(/دوائر تجريبيّة/.test(im) && /بيانات اختبار/.test(im), "impact honestly labels its data «دوائر تجريبيّة (بيانات اختبار)»");
 ok(/لا يُعرَض تجميعٌ لأقلّ من/.test(im), "the k-anonymity floor is stated on screen (no bucket under 3 circles)");
 ok(im.indexOf("%") < 0 && im.indexOf("٪") < 0, "impact renders NO percentage glyph anywhere (absolute numbers + words only)");
@@ -485,6 +490,8 @@ ok(!!sandbox.Sources, "Sources module attaches to window");
 ok(/im-sources/.test(im) && /المصادر والمنهجيّة/.test(im), "impact screen renders the «المصادر والمنهجيّة» expandable section");
 ok(/٥٧١٬٢٥١/.test(im) && /٢٠٢٠–٢١/.test(im), "the sources section names the real D-1 figure (571,251) with its year (2020–21)");
 ok(/🟢 مقاسٌ ومُوثَّق/.test(im) && /🟡 توضيحيّ/.test(im), "the sources section visibly flags at least one MEASURED and one ILLUSTRATIVE entry");
+ok(/أولي|ثانوي|نموذج/.test(im), "the sources section visibly states primary, secondary, or model provenance");
+ok(/im-src-grade/.test(im), "each source provenance appears in a dedicated grade badge");
 /* D2 (data-rigor): the real, primary-sourced Findex demand figure is visible beside
    the synthetic-fixture caveat — a judge SEES a real KSA demand signal, not just D-1 */
 ok(/٣٥٫٨/.test(im) && /World Bank/.test(im), "the sources section surfaces the real Findex demand figure (35.8%) with its World Bank citation");

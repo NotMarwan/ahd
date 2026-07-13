@@ -646,6 +646,14 @@ body{
    named with its year + measured(🟢)-vs-illustrative(🟡) flag; collapsed by
    default (native <details>), one tap from any judge who asks "sources?" */
 .im-sources{margin-top:2px}
+.dr-ladder{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:13px;box-shadow:var(--shadow)}
+.dr-head{font-weight:800;color:var(--ink);font-size:var(--t-sm);display:flex;justify-content:space-between;gap:8px}.dr-head span{font-weight:500;color:var(--mut);font-size:var(--t-xs)}
+.dr-signal{background:var(--teal-soft);border-inline-start:3px solid var(--teal);border-radius:var(--r-sm);padding:10px}.dr-signal b{display:block;color:var(--teal);font-size:var(--t-lg)}.dr-signal span{display:block;color:var(--ink);font-size:var(--t-xs);line-height:1.8;margin-top:2px}
+.dr-details>summary{cursor:pointer;color:var(--teal);font-weight:700;font-size:var(--t-xs);padding:4px 0}.dr-details[open]{display:flex;flex-direction:column;gap:8px}
+.dr-card{border-inline-start:3px solid var(--line);padding:8px 10px;background:var(--mute-soft);border-radius:var(--r-sm)}
+.dr-card b{display:block;color:var(--ink);font-size:var(--t-xs)}.dr-card p{margin:4px 0 0;color:var(--mut);font-size:var(--t-xs);line-height:1.8}
+.dr-primary{border-inline-start-color:var(--teal)}.dr-secondary{border-inline-start-color:var(--gold)}.dr-model{border-inline-start-color:var(--mut)}
+.dr-caveat{color:var(--gold)!important}.dr-fixture{margin:0;color:var(--mut);font-size:var(--t-xs);line-height:1.8}
 .im-sources>summary{list-style:none; cursor:pointer; font-size:var(--t-sm); font-weight:700; color:var(--teal);
   padding:11px 13px; background:var(--card); border:1px solid var(--line); border-radius:var(--r-md);
   display:flex; align-items:center; gap:6px; box-shadow:var(--shadow-sm); min-height:44px}
@@ -656,6 +664,7 @@ body{
 .im-src-row{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:11px 13px}
 .im-src-h{display:flex; align-items:center; flex-wrap:wrap; gap:7px; font-weight:700; color:var(--ink); font-size:var(--t-sm)}
 .im-src-year{margin-inline-start:auto; color:var(--mut); font-size:var(--t-xs); font-variant-numeric:tabular-nums}
+.im-src-grade{border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 6px;color:var(--mut);font-size:11px;font-weight:600}
 .im-src-fig{color:var(--ink); font-size:var(--t-xs); line-height:1.8; margin-top:5px}
 .im-src-cite{color:var(--mut); font-size:var(--t-xs); line-height:1.8; margin-top:4px}
 .im-src-used{color:var(--mut); font-size:11px; margin-top:5px; opacity:.85}

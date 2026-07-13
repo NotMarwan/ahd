@@ -74,8 +74,9 @@
       var measured = Src.isMeasured(s);
       var badge = '<span class="chip ' + (measured ? "teal" : "gold") + '">' +
         (measured ? "🟢 مقاسٌ ومُوثَّق" : "🟡 توضيحيّ") + "</span>";
+      var grade = Src.badgeAr ? '<span class="im-src-grade">' + App.esc(Src.badgeAr(s)) + "</span>" : "";
       return '<div class="im-src-row">' +
-        '<div class="im-src-h"><span class="im-src-name">' + App.esc(s.nameAr) + "</span>" + badge +
+        '<div class="im-src-h"><span class="im-src-name">' + App.esc(s.nameAr) + "</span>" + badge + grade +
           '<span class="im-src-year">' + App.esc(s.year) + "</span></div>" +
         '<div class="im-src-fig">' + App.esc(s.figureAr) + "</div>" +
         '<div class="im-src-cite">' + App.esc(s.citeAr) + "</div>" +
@@ -84,6 +85,25 @@
     }).join("");
     return '<details class="im-sources"><summary>المصادر والمنهجيّة (' + App.digit(Src.SOURCES.length) + " مصادر)</summary>" +
       '<div class="im-src-list">' + rows + "</div></details>";
+  }
+
+  function evidenceLadderHTML(app) {
+    var Data = (typeof window !== "undefined") ? window.DataRigor : null;
+    var Market = (typeof window !== "undefined") ? window.MarketModel : null;
+    if (!Data || !Market) return "";
+    var f = function (n) { return App.fmtN(n); };
+    var data = Data.describeAr(f);
+    var market = Market.describeMarketAr(Market.band(), f);
+    return '<section class="dr-ladder" aria-label="سلّم الدليل">' +
+      '<div class="dr-head">سلّم الدليل <span>مصادر وحدود واضحة</span></div>' +
+      '<article class="dr-signal"><b>٣٠٫٤ من كل ١٠٠</b><span>اقترضوا من الأهل أو الأصدقاء في ٢٠٢٤؛ والطوارئ المعتمدة عليهم ٣٨ من كل ١٠٠.</span></article>' +
+      '<details class="dr-details"><summary>افتح مصدر كل رقم وحدوده</summary>' +
+      '<article class="dr-card dr-primary"><b>Findex · قياس أولي</b><p>' + App.esc(data.findexLine) + '</p><p>' + App.esc(data.emergencyLine) + '</p></article>' +
+      '<article class="dr-card dr-primary"><b>GASTAT · سياق اقتصادي</b><p>' + App.esc(data.gastatLine) + '</p><p class="dr-caveat">' + App.esc(data.gastatCaveat) + '</p></article>' +
+      '<article class="dr-card dr-model"><b>TAM / SAM / SOM · نموذج معلن</b><p>' + App.esc(market.tamLine) + '</p><p>' + App.esc(market.caveatLine) + '</p></article>' +
+      '<article class="dr-card dr-secondary"><b>نافذ · إشارة ثانوية</b><p>' + App.esc(data.nafithLine) + '</p></article></details>' +
+      '<p class="dr-fixture">الدوائر التجريبية أدناه بيانات اختبار مركّبة ومجهّلة؛ لا تُقدَّم كمسح ميداني.</p>' +
+    '</section>';
   }
 
   function render(app) {
@@ -131,6 +151,7 @@
     return '<div class="impact">' +
       '<div class="im-head">أثر عهد — أثر المقاصّة عبر الدوائر</div>' +
       '<div class="im-banner">' + App.esc(d.honestyLine) + "</div>" +
+      evidenceLadderHTML(app) +
       collapseHTML(app, cp) +
       '<div class="im-hero">' + App.esc(d.heroLine) + "</div>" +
       cards +

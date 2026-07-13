@@ -359,6 +359,25 @@
         "app/org.test.cjs"
       ],
       "description": "«لوحة المؤسسة» institution/waqf admin dashboard — aggregate KPIs + flat SaaS invoice (from Billing), the surface the first paying customer logs into; aggregates only, k-anon, no pooled custody (Phase B)"
+    },
+    {
+      "name": "market-model",
+      "featureFile": "app/features/market-model.js",
+      "screenFile": "app/screens/impact.js",
+      "testFiles": [
+        "app/market-model.test.cjs"
+      ],
+      "description": "Deterministic integer-only TAM/SAM/SOM band; all assumptions visible and explicitly model-grade."
+    },
+    {
+      "name": "data-rigor",
+      "featureFile": "app/features/data-rigor.js",
+      "screenFile": "app/screens/impact.js",
+      "testFiles": [
+        "app/data-rigor.test.cjs",
+        "app/tripwire-portability.test.cjs"
+      ],
+      "description": "Checked-in Findex, GASTAT, and Nafith evidence ladder with source grades and explicit scope limits."
     }
   ]
 }

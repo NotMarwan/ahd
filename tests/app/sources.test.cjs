@@ -100,6 +100,7 @@ ok(Src.gradeOf(Src.byId("findex-series")) === Src.GRADE.PRIMARY, "Findex decade 
 ok(Src.gradeOf(Src.byId("findex-emergency")) === Src.GRADE.PRIMARY, "Findex emergency series is primary");
 ok(Src.gradeOf(Src.byId("gastat-context")) === Src.GRADE.PRIMARY, "GASTAT context is primary");
 ok(Src.gradeOf(Src.byId("nafith-count")) === Src.GRADE.SECONDARY, "Nafith count is secondary");
+ok(/findings-claude/.test(Src.byId("nafith-count").citeAr), "Nafith count cites its in-repo provenance record");
 ok(Src.gradeOf(Src.byId("market-band")) === Src.GRADE.MODEL, "market band is model-grade");
 ok(/ليست توزيعًا لقروض الأفراد/.test(Src.byId("gastat-context").citeAr), "GASTAT source rejects personal-loan-distribution reading");
 
