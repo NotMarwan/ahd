@@ -26,6 +26,7 @@
   var Standing = (typeof window !== "undefined" ? window.Standing : null);
   var Billing = (typeof window !== "undefined" ? window.Billing : null);
   var FeeReceipt = (typeof window !== "undefined" ? window.FeeReceipt : null);
+  var Rifq = (typeof window !== "undefined" ? window.Rifq : null);
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -85,6 +86,14 @@
     Settlement: Settlement,
     SettlePresets: (typeof window !== "undefined" ? window.SettlePresets : null),
     settleState: { preset: "golden" },
+    /* «رِفْق» — mercy-first clearing (I-L1): a CONSENTED-hardship debtor is
+       excluded from forced set-off; her obligations are held aside at the
+       ORIGINAL amount and sealed as a grace event, while the golden netting
+       still compresses everyone else. OFF by default (the golden view is
+       unchanged until the judge flips the toggle). Fixture declaration only —
+       a real build would gather this from an on-screen حالة عسر flow. */
+    Rifq: Rifq,
+    rifqState: { active: false, debtorId: "نورة", witnessedAt: "2026-06-21T00:00:00+03:00" },
     CircleDash: CircleDash,
     circleState: { reminder: false },
     /* «أثر عهد» drill-down: which size-bucket is expanded (number|null) */
@@ -327,6 +336,12 @@
       var P = this.SettlePresets;
       var known = P && P.PRESETS.some(function (p) { return p.key === key; });
       this.settleState.preset = known ? key : "golden";
+      return this.rerender();
+    },
+
+    /* ---- رِفْق: flip the consented-hardship flag on/off (golden netting untouched either way) ---- */
+    rifqToggle: function () {
+      this.rifqState.active = !this.rifqState.active;
       return this.rerender();
     },
 

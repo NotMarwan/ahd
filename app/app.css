@@ -1042,6 +1042,23 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .se-nat-label{color:var(--mut); font-size:var(--t-xs); line-height:1.8; margin-top:9px; border-top:1px dashed #e6d9ad; padding-top:8px}
 
 /* ============================================================================
+   «رِفْق» — mercy-first clearing (I-L1). Warm gold thread (mercy), NEVER red —
+   this is grace, not a failure. The toggle is OFF by default (additive).
+============================================================================ */
+.rifq-toggle{appearance:none; border:1px solid var(--gold); background:var(--gold-soft); color:var(--gold);
+  border-radius:var(--r-pill); padding:9px 14px; font:inherit; font-size:var(--t-sm); font-weight:700; cursor:pointer; align-self:center}
+.rifq-toggle:hover{background:var(--gold); color:#fff}
+.rifq-toggle.on{background:var(--gold); color:#fff}
+.rifq-panel{background:var(--gold-soft); border:1px solid #ecdfb5; border-inline-start:4px solid var(--gold);
+  border-radius:var(--r-lg); padding:14px 15px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:8px}
+.rifq-h{font-weight:800; color:var(--gold); font-size:14.5px}
+.rifq-note{color:var(--ink); font-size:12.5px; line-height:1.9}
+.rifq-note b{color:var(--gold)}
+.se-row.rifq-deferred{border-top:1px dashed #ecdfb5} .se-row.rifq-deferred b{color:var(--gold)}
+.rifq-seal{color:var(--mut); font-size:var(--t-xs); line-height:1.8} .rifq-seal code{font-family:var(--mono); color:var(--ink)}
+.rifq-gate{color:var(--mut); font-size:11.5px; line-height:1.8; border-top:1px dashed #e6d9ad; padding-top:7px}
+
+/* ============================================================================
    W1 (2026-07-12) — Sadu design tokens applied to Home: real type hierarchy
    (a distinct DISPLAY face for the brand + section titles, hero numerals for
    the two دفتري totals) and the woven-band motif made MEANINGFUL — one real

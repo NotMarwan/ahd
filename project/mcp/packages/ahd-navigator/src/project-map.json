@@ -138,6 +138,15 @@
       "description": "Muqassa netting + conservation proof"
     },
     {
+      "name": "rifq",
+      "featureFile": "app/features/rifq.js",
+      "screenFile": "app/screens/settlement.js",
+      "testFiles": [
+        "app/rifq.test.cjs"
+      ],
+      "description": "«رِفْق» mercy-first clearing (I-L1): consented-hardship debtor excluded from forced set-off, deferred at original amount, sealed as a grace event; golden netting runs on the remainder only (wraps features/settlement.js + features/impact.js's makeSettleFn, never modifies them)"
+    },
+    {
       "name": "impact",
       "featureFile": "app/features/impact.js",
       "screenFile": "app/screens/impact.js",

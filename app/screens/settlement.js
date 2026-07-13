@@ -16,6 +16,50 @@
     var edges = P ? P.edgesFor(presetKey, e) : e.IOUS;
     var v = S.settlementView(edges, e);
     var cp = S.conservationProof(edges, e);
+
+    /* «رِفْق» — mercy-first clearing (I-L1, docs/superpowers/plans/2026-07-13-
+       ceiling-break-8-9-plan.md §1.2): a CONSENTED-hardship debtor is excluded
+       from forced set-off; her obligations are held aside at the ORIGINAL
+       amount and sealed as a grace event; the GOLDEN netting still compresses
+       everyone else. Additive: OFF by default, the baseline view above is
+       unaffected either way. Fixture declaration only (a real build gathers
+       this from an on-screen حالة عسر flow) — never inferred from history. */
+    var Rf = app.Rifq;
+    var rifqActive = !!(Rf && app.rifqState && app.rifqState.active);
+    var rifqBtn = Rf ? ('<button class="rifq-toggle' + (rifqActive ? " on" : "") + '" onclick="AhdApp.rifqToggle()">🤲 رِفْق — نظرة إلى ميسرة' +
+      (rifqActive ? " (مُفعَّل)" : "") + "</button>") : "";
+    var rifqPanel = "";
+    if (rifqActive) {
+      var debtorId = app.rifqState.debtorId;
+      var decl = [{ debtorId: debtorId, creditorConsent: true, witnessedAt: app.rifqState.witnessedAt }];
+      var rr = Rf.applyRifq(edges, decl, e);
+      var rc = Rf.rifqConservation(edges, decl, e);
+      var deferredSAR = rr.deferred.reduce(function (a, ed) { return a + ed.amount; }, 0);
+      var sparedRows = rr.deferred.map(function (ed) {
+        return '<div class="se-row rifq-deferred"><span>' + App.esc(ed.from) + " مؤجَّلٌ عن " + App.esc(ed.to) + "</span><b>" + App.fmtN(ed.amount) + " ر.س</b></div>";
+      }).join("");
+      var restRows = rr.netted.map(function (t) {
+        return '<div class="se-row"><span>' + App.esc(t.from) + " تدفع " + App.esc(t.to) + "</span><b>" + App.fmtN(t.amount) + " ر.س</b></div>";
+      }).join("");
+      var graceHead = (rr.grace && rr.grace.head)
+        ? (typeof e.short === "function" ? e.short(rr.grace.head, 24) : String(rr.grace.head).slice(0, 24)) : "";
+      var okAll = rc.partitionOk && rc.netsPreserved;
+      rifqPanel = '<div class="rifq-panel">' +
+        '<div class="rifq-h">🤲 رِفْق — «' + App.esc(debtorId) + '» أعلنت العُسر، وشهد دائنوها بالموافقة</div>' +
+        (rr.deferred.length
+          ? ('<div class="rifq-note">مُستثناةٌ من المقاصّة القسريّة الآن — دَينها الأصليّ (<b>' + App.fmtN(deferredSAR) +
+              '</b> ر.س) مؤجَّلٌ كما هو، بلا أيّ نقصان إلّا أن يتبرّع الدائن بإبراء. ﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ (٢٨٠).</div>' +
+              '<div class="se-sub">مؤجَّلٌ بالمعروف (' + App.digit(rr.deferred.length) + "):</div>" + sparedRows)
+          : ('<div class="rifq-note">لا التزامَ على «' + App.esc(debtorId) + '» في هذه الشبكة حاليًّا — فلا شيء يُؤجَّل، وتستمرّ المقاصّة كما هي.</div>')) +
+        '<div class="se-sub">والبقيّة تُقاصّ كالمعتاد (' + App.digit(rr.netted.length) + (rr.netted.length === 1 ? " تحويل" : " تحويلات") + "):</div>" + (restRows || '<div class="se-note">لا تحويل مطلوب — الباقون متوازنون.</div>') +
+        '<div class="se-proof ' + (okAll ? "ok" : "bad") + '">' + (okAll
+          ? "✓ برهان الحفظ يصمد مع رِفْق أيضًا: المؤجَّل + المقاصّ = الأصل، ومركز كلٍّ محفوظ — بالهللة"
+          : "✗ خلل في الحفظ") + "</div>" +
+        (graceHead ? ('<div class="rifq-seal">التأجيل ذاته حدثٌ مختومٌ مستقلٌّ في السلسلة الذهبيّة: <code>' + App.esc(graceHead) + "…</code></div>") : "") +
+        '<div class="rifq-gate">شهادةٌ لا حكم: عهدٌ يُثبت الإعلان والموافقة والتأجيل، ولا يقرّر هل العُسر حقيقيّ.</div>' +
+      "</div>";
+    }
+
     var chips = P ? '<div class="se-presets">' + P.PRESETS.map(function (p) {
       var on = p.key === presetKey;
       return '<button class="fchip' + (on ? " on" : "") + '" onclick="AhdApp.settlePreset(\'' + p.key + '\')">' + App.esc(p.labelAr) + "</button>";
@@ -90,6 +134,7 @@
         ? "✓ برهان الحفظ: مجموع الصافي = 0، ومركز كلِّ عضوٍ نفسُه قبل وبعد — لا ريال يُخلق ولا يضيع، ولا فائدة"
         : "✗ خلل في الحفظ") + "</div>" +
       '<div class="se-moved">المال المتحرّك: <b>' + App.fmtN(cp.moneyMovedBefore) + '</b> ر.س لو سُدِّدت منفردةً ⟶ <b>' + App.fmtN(cp.moneyMovedAfter) + '</b> ر.س بالمقاصّة — حركةٌ أقلّ، ومراكزُ محفوظة.</div>' +
+      rifqBtn + rifqPanel +
       natCard +
       '<div class="se-members"><div class="se-sub">مركز كلِّ عضوٍ (لم يتغيّر — المقاصّة تُقلِّل التحويلات لا الحقوق):</div>' + members + "</div>" +
       '<div class="se-legs"><div class="se-sub">رِجل كلِّ عضوٍ — حوالةٌ بالتراضي يوافق عليها قبل التنفيذ:</div>' + legs + "</div>" +

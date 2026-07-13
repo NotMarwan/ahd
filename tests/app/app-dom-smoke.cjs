@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -218,6 +218,20 @@ ok(/مركز كلِّ عضوٍ/.test(se) && /نفسه قبل وبعد/.test(se),
 ok(/المال المتحرّك/.test(se), "settle shows the money-moved reduction (efficiency, no creation)");
 ok(/حوالةٌ بالتراضي/.test(se), "settle frames each leg as consented novation (حوالةٌ بالتراضي)");
 ok(se.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(se), "no percentage/score on the Muqassa screen");
+
+/* ---- «رِفْق» mercy-first clearing (I-L1) — contextual toggle on the Muqassa screen ---- */
+ok(!!sandbox.Rifq, "Rifq module attaches to window");
+ok(/رِفْق/.test(se) && se.indexOf("rifq-panel") < 0, "the رِفْق toggle renders OFF by default (button only, no panel yet)");
+let seOn = noThrow(() => { App.rifqToggle(); return App.go("settle"); }, "rifqToggle() then go('settle') does not throw");
+ok(/rifq-panel/.test(seOn), "رِفْق panel renders once the toggle is flipped ON");
+ok(/أعلنت العُسر/.test(seOn) && /شهد دائنوها/.test(seOn), "the panel names the declared+witnessed hardship (never inferred)");
+ok(/مؤجَّلٌ بالمعروف/.test(seOn) || /لا التزامَ على/.test(seOn), "the panel honestly shows either deferred obligations or that none exist");
+ok(/برهان الحفظ يصمد مع رِفْق أيضًا/.test(seOn), "the panel proves conservation holds WITH رِفْق too");
+ok(/السلسلة الذهبيّة/.test(seOn), "the panel names the grace event as sealed into the golden chain");
+ok(seOn.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(seOn), "no percentage/score anywhere in the رِفْق panel");
+noThrow(() => App.rifqToggle(), "rifqToggle() back OFF does not throw");
+let seOff = noThrow(() => App.go("settle"), "go('settle') after toggling back off");
+ok(seOff.indexOf("rifq-panel") < 0, "toggling رِفْق back OFF removes the panel (additive, non-sticky)");
 
 /* ---- سِجلّ الشهادة (the witness timeline) ---- */
 ok(!!sandbox.Timeline, "Timeline module attaches to window");
