@@ -225,7 +225,7 @@ process, and aggregates. The **8 suites** (≈283 assertions, all green):
 **How they gate:** the two tiers are independent. Tier 1 keeps the frozen demo correct and unchanged;
 Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step with the demo (via
 `engine-parity.cjs`) and provably offline/deterministic (via `app-offline.test.cjs` +
-`determinism.test.cjs`). Combined (recomputed live 2026-07-13 after the رِفْق mercy-clearing lever (I-L1) added `features/rifq.js` + `rifq.test.cjs`; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,472 (59 suites) + structure 14 = 2,670 assertions, all green** — one command: `cd tests && node run-all.cjs`.
+`determinism.test.cjs`). Combined (recomputed live 2026-07-13 after T-L1's chain+Merkle+bank-signature SEAL properties added `protocol/build-chain-fixture.cjs` + `seal-properties.test.cjs`; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,543 (60 suites) + structure 14 = 2,741 assertions, all green** — one command: `cd tests && node run-all.cjs`.
 
 ---
 

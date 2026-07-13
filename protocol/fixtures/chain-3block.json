@@ -1,0 +1,106 @@
+[
+  {
+    "record": {
+      "profile": "ahd-chain-block-v1",
+      "ahd_id": "AHD-CHAIN-DEMO-2026-0001",
+      "seq": 1,
+      "event": "create",
+      "detail": "principal=1200.00 SAR;months=6;lender=أنت;borrower=سلطان;basis=Quran:2:282",
+      "timestamp": "2026-07-01T09:00:00+03:00",
+      "chain": {
+        "genesis_seed": "AHD-CHAIN-GENESIS-ALINMA-2026",
+        "prev": "f80fcd622999540a2621f9c79325093a3455ce30a57aa254104441c2a858ec85",
+        "seq": 1
+      },
+      "sealed_seal": "5f7dfbc77a06f48cbde78ab156043f12b1721e76999c95abc7128cb733f20127"
+    },
+    "bank_proof": {
+      "cryptosuite": "ahd-eddsa-2026-demo",
+      "verificationMethod": "ahd-bank-demo-key-2026#ed25519-1",
+      "proofValue": "3FgNTylx1OJ9AA6epbaVElKkABIiWnj54kVZsRdlBM02G/mBtFkRPdkgLSA5NdV/YS9kbg0nSdK86fonzKmrBg=="
+    },
+    "merkle": {
+      "leaf_index": 0,
+      "audit_path": [
+        {
+          "hash": "85c1ef59357f928d164ac74ba5b81d448ef3ad7044e4fb89b3d5846caa471215",
+          "side": "R"
+        },
+        {
+          "hash": "3e939d5a98ecc885a78407e0e4aec7c3a355dfe11b88ec6b3aeed5a9e3a8cc29",
+          "side": "R"
+        }
+      ],
+      "tree_size": 3,
+      "signed_root": "ab91bdecca98cb10dae3151254e90b03eca4bb66ed596880058efe5c35f6b527"
+    }
+  },
+  {
+    "record": {
+      "profile": "ahd-chain-block-v1",
+      "ahd_id": "AHD-CHAIN-DEMO-2026-0001",
+      "seq": 2,
+      "event": "reschedule",
+      "detail": "new_months=9;new_installment=133.34 SAR;reason=grace;basis=Quran:2:280",
+      "timestamp": "2026-09-01T09:00:00+03:00",
+      "chain": {
+        "genesis_seed": "AHD-CHAIN-GENESIS-ALINMA-2026",
+        "prev": "5f7dfbc77a06f48cbde78ab156043f12b1721e76999c95abc7128cb733f20127",
+        "seq": 2
+      },
+      "sealed_seal": "87425a610937252f695836285ba2c9954904bb2f22092b07161994be1805620d"
+    },
+    "bank_proof": {
+      "cryptosuite": "ahd-eddsa-2026-demo",
+      "verificationMethod": "ahd-bank-demo-key-2026#ed25519-1",
+      "proofValue": "t5kGeAZXJFPZv9dFiOFYMpX4m8BVpLJAOBhJD9LaIpEEH/XP0bwIK6+8XEms9RU16OIZGQNzLwkGa1vzWMo8Ag=="
+    },
+    "merkle": {
+      "leaf_index": 1,
+      "audit_path": [
+        {
+          "hash": "b0a8e5a8548a4b31bafc6248769baed90e473ef99fbe0002f0f0e49b0f398323",
+          "side": "L"
+        },
+        {
+          "hash": "3e939d5a98ecc885a78407e0e4aec7c3a355dfe11b88ec6b3aeed5a9e3a8cc29",
+          "side": "R"
+        }
+      ],
+      "tree_size": 3,
+      "signed_root": "ab91bdecca98cb10dae3151254e90b03eca4bb66ed596880058efe5c35f6b527"
+    }
+  },
+  {
+    "record": {
+      "profile": "ahd-chain-block-v1",
+      "ahd_id": "AHD-CHAIN-DEMO-2026-0001",
+      "seq": 3,
+      "event": "settle",
+      "detail": "settled=1200.00 SAR;method=bank_transfer;remaining=0.00 SAR",
+      "timestamp": "2027-04-01T09:00:00+03:00",
+      "chain": {
+        "genesis_seed": "AHD-CHAIN-GENESIS-ALINMA-2026",
+        "prev": "87425a610937252f695836285ba2c9954904bb2f22092b07161994be1805620d",
+        "seq": 3
+      },
+      "sealed_seal": "0a118609f0fb45ac436ee1c03f9c3192cc4e5350b35dc6e1332f60c0eb701b7a"
+    },
+    "bank_proof": {
+      "cryptosuite": "ahd-eddsa-2026-demo",
+      "verificationMethod": "ahd-bank-demo-key-2026#ed25519-1",
+      "proofValue": "j4C8mxTjuI6dCEGZVOP+4lSRNjYsBQCsQuOPzCswrkAjfvZUgn9ECd2/8FqwIcU32TrDqr4yTxj0eBjkLcWRCw=="
+    },
+    "merkle": {
+      "leaf_index": 2,
+      "audit_path": [
+        {
+          "hash": "59fdd0dfd515016e0a10bc36d0361901c90e7007b9d8f570fd30618c7e58fc62",
+          "side": "L"
+        }
+      ],
+      "tree_size": 3,
+      "signed_root": "ab91bdecca98cb10dae3151254e90b03eca4bb66ed596880058efe5c35f6b527"
+    }
+  }
+]

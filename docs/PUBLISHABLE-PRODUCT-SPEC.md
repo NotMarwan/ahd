@@ -147,11 +147,13 @@ The bank's constraints are enforced in code, not merely stated in copy:
       re‑implemented) by the open loan, the circle, and graduation.
 - [x] **Proven, not promised.** The demo is frozen behind a tripwire SHA‑256 (`e2f48467…d1b8be40`). The
       app's engine is a **byte‑faithful copy** of the demo's logic, enforced by a parity test. Test
-      coverage (recomputed live 2026-07-13 after the رِفْق mercy-clearing lever (I-L1) added `features/rifq.js` + `rifq.test.cjs`; single source of truth is the `run-all.cjs` banner): **core 184 + app 2,472 (59 suites) + structure 14 = 2,670 assertions, all green** (Node ≥ 18, zero deps; one command: `cd tests && node run-all.cjs`).
+      coverage (recomputed live 2026-07-13 after T-L1's chain+Merkle+bank-signature SEAL properties added `protocol/build-chain-fixture.cjs` + `seal-properties.test.cjs`; single source of truth is the `run-all.cjs` banner): **core 184 + app 2,543 (60 suites) + structure 14 = 2,741 assertions, all green** (Node ≥ 18, zero deps; one command: `cd tests && node run-all.cjs`).
 
-> **Note:** SHA‑256 hashing is real here; production‑grade signing seams (both parties' Nafath/PKI
-> signatures and an RFC‑3161 timestamp from a licensed TSP) are documented integration points, not yet
-> wired in this prototype.
+> **Note:** SHA‑256 hashing is real here, as is the bank's own Ed25519 signature over each sealed block
+> (`protocol/bank-key-demo.cjs` — a FIXED demo keypair, NOT production custody) and an RFC‑6962 Merkle
+> inclusion proof over a batch of sealed blocks (`protocol/verify-ahd-seal.cjs`). Still-unwired
+> production seams: both parties' own Nafath/PKI signatures (WYSIWYS attribution) and an RFC‑3161
+> timestamp from a licensed TSP — documented integration points, not yet wired in this prototype.
 
 ---
 

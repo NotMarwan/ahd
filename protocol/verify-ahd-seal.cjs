@@ -174,10 +174,217 @@ function verify(record) {
   };
 }
 
-module.exports = { verify, sha256hex, canonicalMain, canonicalCreate, PROFILES, DEFAULT_GENESIS_SEED };
+/* Register the third profile used by multi-block chains (§8 below) alongside
+   the two shipped in v1 — see canonicalChainBlock's own header comment. */
+PROFILES["ahd-chain-block-v1"] = canonicalChainBlockImpl;
 
 /* ---------------------------------------------------------------------------
-   5) CLI entrypoint.
+   6) Merkle inclusion — RFC 6962 §2.1 Certificate Transparency Merkle Tree
+      Hash, implemented DIRECTLY here (not via `merkletreejs`'s default config,
+      which lacks leaf/node domain separation — a documented second-preimage
+      footgun on unbalanced trees; see docs/superpowers/plans/2026-07-13-
+      ceiling-break-8-9-plan.md Appendix C). Domain separation: a LEAF hash is
+      SHA-256(0x00 ‖ d); an INTERNAL node hash is SHA-256(0x01 ‖ left ‖ right).
+      The single prefix byte makes the leaf-hash and node-hash domains
+      disjoint, so an attacker cannot pass an internal node off as a leaf (or
+      vice versa) to forge a false inclusion proof.
+--------------------------------------------------------------------------- */
+function sha256buf(buf) { return crypto.createHash("sha256").update(buf).digest(); }
+function merkleLeafHash(dataBuf) { return sha256buf(Buffer.concat([Buffer.from([0x00]), dataBuf])); }
+function merkleNodeHash(leftBuf, rightBuf) { return sha256buf(Buffer.concat([Buffer.from([0x01]), leftBuf, rightBuf])); }
+
+/* largest power of two strictly less than n — RFC 6962's "k" split point. */
+function largestPowerOfTwoLessThan(n) {
+  let k = 1;
+  while (k * 2 < n) k *= 2;
+  return k;
+}
+
+/* MTH(D[start:start+n]) — RFC 6962 §2.1's recursive Merkle Tree Hash. */
+function merkleSubtreeHash(leaves, start, n) {
+  if (n === 1) return merkleLeafHash(leaves[start]);
+  const k = largestPowerOfTwoLessThan(n);
+  const left = merkleSubtreeHash(leaves, start, k);
+  const right = merkleSubtreeHash(leaves, start + k, n - k);
+  return merkleNodeHash(left, right);
+}
+
+function merkleRoot(leaves) {
+  if (!leaves || leaves.length === 0) return sha256buf(Buffer.alloc(0)); // MTH({}) = SHA-256("")
+  return merkleSubtreeHash(leaves, 0, leaves.length);
+}
+
+/* PATH(m, D[n]) — RFC 6962 §2.1.1 audit path for leaf index m. Each returned
+   step carries {hash, side}: side "L" means the sibling sits to the LEFT of
+   the subtree computed so far (combine as nodeHash(sibling, running)); side
+   "R" means the sibling sits to the RIGHT (combine as nodeHash(running,
+   sibling)). Carrying the side alongside the hash — rather than requiring a
+   verifier to re-derive left/right purely from (leaf index, tree size) via
+   bit arithmetic — is a documented, deliberate simplification of the raw
+   RFC 6962 wire format: the underlying leaf/node hash construction below is
+   byte-exact RFC 6962; only the audit-path *encoding* carries one extra bit
+   per step, in exchange for a much less failure-prone verifier. */
+function merkleAuditPathRec(leaves, index, start, n) {
+  if (n === 1) return [];
+  const k = largestPowerOfTwoLessThan(n);
+  if (index < k) {
+    const sibling = merkleSubtreeHash(leaves, start + k, n - k);
+    return merkleAuditPathRec(leaves, index, start, k).concat([{ hash: sibling, side: "R" }]);
+  }
+  const sibling = merkleSubtreeHash(leaves, start, k);
+  return merkleAuditPathRec(leaves, index - k, start + k, n - k).concat([{ hash: sibling, side: "L" }]);
+}
+function merkleAuditPath(leaves, index) { return merkleAuditPathRec(leaves, index, 0, leaves.length); }
+
+/* verify a claimed leaf's inclusion at `index` in a tree of `treeSize` leaves,
+   given its audit path; reconstructs the root and compares to `expectedRootBuf`
+   (both Buffers). Never throws — malformed input verifies false. */
+function verifyMerkleInclusion(leafDataBuf, index, path, treeSize, expectedRootBuf) {
+  if (!Buffer.isBuffer(leafDataBuf) || !Array.isArray(path) || !Buffer.isBuffer(expectedRootBuf)) return false;
+  if (!(treeSize > 0) || index < 0 || index >= treeSize) return false;
+  let running = merkleLeafHash(leafDataBuf);
+  for (let i = 0; i < path.length; i++) {
+    const step = path[i];
+    if (!step || !Buffer.isBuffer(step.hash) || (step.side !== "L" && step.side !== "R")) return false;
+    running = step.side === "L" ? merkleNodeHash(step.hash, running) : merkleNodeHash(running, step.hash);
+  }
+  return Buffer.compare(running, expectedRootBuf) === 0;
+}
+
+/* ---------------------------------------------------------------------------
+   7) Bank signature — real Ed25519 asymmetric sign/verify (Node built-in
+      `crypto`, zero-dep), shaped as a W3C-VC-Data-Integrity-style
+      DataIntegrityProof `{cryptosuite, verificationMethod, proofValue}`. This
+      is what closes the Repudiation gap the SHA-256 `bank_sig` MOCK in
+      _meta/deep-work/backend/seal-scheme-spec.md left open: forging an
+      internally-consistent hash chain costs nothing; forging a valid Ed25519
+      signature without the private key is computationally infeasible.
+
+      Honest scope note: the signed message is the block's own `sealed_seal`
+      hex string (the existing, golden, pipe-delimited Open-Witness chain
+      output) — NOT a new RFC-8785 JCS canonicalization. Adding a second
+      canonicalization scheme was out of scope for this pass (reuse golden
+      primitives verbatim, never add a new hash/canonical primitive); a future
+      "eddsa-jcs-2022"-conformant profile is a named residual gap, not
+      silently assumed. `cryptosuite` below is therefore a project-local id,
+      not a registered W3C Data Integrity cryptosuite name.
+
+      The DEMO_BANK_PUBLIC_KEY_PEM constant below is copied VERBATIM from
+      protocol/bank-key-demo.cjs's BANK_PUBLIC_KEY_PEM rather than required —
+      this keeps this file's require() list fs+crypto ONLY (see
+      tests/app/open-witness.test.cjs's zero-dep source scan). A public key
+      has no confidentiality requirement, so the duplication is harmless; the
+      PRIVATE key never appears in this file. That demo key is NOT production
+      — see protocol/bank-key-demo.cjs's header for the HSM/KMS custody gap.
+--------------------------------------------------------------------------- */
+const DEMO_BANK_PUBLIC_KEY_PEM =
+  "-----BEGIN PUBLIC KEY-----\n" +
+  "MCowBQYDK2VwAyEAPqacay7/NcQRX8p614bI0kdxuWzXZJTD1ry2nvC9McE=\n" +
+  "-----END PUBLIC KEY-----\n";
+
+function verifyBankSignature(sealedSealHex, bankProof, publicKeyPem) {
+  if (!bankProof || typeof bankProof.proofValue !== "string") return false;
+  try {
+    const sig = Buffer.from(bankProof.proofValue, "base64");
+    return crypto.verify(null, Buffer.from(String(sealedSealHex), "utf8"), publicKeyPem || DEMO_BANK_PUBLIC_KEY_PEM, sig);
+  } catch (e) {
+    return false;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   8) Multi-block chain (T-L1 property 2) — seal_i = SHA256(prev + canonical_hash_i
+      + seq), where `prev` is the PRIOR BLOCK'S OWN RECOMPUTED seal, not merely
+      the prior block's *claimed* field. This is the real chain-continuity
+      check the v1 spec's single-record `verify()` didn't do (it trusted
+      whatever `chain.prev` a lone record claimed). Feed an ORDERED array of
+      records (same per-record shape as §4/§5); a first-block record's
+      `chain.prev` still defaults to GENESIS when omitted.
+--------------------------------------------------------------------------- */
+function canonicalChainBlockImpl(r) {
+  return [
+    "AHD-CHAIN-BLOCK-v1",
+    "ahd_id=" + r.ahd_id,
+    "seq=" + r.seq,
+    "event=" + r.event,
+    "detail=" + r.detail,
+    "ts=" + r.timestamp
+  ].join("\n");
+}
+
+function verifyChain(records) {
+  const list = records || [];
+  const perRecord = [];
+  let prevRecomputed = null;
+  for (let i = 0; i < list.length; i++) {
+    const rec = list[i];
+    const r = verify(rec);
+    const genesisForThis = sha256hex((rec.chain && rec.chain.genesis_seed) || DEFAULT_GENESIS_SEED);
+    const claimedPrev = (rec.chain && rec.chain.prev) || genesisForThis;
+    const expectedPrev = i === 0 ? genesisForThis : prevRecomputed;
+    const continuityOk = claimedPrev === expectedPrev;
+    perRecord.push({ index: i, integrityOk: r.ok, continuityOk: continuityOk, recomputed: r.recomputed });
+    if (!r.ok || !continuityOk) {
+      return { ok: false, failedAt: i, failedStep: !r.ok ? "integrity" : "chain-continuity", perRecord: perRecord };
+    }
+    prevRecomputed = r.recomputed; // next block must point at what THIS block ACTUALLY recomputes to
+  }
+  return { ok: true, failedAt: -1, failedStep: null, perRecord: perRecord };
+}
+
+/* ---------------------------------------------------------------------------
+   9) verifyFull — the assembled ordered check a real third party runs against
+      ONE block of an "assembled proof" envelope:
+        { record, sealed_seal, bank_proof:{cryptosuite,verificationMethod,
+          proofValue}, merkle:{leaf_index,audit_path,tree_size,signed_root} }
+      Order: integrity → chain continuity (against the PRIOR block's recomputed
+      seal, via `opts.priorSealedSealHex`, or GENESIS for a first block) → bank
+      signature → Merkle inclusion. Returns the FIRST failing step, so a
+      verifier learns WHAT KIND of tampering occurred — content edit vs
+      reorder/replay vs a rewritten log — not merely pass/fail.
+--------------------------------------------------------------------------- */
+function verifyFull(proof, opts) {
+  const options = opts || {};
+  const record = proof.record;
+  const r = verify(record);
+  if (!r.ok) return { ok: false, failedAt: "integrity", detail: r };
+
+  const genesisForThis = sha256hex((record.chain && record.chain.genesis_seed) || DEFAULT_GENESIS_SEED);
+  const expectedPrev = options.priorSealedSealHex != null ? options.priorSealedSealHex : genesisForThis;
+  const claimedPrev = (record.chain && record.chain.prev) || genesisForThis;
+  if (claimedPrev !== expectedPrev) {
+    return { ok: false, failedAt: "chain-continuity", detail: { claimedPrev: claimedPrev, expectedPrev: expectedPrev } };
+  }
+
+  if (proof.bank_proof) {
+    const sigOk = verifyBankSignature(r.recomputed, proof.bank_proof, options.publicKeyPem);
+    if (!sigOk) return { ok: false, failedAt: "bank-signature", detail: proof.bank_proof };
+  }
+
+  if (proof.merkle) {
+    const m = proof.merkle;
+    const leafBuf = Buffer.from(r.recomputed, "hex");
+    const pathBufs = (m.audit_path || []).map((s) => ({ hash: Buffer.from(s.hash, "hex"), side: s.side }));
+    const rootBuf = Buffer.from(m.signed_root, "hex");
+    const inclOk = verifyMerkleInclusion(leafBuf, m.leaf_index, pathBufs, m.tree_size, rootBuf);
+    if (!inclOk) return { ok: false, failedAt: "merkle-inclusion", detail: m };
+  }
+
+  return { ok: true, failedAt: null, recomputed: r.recomputed };
+}
+
+module.exports = {
+  verify, sha256hex, canonicalMain, canonicalCreate, PROFILES, DEFAULT_GENESIS_SEED,
+  merkleLeafHash, merkleNodeHash, merkleRoot, merkleAuditPath, verifyMerkleInclusion,
+  verifyBankSignature, DEMO_BANK_PUBLIC_KEY_PEM,
+  canonicalChainBlockImpl, verifyChain, verifyFull
+};
+
+/* ---------------------------------------------------------------------------
+   10) CLI entrypoint. Backward compatible: a plain single-record JSON (the
+   original v1 shape) verifies exactly as before. A JSON carrying a top-level
+   `record` field (the newer "assembled proof" envelope — §9) is routed
+   through `verifyFull` instead, so the old fixtures/tests are untouched.
 --------------------------------------------------------------------------- */
 if (require.main === module) {
   const file = process.argv[2];
@@ -185,25 +392,30 @@ if (require.main === module) {
     console.error("usage: node protocol/verify-ahd-seal.cjs <record.json>");
     process.exit(2);
   }
-  let record;
+  let parsed;
   try {
-    record = JSON.parse(fs.readFileSync(file, "utf8"));
+    parsed = JSON.parse(fs.readFileSync(file, "utf8"));
   } catch (e) {
     console.error("cannot read/parse " + file + ": " + e.message);
     process.exit(2);
   }
+  const isAssembledProof = parsed && typeof parsed === "object" && parsed.record;
   let result;
   try {
-    result = verify(record);
+    result = isAssembledProof ? verifyFull(parsed) : verify(parsed);
   } catch (e) {
     console.error("verification error: " + e.message);
     process.exit(2);
   }
   if (result.ok) {
-    console.log("VALID  — seal " + result.recomputed + " reproduced from the record's own fields (Open-Witness v1, standard SHA-256 only)");
+    console.log(isAssembledProof
+      ? "VALID  — assembled proof verified (integrity → chain continuity → bank signature → Merkle inclusion)"
+      : "VALID  — seal " + result.recomputed + " reproduced from the record's own fields (Open-Witness v1, standard SHA-256 only)");
     process.exit(0);
   } else {
-    console.log("TAMPERED  — claimed seal " + result.sealed + " does not match the recomputed seal " + result.recomputed);
+    console.log(isAssembledProof
+      ? "TAMPERED  — first failing step: " + result.failedAt
+      : "TAMPERED  — claimed seal " + result.sealed + " does not match the recomputed seal " + result.recomputed);
     process.exit(1);
   }
 }
