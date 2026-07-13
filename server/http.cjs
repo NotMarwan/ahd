@@ -31,6 +31,7 @@ const route = require("./router.cjs").route;
 const engine = require("./engine.cjs");
 const Store = require("./store.cjs");
 const Auth = require("./auth.cjs");
+const RateLimit = require("./rate-limit.cjs");
 
 const PORT = 8225;
 const HOST = "127.0.0.1"; // localhost only — never binds 0.0.0.0
@@ -41,11 +42,33 @@ function defaultAuthConfig() {
   return { enabled: true, secretKey: secretKey };
 }
 
-function createAhdServer(store, authConfig) {
+/* Monotonic elapsed milliseconds, injected into every live rate-limit check.
+   Never use wall-clock time: rate windows need elapsed duration only. */
+function defaultRateNow() {
+  return Number(process.hrtime.bigint() / 1000000n);
+}
+
+function defaultRateLimitConfig() {
+  return {
+    enabled: true,
+    mutatingLimiter: RateLimit.createFixedWindowLimiter({ limit: 30, windowMs: 60000 }),
+    verifyLimiter: RateLimit.createFixedWindowLimiter({ limit: 120, windowMs: 60000 }),
+    now: defaultRateNow
+  };
+}
+
+/* Partial live overrides (normally an injected test clock) retain the route
+   policy. Passing { enabled: false } remains the explicit opt-out seam. */
+function resolveRateLimitConfig(overrides) {
+  return Object.assign(defaultRateLimitConfig(), overrides || {});
+}
+
+function createAhdServer(store, authConfig, rateLimitConfig) {
   var ctx = {
     engine: engine,
     store: store || Store.createStore(DATA_DIR),
-    auth: authConfig || defaultAuthConfig()
+    auth: authConfig || defaultAuthConfig(),
+    rateLimit: resolveRateLimitConfig(rateLimitConfig)
   };
   return http.createServer(function (req, res) {
     var chunks = [];
@@ -66,8 +89,17 @@ function createAhdServer(store, authConfig) {
           return;
         }
       }
-      var result = route(req.method, req.url, body, ctx, req.headers);
-      res.writeHead(result.status, { "Content-Type": "application/json; charset=utf-8" });
+      /* Identity is the actual connected peer. Deliberately ignore forwarded
+         headers: localhost server does not trust a proxy to attest addresses. */
+      var requestCtx = Object.assign({}, ctx, {
+        rateLimit: Object.assign({}, ctx.rateLimit || {}, { clientKey: (req.socket && req.socket.remoteAddress) || "unknown" })
+      });
+      var result = route(req.method, req.url, body, requestCtx, req.headers);
+      var responseHeaders = { "Content-Type": "application/json; charset=utf-8" };
+      if (result.status === 429 && result.body && Number.isInteger(result.body.retryAfterMs)) {
+        responseHeaders["Retry-After"] = String(Math.max(1, Math.ceil(result.body.retryAfterMs / 1000)));
+      }
+      res.writeHead(result.status, responseHeaders);
       res.end(JSON.stringify(result.body));
     });
   });
@@ -79,4 +111,8 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createAhdServer: createAhdServer, PORT: PORT, HOST: HOST, DATA_DIR: DATA_DIR, defaultAuthConfig: defaultAuthConfig };
+module.exports = {
+  createAhdServer: createAhdServer, PORT: PORT, HOST: HOST, DATA_DIR: DATA_DIR,
+  defaultAuthConfig: defaultAuthConfig, defaultRateLimitConfig: defaultRateLimitConfig,
+  resolveRateLimitConfig: resolveRateLimitConfig, defaultRateNow: defaultRateNow
+};
