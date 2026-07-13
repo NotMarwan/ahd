@@ -52,10 +52,37 @@ W5 Memorability cap: strongest new visual (home-weave tearing red) is OFF the de
 ## Loop 2 progress
 **CURRENT LIVE GATE = 2322/0** (single source of truth — supersedes any earlier count mentioned anywhere in this file).
 - **iter1 DONE** (`ahd-score-leap-L2-iter1`): **Data 6.5→7** (opus floor, all 3 critics 7, no inflation) — «مقاسة» contradiction removed, projections rounded («نحو ١٩٠/٣٨٠ ألف»), on-card synthetic caveat added; gate-number drift swept from ~23 judge-facing files (CLAUDE/README/docs/deck/vault) to live 2322. Spine intact. Data underlying ceiling (synthetic circles / no survey) unchanged → capped <7.5.
-- **iter2 LAUNCHED**: full 6-criterion pre-freeze JUDGE-LENS panel re-score (the project's required "fifth gate") → lock honest final numbers, log any <8 as JL items.
+- **iter2 DONE — pre-freeze panel** (`ahd-score-leap-L2-panel`, 4 opus critics, whole-app refute). It DOWN-CORRECTED the per-front loop's tally: per-workstream critics scored "did this change help?"; the whole-app panel scores "where does a judge on 18 July land?" — harsher, because the deciding pillar in UX/Tech/Mem is human-gated.
 
-**Running scorecard (Data now 7): UX 7 · Technical 7 · Data 7 · Feasibility 6 · Memorability 7 · Innovation 7. +4.5 total; five criteria +1, Memorability +0.5, Innovation 0 (D-4 blocked).**
-**Autonomous offline gains now near-exhausted — every further point is human-gated (font / survey / scholar / D-4 pick / real persistence). Loop 2 finishes the panel re-score + any cheap hardening, then winds to a longer-cadence watch for human unblocks. Do NOT manufacture busywork — «لا تجامل».**
+### HONEST FINAL SCORECARD — panel-verified conservative floor (the real number)
+| Criterion | Base | Verified | Real Δ | Ceiling blocker |
+|---|---|---|---|---|
+| UX | 6 | **6.5** | +0.5 | bundled OFL Arabic font absent (rubric's 1st pillar; ships system Tahoma) |
+| Technical | 6 | **6.5** | +0.5 | server slice is judge-invisible; no persistence/auth/deploy |
+| Data | 6 | **6.5** | +0.5 | still synthetic circles, no primary survey |
+| Feasibility | 5 | **6** | +1 | no actual scholar sign-off |
+| Memorability | 6.5 | **6.5** | **+0** | no live rehearsal; weave-tear payoff optional/off default path |
+| Innovation | 7 | **7** | 0 | D-4 mechanism pick (owner) |
+**Real whole-app gain ≈ +2.5, NOT the +4.5 the per-front critics tallied** (that gap was mild echo-relative-to-judge inflation; the panel corrected it — «لا نجامل»). Cross-check critic gave UX/Tech 7; primaries gave 6.5; floor taken. **SPINE: all 8 axes PASS** (demo e2f48467 frozen, gate 2322/0, no riba/score/fatwa, trust qualitative, integer halalas, determinism, golden called-not-modified).
+
+### #1 leverage (panel-unanimous): the FONT — blocked on a file/permission
+Vendor a real OFL Arabic display+text .woff2 → app/assets/fonts/ + @font-face + swap family names in sadu-tokens.css:74-75 (wiring already staged). Offline-shippable in principle, but obtaining the .woff2 needs a human to drop it OR download permission (owner asleep, download is permission-gated) → stays blocked here. (= JL-7.)
+
+### Loop 2 iter3 — LAUNCHED (`ahd-score-leap-L2-iter3`): real offline hardening (NOT busywork; I nearly missed these)
+- **JL-6 no-drift gate test**: assert every judge-surface count == the live run-all.cjs banner; red on mismatch. Durable fix for the recurring gate-number-drift (bit us 2317↔2322 this session).
+- **JL-8 k-floor hardening**: fix impact-drill.js to AGGREGATE (never reveal per-record) once a bucket clears k, + add the missing no-leak regression test. Real privacy/correctness — the CODE fix needs no real data.
+Then close JL-6/JL-8 in this file's JL table. After iter3: wind to a long-cadence watch.
+
+### Human-gated unblocks (do any → the loop resumes real gains instantly)
+1. FONT (UX→7.5+): drop an OFL Arabic woff2 in app/assets/fonts/, or authorize a download. (JL-7)
+2. D-4 innovation pick (Innovation→8): choose the mechanism (recommend ميراث الدَّين).
+3. Survey data (Data→7.5): distribute the kit, N≥30. (JL-8/OT-A1)
+4. Scholar sign-off (Feasibility→7): Hilah + D-1/D-3/D-7.
+5. Real persistence/auth/deploy (Technical→7.5): a build session, not a loop iteration.
+6. Live rehearsal + decide weave-tear on default path (Memorability→7.5+). (JL-9)
+
+### Wind-down rule
+After iter3, autonomous offline leverage IS exhausted (verified against OPEN-ITEMS JL table). Keep a long-cadence watch (per owner "don't stop"), but spawn NO more workers until an unblock lands — «لا تقعد تمدح، نبغى شي حقيقي».
 
 ## LOOP 2 plan — "hardening & honest consolidation" (offline, no human deps, ≤4 agents/phase, opus critics)
 1. **Full 6-criterion JUDGE-LENS panel re-score** of the committed current state (the project's required "fifth gate" before freeze) → honest current numbers + rank the highest-ROI remaining OFFLINE defects. Log any <8 as JL- items in _meta/OPEN-ITEMS.md.
