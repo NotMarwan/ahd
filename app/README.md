@@ -159,8 +159,7 @@ node offline-check.cjs  # zero network seams in the demo path
 node dom-smoke.cjs      # headless render of the whole demo <script>
 ```
 
-Current core total: **184 assertions, 0 failures** (135 + 9 + 40). Combined with the app suite:
-**core 184 + app 283 = 467 assertions, all green.**
-
-> The harness's own `README.md` still lists an earlier core total (92) from before the Circle work; the
-> authoritative current number is **184** (see `13_Circle/STATUS.md` and the repo‑root `OVERNIGHT-LOG.md`).
+Core total: **184 assertions, 0 failures** (135 + 9 + 40). For the full live gate (core + app suites +
+structure + no-drift + tripwire) run `cd tests && node run-all.cjs` — it prints the authoritative
+number. Do not trust any assertion count copied into prose; the `no-drift` gate step
+(`tests/gate-drift-check.cjs`) exists precisely because hardcoded counts rot.
