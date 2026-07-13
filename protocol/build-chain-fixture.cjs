@@ -70,18 +70,21 @@ const BLOCKS_RAW = [
   }
 ];
 
-function signSeal(sealedSealHex) {
-  const sig = crypto.sign(null, Buffer.from(sealedSealHex, "utf8"), bankKey.BANK_PRIVATE_KEY_PEM);
-  return { cryptosuite: bankKey.CRYPTOSUITE, verificationMethod: bankKey.VERIFICATION_METHOD, proofValue: sig.toString("base64") };
+function signSeal(sealedSealHex, issuer) {
+  const sig = crypto.sign(null, Buffer.from(sealedSealHex, "utf8"), issuer.privateKeyPem);
+  return { cryptosuite: issuer.cryptosuite, verificationMethod: issuer.verificationMethod, proofValue: sig.toString("base64") };
 }
 
-function buildChainFixture() {
+function buildChainFixture(options) {
+  const opt = options || {};
+  const issuer = opt.issuer || { privateKeyPem: bankKey.BANK_PRIVATE_KEY_PEM, verificationMethod: bankKey.VERIFICATION_METHOD, cryptosuite: bankKey.CRYPTOSUITE };
+  const ahdId = opt.ahdId || AHD_ID;
   // ---- 1) chain the three blocks with the GOLDEN sha256/sealBlock/GENESIS ----
   // engine.GENESIS is ALREADY sha256(GENESIS_SEED) — the same value
   // verify-ahd-seal.cjs's DEFAULT_GENESIS_SEED independently derives.
   let prev = engine.GENESIS;
   const blocks = BLOCKS_RAW.map((b) => {
-    const record = { profile: "ahd-chain-block-v1", ahd_id: AHD_ID, seq: b.seq, event: b.event, detail: b.detail, timestamp: b.timestamp };
+    const record = { profile: "ahd-chain-block-v1", ahd_id: ahdId, seq: b.seq, event: b.event, detail: b.detail, timestamp: b.timestamp };
     const canonical = seal.canonicalChainBlockImpl(record);
     const canonicalHash = engine.sha256(canonical);
     const sealedSeal = engine.sealBlock(prev, canonicalHash, b.seq);
@@ -91,7 +94,7 @@ function buildChainFixture() {
   });
 
   // ---- 2) bank signs every block's sealed_seal (Ed25519, fixed demo key) ----
-  blocks.forEach((b) => { b.bank_proof = signSeal(b.sealed_seal); });
+  blocks.forEach((b) => { b.bank_proof = signSeal(b.sealed_seal, issuer); });
 
   // ---- 3) Merkle-ize all three sealed_seal values together (RFC 6962) ----
   const leaves = blocks.map((b) => Buffer.from(b.sealed_seal, "hex"));
