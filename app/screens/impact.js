@@ -116,11 +116,14 @@
         '<span class="im-caret" aria-hidden="true">' + (isOpen ? "▾" : "◂") + "</span></button>";
       var body = "";
       if (isOpen && drill) {
-        var circles = drill.circlesForBucket(b.size, Impact.FIXTURE_CIRCLES, Impact.makeSettleFn(e));
-        body = '<div class="im-drill">' + circles.map(function (c) {
-          return '<div class="im-circle">' + App.esc(drill.describeCircleAr(c, function (n) { return App.fmtN(n); })) +
-            ' <span class="chip ' + (c.conservationOk ? "teal" : "bad") + '">' + (c.conservationOk ? "✓" : "✗") + "</span></div>";
-        }).join("") + "</div>";
+        /* JL-8: aggregate-only — one bucket-wide summary, never a per-circle
+           row (no id/label leaves this screen, regardless of bucket size) */
+        var bAgg = drill.bucketAggregate(b.size, Impact.FIXTURE_CIRCLES, Impact.makeSettleFn(e));
+        if (bAgg) {
+          body = '<div class="im-drill"><div class="im-circle">' +
+            App.esc(drill.describeBucketAr(bAgg, function (n) { return App.fmtN(n); })) +
+            ' <span class="chip ' + (bAgg.allConservationOk ? "teal" : "bad") + '">' + (bAgg.allConservationOk ? "✓" : "✗") + "</span></div></div>";
+        }
       }
       return head + body;
     }).join("");

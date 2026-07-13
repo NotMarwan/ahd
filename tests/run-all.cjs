@@ -11,11 +11,11 @@ var HERE = __dirname;
 var ROOT = path.join(HERE, "..");
 
 var steps = [
-  { name: "core logic  (run-tests)", cmd: "node run-tests.cjs", cwd: HERE },
-  { name: "offline     (offline-check)", cmd: "node offline-check.cjs", cwd: HERE },
-  { name: "dom smoke   (dom-smoke)", cmd: "node dom-smoke.cjs", cwd: HERE },
-  { name: "structure   (structure-check)", cmd: "node structure-check.cjs", cwd: HERE },
-  { name: "app suites  (run-app-tests)", cmd: "node app/run-app-tests.cjs", cwd: HERE }
+  { key: "coreLogic", name: "core logic  (run-tests)", cmd: "node run-tests.cjs", cwd: HERE },
+  { key: "offline", name: "offline     (offline-check)", cmd: "node offline-check.cjs", cwd: HERE },
+  { key: "domSmoke", name: "dom smoke   (dom-smoke)", cmd: "node dom-smoke.cjs", cwd: HERE },
+  { key: "structure", name: "structure   (structure-check)", cmd: "node structure-check.cjs", cwd: HERE },
+  { key: "app", name: "app suites  (run-app-tests)", cmd: "node app/run-app-tests.cjs", cwd: HERE }
 ];
 
 function extractCounts(out) {
@@ -28,6 +28,7 @@ function extractCounts(out) {
 }
 
 var totalPassed = 0, totalFailed = 0, broken = [];
+var stepCounts = {};
 var t0 = process.hrtime();
 
 for (var i = 0; i < steps.length; i++) {
@@ -39,10 +40,38 @@ for (var i = 0; i < steps.length; i++) {
     out = String((e && e.stdout) || "") + String((e && e.stderr) || "");
   }
   var c = extractCounts(out);
+  stepCounts[s.key] = c.passed;
   totalPassed += c.passed; totalFailed += c.failed;
   if (!ok || c.failed > 0) broken.push(s.name);
   console.log((ok && c.failed === 0 ? "  ✓ " : "  ✗ ") + s.name + " — " + c.passed + " passed, " + c.failed + " failed");
 }
+
+/* JL-6: no-drift gate — hand the LIVE numbers we just computed (never
+   hardcoded) to gate-drift-check.cjs, which fails red if any judge-facing
+   surface cites a stale gate-assertion count. Runs once, no re-invocation
+   of any suite above. Like the tripwire below, this is a META gate condition
+   (process/doc hygiene) — its own internal self-teeth are NOT folded into
+   the headline product totalPassed/totalFailed, so adding drift-check teeth
+   never itself moves the very number every doc cites (which would just
+   reintroduce the drift this check exists to catch). */
+var driftEnv = Object.assign({}, process.env, {
+  AHD_GATE_TOTAL: String(totalPassed),
+  AHD_GATE_CORE_LOGIC: String(stepCounts.coreLogic || 0),
+  AHD_GATE_OFFLINE: String(stepCounts.offline || 0),
+  AHD_GATE_DOM_SMOKE: String(stepCounts.domSmoke || 0),
+  AHD_GATE_STRUCTURE: String(stepCounts.structure || 0),
+  AHD_GATE_APP: String(stepCounts.app || 0)
+});
+var driftOut = "", driftOk = true;
+try {
+  driftOut = cp.execSync("node gate-drift-check.cjs", { cwd: HERE, encoding: "utf8", env: driftEnv, stdio: ["ignore", "pipe", "pipe"] });
+} catch (e) {
+  driftOk = false;
+  driftOut = String((e && e.stdout) || "") + String((e && e.stderr) || "");
+}
+var dc = extractCounts(driftOut);
+if (!driftOk || dc.failed > 0) broken.push("no-drift    (gate-drift-check)");
+console.log((driftOk && dc.failed === 0 ? "  ✓ " : "  ✗ ") + "no-drift    (gate-drift-check) — " + dc.passed + " passed, " + dc.failed + " failed (meta, not in the product total)");
 
 var trip = "", tripOk = false;
 try {

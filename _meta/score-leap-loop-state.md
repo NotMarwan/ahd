@@ -68,10 +68,15 @@ W5 Memorability cap: strongest new visual (home-weave tearing red) is OFF the de
 ### #1 leverage (panel-unanimous): the FONT — blocked on a file/permission
 Vendor a real OFL Arabic display+text .woff2 → app/assets/fonts/ + @font-face + swap family names in sadu-tokens.css:74-75 (wiring already staged). Offline-shippable in principle, but obtaining the .woff2 needs a human to drop it OR download permission (owner asleep, download is permission-gated) → stays blocked here. (= JL-7.)
 
-### Loop 2 iter3 — LAUNCHED (`ahd-score-leap-L2-iter3`): real offline hardening (NOT busywork; I nearly missed these)
-- **JL-6 no-drift gate test**: assert every judge-surface count == the live run-all.cjs banner; red on mismatch. Durable fix for the recurring gate-number-drift (bit us 2317↔2322 this session).
-- **JL-8 k-floor hardening**: fix impact-drill.js to AGGREGATE (never reveal per-record) once a bucket clears k, + add the missing no-leak regression test. Real privacy/correctness — the CODE fix needs no real data.
-Then close JL-6/JL-8 in this file's JL table. After iter3: wind to a long-cadence watch.
+### Loop 2 iter3 — DONE (`ahd-score-leap-L2-iter3` + orchestrator fix), gate **2436/0**, committed
+- **JL-6 no-drift gate test — CLOSED.** `tests/gate-drift-check.cjs`, wired as run-all step 6, single-source live count (env from run-all's own sum), meta-excluded from the product total. Caught 3 REAL pre-existing drifts (deck:100,176 · rebuttal:118). Opus critic found a real Arabic-Indic gap (trailing `\b` is ASCII-only → `١٨٤/٠` + `تأكيد` unscanned); **I fixed it inline** (digit-lookaheads, not `\b`) + added self-teeth 0j/0k (now 12/meta). Scans ASCII + Arabic-Indic both directions.
+- **JL-8 k-floor — CLOSED (code half).** impact-drill.js aggregate-only past K_FLOOR (no id/label leak, any bucket size) + no-leak regression (fail-before/pass-after proven via git-stash). Data-sourcing half (survey = OT-A1) stays human-gated.
+- Both opus-verified: JL-8 solid, JL-6 solid-after-fix; spine intact, tripwire e2f48467, no weakened assertion.
+
+## LOOP STATUS: WOUND DOWN to a long-cadence watch (2026-07-13)
+Autonomous offline leverage is **exhausted** (verified against the OPEN-ITEMS JL table — JL-6/JL-8 code closed; JL-7 font, JL-8 survey, JL-9 rehearsal/choreography, D-4, scholar, persistence all human-gated). Per owner "don't stop", the loop stays armed on a LONG cadence (~1hr) and spawns NO workers until an unblock lands. On each idle wake: confirm nothing new, reschedule. The instant the owner drops a font / picks D-4 / provides survey data / green-lights a download, resume real work.
+
+**Commits on `judge-lens-real-leap` (branch only, never pushed): dc25ffb (loop1) · 26514ef (L2 data+docs) · 60c79aa (panel scorecard) · + L2-iter3 checkpoint.**
 
 ### Human-gated unblocks (do any → the loop resumes real gains instantly)
 1. FONT (UX→7.5+): drop an OFL Arabic woff2 in app/assets/fonts/, or authorize a download. (JL-7)
