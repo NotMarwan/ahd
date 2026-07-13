@@ -3,6 +3,7 @@ github.txt
 *.token
 .env
 .env.*
+private/survey/
 
 # --- Heavy / generated / irrelevant to the Ahd product work ---
 claudecodeui/
