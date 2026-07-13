@@ -31,9 +31,19 @@
 
   var LABEL = "سيناريو توضيحيّ — لا رقمٌ مُقاس";
 
-  /* apply Ahd's MEASURED compression (obligations→transfers) to the cited request
-     count. Integer-only (a count projection, never a money float); divide-by-zero
-     guarded. The value-in-SAR figure is carried as context, never multiplied. */
+  /* the projection multiplies a small-sample ratio (12 synthetic test circles)
+     across a six-figure cited count — the exact product (e.g. 190,417) is spurious
+     precision no synthetic ratio earns. Round DOWN to the nearest thousand for
+     display («نحو ١٩٠ ألف») and keep the exact integers only for internal checks
+     (never rendered). Pure integer division — no float math. */
+  var THOUSAND = 1000;
+  function roundedThousands(n) { return Math.floor(n / THOUSAND); }
+
+  /* apply Ahd's netting compression (obligations→transfers, computed on its own
+     synthetic test circles — never "measured" over real usage) to the cited
+     request count. Integer-only (a count projection, never a money float);
+     divide-by-zero guarded. The value-in-SAR figure is carried as context, never
+     multiplied. */
   function scenario(measured, external) {
     var ext = external || EXTERNAL_STAT;
     var obligations = Math.max(1, (measured && measured.obligations) | 0);
@@ -47,6 +57,9 @@
       ratioTransfers: transfers,
       projectedSettlements: projected,
       avoided: avoided,
+      /* display-only rounded magnitudes — see THOUSAND note above */
+      projectedThousands: roundedThousands(projected),
+      avoidedThousands: roundedThousands(avoided),
       sharePer100: ext.sharePer100,
       enforcementSAR_B: ext.enforcementSAR_B,
       months: ext.months,

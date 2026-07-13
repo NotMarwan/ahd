@@ -1026,8 +1026,9 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 
 /* ============================================================================
    Front D (2026-07-12) — national compression scenario on the settle screen.
-   The measured ratio at the scale of the cited execution-court load; gold =
-   illustrative/context (mirrors the mercy/gold thread), with a dashed honesty rule.
+   A synthetic-circle ratio projected at the scale of the cited execution-court
+   load; gold = illustrative/context (mirrors the mercy/gold thread), with a
+   dashed honesty rule. Never call the ratio "measured" — see se-nat-caveat.
 ============================================================================ */
 .se-nat{background:var(--gold-soft); border:1px solid #ecdfb5; border-inline-start:4px solid var(--gold);
   border-radius:var(--r-lg); padding:14px 15px; box-shadow:var(--shadow-sm)}
@@ -1036,6 +1037,8 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .se-nat-anchor b{color:var(--gold)}
 .se-nat-proj{color:var(--ink); font-size:13.5px; line-height:1.95; margin-top:8px}
 .se-nat-proj b{color:var(--teal); font-weight:800}
+.se-nat-caveat{color:var(--amber); font-size:12px; line-height:1.85; margin-top:8px; font-weight:600}
+.se-nat-caveat b{color:var(--amber)}
 .se-nat-label{color:var(--mut); font-size:var(--t-xs); line-height:1.8; margin-top:9px; border-top:1px dashed #e6d9ad; padding-top:8px}
 
 /* ============================================================================

@@ -38,21 +38,25 @@
     }).join("");
     var okProof = cp.conserved && cp.netsPreserved;
 
-    /* Front D: the national compression SCENARIO — Ahd's MEASURED ratio (obligations→
-       transfers, live from the golden engine over the test circles) at the scale of
-       the cited execution-court load (EVIDENCE-BRIEF D-1). Illustrative, integer,
-       provenance kept separate, caveat carried. */
+    /* Front D: the national compression SCENARIO — Ahd's netting ratio, computed
+       (live, from the golden engine) over 12 hand-built SYNTHETIC test circles —
+       never "measured" over real usage — projected at the scale of the cited
+       execution-court load (EVIDENCE-BRIEF D-1). Illustrative, integer, provenance
+       kept separate, the synthetic-data caveat carried ON the card (not only in
+       the impact screen's sources panel). */
     var Imp = (typeof window !== "undefined") ? window.Impact : null;
     var IN = (typeof window !== "undefined") ? window.ImpactNational : null;
     var natCard = "";
     if (Imp && IN) {
       var measured = Imp.computeImpact(Imp.FIXTURE_CIRCLES, Imp.makeSettleFn(e)).totals;
       var sc = IN.scenario(measured, IN.EXTERNAL_STAT);
+      var circlesCount = Imp.FIXTURE_CIRCLES.length;
       var grp = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); };
       natCard = '<div class="se-nat">' +
         '<div class="se-nat-h">لو صمدت نفس النسبة على حجم المشكلة الوطنيّة</div>' +
         '<div class="se-nat-anchor">سنداتُ الأمر هي الفئةُ الأكبر أمام محاكم التنفيذ: <b>' + App.esc(sc.sharePer100) + '</b> من كلّ ١٠٠ طلب — <b>' + App.digit(grp(sc.requests)) + '</b> طلبًا، <b>' + App.esc(sc.enforcementSAR_B) + '</b> مليار ريال (' + App.digit(String(sc.months)) + ' شهرًا).</div>' +
-        '<div class="se-nat-proj">نسبةُ الضغط المقاسة في عهد (<b>' + App.digit(grp(sc.ratioObligations)) + '</b> التزامًا ← <b>' + App.digit(grp(sc.ratioTransfers)) + '</b> تحويلًا) لو انطبقت على تلك الطلبات: نحو <b>' + App.digit(grp(sc.projectedSettlements)) + '</b> تسويةً بدل <b>' + App.digit(grp(sc.requests)) + '</b> — أي قرابةَ <b>' + App.digit(grp(sc.avoided)) + '</b> مطالبةٍ أقلّ.</div>' +
+        '<div class="se-nat-proj">نسبةُ الضغط في دوائر عهد التجريبيّة (<b>' + App.digit(grp(sc.ratioObligations)) + '</b> التزامًا ← <b>' + App.digit(grp(sc.ratioTransfers)) + '</b> تحويلًا) — توضيحيًّا، لو انطبقت على تلك الطلبات: نحو <b>' + App.digit(String(sc.projectedThousands)) + ' ألف</b> تسويةٍ بدل <b>' + App.digit(grp(sc.requests)) + '</b> — أي نحو <b>' + App.digit(String(sc.avoidedThousands)) + ' ألف</b> مطالبةٍ أقلّ.</div>' +
+        '<div class="se-nat-caveat">⚠️ النسبةُ نفسُها محسوبةٌ على <b>' + App.digit(String(circlesCount)) + '</b> دائرةَ اختبارٍ مُركَّبةً يدويًّا (بيانات تجريبيّة) — لا استخدامًا حقيقيًّا؛ الأرقام أعلاه تقريبيّة عمدًا، لا نتيجةَ قياسٍ.</div>' +
         '<div class="se-nat-label">🟡 ' + App.esc(sc.label) + ' — المصدر: ' + App.esc(sc.source) + '، ' + App.esc(sc.vintage) + '. القضايا ليست دوائرَ متبادلةً بالضرورة؛ الغرضُ إظهارُ قوّة النسبة لا التنبّؤ.</div>' +
       "</div>";
     }

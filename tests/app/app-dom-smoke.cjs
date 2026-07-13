@@ -287,6 +287,15 @@ ok(/571|٥٧١/.test(seD), "Front D: the cited 571,251 execution-request figure 
 ok(/توضيحيّ/.test(seD) && /لا رقمٌ مُقاس/.test(seD), "Front D: the scenario is hard-labelled illustrative, not measured");
 ok(/محاكم التنفيذ/.test(seD) && /EVIDENCE-BRIEF/.test(seD), "Front D: the D-1 source is cited on screen");
 ok(/من كلّ ١٠٠/.test(seD), "Front D: the share reads «من كلّ ١٠٠» — no % glyph");
+/* data-honesty fix (Loop 2): the ratio must never be called "measured" (مقاسة),
+   the national projection must be rounded (not a spurious 6-figure literal), and
+   the synthetic-circle caveat must live ON this card, not only on the impact
+   screen's collapsed sources panel */
+ok(!/مقاسة/.test(seD), "Front D: the card never calls the ratio «مقاسة» (measured) — contradicted its own «لا رقمٌ مُقاس» label");
+ok(!/١٩٠٬٤١٧|190,417|١٩٠،٤١٧/.test(seD), "Front D: the projected settlements figure is NOT the spurious 6-figure literal");
+ok(!/٣٨٠٬٨٣٤|380,834|٣٨٠،٨٣٤/.test(seD), "Front D: the avoided-claims figure is NOT the spurious 6-figure literal");
+ok(/se-nat-caveat/.test(seD) && /دائرةَ اختبارٍ/.test(seD), "Front D: an on-card caveat states the ratio is computed over synthetic test circles");
+ok(/بيانات تجريبيّة/.test(seD), "Front D: the on-card caveat plainly says «test data», not real usage");
 noThrow(() => App.proofBack(), "proofBack returns to دفتري");
 ok(App.current === "daftari", "proofBack lands on دفتري");
 noThrow(() => App.openProof("does-not-exist"), "openProof with a bad id is a safe no-op");

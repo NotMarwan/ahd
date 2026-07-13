@@ -29,5 +29,14 @@ ok(Object.isFrozen(IN.EXTERNAL_STAT), "the external stat is frozen — provenanc
 ok(JSON.stringify(IN.scenario(measured, IN.EXTERNAL_STAT)) === JSON.stringify(s), "scenario is deterministic (pure)");
 ok(typeof IN.scenario({ obligations: 0, transfersAfter: 0 }, IN.EXTERNAL_STAT).projectedSettlements === "number", "guards divide-by-zero (obligations = 0)");
 
+/* ---- display-only rounded magnitudes (data-honesty fix: no spurious 6-figure
+   precision on a synthetic-ratio projection — round DOWN to the nearest thousand,
+   render as «نحو X ألف», never the exact six-digit product) ---- */
+ok(s.projectedThousands === 190, "projectedThousands rounds 190,417 down to 190 (thousands)");
+ok(s.avoidedThousands === 380, "avoidedThousands rounds 380,834 down to 380 (thousands)");
+ok(Number.isInteger(s.projectedThousands) && Number.isInteger(s.avoidedThousands), "rounded magnitudes are plain integers (no float math)");
+ok(s.projectedThousands === Math.floor(s.projectedSettlements / 1000), "projectedThousands = floor(exact / 1000) — pure integer division");
+ok(s.avoidedThousands === Math.floor(s.avoided / 1000), "avoidedThousands = floor(exact / 1000) — pure integer division");
+
 console.log("\nimpact-national: " + pass + "/" + (pass + fail) + (fail ? "  (" + fail + " FAILED)" : ""));
 process.exit(fail ? 1 : 0);

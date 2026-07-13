@@ -45,8 +45,17 @@ A score delta counts **only** if ≥ a refute-mode critic cites concrete file/sc
 - **Commit checkpoints on the branch** (judge-lens-real-leap, never main, never push) to protect accumulated verified work — a future worker's `git checkout` revert-to-HEAD could otherwise destroy uncommitted W1–W5. Commit only gate-green state.
 - Compaction is automatic; this file is the full handoff. Keep it current every wake.
 
-## Loop 1 result (verified, opus refute-panels, all gate-green, spine intact)
-UX 6→7 (+1) · Technical 6→7 (+1) · Data 6→6.5 (+0.5) · Feasibility 5→6 (+1) · Memorability (W5 in flight) · Innovation 7→blocked (D-4). Gate 2072→2300/0.
+## Loop 1 result — COMPLETE, committed `dc25ffb` (branch only, not pushed)
+UX 6→7 (+1) · Technical 6→7 (+1) · Data 6→6.5 (+0.5) · Feasibility 5→6 (+1) · Memorability 6.5→7 (+0.5) · Innovation 7→7 (0, D-4 blocked). **+4.0 across 5 criteria.** Gate 2072→**2317/0**, spine intact, all opus-verified.
+W5 Memorability cap: strongest new visual (home-weave tearing red) is OFF the default 3-min script path — presenter-choreography decision left to owner (force into cold open vs optional doorway).
+
+## Loop 2 progress
+**CURRENT LIVE GATE = 2322/0** (single source of truth — supersedes any earlier count mentioned anywhere in this file).
+- **iter1 DONE** (`ahd-score-leap-L2-iter1`): **Data 6.5→7** (opus floor, all 3 critics 7, no inflation) — «مقاسة» contradiction removed, projections rounded («نحو ١٩٠/٣٨٠ ألف»), on-card synthetic caveat added; gate-number drift swept from ~23 judge-facing files (CLAUDE/README/docs/deck/vault) to live 2322. Spine intact. Data underlying ceiling (synthetic circles / no survey) unchanged → capped <7.5.
+- **iter2 LAUNCHED**: full 6-criterion pre-freeze JUDGE-LENS panel re-score (the project's required "fifth gate") → lock honest final numbers, log any <8 as JL items.
+
+**Running scorecard (Data now 7): UX 7 · Technical 7 · Data 7 · Feasibility 6 · Memorability 7 · Innovation 7. +4.5 total; five criteria +1, Memorability +0.5, Innovation 0 (D-4 blocked).**
+**Autonomous offline gains now near-exhausted — every further point is human-gated (font / survey / scholar / D-4 pick / real persistence). Loop 2 finishes the panel re-score + any cheap hardening, then winds to a longer-cadence watch for human unblocks. Do NOT manufacture busywork — «لا تجامل».**
 
 ## LOOP 2 plan — "hardening & honest consolidation" (offline, no human deps, ≤4 agents/phase, opus critics)
 1. **Full 6-criterion JUDGE-LENS panel re-score** of the committed current state (the project's required "fifth gate" before freeze) → honest current numbers + rank the highest-ROI remaining OFFLINE defects. Log any <8 as JL- items in _meta/OPEN-ITEMS.md.
