@@ -92,11 +92,7 @@ try {
 if (!smokeOk) broken.push("smoke-live  (over-the-wire parity)");
 console.log((smokeOk ? "  ✓ " : "  ✗ ") + "smoke-live  (over-the-wire parity) — " + (smokeOk ? "real HTTP round-trip reproduces every pinned golden seal (meta, not in the product total)" : "FAILED:\n" + smoke));
 
-var trip = "", tripOk = false;
-try {
-  trip = cp.execSync("sha256sum -c _overnight/backup/demo.sha256", { cwd: ROOT, encoding: "utf8" });
-  tripOk = /:\s*OK/.test(trip);
-} catch (e) { tripOk = false; }
+var trip = require("./tripwire.cjs").verify(ROOT), tripOk = trip.ok;
 console.log((tripOk ? "  ✓ " : "  ✗ ") + "tripwire    (frozen demo) — " + (tripOk ? "demo/index.html: OK (e2f48467…)" : "FAILED"));
 
 var dt = process.hrtime(t0);

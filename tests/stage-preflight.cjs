@@ -8,7 +8,7 @@
 var fs = require("fs");
 var os = require("os");
 var path = require("path");
-var cp = require("child_process");
+var Tripwire = require("./tripwire.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -28,10 +28,7 @@ function checkPresenceAllExited(root) {
 }
 
 function checkTripwire(root) {
-  try {
-    var out = cp.execSync("sha256sum -c _overnight/backup/demo.sha256", { cwd: root, encoding: "utf8" });
-    return /:\s*OK/.test(out);
-  } catch (e) { return false; }
+  return Tripwire.verify(root).ok;
 }
 
 function selfTest() {
