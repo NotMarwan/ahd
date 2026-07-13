@@ -22,6 +22,8 @@ ok(Object.isFrozen(Src.SOURCES), "SOURCES is frozen (deterministic, checked-in �
 ok(Array.isArray(Src.SOURCES) && Src.SOURCES.length >= 3, "SOURCES has at least 3 entries (got " + Src.SOURCES.length + ")");
 ok(typeof Src.byId === "function" && typeof Src.isMeasured === "function" && typeof Src.isIllustrative === "function", "helper functions exist");
 ok(Src.KIND.MEASURED === "measured" && Src.KIND.ILLUSTRATIVE === "illustrative", "KIND enum names both flags");
+ok(Src.GRADE && Src.GRADE.PRIMARY === "primary" && Src.GRADE.SECONDARY === "secondary" && Src.GRADE.MODEL === "model", "GRADE enum names evidence provenance");
+ok(typeof Src.gradeOf === "function" && typeof Src.badgeAr === "function", "grade helpers exist");
 
 /* ---- every entry: id, year, kind, citations ---- */
 Src.SOURCES.forEach(function (s) {
@@ -31,6 +33,7 @@ Src.SOURCES.forEach(function (s) {
   ok(typeof s.figureAr === "string" && s.figureAr.length > 0, s.id + ": has a non-empty figure/claim string");
   ok(typeof s.year === "string" && s.year.length > 0, s.id + ": carries a non-empty year (vintage of the figure)");
   ok(s.kind === Src.KIND.MEASURED || s.kind === Src.KIND.ILLUSTRATIVE, s.id + ": kind is exactly measured or illustrative");
+  ok(Src.gradeOf(s) === Src.GRADE.PRIMARY || Src.gradeOf(s) === Src.GRADE.SECONDARY || Src.gradeOf(s) === Src.GRADE.MODEL, s.id + ": has a valid provenance grade");
   ok(typeof s.citeAr === "string" && s.citeAr.length > 10, s.id + ": carries a real citation/methodology string");
   ok(typeof s.usedOnAr === "string" && s.usedOnAr.length > 0, s.id + ": states which screen(s) show it");
 });
@@ -88,6 +91,17 @@ var src = fs.readFileSync(P("features", "sources.js"), "utf8");
 ["Date.now", "new Date", "Math.random", "fetch(", "XMLHttpRequest", "Intl.", ".toLocaleString"].forEach(function (tok) {
   ok(src.indexOf(tok) < 0, "sources.js: no forbidden primitive «" + tok + "» in source");
 });
+
+/* Data-rigor ladder: primary Findex/GASTAT, secondary Nafith, explicit model. */
+["findex-series", "findex-emergency", "gastat-context", "nafith-count", "market-band"].forEach(function (id) {
+  ok(!!Src.byId(id), id + " source entry exists");
+});
+ok(Src.gradeOf(Src.byId("findex-series")) === Src.GRADE.PRIMARY, "Findex decade series is primary");
+ok(Src.gradeOf(Src.byId("findex-emergency")) === Src.GRADE.PRIMARY, "Findex emergency series is primary");
+ok(Src.gradeOf(Src.byId("gastat-context")) === Src.GRADE.PRIMARY, "GASTAT context is primary");
+ok(Src.gradeOf(Src.byId("nafith-count")) === Src.GRADE.SECONDARY, "Nafith count is secondary");
+ok(Src.gradeOf(Src.byId("market-band")) === Src.GRADE.MODEL, "market band is model-grade");
+ok(/ليست توزيعًا لقروض الأفراد/.test(Src.byId("gastat-context").citeAr), "GASTAT source rejects personal-loan-distribution reading");
 
 console.log("\nsources.test: " + pass + "/" + (pass + fail) + (fail ? "  (" + fail + " FAILED)" : ""));
 process.exit(fail ? 1 : 0);
