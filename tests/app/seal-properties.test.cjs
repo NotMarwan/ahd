@@ -277,10 +277,12 @@ const GOLDEN_NEW1_SEAL = "0463553997c80d77e65d1a411acc0e0bd9d4bef67a92dc96af045d
   ok(typeof engine.netting === "function", "engine.netting is still the same exported function (never shadowed/reimplemented)");
 
   try {
+    cp.execSync("git rev-parse --is-inside-work-tree", { cwd: ROOT, encoding: "utf8", stdio: "pipe" });
     const diff = cp.execSync("git diff --name-only -- demo/index.html app/engine.js", { cwd: ROOT, encoding: "utf8" });
     eq(diff.trim(), "", "git diff on demo/index.html + app/engine.js is empty — neither file has an uncommitted change");
   } catch (e) {
-    ok(false, "git diff check could not run: " + e.message);
+    const notAWorktree = e && e.status === 128;
+    ok(notAWorktree, "clean git-archive snapshot has no worktree diff; pinned hashes above remain authoritative");
   }
 }
 
