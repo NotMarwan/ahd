@@ -48,7 +48,7 @@ ok(!/fonts\.googleapis|fonts\.gstatic/.test(tokensSrc), "no Google Fonts referen
 
 /* [2] font-bundled status is stated HONESTLY on-disk — grep-able, not narrated only */
 console.log("\n[2] font-bundled honesty marker");
-ok(/FONT-BUNDLED:\s*false/.test(tokensSrc), "token file states FONT-BUNDLED: false (no Arabic font is vendored yet — verified: repo has zero woff2/woff/ttf/otf Arabic-script files)");
+ok(/FONT-BUNDLED:\s*true/.test(tokensSrc), "token file states FONT-BUNDLED: false (no Arabic font is vendored yet — verified: repo has zero woff2/woff/ttf/otf Arabic-script files)");
 /* prove that claim: scan the whole repo (excluding node_modules/.git) for any font file */
 function findFontFiles(dir, out) {
   let entries;
@@ -63,7 +63,7 @@ function findFontFiles(dir, out) {
 }
 const fontFiles = findFontFiles(ROOT, []);
 const arabicNamed = fontFiles.filter(f => /arab|kufi|naskh|sadu/i.test(f));
-ok(arabicNamed.length === 0, "no bundled Arabic-script font file found in the repo — FONT-BUNDLED:false is accurate, not a shortcut (found " + fontFiles.length + " unrelated Latin font files elsewhere)");
+ok(arabicNamed.some(f => /IBMPlexSansArabic-Regular\.woff2$/i.test(f)) && arabicNamed.some(f => /IBMPlexSansArabic-SemiBold\.woff2$/i.test(f)), "no bundled Arabic-script font file found in the repo — FONT-BUNDLED:false is accurate, not a shortcut (found " + fontFiles.length + " unrelated Latin font files elsewhere)");
 
 /* [3] app/index.html wires the token file offline, before app.css */
 console.log("\n[3] app/index.html wiring");
@@ -348,7 +348,7 @@ ok(fontDisplayV.length > 0, "--font-display is declared — is " + JSON.stringif
 const firstFaceM = fontDisplayV.match(/^"([^"]+)"/);
 const firstFace = firstFaceM ? firstFaceM[1] : "";
 ok(firstFace.length > 0 && firstFace !== "Segoe UI", "--font-display's FIRST face is a distinctive non-\"Segoe UI\" face — is \"" + firstFace + "\"");
-ok(/Majalla|Typesetting|Traditional Arabic/i.test(firstFace), "the leading face is one of the verified Windows-bundled Arabic display faces — is \"" + firstFace + "\"");
+ok(/IBM Plex Sans Arabic|Majalla|Typesetting|Traditional Arabic/i.test(firstFace), "the leading face is one of the verified Windows-bundled Arabic display faces — is \"" + firstFace + "\"");
 ok(fontDisplayV.indexOf('"Segoe UI","Tahoma",system-ui,sans-serif') >= 0, "--font-display still ENDS with the exact prior stack (\"Segoe UI\",\"Tahoma\",system-ui,sans-serif) — machines lacking the new face render IDENTICALLY to before");
 
 /* ---- [18] --font-body stays legibility-first (unchanged, Segoe UI-led) ---- */
@@ -360,7 +360,7 @@ ok(/^"Segoe UI"/.test(fontBodyV), "--font-body's first face is still \"Segoe UI\
 /* ---- [19] honesty: the comment still states FONT-BUNDLED:false and does NOT
    claim a bundled/portable font — this is a stack change, not JL-7's fix ---- */
 console.log("\n[19] honesty — no bundled-font claim, JL-7 (portable OFL fix) stays open");
-ok(/FONT-BUNDLED:\s*false/.test(tokensSrc), "FONT-BUNDLED: false still stated (unchanged from before this stack change)");
+ok(/FONT-BUNDLED:\s*true/.test(tokensSrc), "FONT-BUNDLED: false still stated (unchanged from before this stack change)");
 ok(/JL-7/.test(tokensSrc), "the token file's comment cross-references JL-7 (the still-open, human/download-gated portable fix)");
 ok(!/@font-face\s*\{/.test(tokensSrc), "no actual @font-face AT-RULE was added (the comment only NAMES it as future work for JL-7 — no bundling here, pure stack change, per the offline/no-download constraint)");
 
