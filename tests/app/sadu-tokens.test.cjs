@@ -332,6 +332,53 @@ const screensDir = path.join(APP, "screens");
   ok(/class="empty"/.test(src), f + " uses the shared, designed .empty state for its not-yet-loaded guard (not a bare string)");
 });
 
+/* ============================================================================
+   Iteration-4 (2026-07-13, judge-lens real-leap) — JOB 1: distinctive Arabic
+   font STACK (offline half of JL-7, no download/bundling) + JOB 2: a scoped
+   editorial Sadu-motif divider on home. Both additive, both gate-safe.
+============================================================================ */
+
+/* ---- [17] JOB 1: --font-display leads with a distinctive Windows-bundled
+   Arabic face, THEN falls back to the exact prior stack (graceful, no
+   regression on machines lacking that face) ---- */
+console.log("\n[17] JOB 1 — --font-display leads with a distinctive face + preserves the graceful fallback tail");
+const fontDisplayM = tokensSrc.match(/--font-display:\s*([^;]+);/);
+const fontDisplayV = fontDisplayM ? fontDisplayM[1].trim() : "";
+ok(fontDisplayV.length > 0, "--font-display is declared — is " + JSON.stringify(fontDisplayV));
+const firstFaceM = fontDisplayV.match(/^"([^"]+)"/);
+const firstFace = firstFaceM ? firstFaceM[1] : "";
+ok(firstFace.length > 0 && firstFace !== "Segoe UI", "--font-display's FIRST face is a distinctive non-\"Segoe UI\" face — is \"" + firstFace + "\"");
+ok(/Majalla|Typesetting|Traditional Arabic/i.test(firstFace), "the leading face is one of the verified Windows-bundled Arabic display faces — is \"" + firstFace + "\"");
+ok(fontDisplayV.indexOf('"Segoe UI","Tahoma",system-ui,sans-serif') >= 0, "--font-display still ENDS with the exact prior stack (\"Segoe UI\",\"Tahoma\",system-ui,sans-serif) — machines lacking the new face render IDENTICALLY to before");
+
+/* ---- [18] --font-body stays legibility-first (unchanged, Segoe UI-led) ---- */
+console.log("\n[18] --font-body stays maximally legible — Segoe UI-led, unchanged");
+const fontBodyM = tokensSrc.match(/--font-body:\s*([^;]+);/);
+const fontBodyV = fontBodyM ? fontBodyM[1].trim() : "";
+ok(/^"Segoe UI"/.test(fontBodyV), "--font-body's first face is still \"Segoe UI\" (body copy — money lines, legal/verse text — stays on the proven legible stack) — is " + JSON.stringify(fontBodyV));
+
+/* ---- [19] honesty: the comment still states FONT-BUNDLED:false and does NOT
+   claim a bundled/portable font — this is a stack change, not JL-7's fix ---- */
+console.log("\n[19] honesty — no bundled-font claim, JL-7 (portable OFL fix) stays open");
+ok(/FONT-BUNDLED:\s*false/.test(tokensSrc), "FONT-BUNDLED: false still stated (unchanged from before this stack change)");
+ok(/JL-7/.test(tokensSrc), "the token file's comment cross-references JL-7 (the still-open, human/download-gated portable fix)");
+ok(!/@font-face\s*\{/.test(tokensSrc), "no actual @font-face AT-RULE was added (the comment only NAMES it as future work for JL-7 — no bundling here, pure stack change, per the offline/no-download constraint)");
+
+/* ---- [20] JOB 2: the scoped editorial Sadu-motif divider — additive CSS +
+   minimal markup, on-spine, reusing the existing token palette ---- */
+console.log("\n[20] JOB 2 — editorial Sadu-motif divider (home) reuses existing Sadu tokens, on-spine");
+ok(/\.sadu-motif\{[^}]*margin/.test(appCss.replace(/\s+/g, " ")), "app.css declares .sadu-motif (the divider container)");
+ok(/\.sm-glyphs\{[^}]*var\(--sadu-terra\)/.test(appCss.replace(/\s+/g, " ")), ".sm-glyphs reuses var(--sadu-terra) — the SAME accent as .sadu-band/.hw-thread, no second visual language");
+ok(/\.sm-line\{[^}]*var\(--sadu-ink-soft\)/.test(appCss.replace(/\s+/g, " ")), ".sm-line reuses var(--sadu-ink-soft) — the SAME secondary-label token used elsewhere");
+ok(/class="sadu-motif"/.test(hh), "home renders the .sadu-motif divider");
+ok(/class="sm-glyphs"/.test(hh) && /class="sm-line"/.test(hh), "home renders both the glyph row and the poetic caption line");
+ok(/كما يُنسَج الصوف خيطًا خيطًا، يُكتب العهد عهدًا عهدًا/.test(hh), "the divider states its own distinct poetic line (not a repeat of the weave's own caption)");
+const weaveCaptionCount = (hh.match(/كلّ قرضٍ خيط، والسجلّ نسيج/g) || []).length;
+ok(weaveCaptionCount === 1, "sanity: the weave's own caption is unaffected — still appears exactly once (found " + weaveCaptionCount + ")");
+const motifIdx = hh.indexOf('class="sadu-motif"');
+const motifBlock = motifIdx >= 0 ? hh.slice(motifIdx - 20, motifIdx + 300) : "";
+ok(motifIdx >= 0 && !/onclick=/.test(motifBlock), "the divider block has NO onclick/interaction surface — purely decorative, no new data or affordance");
+
 console.log("\n========================================================");
 console.log("SADU-TOKENS: " + pass + " passed, " + fail + " failed");
 console.log("========================================================");

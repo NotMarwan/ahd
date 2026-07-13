@@ -21,7 +21,7 @@
    cd tests
    node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core 184/0 + structure-check 14/0
    node app/run-app-tests.cjs                                           # app: 53 suites
-   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (2436/0)
+   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (2452/0)
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
 6. **The judge lens is the fifth gate:** any change a judge could see (app screens, deck, script,
@@ -41,7 +41,7 @@
 - `_meta/agent-presence/` — multi-agent coordination (presence, claims, collision protocol); see `_meta/agent-presence/README.md`.
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
-- `tests/` — the quality gate (**2,436 assertions**: core 184 + structure 14 + app 2,238 across 53 suites; `run-all.cjs` = one-command banner — single source of truth, re-run it rather than trusting any cited count).
+- `tests/` — the quality gate (**2,452 assertions**: core 184 + structure 14 + app 2,254 across 53 suites; `run-all.cjs` = one-command banner — single source of truth, re-run it rather than trusting any cited count).
 - `AmadHackathon/` — the operator's Obsidian cockpit (living memory mirror: dashboard, plan, evidence). **Any session that changes project state updates it before exiting** (Home + plan checkboxes + topical note). Notes are summaries with `source:` pointers — `docs/`/`_meta/` stay canonical.
 - `swarm/` — 4-agent research workspace (press/academic/stats/global); iron rules in `swarm/README.md`; results in `findings*.md` + `headlines/`.
 - `promo/` — Remotion motion promos; `out/ahd-new-features.mp4`.

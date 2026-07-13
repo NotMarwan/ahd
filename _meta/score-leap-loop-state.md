@@ -73,8 +73,14 @@ Vendor a real OFL Arabic display+text .woff2 → app/assets/fonts/ + @font-face 
 - **JL-8 k-floor — CLOSED (code half).** impact-drill.js aggregate-only past K_FLOOR (no id/label leak, any bucket size) + no-leak regression (fail-before/pass-after proven via git-stash). Data-sourcing half (survey = OT-A1) stays human-gated.
 - Both opus-verified: JL-8 solid, JL-6 solid-after-fix; spine intact, tripwire e2f48467, no weakened assertion.
 
-## LOOP STATUS: WOUND DOWN to a long-cadence watch (2026-07-13)
-Autonomous offline leverage is **exhausted** (verified against the OPEN-ITEMS JL table — JL-6/JL-8 code closed; JL-7 font, JL-8 survey, JL-9 rehearsal/choreography, D-4, scholar, persistence all human-gated). Per owner "don't stop", the loop stays armed on a LONG cadence (~1hr) and spawns NO workers until an unblock lands. On each idle wake: confirm nothing new, reschedule. The instant the owner drops a font / picks D-4 / provides survey data / green-lights a download, resume real work.
+## FOCUS NARROWED TO 4 (owner, 2026-07-13) — ACTIVE
+Push **Technical · Data · Feasibility · Innovation** only (UX + Memorability parked — font/delivery ceilinged).
+Full plan: `docs/superpowers/plans/2026-07-13-four-criteria-push.md`. **Reframe:** the panel's ceilings are real
+but each has an OFFLINE lever under it the earlier loop under-exploited — especially Technical (persistence/auth/
+deploy is a BUILD, not a human gate). Execution order: T1 persistence → T2 auth → I1 Open-Witness protocol+verifier
+→ T3 server-judge-visible → D1+D2 data rigor → F2 roadmap+F3 economics → T4 CI parity+T5 deploy → D3 fixtures →
+full 4-criteria re-score. Human residue (flag, don't fake): D-4 pick (Innovation→8), scholar (Feas→8), survey (Data→8).
+Prior UX iter4 (font-stack) is in flight — UX is now out of focus; bank it if green, then pivot to plan iter1 (T1).
 
 **Commits on `judge-lens-real-leap` (branch only, never pushed): dc25ffb (loop1) · 26514ef (L2 data+docs) · 60c79aa (panel scorecard) · + L2-iter3 checkpoint.**
 

@@ -1103,6 +1103,14 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .hw-empty{border:1px dashed var(--sadu-hair); border-radius:var(--sadu-r-md); padding:var(--sadu-space-4);
   text-align:center; color:var(--mut); font-size:var(--t-sm)}
 
+/* ---- editorial Sadu-motif divider (judge-lens real-leap, iter4): a small,
+   poetic transition between the hero intro and the woven ledger, reusing the
+   SAME weaving idiom and the SAME Sadu tokens as .home-weave/.sadu-band above
+   — no second visual language, purely decorative, zero interaction surface. */
+.sadu-motif{display:flex; flex-direction:column; align-items:center; gap:4px; margin:2px 0 var(--sadu-space-2); text-align:center}
+.sm-glyphs{color:var(--sadu-terra); font-size:10px; letter-spacing:6px}
+.sm-line{margin:0; color:var(--sadu-ink-soft); font-family:var(--font-body); font-size:var(--t-xs); font-style:italic; max-width:34ch}
+
 @media (prefers-reduced-motion: no-preference){
   .hw-thread{transition:transform var(--sadu-motion-fast) var(--sadu-ease), box-shadow var(--sadu-motion-fast) var(--sadu-ease)}
   .hw-thread:hover,.hw-thread:focus-visible{transform:scaleY(1.18); box-shadow:0 2px 6px rgba(28,24,18,.18)}

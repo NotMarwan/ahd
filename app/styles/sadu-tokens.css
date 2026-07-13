@@ -59,19 +59,38 @@
   --sadu-type-lg:16px;
   --sadu-type-xl:20px;
 
-  /* ---- Arabic typefaces — READY for @font-face, not yet wired.
-     FONT-BUNDLED: false.
-     This repo carries ZERO bundled Arabic-script font files (checked: only
-     Latin display/mono faces under .claude/skills/ui-styling/canvas-fonts —
-     none are Arabic, none are licensed for shipping in this product). Per
-     the offline rule we do NOT fetch a font from a CDN or a hosted Google
-     Fonts service to fake this — these two variables fall back to the system Arabic UI
-     stack until a real OFL pairing (e.g. a Kufi/Naskh display+text pair) is
-     vendored into app/assets/fonts/ as .woff2. The moment that file lands,
-     add its @font-face rule directly above and swap the family name here —
-     every selector in app.css that already points at var(--font-display)/
-     var(--font-body) starts using the real face with NO further edits. ---- */
-  --font-display:"Segoe UI","Tahoma",system-ui,sans-serif;
+  /* ---- Arabic typefaces — a STACK upgrade (2026-07-13, judge-lens real-leap,
+     the offline half of JL-7), NOT a bundled font. FONT-BUNDLED: false.
+     This repo still carries ZERO bundled Arabic-script font files (checked:
+     only Latin display/mono faces under .claude/skills/ui-styling/canvas-
+     fonts — none are Arabic, none are licensed for shipping in this
+     product). Per the offline rule we do NOT fetch a font from a CDN or a
+     hosted Google Fonts service to fake this.
+
+     Instead --font-display now LEADS with "Sakkal Majalla" — a distinctive,
+     elegant Naskh display face that ships as a STOCK Windows font (Windows
+     7 through 11: C:\Windows\Fonts\majalla*.ttf, no install/download step),
+     long used in Gulf/Saudi branding contexts, tasteful and readable enough
+     for a fintech's titles/wordmark — before falling back to the EXACT
+     prior stack ("Segoe UI","Tahoma",system-ui,sans-serif) unchanged. Any
+     machine that lacks Sakkal Majalla (non-Windows, a stripped Windows
+     install) renders every title IDENTICALLY to before this change: a
+     graceful fallback, zero regression, not a redesign.
+
+     This is honestly PARTIAL: distinctive on the actual Windows demo
+     laptop, unchanged everywhere else — it does NOT bundle a font file, so
+     it is not portable off that machine. The PORTABLE fix (a vendored OFL
+     Kufi/Naskh display+text .woff2 pair via @font-face into app/assets/
+     fonts/) remains open, human/download-gated, tracked as JL-7. The
+     moment that file lands, add its @font-face rule directly above and
+     swap the family name here — every selector already pointing at
+     var(--font-display)/var(--font-body) picks it up with no further edits.
+
+     --font-body stays Segoe UI-led, UNCHANGED: body copy (money lines,
+     legal/verse text) must stay maximally legible at 12-14px, and this
+     offline environment cannot visually verify Sakkal Majalla's small-size
+     legibility — an intentional, conservative call, not an oversight. ---- */
+  --font-display:"Sakkal Majalla","Segoe UI","Tahoma",system-ui,sans-serif;
   --font-body:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif;
 
   /* ---- spacing rhythm: distinct steps, not one uniform gap everywhere ---- */

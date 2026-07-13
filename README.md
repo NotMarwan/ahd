@@ -90,14 +90,14 @@ cd tests
 # Demo core (184) + offline seams + structure gate (14)
 node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs
 
-# App suites (53 suites, 2,238 assertions)
+# App suites (53 suites, 2,254 assertions)
 node app/run-app-tests.cjs
 
 # Or the whole gate in ONE command — core + app + structure + tripwire, one banner:
-node run-all.cjs        # → AHD GATE ✅ 2436/0   (≈6s, fully offline, deterministic)
+node run-all.cjs        # → AHD GATE ✅ 2452/0   (≈6s, fully offline, deterministic)
 ```
 
-Total: **2,436 assertions, 0 failed** — demo core 184 + app 2,238 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red. (Single source of truth: re-run `run-all.cjs` — its banner outranks any number cited in a doc.)
+Total: **2,452 assertions, 0 failed** — demo core 184 + app 2,254 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red. (Single source of truth: re-run `run-all.cjs` — its banner outranks any number cited in a doc.)
 
 ---
 
@@ -128,7 +128,7 @@ ahd/
 │   ├── offline-check.cjs     # Zero network seams (9)
 │   ├── dom-smoke.cjs         # Headless render + robustness (40)
 │   ├── structure-check.cjs   # Repo-structure gate (14)
-│   ├── run-all.cjs           # One-command gate + tripwire (2436/0)
+│   ├── run-all.cjs           # One-command gate + tripwire (2452/0)
 │   ├── load-logic.cjs        # Engine slicer
 │   └── app/                  # App test suites (53 files)
 │
