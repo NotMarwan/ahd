@@ -43,19 +43,38 @@
        never "measured" over real usage — projected at the scale of the cited
        execution-court load (EVIDENCE-BRIEF D-1). Illustrative, integer, provenance
        kept separate, the synthetic-data caveat carried ON the card (not only in
-       the impact screen's sources panel). */
+       the impact screen's sources panel).
+       Data-rigor fix D1: the headline is now a p10-p90 SENSITIVITY BAND
+       (features/impact-band.js — 200 deterministic synthetic circles, golden
+       netting reused via DI) instead of one fragile single ratio. The old
+       single point (features/impact-national.js) is kept only as a labelled
+       reference value shown to sit INSIDE the band — never the headline number
+       anymore, never recomputed, never blended with the band's own model. */
     var Imp = (typeof window !== "undefined") ? window.Impact : null;
     var IN = (typeof window !== "undefined") ? window.ImpactNational : null;
+    var Bnd = (typeof window !== "undefined") ? window.ImpactBand : null;
     var natCard = "";
     if (Imp && IN) {
       var measured = Imp.computeImpact(Imp.FIXTURE_CIRCLES, Imp.makeSettleFn(e)).totals;
       var sc = IN.scenario(measured, IN.EXTERNAL_STAT);
       var circlesCount = Imp.FIXTURE_CIRCLES.length;
       var grp = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); };
+      var bandLine = "";
+      if (Bnd) {
+        var bnd = Bnd.band(Imp.makeSettleFn(e), IN.EXTERNAL_STAT.requests);
+        var avoidedBest = bnd.requests - bnd.projectedP10, avoidedWorst = bnd.requests - bnd.projectedP90;
+        bandLine = '<div class="se-nat-proj">' + App.esc(Bnd.LABEL) + ': نسبةُ الانضغاط تتفاوت بتفاوت شكل الدائرة — نموذجٌ حتميٌّ على <b>' +
+          App.digit(String(bnd.circlesCount)) + '</b> دائرةَ اختبارٍ توليديّة (أحجام <b>' + App.digit(String(bnd.minSize)) + '–' + App.digit(String(bnd.maxSize)) +
+          '</b> أعضاء، بأنماط دوائر عهد الاثنتي عشرة نفسها)؛ توضيحيًّا، لو انطبقت على تلك الطلبات: من نحو <b>' + App.digit(String(bnd.projectedP10Thousands)) +
+          ' ألف</b> إلى نحو <b>' + App.digit(String(bnd.projectedP90Thousands)) + ' ألف</b> تسويةٍ بدل <b>' + App.digit(grp(sc.requests)) +
+          '</b> — أي من نحو <b>' + App.digit(String(Math.floor(avoidedWorst / 1000))) + '</b> إلى <b>' + App.digit(String(Math.floor(avoidedBest / 1000))) +
+          ' ألف</b> مطالبةٍ أقلّ. نقطةُ عهد الأصليّة أعلاه (نسبة الدوائر الاثنتي عشرة نفسها، دون تنويعٍ): نحو <b>' +
+          App.digit(String(sc.projectedThousands)) + ' ألف</b> — وسيطٌ تقع داخل هذا النطاق، لا حدٌّ مقاس.</div>';
+      }
       natCard = '<div class="se-nat">' +
         '<div class="se-nat-h">لو صمدت نفس النسبة على حجم المشكلة الوطنيّة</div>' +
         '<div class="se-nat-anchor">سنداتُ الأمر هي الفئةُ الأكبر أمام محاكم التنفيذ: <b>' + App.esc(sc.sharePer100) + '</b> من كلّ ١٠٠ طلب — <b>' + App.digit(grp(sc.requests)) + '</b> طلبًا، <b>' + App.esc(sc.enforcementSAR_B) + '</b> مليار ريال (' + App.digit(String(sc.months)) + ' شهرًا).</div>' +
-        '<div class="se-nat-proj">نسبةُ الضغط في دوائر عهد التجريبيّة (<b>' + App.digit(grp(sc.ratioObligations)) + '</b> التزامًا ← <b>' + App.digit(grp(sc.ratioTransfers)) + '</b> تحويلًا) — توضيحيًّا، لو انطبقت على تلك الطلبات: نحو <b>' + App.digit(String(sc.projectedThousands)) + ' ألف</b> تسويةٍ بدل <b>' + App.digit(grp(sc.requests)) + '</b> — أي نحو <b>' + App.digit(String(sc.avoidedThousands)) + ' ألف</b> مطالبةٍ أقلّ.</div>' +
+        (bandLine || ('<div class="se-nat-proj">نسبةُ الضغط في دوائر عهد التجريبيّة (<b>' + App.digit(grp(sc.ratioObligations)) + '</b> التزامًا ← <b>' + App.digit(grp(sc.ratioTransfers)) + '</b> تحويلًا) — توضيحيًّا، لو انطبقت على تلك الطلبات: نحو <b>' + App.digit(String(sc.projectedThousands)) + ' ألف</b> تسويةٍ بدل <b>' + App.digit(grp(sc.requests)) + '</b> — أي نحو <b>' + App.digit(String(sc.avoidedThousands)) + ' ألف</b> مطالبةٍ أقلّ.</div>')) +
         '<div class="se-nat-caveat">⚠️ النسبةُ نفسُها محسوبةٌ على <b>' + App.digit(String(circlesCount)) + '</b> دائرةَ اختبارٍ مُركَّبةً يدويًّا (بيانات تجريبيّة) — لا استخدامًا حقيقيًّا؛ الأرقام أعلاه تقريبيّة عمدًا، لا نتيجةَ قياسٍ.</div>' +
         '<div class="se-nat-label">🟡 ' + App.esc(sc.label) + ' — المصدر: ' + App.esc(sc.source) + '، ' + App.esc(sc.vintage) + '. القضايا ليست دوائرَ متبادلةً بالضرورة؛ الغرضُ إظهارُ قوّة النسبة لا التنبّؤ.</div>' +
       "</div>";

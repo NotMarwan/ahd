@@ -225,7 +225,7 @@ process, and aggregates. The **8 suites** (≈283 assertions, all green):
 **How they gate:** the two tiers are independent. Tier 1 keeps the frozen demo correct and unchanged;
 Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step with the demo (via
 `engine-parity.cjs`) and provably offline/deterministic (via `app-offline.test.cjs` +
-`determinism.test.cjs`). Combined (recomputed live 2026-07-13 after the T3 bank-node live-demo sweep; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,319 (56 suites) + structure 14 = 2,517 assertions, all green** — one command: `cd tests && node run-all.cjs`.
+`determinism.test.cjs`). Combined (recomputed live 2026-07-13 after the D1+D2 data-rigor sweep; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,377 (57 suites) + structure 14 = 2,575 assertions, all green** — one command: `cd tests && node run-all.cjs`.
 
 ---
 

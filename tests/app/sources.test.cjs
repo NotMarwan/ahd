@@ -69,6 +69,19 @@ var fix = Src.byId("impact-fixture");
 ok(!!fix && Src.isIllustrative(fix), "impact-fixture entry exists and is flagged illustrative");
 ok(/بيانات اختبار/.test(fix.citeAr) || /دوائر تجريبيّة/.test(fix.citeAr), "impact-fixture citation states plainly it is test data, not a real survey");
 
+/* ---- D2 (data-rigor): the real, primary-sourced Findex demand figure — the honest
+   non-survey substitute for "informal qard hasan happens at scale in Saudi"
+   (OPEN-ITEMS panel#3 item 4, swarm/agent-3-official-stats/findings-claude.md).
+   Figures copied VERBATIM from the World Bank Little Data Book 2022 p.111. ---- */
+var fx = Src.byId("findex-borrow-family");
+ok(!!fx && Src.isMeasured(fx), "findex-borrow-family entry exists and is flagged MEASURED (real, primary-sourced)");
+ok(fx.figureAr.indexOf("٣٥٫٨") >= 0, "Findex figure states the real cited KSA rate (35.8 of every 100 adults)");
+ok(fx.figureAr.indexOf("١٣٫٧") >= 0, "Findex figure states the real cited high-income-country comparison (13.7)");
+ok(fx.year === "٢٠٢١", "Findex entry's year is the survey vintage (2021), not the 2022 publish date");
+ok(/World Bank/.test(fx.citeAr) && /Little Data Book/.test(fx.citeAr), "Findex citation names the primary source (World Bank Little Data Book 2022)");
+ok(/findings-claude/.test(fx.citeAr), "Findex citation traces back to the in-repo swarm findings file");
+ok(!/سيناريو|توضيحيّ/.test(fx.citeAr), "Findex citation does NOT read as an illustrative disclaimer — it is a real measured figure");
+
 /* ---- no forbidden nondeterminism primitive lives in the live (comment-stripped) source
    (belt-and-suspenders on top of the whole-app app-offline.test.cjs scan) ---- */
 var src = fs.readFileSync(P("features", "sources.js"), "utf8");

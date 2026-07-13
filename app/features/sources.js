@@ -49,6 +49,22 @@
       kind: KIND.ILLUSTRATIVE,
       citeAr: "app/features/impact.js — بيانات اختبارٍ حتميّة موسومة على الشاشة «دوائر تجريبيّة». بانتظار مسحٍ حقيقيّ (n≥١٥٠) يحلّ محلّها (OT-A1 / JL-8).",
       usedOnAr: "أثر عهد"
+    }),
+    /* D2 (data-rigor fix): the real, primary-sourced KSA demand figure the evidence
+       base was missing (OPEN-ITEMS panel#3 item 4) — copied VERBATIM from the World
+       Bank's Little Data Book on Financial Inclusion 2022, p.111 (via
+       swarm/agent-3-official-stats/findings-claude.md). NOT a synthetic scenario:
+       a real household-survey statistic, KSA-specific (not a U.S. proxy) — the
+       honest non-survey substitute for "informal qard hasan happens at scale in
+       Saudi" while a real Saudi micro-survey (OT-A1) stays open. */
+    Object.freeze({
+      id: "findex-borrow-family",
+      nameAr: "اقتراضٌ من العائلة/الأصدقاء (Global Findex)",
+      figureAr: "٣٥٫٨ من كلّ ١٠٠ بالغٍ سعوديّ (١٥ سنة فأكثر) اقترضوا من العائلة أو الأصدقاء خلال ١٢ شهرًا — مقابل ١٣٫٧ من كلّ ١٠٠ في الدول مرتفعة الدخل. الجدول نفسه: اقترضوا من أيّ مصدرٍ ٥٩٫٧، اقترضوا رسميًّا ٣٢٫٤، يملكون حسابًا ٧٤٫٣ (عيّنة ١٬٠١٩، سبتمبر ٢٠٢١)",
+      year: "٢٠٢١",
+      kind: KIND.MEASURED,
+      citeAr: "World Bank, Little Data Book on Financial Inclusion 2022، ص ١١١ — رقمٌ سعوديٌّ أوّليٌّ حقيقيّ (ليس بديلًا أمريكيًّا)، مُستخرَجٌ حرفيًّا من ملفّ البنك الدوليّ. swarm/agent-3-official-stats/findings-claude.md. أفضل بديلٍ متاحٍ لمسحٍ ميدانيّ سعوديّ مباشر (لم يوجد بعد — OT-A1)؛ يجيب عن مدى شيوع الاقتراض غير الرسميّ، لا عن سبب عزوف الناس عن توثيقه.",
+      usedOnAr: "أثر عهد"
     })
   ]);
 

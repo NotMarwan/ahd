@@ -91,6 +91,15 @@
       "description": "National compression scenario — applies Ahd's measured netting ratio to the cited execution-court load (EVIDENCE-BRIEF D-1), illustrative + integer, rendered on the settle screen (Front D)"
     },
     {
+      "name": "impact-band",
+      "featureFile": "app/features/impact-band.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/impact-band.test.cjs"
+      ],
+      "description": "National compression SENSITIVITY BAND (data-rigor fix D1) — deterministic p10/p50/p90 over 200 seeded synthetic circles (golden netting reused via DI), replacing impact-national's single-point projection with a range on the settle screen; the old point is kept only as a labelled reference inside the band"
+    },
+    {
       "name": "sources",
       "featureFile": "app/features/sources.js",
       "screenFile": null,
