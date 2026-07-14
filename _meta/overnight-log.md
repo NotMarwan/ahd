@@ -5,6 +5,27 @@
 
 ---
 
+## 2026-07-14 · Master Spec Kit specification — complete, awaiting stakeholder review
+
+- Queried the existing Graphify graph, then reviewed current app registration, the 35-unit
+  navigator map, tests, server, Open-Witness protocol, evidence, decisions, open items, and
+  Judge Lens.
+- Found and corrected specification drift: the current app registers **21 screens**, while
+  older prose still cites three, 12, 14, or 20.
+- Added Ahd constitution v1.0.0 and synchronized Spec Kit templates.
+- Created `specs/001-ahd-product-system/spec.md`: 10 user stories, 128 unique normative
+  requirements, 13 success criteria, 21 entities, lifecycle statuses, decisions, dependencies,
+  evidence mapping, transitions, and exclusions.
+- Added a 24/24 passed specification checklist, a 47-item formal reviewer checklist, and a
+  clarity review with 12 evidence-backed findings and improvements.
+- Gate investigation found `structure-check.cjs` traversing an independent nested Git
+  worktree. TDD proof failed first; minimal fix excludes `.worktrees` while retaining rogue
+  status-file detection.
+- Fresh full gate: **AHD GATE ✅ 2869/0**; drift meta-check 12/0; frozen demo tripwire OK.
+- No product, golden function, golden vector, or Shariah ruling changed.
+
+Review entry: `specs/001-ahd-product-system/clarity-review.md`.
+
 ## 🌌 DEEPEN SPRINT (newest — depth, not breadth; reshapes guarded, adds none)
 
 **📦 Repo (pushed):** **https://github.com/NotMarwan/ahd** · branch `overnight/deepening` · HEAD `ecacb11`.
