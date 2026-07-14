@@ -904,7 +904,7 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 /* ============================================================================
    Front A (2026-07-12) — Sadu identity + home hierarchy.
    The woven Sadu band (the motif the whole direction is named after) becomes a
-   persistent identity strip under the nav; an octagon seal marks the door; and
+   persistent identity strip under the nav; the approved primary mark identifies the door; and
    the flat 14-card menu becomes hero → primary grid → «المزيد». Additive only.
 ============================================================================ */
 /* the woven Sadu band — Najdi weaving in teal + gold over the hairline, rendered on
@@ -925,12 +925,10 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .sadu-band::before{content:""; position:absolute; inset-inline-start:0; top:0; bottom:0;
   width:var(--sadu-space-4); background:var(--sadu-terra)}
 
-/* octagon seal emblem enclosing «عهد» — sits on the dark hero */
-.home-emblem{width:46px; height:46px; margin-bottom:10px}
-.home-emblem svg{width:100%; height:100%; display:block}
-.home-emblem .oct{fill:none; stroke:#d4b968; stroke-width:1.1}
-.home-emblem .oct-in{fill:none; stroke:#7fbfae; stroke-width:.75; opacity:.65}
-.home-emblem text{font-size:13px; font-weight:800; fill:#e9d9a6; text-anchor:middle; dominant-baseline:middle; letter-spacing:1px}
+/* approved primary mark — a calm paper card on the dark hero */
+.home-emblem{width:78px; height:78px; margin-bottom:10px; overflow:hidden; border-radius:16px;
+  background:#faf7f2; box-shadow:0 8px 24px rgba(0,0,0,.18), inset 0 0 0 1px rgba(168,134,63,.22)}
+.home-emblem img{width:100%; height:100%; display:block; object-fit:cover}
 
 /* the ONE dominant action — أنشئ عهدًا as a full-width filled tile */
 .home-hero-tile{appearance:none; width:100%; text-align:right; cursor:pointer; border:0;

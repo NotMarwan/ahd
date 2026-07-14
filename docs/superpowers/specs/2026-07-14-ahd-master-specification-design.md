@@ -1,0 +1,237 @@
+# Ahd Master Specification System — Design
+
+**Date:** 2026-07-14  
+**Status:** Approved for specification authoring  
+**Scope:** Whole Ahd product system; documentation and planning only
+
+## 1. Purpose
+
+Ahd needs one authoritative specification system that explains the product as it exists,
+the production target, external gates, and excluded behavior without mixing those states.
+It must serve product, engineering, Shariah review, legal review, judge preparation, and
+future implementation planning.
+
+This work does not change application behavior. It does not edit `demo/index.html`, any
+golden engine function, seal vector, Shariah ruling, or irreversible project decision.
+
+## 2. Review Findings
+
+The current repository is rich but fragmented:
+
+1. The app registers 20 screens and the navigator map names 35 feature units, while the
+   root README still says 12 screens and `app/README.md` still describes three screens.
+2. `docs/PUBLISHABLE-PRODUCT-SPEC.md` describes an earlier product snapshot. Several items
+   marked future work are now built, and later capabilities are absent.
+3. Built prototype behavior, proposed production behavior, external approval gates, and
+   judge-facing claims coexist across product, evidence, decision, and pitch documents.
+4. Open items have stable IDs, but product requirements do not consistently trace to those
+   IDs, implementation files, tests, or judge evidence.
+5. Core identifiers and lifecycle vocabulary still need one declared contract, especially
+   `ahd_id` and binding state names.
+6. Shariah-sensitive items are correctly deferred, but their effect on product scope and
+   stage claims is not centralized in the product specification.
+7. The production path is documented separately but not connected requirement-by-requirement
+   to the prototype architecture.
+8. Judge evidence is strong but can drift from live test counts and implementation status.
+
+## 3. Approaches Considered
+
+### 3.1 One monolithic specification
+
+Simple to search, but it would mix stakeholder requirements, implementation design, data
+contracts, tasks, and review gates. It would become stale quickly.
+
+### 3.2 Independent specifications per subsystem
+
+Easy to edit in parallel, but likely to recreate today's contradictions and terminology drift.
+
+### 3.3 Master specification with linked domain artifacts — selected
+
+Use one master stakeholder specification as the source of intent, governed by a project
+constitution. Derive technical design, data model, contracts, validation guide, tasks, and
+quality checklists from it. Stable IDs connect every artifact.
+
+## 4. Specification Architecture
+
+The package lives under `specs/001-ahd-product-system/`:
+
+```text
+specs/001-ahd-product-system/
+├── spec.md
+├── checklists/
+│   └── requirements.md
+├── plan.md
+├── research.md
+├── data-model.md
+├── quickstart.md
+├── contracts/
+│   ├── product-surfaces.md
+│   ├── open-witness-v1.md
+│   ├── local-server-api.md
+│   └── production-seams.md
+└── tasks.md
+```
+
+The project constitution lives at `.specify/memory/constitution.md`. It governs every
+artifact and is stronger than feature-level preferences.
+
+## 5. Status Taxonomy
+
+Every capability and requirement must carry exactly one status:
+
+- `BUILT`: present in current repository and supported by named evidence.
+- `PLANNED`: approved target behavior not yet implemented.
+- `DECISION-GATED`: prohibited from being treated as approved until a named owner or reviewer
+  resolves the linked decision.
+- `EXTERNAL-GATED`: depends on a regulator, scholar, counsel, identity provider, timestamp
+  provider, hosting provider, pilot, or field study.
+- `DEMO-ONLY`: real prototype behavior that is not production-ready.
+- `OUT-OF-SCOPE`: intentionally excluded behavior.
+
+No requirement may use vague labels such as “done”, “later”, or “production-ready”.
+
+## 6. Requirement Identity and Traceability
+
+The master spec uses stable identifiers:
+
+- `FR-###`: functional requirements.
+- `NFR-###`: non-functional requirements.
+- `SR-###`: Shariah and spine requirements.
+- `DR-###`: data and evidence requirements.
+- `PR-###`: production-readiness requirements.
+- `JR-###`: judge-visible requirements.
+- `SC-###`: measurable success criteria.
+
+Each requirement records:
+
+1. normative statement;
+2. lifecycle status;
+3. source rationale;
+4. current implementation evidence or declared gap;
+5. verification evidence;
+6. related decision or open-item IDs;
+7. acceptance criteria.
+
+This produces a chain from user need to requirement, design, task, code, test, evidence, and
+judge claim.
+
+## 7. Product Boundaries
+
+### 7.1 Frozen presenter surface
+
+`demo/index.html` remains byte-frozen. Its golden functions are referenced and reused, never
+edited. The tripwire is a constitutional gate.
+
+### 7.2 Publishable app
+
+`app/` is the current product surface. It contains the screen registry, render-only screens,
+pure dependency-injected feature modules, and a generated byte-faithful engine copy.
+
+### 7.3 Local server
+
+`server/` is a separate localhost demonstration surface with durable storage and HMAC
+authentication. The offline app does not call it. It is not a cloud deployment.
+
+### 7.4 Open-Witness protocol
+
+`protocol/` is the independently verifiable seal standard and reference verifier. It must not
+import the app or demo engine.
+
+### 7.5 Evidence and presentation
+
+`docs/evidence/` supports claims. `docs/pitch/` communicates them. Neither may upgrade a
+prototype, model, proposal, or pending approval into a measured or approved fact.
+
+## 8. Domain Decomposition
+
+The specification covers these bounded domains:
+
+1. identity, consent, and party attribution;
+2. qard-hasan drafting and riba screening;
+3. witnessed record creation and sealing;
+4. lifecycle event log and state folding;
+5. creditor ledger and gentle reminders;
+6. borrower view, grace request, and eased payment;
+7. open-term loan and lender-owned forgiveness;
+8. circles, exact splitting, recurring shares, and graduation;
+9. settlement, multilateral netting, consent, and mercy-first constraints;
+10. disputes, neutral evidence, and court export;
+11. qualitative own-history trust band;
+12. impact analytics, privacy floors, evidence grades, and market model;
+13. Shariah basis and decision gates;
+14. proposed fee surfaces and organizational use;
+15. server, protocol, security, and production seams;
+16. judge demo, evidence, rehearsal, and claim integrity;
+17. developer tooling, MCP navigation, and quality gates.
+
+## 9. Core Data Flow
+
+1. Parties agree on known, fixed, interest-free terms.
+2. Drafting assistance proposes plain Arabic; deterministic rules flag prohibited language.
+3. Explicit consent produces canonical content.
+4. Golden primitives seal the record using integer money and deterministic ordering.
+5. Later actions append events; status is derived by folding events.
+6. Settlement preserves each participant's net position and requires consent for new legs.
+7. Proof export presents source content, provenance, verification result, and limitations.
+8. Aggregated analytics expose only permitted, labelled, privacy-bounded information.
+
+## 10. Error and Exception Policy
+
+- Invalid money, missing parties, unsafe clauses, failed verification, conflicting events,
+  unconsented settlement legs, and unsupported states must fail closed.
+- Disputes pause product actions and route to neutral evidence; Ahd never rules.
+- Hardship activates grace mechanisms without increase, punishment, or inferred judgment.
+- External integration failure must not corrupt the local sealed record.
+- Unknown approval status must render as pending, never approved.
+- Missing evidence must reduce the claim, not trigger fabrication or inference.
+
+## 11. Test and Review Strategy
+
+- TDD is mandatory for implementation work.
+- The existing full gate remains the final executable proof.
+- Requirements checklists test wording quality, not implementation behavior.
+- Cross-artifact analysis checks constitution alignment, coverage, terminology, and task mapping.
+- Judge-visible changes receive evidence-backed scores against all five judge criteria.
+- A Shariah or legal question remains explicitly open unless a qualified reviewer supplies
+  documented approval.
+
+## 12. Clarity Improvements Required
+
+The master specification must:
+
+1. publish a canonical glossary and forbidden synonyms;
+2. name all actors and authority limits;
+3. separate current-state facts from target-state requirements;
+4. use measurable acceptance scenarios;
+5. define every entity and transition;
+6. map every external dependency and failure mode;
+7. state privacy, security, accessibility, localization, and determinism requirements;
+8. expose all Shariah, legal, regulatory, production, and field-research gates;
+9. connect judge claims to evidence grades and live-verifiable proof;
+10. prohibit stale screen counts and hard-coded gate totals as source-of-truth claims.
+
+## 13. Out of Scope for This Documentation Pass
+
+- Product code changes.
+- Editing or regenerating the frozen demo.
+- Applying the deeper JCS seal patch.
+- Choosing a fee model or approving Shariah-sensitive behavior.
+- Production deployment, Nafath integration, accredited timestamping, or HSM custody.
+- Fielding the Saudi demand survey or claiming traction.
+- Resolving counsel-only citations.
+
+## 14. Acceptance Criteria
+
+The specification system is ready for planning when:
+
+- no unresolved placeholder remains;
+- every capability has one lifecycle status;
+- every normative requirement has a stable ID and acceptance evidence;
+- every decision-gated item links to its decision;
+- current implementation claims cite repository evidence;
+- the complete spine appears as testable requirements;
+- terminology, entities, and states are consistent;
+- production seams and prototype limits are explicit;
+- the requirements-quality checklist passes;
+- a cross-artifact review finds no critical contradiction.
+

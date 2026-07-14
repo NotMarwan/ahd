@@ -3,6 +3,10 @@
 > The visual identity of an interest-free banking prototype: dignity-first, Arabic-native,
 > Shariah-aligned, and deterministically rendered.
 
+## Primary brand mark
+
+The approved mark depicts two linked people around a paper-ribbon medial **haa**: a teal circular giver above and an amber triangular receiver below. Their separate curves follow the protected bond without merging into the letter. The canonical repository asset is `assets/brand/ahd-logo.png`; the offline app and promo renderer carry byte-identical deployment copies.
+
 ---
 
 ## 1 · فلسفة التصميم · Design Philosophy

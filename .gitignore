@@ -26,3 +26,6 @@ Thumbs.db
 
 # Obsidian app state for the operator's focus vault (notes ARE tracked)
 AmadHackathon/.obsidian/
+
+# Local isolated feature workspaces
+.worktrees/

@@ -1,1 +1,3 @@
-Drop ahd-mark.png (transparent 1:1, from the Gemini prompt) here, then set USE_LOGO_ASSET = true in src/sadu.ts
+ahd-mark.png is the approved Ahd primary mark used by the Remotion renderer.
+Canonical source: assets/brand/ahd-logo.png
+The deployed file must remain byte-identical to the canonical source.

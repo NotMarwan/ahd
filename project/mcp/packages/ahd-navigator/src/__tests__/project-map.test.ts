@@ -5,11 +5,18 @@ import manifest from '../project-map.json' assert { type: 'json' };
 
 test('project-map has required top-level keys', () => {
   assert.ok(manifest.builds);
+  assert.ok(manifest.brandIdentity);
   assert.ok(manifest.layers);
   assert.ok(manifest.engineInfo);
   assert.ok(manifest.features);
   assert.ok(manifest.goldenFunctions);
   assert.ok(manifest.harness);
+});
+
+test('brandIdentity maps the canonical and deployed primary marks', () => {
+  assert.equal(manifest.brandIdentity.primaryMark, 'assets/brand/ahd-logo.png');
+  assert.equal(manifest.brandIdentity.appMark, 'app/assets/ahd-logo.png');
+  assert.equal(manifest.brandIdentity.promoMark, 'promo/public/logo/ahd-mark.png');
 });
 
 test('builds include ahd-demo with tripwire', () => {
