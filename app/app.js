@@ -271,8 +271,11 @@
     borrowerRequestForgiveness: function (id, reasonKey) {
       var r = this.recordById(id);
       if (r && this.Care) {
-        r.events = r.events.concat(this.Care.requestForgiveness(r, reasonKey, this.AS_OF));
-        this.borrowerState.flash = "سُجّل طلب الإبراء للمُقرِض؛ لا يتغيّر الرصيد أو الختم حتى يقبل المُقرِض الإبراء القائم.";
+        var request = this.Care.requestForgiveness(r, { borrowerId: r.borrower, scope: "full", reasonKey: reasonKey }, this.engine);
+        if (request) {
+          r.events = r.events.concat(request);
+          this.borrowerState.flash = "سُجّل طلب الإبراء للمُقرِض؛ لا يتغيّر الرصيد أو الختم حتى يقبل المُقرِض الإبراء القائم.";
+        }
       }
       return this.rerender();
     },
@@ -368,8 +371,11 @@
     createClearRiba: function () { this.createState.extra = ""; return this.rerender(); },
     createReportDuress: function (reasonKey) {
       if (this.Care) {
-        this.createState.auxiliaryEvents = (this.createState.auxiliaryEvents || []).concat(this.Care.reportDuress(reasonKey, this.AS_OF));
-        this.createState.flash = "أُبلغ عن إكراه؛ أوقفنا الختم بانتظار مراجعة بشرية. لا نصدر حكمًا ولا عقوبة.";
+        var report = this.Care.reportDuress(this.createDraft, { reporterId: this.createDraft.borrower, reasonKey: reasonKey }, this.engine);
+        if (report) {
+          this.createState.auxiliaryEvents = (this.createState.auxiliaryEvents || []).concat(report);
+          this.createState.flash = "أُبلغ عن إكراه؛ أوقفنا الختم بانتظار مراجعة بشرية. لا نصدر حكمًا ولا عقوبة.";
+        }
       }
       return this.rerender();
     },

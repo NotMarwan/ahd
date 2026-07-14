@@ -2,7 +2,7 @@
      presenter cards. Source of truth for the long answers: docs/evidence/REBUTTAL-PLAYBOOK.md
      (Q-A1 · Q-A2 · Q-B4 · Q-D2 · Q-H1 · Q-H4). Numbers verified 2026-07-09: court data 58.6% of
      571,251 · SAR 115.4B (MoJ via Argaam, 2020–21 vintage); netting 9→2, 1,800→900 SAR (demo IOUS,
-     harness-proved); gate 184/0 core + 2,770/0 app + 14/0 structure = 2,968/0 recomputed live
+     harness-proved); gate 184/0 core + 2,781/0 app + 14/0 structure = 2,979/0 recomputed live
      2026-07-13 (one command: cd tests && node run-all.cjs — single source of truth, re-run it
      rather than trust this comment). Honesty ceilings apply:
      Nafath/sarie simulated per real spec; admissibility engineered-conditions only; fees board-gated. -->

@@ -1,26 +1,18 @@
-# Debt at death v1 — specification only
+# Debt at death v1 — gated specification
 
-## Purpose
+**Status:** disabled pending Shariah and Saudi legal approval. This is a boundary specification, not a product workflow.
 
-Record a reported death and export neutral estate evidence. This is not enabled product logic and creates no estate workflow in the app.
+## Permitted record states after approval
 
-## Event vocabulary
+`DEATH_REPORTED` → `DEATH_VERIFIED` → `ESTATE_EVIDENCE_EXPORTED` → `ESTATE_SETTLEMENT_RECORDED`
 
-- `DEATH_REPORTED`: report received; no truth finding.
-- `DEATH_VERIFIED`: human review records verification; no automatic settlement consequence.
-- `ESTATE_EVIDENCE_EXPORTED`: neutral record package exported for the estate process.
-- `ESTATE_SETTLEMENT_RECORDED`: an externally evidenced estate settlement is recorded.
+No action is enabled until both approvals exist and the representative's authority is proven for the relevant estate.
+No estate code, UI, routing, or automatic event emission is enabled in this version.
 
-## Boundaries
+## Estate boundaries
 
-- Lender-side representative acts only for the lender estate.
-- Borrower-side liability remains estate-only.
-- No heir liability, inheritance-share calculation, automatic maturity, waiver, judgment, trust score, or sanction.
-- No enabled estate code, UI, routing, or automatic event emission in v1.
+- A deceased lender's receivable belongs to the lender's estate. Only a proven, authorized estate representative may request evidence export or record a settlement. Kinship alone never grants that authority.
+- A deceased borrower's liability is an estate matter only. Heirs do not assume personal liability merely through inheritance.
+- Ahd may witness evidence and a recorded settlement only. It does not accelerate or mature a debt automatically, calculate inheritance or shares, waive a debt, decide a dispute, score anyone, or issue a fatwa.
 
-## Commercial and Shariah gates
-
-- Billing is deferred; no fee model is authorized here.
-- Self-disclosure is deferred; no automated declaration flow is authorized here.
-- Pooled funds are excluded.
-- Legal, scholar, estate-administration, privacy, and product approval are required before any implementation.
+Any Shariah question is referred to qualified scholars; any legal authority question is referred to the applicable Saudi legal process.
