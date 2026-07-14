@@ -99,6 +99,7 @@ The master spec uses stable identifiers:
 - `SR-###`: Shariah and spine requirements.
 - `DR-###`: data and evidence requirements.
 - `PR-###`: production-readiness requirements.
+- `SEC-###`: security and privacy control requirements.
 - `JR-###`: judge-visible requirements.
 - `SC-###`: measurable success criteria.
 

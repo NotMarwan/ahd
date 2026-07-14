@@ -126,3 +126,17 @@ reported its canonical status files as duplicates. Fixed through TDD by proving 
 excluding `.worktrees` only; rogue files inside the repository remain detected. Fresh gate:
 **AHD GATE ✅ 2869/0**, drift 12/0, live HTTP parity green, frozen demo tripwire
 `e2f48467… OK`. No product behavior, golden function, golden vector, or Shariah ruling changed.
+
+---
+
+DONE · 2026-07-14 · Codex · **Ahd master planning package and second clarity review** ·
+`specs/001-ahd-product-system/`, `docs/superpowers/plans/`, `_meta/`, `AmadHackathon/`
+
+Expanded the approved master specification to **142 requirements**, including 14 separate security
+and privacy controls. Added the complete SpecKit planning package: research, 21-entity data model,
+four boundary contracts, quickstart, and **124 dependency-ordered TDD tasks**. Added four detailed
+writing-plans execution documents. Cross-artifact analysis found **0 critical conflicts**, **142/142
+requirement coverage**, **0 duplicate/invalid/pathless tasks**, and **0 missing decision mappings**.
+The formal requirements-review checklist is **47/47**. Fresh evidence: Open-Witness intact fixtures
+VALID, tampered fixture rejected with expected exit 1, live HTTP smoke OK, and **AHD GATE 2869/0**
+with frozen-demo tripwire intact. No product behavior, golden function, vector, or Shariah ruling changed.

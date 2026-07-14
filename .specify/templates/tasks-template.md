@@ -23,7 +23,7 @@ tripwire, performs Judge Lens scoring for visible work, and updates canonical do
 - **[P]**: Can run in parallel (different files, no dependencies)
 - **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
 - Include exact file paths in descriptions
-- Include requirement IDs (`FR-###`, `SR-###`, `NFR-###`, `DR-###`, `PR-###`, or `JR-###`)
+- Include requirement IDs (`FR-###`, `SR-###`, `NFR-###`, `DR-###`, `PR-###`, `SEC-###`, or `JR-###`)
   in each task description.
 - Include decision/open-item IDs when a task is gated. A gated task cannot be marked ready
   until its named approval evidence exists.
