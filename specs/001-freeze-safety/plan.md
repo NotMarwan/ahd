@@ -161,10 +161,14 @@ try { $stream.Write($bytes, 0, $bytes.Length) } finally { $stream.Dispose() }
 
 ## Candidate and Attestation Lifecycle
 
-1. Inventory and classify the source workspace without cleanup.
+1. Capture a stable content epoch by double-reading source branch/HEAD, index, NUL status, and dirty-file bytes;
+   preserve every byte-bearing observation content-addressably and classify it without cleanup. Later source drift
+   appends to an epoch chain rather than invalidating the reviewed baseline.
 2. Implement and review controls and current-truth corrections.
-3. Keep the draft manifest outside Git with pending gate fields; stage reviewed candidate-content paths only and
-   create candidate commit `A` after independent cached-diff review.
+3. Keep the draft manifest outside Git with pending gate fields. T029 captures/preserves a stable source delta;
+   T030 requires the live source to match it exactly, appends and closes reconciliation, regenerates the draft,
+   reruns precheck/review, then stages reviewed candidate-content paths and creates candidate commit `A` after
+   independent cached-diff review. Drift returns to T029.
 4. Re-run candidate controls against exact commit `A`, finalize the canonical command and structured input roles,
    and commit the manifest as attestation commit `B`.
 5. Export the manifest and bundle root from a clean checkout of `B`. In a separate clean checkout of `A`, restore

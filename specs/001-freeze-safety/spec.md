@@ -98,15 +98,19 @@ gate evidence.
 
 ### Functional Requirements
 
-- **FR-001**: The freeze process MUST inventory every tracked modification and untracked item.
+- **FR-001**: The freeze process MUST inventory every tracked modification and untracked item through a stable
+  content epoch that binds two identical reads of source branch/HEAD, index bytes, NUL-safe status bytes, and every
+  dirty path's worktree content hash; later drift is appended through an unbroken epoch chain.
 - **FR-002**: Every unique normalized top-level inventory path MUST have one candidate disposition: release, park,
   generated, ignore, or owner decision. A byte-distinct unselected source variant at the same path MUST be
   accounted for exactly once as nested preservation evidence, not as a second top-level path/disposition.
-- **FR-003**: The process MUST preserve all pre-existing user changes. Any byte-distinct source variant displaced
-  by a selected candidate path MUST have a create-new, read-only, content-addressed external preservation object
-  whose bytes are revalidated before candidate progression.
+- **FR-003**: The process MUST preserve all pre-existing user changes. Every byte-bearing dirty observation in the
+  baseline epoch, and every added or content-changed observation in a delta epoch, MUST have a create-new,
+  read-only, content-addressed external preservation object whose bytes are revalidated before candidate
+  progression. Deleted paths use tombstone/status evidence.
 - **FR-004**: A finalized release attestation MUST record the base commit, an earlier immutable candidate-content
-  commit, branch, creation timestamp, gate command/count/failures/duration, demo hash, inventory hash, and asset hashes.
+  commit, branch, creation timestamp, gate command/count/failures/duration, demo hash, inventory hash, asset hashes,
+  and a closed unbroken source-epoch chain covered through the candidate inventory.
 - **FR-005**: A clean environment MUST reproduce the candidate-content commit by reading an explicit manifest and
   bundle root from the later attestation checkout, without relying on ignored or workstation-only files.
 - **FR-006**: Governed documentation MUST match live screen count, suite count, server capability, and gate output.

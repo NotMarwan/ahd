@@ -103,34 +103,50 @@ node tests/release-gate.cjs --manifest <repository-relative-manifest> --target <
 ### Inventory and paths
 
 - The inventory file exists at the candidate commit, hashes correctly, and contains one canonical
-  `ahd-freeze-inventory-v1` JSON block accounting for every exact NUL-terminated source dirty record hash once:
-  either on its selected top-level item or on one nested preserved variant.
+  `ahd-freeze-inventory-v1` JSON block accounting for every stable-epoch observation ID exactly once in one
+  normalized top-level item's append-only `observation_ids`.
+- The inventory contains `capture_chain.baseline_epoch`, append-only `delta_epochs`, and `reconciliation`. T002 may
+  finish with reconciliation `pending`; draft precheck may preserve that state, but candidate/final validation
+  requires `closed`, exact `covered_through_epoch`, an unbroken sequence/previous-hash chain, and no rewritten or
+  omitted observation.
+- Every epoch is a stable content epoch: its two reads match for branch, HEAD, exact index bytes, exact NUL status
+  bytes, and every dirty path's content hash/size and HEAD/index layer OIDs. Same status with changed content is a
+  delta. Unsupported symlink, submodule, or staged-layer cases fail closed unless fully represented.
+- The tracked inventory embeds the canonical append-only observation index used by clean final validation. External
+  `observations_ref` artifacts are capture evidence, not the sole source. Each observation ID is derived from the
+  epoch payload hash plus normalized path, layer, raw-record hash, and content hash/tombstone; it is globally unique
+  and maps exactly once to the same path's top-level `observation_ids`. Raw-record hashes may repeat across epochs.
 - The inventory has exactly one top-level item per normalized path. If byte-distinct source and candidate variants
   collide at that path, `collision.status` is `byte-distinct-path`; `selected_variant` contains exact `source_ref`,
-  64-lowercase-hex SHA-256, owner, and `materialization_task:null`. If the candidate path is only a predeclared
+  observation ID, 64-lowercase-hex SHA-256, owner, and `materialization_task:null`. If the candidate path is only a predeclared
   future Wave 0 output, `collision.status` is `planned-path`; `selected_variant.sha256` is `null`,
-  `materialization_task` is its exact owning task ID, and the top-level item is a `planned-wave-output` with
+  `selected_variant.observation_id` is `null`, `materialization_task` is its exact owning task ID, and the top-level item is a `planned-wave-output` with
   disposition `release`. No other null selected hash is valid. In both cases the non-empty `preserved_variants`
-  array contains unique
-  source-ref/hash pairs with raw-record SHA-256, owner, `preservation_disposition` equal to `park` or
+  array contains unique observation IDs and source-ref/hash pairs with raw-record SHA-256, owner,
+  `preservation_disposition` equal to `park` or
   `owner-decision`, non-empty reason, `preservation_mode:"content-addressed-external"`, traversal-free relative
   `preservation_ref` exactly `preservation/objects/sha256/<must_match_sha256>` beneath the controller dispatch root,
   and matching 64-lowercase-hex `must_match_sha256`. The top-level disposition governs the selected candidate path.
   Nested variants are preservation evidence, not additional manifest paths.
-- T002 creates each external preservation object with create-new semantics, proves its bytes equal
-  `must_match_sha256`, makes it read-only, and leaves the source worktree/branch untouched. Inventory and candidate
-  progression fail closed if a referenced preservation object is missing, mutable at check time, or hash-mismatched.
+- T002 creates an external preservation object for every byte-bearing baseline dirty observation with create-new
+  semantics, proves its bytes equal `must_match_sha256`, makes it read-only, and leaves the source worktree/branch
+  untouched. T029 does the same immediately for every added or content-changed delta variant. Inventory and
+  candidate progression fail closed if a required object is missing, writable, or hash-mismatched.
 - `included_paths` is the exact normalized file set returned by `git diff --name-only base_commit..candidate_commit`.
 - The mapping is an exact two-way bijection: every inventory item appears once in included or excluded paths; every
   included/excluded path exists in the inventory; every included path has inventory disposition `release`; every
   excluded path preserves the inventory disposition and non-empty reason. Extra paths, double disposition,
   omission, and disposition mismatch fail.
 - Excluded disposition is exactly `park`, `generated`, `ignore`, or `owner-decision`, with a non-empty reason.
-- Raw dirty-record hashes and collision preservation references are unique and complete; a record accounted for at
-  both top level and nested level, or at neither level, fails.
+- Observation IDs and collision preservation references are unique and complete; a tracked observation mapped to
+  two paths, missing from its path item, absent from the inline index, or referenced by the wrong path fails.
 - At candidate validation, every `planned-path` materialization task is complete in reviewed task evidence and its
   path exists exactly once in `included_paths`; the validator hashes the candidate Git blob live. An incomplete
   task, absent/extra path, or non-release top-level disposition fails without inventing or backfilling T002 data.
+- T030 can close reconciliation only when a fresh live source read is byte-identical to T029's reviewed epoch. It
+  appends delta provenance/observations, adds every new normalized path, retains removals as tombstone evidence,
+  resolves collisions, regenerates the external draft manifest, reruns precheck/review, and records the final
+  inventory hash. Any drift returns to T029; it never widens the epoch silently.
 - Paths are repository-relative, slash-normalized, traversal-free, unique, and compared case-insensitively on
   Windows. Included/excluded exact or ancestor/descendant overlap fails.
 - Included paths are files, not directory shortcuts. An asset may legitimately equal an included file.

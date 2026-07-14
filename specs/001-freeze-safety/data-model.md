@@ -11,14 +11,22 @@
 - `reason`: non-empty evidence-based explanation
 - `raw_record_sha256`: SHA-256 of the exact NUL-terminated porcelain record, or `null` when the item has no source
   dirty record
+- `source_content_sha256`: SHA-256 of observed worktree bytes, or `null` only for a tombstone/non-byte observation
+- `source_size`: observed byte length, or `null` with null content hash
+- `observation_ids`: non-empty append-only unique IDs for every baseline/delta observation mapped to this normalized
+  path; the singular raw/content fields are the immutable baseline summary and are never overwritten by deltas
+- `preservation`: for every byte-bearing dirty observation, exactly
+  `{mode:"content-addressed-external", ref:"preservation/objects/sha256/<source_content_sha256>",
+  must_match_sha256, read_only:true}`
 - `collision`: `null`, or exactly `{status, selected_variant, preserved_variants}` where `status` is
   `byte-distinct-path` or `planned-path`
-- `selected_variant`: exactly `source_ref`, `sha256`, `owner`, and `materialization_task`. For
+- `selected_variant`: exactly `observation_id` (nullable only for a future planned path), `source_ref`, `sha256`,
+  `owner`, and `materialization_task`. For
   `byte-distinct-path`, `sha256` is 64 lowercase hex and `materialization_task` is `null`. For `planned-path`,
   `sha256` is `null`, `materialization_task` is the exact future Wave 0 task ID that owns the candidate bytes, and
   the top-level item kind is `planned-wave-output` with disposition `release`.
-- `preserved_variants`: non-empty array; each entry has unique `source_ref` + `sha256`, the source
-  `raw_record_sha256`, `owner`, `preservation_disposition` (`park` or `owner-decision`), non-empty `reason`,
+- `preserved_variants`: non-empty array; each entry has unique `observation_id` and `source_ref` + `sha256`, the
+  source `raw_record_sha256`, `owner`, `preservation_disposition` (`park` or `owner-decision`), non-empty `reason`,
   `preservation_mode:"content-addressed-external"`, `preservation_ref` exactly
   `preservation/objects/sha256/<must_match_sha256>` relative to the dispatch root, and 64-lowercase-hex
   `must_match_sha256`
@@ -30,11 +38,67 @@ selected candidate path. The original source variant remains preserved in its un
 recorded under `collision.preserved_variants`; it is never silently absorbed or emitted as a second manifest path.
 `planned-path` never asserts byte identity or invents a future hash; it predeclares the candidate path and binds its
 future materialization to one task while preserving the current source bytes immediately.
-Every raw dirty record hash is accounted for exactly once across top-level `raw_record_sha256` values and nested
-preserved variants. Before T002 completes, each preserved variant is copied with create-new semantics to the
-external content-addressed preservation root, rehashed, and made read-only; the external report indexes it. Every
-later inventory/candidate progression check fails closed if that preservation object is missing or no longer
-matches `must_match_sha256`.
+Every observation ID is accounted for exactly once through the inline tracked index and the matching top-level
+path's append-only `observation_ids`; raw-record hashes may repeat across epochs. Before T002 completes, every
+byte-bearing baseline observation is copied with create-new
+semantics to the external content-addressed preservation root, rehashed, and made read-only; the external report
+indexes it. Every later added/content-changed observation is preserved when its delta epoch is captured. Inventory
+and candidate progression fail closed if any required object is missing, writable, or hash-mismatched.
+
+## CaptureChain
+
+- `baseline_epoch`: immutable `CaptureEpoch` with sequence `0`
+- `delta_epochs`: append-only `CaptureEpoch` array; no prior epoch or observation is removed or rewritten
+- `observations`: canonical tracked append-only `SourceObservation` index embedded in the inventory; this, not the
+  external reference alone, is the clean-validator source
+- `reconciliation`: `{status, owner_task, apply_task, covered_through_epoch}`; T002 writes
+  `status:"pending"`, owner `T029`, apply task `T030`, and null coverage; candidate construction requires
+  `status:"closed"` and exact final coverage
+
+## CaptureEpoch
+
+- `schema`: `ahd-source-epoch-v1`
+- `sequence`: zero for baseline, otherwise previous sequence + 1
+- `previous_epoch_sha256`: null for baseline, otherwise exact prior `epoch_payload_sha256`
+- `captured_started_at`, `captured_completed_at`: caller-recorded explicit-offset timestamps
+- `source_root_id`: stable non-secret identifier for the observed source worktree
+- `branch`, `head_commit`: identical across the epoch's two reads
+- `index_sha256`: SHA-256 of exact `git ls-files --stage -z` bytes, identical across both reads
+- `status_ref`, `status_sha256`, `status_bytes`, `record_count`: external NUL-safe snapshot identity
+- `observations_ref`: external canonical full `SourceObservation` array identity
+- `observations_sha256`: SHA-256 of the ordered compact canonical observation-core array with
+  `observation_id` omitted from every core
+- `observation_ids`: derived ordered IDs for the epoch's inline tracked observations
+- `epoch_payload_sha256`: SHA-256 of the compact canonical epoch core excluding this field and derived observation
+  IDs; the core includes `observations_sha256`, so observation bodies are bound before IDs are derived
+- `controller_attestation`: controller `signer`, dispatch ID, and dispatch payload SHA-256; this is task/review-bound
+  provenance, not a cryptographic signature unless a separately approved key is used
+
+An epoch is stable only when before/after branch, HEAD, index bytes, status bytes, and every observation's content
+hash/size/layer identity match. Unsupported symlink, submodule, staged-layer, or path-shape cases fail closed unless
+their exact layers are captured by the epoch contract.
+
+## SourceObservation
+
+- `observation_id`: SHA-256 of compact canonical JSON for the ordered array
+  `[epoch_payload_sha256, normalized_path, layer, raw_record_sha256, source_content_sha256_or_"tombstone"]`;
+  unique across the chain
+- `epoch_sequence`, `path`, `layer`, `status_xy`, `raw_record_sha256`
+- `source_content_sha256`, `size`: byte hash/length, or both null for a tombstone
+- `kind`, `head_blob_oid`, `index_blob_oid`
+- `preservation_ref`: required exact content-addressed object for byte-bearing dirty observations
+
+Raw-record hashes may repeat across epochs when status text stays unchanged; observation IDs may not. Every inline
+epoch observation ID maps exactly once to one top-level item's append-only `observation_ids`, and every top-level
+observation ID resolves to exactly one inline observation for that same normalized path. Collision and preserved
+variant records reference observation IDs rather than treating a raw-record hash as global identity.
+
+## DeltaEpoch
+
+A delta epoch is a `CaptureEpoch` plus deterministic sets for `added`, `removed`, `status_changed`,
+`content_changed`, and `head_tree_changed` paths and before/after observation references. Same porcelain status with
+changed bytes is `content_changed`. T029 captures and preserves the delta immediately. T030 may apply only an epoch
+whose complete live source re-read is byte-identical; otherwise it releases its claim and returns to T029.
 
 ## AgentClaim
 
@@ -130,6 +194,7 @@ unchecked task, which is safe and resumable; the inverse state is invalid and ca
 - `demo_sha256`: full pinned hash
 - `checksum_source`: tracked repository-relative checksum path and its own hash
 - `inventory`: tracked path and SHA-256 for the reviewed inventory
+- `capture_chain`: closed chain identity and `covered_through_epoch`
 - `approved_base`: tracked T003 current-state path and SHA-256 containing the single machine-readable base value
 - `assets`: path, SHA-256, kind, source root/path, and optional restore path
 - `included_paths`: exact normalized `base_commit..candidate_commit` file diff and exact inventory `release` set
