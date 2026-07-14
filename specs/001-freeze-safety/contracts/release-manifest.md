@@ -106,8 +106,12 @@ node tests/release-gate.cjs --manifest <repository-relative-manifest> --target <
   `ahd-freeze-inventory-v1` JSON block accounting for every exact NUL-terminated source dirty record hash once:
   either on its selected top-level item or on one nested preserved variant.
 - The inventory has exactly one top-level item per normalized path. If byte-distinct source and candidate variants
-  collide at that path, `collision.status` is exactly `byte-distinct-path`; `selected_variant` contains exact
-  `source_ref`, 64-lowercase-hex SHA-256, and owner; and the non-empty `preserved_variants` array contains unique
+  collide at that path, `collision.status` is `byte-distinct-path`; `selected_variant` contains exact `source_ref`,
+  64-lowercase-hex SHA-256, owner, and `materialization_task:null`. If the candidate path is only a predeclared
+  future Wave 0 output, `collision.status` is `planned-path`; `selected_variant.sha256` is `null`,
+  `materialization_task` is its exact owning task ID, and the top-level item is a `planned-wave-output` with
+  disposition `release`. No other null selected hash is valid. In both cases the non-empty `preserved_variants`
+  array contains unique
   source-ref/hash pairs with raw-record SHA-256, owner, `preservation_disposition` equal to `park` or
   `owner-decision`, non-empty reason, `preservation_mode:"content-addressed-external"`, traversal-free relative
   `preservation_ref` exactly `preservation/objects/sha256/<must_match_sha256>` beneath the controller dispatch root,
@@ -124,6 +128,9 @@ node tests/release-gate.cjs --manifest <repository-relative-manifest> --target <
 - Excluded disposition is exactly `park`, `generated`, `ignore`, or `owner-decision`, with a non-empty reason.
 - Raw dirty-record hashes and collision preservation references are unique and complete; a record accounted for at
   both top level and nested level, or at neither level, fails.
+- At candidate validation, every `planned-path` materialization task is complete in reviewed task evidence and its
+  path exists exactly once in `included_paths`; the validator hashes the candidate Git blob live. An incomplete
+  task, absent/extra path, or non-release top-level disposition fails without inventing or backfilling T002 data.
 - Paths are repository-relative, slash-normalized, traversal-free, unique, and compared case-insensitively on
   Windows. Included/excluded exact or ancestor/descendant overlap fails.
 - Included paths are files, not directory shortcuts. An asset may legitimately equal an included file.

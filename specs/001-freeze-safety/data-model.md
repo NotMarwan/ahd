@@ -11,8 +11,12 @@
 - `reason`: non-empty evidence-based explanation
 - `raw_record_sha256`: SHA-256 of the exact NUL-terminated porcelain record, or `null` when the item has no source
   dirty record
-- `collision`: `null`, or exactly `{status:"byte-distinct-path", selected_variant, preserved_variants}`
-- `selected_variant`: exactly `source_ref`, 64-lowercase-hex `sha256`, and `owner`
+- `collision`: `null`, or exactly `{status, selected_variant, preserved_variants}` where `status` is
+  `byte-distinct-path` or `planned-path`
+- `selected_variant`: exactly `source_ref`, `sha256`, `owner`, and `materialization_task`. For
+  `byte-distinct-path`, `sha256` is 64 lowercase hex and `materialization_task` is `null`. For `planned-path`,
+  `sha256` is `null`, `materialization_task` is the exact future Wave 0 task ID that owns the candidate bytes, and
+  the top-level item kind is `planned-wave-output` with disposition `release`.
 - `preserved_variants`: non-empty array; each entry has unique `source_ref` + `sha256`, the source
   `raw_record_sha256`, `owner`, `preservation_disposition` (`park` or `owner-decision`), non-empty `reason`,
   `preservation_mode:"content-addressed-external"`, `preservation_ref` exactly
@@ -24,6 +28,8 @@ There is exactly one top-level item per normalized repository path. When the sou
 planning/candidate source contain byte-distinct content at that path, the top-level disposition describes only the
 selected candidate path. The original source variant remains preserved in its untouched worktree/branch and is
 recorded under `collision.preserved_variants`; it is never silently absorbed or emitted as a second manifest path.
+`planned-path` never asserts byte identity or invents a future hash; it predeclares the candidate path and binds its
+future materialization to one task while preserving the current source bytes immediately.
 Every raw dirty record hash is accounted for exactly once across top-level `raw_record_sha256` values and nested
 preserved variants. Before T002 completes, each preserved variant is copied with create-new semantics to the
 external content-addressed preservation root, rehashed, and made read-only; the external report indexes it. Every
