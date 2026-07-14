@@ -147,7 +147,7 @@ The bank's constraints are enforced in code, not merely stated in copy:
       re‑implemented) by the open loan, the circle, and graduation.
 - [x] **Proven, not promised.** The demo is frozen behind a tripwire SHA‑256 (`e2f48467…d1b8be40`). The
       app's engine is a **byte‑faithful copy** of the demo's logic, enforced by a parity test. Test
-      coverage (recomputed live 2026-07-15; single source of truth is the `run-all.cjs` banner): **core 184 + app 2,803 (70 suites) + structure 14 = 3,001 assertions, all green** (Node ≥ 18, zero deps; one command: `cd tests && node run-all.cjs`).
+      coverage (recomputed live 2026-07-15; single source of truth is the `run-all.cjs` banner): **core 184 + app 2,833 (70 suites) + structure 14 = 3,031 assertions, all green** (Node ≥ 18, zero deps; one command: `cd tests && node run-all.cjs`).
 
 > **Note:** SHA‑256 hashing is real here, as is the bank's own Ed25519 signature over each sealed block
 > (`protocol/bank-key-demo.cjs` — a FIXED demo keypair, NOT production custody) and an RFC‑6962 Merkle
