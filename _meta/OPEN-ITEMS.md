@@ -122,3 +122,13 @@ Scores: innovation 8= · technical **9→8** · data 7.5= · UX 8= · feasibilit
 ## Links
 `_meta/deep-work/ledger/open-threads.md` (original, full source rationale) · `docs/DECISIONS-FOR-MARWAN.md`
 (decisions needing sign-off, distinct from open work items) · `_meta/deep-work/ledger/00_LEDGER.md`
+
+## Roadmap-closure review (2026-07-14)
+
+| ID | Item | Front | Status |
+|---|---|---|---|
+| **JL-13** | Prove the one-sentence innovation retell: an independent judge must restate “the bank witnesses, does not lend” and the distinguishing proof mechanism after the demo. | Innovation | open — conservative score 7.8 |
+| **JL-14** | Collect and analyze real Saudi survey responses under the published privacy/preregistration rules. Until then OT-A1 is **SUPPORTED-DIRECTIONAL only**, not a result or closed demand evidence. | Data | open — conservative score 7.2 |
+| **JL-15** | Independent Arabic UX rehearsal with current screenshots and zero-console-error proof on the judge path. | UX | open — conservative score 7.8 |
+| **JL-16** | Obtain external written validation where applicable: scholar, Saudi legal, SAMA/custody, Nafath, timestamp provider, and partner/pilot. | Feasibility | open — conservative score 7.3; no approval claimed |
+| **JL-17** | Run a live, timed 3-minute rehearsal and capture whether the final proof/closing remains memorable after a judge has seen many projects. | Memorability | open — conservative score 7.6 |
