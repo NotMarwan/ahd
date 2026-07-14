@@ -1,8 +1,8 @@
 # Feature Specification: Freeze Safety and Truth
 
-**Feature Branch**: `judge-lens-real-leap`  
-**Created**: 2026-07-14  
-**Status**: Ready for planning  
+**Feature Branch**: `codex/wave0-freeze-safety-main`
+**Created**: 2026-07-14
+**Status**: Approved for implementation on 2026-07-15
 **Input**: Produce a safe, truthful, reproducible competition freeze while preserving all user work.
 
 ## Ahd Constitution Constraints
@@ -12,6 +12,27 @@
 - No product behavior changes belong in this package.
 - Dirty user work is inventoried and preserved; release actions need named operator approval.
 - Gate claims use live output; judge-visible records use the Judge Lens.
+- Wave 0 remains the active Spec Kit package until its exit evidence passes.
+
+### User Story 0 - Make Every Agent Follow the Active Wave (Priority: P1)
+
+As project owner, I can dispatch any supported agent and know it will read the same authority chain,
+claim one valid active-wave task, avoid path collisions, stop at human gates, and provide reviewable evidence.
+
+**Why this priority**: A correct plan is ineffective if agents can silently select a later wave or edit the
+same files concurrently.
+
+**Independent Test**: Seed valid and invalid agent claims across active and later waves; the policy validator
+accepts only the valid active-wave claim and rejects wrong-wave, invalid-task, missing-file, dependency, and
+normalized path-overlap cases.
+
+**Acceptance Scenarios**:
+
+1. **Given** Wave 0 is incomplete, **When** a writer claims a later-wave task, **Then** the claim fails closed.
+2. **Given** two path claims that differ only by case, slash direction, or ancestor depth, **When** the second
+   writer claims them, **Then** the collision is rejected before either writer edits.
+3. **Given** a checked or blocked task, **When** governance validation runs, **Then** dispatch, implementer,
+   independent reviewer, re-review when needed, constitution result, owner, artifact, and review date are present.
 
 ## User Scenarios & Testing
 
@@ -65,6 +86,8 @@ gate evidence.
 ### Edge Cases
 
 - A release file contains unrelated user edits.
+- Two agents claim `docs/` and `docs/ARCHITECTURE.md`, or equivalent paths with different case/separators.
+- A default Spec Kit command resolves a later wave while Wave 0 remains incomplete.
 - Generated media is large or intentionally excluded from version control.
 - Windows lacks a Unix hashing command.
 - A current-state document contains historical counts that must remain as history.
@@ -78,15 +101,34 @@ gate evidence.
 - **FR-001**: The freeze process MUST inventory every tracked modification and untracked item.
 - **FR-002**: Every inventory item MUST have one disposition: release, park, generated, ignore, or owner decision.
 - **FR-003**: The process MUST preserve all pre-existing user changes.
-- **FR-004**: The release manifest MUST record commit, branch, gate result, demo hash, asset hashes, and timestamp.
-- **FR-005**: A clean environment MUST reproduce the release candidate from the manifest.
+- **FR-004**: A finalized release attestation MUST record the base commit, an earlier immutable candidate-content
+  commit, branch, creation timestamp, gate command/count/failures/duration, demo hash, inventory hash, and asset hashes.
+- **FR-005**: A clean environment MUST reproduce the candidate-content commit by reading an explicit manifest and
+  bundle root from the later attestation checkout, without relying on ignored or workstation-only files.
 - **FR-006**: Governed documentation MUST match live screen count, suite count, server capability, and gate output.
 - **FR-007**: Historical claims MUST be labeled historical instead of rewritten as current state.
 - **FR-008**: Decision identifiers MUST be unique or explicitly namespaced.
 - **FR-009**: Stage preflight MUST verify app launch, demo fallback, gate command, terminal proof, and media fallbacks.
-- **FR-010**: Release, tag, push, or overwrite actions MUST require named operator approval.
+- **FR-010**: Release, tag, push, overwrite, and cleanup operations MUST each require a scoped named approval
+  with approver, target commit, time, and evidence; candidate construction MUST NOT imply those approvals.
 - **FR-011**: Any failed freeze criterion MUST block release progression.
-- **FR-012**: Canonical status, open items, architecture, and cockpit mirrors MUST be synchronized.
+- **FR-012**: Canonical status, open items, architecture, agent guides, governed source comments, and cockpit
+  mirrors MUST be synchronized without rewriting historical entries.
+- **FR-013**: `.specify/feature.json` MUST select Wave 0 until its recorded exit gate passes.
+- **FR-014**: Every writer agent MUST use a controller-issued dispatch and one exclusive claim under the shared
+  Git common directory, binding a real active-wave task and normalized authorized files; a second writer,
+  later-wave, invalid, off-task, protected-file, unissued, missing, field-mismatched, hash-mismatched, case, or
+  ancestor/descendant conflict MUST fail closed. The controller creates dispatches and invokes claim creation;
+  cooperative same-user agents never self-issue or self-claim.
+- **FR-015**: All agent guides and dispatches MUST use the same authority order: constitution, recorded human
+  decisions, portfolio, active package, spec, plan, tasks, live evidence, then mirrors.
+- **FR-016**: A task MUST NOT be checked off without dispatch/claim identity, focused evidence, an append-only
+  tracked review history, a reviewer distinct from its implementer, an approved review that supersedes every
+  rejection without deleting it, and constitution result; a blocked task MUST name owner, artifact, and review date.
+- **FR-017**: The candidate-content commit MUST precede the finalized manifest attestation, preventing an
+  impossible self-referential commit hash.
+- **FR-018**: Agent policy, explicit manifest input, target checkout, attestation bundle root, truth, tripwire,
+  preflight, and product gates MUST be available through one mandatory release command with zero failures required.
 
 ### Key Entities
 
@@ -95,6 +137,10 @@ gate evidence.
 - **Gate Evidence**: Command, result, count, duration, and frozen-demo verification.
 - **Documentation Claim**: Claim text, authority, source of truth, and historical/current label.
 - **Decision Reference**: Unique identifier, title, owner, status, and dependent work.
+- **Agent Claim**: Agent, active wave, task, mode, normalized files, dependencies, and lifecycle.
+- **Task Evidence**: Task, focused commands/results, append-only tracked reviews, constitution result, commit range,
+  and blockers.
+- **Candidate Attestation**: A later metadata commit that identifies and verifies an earlier candidate commit.
 
 ## Success Criteria
 
@@ -108,11 +154,15 @@ gate evidence.
 - **SC-006**: Two consecutive stage preflights complete with identical successful results.
 - **SC-007**: Recovery to the last candidate can be completed in under 15 minutes.
 - **SC-008**: No unrelated user change is deleted, overwritten, staged, or committed.
+- **SC-009**: Agent-governance validation reports zero wrong-wave, invalid-task, missing-evidence, or path-collision findings.
+- **SC-010**: The finalized attestation references an earlier candidate commit and a clean checkout of that exact
+  commit reproduces all release-gate results without any ignored checksum dependency.
 
 ## Assumptions
 
 - Current branch is the candidate source; remote publishing remains an operator action.
+- The release candidate is built from `main` at `ff2de0e` plus reviewed planning commits; partial roadmap
+  branches are evidence for the inventory, not additional merge sources.
 - Existing generated assets may remain untracked when the manifest records them and fallbacks exist.
 - The live gate banner is authoritative; embedded historical counts may remain when labeled.
 - Release safety takes precedence over cosmetic work until Wave 0 passes.
-

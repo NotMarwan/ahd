@@ -9,8 +9,12 @@ private/survey/
 claudecodeui/
 **/node_modules/
 **/dist/
+**/__pycache__/
+*.pyc
+.venv/
 .pytest_cache/
 .playwright-mcp/
+.superpowers/
 .agent-presence/
 _overnight/backup/
 docs/research/**/.obsidian/
@@ -25,3 +29,6 @@ Thumbs.db
 
 # Obsidian app state for the operator's focus vault (notes ARE tracked)
 AmadHackathon/.obsidian/
+
+# Local isolated feature workspaces
+.worktrees/
