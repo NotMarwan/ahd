@@ -6,7 +6,7 @@
    Front A (2026-07-12): the flat 14-card menu is now a 3-tier HIERARCHY —
    one dominant hero action (أنشئ عهدًا), a primary grid of the core surfaces,
    and the rest folded into «المزيد» — driven by the pure HomeLayout module.
-   An octagon seal emblem marks the door. Additive: same destinations, all
+   The approved primary mark identifies the door. Additive: same destinations, all
    reachable; no engine/golden touch.
 ============================================================================ */
 (function () {
@@ -43,13 +43,9 @@
     return { hero: dests[0], primary: dests.slice(1, 5), more: dests.slice(5) };
   }
 
-  /* octagon seal enclosing «عهد» — authority through craft, gold hairline + teal inner */
+  /* Approved Ahd mark: giver, receiver, medial haa, and the protected bond. */
   var EMBLEM =
-    '<div class="home-emblem" aria-hidden="true"><svg viewBox="0 0 44 44">' +
-      '<polygon class="oct" points="14,2.5 30,2.5 41.5,14 41.5,30 30,41.5 14,41.5 2.5,30 2.5,14"/>' +
-      '<polygon class="oct-in" points="15,6 29,6 38,15 38,29 29,38 15,38 6,29 6,15"/>' +
-      '<text x="22" y="23.5">عهد</text>' +
-    "</svg></div>";
+    '<div class="home-emblem" aria-hidden="true"><img src="assets/ahd-logo.png" alt=""></div>';
 
   function card(d) {
     return '<button class="hcard" onclick="AhdApp.go(\'' + d.id + '\')">' +

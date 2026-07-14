@@ -68,7 +68,8 @@ ok(/sadu-band/.test(hh), "Front A: the woven Sadu identity strip renders in the 
 ok(/home-hero-tile/.test(hh) && /أنشئ عهدًا/.test(hh), "Front A: one dominant hero tile carries أنشئ عهدًا");
 ok((hh.match(/class="hgrid[^"]*"/g) || []).length >= 1, "Front A: primary destinations render in a grid, not a flat list");
 ok(/class="hmore"/.test(hh) && /المزيد/.test(hh), "Front A: secondary destinations fold into a «المزيد» disclosure");
-ok(/home-emblem/.test(hh) && /class="oct"/.test(hh), "Front A: the octagon seal emblem marks the front door");
+ok(/home-emblem/.test(hh) && /src="assets\/ahd-logo\.png"/.test(hh) && !/class="oct"/.test(hh),
+   "Front A: the approved primary logo marks the front door");
 ok(/أثر عهد/.test(hh) && /الأجرة والخطط/.test(hh) && /لوحة المؤسسة/.test(hh), "Front A: every destination stays reachable (folded into المزيد, still in the DOM)");
 /* W5 spine regression: the weave's «tamper» red is reserved for a live tampered
    seal ONLY — an overdue thread is always amber, never red (2:280 grace) */
