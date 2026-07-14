@@ -49,3 +49,11 @@ promo/public/logo/concepts/ahd-role-people-medial-ha-refined-roles.png
 - The role markers sit closer to the bond without touching it or becoming letter dots.
 - The teal and orange roles remain distinguishable at 64 px.
 - The bond and medial ha remain visually unchanged and dominant.
+
+## Superseding operator refinement
+
+The operator's annotated follow-up supersedes the rounded-square receiver head and short shoulder arcs. The upper and lower shoulder curves must be long and completely separate from the medial ha, with a narrow uniform off-white gap, while precisely paralleling its corresponding outer curve. Keep the upper head circular, change the lower head to a small rounded amber-orange triangle pointing toward its curve, and move both heads closer to their curves. Save the follow-up non-destructively as:
+
+```text
+promo/public/logo/concepts/ahd-role-people-medial-ha-long-separated-curves-triangle.png
+```

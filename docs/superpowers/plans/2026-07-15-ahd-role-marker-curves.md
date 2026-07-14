@@ -112,3 +112,11 @@ Expected: no whitespace errors, `2869/0`, and the frozen demo tripwire unchanged
 git add -- 'promo/public/logo/concepts/ahd-role-people-medial-ha-refined-roles.png' 'AmadHackathon/00 Home.md' 'AmadHackathon/01 الخطة الرئيسة.md' 'AmadHackathon/10 هوية الشعار.md' 'docs/superpowers/plans/2026-07-15-ahd-role-marker-curves.md'
 git commit -m "design(brand): refine giver and receiver markers"
 ```
+
+### Operator Follow-up: Long Separated Curves and Triangle Receiver
+
+- [x] Use the annotated screenshot only as a placement guide; exclude its red marks and screenshot chrome.
+- [x] Make both shoulder curves long and fully separate from the medial ha, with a narrow uniform gap, while paralleling its matching outer curves.
+- [x] Keep the upper circular teal head and replace the lower rounded square with a rounded amber-orange triangle.
+- [x] Move both heads closer to their curves and save the result as `promo/public/logo/concepts/ahd-role-people-medial-ha-long-separated-curves-triangle.png`.
+- [x] Inspect the result at full size and 64 px.
