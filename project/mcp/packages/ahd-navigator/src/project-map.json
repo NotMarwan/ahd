@@ -62,6 +62,13 @@
   },
   "features": [
     {
+      "name": "care",
+      "featureFile": "app/features/care.js",
+      "screenFile": null,
+      "testFiles": ["app/care.test.cjs"],
+      "description": "Auxiliary third-party gift, forgiveness-request, and duress-report guards; no new debt, scoring, judgment, or seal rewrite."
+    },
+    {
       "name": "home-layout",
       "featureFile": "app/features/home-layout.js",
       "screenFile": null,

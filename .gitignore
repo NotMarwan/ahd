@@ -3,6 +3,7 @@ github.txt
 *.token
 .env
 .env.*
+private/survey/
 
 # --- Heavy / generated / irrelevant to the Ahd product work ---
 claudecodeui/
@@ -11,7 +12,8 @@ claudecodeui/
 .pytest_cache/
 .playwright-mcp/
 .agent-presence/
-_overnight/backup/
+_overnight/backup/*
+!_overnight/backup/demo.sha256
 docs/research/**/.obsidian/
 
 # --- Large binaries / scratch ---

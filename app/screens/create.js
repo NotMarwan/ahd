@@ -43,6 +43,10 @@
     var termsBox = '<div class="cr-card"><div class="cr-sub">الشروط (صياغة علّام · محاكاة):</div>' +
       '<div class="cr-terms">' + App.esc(terms) + "</div>" + linter + '<div class="cr-trybar">' + tryBar + "</div></div>";
 
+    var duressBlocked = !!(app.Care && app.Care.preSealBlocked(st.auxiliaryEvents));
+    var duressNote = duressBlocked
+      ? '<div class="cr-lint bad">بلاغ الإكراه قيد مراجعة بشرية؛ لا يُختَم العهد، ولا يصدر عهد حكمًا أو عقوبة.</div>'
+      : '<button class="ghost" onclick="AhdApp.createReportDuress(\'coercion\')">أبلّغ عن إكراه</button>';
     var sealArea;
     if (st.sealed) {
       var ver = Cr.verifyCreated(draft, e, st.tamper ? 9999 : null);
@@ -65,7 +69,7 @@
           '<button class="mini" onclick="AhdApp.go(\'plans\')">الأجرة والخطط ←</button></div>';
       }
     } else {
-      sealArea = '<div class="cr-act"><button class="primary"' + (clean ? "" : " disabled") + ' onclick="AhdApp.createSeal()">اختم العهد عبر نفاذ (محاكاة)</button></div>' +
+      sealArea = '<div class="cr-act"><button class="primary"' + (clean && !duressBlocked ? "" : " disabled") + ' onclick="AhdApp.createSeal()">اختم العهد عبر نفاذ (محاكاة)</button></div>' + duressNote +
         (clean ? "" : '<div class="cr-note">لا يُختَم حتى يُزال الشرط المخالف — هذا ما يحفظه عهد لكما.</div>');
     }
     return '<div class="create">' + flash + head + termsBox + sealArea + "</div>";

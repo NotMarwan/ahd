@@ -44,6 +44,7 @@
       '<div class="bw-gopts">' + reasons.map(function (r) {
         return '<button class="bw-greason" onclick="AhdApp.borrowerAskGrace(\'' + App.esc(o.record.id) + '\',\'' + App.esc(r.key) + '\')">' + App.esc(r.ar) + "</button>";
       }).join("") + "</div>" +
+      '<button class="bw-greason" onclick="AhdApp.borrowerRequestForgiveness(\'' + App.esc(o.record.id) + '\',\'financial_hardship\')">أطلب إبراءً</button>' +
       '<div class="bw-gnote">طلبُ المهلة لا يزيد المبلغ ولا يضيف أيّ غرامة — ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾.</div>' +
       "</div>";
   }

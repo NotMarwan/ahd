@@ -82,7 +82,7 @@
     circleAdvState: { graduated: null, recStopped: false, flash: null },
     CreateAhd: CreateAhd,
     createDraft: CreateAhd ? CreateAhd.makeDraft({ id: "NEW-AHD-1", lender: "أنت", borrower: "سلطان", amountSAR: 1200, months: 3 }) : null,
-    createState: { extra: "", sealed: null, tamper: false, flash: null },
+    createState: { extra: "", sealed: null, tamper: false, flash: null, auxiliaryEvents: [] },
     Settlement: Settlement,
     SettlePresets: (typeof window !== "undefined" ? window.SettlePresets : null),
     settleState: { preset: "golden" },
@@ -268,6 +268,17 @@
       }
       return this.rerender();
     },
+    borrowerRequestForgiveness: function (id, reasonKey) {
+      var r = this.recordById(id);
+      if (r && this.Care) {
+        var request = this.Care.requestForgiveness(r, { borrowerId: r.borrower, scope: "full", reasonKey: reasonKey }, this.engine);
+        if (request) {
+          r.events = r.events.concat(request);
+          this.borrowerState.flash = "سُجّل طلب الإبراء للمُقرِض؛ لا يتغيّر الرصيد أو الختم حتى يقبل المُقرِض الإبراء القائم.";
+        }
+      }
+      return this.rerender();
+    },
     borrowerDismiss: function () { this.borrowerState.flash = null; return this.rerender(); },
 
     /* ---- سِجلّ المعروف (covenant trail) — CONTEXTUAL (from دفتري / الخلاف); never a score ---- */
@@ -358,10 +369,21 @@
        but the deepened layer catches — proves «hard to fool» live in the demo. */
     createInjectSneaky: function () { this.createState.extra = "على أن يردّ المبلغ ومعه عائدٌ يسير، ويُمنح المُقرض مقابلًا عن الزمن مقابل المهلة."; this.createState.sealed = null; return this.rerender(); },
     createClearRiba: function () { this.createState.extra = ""; return this.rerender(); },
+    createReportDuress: function (reasonKey) {
+      if (this.Care) {
+        var report = this.Care.reportDuress(this.createDraft, { reporterId: this.createDraft.borrower, reasonKey: reasonKey }, this.engine);
+        if (report) {
+          this.createState.auxiliaryEvents = (this.createState.auxiliaryEvents || []).concat(report);
+          this.createState.flash = "أُبلغ عن إكراه؛ أوقفنا الختم بانتظار مراجعة بشرية. لا نصدر حكمًا ولا عقوبة.";
+        }
+      }
+      return this.rerender();
+    },
     createSeal: function () {
       if (this.CreateAhd && this.createDraft) {
         var terms = this.CreateAhd.draftTermsAr(this.createDraft, this.engine) + (this.createState.extra ? " " + this.createState.extra : "");
-        if (this.CreateAhd.ribaCheck(terms, this.engine).verdict === "clean") { this.createState.sealed = this.CreateAhd.createSeal(this.createDraft, this.engine); this.createState.flash = "خُتم العهد — وثيقةٌ مشهودة 🤍"; }
+        if (this.Care && this.Care.preSealBlocked(this.createState.auxiliaryEvents)) { this.createState.flash = "الختم موقوف بانتظار مراجعة بشرية لبلاغ الإكراه."; }
+        else if (this.CreateAhd.ribaCheck(terms, this.engine).verdict === "clean") { this.createState.sealed = this.CreateAhd.createSeal(this.createDraft, this.engine); this.createState.flash = "خُتم العهد — وثيقةٌ مشهودة 🤍"; }
         else { this.createState.flash = "لا يُختَم — أزِل الشرط المخالف أولًا."; }
       }
       return this.rerender();
