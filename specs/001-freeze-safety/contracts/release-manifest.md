@@ -103,13 +103,27 @@ node tests/release-gate.cjs --manifest <repository-relative-manifest> --target <
 ### Inventory and paths
 
 - The inventory file exists at the candidate commit, hashes correctly, and contains one canonical
-  `ahd-freeze-inventory-v1` JSON block listing every source dirty item exactly once with its recorded disposition.
+  `ahd-freeze-inventory-v1` JSON block accounting for every exact NUL-terminated source dirty record hash once:
+  either on its selected top-level item or on one nested preserved variant.
+- The inventory has exactly one top-level item per normalized path. If byte-distinct source and candidate variants
+  collide at that path, `collision.status` is exactly `byte-distinct-path`; `selected_variant` contains exact
+  `source_ref`, 64-lowercase-hex SHA-256, and owner; and the non-empty `preserved_variants` array contains unique
+  source-ref/hash pairs with raw-record SHA-256, owner, `preservation_disposition` equal to `park` or
+  `owner-decision`, non-empty reason, `preservation_mode:"content-addressed-external"`, traversal-free relative
+  `preservation_ref` exactly `preservation/objects/sha256/<must_match_sha256>` beneath the controller dispatch root,
+  and matching 64-lowercase-hex `must_match_sha256`. The top-level disposition governs the selected candidate path.
+  Nested variants are preservation evidence, not additional manifest paths.
+- T002 creates each external preservation object with create-new semantics, proves its bytes equal
+  `must_match_sha256`, makes it read-only, and leaves the source worktree/branch untouched. Inventory and candidate
+  progression fail closed if a referenced preservation object is missing, mutable at check time, or hash-mismatched.
 - `included_paths` is the exact normalized file set returned by `git diff --name-only base_commit..candidate_commit`.
 - The mapping is an exact two-way bijection: every inventory item appears once in included or excluded paths; every
   included/excluded path exists in the inventory; every included path has inventory disposition `release`; every
   excluded path preserves the inventory disposition and non-empty reason. Extra paths, double disposition,
   omission, and disposition mismatch fail.
 - Excluded disposition is exactly `park`, `generated`, `ignore`, or `owner-decision`, with a non-empty reason.
+- Raw dirty-record hashes and collision preservation references are unique and complete; a record accounted for at
+  both top level and nested level, or at neither level, fails.
 - Paths are repository-relative, slash-normalized, traversal-free, unique, and compared case-insensitively on
   Windows. Included/excluded exact or ancestor/descendant overlap fails.
 - Included paths are files, not directory shortcuts. An asset may legitimately equal an included file.

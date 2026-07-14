@@ -99,8 +99,12 @@ gate evidence.
 ### Functional Requirements
 
 - **FR-001**: The freeze process MUST inventory every tracked modification and untracked item.
-- **FR-002**: Every inventory item MUST have one disposition: release, park, generated, ignore, or owner decision.
-- **FR-003**: The process MUST preserve all pre-existing user changes.
+- **FR-002**: Every unique normalized top-level inventory path MUST have one candidate disposition: release, park,
+  generated, ignore, or owner decision. A byte-distinct unselected source variant at the same path MUST be
+  accounted for exactly once as nested preservation evidence, not as a second top-level path/disposition.
+- **FR-003**: The process MUST preserve all pre-existing user changes. Any byte-distinct source variant displaced
+  by a selected candidate path MUST have a create-new, read-only, content-addressed external preservation object
+  whose bytes are revalidated before candidate progression.
 - **FR-004**: A finalized release attestation MUST record the base commit, an earlier immutable candidate-content
   commit, branch, creation timestamp, gate command/count/failures/duration, demo hash, inventory hash, and asset hashes.
 - **FR-005**: A clean environment MUST reproduce the candidate-content commit by reading an explicit manifest and
@@ -124,7 +128,8 @@ gate evidence.
   decisions, portfolio, active package, spec, plan, tasks, live evidence, then mirrors.
 - **FR-016**: A task MUST NOT be checked off without dispatch/claim identity, focused evidence, an append-only
   tracked review history, a reviewer distinct from its implementer, an approved review that supersedes every
-  rejection without deleting it, and constitution result; a blocked task MUST name owner, artifact, and review date.
+  rejection without deleting it, and constitution result; a blocked task MUST name owner, `blocker_artifact`, and
+  review date, while `artifact` remains reserved for completed task output.
 - **FR-017**: The candidate-content commit MUST precede the finalized manifest attestation, preventing an
   impossible self-referential commit hash.
 - **FR-018**: Agent policy, explicit manifest input, target checkout, attestation bundle root, truth, tripwire,

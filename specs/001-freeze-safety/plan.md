@@ -138,6 +138,9 @@ task's review artifact, evidence file, and checkbox file in addition to the disp
 Before T001, root creates `ahd-agent-control/writer.lock` under the absolute Git common directory using exclusive
 `FileMode.CreateNew`. The JSON payload names owner `root`, active Wave 0, scope `T001-T010`, external dispatch/report
 directory, explicit expiry `2026-07-15T23:59:59+03:00`, and rollback `release only after reviewed T010 is checked`.
+For schema `ahd-bootstrap-writer-v1`, `scope` is a closed inclusive two-endpoint interval: `['T001','T010']`
+authorizes every zero-padded task ID from T001 through T010. It is not a two-item allowlist. Bootstrap validation
+must reject malformed endpoints, reversed ranges, non-zero-padded IDs, and any task outside that interval.
 Existing lock creation fails without overwrite. Each T001-T010 implementer receives one controller-authored external
 dispatch file with exact task and files before it is spawned. T010 is completed and checked under the bootstrap
 lock; only then does the controller delete its owned bootstrap lock. The controller separately issues the first

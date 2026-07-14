@@ -6,10 +6,29 @@
 - `kind`: tracked-modified, tracked-added, tracked-deleted, untracked, generated, ignored, branch-only,
   planning-commit, or planned-wave-output
 - `owner`: user, project, generated, agent identifier, unresolved
-- `disposition`: release, park, generated, ignore, owner-decision
+- `disposition`: release, park, generated, ignore, owner-decision; this top-level value governs the final
+  candidate-path bijection
 - `reason`: non-empty evidence-based explanation
-- `collision`: normalized path or hunk overlap with another owner
+- `raw_record_sha256`: SHA-256 of the exact NUL-terminated porcelain record, or `null` when the item has no source
+  dirty record
+- `collision`: `null`, or exactly `{status:"byte-distinct-path", selected_variant, preserved_variants}`
+- `selected_variant`: exactly `source_ref`, 64-lowercase-hex `sha256`, and `owner`
+- `preserved_variants`: non-empty array; each entry has unique `source_ref` + `sha256`, the source
+  `raw_record_sha256`, `owner`, `preservation_disposition` (`park` or `owner-decision`), non-empty `reason`,
+  `preservation_mode:"content-addressed-external"`, `preservation_ref` exactly
+  `preservation/objects/sha256/<must_match_sha256>` relative to the dispatch root, and 64-lowercase-hex
+  `must_match_sha256`
 - `source_ref`: branch/commit/worktree when the item is not in the source checkout
+
+There is exactly one top-level item per normalized repository path. When the source workspace and an approved
+planning/candidate source contain byte-distinct content at that path, the top-level disposition describes only the
+selected candidate path. The original source variant remains preserved in its untouched worktree/branch and is
+recorded under `collision.preserved_variants`; it is never silently absorbed or emitted as a second manifest path.
+Every raw dirty record hash is accounted for exactly once across top-level `raw_record_sha256` values and nested
+preserved variants. Before T002 completes, each preserved variant is copied with create-new semantics to the
+external content-addressed preservation root, rehashed, and made read-only; the external report indexes it. Every
+later inventory/candidate progression check fails closed if that preservation object is missing or no longer
+matches `must_match_sha256`.
 
 ## AgentClaim
 
@@ -32,6 +51,20 @@ self-claim; the hash proves byte integrity and field consistency, not same-user 
 Every worktree shares it, so a second writer fails even for disjoint files. Windows comparison is case-insensitive;
 separators normalize to `/`; claims must be within the dispatch/task-authorized set and cannot include protected
 paths. Audit claims are read-only and separate.
+
+## BootstrapWriterLock
+
+- `schema`: `ahd-bootstrap-writer-v1`
+- `owner`: root controller identity
+- `wave`: active package path
+- `scope`: exactly two zero-padded task IDs forming a closed inclusive interval; `['T001','T010']` authorizes
+  T001, T002, ..., T010 and is not an exact two-item allowlist
+- `dispatch_root`: external brief/report directory
+- `expires_at`: explicit-offset expiry
+- `rollback`: release condition
+
+The live lock is create-once controller state. Clarifying its interval semantics does not overwrite, delete, or
+recreate it. T010 later proves fail-closed rejection outside the declared interval before root releases the lock.
 
 ## ProtectedPathContract
 
@@ -59,11 +92,13 @@ exception authorizes only that exact task/path pair and does not weaken prefix o
   `artifact_sha256`, `reviewed_commit`, `verdict`, `created_at`, and `supersedes`
 - `constitution`: pass or named conflict
 - `owner`: required when blocked
-- `artifact`: required blocker/decision/evidence path when blocked
+- `artifact`: completed task-output path/hash; not used for a blocker
+- `blocker_artifact`: required blocker/decision/evidence path when blocked
 - `review_date`: required when blocked
 
-Checked tasks require a complete evidence entry. Blocked tasks remain unchecked and require owner, artifact, and
-review date. Every review artifact is repository-tracked under `_meta/freeze/reviews/`; reviewer and implementer
+Checked tasks require a complete evidence entry. Blocked tasks remain unchecked and require owner,
+`blocker_artifact`, and review date. Every review artifact is repository-tracked under `_meta/freeze/reviews/`;
+reviewer and implementer
 must differ. Review entries are never deleted or mutated. `needs-fix` remains in history and requires a later
 `approved` entry whose `supersedes` points to the latest review before checkoff.
 The completion validator reads the prior evidence from `HEAD`; its `reviews` array must be an exact prefix of the
@@ -93,6 +128,9 @@ unchecked task, which is safe and resumable; the inverse state is invalid and ca
 - `assets`: path, SHA-256, kind, source root/path, and optional restore path
 - `included_paths`: exact normalized `base_commit..candidate_commit` file diff and exact inventory `release` set
 - `excluded_paths`: exact inventory non-release set, preserving every recorded disposition and reason
+- nested collision variants: preservation evidence only; each byte-distinct unselected source variant must be
+  `park` or `owner-decision` with source reference, hash, owner, and reason, and never enters `included_paths` or
+  `excluded_paths` as a duplicate path
 - `approvals`: approver, scope, target_commit, approved_at, and evidence
 
 A draft manifest lives outside Git, may name the then-current content commit, and uses `gate.status: pending`.
