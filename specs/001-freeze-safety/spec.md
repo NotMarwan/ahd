@@ -48,10 +48,10 @@ then reproduce the candidate in a clean checkout with the same gate and hashes.
 
 **Acceptance Scenarios**:
 
-1. **Given** tracked and untracked user work, **When** freeze preparation runs, **Then** every item is
-   classified as release, parked, generated, or unresolved without deletion.
+1. **Given** tracked and untracked user work in an actively changing source worktree, **When** freeze preparation
+   runs, **Then** that worktree is parked as one read-only non-candidate input while candidate paths are classified.
 2. **Given** the release manifest, **When** a clean checkout is prepared, **Then** the gate and frozen-demo
-   hash match the source workspace.
+   hash match the pinned candidate evidence without reading the parked source workspace.
 
 ### User Story 2 - Trust Current Documentation (Priority: P1)
 
@@ -98,19 +98,16 @@ gate evidence.
 
 ### Functional Requirements
 
-- **FR-001**: The freeze process MUST inventory every tracked modification and untracked item through a stable
-  content epoch that binds two identical reads of source branch/HEAD, index bytes, NUL-safe status bytes, and every
-  dirty path's worktree content hash; later drift is appended through an unbroken epoch chain.
-- **FR-002**: Every unique normalized top-level inventory path MUST have one candidate disposition: release, park,
-  generated, ignore, or owner decision. A byte-distinct unselected source variant at the same path MUST be
-  accounted for exactly once as nested preservation evidence, not as a second top-level path/disposition.
-- **FR-003**: The process MUST preserve all pre-existing user changes. Every byte-bearing dirty observation in the
-  baseline epoch, and every added or content-changed observation in a delta epoch, MUST have a create-new,
-  read-only, content-addressed external preservation object whose bytes are revalidated before candidate
-  progression. Deleted paths use tombstone/status evidence.
+- **FR-001**: The freeze process MUST inventory every path in the isolated candidate's base-to-candidate diff and
+  every dependency-known Wave 0 output before candidate construction.
+- **FR-002**: Every unique normalized candidate inventory path MUST have one disposition: release, generated,
+  ignore, or owner decision.
+- **FR-003**: The process MUST preserve pre-existing user work by treating every actively changing source worktree
+  as one parked, read-only, non-candidate input. Wave 0 MUST NOT copy, stage, reset, clean, commit, merge, or
+  overwrite its dirty files.
 - **FR-004**: A finalized release attestation MUST record the base commit, an earlier immutable candidate-content
   commit, branch, creation timestamp, gate command/count/failures/duration, demo hash, inventory hash, asset hashes,
-  and a closed unbroken source-epoch chain covered through the candidate inventory.
+  and the tracked parked-source exclusion record.
 - **FR-005**: A clean environment MUST reproduce the candidate-content commit by reading an explicit manifest and
   bundle root from the later attestation checkout, without relying on ignored or workstation-only files.
 - **FR-006**: Governed documentation MUST match live screen count, suite count, server capability, and gate output.
@@ -141,7 +138,8 @@ gate evidence.
 
 ### Key Entities
 
-- **Change Inventory Item**: Path, ownership, disposition, rationale, and collision status.
+- **Change Inventory Item**: Isolated candidate path, owner, disposition, rationale, and supplying commit/task.
+- **Parked Source Workspace**: Read-only branch/status observation explicitly excluded from candidate inputs.
 - **Release Manifest**: Immutable description of candidate inputs, hashes, gate evidence, and approvals.
 - **Gate Evidence**: Command, result, count, duration, and frozen-demo verification.
 - **Documentation Claim**: Claim text, authority, source of truth, and historical/current label.
