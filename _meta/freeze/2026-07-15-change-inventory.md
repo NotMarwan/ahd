@@ -18,10 +18,13 @@ is classified here.
 
 | Role | Absolute path | Branch | HEAD at capture |
 |---|---|---|---|
-| User source, read-only observation | `C:\Users\wasan\Downloads\Amad Hackathon\Amad Hackathon` | `judge-lens-real-leap` | `c08089061a0fa08ec8a78f6217be601f3558477e` |
+| User source, Git-visible state observed read-only | `C:\Users\wasan\Downloads\Amad Hackathon\Amad Hackathon` | `judge-lens-real-leap` | `c08089061a0fa08ec8a78f6217be601f3558477e` |
 | Isolated Wave 0 candidate | `C:\Users\wasan\Downloads\Amad Hackathon Worktrees\wave0-freeze-safety-main` | `codex/wave0-freeze-safety-main` | `78217709334e1300859f3f4335a073b92aa764b1` |
 
-The source workspace was observed only. No source file, index entry, branch, stash, or worktree state was changed.
+No pre-existing or Git-visible source content, index, branch, stash, or worktree state changed. Controller-authorized
+ignored evidence and report files were created under `.superpowers/sdd/wave0`. Re-running the NUL-safe source
+status command after implementation produced the same 41,517 bytes and SHA-256
+`485057fe9f45f02a076c0a86f231d695a6a542001b68681a6b694a4a2a1ef6f9` as the pre-write capture.
 
 ## NUL-Safe Status Capture
 
@@ -219,7 +222,9 @@ The external evidence directory is intentionally outside the candidate Git tree 
 ## T001 Boundary
 
 - Captured before repository mutation: yes.
-- Source workspace modified: no.
+- Source boundary: no pre-existing or Git-visible source content, index, branch, stash, or worktree state changed;
+  controller-authorized ignored evidence/report files were created under `.superpowers/sdd/wave0`; source
+  Git-status bytes remained unchanged.
 - Product, demo, engine, vectors, task checkboxes, evidence JSON, reviews, and cockpit mirrors modified: no.
 - Branch merge, stash, cleanup, overwrite, tag, push, or release performed: no.
 - Item dispositions assigned: no; T002 remains responsible.
