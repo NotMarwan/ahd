@@ -74,6 +74,35 @@
       "owner": null,
       "blocker_artifact": null,
       "review_date": null
+    },
+    {
+      "task_id": "T014",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-escalation",
+      "model_reason": "Mechanical portability test was assigned to the cheapest tier; controller finished it after lightweight agents stalled and the reference gate remained blocked.",
+      "status": "implemented-pending-review",
+      "implementation_commits": ["641a14b0c42db942b52164d0631c7ab866940a9a"],
+      "files": ["tests/app/tripwire-portability.test.cjs"],
+      "tests": [
+        {"command": "node tests/app/tripwire-portability.test.cjs", "phase": "RED", "result": "15 passed, 4 failed"},
+        {"command": "node tests/app/tripwire-portability.test.cjs", "phase": "GREEN", "result": "16 passed, 0 failed"}
+      ],
+      "result": "Tracked-checksum and clean-checkout requirements enforced; review still pending."
+    },
+    {
+      "task_id": "T015",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-escalation",
+      "model_reason": "Small protected-path fix used the cheapest planned tier; controller completed it immediately after delegate timeout.",
+      "status": "implemented-pending-review",
+      "implementation_commits": ["641a14b0c42db942b52164d0631c7ab866940a9a"],
+      "files": ["tests/fixtures/demo.sha256", "tests/tripwire.cjs", "CLAUDE.md"],
+      "tests": [
+        {"command": "node tests/run-all.cjs", "phase": "GREEN", "result": "2979 passed, 0 failed; no-drift 12/0; demo sealed"}
+      ],
+      "result": "Portable tracked tripwire restored the clean reference gate; review still pending."
     }
   ]
 }
