@@ -31,11 +31,11 @@
 - Consumes: one 1254×1254 square PNG edit target.
 - Produces: one square PNG candidate with only the two role markers changed.
 
-- [ ] **Step 1: Inspect the edit target**
+- [x] **Step 1: Inspect the edit target**
 
 Open the source PNG at original detail and confirm the bond and role-marker geometry before editing.
 
-- [ ] **Step 2: Generate one precise edit**
+- [x] **Step 2: Generate one precise edit**
 
 Use the built-in image editor with this specification:
 
@@ -48,7 +48,7 @@ Constraints: preserve the central Arabic medial ha, both outer loops, crossings,
 Avoid: redrawing the bond, touching markers, letter-dot appearance, sharp lower-head corners, extra hues, outlines, text, arrows, shadows, glow, watermark, crop, or added symbols.
 ```
 
-- [ ] **Step 3: Persist the candidate**
+- [x] **Step 3: Persist the candidate**
 
 Copy the generated image into the exact output path without overwriting the source or any earlier candidate.
 
@@ -61,19 +61,19 @@ Copy the generated image into the exact output path without overwriting the sour
 - Consumes: the generated square PNG.
 - Produces: visual and project-gate evidence for delivery.
 
-- [ ] **Step 1: Verify file dimensions**
+- [x] **Step 1: Verify file dimensions**
 
 Run a `System.Drawing` check and require a square image with the expected 1254×1254 dimensions.
 
-- [ ] **Step 2: Inspect at full size**
+- [x] **Step 2: Inspect at full size**
 
 Confirm the top head is circular, the bottom head is a softly rounded square, the shoulder arches are oppositely oriented, colors are clearly teal versus amber-orange, markers are closer without touching, and the bond remains unchanged.
 
-- [ ] **Step 3: Inspect at 64 px**
+- [x] **Step 3: Inspect at 64 px**
 
 Create a temporary 64×64 thumbnail, verify both roles remain distinct, then remove the temporary file from inside the worktree.
 
-- [ ] **Step 4: Run the project gate**
+- [x] **Step 4: Run the project gate**
 
 ```powershell
 node tests/run-all.cjs
@@ -93,11 +93,11 @@ Expected: `AHD GATE ✅ 2869/0` and the frozen demo tripwire remains unchanged.
 - Consumes: the validated candidate and gate evidence.
 - Produces: a traceable brand candidate and project-state update.
 
-- [ ] **Step 1: Update project status**
+- [x] **Step 1: Update project status**
 
 Record the new candidate path, the approved circle-versus-rounded-square distinction, the closer spacing, and the fact that no approved app or demo asset was replaced.
 
-- [ ] **Step 2: Run final checks**
+- [x] **Step 2: Run final checks**
 
 ```powershell
 git diff --check
@@ -106,7 +106,7 @@ node tests/run-all.cjs
 
 Expected: no whitespace errors, `2869/0`, and the frozen demo tripwire unchanged.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```powershell
 git add -- 'promo/public/logo/concepts/ahd-role-people-medial-ha-refined-roles.png' 'AmadHackathon/00 Home.md' 'AmadHackathon/01 الخطة الرئيسة.md' 'AmadHackathon/10 هوية الشعار.md' 'docs/superpowers/plans/2026-07-15-ahd-role-marker-curves.md'
