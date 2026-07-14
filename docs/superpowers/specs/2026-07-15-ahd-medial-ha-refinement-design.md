@@ -34,3 +34,13 @@ promo/public/logo/concepts/ahd-role-people-medial-ha.png
 - The letter remains plausible at 64 px and does not become visual noise.
 - The giver, receiver, and continuing bond stay equal in emphasis and dignity.
 - No text, labels, arrows, coins, documents, extra symbols, shadows, or 3D effects are introduced.
+
+## Approved follow-up refinement
+
+After reviewing the medial-ha candidate, the operator requested one isolated scale change: reduce both complete person symbols to about 70% of their previous size while keeping their centers on the same vertical axis. The head and shoulder stroke scale together; the bond, ha, palette, spacing system, canvas, and all other geometry remain unchanged.
+
+The follow-up is saved non-destructively as:
+
+```text
+promo/public/logo/concepts/ahd-role-people-medial-ha-small-people.png
+```

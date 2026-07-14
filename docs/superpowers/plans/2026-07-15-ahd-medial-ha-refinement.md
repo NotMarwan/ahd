@@ -63,3 +63,20 @@ Expected: all assertions green and the frozen demo tripwire unchanged.
 - [ ] **Step 3: Present the candidate**
 
 Show the new PNG inline and state that it is a candidate pending user approval; do not replace the approved logo asset.
+
+### Task 3: Reduce the Person Symbols
+
+**Files:**
+- Create: `promo/public/logo/concepts/ahd-role-people-medial-ha-small-people.png`
+
+- [x] **Step 1: Scale both complete person symbols to approximately 70%**
+
+Keep each circular head and shoulder stroke together, centered on the existing vertical axis. Preserve the central ha, bond, palette, canvas, and every other element.
+
+- [x] **Step 2: Inspect at full size and 64 px**
+
+Confirm the two roles remain legible while no longer competing with the central bond.
+
+- [x] **Step 3: Save as a separate candidate**
+
+Do not replace any earlier candidate or the approved application logo.
