@@ -49,12 +49,22 @@ ok(spec.questions.every(function (item) { return item.type === "choice"; }), "th
 ok(!/الاسم|البريد|الهاتف|الهوية|الحساب البنكي/.test(spec.questions.map(function (item) { return item.title; }).join(" ")), "prompts request no personal or banking identifiers");
 ok(typeof Render.validateSpec === "function" && typeof Render.render === "function", "renderer exports validation and rendering interfaces");
 ok(Render.validateSpec(spec) === spec, "approved schema validates");
+const compatibleRevision = JSON.parse(JSON.stringify(spec));
+compatibleRevision.version = "2.0.1";
+let compatibleRevisionAccepted = false;
+try { compatibleRevisionAccepted = Render.validateSpec(compatibleRevision) === compatibleRevision; } catch (error) {}
+ok(compatibleRevisionAccepted, "renderer accepts compatible 2.x.y instrument revisions");
+const incompatibleRevision = JSON.parse(JSON.stringify(spec));
+incompatibleRevision.version = "3.0.0";
+let incompatibleRevisionRejected = false;
+try { Render.validateSpec(incompatibleRevision); } catch (error) { incompatibleRevisionRejected = /survey schema/.test(error.message); }
+ok(incompatibleRevisionRejected, "renderer rejects incompatible 3.x instrument revisions");
 
 const gs = Render.render(spec);
 ok((gs.match(/addPageBreakItem/g) || []).length === 4, "generated Form has five sections without an empty first page");
 ok(/SpreadsheetApp\.create/.test(gs) && /setDestination\(FormApp\.DestinationType\.SPREADSHEET/.test(gs), "generated script creates a linked response Sheet");
 ok(/PageNavigationType\.SUBMIT/.test(gs) && /page_delay_experience/.test(gs) && /page_documentation_and_fit/.test(gs), "generated script emits terminal and conditional routing");
-ok(/setCollectEmail\(false\)/.test(gs) && /setLimitOneResponsePerUser\(false\)/.test(gs), "generated script preserves privacy settings");
+ok(/setCollectEmail\(false\)/.test(gs) && /setLimitOneResponsePerUser\(false\)/.test(gs) && /setRequireLogin\(false\)/.test(gs), "generated script explicitly disables email, response limiting, and login");
 ok(!/addTextItem|addParagraphTextItem|setCollectEmail\(true\)/.test(gs), "generated script cannot collect free text or email");
 ok(gs === fs.readFileSync(GENERATED_PATH, "utf8"), "tracked Apps Script exactly matches deterministic renderer output");
 

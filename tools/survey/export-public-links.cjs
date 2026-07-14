@@ -3,26 +3,36 @@
 var fs = require("fs");
 var CODES = ["G1", "G2", "G3", "G4", "G5"];
 
-function googleFormUrl(value) {
+function googleFormUrl(value, expectedPath, sourceCode) {
   var parsed;
   try { parsed = new URL(value); }
   catch (error) { throw new Error("invalid Google Forms URL"); }
-  if (parsed.protocol !== "https:" || parsed.hostname !== "docs.google.com" || parsed.pathname.indexOf("/forms/") !== 0) {
+  if (parsed.protocol !== "https:" || parsed.host !== "docs.google.com" || !/^\/forms\/d\/e\/[^/]+\/viewform$/.test(parsed.pathname)) {
     throw new Error("invalid Google Forms URL");
   }
-  return value;
+  if (expectedPath && parsed.pathname !== expectedPath) throw new Error("invalid Google Forms URL: mismatched Form ID");
+  if (sourceCode) {
+    var matchingPrefill = false;
+    parsed.searchParams.forEach(function (parameterValue, parameterName) {
+      if (/^entry\..+$/.test(parameterName) && parameterValue === sourceCode) matchingPrefill = true;
+    });
+    if (!matchingPrefill) throw new Error("invalid Google Forms URL: missing or mismatched source prefill");
+  }
+  return parsed;
 }
 function sanitizeLinks(payload, metadata) {
   if (!payload || !metadata || !metadata.schemaVersion || !metadata.status) throw new Error("payload and publication metadata are required");
+  var published = googleFormUrl(payload.publishedUrl);
   var sources = {};
   CODES.forEach(function (code) {
     if (!payload.sourceLinks || !payload.sourceLinks[code]) throw new Error("missing source link: " + code);
-    sources[code] = googleFormUrl(payload.sourceLinks[code]);
+    googleFormUrl(payload.sourceLinks[code], published.pathname, code);
+    sources[code] = payload.sourceLinks[code];
   });
   return {
     schemaVersion: metadata.schemaVersion,
     status: metadata.status,
-    publishedUrl: googleFormUrl(payload.publishedUrl),
+    publishedUrl: payload.publishedUrl,
     sourceLinks: sources
   };
 }

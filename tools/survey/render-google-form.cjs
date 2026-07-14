@@ -18,7 +18,7 @@ function indexBy(items, key, label) {
   return out;
 }
 function validateSpec(spec) {
-  if (!spec || spec.version !== "2.0.0") throw new Error("survey schema must be 2.0.0");
+  if (!spec || !/^2\.\d+\.\d+$/.test(spec.version)) throw new Error("survey schema must be a compatible 2.x.y version");
   if (!Array.isArray(spec.sections) || !Array.isArray(spec.questions)) throw new Error("sections and questions are required");
   var sections = indexBy(spec.sections, "id", "section");
   var questions = indexBy(spec.questions, "id", "question");
@@ -71,6 +71,7 @@ function render(spec) {
     "  var form = FormApp.create(" + js(spec.title) + ");",
     "  form.setDescription(" + js(spec.description) + ");",
     "  form.setCollectEmail(false);",
+    "  form.setRequireLogin(false);",
     "  form.setLimitOneResponsePerUser(false);",
     "  form.setConfirmationMessage(" + js(spec.confirmationMessage) + ");",
     "  var responseSheet = SpreadsheetApp.create(" + js(spec.responseSpreadsheetTitle) + ");",

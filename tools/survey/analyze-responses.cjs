@@ -79,7 +79,7 @@ function metric(name, rows, predicate, threshold, kFloor, suppressed) {
     return { suppressed: true, baseN: base, thresholdPercent: threshold, pass: false };
   }
   var percent = pct(count, base);
-  return { baseN: base, count: count, percent: percent, thresholdPercent: threshold, pass: percent >= threshold };
+  return { baseN: base, count: count, percent: percent, thresholdPercent: threshold, pass: count * 100 >= threshold * base };
 }
 function fingerprint(row) {
   var copy = {};
@@ -107,12 +107,15 @@ function summarize(rows, options) {
   var kFloor = options.kFloor || 10;
   var minPublicGroup = options.minPublicGroup || 20;
   var valid = [], invalid = [], duplicates = [], seen = {};
-  rows.forEach(function (row) {
+  rows.forEach(function (row, rowIndex) {
     var result = validateResponse(row);
     if (!result.valid) { invalid.push(result.reason); return; }
     var key = fingerprint(row);
-    if (seen[key]) duplicates.push({ action: "flag-only" });
-    else seen[key] = true;
+    if (Object.prototype.hasOwnProperty.call(seen, key)) {
+      duplicates.push({ rowIndex: rowIndex + 1, matchesRowIndex: seen[key], action: "flag-only" });
+    } else {
+      seen[key] = rowIndex + 1;
+    }
     valid.push(row);
   });
 
@@ -123,12 +126,14 @@ function summarize(rows, options) {
 
   var h2Config = SPEC.hypotheses.H2;
   var h2Rows = valid.filter(function (row) {
-    return row[h2Config.filter.question] === h2Config.filter.equals && h2Config.requiredQuestions.every(function (id) {
-      return row[id] && h2Config.excludedValues.indexOf(row[id]) < 0;
-    });
+    return row[h2Config.filter.question] === h2Config.filter.equals;
   });
   function h2Metric(name, config) {
-    return metric("H2-" + name, h2Rows, function (row) { return config.numeratorValues.indexOf(row[config.question]) >= 0; }, config.thresholdPercent, kFloor, suppressed);
+    var excludedValues = config.excludedValues || h2Config.excludedValues;
+    var componentRows = h2Rows.filter(function (row) {
+      return row[config.question] && excludedValues.indexOf(row[config.question]) < 0;
+    });
+    return metric("H2-" + name, componentRows, function (row) { return config.numeratorValues.indexOf(row[config.question]) >= 0; }, config.thresholdPercent, kFloor, suppressed);
   }
   var h2Awkward = h2Metric("awkward", h2Config.awkward);
   var h2Avoidant = h2Metric("avoidant", h2Config.avoidantAction);
@@ -156,18 +161,23 @@ function summarize(rows, options) {
   var sampleQuality = {
     allSeedGroupsMinValid: groups.every(function (group) { return group.n >= SPEC.sample.minValidPerSeedGroup; }),
     maxObservedGroupPercent: maxObservedGroupPercent,
-    seedDistributionPass: groups.every(function (group) { return group.n >= SPEC.sample.minValidPerSeedGroup && (pct(group.n, valid.length) || 0) <= SPEC.sample.maxSharePerGroupPercent; })
+    seedDistributionPass: groups.every(function (group) { return group.n >= SPEC.sample.minValidPerSeedGroup && group.n * 100 <= SPEC.sample.maxSharePerGroupPercent * valid.length; })
   };
-  var tier = valid.length < SPEC.sample.minimumValid ? "exploratory" : (valid.length < SPEC.sample.target ? "directional-pilot" : (valid.length <= SPEC.sample.normalStop ? "strong-directional-convenience" : "optional-stretch"));
-  var supported = valid.length >= SPEC.sample.minimumValid && h1.pass && h2Pass && h3.pass && sampleQuality.seedDistributionPass;
+  var tier = valid.length < SPEC.sample.minimumValid ? "exploratory" :
+    (valid.length < SPEC.sample.target ? "directional-pilot" :
+      (valid.length <= SPEC.sample.normalStop ? "strong-directional-convenience" :
+        (valid.length <= SPEC.sample.optionalStretch ? "optional-stretch" : "above-preregistered-cap")));
+  var supported = valid.length >= SPEC.sample.minimumValid && valid.length <= SPEC.sample.optionalStretch && h1.pass && h2Pass && h3.pass && sampleQuality.seedDistributionPass;
+  var otA1Status = valid.length > SPEC.sample.optionalStretch ? "OUTSIDE-PREREGISTERED-RANGE" :
+    (valid.length < SPEC.sample.minimumValid ? "EXPLORATORY-NOT-CLAIMABLE" : (supported ? "SUPPORTED-DIRECTIONAL" : "NOT-SUPPORTED"));
 
   return {
     validN: valid.length,
     invalidN: invalid.length,
     duplicateCandidates: duplicates,
     evidenceTier: tier,
-    otA1Status: valid.length < SPEC.sample.minimumValid ? "EXPLORATORY-NOT-CLAIMABLE" : (supported ? "SUPPORTED-DIRECTIONAL" : "NOT-SUPPORTED"),
-    hypotheses: { H1: h1, H2: { baseN: h2Rows.length, awkward: h2Awkward, avoidantAction: h2Avoidant, anyStrain: h2Strain, pass: h2Pass }, H3: h3 },
+    otA1Status: otA1Status,
+    hypotheses: { H1: h1, H2: { awkward: h2Awkward, avoidantAction: h2Avoidant, anyStrain: h2Strain, pass: h2Pass }, H3: h3 },
     descriptive: {
       agreementPreference: distribution(valid, "agreement_preference", ["لا أعرف", PRIVACY], kFloor, suppressed),
       productPriority: distribution(valid, "product_priority", ["لا أعرف", PRIVACY], kFloor, suppressed)
@@ -185,12 +195,24 @@ function showDistribution(distributionValue) {
   return distributionValue.values.map(function (item) { return item.value + ": " + item.count + "/" + distributionValue.baseN + " (" + item.percent + "%)"; }).join("؛ ");
 }
 function renderMarkdown(summary) {
+  if (summary.validN < SPEC.sample.minimumValid) {
+    return [
+      "- Valid sample: " + summary.validN,
+      "- Evidence tier: " + summary.evidenceTier,
+      "- OT-A1: " + summary.otA1Status,
+      "- Duplicate candidates: " + summary.duplicateCandidates.length,
+      "",
+      SPEC.sample.claim + ".",
+      ""
+    ].join("\n");
+  }
   return [
     "# نتائج استبيان الطلب المجهول — النسخة الثانية",
     "",
     "- العينة الصحيحة: " + summary.validN,
     "- المستوى: " + summary.evidenceTier,
     "- OT-A1: " + summary.otA1Status,
+    "- Duplicate candidates: " + summary.duplicateCandidates.length,
     "- H1: " + show(summary.hypotheses.H1),
     "- H2 — حرج المطالبة: " + show(summary.hypotheses.H2.awkward),
     "- H2 — التجنب: " + show(summary.hypotheses.H2.avoidantAction),

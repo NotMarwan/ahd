@@ -2,6 +2,7 @@
 
 ## Cognitive pretest — 5–8 adults
 
+- [ ] Open every distribution URL in a signed-out/incognito browser and confirm no login is required.
 - [ ] Open each G1–G5 prefilled URL once and confirm the source code remains selected.
 - [ ] Confirm “no consent” submits immediately without showing eligibility.
 - [ ] Confirm “not eligible” submits immediately without showing behavior questions.

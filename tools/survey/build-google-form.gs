@@ -3,6 +3,7 @@ function buildAhdDemandSurveyV2() {
   var form = FormApp.create("استبيان مجهول عن التعاملات المالية دون فائدة بين المعارف");
   form.setDescription("استبيان بحثي مجهول يستغرق نحو دقيقتين إلى ثلاث. لا نجمع الاسم أو البريد أو رقم الهاتف أو الهوية أو بيانات الحساب. نستخدم النتائج المجمعة فقط، وهذه عينة اتجاهية وليست ممثلة لسكان المملكة.");
   form.setCollectEmail(false);
+  form.setRequireLogin(false);
   form.setLimitOneResponsePerUser(false);
   form.setConfirmationMessage("شكرًا لمشاركتك. لا تجمع هذه الدراسة بيانات تعريفية، وتُحلل الإجابات بصورة مجمعة فقط.");
   var responseSheet = SpreadsheetApp.create("Ahd Demand Survey v2 — PRIVATE RESPONSES");
