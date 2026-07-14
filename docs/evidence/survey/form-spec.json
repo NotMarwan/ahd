@@ -1,9 +1,11 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "language": "ar",
-  "estimatedMinutes": "3-4",
-  "title": "استبيان مجهول عن الإقراض والاقتراض بين الأشخاص",
-  "description": "استبيان بحثي مجهول للأغراض الدراسية. يستغرق 3–4 دقائق. لا نجمع الاسم أو البريد أو رقم الهاتف أو الهوية أو بيانات الحساب. الإجابات المجمعة فقط تُستخدم في التحليل.",
+  "estimatedMinutes": "2-3",
+  "title": "استبيان مجهول عن التعاملات المالية دون فائدة بين المعارف",
+  "responseSpreadsheetTitle": "Ahd Demand Survey v2 — PRIVATE RESPONSES",
+  "description": "استبيان بحثي مجهول يستغرق نحو دقيقتين إلى ثلاث. لا نجمع الاسم أو البريد أو رقم الهاتف أو الهوية أو بيانات الحساب. نستخدم النتائج المجمعة فقط، وهذه عينة اتجاهية وليست ممثلة لسكان المملكة.",
+  "confirmationMessage": "شكرًا لمشاركتك. لا تجمع هذه الدراسة بيانات تعريفية، وتُحلل الإجابات بصورة مجمعة فقط.",
   "settings": {
     "collectEmail": false,
     "requireLogin": false,
@@ -14,6 +16,9 @@
     "nationallyRepresentativeClaim": false
   },
   "sample": {
+    "pretestMin": 5,
+    "pretestMax": 8,
+    "softLaunchValid": 20,
     "minimumValid": 80,
     "target": 150,
     "normalStop": 250,
@@ -21,37 +26,58 @@
     "seedGroups": 5,
     "minValidPerSeedGroup": 10,
     "maxSharePerGroupPercent": 40,
-    "claim": "عينة ملاءمة اتجاهية وليست ممثلة وطنياً"
+    "claim": "عينة ملاءمة اتجاهية وليست ممثلة وطنيًا"
   },
   "hypotheses": {
-    "H1": { "label": "انتشار الإقراض أو الاقتراض خلال 12 شهراً", "thresholdPercent": 35 },
-    "H2": { "label": "ألم المطالبة عند التأخر", "awkwardTopTwoPercent": 50, "avoidantActionPercent": 30, "anyStrainPercent": 20 },
-    "H3": { "label": "تفضيل تذكير محايد بين غير الموثقين", "neutralReminderPercent": 40 }
+    "H1": {
+      "question": "experience_12m",
+      "denominatorValues": ["أقرضت شخصًا فقط", "اقترضت من شخص فقط", "أقرضت واقترضت", "لم يحدث أي منهما"],
+      "numeratorValues": ["أقرضت شخصًا فقط", "اقترضت من شخص فقط", "أقرضت واقترضت"],
+      "thresholdPercent": 35
+    },
+    "H2": {
+      "filter": { "question": "delayed_repayment", "equals": "نعم" },
+      "requiredQuestions": ["asking_awkwardness", "first_action", "relationship_effect"],
+      "excludedValues": ["أفضل عدم الإجابة"],
+      "awkward": { "question": "asking_awkwardness", "numeratorValues": ["محرج نوعًا ما", "محرج جدًا"], "thresholdPercent": 50 },
+      "avoidantAction": { "question": "first_action", "numeratorValues": ["لمّحت بدل أن أطلب مباشرة", "انتظرت وأجلت الطلب", "لم أطلب حفاظًا على العلاقة"], "thresholdPercent": 30 },
+      "anyStrain": { "question": "relationship_effect", "numeratorValues": ["تأثرت سلبًا بدرجة بسيطة", "تأثرت سلبًا بدرجة واضحة"], "thresholdPercent": 20 }
+    },
+    "H3": {
+      "documentationQuestion": "documentation_method",
+      "lowDocumentationValues": ["محادثة عبر واتساب", "ملاحظة شخصية", "لا أوثّق"],
+      "reminderQuestion": "reminder_preference",
+      "excludedReminderValues": ["لا أعرف", "أفضل عدم الإجابة"],
+      "numeratorValues": ["تذكير آلي ومحايد", "تذكير من شخص ثالث موثوق"],
+      "thresholdPercent": 40
+    }
   },
   "sourceLinks": [
-    { "code": "G1", "label": "مجموعة نشر 1", "prefill": "source_group=G1" },
-    { "code": "G2", "label": "مجموعة نشر 2", "prefill": "source_group=G2" },
-    { "code": "G3", "label": "مجموعة نشر 3", "prefill": "source_group=G3" },
-    { "code": "G4", "label": "مجموعة نشر 4", "prefill": "source_group=G4" },
-    { "code": "G5", "label": "مجموعة نشر 5", "prefill": "source_group=G5" }
+    { "code": "G1", "label": "مجموعة نشر 1" },
+    { "code": "G2", "label": "مجموعة نشر 2" },
+    { "code": "G3", "label": "مجموعة نشر 3" },
+    { "code": "G4", "label": "مجموعة نشر 4" },
+    { "code": "G5", "label": "مجموعة نشر 5" }
+  ],
+  "sections": [
+    { "id": "consent", "title": "المشاركة المجهولة", "questionIds": ["consent"] },
+    { "id": "eligibility", "title": "الأهلية", "questionIds": ["eligible"] },
+    { "id": "behavior", "title": "التجربة خلال آخر 12 شهرًا", "questionIds": ["experience_12m", "delayed_repayment"] },
+    { "id": "delay_experience", "title": "التجربة عند تأخر السداد", "questionIds": ["asking_awkwardness", "first_action", "relationship_effect"] },
+    { "id": "documentation_and_fit", "title": "التوثيق والتفضيلات", "questionIds": ["documentation_method", "reminder_preference", "agreement_preference", "product_priority", "source_group"] }
   ],
   "questions": [
-    { "id": "consent", "title": "هل توافق/ين على المشاركة الطوعية واستخدام الإجابات المجهولة بصورة مجمعة؟", "type": "choice", "options": ["نعم", "لا"], "required": true, "endOn": "لا" },
-    { "id": "eligible", "title": "هل تقيم/ين حالياً في المملكة العربية السعودية وعمرك 18 سنة أو أكثر؟", "type": "choice", "options": ["نعم", "لا"], "required": true, "endOn": "لا" },
-    { "id": "age", "title": "الفئة العمرية", "type": "choice", "options": ["18–24", "25–34", "35–44", "45–54", "55+", "أفضل عدم الإجابة"], "required": false },
-    { "id": "nationality", "title": "الجنسية", "type": "choice", "options": ["سعودي", "غير سعودي", "أفضل عدم الإجابة"], "required": false },
-    { "id": "lent_frequency", "title": "خلال الاثني عشر شهراً الماضية، كم مرة أقرضت مالاً لشخص تعرفه على أن يعيده؟", "type": "choice", "options": ["أبداً", "مرة", "2–3", "4 فأكثر"], "required": true },
-    { "id": "borrowed_frequency", "title": "خلال الاثني عشر شهراً الماضية، كم مرة اقترضت مالاً من شخص تعرفه؟", "type": "choice", "options": ["أبداً", "مرة", "2–3", "4 فأكثر"], "required": true },
-    { "id": "largest_lent", "title": "ما أكبر مبلغ أقرضته تقريباً؟", "type": "choice", "options": ["لم أقرض", "أقل من 500", "500–1,999", "2,000–4,999", "5,000–9,999", "10,000+", "أفضل عدم الإجابة"], "required": true },
-    { "id": "delayed", "title": "هل تأخر شخص في رد مبلغ لك؟", "type": "choice", "options": ["نعم", "لا", "لا أتذكر"], "required": true },
-    { "id": "awkward", "title": "كيف كان شعورك تجاه المطالبة بالمبلغ؟", "type": "choice", "options": ["سهل جداً", "سهل نوعاً ما", "محايد", "محرج نوعاً ما", "محرج جداً"], "required": true, "showWhen": { "question": "delayed", "equals": "نعم" } },
-    { "id": "action", "title": "ما الذي فعلته في آخر مرة؟", "type": "choice", "options": ["طلبت مباشرة", "لمّحت", "انتظرت وأجلت الطلب", "توقفت عن الطلب وسامحت", "أفضل عدم الإجابة"], "required": true, "showWhen": { "question": "delayed", "equals": "نعم" } },
-    { "id": "strain", "title": "كيف أثرت المسألة على العلاقة؟", "type": "choice", "options": ["أثر واضح", "أثر بسيط", "لم يؤثر", "أفضل عدم الإجابة"], "required": true, "showWhen": { "question": "delayed", "equals": "نعم" } },
-    { "id": "documentation", "title": "كيف توثق عادةً الإقراض أو الاقتراض؟", "type": "choice", "options": ["اتفاق مكتوب", "تحويل بنكي بمرجع", "محادثة WhatsApp", "ملاحظة شخصية", "لا أوثّق", "أفضل عدم الإجابة"], "required": true },
-    { "id": "reminder", "title": "إذا تأخر السداد، أي طريقة تذكير تفضل؟", "type": "choice", "options": ["تذكير مباشر", "تذكير آلي ومحايد", "شخص ثالث موثوق", "لا أريد تذكيراً", "أفضل عدم الإجابة"], "required": true },
-    { "id": "riba", "title": "ما أهمية عدم الفائدة أو الغرامة لك في هذا النوع من التعامل؟", "type": "choice", "options": ["مهمة جداً", "مهمة", "محايد", "غير مهمة", "غير مهمة إطلاقاً"], "required": true },
-    { "id": "writing", "title": "هل تشعر/ين بالاطمئنان عندما يكون الدين مكتوباً؟", "type": "choice", "options": ["كثيراً", "نوعاً ما", "لا فرق", "أقل اطمئناناً", "لا أعرف"], "required": true },
-    { "id": "concept", "title": "ما رأيك في خدمة محايدة تحفظ اتفاق القرض وترسل تذكيراً لطيفاً عند التأخر، بلا فائدة أو حكم؟", "type": "choice", "options": ["مفيدة جداً", "مفيدة", "محايد", "غير مفيدة", "غير مفيدة إطلاقاً"], "required": false },
-    { "id": "source_group", "title": "رمز مجموعة النشر", "type": "choice", "options": ["G1", "G2", "G3", "G4", "G5"], "required": true }
+    { "id": "consent", "title": "هل توافق على المشاركة الطوعية في هذا الاستبيان المجهول واستخدام إجاباتك بصورة مجمعة لأغراض هذا المشروع البحثي؟", "type": "choice", "options": ["نعم", "لا"], "required": true, "route": { "نعم": "eligibility", "لا": "SUBMIT" } },
+    { "id": "eligible", "title": "هل عمرك 18 سنة أو أكثر وتقيم حاليًا في المملكة العربية السعودية؟", "type": "choice", "options": ["نعم", "لا"], "required": true, "route": { "نعم": "behavior", "لا": "SUBMIT" } },
+    { "id": "experience_12m", "title": "خلال آخر 12 شهرًا، أيٌّ من الآتي حدث لك مع شخص تعرفه، دون فائدة؟", "type": "choice", "options": ["أقرضت شخصًا فقط", "اقترضت من شخص فقط", "أقرضت واقترضت", "لم يحدث أي منهما", "أفضل عدم الإجابة"], "required": true },
+    { "id": "delayed_repayment", "title": "هل سبق أن تأخر شخص تعرفه في إعادة مبلغ أقرضته له؟", "type": "choice", "options": ["نعم", "لا", "لم أقرض شخصًا", "لا أتذكر", "أفضل عدم الإجابة"], "required": true, "route": { "نعم": "delay_experience", "لا": "documentation_and_fit", "لم أقرض شخصًا": "documentation_and_fit", "لا أتذكر": "documentation_and_fit", "أفضل عدم الإجابة": "documentation_and_fit" } },
+    { "id": "asking_awkwardness", "title": "في آخر مرة تأخر فيها السداد، كيف كان شعورك عند طلب المبلغ؟", "type": "choice", "options": ["غير محرج إطلاقًا", "غير محرج نوعًا ما", "لا هذا ولا ذاك", "محرج نوعًا ما", "محرج جدًا", "أفضل عدم الإجابة"], "required": true, "showWhen": { "question": "delayed_repayment", "equals": "نعم" } },
+    { "id": "first_action", "title": "في آخر مرة تأخر فيها السداد، ماذا فعلت أولًا؟", "type": "choice", "options": ["طلبت المبلغ مباشرة", "لمّحت بدل أن أطلب مباشرة", "انتظرت وأجلت الطلب", "اتفقنا على مهلة جديدة", "أبرأت الدين أو سامحت به برغبتي", "لم أطلب حفاظًا على العلاقة", "أفضل عدم الإجابة"], "required": true, "showWhen": { "question": "delayed_repayment", "equals": "نعم" } },
+    { "id": "relationship_effect", "title": "بعد تلك التجربة، كيف تأثرت علاقتك بالشخص؟", "type": "choice", "options": ["تحسنت", "لم تتأثر", "تأثرت سلبًا بدرجة بسيطة", "تأثرت سلبًا بدرجة واضحة", "أفضل عدم الإجابة"], "required": true, "showWhen": { "question": "delayed_repayment", "equals": "نعم" } },
+    { "id": "documentation_method", "title": "عند الإقراض أو الاقتراض بين المعارف، كيف توثّق الاتفاق عادة؟", "type": "choice", "options": ["اتفاق مكتوب يوضح المبلغ والشروط", "تحويل بنكي مع مرجع", "محادثة عبر واتساب", "ملاحظة شخصية", "لا أوثّق", "لم يسبق لي التعامل", "أفضل عدم الإجابة"], "required": true },
+    { "id": "reminder_preference", "title": "إذا تأخر السداد، ما طريقة التذكير الأكثر راحة لك؟", "type": "choice", "options": ["أطلب مباشرة بنفسي", "تذكير آلي ومحايد", "تذكير من شخص ثالث موثوق", "أفضل عدم التذكير", "لا أعرف", "أفضل عدم الإجابة"], "required": true },
+    { "id": "agreement_preference", "title": "عند قرض جديد بينك وبين شخص تعرفه، أي خيار يجعلك أكثر اطمئنانًا؟", "type": "choice", "options": ["اتفاق مكتوب وواضح", "اتفاق شفهي فقط", "لا فرق لدي", "يعتمد على الشخص أو المبلغ", "لا أعرف", "أفضل عدم الإجابة"], "required": true },
+    { "id": "product_priority", "title": "تخيّل خدمة تحفظ اتفاق القرض، وترسل تذكيرًا متفقًا عليه، وتثبت السداد، دون أن تقرض المال أو تفرض فائدة أو غرامة أو تحكم بين الطرفين. ما الخيار الأكثر قيمة لك؟", "type": "choice", "options": ["توثيق الاتفاق", "التذكير المحايد", "إثبات السداد", "طلب مهلة أو إبراء الدين", "لا أرى قيمة في الخدمة", "لا أعرف", "أفضل عدم الإجابة"], "required": false },
+    { "id": "source_group", "title": "رمز مجموعة النشر — اتركه كما هو", "type": "choice", "options": ["G1", "G2", "G3", "G4", "G5"], "required": true }
   ]
 }
