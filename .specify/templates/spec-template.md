@@ -151,6 +151,12 @@ scope exclusions.]
 - **PR-001**: [State a production seam, external dependency, failure behavior, owner, and
   current lifecycle status.]
 
+### Security and Privacy Control Requirements *(include for production targets)*
+
+- **SEC-001**: [State one independently testable identity, authorization, consent, replay,
+  validation, abuse, audit, key, residency, retention, recovery, supply-chain, or privacy-harm
+  control with lifecycle status and failure behavior.]
+
 ### Judge-Visible Requirements *(include for competition surfaces)*
 
 - **JR-001**: [State a measurable judge-facing outcome and its evidence source.]

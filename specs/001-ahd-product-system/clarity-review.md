@@ -1,12 +1,13 @@
 # Ahd Master Specification — Clarity Review
 
-**Review date:** 2026-07-14  
+**Review date:** 2026-07-14
+
 **Reviewed against:** Current repository, Graphify graph, project constitution, decision
 register, open items, Judge Lens, product surfaces, server, protocol, evidence, and tests
 
 ## Outcome
 
-The new master specification is ready for stakeholder review. It replaces the previous
+The master specification is approved for gated implementation. It replaces the previous
 implicit model of “built versus future” with six explicit lifecycle states and connects the
 product promise, actors, journeys, requirements, decisions, evidence, and production gates.
 
@@ -26,21 +27,23 @@ preserved as named decision or external gates rather than hidden in vague wordin
 | CR-07 | Medium | Data evidence grades and synthetic labels were judge artifacts, not product requirements | Added 15 `DR-` requirements and evidence-focused acceptance scenarios |
 | CR-08 | Medium | Judge integrity was a process rule but not part of product readiness | Added 10 `JR-` requirements and measurable rehearsal/claim-integrity outcomes |
 | CR-09 | Medium | Current implementation evidence did not map cleanly to requirement families | Added an ID-ranged current-evidence matrix |
-| CR-10 | Medium | Agreement identifier and lifecycle enum remain unresolved | Isolated the gap as `NFR-015`, `PR-011`, and `OT-IDSTATE`; no format was invented |
+| CR-10 | Medium | Agreement identifier and lifecycle enum were inconsistent across historical designs | Bound current contracts to opaque byte-preserved `AhdIdV1`, the golden reducer enum, and independent version axes without inventing a public generator format |
 | CR-11 | Medium | “Approved evidence” could be interpreted loosely | Defined attributable, dated closure artifacts and explicitly rejected drafts, simulations, and verbal expectations |
 | CR-12 | Low | Accessibility touch-target language was vague | Quantified the current requirement at 44 by 44 CSS pixels |
+| CR-13 | High | Identity, authorization, consent, replay, enumeration, validation, abuse limits, audit, custody, residency, data lifecycle, incident response, supply chain, and privacy harm were compressed into broad production statements | Added 14 independently testable `SEC-` controls and a fail-closed production-seam contract |
 
 ## Improvements Already Applied
 
 - Created an Ahd constitution with eight non-negotiable principles.
 - Synchronized Spec Kit specification, plan, and task templates.
 - Defined 10 independently testable user stories with acceptance scenarios.
-- Defined 128 unique normative requirements:
+- Defined 142 unique normative requirements:
   - 50 functional;
   - 18 spine and Shariah;
   - 20 non-functional;
   - 15 data and evidence;
   - 15 production readiness;
+  - 14 security and privacy controls;
   - 10 judge-visible.
 - Defined 13 measurable success criteria.
 - Defined 21 current screens, 21 domain entities, semantic transitions, and forbidden
@@ -49,34 +52,39 @@ preserved as named decision or external gates rather than hidden in vague wordin
 - Added a 24-item specification validation checklist and a 47-item formal review checklist.
 - Removed all placeholders and clarification markers.
 
-## Remaining Improvements for Planning
+## Remaining Work After Planning
 
 These are not specification-writing defects. They are planned design, external, or evidence
 work and must remain visible:
 
-1. Resolve `OT-IDSTATE`: choose one agreement identifier format and one binding state enum.
-2. Produce the technical data model, schemas, invariants, and versioning rules.
-3. Define contracts for product surfaces, Open-Witness, local server, and production seams.
-4. Produce a formal threat model and separate rate-limit, abuse, audit, privacy, recovery,
-   custody, and incident requirements into executable tasks.
+1. Implement the opaque-identifier and versioned-state registry defined by the planning contract
+   without changing current sealed bytes; the production generator remains an internal choice.
+2. Turn the formal data model, schemas, invariants, and versioning rules into executable validators.
+3. Enforce the product-surface, Open-Witness, local-server, and production-seam contracts with tests.
+4. Produce the formal threat model and implement the `SEC-` controls in dependency order.
 5. Approve measurable production SLOs for availability, latency, capacity, RTO, and RPO.
 6. Close D-1, D-3, D-6, D-7, and D-8 with qualified Shariah review.
 7. Close `OT-VAL` and `OT-CITE` with regulator, provider, and counsel evidence.
 8. Field `OT-A1` research before claiming Saudi relational demand or traction.
 9. Reconcile stale product documentation against the new specification without editing the
    frozen demo.
-10. Generate the requirement-to-task coverage matrix and run cross-artifact analysis after
-    planning.
+10. Execute T001–T124 in dependency order; stop at every named decision or external gate until
+    attributable closure evidence exists.
 
 ## Validation Snapshot
 
 - Registered screen inventory: 21.
 - Navigator feature-unit inventory: 35.
-- Normative requirements: 128 unique declarations.
+- Normative requirements: 142 unique declarations.
 - Success criteria: 13.
 - Placeholders or clarification markers: 0.
 - Specification quality checklist: 24 of 24 passing.
-- Formal reviewer checklist: 47 items ready for independent review.
+- Formal reviewer checklist: 47 of 47 passing.
+- Implementation tasks: 124 unique, continuous IDs; every task has a story, requirement ID,
+  exact path, and validation or stop gate.
+- Requirement-to-task coverage: 142 of 142; invalid or duplicate requirement references: 0.
+- Cross-artifact analysis: 0 critical conflicts, 0 missing decision mappings, and 0 constitution
+  binding gaps.
 
 ## Judge Lens Review
 

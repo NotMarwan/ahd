@@ -4,7 +4,7 @@
 
 **Created**: 2026-07-14
 
-**Status**: Draft for stakeholder review
+**Status**: Approved for gated implementation
 
 **Input**: Review the whole Ahd project and create a crystal-clear, structured specification
 covering the current prototype, target product, external gates, and improvement work.
@@ -502,6 +502,25 @@ production requirement that remains gated.
 | PR-014 | `PLANNED` | Production operations MUST define service ownership, escalation, disaster recovery, reconciliation, and audit review. |
 | PR-015 | `PLANNED` | A launch readiness review MUST prove every external gate with documentary evidence and leave no pending item represented as complete. |
 
+### Security and Privacy Control Requirements
+
+| ID | Status | Requirement |
+|---|---|---|
+| SEC-001 | `EXTERNAL-GATED` | Production identity assurance MUST verify an approved provider assertion, retain its assurance and provider reference, store no raw biometric, and fail closed when evidence is missing, invalid, expired, or revoked. |
+| SEC-002 | `EXTERNAL-GATED` | Production authorization MUST separately verify the authenticated subject's resource role and action authority, enforce least privilege and deny by default, and MUST NOT treat authentication alone as consent. |
+| SEC-003 | `EXTERNAL-GATED` | Production consent MUST use a what-you-see-is-what-you-sign flow binding the party, action, exact content digest, profile versions, challenge or nonce, and approved signature attestation. |
+| SEC-004 | `PLANNED` | Every production mutation MUST define an idempotency key, replay window, provider transaction nonce, version precondition, and duplicate response that creates at most one business event. |
+| SEC-005 | `PLANNED` | Public verification MUST operate on a holder-supplied bundle or non-enumerable capability and MUST NOT provide a public record list, relationship-discovery endpoint, or existence oracle. |
+| SEC-006 | `PLANNED` | Production schemas MUST reject unknown required-version fields, malformed identifiers, unsafe integers, non-SAR or mixed-currency netting, excessive precision, coercive numeric text, and invalid canonical profile combinations. |
+| SEC-007 | `PLANNED` | Public interfaces MUST bound request bytes, JSON depth, string length, header size, edge count, page size, connections, concurrency, and execution time; rate exhaustion MUST return `429` with `Retry-After` and create no business event. |
+| SEC-008 | `EXTERNAL-GATED` | Production audit and monitoring MUST record attributable security and operations outcomes without secrets, raw identity, trust bands, hardship narrative, or unnecessary terms, and MUST alert on authorization denial, replay, enumeration, key events, and provider failure. |
+| SEC-009 | `EXTERNAL-GATED` | Session, witness-signing, encryption, and audit keys MUST use separate domains with approved non-exportable custody, rotation, revocation, recovery, historical verification, and separation of duties. |
+| SEC-010 | `EXTERNAL-GATED` | Production personal and financial data MUST be encrypted in transit and at rest and remain within approved residency across primary storage, backups, logs, telemetry, disaster-recovery copies, support access, and subprocessors. |
+| SEC-011 | `EXTERNAL-GATED` | Production data policy MUST define minimization, purpose, access, retention class, deletion outcome, legal hold, subject access, export, backup expiry, and breach notification for every record category. |
+| SEC-012 | `EXTERNAL-GATED` | Incident and recovery controls MUST define severity, ownership, escalation, containment, evidence preservation, notification, reconciliation, tested restore, RTO, RPO, and safe degraded behavior. |
+| SEC-013 | `PLANNED` | Production builds and containers MUST use a minimal runtime boundary, pinned and scanned dependencies and base images, secret exclusion, least-privilege execution, provenance, and a verified release manifest. |
+| SEC-014 | `PLANNED` | The threat model MUST analyze linkability and non-repudiation privacy harm in addition to STRIDE, including coerced evidence disclosure, trust-band misuse, public hardship exposure, and cross-context identifier correlation. |
+
 ### Judge-Visible Requirements
 
 | ID | Status | Requirement |
@@ -564,19 +583,23 @@ product behavior observes these semantic transitions:
 |---|---|---|---|---|
 | Draft | Both parties consent and seal | Both parties | Active | Terms pass screening; amount and parties valid |
 | Active | Valid payment | Paying party with witnessed receipt | Active or Kept | Payment does not exceed remaining |
-| Active | Grace granted | Lender after borrower request or lender offer | Grace | No increase; remaining conserved |
-| Grace | Valid payment | Paying party | Grace or Kept | Payment does not exceed remaining |
-| Active or Grace | Partial forgiveness | Lender | Active, Grace, or Forgiven | Forgiveness does not exceed remaining |
-| Active or Grace | Full forgiveness | Lender | Forgiven | Remaining becomes zero exactly |
-| Active or Grace | Dispute raised | Either party | Disputed | Event is attributable; affected actions pause |
+| Active | Grace granted | Lender after borrower request or lender offer | Active with `graced=true` projection | No increase; remaining conserved; grace is not a persisted lifecycle enum |
+| Active with grace projection | Valid payment | Paying party | Active with grace projection or Kept | Payment does not exceed remaining |
+| Active | Partial forgiveness | Lender | Active or Forgiven | Forgiveness does not exceed remaining; a grace projection may remain visible |
+| Active | Full forgiveness | Lender | Forgiven | Remaining becomes zero exactly |
+| Active | Dispute raised | Either party | Disputed | Event is attributable; affected actions pause |
 | Disputed | Reconciliation accepted | Both affected parties | Prior lawful state or Kept | Replacement terms require explicit consent |
-| Active or Grace | Full settlement | Both parties or verified rail evidence | Kept | Paid plus forgiven equals principal |
+| Active | Full settlement | Both parties or verified rail evidence | Kept | Paid plus forgiven equals principal; any grace projection closes with the obligation |
 | Circle share | Graduation accepted | Both share parties | New open-term agreement | New agreement sealed; provenance retained |
 | Proposed netting | All affected consents recorded | All affected parties | Committed settlement | Conservation and consent complete |
 
 Forbidden transitions include silent principal increase, unilateral replacement-leg commit,
 payment beyond remaining, forgiveness by an unauthorized actor, disputed-to-verdict by Ahd,
 and open-term-to-overdue.
+
+`RESCHEDULED` is a presentation label for `ACTIVE` plus `graced=true`; it is not a separate
+persisted lifecycle state. This binding matches the current golden reducer and prevents future
+contracts from inventing a conflicting `GRACE` state.
 
 ## Decisions, Dependencies & Traceability
 
@@ -591,7 +614,7 @@ and open-term-to-overdue.
 | D-6 and D-6a fee model and surfaces | FR-040, FR-041, SR-013, PR-013 | Display proposal only; no charge |
 | D-7 multilateral netting Shariah framing | FR-026, SR-014, PR-002 | Technical capability remains; public ruling stays qualified |
 | D-8 mercy-first consent condition | FR-028, SR-015, PR-002 | Conservative creditor-consented rule |
-| OT-IDSTATE identifier and state vocabulary | NFR-015, PR-011 | Must be resolved before production contracts |
+| OT-IDSTATE identifier and state vocabulary | NFR-015, PR-011 | Contract boundary resolved as opaque `AhdIdV1` plus the golden reducer enum; production generator and future migration remain versioned implementation work |
 | OT-A1 field demand evidence | FR-050, DR-010, PR-012 | No demand or traction claim beyond sourced context |
 | OT-VAL production validation | PR-001 through PR-007 | No approval claim |
 | OT-CITE counsel confirmation | DR-012, PR-003 | Qualify affected legal and court claims |
@@ -599,17 +622,17 @@ and open-term-to-overdue.
 
 ### External Dependencies
 
-| Dependency | Owner | Status | Failure behavior and fallback |
-|---|---|---|---|
-| Qualified Shariah review | Product owner and appointed board/reviewer | `EXTERNAL-GATED` | Keep capability disabled or framing qualified |
-| Saudi legal and privacy counsel | Product owner and counsel | `EXTERNAL-GATED` | Keep legal claims qualified; do not launch affected flow |
-| Regulatory pathway | Product owner and regulator | `EXTERNAL-GATED` | Remain prototype or controlled pilot only |
-| Nafath-compatible identity and signing | Product owner and approved provider | `EXTERNAL-GATED` | Use explicit simulation label; no production attribution claim |
-| Accredited timestamping | Product owner and approved provider | `EXTERNAL-GATED` | Report trusted-time property absent; local logic remains deterministic |
-| HSM/KMS custody | Security owner and approved provider | `EXTERNAL-GATED` | No production signing claim |
-| Saudi hosting and operations | Technology owner and provider | `EXTERNAL-GATED` | Remain localhost/offline demonstration |
-| Field survey and pilot | Product team | `EXTERNAL-GATED` | Preserve evidence gap; use only sourced context and labelled models |
-| Official competition assets and team data | Product owner | `EXTERNAL-GATED` | Use draft package; do not invent names or organizer requirements |
+| Dependency | Owner | Status | Failure behavior and fallback | Required closure evidence |
+|---|---|---|---|---|
+| Qualified Shariah review | Product owner and appointed board/reviewer | `EXTERNAL-GATED` | Keep capability disabled or framing qualified | Signed, dated decision for each affected mechanic and public claim |
+| Saudi legal and privacy counsel | Product owner and counsel | `EXTERNAL-GATED` | Keep legal claims qualified; do not launch affected flow | Dated opinion covering legal effect, privacy role, evidence framing, and court export |
+| Regulatory pathway | Product owner and regulator | `EXTERNAL-GATED` | Remain prototype or controlled pilot only | Attributable regulator-path artifact defining allowed scope and conditions |
+| Nafath-compatible identity and signing | Product owner and approved provider | `EXTERNAL-GATED` | Use explicit simulation label; no production attribution claim | Provider approval, private-debt use-case scope, conformance results, and executed terms |
+| Accredited timestamping | Product owner and approved provider | `EXTERNAL-GATED` | Report trusted-time property absent; local logic remains deterministic | Approved target digest, provider accreditation, token-retention rules, and conformance results |
+| HSM/KMS custody | Security owner and approved provider | `EXTERNAL-GATED` | No production signing claim | Approved custody design, key ceremony, rotation/revocation evidence, and recovery test |
+| Saudi hosting and operations | Technology owner and provider | `EXTERNAL-GATED` | Remain localhost/offline demonstration | Residency, TLS, secrets, backup/restore, monitoring, incident, and subprocessor evidence |
+| Field survey and pilot | Product team | `EXTERNAL-GATED` | Preserve evidence gap; use only sourced context and labelled models | Approved ethics/consent method plus de-identified report or pilot closeout against declared criteria |
+| Official competition assets and team data | Product owner | `EXTERNAL-GATED` | Use draft package; do not invent names or organizer requirements | Owner-supplied team data and organizer-issued template/file requirements |
 
 For this specification, approved documentary evidence means an attributable, dated artifact
 from the authority named in the dependency row. Examples include a signed reviewer decision,
@@ -623,7 +646,9 @@ Repository paths below prove current status; they do not define future implement
 
 | Requirement IDs | Requirement area | Current evidence |
 |---|---|---|
+| FR-001 | Capability lifecycle inventory and stakeholder status | `specs/001-ahd-product-system/spec.md`, `app/app.js`, `app/screens/`, `app/features/` |
 | NFR-001–NFR-005, NFR-012–NFR-014, SR-005 | Frozen core, parity, determinism, money, app behavior | `demo/index.html`, `app/engine.js`, `tests/run-all.cjs`, `tests/app/` |
+| NFR-006–NFR-011 | Arabic/RTL, digit projection, accessibility, reduced motion, dignity, and recovery | `app/index.html`, `app/app.css`, `app/screens/`, `tests/app/app-dom-smoke.cjs`, `tests/app/app-offline.test.cjs`, `tests/app/settings.test.cjs`, `tests/app/daftari.test.cjs` |
 | FR-002–FR-008, SR-003–SR-005, SR-008 | Agreement creation and riba screening | `app/features/create.js`, `app/features/riba-lint.js`, corresponding tests |
 | FR-009–FR-019, SR-009–SR-010 | Ledger, borrower, open-term, reminders, grace, forgiveness | `app/features/daftari.js`, `borrower.js`, `open-loan.js`, corresponding tests |
 | FR-020–FR-025, SR-012, SR-016 | Circle and recurring shares | `app/features/circle.js`, `circle-adv.js`, corresponding tests |
@@ -633,7 +658,7 @@ Repository paths below prove current status; they do not define future implement
 | FR-036–FR-039, DR-001–DR-009 | Impact, evidence grades, market model | `app/features/impact.js`, `impact-drill.js`, `sources.js`, `market-model.js`, `data-rigor.js`, corresponding tests |
 | FR-040–FR-041, SR-013, SR-018 | Fee and organization proposals | `app/features/billing.js`, `fee-receipt.js`, `org.js`, `docs/DECISIONS-FOR-MARWAN.md` |
 | FR-043–FR-044 | Local service demonstration | `server/`, `tests/app/server-*.test.cjs`, `server/smoke-live.cjs` |
-| FR-047–FR-050, NFR-016–NFR-020, PR-001–PR-015 | Production path and external gates | `docs/evidence/PATH-TO-PRODUCTION.md`, `_meta/OPEN-ITEMS.md` |
+| FR-047–FR-050, NFR-016–NFR-020, PR-001–PR-015, SEC-001–SEC-014 | Production path, security controls, and external gates | `docs/evidence/PATH-TO-PRODUCTION.md`, `_meta/OPEN-ITEMS.md`, `specs/001-ahd-product-system/contracts/production-seams.md` |
 | FR-045–FR-046, JR-001–JR-010 | Judge requirements and evidence package | `docs/JUDGE-LENS.md`, `docs/pitch/`, `docs/evidence/`, stage gate checks |
 
 ## Success Criteria
