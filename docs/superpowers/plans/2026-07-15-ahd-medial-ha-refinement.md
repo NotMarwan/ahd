@@ -27,7 +27,7 @@
 - Consumes: `C:/Users/wasan/clipboard-pastes/paste-20260715-003512-524.png` as the edit target.
 - Produces: one square PNG candidate.
 
-- [ ] **Step 1: Generate the targeted edit**
+- [x] **Step 1: Generate the targeted edit**
 
 ```text
 Use case: precise-object-edit
@@ -38,21 +38,21 @@ Constraints: keep both people, both outer loops, colors, stroke width, spacing, 
 Avoid: typed text overlay, isolated ه, ة, م, ع, eye symbol, infinity symbol, extra loop, extra dot, arrow, coin, document, gradient, shadow, 3D, watermark.
 ```
 
-- [ ] **Step 2: Inspect and iterate once if required**
+- [x] **Step 2: Inspect and iterate once if required**
 
 Reject if the center does not read as `ـهـ` or if the people/outer bond drift. If necessary, perform one targeted edit that changes only the ha counter or waist.
 
-- [ ] **Step 3: Persist the candidate**
+- [x] **Step 3: Persist the candidate**
 
 Copy the accepted PNG to the exact output path without replacing any prior candidate.
 
 ### Task 2: Validate and Present
 
-- [ ] **Step 1: Inspect at 64 px**
+- [x] **Step 1: Inspect at 64 px**
 
 Confirm the people, bond, and ha remain distinct when reduced to 64 px.
 
-- [ ] **Step 2: Run the project gate**
+- [x] **Step 2: Run the project gate**
 
 ```powershell
 node tests/run-all.cjs
