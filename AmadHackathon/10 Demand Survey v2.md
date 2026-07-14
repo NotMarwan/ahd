@@ -1,11 +1,11 @@
 ---
 tags: [evidence, survey, judge-lens]
-updated: 2026-07-14
+updated: 2026-07-15
 ---
 
 # Demand Survey v2
 
-Status: written specification approved; implementation-ready TDD plan complete. Survey code has not been changed yet.
+Status: Implementation verified; human cognitive pretest pending.
 
 - Goal: judge-grade directional evidence first; product learning second.
 - Length: 9 questions on the normal path and 12 after delayed repayment.
@@ -17,3 +17,7 @@ Status: written specification approved; implementation-ready TDD plan complete. 
 source: `docs/superpowers/specs/2026-07-14-demand-survey-v2-design.md`
 
 implementation: `docs/superpowers/plans/2026-07-14-demand-survey-v2-implementation.md`
+
+runbook: `docs/evidence/survey/OWNER-RUNBOOK.md`
+
+pretest checklist: `docs/evidence/survey/PRETEST-CHECKLIST.md`

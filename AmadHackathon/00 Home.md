@@ -1,6 +1,6 @@
 ---
 tags: [dashboard]
-updated: 2026-07-13
+updated: 2026-07-15
 ---
 
 # 🏆 عهد — لوحة القيادة
@@ -10,8 +10,8 @@ updated: 2026-07-13
 > «البنك يشهد ولا يُقرض» — فئة جديدة: **البنية التحتيّة للقرض الحسن**
 
 > [!tip] البوّابة الآن
-> **`AHD GATE ✅ 2979/0`** — أمر واحد: `cd tests && node run-all.cjs` (~6 ثوانٍ، دون إنترنت)
-> 20 شاشة · 69 مجموعة اختبار · الختم سليم `e2f48467…`
+> **`AHD GATE ✅ 3001/0`** — أمر واحد: `cd tests && node run-all.cjs` (~6 ثوانٍ، دون إنترنت)
+> 20 شاشة · 70 مجموعة اختبار · الختم سليم `e2f48467…`
 
 ## 🧭 التنقّل
 
@@ -70,4 +70,4 @@ updated: 2026-07-13
 
 - **14 يوليو (العدّة الكاملة):** اكتمل مسار الاستبيان والسلامة والتحقّق المتعدد والواجهة والبروتوكولات الآمنة. البوابة **2979/0** (التطبيق 2781/69) وتكرار `git archive` نظيف أخضر، والختم المجمّد سليم. الحقيقة التي لا تُخفى: **لا ردود استبيان، لا اعتماد خارجي، لا تجربة شريك**؛ OT-A1 اتجاهي مدعوم فقط عند تحقق شروطه. التقييم المحافظ: ابتكار 7.8 · تقني 8.0 · بيانات 7.2 · UX 7.8 · تنفيذ 7.3 · ذاكرة 7.6. التالي: [[06 قائمتك]] وJL-13..JL-17. `source: docs/session-report-2026-07-14-full-roadmap-survey.md`
 
-- **14 July (Survey v2):** Approved a shorter behavior-first instrument: 9 questions on the normal path, 12 after delayed repayment, with corrected evidence definitions and a private linked response sheet. The implementation-ready TDD plan is complete; survey code remains unchanged until execution. [[10 Demand Survey v2]] · `source: docs/superpowers/plans/2026-07-14-demand-survey-v2-implementation.md`
+- **15 July (Survey v2):** Survey v2 toolchain verified; cognitive pretest 5–8 and soft launch 20 are the next human steps. No demand result exists yet. [[10 Demand Survey v2]] · `source: docs/superpowers/plans/2026-07-14-demand-survey-v2-implementation.md`

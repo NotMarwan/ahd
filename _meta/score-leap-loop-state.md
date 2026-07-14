@@ -151,3 +151,7 @@ After iter3, autonomous offline leverage IS exhausted (verified against OPEN-ITE
 | Tired judge / memorability | **7.6** | Live timed rehearsal must prove the closing lands. |
 
 See `docs/session-report-2026-07-14-full-roadmap-survey.md`. Open judge items: JL-13 through JL-17.
+
+## 2026-07-15 — Demand Survey v2 readiness
+
+Demand Survey v2 implementation improves readiness only. No responses were collected; OT-A1, JL-14, and the Data-score ceiling remain unchanged.
