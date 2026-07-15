@@ -285,6 +285,57 @@
       "description": "Standing/recurring two-party qard hasan «سُلفة بالمعروف» (Musaned wedge)"
     },
     {
+      "name": "jamiya",
+      "featureFile": "app/features/jamiya.js",
+      "screenFile": "app/screens/jamiya.js",
+      "testFiles": [
+        "app/jamiya-core.test.cjs",
+        "app/jamiya-conservation.test.cjs",
+        "app/jamiya-seal.test.cjs",
+        "app/jamiya-riba-lint.test.cjs",
+        "app/jamiya-screen-smoke.test.cjs"
+      ],
+      "description": "Sealed ROSCA «الجمعية الموثّقة» with mutually agreed payout order"
+    },
+    {
+      "name": "daily-qaid",
+      "featureFile": "app/features/qaid.js",
+      "screenFile": "app/screens/daily.js",
+      "testFiles": [
+        "app/qaid-core.test.cjs",
+        "app/qaid-upgrade.test.cjs",
+        "app/daily-screen-smoke.test.cjs"
+      ],
+      "description": "Ahd Daily private unsealed lite ledger with deterministic upgrade into the existing sealed create flow"
+    },
+    {
+      "name": "daily-split",
+      "featureFile": "app/features/split.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/split.test.cjs"
+      ],
+      "description": "Exact integer-halala largest-remainder bill split into lite qaid drafts"
+    },
+    {
+      "name": "daily-reminder",
+      "featureFile": "app/features/reminder.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/reminder.test.cjs"
+      ],
+      "description": "Three fixed dignified reminders with a deterministic two-per-month sealed-event cap"
+    },
+    {
+      "name": "daily-walink",
+      "featureFile": "app/features/walink.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/walink.test.cjs"
+      ],
+      "description": "Offline base64url confirmation link and deterministic local acceptance code"
+    },
+    {
       "name": "bounds",
       "featureFile": "app/features/bounds.js",
       "screenFile": "app/screens/bounds.js",
