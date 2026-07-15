@@ -294,6 +294,38 @@
       "result": "Current mismatches recorded for T021-T024 correction; no product behavior changed."
     },
     {
+      "task_id": "T018",
+      "dispatch_id": "wave0-T018-controller-self-20260715",
+      "dispatch_sha256": "352ceae533e2a73520ebd3244c762550fa63634ca1e07608f2d5f4a534e24c64",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Preflight contract fixtures and injected runner checks are bounded test work.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["tests/stage-preflight.test.cjs"],
+      "tests": [{"command": "node tests/stage-preflight.test.cjs", "phase": "RED", "result": "0 passed, 1 failed; exports missing"}],
+      "reviews": [{"review_id": "T018-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Failing cases cover static assets, exact commands, budget, timeout cleanup, and normalized evidence."
+    },
+    {
+      "task_id": "T019",
+      "dispatch_id": "wave0-T018-controller-self-20260715",
+      "dispatch_sha256": "352ceae533e2a73520ebd3244c762550fa63634ca1e07608f2d5f4a534e24c64",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "One focused command records expected RED evidence.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/freeze/2026-07-15-task-evidence.json"],
+      "tests": [{"command": "node tests/stage-preflight.test.cjs", "phase": "RED", "result": "expected missing-control export failure confirmed"}],
+      "reviews": [{"review_id": "T019-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "RED recorded before bounded preflight implementation."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
