@@ -1,236 +1,123 @@
 <p align="center">
-  <img src="assets/brand/ahd-logo.png" alt="شعار عهد — المعطي والآخذ بينهما رباط محفوظ" width="320">
+  <img src="assets/brand/ahd-logo.png" alt="شعار عهد" width="210">
 </p>
 
-# عهد · Ahd
+<h1 align="center">عهد · Ahd</h1>
 
-**A bank that *witnesses, seals, settles, and nets* interest-free interpersonal loans (قرض حسن / qard hasan) — and never lends its own money, never judges disputes, never charges interest or penalty, and never scores credit.**
+<p align="center"><strong>يشهد… لا يُقرض.</strong></p>
 
-> Basis: Qur'an 2:282 (write the debt) + 2:280 (grace for the struggling).
-> Soul: «كلمتك محفوظة، وعلاقتك محميّة» — Your word is kept, your relationship is protected.
+<p align="center">
+بنك شاهد محايد يوثّق القرض الحسن بين الأفراد، يختمه، يكشف العبث به، ويختصر تسويته — بلا فائدة، بلا غرامة، بلا تقييم ائتماني.
+</p>
 
-> 🏆 **Mission — AMAD Hackathon 2026:** this repo exists to take **1st place (250,000 SAR)** on
-> **18 July 2026** against ~1000 projects. Every change is reviewed through the five published judging
-> criteria — **[docs/JUDGE-LENS.md](docs/JUDGE-LENS.md)** — before it counts as done. Good is the entry
-> fee; the bar is *unforgettable*.
->
-> 📜 **الديدن — lessons from edition 1's actual winners** (closing-ceremony transcript, verified —
-> [full details](docs/research/amad-winners-research-ar.md)): **story beats features** (the fortune-teller
-> skit outshone slide decks) · **one shocking market number wins the room** (ours are better-sourced than
-> anything said on that stage) · **deep tech took 1st, simple human impact took 2nd** — we carry BOTH
-> (SHA-256 witness + 2:280 mercy) · **their panel rewarded credit scoring (3rd place); our spine refuses
-> it — say why refusal is strength (Q-E4)** · a 2-person team won — quality over headcount.
+<p align="center"><sub>A neutral bank witness for interest-free interpersonal loans: record, seal, verify, and settle.</sub></p>
 
----
+## المشكلة
 
-## المنتج · The Product
+القرض بين الأقارب والأصدقاء يبدأ بالثقة. لكن الوعد الشفهي لا يحفظ التفاصيل، والتأخر قد يحوّل اختلاف الذاكرة إلى خلاف أو خسارة علاقة.
 
-A fully offline, deterministic, **Arabic-first (RTL)** web app. 12 screens over a single parity-proven engine.
+«عهد» يحفظ الحق والعلاقة معًا: يكتب ما اتفق عليه الطرفان، يمنع شرط الفائدة والغرامة قبل الختم، ويترك الحكم لأصحابه والجهات المختصة.
 
-| Screen | What it is | Spine highlight |
-|---|---|---|
-| 🏠 **الرئيسية** | Front door: brand, live standing strip (net balance, witness count, trust word), feature cards | Bank witnesses, never lends/judges/charges/scores |
-| ➕ **أنشئ عهدًا** | Create a عهد with the **live riba linter** | Blocks penalty/interest, offers halal fix, gates the seal |
-| 📔 **دفتري** | Creditor home (لي/عليّ) + bank-sent gentle reminder | Overdue is **amber, never red**; no shaming counter; merciful ladder |
-| 📜 **سِجلّ الشهادة** | Witness timeline — per-عهد story view + flat feed | Bank *witnesses*; late=amber, dispute=neutral, no score |
-| ♾️ **القرض المفتوح** | Open-term qard hasan + إبراء (forgiveness) | No due ⇒ **never overdue**; conservation exact |
-| 👥 **الدائرة** | Treasurer dashboard: progress + dignified member states | Group reminder **never names the late** |
-| 🔁 **الدائرة+** | By-item split, recurring auto-post, graduation قَيْد→عهد | Mode-B pledge ⚠️ Shariah-review guard |
-| 🔗 **المقاصّة** | Tangle → fewest transfers (9→2) + conservation proof | Preserves every member's net position exactly |
+## كيف يعمل عهد؟
 
-**Contextual screens** (reached in-flow, no nav pill): **حافظة الإثبات** (proof-pack with live tamper-verify) · **محلّ خلاف** (dispute pause — «يشهد ولا يحكم») · **الإعدادات** (Arabic-Indic digits + privacy mask + manifesto) · **اطلب عهدًا** (borrower-initiated request).
+**1. يوثّق**
 
----
+يُسجّل الطرفان المبلغ والموعد والشروط. يفحص النظام النص قبل الختم، ويرفض الفائدة وغرامة التأخير.
 
-## ابدأ · Quick Start
+**2. يختم ويكشف العبث**
 
-```bash
-# Run the app (one command, fully offline)
-node app/_serve-app.cjs        # → http://localhost:8124
+يُنتج سجلًا مختومًا يمكن التحقق منه. تغيير المبلغ أو الشروط بعد الاتفاق يظهر فورًا.
 
-# Or just open the file
-# Double-click app/index.html in your file browser
+**3. يُقاصّ بالتراضي**
+
+يختصر شبكة الديون مع إبقاء صافي حق كل شخص كما هو. المثال المبني يحوّل **9 التزامات** إلى **تحويلين**؛ لا ريال يُخلق أو يضيع.
+
+<p align="center">
+  <img src="app/screenshots/premium-after/05-proof-verified.png" alt="عهد يتحقق من سلامة السجل المختوم" width="31%">
+  <img src="app/screenshots/premium-after/06-proof-tampered.png" alt="عهد يكشف العبث بالسجل" width="31%">
+  <img src="app/screenshots/premium-after/09-settle.png" alt="المقاصة تختصر تسعة التزامات إلى تحويلين" width="31%">
+</p>
+
+## ما الذي بُني؟
+
+- تطبيق عربي يعمل دون اتصال، ويعرض رحلة التوثيق والختم والرحمة والمقاصّة.
+- ختم حتمي مبني على `SHA-256` مع أداة تحقق مستقلة وسجل قابل لاكتشاف العبث.
+- محرّك مقاصّة يحفظ صافي المراكز بدقة الهللة ولا يستخدم أموالًا عائمة.
+- تجربة تحفظ الكرامة: لا تشهير، لا عدّاد تأخير، لا غرامة، لا درجة ائتمانية.
+- بوابة جودة متحققة: `AHD GATE ✅ 3067/0`، والعرض المجمّد محفوظ ببصمته.
+
+## جرّبه
+
+```powershell
+node app/_serve-app.cjs
 ```
 
----
+ثم افتح:
 
-## Architecture
-
-**One engine, two surfaces:**
-
-| | **app/** | **demo/** |
-|---|---|---|
-| Entry | `app/index.html` | `demo/index.html` |
-| Status | **Active** — the publishable product | **Frozen** — byte-pinned presenter reference |
-| Structure | Multi-file: `engine.js` + `features/*.js` + `screens/*.js` + `app.js` | Single HTML file |
-| Engine | `engine.js` — generated by `app/build-engine.cjs` | Inline AHD-LOGIC region (lines 167–692) |
-
-The **engine** is the same code in both. `build-engine.cjs` reads the demo's logic region verbatim and wraps it for dual module export (Node + browser). Faithfulness is enforced by `tests/app/engine-parity.cjs` — the **drift guard**.
-
-**Key properties:**
-- **Fully offline** — zero network calls, no build step, no dependencies
-- **Deterministic** — fixed `AS_OF`, integer halalas (1 SAR = 100), civil-days math; no `Date.now`/`Math.random`/`Intl`/`toLocaleString` in live code
-- **Pure DI** — feature modules receive the engine by injection, testable in plain Node
-- **RTL-first** — Arabic is the source language, layout is right-to-left by design
-
----
-
-## Server & Deploy (honest status)
-
-A zero-dependency Node server (`server/http.cjs` — built-ins only, no `npm install`) exposes the SAME golden
-engine over real HTTP (`/create-loan`, `/seal`, `/verify`, `/net`, `/list`, `/health`), with durable
-append-only persistence (`server/store.cjs`) and HMAC session auth on the mutating routes (`server/auth.cjs`).
-It is a **separate terminal surface** — the app/demo themselves stay fully offline and never call it (see
-`tests/offline-check.cjs` + `tests/app/app-offline.test.cjs`); a presenter runs it by hand alongside the app
-(`server/demo-bank-node.cjs` is a one-command judge-facing walkthrough).
-
-```bash
-# run the server locally (no npm install — zero deps)
-node server/http.cjs                # → http://127.0.0.1:8225
-
-# or in a container
-docker build -t ahd-server .
-docker run --rm -p 8225:8225 ahd-server
+```text
+http://localhost:8124
 ```
 
-**`GET /health`** returns a static, deterministic `{ "ok": true }` (no auth required, no wall-clock
-timestamp) — wired into the `Dockerfile`'s `HEALTHCHECK` and tested in `tests/app/server-health.test.cjs`.
-Over-the-wire HTTP parity (a real socket reproducing the same pinned golden seals the pure router already
-proves in-process) is proven on every gate run by `server/smoke-live.cjs`, wired into `tests/run-all.cjs` as
-a meta step (ephemeral OS-assigned port — never the fixed 8225 — so it can never collide with an already-running
-server on the same machine).
+لا تثبيت. لا بناء. لا اتصال مطلوب.
 
-**Honest limits — read before assuming more than this provides:**
-- This is **LOCALHOST-HARDENED, NOT a cloud deployment.** There is no managed hosting, no TLS/reverse proxy,
-  no autoscaling, and no KSA data-residency story here — those remain real, not-yet-built work (see
-  `docs/evidence/PATH-TO-PRODUCTION.md`).
-- `server/http.cjs` binds `127.0.0.1` **only**, by deliberate design (never `0.0.0.0`). Inside the Docker
-  image this means the port is reachable from *within* the container's own network namespace (which is all
-  the `HEALTHCHECK` needs) but is **not** automatically reachable from outside via `-p 8225:8225` the way an
-  `0.0.0.0`-bound server would be — on Linux, `docker run --network host` shares the host's network namespace
-  and makes it reachable that way. A configurable, non-loopback bind for real external access is a genuine
-  residual gap, flagged here rather than silently worked around.
-- The Dockerfile has not been build-tested in every environment — verify with `docker build .` on your
-  machine before relying on it for a live demo.
+<details>
+<summary><strong>الحدود الحالية</strong></summary>
 
----
+هذا نموذج أولي محلي، وليس خدمة سحابية أو منتجًا مصرفيًا جاهزًا للإطلاق.
 
-## Design Highlights
+لا يدّعي موافقة شرعية أو قانونية أو تنظيمية. التكاملات الخارجية، الاستضافة، وإدارة المفاتيح الإنتاجية ما زالت مسارات تحقق منفصلة.
 
-- **Dignity-first** — late is amber, never red. No shaming, no countdowns, no scores.
-- **Trust is a word, never a number** — «وفّى بعهوده», «جديد», «متأخّر». No percentages, no ratings.
-- **Riba-free by construction** — the linter catches disguised interest clauses before sealing.
-- **Shariah-aligned visual language** — no alarm icons, no penalty symbols, no credit metaphors.
+</details>
 
-See `DESIGN.md` for the full design system (colors, typography, layout, components).
+<details>
+<summary><strong>الأساس والحدود الشرعية</strong></summary>
 
----
+- البقرة 2:282: كتابة الدين وحفظ تفاصيله.
+- البقرة 2:280: إنظار المعسر والرحمة عند التعثر.
+- المصرف يشهد ويختم ويسوّي؛ لا يُقرض من ماله، ولا يحكم في النزاع.
+- لا فائدة، لا غرامة تأخير، لا ميسر، لا غرر مادي.
+- الذكاء الاصطناعي لا يصدر فتوى. المسائل المفتوحة تُحال إلى المختصين.
 
-## Quality Gate
+</details>
 
-```bash
-cd tests
+<details>
+<summary><strong>العمق التقني</strong></summary>
 
-# Demo core (184) + offline seams + structure gate (14)
-node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs
+### سطحان، محرّك واحد
 
-# App suites (73 suites, 2,869 assertions)
-node app/run-app-tests.cjs
-
-# Or the whole gate in ONE command — core + app + structure + tripwire, one banner:
-node run-all.cjs        # → AHD GATE ✅ 3067/0   (≈6s, fully offline, deterministic)
-```
-
-Total: **3,067 assertions, 0 failed** — demo core 184 + app 2,869 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red. (Single source of truth: re-run `run-all.cjs` — its banner outranks any number cited in a doc.)
-
----
-
-## Agent Tooling
-
-Three MCP servers in `project/mcp/` (17 tools total) give AI coding agents structured, read-only access to this project — codebase navigation, decisions/handoffs/spec lookup, and git/filesystem helpers. See [project/mcp/README.md](project/mcp/README.md) for wiring instructions.
-
----
-
-## Project Map
-
-```
-ahd/
-├── app/              # The publishable app
-│   ├── index.html    # Entry point
-│   ├── app.js        # Screen registry + router
-│   ├── app.css       # RTL-first styles
-│   ├── engine.js     # Generated: byte-faithful engine copy
-│   ├── build-engine.cjs  # Generator: reads demo → writes engine.js
-│   ├── features/     # Pure DI feature modules (12)
-│   └── screens/      # Screen renderers (12)
-│
-├── demo/             # Frozen presenter demo (NEVER edit)
-│   └── index.html    # Tripwire-pinned SHA-256
-│
-├── tests/            # Test harness — the quality gate
-│   ├── run-tests.cjs         # Core demo logic tests (135)
-│   ├── offline-check.cjs     # Zero network seams (9)
-│   ├── dom-smoke.cjs         # Headless render + robustness (40)
-│   ├── structure-check.cjs   # Repo-structure gate (14)
-│   ├── run-all.cjs           # One-command gate + tripwire (3067/0)
-│   ├── load-logic.cjs        # Engine slicer
-│   └── app/                  # App test suites (60 files)
-│
-├── protocol/         # Open-Witness v1 — standalone reference verifier
-│   ├── verify-ahd-seal.cjs   # Zero-dep (Node crypto only), never imports app/engine.js
-│   └── fixtures/             # Golden + tampered sealed-record JSON examples
-│
-├── promo/            # Remotion motion promos
-│   └── out/          # Rendered MP4s
-│
-├── docs/             # Product & technical documentation
-│   ├── ARCHITECTURE.md
-│   ├── PRESENTER-GUIDE.md
-│   ├── DECK-DRAFT-AR.md
-│   ├── DECISIONS-FOR-MARWAN.md
-│   ├── PUBLISHABLE-PRODUCT-SPEC.md
-│   ├── DESIGN.md
-│   ├── specs/        # Feature design specs
-│   ├── evidence/     # Graded evidence, rebuttals, survey kit
-│   └── research/     # Source materials, AMAD dossier, prompts
-│
-├── _meta/            # Process artifacts (not core product)
-│   ├── deep-work/    # Backend specs, hardening reports, ledger
-│   ├── handoffs/     # Agent handoff logs
-│   ├── agent-presence/
-│   ├── archive/      # Retired files, old prototypes
-│   ├── overnight-log.md
-│   └── STATUS.md
-│
-├── project/          # Dev/agent tooling, not core product
-│   └── mcp/          # 3 MCP servers (17 tools) for AI-agent access
-│
-├── _overnight/       # Demo backup + tripwire
-├── README.md
-├── docs/DESIGN.md
-└── CLAUDE.md
-```
-
----
-
-## الشريعة · Shariah Basis
-
-| Verse | Application |
+| المسار | الدور |
 |---|---|
-| **البقرة 2:282** | «يا أيها الذين آمنوا إذا تداينتم بدين إلى أجل مسمى فاكتبوه» — Write the debt. Ahd's foundational mandate: the bank *witnesses and records*. |
-| **البقرة 2:280** | «وإن كان ذو عسرة فنظرة إلى ميسرة» — If the debtor is in hardship, grant them respite. Ahd never charges late penalty, never counts days to the debtor, enables إبراء. |
+| `app/` | التطبيق النشط متعدد الشاشات |
+| `demo/` | عرض احتياطي مجمّد ومحمي ببصمة |
+| `protocol/` | أداة تحقق مستقلة للسجل المختوم |
+| `tests/` | بوابة الجودة الكاملة |
 
-**The two-contract model:** The loan (قرض حسن, no increase) and the service fee (أجرة الخدمة, fixed, not a percentage of principal) are **separate contracts** — never conditional on each other. This is the structural guard against riba.
+خصائص المحرّك:
 
-**No fatwa from AI.** Shariah questions are flagged in `DECISIONS-FOR-MARWAN.md` and deferred to scholars. This codebase documents the model; it does not issue rulings.
+- يعمل دون اتصال.
+- حتمي؛ الوقت يُحقن بقيمة ثابتة.
+- الأموال أعداد صحيحة بالهللة.
+- لا يستخدم `Date.now` أو `Math.random` أو `Intl` في منطق المنتج.
+- التطبيق يستدعي نسخة مطابقة للمحرّك المجمّد، وتُختبر المطابقة آليًا.
 
----
+### التحقق
 
-## Non-Negotiables · العمود الفقري
+```powershell
+cd tests
+node run-all.cjs
+```
 
-- Bank witnesses/seals/settles/nets; does **not** lend, judge, charge on the loan, or score.
-- **No riba / penalty / maysir / gharar.** Integer halalas, never float money.
-- Trust signal is a **qualitative own-history word** — never a number, never exported, never underwrites.
-- **AI issues no fatwa** — cite scholars/standards/verses; flag, don't rule.
-- "Late" is **amber, never red.** Dignity over everything.
-- The demo (`demo/index.html`) is **frozen** — never edited, pinned by tripwire.
+النتيجة المرجعية الحالية:
+
+```text
+AHD GATE ✅ 3067/0
+```
+
+المزيد:
+
+- [معمارية المشروع](docs/ARCHITECTURE.md)
+- [تصميم المنتج](docs/DESIGN.md)
+- [مواصفة المنتج](docs/PUBLISHABLE-PRODUCT-SPEC.md)
+- [معيار السجل المفتوح](docs/specs/open-witness-v1.md)
+
+</details>

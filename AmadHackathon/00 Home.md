@@ -3,6 +3,10 @@ tags: [dashboard]
 updated: 2026-07-15
 ---
 
+> [!success] واجهة GitHub للجنة
+> صارت الواجهة تشرح «عهد» خلال 30 ثانية: المشكلة، دور المصرف الشاهد، كشف العبث، والمقاصّة 9 إلى 2. الفحص `3067/0` والعرض المجمّد لم يتغير.
+> `source: README.md · tests/readme-judge-contract.cjs · _meta/STATUS.md`
+
 # 🏆 عهد — لوحة القيادة
 
 > [!important] المهمّة
