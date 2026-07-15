@@ -1,0 +1,245 @@
+{
+  "schema": "ahd-release-attestation-v1",
+  "candidate_id": "2026-07-15-freeze-rc1",
+  "attestation_status": "final",
+  "base_commit": "ff2de0e3fb85b501f82a8539549f5b1e55e80453",
+  "approved_base": {
+    "path": "_meta/freeze/2026-07-15-current-state.md",
+    "sha256": "ceb9011eea7fe6c024f9f2aae5e7bc4d05ad40d56f19a1fc0fb75e103508bd12"
+  },
+  "candidate_commit": "e308749f7453617e3e37f2a0793abd5964403a7c",
+  "branch": "codex/wave0-freeze-safety-main",
+  "created_at": "2026-07-15T08:00:00+03:00",
+  "operation": "candidate",
+  "inventory": {
+    "path": "_meta/freeze/2026-07-15-change-inventory.md",
+    "sha256": "08b938daebaea8dbe91ca3b6a41e4ae355c20ef7d6272469f089c19e5eb21ce8"
+  },
+  "parked_source": {
+    "record": "_meta/freeze/2026-07-15-change-inventory.md",
+    "candidate_input": false
+  },
+  "gate": {
+    "status": "verified",
+    "command": "node tests/release-gate.cjs --manifest <manifest> --target <candidate-checkout> --attestation-root <attestation-checkout>",
+    "inputs": {
+      "manifest_path": "_meta/freeze/2026-07-15-release-manifest.json",
+      "base_commit": "ff2de0e3fb85b501f82a8539549f5b1e55e80453",
+      "candidate_commit": "e308749f7453617e3e37f2a0793abd5964403a7c",
+      "target_role": "candidate-clean-tree",
+      "attestation_role": "attestation-clean-tree"
+    },
+    "assertions": 2979,
+    "failures": 0,
+    "duration_ms": 14789,
+    "demo_ok": true,
+    "controls": {
+      "agent_governance": true,
+      "manifest": true,
+      "truth": true,
+      "preflight": true,
+      "product_gate": true
+    }
+  },
+  "demo_sha256": "e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40",
+  "checksum_source": {
+    "path": "tests/fixtures/demo.sha256",
+    "sha256": "a5fe0ff3ba0235444348aeb1ead92542f141bc83c586882459da05d1f146d6d3"
+  },
+  "assets": [
+    {
+      "path": "demo/index.html",
+      "sha256": "e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "demo/index.html"
+      }
+    },
+    {
+      "path": "app/engine.js",
+      "sha256": "52bc6921ad7df9638b2ce0cf0b9f04d871f9bce3fc5f453804503c50c102bb65",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "app/engine.js"
+      }
+    },
+    {
+      "path": "docs/pitch/fallback/01-home.png",
+      "sha256": "5c46735ffc04126ca9b137db7e5402b2e996e833e8fba0e2341dc120994b54bf",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "docs/pitch/fallback/01-home.png"
+      }
+    },
+    {
+      "path": "docs/pitch/fallback/02-linter-block.png",
+      "sha256": "7a4d1c3823aa7cb46de62b2a53bbce37acf6dc2e0758f9d5a635581e4da38a59",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "docs/pitch/fallback/02-linter-block.png"
+      }
+    },
+    {
+      "path": "docs/pitch/fallback/03-proof-verified.png",
+      "sha256": "4037393f929fc9f2d37a06a1fd6ae49243ee139008b8ef0479ff647b3dcd978e",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "docs/pitch/fallback/03-proof-verified.png"
+      }
+    },
+    {
+      "path": "docs/pitch/fallback/04-proof-tampered.png",
+      "sha256": "12f6eb0c7e954c796055e475300a10e068c6c23b99263678d2f59b49d8ddbe50",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "docs/pitch/fallback/04-proof-tampered.png"
+      }
+    },
+    {
+      "path": "docs/pitch/fallback/05-settle-9to2.png",
+      "sha256": "e59566c9e5d7613e7db5908b77bc2a9bf1881b4d75f46d662117798fe496bff9",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "docs/pitch/fallback/05-settle-9to2.png"
+      }
+    },
+    {
+      "path": "docs/pitch/fallback/06-open-ibra.png",
+      "sha256": "03848861def5d12b9b52bb1149198f7fadc9b4fb2316169f0e3b79419b58c8f2",
+      "kind": "candidate",
+      "source": {
+        "root": "candidate",
+        "path": "docs/pitch/fallback/06-open-ibra.png"
+      }
+    }
+  ],
+  "included_paths": [
+    ".dockerignore",
+    ".gitignore",
+    ".specify/feature.json",
+    ".specify/memory/constitution.md",
+    ".specify/templates/plan-template.md",
+    ".specify/templates/spec-template.md",
+    ".specify/templates/tasks-template.md",
+    "AGENTS.md",
+    "AmadHackathon/00 Home.md",
+    "AmadHackathon/01 الخطة الرئيسة.md",
+    "AmadHackathon/05 حالة المشروع.md",
+    "AmadHackathon/10 المواصفة الأم.md",
+    "AmadHackathon/11 خطة التحسين الشاملة.md",
+    "CLAUDE.md",
+    "_meta/INDEX.md",
+    "_meta/OPEN-ITEMS.md",
+    "_meta/STATUS.md",
+    "_meta/agent-presence/README.md",
+    "_meta/freeze/2026-07-15-change-inventory.md",
+    "_meta/freeze/2026-07-15-current-state.md",
+    "_meta/freeze/2026-07-15-recovery-drill.md",
+    "_meta/freeze/2026-07-15-task-evidence.json",
+    "_meta/freeze/reviews/T001/review-001.json",
+    "_meta/overnight-log.md",
+    "_meta/score-leap-loop-state.md",
+    "docs/ARCHITECTURE.md",
+    "docs/session-report-2026-07-13-ar.md",
+    "docs/superpowers/plans/2026-07-12-score-leap-master-plan.md",
+    "docs/superpowers/plans/2026-07-13-ceiling-break-8-9-plan.md",
+    "docs/superpowers/plans/2026-07-13-four-criteria-push.md",
+    "docs/superpowers/plans/2026-07-14-ahd-local-server-safety.md",
+    "docs/superpowers/plans/2026-07-14-ahd-production-readiness.md",
+    "docs/superpowers/plans/2026-07-14-ahd-spec-governance.md",
+    "docs/superpowers/plans/2026-07-14-ahd-stage-readiness.md",
+    "docs/superpowers/plans/2026-07-14-project-improvement-portfolio.md",
+    "docs/superpowers/specs/2026-07-14-ahd-master-specification-design.md",
+    "docs/superpowers/specs/2026-07-14-project-improvement-portfolio-design.md",
+    "project/agent-control/claim.cjs",
+    "project/agent-control/protected-paths.json",
+    "specs/001-ahd-product-system/checklists/master-quality.md",
+    "specs/001-ahd-product-system/checklists/requirements.md",
+    "specs/001-ahd-product-system/clarity-review.md",
+    "specs/001-ahd-product-system/contracts/local-server-api.md",
+    "specs/001-ahd-product-system/contracts/open-witness-v1.md",
+    "specs/001-ahd-product-system/contracts/product-surfaces.md",
+    "specs/001-ahd-product-system/contracts/production-seams.md",
+    "specs/001-ahd-product-system/data-model.md",
+    "specs/001-ahd-product-system/plan.md",
+    "specs/001-ahd-product-system/quickstart.md",
+    "specs/001-ahd-product-system/research.md",
+    "specs/001-ahd-product-system/spec.md",
+    "specs/001-ahd-product-system/tasks.md",
+    "specs/001-freeze-safety/checklists/implementation-readiness.md",
+    "specs/001-freeze-safety/checklists/requirements.md",
+    "specs/001-freeze-safety/contracts/release-manifest.md",
+    "specs/001-freeze-safety/data-model.md",
+    "specs/001-freeze-safety/plan.md",
+    "specs/001-freeze-safety/quickstart.md",
+    "specs/001-freeze-safety/research.md",
+    "specs/001-freeze-safety/spec.md",
+    "specs/001-freeze-safety/tasks.md",
+    "specs/002-judge-readiness/checklists/requirements.md",
+    "specs/002-judge-readiness/contracts/stage-path.md",
+    "specs/002-judge-readiness/data-model.md",
+    "specs/002-judge-readiness/plan.md",
+    "specs/002-judge-readiness/quickstart.md",
+    "specs/002-judge-readiness/research.md",
+    "specs/002-judge-readiness/spec.md",
+    "specs/002-judge-readiness/tasks.md",
+    "specs/003-external-validation/checklists/requirements.md",
+    "specs/003-external-validation/contracts/evidence-register.md",
+    "specs/003-external-validation/data-model.md",
+    "specs/003-external-validation/plan.md",
+    "specs/003-external-validation/quickstart.md",
+    "specs/003-external-validation/research.md",
+    "specs/003-external-validation/spec.md",
+    "specs/003-external-validation/tasks.md",
+    "specs/004-production-hardening/checklists/requirements.md",
+    "specs/004-production-hardening/contracts/service-v1.md",
+    "specs/004-production-hardening/data-model.md",
+    "specs/004-production-hardening/plan.md",
+    "specs/004-production-hardening/quickstart.md",
+    "specs/004-production-hardening/research.md",
+    "specs/004-production-hardening/spec.md",
+    "specs/004-production-hardening/tasks.md",
+    "specs/005-v2-product-protocol/checklists/requirements.md",
+    "specs/005-v2-product-protocol/contracts/open-witness-v1.md",
+    "specs/005-v2-product-protocol/data-model.md",
+    "specs/005-v2-product-protocol/plan.md",
+    "specs/005-v2-product-protocol/quickstart.md",
+    "specs/005-v2-product-protocol/research.md",
+    "specs/005-v2-product-protocol/spec.md",
+    "specs/005-v2-product-protocol/tasks.md",
+    "tests/agent-governance.cjs",
+    "tests/agent-governance.test.cjs",
+    "tests/app/tripwire-portability.test.cjs",
+    "tests/fixtures/demo.sha256",
+    "tests/release-gate.cjs",
+    "tests/release-gate.test.cjs",
+    "tests/release-manifest.cjs",
+    "tests/release-manifest.test.cjs",
+    "tests/release-truth-check.cjs",
+    "tests/release-truth-check.test.cjs",
+    "tests/run-all.cjs",
+    "tests/stage-preflight.cjs",
+    "tests/stage-preflight.test.cjs",
+    "tests/structure-check.cjs",
+    "tests/tripwire.cjs"
+  ],
+  "excluded_paths": [
+    {
+      "path": "_meta/freeze/2026-07-15-release-manifest.json",
+      "disposition": "generated",
+      "reason": "Generated only in its later governed task/attestation commit."
+    }
+  ],
+  "approvals": [],
+  "attestation_metadata": [
+    "_meta/freeze/2026-07-15-task-evidence.json",
+    "specs/001-freeze-safety/tasks.md"
+  ]
+}

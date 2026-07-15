@@ -552,6 +552,25 @@
       "reviews": [{"review_id": "T030-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "This commit freezes candidate content A; its full SHA is written to ignored external evidence immediately after commit creation."
+    },
+    {
+      "task_id": "T031",
+      "dispatch_id": "wave0-T031-manifest-controller-self-20260715",
+      "dispatch_sha256": "920cc60c89616c3172b8643e8a8a54189d0331026bb60a5f67df9017a3875234",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "Separating immutable candidate A from attestation B and binding verified identities is release-sensitive architecture work.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": [".superpowers/sdd/2026-07-15-release-manifest.draft.json", ".superpowers/sdd/2026-07-15-T031-candidate-gate.txt", "_meta/freeze/2026-07-15-release-manifest.json", "_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md"],
+      "tests": [
+        {"command": "claim-free release gate in clean detached candidate A checkout", "result": "RELEASE-GATE: OK; 2979 passed, 0 failed; all controls true; candidate e308749f7453617e3e37f2a0793abd5964403a7c; 14.789 seconds"},
+        {"command": "static final-manifest contract review before attestation commit", "result": "pass; manifest SHA-256 bfd20eefdb9e482adea39907762f178f0a70c1238a67dc8d1826793d2ae58d64; 108 included; 1 generated exclusion; 8 assets; candidate operation; empty approvals"}
+      ],
+      "reviews": [{"review_id": "T031-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "This commit creates attestation B over immutable candidate A; final clean-checkout validation remains explicitly pending T032."
     }
   ]
 }
