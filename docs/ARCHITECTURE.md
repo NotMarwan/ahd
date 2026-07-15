@@ -209,7 +209,7 @@ node tests/app/run-app-tests.cjs   # auto-discovers and runs every app suite, ag
 ```
 
 `run-app-tests.cjs` discovers files matching `(.test|-parity|-smoke).cjs`, runs each in its own Node
-process, and aggregates. The **8 suites** (≈283 assertions, all green):
+process, and aggregates. The original foundation had **8 suites** (≈283 assertions, all green at that snapshot):
 
 | Suite | Proves |
 |---|---|

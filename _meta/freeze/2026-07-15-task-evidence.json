@@ -396,6 +396,22 @@
       "result": "Stale ambiguity replaced with exact current evidence; no research file mutated."
     },
     {
+      "task_id": "T024",
+      "dispatch_id": "wave0-T024-controller-self-20260715",
+      "dispatch_sha256": "09e57915306c812315eff55512f53367f9c1d57c587575da38fadd31bf836ad8",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "Live-source parsing must distinguish current banners from history and fail closed on security/runtime claim drift.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["tests/release-truth-check.cjs", "docs/ARCHITECTURE.md", "_meta/score-leap-loop-state.md"],
+      "tests": [{"command": "node tests/release-truth-check.test.cjs", "phase": "GREEN", "result": "17 passed, 0 failed"}],
+      "reviews": [{"review_id": "T024-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Validator derives 21 screens, 69 suites, 6 routes, auth default, and live-smoke wiring; history is scoped; residual T021/T022 wording defects found by the validator were corrected."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
