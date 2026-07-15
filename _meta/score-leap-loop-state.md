@@ -28,11 +28,11 @@ A score delta counts **only** if ≥ a refute-mode critic cites concrete file/sc
   **Doc gate-number drift to sweep later (W5/doc-sync):** live count now 1,943 app / 2,141 total; CLAUDE.md + docs still cite 1,874/2,072. No in-app banner drifts (checked).
 - **W2 thin real backend (Technical) — DONE, +1 (6→7)** (`ahd-score-leap-w2`): opus floor 7, all 3 critics, **inflation=FALSE (clean)**. `server/` re-exports app/engine.js (`===` proven), reproduces both golden seals (6c9410b9… + 0463553997c8…) through the real router + a live-socket smoke, on-spine (422 riba refusal, integer halalas), gate **2254/0**, spine byte-unchanged. 5 endpoints. Caveat: parity is guaranteed-by-construction (same module instance), gated test uses pure router (live smoke not in CI). **7.5 needs real persistence/auth/deploy — a session, not this loop.**
   - *(W1 iter3 DONE: opus floor UX 6.5→**7** [7.5/7/7]. All 20 screens swept, apex 44/36, unstyled-button defect fixed, gate **2214/0**, zero regressions, spine intact. Inflation caught: G2 "one scale" is definition-only — 188/296 font-sizes still hardcoded, 12.5px×52 off-token. **W1 = real +1 (6→7), CAPPED** — more needs font + literal migration.)*
-  - **HUMAN-BLOCKED (long lead — act in parallel while the loop grinds offline):** FONT (UX→8: vendor an OFL Arabic WOFF2 into app/assets/fonts/, or grant a download permission) · SURVEY (Data: distribute kit, N≥30 by Jul 15) · SCHOLAR (Feasibility: Hilah question + D-1/D-3) · D-4 PICK (Innovation: recommend ميراث الدَّين / debt-at-death).
+  - **HUMAN-BLOCKED (long lead — act in parallel while the loop grinds offline):** FONT (UX→8: vendor an OFL Arabic WOFF2 into app/assets/fonts/, or grant a download permission) · SURVEY (Data: distribute kit, N≥30 by Jul 15) · SCHOLAR (Feasibility: Hilah question + D-1/D-3) · INN-D4 PICK (Innovation: recommend ميراث الدَّين / debt-at-death).
 - **W3 real data (Data) — DONE, +0.5 (6→6.5)** (`ahd-score-leap-w3`): opus floor 6.5 (7/6.5/6.5). Verdict: raised **transparency, not data quality** — deterministic sources.js + «المصادر والمنهجيّة» panel + drift-test + 0 uncited numbers, synthetic ratio subordinated. Gate 2263/0. **3 honesty defects to fix in a polish pass:** settlement.js:55 says «المقاسة» (measured) but label says «لا رقمٌ مُقاس» (contradiction); spurious precision «١٩٠٬٤١٧»/«380,834» from a ÷3 (round to «نحو ١٩٠ ألف»); synthetic-circle caveat on impact screen not on the settle card making the claim. Data 7.5 needs the survey (human). **CAPPED at 6.5.**
 - **W4 shariah depth (Feasibility) — DONE, +1 (5→6)** (`ahd-score-leap-w4`): opus floor 6, all 3 critics, **issuesFatwa=false, citations accurate, on-spine** (the «لا يجوز» lines are verbatim AAOIFI standard text, not rulings on Ahd's contested Hilah question). shariah-basis.md (5 mechanics → SS-19 + Qur'an 2:282/2:280, cited/graded, never invented), «الأساس الشرعي» app screen, honest PATH-TO-PRODUCTION (backend now real; removed a stale gate count), new D-7 netting question → DECISIONS-FOR-MARWAN. Gate 2300/0. Ceiling: readiness artifact, **no external gate moved → 7 needs the human scholar step. CAPPED at 6.**
 - **W5 pitch + one weave metaphor (Memorability 6.5→7.5) — LAUNCHED** (`ahd-score-leap-w5`, LAST autonomous workstream): sharpen the judge-typed tamper cascade + weave-metaphor payoff + refusal beat + 3-min script unified by «كلّ قرضٍ خيط، والسجلّ نسيج», opus critics (RED-only-for-tamper spine check). Live rehearsal (→8) human-gated. **After W5: STOP loop, deliver full scorecard.**
-- W6 innovation mechanism (Innovation) — pending; needs Marwan pick (D-4)
+- W6 innovation mechanism (Innovation) — pending; needs Marwan pick (INN-D4)
 
 ## Resume protocol (each wake)
 1. If woken by task-notification: read the finished workflow's scorecard (journal), judge strictly.
@@ -48,7 +48,7 @@ A score delta counts **only** if ≥ a refute-mode critic cites concrete file/sc
 - Compaction is automatic; this file is the full handoff. Keep it current every wake.
 
 ## Loop 1 result — COMPLETE, committed `dc25ffb` (branch only, not pushed)
-UX 6→7 (+1) · Technical 6→7 (+1) · Data 6→6.5 (+0.5) · Feasibility 5→6 (+1) · Memorability 6.5→7 (+0.5) · Innovation 7→7 (0, D-4 blocked). **+4.0 across 5 criteria.** Gate 2072→**2317/0**, spine intact, all opus-verified.
+UX 6→7 (+1) · Technical 6→7 (+1) · Data 6→6.5 (+0.5) · Feasibility 5→6 (+1) · Memorability 6.5→7 (+0.5) · Innovation 7→7 (0, INN-D4 blocked). **+4.0 across 5 criteria.** Gate 2072→**2317/0**, spine intact, all opus-verified.
 W5 Memorability cap: strongest new visual (home-weave tearing red) is OFF the default 3-min script path — presenter-choreography decision left to owner (force into cold open vs optional doorway).
 
 ## Loop 2 progress
@@ -64,7 +64,7 @@ W5 Memorability cap: strongest new visual (home-weave tearing red) is OFF the de
 | Data | 6 | **6.5** | +0.5 | still synthetic circles, no primary survey |
 | Feasibility | 5 | **6** | +1 | no actual scholar sign-off |
 | Memorability | 6.5 | **6.5** | **+0** | no live rehearsal; weave-tear payoff optional/off default path |
-| Innovation | 7 | **7** | 0 | D-4 mechanism pick (owner) |
+| Innovation | 7 | **7** | 0 | INN-D4 mechanism pick (owner) |
 **Real whole-app gain ≈ +2.5, NOT the +4.5 the per-front critics tallied** (that gap was mild echo-relative-to-judge inflation; the panel corrected it — «لا نجامل»). Cross-check critic gave UX/Tech 7; primaries gave 6.5; floor taken. **SPINE: all 8 axes PASS** (demo e2f48467 frozen, gate 2322/0, no riba/score/fatwa, trust qualitative, integer halalas, determinism, golden called-not-modified).
 
 ### #1 leverage (panel-unanimous): the FONT — blocked on a file/permission
@@ -81,7 +81,7 @@ Full plan: `docs/superpowers/plans/2026-07-13-four-criteria-push.md`. **Reframe:
 but each has an OFFLINE lever under it the earlier loop under-exploited — especially Technical (persistence/auth/
 deploy is a BUILD, not a human gate). Execution order: T1 persistence → T2 auth → I1 Open-Witness protocol+verifier
 → T3 server-judge-visible → D1+D2 data rigor → F2 roadmap+F3 economics → T4 CI parity+T5 deploy → D3 fixtures →
-full 4-criteria re-score. Human residue (flag, don't fake): D-4 pick (Innovation→8), scholar (Feas→8), survey (Data→8).
+full 4-criteria re-score. Human residue (flag, don't fake): INN-D4 pick (Innovation→8), scholar (Feas→8), survey (Data→8).
 **PROGRESS (committed, opus-verified, gate green, spine PASS):**
 - iter4 UX font-stack → UX 6.9 (banked, out-of-focus) — `6c7f1a3`
 - T1 durable persistence (JSONL event log + restart-replay) → **Technical 6.5→7** — `16a8553`
@@ -100,9 +100,9 @@ full 4-criteria re-score. Human residue (flag, don't fake): D-4 pick (Innovation
   2b. **Threat-model + rate-limit** (NEXT) — T-L2 STRIDE/LINDDUN doc (OT-THREATMODEL) + T-L5 deterministic token-bucket on mutating routes (OT-RATELIMIT, grep-verified gap). Split off from the crypto to keep each iteration verifiable.
   3. **Data-rigor block** (Data→8) — full Findex decade series (OT-FINDEX25: 2024=30.4%, emergency-backstop rose to 38%) + bottom-up market band (OT-MKT, proxy-anchored loan-size 1k/5k/18k) + GASTAT-grounded fixtures (D3) + Nafith 34× proxy.
   4. **freeTSA live moment** (OT-TSA demo-grade) + **Open-Witness-as-standard** (OT-STD1: version/license/interop).
-Live gate now **2741/0**. Human-gated (flag, never fake): D-4 pick ميراث الدَّين (Innov 8.5/9), scholar (muqāṣṣa consent D-8 + Hilah, Feas 8), survey OT-A1 (Data 8.5/9), emdha TSA/HSM/SAMA (Technical 8.5/9). Naming fix from research: **Nafith** not "e-SANAD"; confirm emdha cites RFC-3161 before relying.
+Live gate now **2741/0**. Human-gated (flag, never fake): INN-D4 pick ميراث الدَّين (Innov 8.5/9), scholar (muqāṣṣa consent D-8 + Hilah, Feas 8), survey OT-A1 (Data 8.5/9), emdha TSA/HSM/SAMA (Technical 8.5/9). Naming fix from research: **Nafith** not "e-SANAD"; confirm emdha cites RFC-3161 before relying.
 
-## SCORECARD SNAPSHOT (after seal-chain, conservative floors): Technical **8.0** · Innovation 7.8 · Data 7.0 · Feasibility 7.0. Technical at target; the other three have committed offline levers left (data-rigor block → Data 8; رِفْق done + interop/D-4 gated for Innovation; F-levers + backend for Feasibility). Gate 2741/0, spine PASS, branch never pushed.
+## SCORECARD SNAPSHOT (after seal-chain, conservative floors): Technical **8.0** · Innovation 7.8 · Data 7.0 · Feasibility 7.0. Technical at target; the other three have committed offline levers left (data-rigor block → Data 8; رِفْق done + interop/INN-D4 gated for Innovation; F-levers + backend for Feasibility). Gate 2741/0, spine PASS, branch never pushed.
 
 ## 4-criteria running scorecard (conservative floor, opus-refute-verified)
 | Criterion | Panel base | Now | Committed levers |
@@ -116,7 +116,7 @@ Live gate now **2741/0**. Human-gated (flag, never fake): D-4 pick ميراث ا
 
 ### Human-gated unblocks (do any → the loop resumes real gains instantly)
 1. FONT (UX→7.5+): drop an OFL Arabic woff2 in app/assets/fonts/, or authorize a download. (JL-7)
-2. D-4 innovation pick (Innovation→8): choose the mechanism (recommend ميراث الدَّين).
+2. INN-D4 innovation pick (Innovation→8): choose the mechanism (recommend ميراث الدَّين).
 3. Survey data (Data→7.5): distribute the kit, N≥30. (JL-8/OT-A1)
 4. Scholar sign-off (Feasibility→7): Hilah + D-1/D-3/D-7.
 5. Real persistence/auth/deploy (Technical→7.5): a build session, not a loop iteration.
@@ -132,7 +132,7 @@ After iter3, autonomous offline leverage IS exhausted (verified against OPEN-ITE
    - Technical: wire server/smoke-live.cjs (over-the-wire parity) into the gate so CI proves HTTP parity, not just the pure router. (→ hardens Technical 7.)
    - UX: migrate remaining hardcoded font-size literals to tokens on judge-path screens (finish G2) — low judge-visibility, do only if cheap.
 3. **Doc gate-number drift sweep** (gate-number-drift memory): CLAUDE.md + docs/pitch + deck + vault still cite 1874/2072; live is 2300. Single source = run-all.cjs banner.
-4. **W6 Innovation** stays blocked: do NOT build ميراث الدَّين without the D-4 pick (inheritance-fiqh = spine-adjacent). At most, a proposal SPEC doc phrased as pending-approval — never wired into the app.
+4. **W6 Innovation** stays blocked: do NOT build ميراث الدَّين without the INN-D4 pick (inheritance-fiqh = spine-adjacent). At most, a proposal SPEC doc phrased as pending-approval — never wired into the app.
 - Each item: sonnet build (xhigh) + opus refute critics, TDD, gate-green, commit checkpoint on success.
 
 ## 2026-07-14 — full-roadmap integration and final conservative review

@@ -85,7 +85,7 @@ Acceptance: judge asking "who validated the Shariah?" gets a named process, not 
 4. **Deck final pass** (`docs/DECK-DRAFT-AR.md`): numbers = live gate count, screenshots = post-W1 UI (re-shoot AFTER W1 lands; use JS eval for capture — deck screenshots hang, per project memory).
 Effort: 1 session + rehearsal time. Acceptance: dry-run recorded; critic scores the recording, not the intention.
 
-### W6 — Innovation mechanism (7→8) — needs a Marwan decision TODAY (add as D-4)
+### W6 — Innovation mechanism (7→8) — needs a Marwan decision TODAY (track as INN-D4)
 Positioning won't move this; a demonstrated novel *mechanism* will. Pick ONE (recommendation order):
 
 - **A. ميراث الدَّين — debt-at-death protocol (recommended).** On a party's death, the sealed record becomes an heir-facing proof: outstanding qard surfaces to executors *before* inheritance division (settling debts precedes inheritance in fiqh — direct hadith basis). Bank still only witnesses. Emotionally unforgettable, deeply Islamic, no competitor will have it, and it's a natural extension of the sealed chain (a "final knot" in the weave). Buildable as one additive screen + engine-consuming module + tests in ~1 session.
@@ -100,7 +100,7 @@ Whichever is chosen: TDD, additive, spine-check (bank never judges/lends), one p
 
 | Day | Work | External triggers |
 |---|---|---|
-| **Jul 12 (today)** | Marwan: launch survey (W3), contact scholar (W4), decide D-4 innovation pick. Model: W1 tokens+fonts groundwork, W5 script v1 | Survey + scholar have the longest lead — fire first |
+| **Jul 12 (today)** | Marwan: launch survey (W3), contact scholar (W4), decide INN-D4 innovation pick. Model: W1 tokens+fonts groundwork, W5 script v1 | Survey + scholar have the longest lead — fire first |
 | **Jul 13** | W1 full screen sweep + browser verify + re-score | Survey collecting |
 | **Jul 14** | W2 backend slice (build + parity test) · W3 secondary-data hardening | Nudge survey |
 | **Jul 15** | W6 innovation mechanism build · W3 survey-results screen (freeze N whatever it is) | Scholar follow-up |

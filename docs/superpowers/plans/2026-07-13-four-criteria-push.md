@@ -54,7 +54,7 @@ Positioning won't move it; a demonstrated novel *mechanism* will. Two tracks:
   Compounds with T3's server parity → the story becomes "a protocol, not an app; the seal is portable and
   bank-independent." On-spine (bank still only witnesses), no fiqh ruling needed, fully offline. → +0.5–1.
 - **I2 (human-gated): the memorable new mechanism.** The biggest Innovation leap (e.g. **ميراث الدَّين** /
-  debt-at-death, the master plan's rec) touches inheritance fiqh → **D-4 is the owner's decision** (log in
+  debt-at-death, the master plan's rec) touches inheritance fiqh → **INN-D4 is the owner's decision** (log in
   `docs/DECISIONS-FOR-MARWAN.md`, don't decide alone). Prep the SPEC as a *proposal* (not wired into the app) so
   it's build-ready the moment D-4 lands. Building it also needs a scholar (Shariah-gated).
 
@@ -110,14 +110,14 @@ with evidence; commit-on-green checkpoint; update `_meta/score-leap-loop-state.m
 Cut order if time-pressed: T5 → T4 → D3 first. Never cut the spine check or the re-score.
 
 ## 6. Human-gated residue (surfaced, not faked — owner unblocks)
-- **D-4**: pick the Innovation mechanism (recommend ميراث الدَّين) → unlocks I2 (Innovation → 8).
+- **INN-D4**: pick the Innovation mechanism (recommend ميراث الدَّين) → unlocks I2 (Innovation → 8).
 - **Scholar**: Hilah + D-1/D-3/D-7 → Feasibility → 8.
 - **Survey** (n≥150, OT-A1) → Data → 8.
 - **Font woff2 / real cloud deploy** → out of these 4's focus (UX / post-hackathon).
 
 ## 7. Definition of done (this push)
 - [ ] Technical: persistent + authenticated + judge-visible + CI-wire-tested backend, deploy config. Panel ≥ 7.5.
-- [ ] Innovation: Open-Witness spec + independent verifier shipped; D-4 proposal ready. Panel ≥ 7.5 (8 on D-4).
+- [ ] Innovation: Open-Witness spec + independent verifier shipped; INN-D4 proposal ready. Panel ≥ 7.5 (8 on INN-D4).
 - [ ] Data: sensitivity band + real cited stats integrated + grounded fixtures. Panel ≥ 7.
 - [ ] Feasibility: concrete roadmap + unit economics + the real backend. Panel ≥ 7.
 - [ ] Gate green (+ new tests), spine PASS, tripwire intact, every count drift-checked, all committed on branch.
