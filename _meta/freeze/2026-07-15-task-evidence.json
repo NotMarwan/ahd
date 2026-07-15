@@ -82,10 +82,19 @@
       "model_used": "controller-single-agent",
       "model_reason": "Deterministic inventory normalization and patch-ID comparison need no high-cost architectural reasoning.",
       "status": "complete",
-      "files": ["_meta/freeze/2026-07-15-change-inventory.md", "specs/001-freeze-safety/tasks.md"],
+      "files": [
+        "_meta/freeze/2026-07-15-change-inventory.md",
+        "specs/001-freeze-safety/tasks.md"
+      ],
       "tests": [
-        {"command": "git show <commit> | git patch-id --stable", "result": "c080890 and 63530ca both b0075f3f39e03c2541f0c28990e309a7fbf64742"},
-        {"command": "parse ahd-freeze-inventory-v1 JSON", "result": "valid; exact normalized paths; source workspace excluded"}
+        {
+          "command": "git show <commit> | git patch-id --stable",
+          "result": "c080890 and 63530ca both b0075f3f39e03c2541f0c28990e309a7fbf64742"
+        },
+        {
+          "command": "parse ahd-freeze-inventory-v1 JSON",
+          "result": "valid; exact normalized paths; source workspace excluded"
+        }
       ],
       "result": "Candidate inventory normalized without copying or reconciling the dirty source workspace."
     },
@@ -96,9 +105,15 @@
       "model_used": "controller-single-agent",
       "model_reason": "Live-state extraction is mechanical and bounded to registries, routes, gate output, and stage assets.",
       "status": "complete",
-      "files": ["_meta/freeze/2026-07-15-current-state.md", "specs/001-freeze-safety/tasks.md"],
+      "files": [
+        "_meta/freeze/2026-07-15-current-state.md",
+        "specs/001-freeze-safety/tasks.md"
+      ],
       "tests": [
-        {"command": "current-state contract check", "result": "21 screens; 6 routes; 69 suites; 2979/0; one approved base; frozen hash exact"}
+        {
+          "command": "current-state contract check",
+          "result": "21 screens; 6 routes; 69 suites; 2979/0; one approved base; frozen hash exact"
+        }
       ],
       "result": "One compact live-state source records the approved base and stage facts."
     },
@@ -109,11 +124,28 @@
       "model_used": "controller-single-agent",
       "model_reason": "Constitution validation needs stronger judgment; user prohibited subagents, so controller performed the bounded review.",
       "status": "complete",
-      "files": ["specs/001-freeze-safety/plan.md", "specs/001-freeze-safety/tasks.md", "_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [
-        {"command": "constitution boundary review", "result": "pass; demo/engine/money untouched; source parked; no human gate inferred"}
+      "files": [
+        "specs/001-freeze-safety/plan.md",
+        "specs/001-freeze-safety/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json"
       ],
-      "session_sync_finalization": {"status": "finalized", "owner": "root", "task": "T035", "mirrors": ["AmadHackathon/00 Home.md", "AmadHackathon/01 الخطة الرئيسة.md", "AmadHackathon/05 حالة المشروع.md"], "canonical_sources_preserved": true},
+      "tests": [
+        {
+          "command": "constitution boundary review",
+          "result": "pass; demo/engine/money untouched; source parked; no human gate inferred"
+        }
+      ],
+      "session_sync_finalization": {
+        "status": "finalized",
+        "owner": "root",
+        "task": "T035",
+        "mirrors": [
+          "AmadHackathon/00 Home.md",
+          "AmadHackathon/01 الخطة الرئيسة.md",
+          "AmadHackathon/05 حالة المشروع.md"
+        ],
+        "canonical_sources_preserved": true
+      },
       "result": "Single-agent execution rule recorded. Human gates remain closed. Session-sync owner root; expires T036/2026-07-15; T035 finalizes or rolls back mirrors."
     },
     {
@@ -126,9 +158,24 @@
       "model_reason": "Test matrix is mechanical and bounded; cheapest planned tier was sufficient.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/agent-governance.test.cjs"],
-      "tests": [{"command": "node tests/agent-governance.test.cjs", "phase": "RED", "result": "0 passed, 2 failed; missing implementation modules"}],
-      "reviews": [{"review_id": "T005-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "tests/agent-governance.test.cjs"
+      ],
+      "tests": [
+        {
+          "command": "node tests/agent-governance.test.cjs",
+          "phase": "RED",
+          "result": "0 passed, 2 failed; missing implementation modules"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T005-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Failing contract covers dispatch, lock, path, evidence, and atomic completion boundaries."
     },
@@ -141,9 +188,24 @@
       "model_reason": "One deterministic focused command records RED evidence.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [{"command": "node tests/agent-governance.test.cjs", "phase": "RED", "result": "expected failure confirmed"}],
-      "reviews": [{"review_id": "T006-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "_meta/freeze/2026-07-15-task-evidence.json"
+      ],
+      "tests": [
+        {
+          "command": "node tests/agent-governance.test.cjs",
+          "phase": "RED",
+          "result": "expected failure confirmed"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T006-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "RED evidence recorded before governance implementation."
     },
@@ -156,9 +218,26 @@
       "model_reason": "Exclusive locking, protected paths, hashes, and atomic completion are sensitive infrastructure.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["project/agent-control/protected-paths.json", "project/agent-control/claim.cjs", "tests/agent-governance.cjs"],
-      "tests": [{"command": "node tests/agent-governance.test.cjs", "phase": "GREEN", "result": "37 passed, 0 failed"}],
-      "reviews": [{"review_id": "T007-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "project/agent-control/protected-paths.json",
+        "project/agent-control/claim.cjs",
+        "tests/agent-governance.cjs"
+      ],
+      "tests": [
+        {
+          "command": "node tests/agent-governance.test.cjs",
+          "phase": "GREEN",
+          "result": "37 passed, 0 failed"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T007-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Fail-closed dispatch, global writer lock, audit, protected-path, review-history, and atomic completion controls implemented."
     },
@@ -171,9 +250,25 @@
       "model_reason": "Documentation alignment is a bounded mechanical edit after contract implementation.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["AGENTS.md", "CLAUDE.md", "_meta/agent-presence/README.md"],
-      "tests": [{"command": "node tests/agent-governance.cjs", "result": "AGENT-GOVERNANCE: OK"}],
-      "reviews": [{"review_id": "T008-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "_meta/agent-presence/README.md"
+      ],
+      "tests": [
+        {
+          "command": "node tests/agent-governance.cjs",
+          "result": "AGENT-GOVERNANCE: OK"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T008-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Authority, active task, claim, checkoff, and human-stop rules aligned."
     },
@@ -186,12 +281,28 @@
       "model_reason": "Harness wiring and repeat proof are low-complexity after controls are green.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/run-all.cjs", "_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [
-        {"command": "node tests/agent-governance.test.cjs", "result": "37 passed, 0 failed"},
-        {"command": "node tests/agent-governance.cjs", "result": "AGENT-GOVERNANCE: OK"}
+      "files": [
+        "tests/run-all.cjs",
+        "_meta/freeze/2026-07-15-task-evidence.json"
       ],
-      "reviews": [{"review_id": "T009-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/agent-governance.test.cjs",
+          "result": "37 passed, 0 failed"
+        },
+        {
+          "command": "node tests/agent-governance.cjs",
+          "result": "AGENT-GOVERNANCE: OK"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T009-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Policy check is an uncounted mandatory run-all meta gate; needs-fix history behavior remains covered."
     },
@@ -205,12 +316,28 @@
       "model_reason": "Bootstrap closure and fail-closed audit are sensitive control transitions.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["specs/001-freeze-safety/tasks.md", "_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [
-        {"command": "node tests/agent-governance.test.cjs", "result": "37 passed, 0 failed"},
-        {"command": "node tests/agent-governance.cjs", "result": "AGENT-GOVERNANCE: OK"}
+      "files": [
+        "specs/001-freeze-safety/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json"
       ],
-      "reviews": [{"review_id": "T010-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/agent-governance.test.cjs",
+          "result": "37 passed, 0 failed"
+        },
+        {
+          "command": "node tests/agent-governance.cjs",
+          "result": "AGENT-GOVERNANCE: OK"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T010-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Accumulated evidence valid; fail-closed cases proven; root-owned bootstrap lock authorized for release."
     },
@@ -224,9 +351,24 @@
       "model_reason": "Release-contract test cases are deterministic mutation fixtures.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/release-manifest.test.cjs"],
-      "tests": [{"command": "node tests/release-manifest.test.cjs", "phase": "RED", "result": "0 passed, 1 failed; validator missing"}],
-      "reviews": [{"review_id": "T011-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "tests/release-manifest.test.cjs"
+      ],
+      "tests": [
+        {
+          "command": "node tests/release-manifest.test.cjs",
+          "phase": "RED",
+          "result": "0 passed, 1 failed; validator missing"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T011-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Failing contract covers identity, inventory, assets, gate evidence, and approvals."
     },
@@ -240,9 +382,24 @@
       "model_reason": "One focused command records expected RED evidence.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [{"command": "node tests/release-manifest.test.cjs", "phase": "RED", "result": "expected validator-missing failure confirmed"}],
-      "reviews": [{"review_id": "T012-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "_meta/freeze/2026-07-15-task-evidence.json"
+      ],
+      "tests": [
+        {
+          "command": "node tests/release-manifest.test.cjs",
+          "phase": "RED",
+          "result": "expected validator-missing failure confirmed"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T012-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "RED recorded before validator implementation."
     },
@@ -256,9 +413,24 @@
       "model_reason": "Git-tree identity, ancestry, bijection, hashes, and approval validation are sensitive release controls.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/release-manifest.cjs"],
-      "tests": [{"command": "node tests/release-manifest.test.cjs", "phase": "GREEN", "result": "43 passed, 0 failed"}],
-      "reviews": [{"review_id": "T013-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "tests/release-manifest.cjs"
+      ],
+      "tests": [
+        {
+          "command": "node tests/release-manifest.test.cjs",
+          "phase": "GREEN",
+          "result": "43 passed, 0 failed"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T013-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Read-only pure validator and Git-backed CLI implemented; no release mutation capability."
     },
@@ -272,9 +444,24 @@
       "model_reason": "Static live-truth fixtures and discovery assertions are bounded mechanical tests.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/release-truth-check.test.cjs"],
-      "tests": [{"command": "node tests/release-truth-check.test.cjs", "phase": "RED", "result": "0 passed, 1 failed; validator missing"}],
-      "reviews": [{"review_id": "T016-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "tests/release-truth-check.test.cjs"
+      ],
+      "tests": [
+        {
+          "command": "node tests/release-truth-check.test.cjs",
+          "phase": "RED",
+          "result": "0 passed, 1 failed; validator missing"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T016-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Failing cases cover live topology, security/runtime claims, deployment, source comments, and decision identity."
     },
@@ -288,9 +475,24 @@
       "model_reason": "One focused RED plus bounded source probes records current mismatch evidence.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [{"command": "node tests/release-truth-check.test.cjs", "phase": "RED", "result": "expected failure confirmed; observed stale 20-screen guide claim and 1687/0 preflight source comment"}],
-      "reviews": [{"review_id": "T017-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "_meta/freeze/2026-07-15-task-evidence.json"
+      ],
+      "tests": [
+        {
+          "command": "node tests/release-truth-check.test.cjs",
+          "phase": "RED",
+          "result": "expected failure confirmed; observed stale 20-screen guide claim and 1687/0 preflight source comment"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T017-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Current mismatches recorded for T021-T024 correction; no product behavior changed."
     },
@@ -304,9 +506,24 @@
       "model_reason": "Preflight contract fixtures and injected runner checks are bounded test work.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/stage-preflight.test.cjs"],
-      "tests": [{"command": "node tests/stage-preflight.test.cjs", "phase": "RED", "result": "0 passed, 1 failed; exports missing"}],
-      "reviews": [{"review_id": "T018-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "tests/stage-preflight.test.cjs"
+      ],
+      "tests": [
+        {
+          "command": "node tests/stage-preflight.test.cjs",
+          "phase": "RED",
+          "result": "0 passed, 1 failed; exports missing"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T018-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Failing cases cover static assets, exact commands, budget, timeout cleanup, and normalized evidence."
     },
@@ -320,9 +537,24 @@
       "model_reason": "One focused command records expected RED evidence.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [{"command": "node tests/stage-preflight.test.cjs", "phase": "RED", "result": "expected missing-control export failure confirmed"}],
-      "reviews": [{"review_id": "T019-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "_meta/freeze/2026-07-15-task-evidence.json"
+      ],
+      "tests": [
+        {
+          "command": "node tests/stage-preflight.test.cjs",
+          "phase": "RED",
+          "result": "expected missing-control export failure confirmed"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T019-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "RED recorded before bounded preflight implementation."
     },
@@ -336,12 +568,28 @@
       "model_reason": "Process timeout, cleanup, stage asset integrity, and bounded execution are sensitive operational controls.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/stage-preflight.cjs"],
-      "tests": [
-        {"command": "node tests/stage-preflight.test.cjs", "phase": "GREEN", "result": "16 passed, 0 failed"},
-        {"command": "node tests/stage-preflight.cjs", "result": "READY FOR STAGE; app and terminal executed and cleaned; tripwire exact"}
+      "files": [
+        "tests/stage-preflight.cjs"
       ],
-      "reviews": [{"review_id": "T020-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/stage-preflight.test.cjs",
+          "phase": "GREEN",
+          "result": "16 passed, 0 failed"
+        },
+        {
+          "command": "node tests/stage-preflight.cjs",
+          "result": "READY FOR STAGE; app and terminal executed and cleaned; tripwire exact"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T020-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Preflight is read-only, bounded to 30 seconds, cleans children, reports actionable failures, and normalizes volatile evidence."
     },
@@ -355,12 +603,31 @@
       "model_reason": "Live-claim correction is mechanical once facts are derived from registries, routes, and gate output.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["docs/ARCHITECTURE.md", "_meta/STATUS.md", "_meta/score-leap-loop-state.md", "CLAUDE.md", "specs/001-freeze-safety/tasks.md"],
-      "tests": [
-        {"command": "bounded current-claim grep", "result": "no current 20-screen, no-auth, non-gate-wired smoke, no-deployment-story, or 1687/0 source claim remains"},
-        {"command": "node tests/agent-governance.test.cjs", "result": "38 passed, 0 failed after root-file authorization correction"}
+      "files": [
+        "docs/ARCHITECTURE.md",
+        "_meta/STATUS.md",
+        "_meta/score-leap-loop-state.md",
+        "CLAUDE.md",
+        "specs/001-freeze-safety/tasks.md"
       ],
-      "reviews": [{"review_id": "T021-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "bounded current-claim grep",
+          "result": "no current 20-screen, no-auth, non-gate-wired smoke, no-deployment-story, or 1687/0 source claim remains"
+        },
+        {
+          "command": "node tests/agent-governance.test.cjs",
+          "result": "38 passed, 0 failed after root-file authorization correction"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T021-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Current banners and architecture now state 21 screens, 69 suites, 6 routes, HMAC default-on, gate-wired smoke, and local-not-production status; dated history preserved."
     },
@@ -374,9 +641,28 @@
       "model_reason": "Identifier namespace correction is a mechanical bounded reference update.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/score-leap-loop-state.md", "_meta/OPEN-ITEMS.md", "docs/session-report-2026-07-13-ar.md", "docs/superpowers/plans/2026-07-12-score-leap-master-plan.md", "docs/superpowers/plans/2026-07-13-ceiling-break-8-9-plan.md", "docs/superpowers/plans/2026-07-13-four-criteria-push.md"],
-      "tests": [{"command": "bounded D-4/INN-D4 collision scan", "result": "D-4 remains only the frozen-demo decision in the active decision register; 20 innovation references use INN-D4"}],
-      "reviews": [{"review_id": "T022-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "_meta/score-leap-loop-state.md",
+        "_meta/OPEN-ITEMS.md",
+        "docs/session-report-2026-07-13-ar.md",
+        "docs/superpowers/plans/2026-07-12-score-leap-master-plan.md",
+        "docs/superpowers/plans/2026-07-13-ceiling-break-8-9-plan.md",
+        "docs/superpowers/plans/2026-07-13-four-criteria-push.md"
+      ],
+      "tests": [
+        {
+          "command": "bounded D-4/INN-D4 collision scan",
+          "result": "D-4 remains only the frozen-demo decision in the active decision register; 20 innovation references use INN-D4"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T022-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Innovation note remains pending owner and scholar review; no approval or product behavior inferred."
     },
@@ -390,9 +676,23 @@
       "model_reason": "Open-thread verification is bounded filesystem and text lookup.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/OPEN-ITEMS.md"],
-      "tests": [{"command": "Test-Path plus bounded rg/rg --files probes", "result": "OT-13 absent and closed; OT-14 duplicate absent and closed; OT-LINKS exact defects verified open"}],
-      "reviews": [{"review_id": "T023-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "_meta/OPEN-ITEMS.md"
+      ],
+      "tests": [
+        {
+          "command": "Test-Path plus bounded rg/rg --files probes",
+          "result": "OT-13 absent and closed; OT-14 duplicate absent and closed; OT-LINKS exact defects verified open"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T023-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Stale ambiguity replaced with exact current evidence; no research file mutated."
     },
@@ -406,9 +706,26 @@
       "model_reason": "Live-source parsing must distinguish current banners from history and fail closed on security/runtime claim drift.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/release-truth-check.cjs", "docs/ARCHITECTURE.md", "_meta/score-leap-loop-state.md"],
-      "tests": [{"command": "node tests/release-truth-check.test.cjs", "phase": "GREEN", "result": "17 passed, 0 failed"}],
-      "reviews": [{"review_id": "T024-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "tests/release-truth-check.cjs",
+        "docs/ARCHITECTURE.md",
+        "_meta/score-leap-loop-state.md"
+      ],
+      "tests": [
+        {
+          "command": "node tests/release-truth-check.test.cjs",
+          "phase": "GREEN",
+          "result": "17 passed, 0 failed"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T024-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Validator derives 21 screens, 69 suites, 6 routes, auth default, and live-smoke wiring; history is scoped; residual T021/T022 wording defects found by the validator were corrected."
     },
@@ -419,11 +736,23 @@
       "model_used": "controller-escalation",
       "model_reason": "Mechanical portability test was assigned to the cheapest tier; controller finished it after lightweight agents stalled and the reference gate remained blocked.",
       "status": "complete",
-      "implementation_commits": ["641a14b0c42db942b52164d0631c7ab866940a9a"],
-      "files": ["tests/app/tripwire-portability.test.cjs"],
+      "implementation_commits": [
+        "641a14b0c42db942b52164d0631c7ab866940a9a"
+      ],
+      "files": [
+        "tests/app/tripwire-portability.test.cjs"
+      ],
       "tests": [
-        {"command": "node tests/app/tripwire-portability.test.cjs", "phase": "RED", "result": "15 passed, 4 failed"},
-        {"command": "node tests/app/tripwire-portability.test.cjs", "phase": "GREEN", "result": "16 passed, 0 failed"}
+        {
+          "command": "node tests/app/tripwire-portability.test.cjs",
+          "phase": "RED",
+          "result": "15 passed, 4 failed"
+        },
+        {
+          "command": "node tests/app/tripwire-portability.test.cjs",
+          "phase": "GREEN",
+          "result": "16 passed, 0 failed"
+        }
       ],
       "result": "Tracked-checksum and clean-checkout requirements enforced; controller validation passed."
     },
@@ -434,10 +763,20 @@
       "model_used": "controller-escalation",
       "model_reason": "Small protected-path fix used the cheapest planned tier; controller completed it immediately after delegate timeout.",
       "status": "complete",
-      "implementation_commits": ["641a14b0c42db942b52164d0631c7ab866940a9a"],
-      "files": ["tests/fixtures/demo.sha256", "tests/tripwire.cjs", "CLAUDE.md"],
+      "implementation_commits": [
+        "641a14b0c42db942b52164d0631c7ab866940a9a"
+      ],
+      "files": [
+        "tests/fixtures/demo.sha256",
+        "tests/tripwire.cjs",
+        "CLAUDE.md"
+      ],
       "tests": [
-        {"command": "node tests/run-all.cjs", "phase": "GREEN", "result": "2979 passed, 0 failed; no-drift 12/0; demo sealed"}
+        {
+          "command": "node tests/run-all.cjs",
+          "phase": "GREEN",
+          "result": "2979 passed, 0 failed; no-drift 12/0; demo sealed"
+        }
       ],
       "result": "Portable tracked tripwire restored the clean reference gate; controller validation passed."
     },
@@ -450,13 +789,32 @@
       "model_reason": "Focused and phase-gate execution is mechanical; no architecture decision is required.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["specs/001-freeze-safety/tasks.md", "_meta/freeze/2026-07-15-task-evidence.json"],
-      "tests": [
-        {"command": "node tests/release-truth-check.test.cjs", "result": "17 passed, 0 failed; zero current-state mismatches"},
-        {"command": "node tests/agent-governance.cjs", "result": "AGENT-GOVERNANCE: OK"},
-        {"command": "node tests/run-all.cjs", "result": "AHD GATE 2979 passed, 0 failed; tripwire exact; live smoke green"}
+      "files": [
+        "specs/001-freeze-safety/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json"
       ],
-      "reviews": [{"review_id": "T025-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/release-truth-check.test.cjs",
+          "result": "17 passed, 0 failed; zero current-state mismatches"
+        },
+        {
+          "command": "node tests/agent-governance.cjs",
+          "result": "AGENT-GOVERNANCE: OK"
+        },
+        {
+          "command": "node tests/run-all.cjs",
+          "result": "AHD GATE 2979 passed, 0 failed; tripwire exact; live smoke green"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T025-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Phase 4 closed on the authoritative green environment without demo, engine, money, or seal drift."
     },
@@ -470,13 +828,36 @@
       "model_reason": "Inventory normalization, deterministic hashing, and Unicode path extraction are bounded mechanical work.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-change-inventory.md", ".superpowers/sdd/2026-07-15-release-manifest.draft.json", "tests/release-manifest.cjs", "tests/release-manifest.test.cjs"],
-      "tests": [
-        {"command": "node tests/release-manifest.test.cjs", "phase": "RED", "result": "43 passed, 1 failed on Git-quoted Arabic path"},
-        {"command": "node tests/release-manifest.test.cjs", "phase": "GREEN", "result": "44 passed, 0 failed"},
-        {"command": "node tests/release-manifest.cjs --manifest <external-draft> --target <candidate> --attestation-root <candidate>", "result": "RELEASE-MANIFEST: OK; 105 included, 4 generated exclusions, 8 deterministic assets"}
+      "files": [
+        "_meta/freeze/2026-07-15-change-inventory.md",
+        ".superpowers/sdd/2026-07-15-release-manifest.draft.json",
+        "tests/release-manifest.cjs",
+        "tests/release-manifest.test.cjs"
       ],
-      "reviews": [{"review_id": "T026-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/release-manifest.test.cjs",
+          "phase": "RED",
+          "result": "43 passed, 1 failed on Git-quoted Arabic path"
+        },
+        {
+          "command": "node tests/release-manifest.test.cjs",
+          "phase": "GREEN",
+          "result": "44 passed, 0 failed"
+        },
+        {
+          "command": "node tests/release-manifest.cjs --manifest <external-draft> --target <candidate> --attestation-root <candidate>",
+          "result": "RELEASE-MANIFEST: OK; 105 included, 4 generated exclusions, 8 deterministic assets"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T026-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Draft manifest validates exact Unicode-safe base/diff/inventory bijection and excludes the parked source."
     },
@@ -490,9 +871,24 @@
       "model_reason": "The recovery lifecycle is already fixed by the release contract; writing the exact runbook is bounded documentation.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-recovery-drill.md", "_meta/freeze/2026-07-15-change-inventory.md"],
-      "tests": [{"command": "recovery interface and inventory parse check", "result": "A/B lifecycle, all three explicit arguments, under-15-minute target, exact restore set, and no tag/push are present; inventory JSON valid"}],
-      "reviews": [{"review_id": "T027-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "_meta/freeze/2026-07-15-recovery-drill.md",
+        "_meta/freeze/2026-07-15-change-inventory.md"
+      ],
+      "tests": [
+        {
+          "command": "recovery interface and inventory parse check",
+          "result": "A/B lifecycle, all three explicit arguments, under-15-minute target, exact restore set, and no tag/push are present; inventory JSON valid"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T027-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Clean recovery is executable from immutable Git-tree inputs and cannot infer data from the parked source workspace."
     },
@@ -506,13 +902,35 @@
       "model_reason": "The release wrapper binds clean Git identities, restore boundaries, and final evidence, so it needs stronger implementation reasoning than a mechanical edit.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["tests/release-gate.cjs", "tests/release-gate.test.cjs", "_meta/freeze/2026-07-15-change-inventory.md"],
-      "tests": [
-        {"command": "node tests/release-gate.test.cjs", "phase": "RED", "result": "0 passed, 1 failed because wrapper did not exist"},
-        {"command": "node tests/release-gate.test.cjs", "phase": "GREEN", "result": "20 passed, 0 failed"},
-        {"command": "node tests/release-manifest.test.cjs", "result": "44 passed, 0 failed"}
+      "files": [
+        "tests/release-gate.cjs",
+        "tests/release-gate.test.cjs",
+        "_meta/freeze/2026-07-15-change-inventory.md"
       ],
-      "reviews": [{"review_id": "T028-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/release-gate.test.cjs",
+          "phase": "RED",
+          "result": "0 passed, 1 failed because wrapper did not exist"
+        },
+        {
+          "command": "node tests/release-gate.test.cjs",
+          "phase": "GREEN",
+          "result": "20 passed, 0 failed"
+        },
+        {
+          "command": "node tests/release-manifest.test.cjs",
+          "result": "44 passed, 0 failed"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T028-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "One command now validates explicit roots, clean/tree-backed inputs, exact restore outputs, all focused controls, the full gate, and emitted candidate/attestation/manifest identities."
     },
@@ -525,14 +943,36 @@
       "model_reason": "Claim-free release execution is mechanical, while the constitution and Judge Lens verdict requires bounded cross-criterion judgment.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": [".superpowers/sdd/2026-07-15-T029-release-gate.txt", ".superpowers/sdd/2026-07-15-T029-review.json"],
-      "tests": [
-        {"command": "node tests/release-gate.cjs --manifest <external-draft> --target <candidate> --attestation-root <candidate>", "result": "RELEASE-GATE: OK; 2979 passed, 0 failed; all five controls true; 12.102 seconds"},
-        {"command": "claim-free inventory/source/stage review", "result": "108 included + 1 generated exclusion = 109 inventory items; zero staged paths; parked source false and absent; no owner-decision inclusion; frozen diff empty"}
+      "files": [
+        ".superpowers/sdd/2026-07-15-T029-release-gate.txt",
+        ".superpowers/sdd/2026-07-15-T029-review.json"
       ],
-      "reviews": [{"review_id": "T029-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/release-gate.cjs --manifest <external-draft> --target <candidate> --attestation-root <candidate>",
+          "result": "RELEASE-GATE: OK; 2979 passed, 0 failed; all five controls true; 12.102 seconds"
+        },
+        {
+          "command": "claim-free inventory/source/stage review",
+          "result": "108 included + 1 generated exclusion = 109 inventory items; zero staged paths; parked source false and absent; no owner-decision inclusion; frozen diff empty"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T029-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
-      "judge_lens": {"innovation": 8, "technical": 9, "data_analysis": 8, "ux": 8, "feasibility": 9},
+      "judge_lens": {
+        "innovation": 8,
+        "technical": 9,
+        "data_analysis": 8,
+        "ux": 8,
+        "feasibility": 9
+      },
       "result": "Claim-free candidate precheck and owner-directed controller review passed; evidence remains outside Git as required."
     },
     {
@@ -545,12 +985,29 @@
       "model_reason": "Freezing the immutable candidate boundary is release-sensitive and benefits from the stronger model tier.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md", ".superpowers/sdd/2026-07-15-candidate-A.json"],
-      "tests": [
-        {"command": "git diff --cached --name-only plus controller content review", "result": "only the two T029/T030 evidence-control files are staged; no parked-source path, demo, or engine bytes"},
-        {"command": "node tests/agent-governance.cjs && node tests/tripwire.cjs", "result": "governance and frozen-demo tripwire green before commit A"}
+      "files": [
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "specs/001-freeze-safety/tasks.md",
+        ".superpowers/sdd/2026-07-15-candidate-A.json"
       ],
-      "reviews": [{"review_id": "T030-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "git diff --cached --name-only plus controller content review",
+          "result": "only the two T029/T030 evidence-control files are staged; no parked-source path, demo, or engine bytes"
+        },
+        {
+          "command": "node tests/agent-governance.cjs && node tests/tripwire.cjs",
+          "result": "governance and frozen-demo tripwire green before commit A"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T030-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "This commit freezes candidate content A; its full SHA is written to ignored external evidence immediately after commit creation."
     },
@@ -564,12 +1021,31 @@
       "model_reason": "Separating immutable candidate A from attestation B and binding verified identities is release-sensitive architecture work.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": [".superpowers/sdd/2026-07-15-release-manifest.draft.json", ".superpowers/sdd/2026-07-15-T031-candidate-gate.txt", "_meta/freeze/2026-07-15-release-manifest.json", "_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md"],
-      "tests": [
-        {"command": "claim-free release gate in clean detached candidate A checkout", "result": "RELEASE-GATE: OK; 2979 passed, 0 failed; all controls true; candidate e308749f7453617e3e37f2a0793abd5964403a7c; 14.789 seconds"},
-        {"command": "static final-manifest contract review before attestation commit", "result": "pass; manifest SHA-256 bfd20eefdb9e482adea39907762f178f0a70c1238a67dc8d1826793d2ae58d64; 108 included; 1 generated exclusion; 8 assets; candidate operation; empty approvals"}
+      "files": [
+        ".superpowers/sdd/2026-07-15-release-manifest.draft.json",
+        ".superpowers/sdd/2026-07-15-T031-candidate-gate.txt",
+        "_meta/freeze/2026-07-15-release-manifest.json",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "specs/001-freeze-safety/tasks.md"
       ],
-      "reviews": [{"review_id": "T031-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "claim-free release gate in clean detached candidate A checkout",
+          "result": "RELEASE-GATE: OK; 2979 passed, 0 failed; all controls true; candidate e308749f7453617e3e37f2a0793abd5964403a7c; 14.789 seconds"
+        },
+        {
+          "command": "static final-manifest contract review before attestation commit",
+          "result": "pass; manifest SHA-256 bfd20eefdb9e482adea39907762f178f0a70c1238a67dc8d1826793d2ae58d64; 108 included; 1 generated exclusion; 8 assets; candidate operation; empty approvals"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T031-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "This commit creates attestation B over immutable candidate A; final clean-checkout validation remains explicitly pending T032."
     },
@@ -583,9 +1059,24 @@
       "model_reason": "The A/B recovery procedure is fully specified and reduces to bounded identity, hash, and gate checks.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": [".superpowers/sdd/2026-07-15-T032-recovery.json", ".superpowers/sdd/2026-07-15-T032-final-release-gate.txt"],
-      "tests": [{"command": "final release gate from separate clean A/B checkouts", "result": "RELEASE-GATE: OK; candidate e308749f7453617e3e37f2a0793abd5964403a7c; attestation 86cda05f53b911b7dd70946f91801942a24e16ec; manifest bfd20eefdb9e482adea39907762f178f0a70c1238a67dc8d1826793d2ae58d64; 2979/0; 1.513 minutes total recovery"}],
-      "reviews": [{"review_id": "T032-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        ".superpowers/sdd/2026-07-15-T032-recovery.json",
+        ".superpowers/sdd/2026-07-15-T032-final-release-gate.txt"
+      ],
+      "tests": [
+        {
+          "command": "final release gate from separate clean A/B checkouts",
+          "result": "RELEASE-GATE: OK; candidate e308749f7453617e3e37f2a0793abd5964403a7c; attestation 86cda05f53b911b7dd70946f91801942a24e16ec; manifest bfd20eefdb9e482adea39907762f178f0a70c1238a67dc8d1826793d2ae58d64; 2979/0; 1.513 minutes total recovery"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T032-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Final validation consumed tracked Git-tree inputs only; no restore output was declared or created; both detached worktrees remained clean."
     },
@@ -598,9 +1089,24 @@
       "model_reason": "Two repeat executions plus byte comparison are deterministic mechanical checks.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": [".superpowers/sdd/2026-07-15-T033-preflight-1.json", ".superpowers/sdd/2026-07-15-T033-preflight-2.json"],
-      "tests": [{"command": "two fresh-process normalized stage preflights", "result": "ready/ready; 8 checks each; byte-identical SHA-256 6d7c4532962cc58622ca2169bc987e0e70ca9fa00aa5cafa0ec7381c707a27d1"}],
-      "reviews": [{"review_id": "T033-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        ".superpowers/sdd/2026-07-15-T033-preflight-1.json",
+        ".superpowers/sdd/2026-07-15-T033-preflight-2.json"
+      ],
+      "tests": [
+        {
+          "command": "two fresh-process normalized stage preflights",
+          "result": "ready/ready; 8 checks each; byte-identical SHA-256 6d7c4532962cc58622ca2169bc987e0e70ca9fa00aa5cafa0ec7381c707a27d1"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T033-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Stage preflight evidence is reproducible after volatile fields are removed."
     },
@@ -613,9 +1119,23 @@
       "model_reason": "Frozen-file comparison is a bounded byte/hash check.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": [".superpowers/sdd/2026-07-15-T034-frozen-integrity.json"],
-      "tests": [{"command": "source/tree/clean-checkout frozen integrity check", "result": "demo e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40 and engine 52bc6921ad7df9638b2ce0cf0b9f04d871f9bce3fc5f453804503c50c102bb65 equal in all three roots; tracked checksum source hash a5fe0ff3ba0235444348aeb1ead92542f141bc83c586882459da05d1f146d6d3"}],
-      "reviews": [{"review_id": "T034-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        ".superpowers/sdd/2026-07-15-T034-frozen-integrity.json"
+      ],
+      "tests": [
+        {
+          "command": "source/tree/clean-checkout frozen integrity check",
+          "result": "demo e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40 and engine 52bc6921ad7df9638b2ce0cf0b9f04d871f9bce3fc5f453804503c50c102bb65 equal in all three roots; tracked checksum source hash a5fe0ff3ba0235444348aeb1ead92542f141bc83c586882459da05d1f146d6d3"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T034-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Neither the frozen presenter demo nor generated engine changed in source or candidate."
     },
@@ -629,12 +1149,34 @@
       "model_reason": "Canonical evidence is complete; status and cockpit synchronization are bounded mechanical updates.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "files": ["_meta/freeze/2026-07-15-recovery-drill.md", "_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md", "_meta/OPEN-ITEMS.md", "_meta/STATUS.md", "AmadHackathon/00 Home.md", "AmadHackathon/01 الخطة الرئيسة.md", "AmadHackathon/05 حالة المشروع.md"],
-      "tests": [
-        {"command": "node tests/release-truth-check.cjs after metadata commit", "result": "RELEASE-TRUTH: OK — 21 screens, 69 suites, 6 routes"},
-        {"command": "final release gate against immutable clean A/B after metadata commit", "result": "RELEASE-GATE: OK; 2979/0; exact A/B/manifest identities unchanged"}
+      "files": [
+        "_meta/freeze/2026-07-15-recovery-drill.md",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "specs/001-freeze-safety/tasks.md",
+        "_meta/OPEN-ITEMS.md",
+        "_meta/STATUS.md",
+        "AmadHackathon/00 Home.md",
+        "AmadHackathon/01 الخطة الرئيسة.md",
+        "AmadHackathon/05 حالة المشروع.md"
       ],
-      "reviews": [{"review_id": "T035-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "node tests/release-truth-check.cjs after metadata commit",
+          "result": "RELEASE-TRUTH: OK — 21 screens, 69 suites, 6 routes"
+        },
+        {
+          "command": "final release gate against immutable clean A/B after metadata commit",
+          "result": "RELEASE-GATE: OK; 2979/0; exact A/B/manifest identities unchanged"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T035-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Canonical status, open items, recovery record, and all three cockpit mirrors agree; temporary session-sync exception is finalized."
     },
@@ -653,12 +1195,31 @@
       "artifact": "_meta/freeze/2026-07-15-release-manifest.json",
       "candidate_commit": "e308749f7453617e3e37f2a0793abd5964403a7c",
       "attestation_commit": "86cda05f53b911b7dd70946f91801942a24e16ec",
-      "files": ["_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md", "_meta/STATUS.md", "_meta/INDEX.md", ".superpowers/sdd/2026-07-15-T036-final-review.json"],
-      "tests": [
-        {"command": "claim-free final release gate against immutable A/B", "result": "RELEASE-GATE: OK; 2979/0; exact candidate, attestation, and manifest blob identities"},
-        {"command": "owner-directed controller final review", "result": "approved; all 36 tasks have evidence; no tag, push, overwrite, cleanup, Shariah ruling, or substantive Marwan decision"}
+      "files": [
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "specs/001-freeze-safety/tasks.md",
+        "_meta/STATUS.md",
+        "_meta/INDEX.md",
+        ".superpowers/sdd/2026-07-15-T036-final-review.json"
       ],
-      "reviews": [{"review_id": "T036-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "tests": [
+        {
+          "command": "claim-free final release gate against immutable A/B",
+          "result": "RELEASE-GATE: OK; 2979/0; exact candidate, attestation, and manifest blob identities"
+        },
+        {
+          "command": "owner-directed controller final review",
+          "result": "approved; all 36 tasks have evidence; no tag, push, overwrite, cleanup, Shariah ruling, or substantive Marwan decision"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T036-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
       "result": "Wave 0 is complete. The immutable tested reference is ready; W1 may become the sole active execution package."
     },
@@ -673,18 +1234,318 @@
       "model_reason": "Bounded Markdown rewrite and deterministic contract test; user requested token economy and no subagents.",
       "status": "complete",
       "owner_single_agent_override": true,
-      "implementation_commits": ["9fc27f93fb45866685242343c653c9dda27e98bd"],
-      "files": ["README.md", "tests/readme-judge-contract.cjs", "tests/run-all.cjs", "_meta/STATUS.md", "AmadHackathon/00 Home.md"],
-      "tests": [
-        {"command": "node tests/readme-judge-contract.cjs", "phase": "RED", "result": "old README failed 20 judge-first checks"},
-        {"command": "node tests/readme-judge-contract.cjs", "phase": "GREEN", "result": "README JUDGE CONTRACT OK"},
-        {"command": "cd tests && node run-all.cjs", "result": "AHD GATE 3067/0; readme-judge meta gate green; tripwire exact"}
+      "implementation_commits": [
+        "9fc27f93fb45866685242343c653c9dda27e98bd"
       ],
-      "reviews": [{"review_id": "T129-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "files": [
+        "README.md",
+        "tests/readme-judge-contract.cjs",
+        "tests/run-all.cjs",
+        "_meta/STATUS.md",
+        "AmadHackathon/00 Home.md"
+      ],
+      "tests": [
+        {
+          "command": "node tests/readme-judge-contract.cjs",
+          "phase": "RED",
+          "result": "old README failed 20 judge-first checks"
+        },
+        {
+          "command": "node tests/readme-judge-contract.cjs",
+          "phase": "GREEN",
+          "result": "README JUDGE CONTRACT OK"
+        },
+        {
+          "command": "cd tests && node run-all.cjs",
+          "result": "AHD GATE 3067/0; readme-judge meta gate green; tripwire exact"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T129-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null
+        }
+      ],
       "constitution": "pass",
-      "judge_lens": {"innovation": 8, "technical": 9, "data_analysis": 8, "ux": 8, "feasibility": 8, "memorability": 9},
+      "judge_lens": {
+        "innovation": 8,
+        "technical": 9,
+        "data_analysis": 8,
+        "ux": 8,
+        "feasibility": 8,
+        "memorability": 9
+      },
       "result": "GitHub front page explains Ahd to judges in 30 seconds; agent/process detail is removed from the public opening; technical depth remains below disclosures.",
       "completed_at": "2026-07-15T10:38:10+03:00"
+    },
+    {
+      "task_id": "T130",
+      "wave": "specs/002-judge-readiness",
+      "dispatch_id": "wave1-T130-root-20260715-183344-final",
+      "dispatch_sha256": "704b5030476c44289c90d0b7344d0454fe89116c52034c69011c13db9214e582",
+      "responsible": "root",
+      "implementer": "root",
+      "controller": "root",
+      "model_used": "controller-single-agent",
+      "owner_single_agent_override": true,
+      "authorization_basis": "Direct owner instructions in this session; consensual order, no random selection; bounded loader/map/count-sync expansions.",
+      "status": "complete",
+      "working_tree_base": "50665e32471a0d9fa82c0305898fae9ed7c4fc92",
+      "implementation_commits": [],
+      "files": [
+        "app/features/jamiya.js",
+        "app/screens/jamiya.js",
+        "tests/app/jamiya-core.test.cjs",
+        "tests/app/jamiya-conservation.test.cjs",
+        "tests/app/jamiya-seal.test.cjs",
+        "tests/app/jamiya-riba-lint.test.cjs",
+        "tests/app/jamiya-screen-smoke.test.cjs",
+        "docs/specs/jamiya-v1.md",
+        "app/app.js",
+        "app/index.html",
+        "project/mcp/packages/ahd-navigator/src/project-map.json",
+        "CLAUDE.md",
+        "README.md",
+        "docs/ARCHITECTURE.md",
+        "docs/PUBLISHABLE-PRODUCT-SPEC.md",
+        "docs/PRESENTER-GUIDE.md",
+        "docs/evidence/EVIDENCE-BRIEF.md",
+        "docs/evidence/REBUTTAL-PLAYBOOK.md",
+        "docs/pitch/deck-content-v2.md",
+        "docs/pitch/script-ar.md",
+        "docs/pitch/top6-cards-ar.md",
+        "docs/pitch/rehearsal-checklist.md",
+        "AmadHackathon/00 Home.md",
+        "AmadHackathon/05 ???? ???????.md",
+        "tests/readme-judge-contract.cjs",
+        "specs/002-judge-readiness/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "_meta/freeze/reviews/T130/review-001.json"
+      ],
+      "artifacts": [
+        {
+          "path": "app/features/jamiya.js",
+          "sha256": "799024a0e4f4a7ce7fc18b672cda5665172796be3e21ea9a017e29ab5e706d66"
+        },
+        {
+          "path": "app/screens/jamiya.js",
+          "sha256": "89c498fe392811ab40ccd12f3a050a735bcee401580e44d2ac43923d49d3ad4e"
+        },
+        {
+          "path": "docs/specs/jamiya-v1.md",
+          "sha256": "2ab92c2efdd45e0a9d35716dcc2176476a68a302d6995362ee3a6aa6ffaba494"
+        }
+      ],
+      "tests": [
+        {
+          "command": "cd tests && node run-all.cjs",
+          "phase": "BASELINE",
+          "result": "AHD GATE 3067/0; frozen demo exact"
+        },
+        {
+          "command": "five focused jamiya tests",
+          "phase": "RED",
+          "result": "all five failed because app/features/jamiya.js and app/screens/jamiya.js did not exist"
+        },
+        {
+          "command": "node tests/app/jamiya-{core,conservation,seal,riba-lint,screen-smoke}.test.cjs",
+          "phase": "GREEN",
+          "result": "34 passed, 0 failed across 5 suites"
+        },
+        {
+          "command": "numeric-only diff audit",
+          "result": "13 judge-facing files changed only in digit code points; no prose changes"
+        },
+        {
+          "command": "node tests/structure-check.cjs",
+          "result": "14 passed, 0 failed"
+        },
+        {
+          "command": "node tests/gate-drift-check.cjs with live env",
+          "result": "12 passed, 0 failed; 3107/0 and 78 suites synchronized"
+        },
+        {
+          "command": "node tests/readme-judge-contract.cjs",
+          "result": "README JUDGE CONTRACT OK"
+        },
+        {
+          "command": "cd tests && node run-all.cjs",
+          "phase": "FINAL",
+          "result": "AHD GATE 3107/0; app 2909/0 across 78 suites; tripwire exact; all meta gates green"
+        },
+        {
+          "command": "git diff --check plus forbidden-API scan",
+          "result": "clean; no Date.now/new Date/Math.random/Intl/toLocaleString in jamiya files"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T130-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null,
+          "artifact_path": "_meta/freeze/reviews/T130/review-001.json",
+          "reviewed_commit": "working-tree@50665e32471a0d9fa82c0305898fae9ed7c4fc92",
+          "created_at": "2026-07-15T18:35:22+03:00"
+        }
+      ],
+      "constitution": "pass",
+      "judge_lens": {
+        "innovation": 8,
+        "technical": 9,
+        "data_analysis": 8,
+        "ux": 8,
+        "feasibility": 8,
+        "memorability": 8
+      },
+      "result": "Sealed deterministic ROSCA shipped with mutually agreed payout order, immutable sealed payment events, zero-surplus conservation, Arabic-first mid-cycle demo, and no new Shariah decision.",
+      "completed_at": "2026-07-15T18:35:22+03:00"
+    },
+    {
+      "task_id": "T131",
+      "wave": "specs/002-judge-readiness",
+      "dispatch_id": "wave1-T131-root-20260715-185500-expanded",
+      "dispatch_sha256": "6c55a652611abc6dd23d70ab447f8ee5dde03f977de6f5de2a703a60a5d8988c",
+      "responsible": "root",
+      "implementer": "root",
+      "controller": "root",
+      "model_used": "controller-single-agent",
+      "owner_single_agent_override": true,
+      "authorization_basis": "Direct standing owner authorization in this session: T131 scope plus loader, project-map, and numeric-only gate-count synchronization; prototype honesty label required.",
+      "status": "complete",
+      "working_tree_base": "50665e32471a0d9fa82c0305898fae9ed7c4fc92",
+      "implementation_commits": [],
+      "files": [
+        "app/features/qaid.js",
+        "app/features/walink.js",
+        "app/features/reminder.js",
+        "app/features/split.js",
+        "app/screens/daily.js",
+        "app/confirm.html",
+        "tests/app/qaid-core.test.cjs",
+        "tests/app/qaid-upgrade.test.cjs",
+        "tests/app/walink.test.cjs",
+        "tests/app/reminder.test.cjs",
+        "tests/app/split.test.cjs",
+        "tests/app/daily-screen-smoke.test.cjs",
+        "docs/specs/daily-v1.md",
+        "app/app.js",
+        "app/index.html",
+        "project/mcp/packages/ahd-navigator/src/project-map.json",
+        "CLAUDE.md",
+        "README.md",
+        "docs/ARCHITECTURE.md",
+        "docs/PUBLISHABLE-PRODUCT-SPEC.md",
+        "docs/PRESENTER-GUIDE.md",
+        "docs/evidence/EVIDENCE-BRIEF.md",
+        "docs/evidence/REBUTTAL-PLAYBOOK.md",
+        "docs/pitch/deck-content-v2.md",
+        "docs/pitch/script-ar.md",
+        "docs/pitch/top6-cards-ar.md",
+        "docs/pitch/rehearsal-checklist.md",
+        "AmadHackathon/00 Home.md",
+        "AmadHackathon/05 حالة المشروع.md",
+        "tests/readme-judge-contract.cjs",
+        "specs/002-judge-readiness/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "_meta/freeze/reviews/T131/review-001.json"
+      ],
+      "artifacts": [
+        {
+          "path": "app/features/qaid.js",
+          "sha256": "85690b17f08e7ac4b99ddd896f6d2cce3521aea7fe30ed32f64e8dbe21311f36"
+        },
+        {
+          "path": "app/features/split.js",
+          "sha256": "d6f85134170ca36afac8e49ba9ef09159cd01525dbea585020e39d008e1eb696"
+        },
+        {
+          "path": "app/features/reminder.js",
+          "sha256": "d3c03cd247f4123dce2f7187b1936997df5e5f818e5381eef1471bae0547a2cd"
+        },
+        {
+          "path": "app/features/walink.js",
+          "sha256": "8491bd356bb4c75bab8c9f08cc4ee28474d07ded3eacb534e6ac4cea4ff8e93b"
+        },
+        {
+          "path": "app/screens/daily.js",
+          "sha256": "2e6bc3e7993bdf5c4947a95812495abb491499a562d70ac1c835a34f3910226f"
+        },
+        {
+          "path": "app/confirm.html",
+          "sha256": "524e741428314ef090d91fa4df069f993c221ce8d774ded055d6e06b42b1b347"
+        },
+        {
+          "path": "docs/specs/daily-v1.md",
+          "sha256": "f81c7756445f8e4f3eef89bda8843afc27edb41d4ec0abe445021db3e40c8b36"
+        }
+      ],
+      "tests": [
+        {
+          "command": "cd tests && node run-all.cjs",
+          "phase": "BASELINE",
+          "result": "AHD GATE 3107/0 after T130 closure; frozen demo exact"
+        },
+        {
+          "command": "six focused daily tests",
+          "phase": "RED",
+          "result": "6/6 suites failed on missing or incomplete daily modules and screen"
+        },
+        {
+          "command": "node tests/app/{qaid-core,qaid-upgrade,walink,reminder,split,daily-screen-smoke}.test.cjs",
+          "phase": "GREEN",
+          "result": "53 passed, 0 failed across 6 suites"
+        },
+        {
+          "command": "node tests/structure-check.cjs",
+          "result": "14 passed, 0 failed"
+        },
+        {
+          "command": "node tests/app/run-app-tests.cjs",
+          "result": "84/84 suites green; 2977 passed, 0 failed"
+        },
+        {
+          "command": "confirm.html VM verification",
+          "result": "valid payload verified with matching 12-hex code; tampered payload blocked"
+        },
+        {
+          "command": "numeric-only diff audit",
+          "result": "all preapproved judge-surface gate-count changes are numeric-only"
+        },
+        {
+          "command": "git diff --check plus forbidden-API and protected-diff scan",
+          "result": "clean; no ambient time, randomness, locale formatting, network API, demo change, or engine change"
+        },
+        {
+          "command": "cd tests && node run-all.cjs",
+          "phase": "FINAL",
+          "result": "AHD GATE 3175/0; app 2977/0 across 84 suites; no-drift 12/0; tripwire exact"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T131-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null,
+          "artifact_path": "_meta/freeze/reviews/T131/review-001.json",
+          "reviewed_commit": "working-tree@50665e32471a0d9fa82c0305898fae9ed7c4fc92",
+          "created_at": "2026-07-15T19:05:00+03:00"
+        }
+      ],
+      "constitution": "pass",
+      "judge_lens": {
+        "innovation": 9,
+        "technical": 9,
+        "data_analysis": 8,
+        "ux": 9,
+        "feasibility": 8,
+        "memorability": 9
+      },
+      "result": "Ahd Daily shipped with private unsealed qaids, exact split conservation, fixed dignified reminders, offline confirm links, deterministic acceptance codes, and Arabic-first screen.",
+      "completed_at": "2026-07-15T19:05:00+03:00"
     }
   ]
 }

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عهد · تأكيد محلي</title>
+<style>
+  :root{color-scheme:light;--ink:#18342f;--teal:#0e6b5c;--paper:#f7f3e9;--line:#d8d1c0;--gold:#a77a24}*{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.75}
+  main{width:min(720px,calc(100% - 28px));margin:28px auto}.brand{font-size:14px;color:var(--teal);font-weight:700}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;margin:14px 0;box-shadow:0 12px 35px #18342f0d}
+  h1{margin:4px 0 10px;font-size:30px}.label{color:#687b76;font-size:13px}.value{font-weight:700;margin-bottom:12px}.seal{direction:ltr;text-align:left;overflow-wrap:anywhere;font-family:Consolas,monospace;font-size:12px;background:#f4f5f2;padding:12px;border-radius:10px}
+  .status{font-weight:800;padding:8px 12px;border-radius:999px;display:inline-block}.ok{background:#dff3ed;color:#075a4d}.bad{background:#f5e6df;color:#8a321d}
+  button{border:0;border-radius:12px;padding:13px 18px;background:var(--teal);color:#fff;font:inherit;font-weight:700;cursor:pointer}.honesty{border-inline-start:4px solid var(--gold);padding:10px 14px;background:#fff8e8}.code{font-family:Consolas,monospace;font-size:24px;letter-spacing:3px;direction:ltr;text-align:center;margin-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">عهد · تحقق دون خادم</div>
+  <h1>راجع العهد وأكّد محليًا</h1>
+  <p class="honesty">نموذج تجريبي — في الإنتاج يتم التأكيد داخل القناة البنكية</p>
+  <section class="card" id="record-card">
+    <div id="status" class="status bad">بانتظار الرابط</div>
+    <div class="label">المُقرِض</div><div class="value" id="lender">—</div>
+    <div class="label">المقترض</div><div class="value" id="borrower">—</div>
+    <div class="label">المبلغ</div><div class="value" id="amount">—</div>
+    <div class="label">الشروط</div><div class="value" id="terms">—</div>
+    <div class="label">ختم الشهادة</div><div class="seal" id="seal">—</div>
+  </section>
+  <section class="card">
+    <button id="accept" disabled>أُقرّ أن عليّ هذا</button>
+    <div id="code" class="code" aria-live="polite"></div>
+    <p class="label">أرسل الرمز إلى المُقرِض ليُستكمل الختم داخل المسار المعتمد.</p>
+  </section>
+</main>
+<script src="engine.js"></script>
+<script>
+(function(){"use strict";
+  var TABLE="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", record=null;
+  function stable(v){if(v===null||typeof v!=="object")return JSON.stringify(v);if(Array.isArray(v))return"["+v.map(stable).join(",")+"]";return"{"+Object.keys(v).sort().map(function(k){return JSON.stringify(k)+":"+stable(v[k]);}).join(",")+"}";}
+  function bytes(token){var text=String(token||"").replace(/-/g,"+").replace(/_/g,"/");while(text.length%4)text+="=";var out=[];for(var i=0;i<text.length;i+=4){var a=TABLE.indexOf(text[i]),b=TABLE.indexOf(text[i+1]),c=text[i+2]==="="?0:TABLE.indexOf(text[i+2]),d=text[i+3]==="="?0:TABLE.indexOf(text[i+3]);if(a<0||b<0||(text[i+2]!=="="&&c<0)||(text[i+3]!=="="&&d<0))throw new Error("payload");var n=(a<<18)|(b<<12)|(c<<6)|d;out.push((n>>>16)&255);if(text[i+2]!=="=")out.push((n>>>8)&255);if(text[i+3]!=="=")out.push(n&255);}return new Uint8Array(out);}
+  function decode(token){return JSON.parse(new TextDecoder("utf-8",{fatal:true}).decode(bytes(token)));}
+  function sealCanonical(item){var payload={};Object.keys(item||{}).forEach(function(key){if(["canonical","canonical_hash","seal","prev","seq"].indexOf(key)<0)payload[key]=item[key];});return stable(payload);}
+  function verify(item){if(!item||!item.canonical||!item.canonical_hash||!item.seal)return false;var canonical=sealCanonical(item),hash=AHD.sha256(canonical),prev=item.prev||AHD.GENESIS,seq=Number.isSafeInteger(item.seq)?item.seq:1;return canonical===item.canonical&&hash===item.canonical_hash&&AHD.sealBlock(prev,hash,seq)===item.seal;}
+  function text(id,value){document.getElementById(id).textContent=String(value==null?"—":value);}
+  try{
+    record=decode(location.hash.slice(1));var ok=verify(record),status=document.getElementById("status");
+    status.textContent=ok?"صحيح":"مُعدّل";status.className="status "+(ok?"ok":"bad");
+    text("lender",record.lender);text("borrower",record.borrower);text("amount",AHD.minorToFixed2(record.amountMinor||0)+" ر.س");text("terms",record.termsAr);text("seal",record.seal);
+    document.getElementById("accept").disabled=!ok;
+  }catch(error){document.getElementById("status").textContent="الرابط غير صالح";}
+  document.getElementById("accept").addEventListener("click",function(){if(record)text("code",AHD.sha256(stable(record)+":ACCEPT").slice(0,12));});
+})();
+</script>
+</body>
+</html>

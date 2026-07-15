@@ -16,6 +16,7 @@ One page. Start here, then follow a link.
 | Handoffs | Per-session exit notes, numbered chronologically | `_meta/handoffs/` |
 | Agent coordination | Presence, claims, and the collision-handling protocol | `_meta/agent-presence/README.md` |
 | Architecture | How the two builds + engine + app fit together | `docs/ARCHITECTURE.md` |
+| New capability specs (T130/T131) | الجمعية الموثّقة (sealed ROSCA, consensual order) · عهد اليومي (qaid + walink + reminder + split) | `docs/specs/jamiya-v1.md` · `docs/specs/daily-v1.md` |
 | Historical research | Pre-Ahd hackathon ideation + "Operation Ahd Deep" round — archival, not live | `docs/research/README.md` |
 | Archived/superseded | Closed rounds, retired builds | `_meta/archive/` |
 | Quality gate | The commands that must stay green | see `CLAUDE.md` § "Hard rules" |

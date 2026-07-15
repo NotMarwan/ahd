@@ -19,6 +19,13 @@ import { colors, controls, fontFamilies, radii, spacing, typography } from '@/th
 const PROTOTYPE_ID = 'AHD-MOBILE-001';
 const PROTOTYPE_TIMESTAMP = '2026-07-01T10:00:00+03:00';
 
+const DEMO_FILL = {
+  lender: 'نورة',
+  borrower: 'سارة',
+  amountSarText: '1200',
+  purpose: 'قرض حسن لتجهيز المنزل',
+} as const;
+
 type FieldProps = {
   label: string;
   value: string;
@@ -44,11 +51,19 @@ function Field({ label, value, onChangeText, keyboardType = 'default' }: FieldPr
 export function CreateAhdScreen() {
   const router = useRouter();
   const { beginCreate, openDaftari, reviewDraftFromForm, seal, state } = useAhdJourney();
-  const [lender, setLender] = useState('نورة');
-  const [borrower, setBorrower] = useState('سارة');
-  const [amountSarText, setAmountSarText] = useState('1200');
-  const [purpose, setPurpose] = useState('قرض حسن لتجهيز المنزل');
+  const [lender, setLender] = useState<string>(DEMO_FILL.lender);
+  const [borrower, setBorrower] = useState<string>(DEMO_FILL.borrower);
+  const [amountSarText, setAmountSarText] = useState<string>(DEMO_FILL.amountSarText);
+  const [purpose, setPurpose] = useState<string>(DEMO_FILL.purpose);
   const [error, setError] = useState<string | null>(null);
+
+  const applyDemoFill = () => {
+    setLender(DEMO_FILL.lender);
+    setBorrower(DEMO_FILL.borrower);
+    setAmountSarText(DEMO_FILL.amountSarText);
+    setPurpose(DEMO_FILL.purpose);
+    setError(null);
+  };
 
   const review = async () => {
     setError(null);
@@ -114,6 +129,7 @@ export function CreateAhdScreen() {
           </RowGroup>
           {error ? <Text style={styles.error}>{error}</Text> : null}
           <AhdButton label="فحص الشروط" onPress={review} />
+          <AhdButton label="تعبئة تجريبية" onPress={applyDemoFill} />
         </Section>
       ) : null}
 

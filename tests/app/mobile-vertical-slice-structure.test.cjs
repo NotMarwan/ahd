@@ -56,7 +56,9 @@ function routeLeaves(directory) {
   });
 }
 
-ok(routeLeaves(routeRoot).length === 7, "Phase 1 implements seven route leaves only");
+/* Full-screens phase: 25 route leaves (index + 5 tabs + 19 stack).
+   Exact route↔registry pairing is enforced by the registry-route parity guard. */
+ok(routeLeaves(routeRoot).length === 25, "full-screens phase implements twenty-five route leaves");
 
 const screenRoot = path.join(MOBILE, "src", "screens");
 const screenSource = fs.existsSync(screenRoot)
@@ -69,7 +71,9 @@ const screenSource = fs.existsSync(screenRoot)
 for (const forbidden of [
   /\bsha256\s*\(/,
   /\bsealBlock\s*\(/,
-  /\btoMinor\s*\(/,
+  /* engine delegation (AhdEngine.toMinor / engine.toMinor) is the sanctioned path;
+     forbid bare hand-rolled toMinor calls only */
+  /(?<!\.)\btoMinor\s*\(/,
   /\bparseFloat\s*\(/,
   /\bMath\.round\s*\(/,
   /amountMinor\s*[*/+-]/,

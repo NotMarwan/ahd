@@ -66,7 +66,7 @@
     /* product-flow nav order (not feature build order). Only PRIMARY screens get a nav
        pill; contextual screens (e.g. proof-pack, dispute) are registered + reachable via
        go() but intentionally absent here, so the nav stays clean as features grow. */
-    NAV_ORDER: ["home", "create", "daftari", "timeline", "open", "circle", "circle-adv", "settle"],
+    NAV_ORDER: ["home", "create", "daily", "daftari", "timeline", "open", "circle", "circle-adv", "jamiya", "settle"],
     records: seedRecords(),
     reminderHistory: {},
     /* Naif's OWN kept-history → his own trust band (own mirror; never shared) */

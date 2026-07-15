@@ -1,0 +1,150 @@
+/* ==========================================================================
+   screens/jamiya.js — «الجمعية الموثّقة» screen #22.
+   Arabic-first create form, unanimous agreed order, sealed contract, monthly
+   payment grid, and an instantly visible deterministic six-member demo.
+=========================================================================== */
+(function () {
+  "use strict";
+  var App = (typeof window !== "undefined") ? window.AhdApp : null;
+  var J = (typeof window !== "undefined") ? window.Jamiya : null;
+  if (!App || !J) return;
+
+  function money(minor) {
+    return App.digit(App.engine.minorToFixed2(minor));
+  }
+
+  function parseMinor(value) {
+    var text = String(value == null ? "" : value).trim();
+    var match = /^(\d+)(?:\.(\d{1,2}))?$/.exec(text);
+    if (!match) throw new Error("أدخل مبلغًا صحيحًا بالريال");
+    var fraction = (match[2] || "") + "00";
+    var minor = Number(match[1]) * 100 + Number(fraction.slice(0, 2));
+    if (!Number.isSafeInteger(minor) || minor <= 0) throw new Error("المبلغ يجب أن يكون أكبر من صفر");
+    return minor;
+  }
+
+  function demoJamiya() {
+    var members = ["أم سارة", "نورة", "هند", "منال", "عبير", "لجين"];
+    var contract = J.jamiyaSeal(J.makeJamiya({
+      members: members,
+      monthlyMinor: 100000,
+      startMonth: "2026-07",
+      orderAgreed: ["أم سارة", "هند", "نورة", "لجين", "منال", "عبير"]
+    }));
+    var round, member;
+    for (round = 0; round < 2; round++) {
+      for (member = 0; member < members.length; member++) contract = J.recordPayment(contract, { round: round, member: members[member] });
+    }
+    for (member = 0; member < 4; member++) contract = J.recordPayment(contract, { round: 2, member: members[member] });
+    return contract;
+  }
+
+  App.Jamiya = J;
+  App.jamiyaState = App.jamiyaState || { contract: demoJamiya(), flash: null };
+
+  App.jamiyaCreate = function () {
+    try {
+      var agreed = document.getElementById("jamiya-agreed");
+      if (!agreed || !agreed.checked) throw new Error("يلزم تأكيد موافقة الجميع على الترتيب قبل الختم");
+      var memberText = document.getElementById("jamiya-members");
+      var amount = document.getElementById("jamiya-amount");
+      var start = document.getElementById("jamiya-start");
+      var members = String(memberText && memberText.value || "").split(/[،,\n]/).map(function (name) { return name.trim(); }).filter(Boolean);
+      var order = [];
+      var picks = document.querySelectorAll("[data-jamiya-order]");
+      for (var i = 0; i < picks.length; i++) order.push(String(picks[i].value || "").trim());
+      this.jamiyaState.contract = J.jamiyaSeal(J.makeJamiya({
+        members: members,
+        monthlyMinor: parseMinor(amount && amount.value),
+        startMonth: String(start && start.value || ""),
+        orderAgreed: order
+      }));
+      this.jamiyaState.flash = "تم توثيق الجمعية وختم ترتيبها المتفق عليه";
+    } catch (error) {
+      this.jamiyaState.flash = error.message;
+    }
+    return this.rerender();
+  };
+
+  App.jamiyaPay = function (round, memberIndex) {
+    try {
+      var contract = this.jamiyaState.contract;
+      this.jamiyaState.contract = J.recordPayment(contract, { round: round, member: contract.members[memberIndex] });
+      this.jamiyaState.flash = "سُجّل الدفع وخُتم الحدث";
+    } catch (error) {
+      this.jamiyaState.flash = error.message;
+    }
+    return this.rerender();
+  };
+
+  function orderSelects(contract) {
+    return contract.orderAgreed.map(function (selected, index) {
+      var options = contract.members.map(function (member) {
+        return '<option value="' + App.esc(member) + '"' + (member === selected ? " selected" : "") + '>' + App.esc(member) + '</option>';
+      }).join("");
+      return '<label class="field"><span>المستفيد ' + App.digit(index + 1) + '</span><select data-jamiya-order aria-label="ترتيب المستفيد ' + App.digit(index + 1) + '">' + options + '</select></label>';
+    }).join("");
+  }
+
+  function createForm(contract) {
+    return '<section class="card jamiya-create" aria-labelledby="jamiya-create-title">' +
+      '<h3 id="jamiya-create-title">أنشئ جمعية موثّقة</h3>' +
+      '<p class="muted">أدخل الأعضاء والمبلغ، ثم ثبّت ترتيب الاستلام الذي اتفق عليه الجميع.</p>' +
+      '<label class="field"><span>الأعضاء · من ٣ إلى ٢٠</span><textarea id="jamiya-members" rows="3">' + App.esc(contract.members.join("\n")) + '</textarea></label>' +
+      '<div class="formrow"><label class="field"><span>مساهمة كل عضو شهريًّا · ر.س</span><input id="jamiya-amount" inputmode="decimal" value="' + App.esc(App.engine.minorToFixed2(contract.monthlyMinor)) + '"></label>' +
+      '<label class="field"><span>شهر البداية</span><input id="jamiya-start" type="month" value="' + App.esc(contract.startMonth) + '"></label></div>' +
+      '<div class="jamiya-order"><strong>ترتيب الاستلام المتفق عليه</strong><div class="formrow">' + orderSelects(contract) + '</div></div>' +
+      '<label class="check"><input id="jamiya-agreed" type="checkbox"> <span>الكل وافق على الترتيب</span></label>' +
+      '<button class="primary" onclick="AhdApp.jamiyaCreate()">وثّق الجمعية واختمها</button>' +
+    '</section>';
+  }
+
+  function contractCard(contract) {
+    var verification = J.verifyJamiya(contract);
+    var invariant = J.conservation(contract);
+    return '<section class="card jamiya-contract">' +
+      '<div class="eyebrow">عقد الجمعية</div>' +
+      '<div class="title-row"><h3>الجمعية الموثّقة</h3><span class="chip good">' + App.esc(J.jamiyaStatusAr(contract)) + '</span></div>' +
+      '<div class="stats"><div><small>الأعضاء</small><strong>' + App.digit(contract.members.length) + '</strong></div>' +
+      '<div><small>شهريًّا لكل عضو</small><strong>' + money(contract.monthlyMinor) + ' ر.س</strong></div>' +
+      '<div><small>قيمة الاستلام</small><strong>' + money(contract.monthlyMinor * contract.members.length) + ' ر.س</strong></div></div>' +
+      '<ol class="jamiya-agreed-order">' + contract.orderAgreed.map(function (member, index) { return '<li><span>' + App.digit(index + 1) + '</span> ' + App.esc(member) + '</li>'; }).join("") + '</ol>' +
+      '<div class="seal-line"><code>SEAL ' + App.esc(App.engine.short(contract.seal, 24)) + '…</code><span>' + (verification.ok ? "✓ الختم سليم" : "✗ الختم غير مطابق") + '</span></div>' +
+      '<div class="muted">حفظ القيمة: الداخل = الخارج · الفائض ' + money(invariant.surplusMinor) + ' ر.س</div>' +
+      '<p class="terms">' + App.esc(J.jamiyaTermsAr(contract)) + '</p>' +
+    '</section>';
+  }
+
+  function roundsGrid(contract) {
+    var schedule = J.jamiyaSchedule(contract);
+    var folded = J.foldJamiya(contract);
+    var paidCount = (contract.payments || []).length;
+    var total = contract.members.length * contract.members.length;
+    var progress = Math.floor(paidCount * 100 / total);
+    var head = '<div class="jamiya-grid-row head"><span>الجولة · الشهر · المستفيد</span>' + contract.members.map(function (member) { return '<span>' + App.esc(member) + '</span>'; }).join("") + '</div>';
+    var rows = schedule.map(function (item, round) {
+      var current = round === folded.currentRound;
+      var cells = contract.members.map(function (member, memberIndex) {
+        var paid = folded.paid[round][memberIndex];
+        return '<span class="jamiya-pay ' + (paid ? "paid" : "pending") + '">' +
+          (paid ? "دفع ✓" : '<button class="mini" onclick="AhdApp.jamiyaPay(' + round + ',' + memberIndex + ')">بانتظار</button>') + '</span>';
+      }).join("");
+      return '<div class="jamiya-grid-row' + (current ? " current" : "") + '"><span><strong>الجولة ' + App.digit(round + 1) + '</strong><small>' + App.digit(item.month) + '</small><em>' + App.esc(item.recipient) + (current ? " · المستفيد الحالي" : "") + '</em></span>' + cells + '</div>';
+    }).join("");
+    return '<section class="card jamiya-rounds"><div class="title-row"><h3>دفعات الشهور المختومة</h3><strong>' + App.digit(paidCount) + ' من ' + App.digit(total) + '</strong></div>' +
+      '<div class="progress" role="progressbar" aria-label="تقدّم دفعات الجمعية" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + progress + '"><span style="width:' + progress + '%"></span></div>' +
+      '<div class="jamiya-grid">' + head + rows + '</div></section>';
+  }
+
+  function render(app) {
+    var state = app.jamiyaState;
+    var contract = state.contract;
+    var flash = state.flash ? '<div class="flash" role="status">' + App.esc(state.flash) + '</div>' : "";
+    return '<div class="jamiya">' + flash +
+      '<header class="screen-head"><div><span class="eyebrow">شهادةٌ بلا حيازة</span><h2>الجمعية الموثّقة</h2><p>ترتيبٌ بالتراضي، وكل دفعةٍ حدثٌ مختوم. الأموال لا تمر بالمصرف.</p></div><div class="hero-icon" aria-hidden="true">🤝</div></header>' +
+      createForm(contract) + contractCard(contract) + roundsGrid(contract) +
+    '</div>';
+  }
+
+  App.registerScreen({ key: "jamiya", label: "الجمعية", icon: "🤝", render: render });
+})();

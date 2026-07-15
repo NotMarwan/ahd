@@ -12,6 +12,7 @@ import {
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
 import { useAhdJourney } from '@/state';
+import { demoGuide } from '@/state/demo-script';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
 export function HomeScreen() {
@@ -26,6 +27,10 @@ export function HomeScreen() {
   const showDaftari = async () => {
     await openDaftari();
     router.push('/daftari');
+  };
+
+  const startDemo = () => {
+    demoGuide.start();
   };
 
   return (
@@ -74,6 +79,8 @@ export function HomeScreen() {
         </Section>
       )}
 
+      <AhdButton label="ابدأ الجولة التجريبية" onPress={startDemo} />
+
       <Text style={styles.footnote}>
         عهد شاهدٌ على الاتفاق ومسار السداد، وليس مقرضًا أو حكمًا بين الأطراف.
       </Text>
@@ -85,10 +92,12 @@ const styles = StyleSheet.create({
   brand: {
     width: '100%',
     alignItems: 'center',
+    marginTop: spacing.x6,
+    marginBottom: spacing.x2,
   },
   logo: {
-    width: 112,
-    height: 112,
+    width: 96,
+    height: 96,
     borderRadius: 24,
   },
   row: {

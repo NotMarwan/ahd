@@ -589,3 +589,11 @@ _Backlog (from brief §4, priority order):_
 - Morning truth: **no survey responses, no external approvals, no pilot**. OT-A1 is SUPPORTED-DIRECTIONAL only after planned field thresholds; it is not closed today.
 - Conservative review: Innovation 7.8 · Technical 8.0 · Data 7.2 · UX 7.8 · Feasibility 7.3 · tired judge 7.6. Next human work: JL-13..JL-17 in `_meta/OPEN-ITEMS.md`.
 - Detail: `docs/session-report-2026-07-14-full-roadmap-survey.md`.
+
+## 2026-07-15 — Claude-E: mobile app full screens (feat/mobile-screens)
+- Fixed settlement demo root cause (engine NODES-only netting); now engine.IOUS tangle 9->2, conserved.
+- Tab icons (SVG), 56px bar, home leftmost under RTL, logo lowered, More hub tab.
+- Ported all 18 contextual screens (23 total, parity with web app); registry-route parity guard test.
+- Guided demo walkthrough + demo quick-fill.
+- Gate: app 28 suites/56 tests green, tsc clean, expo lint 0 errors, tripwire OK. 10 commits on feat/mobile-screens (unmerged; owner decides merge).
+- Verified live via react-native-web (375x812): more hub, shariah, circle, demo banner all render, no console errors.
