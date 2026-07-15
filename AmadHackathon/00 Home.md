@@ -92,4 +92,6 @@ updated: 2026-07-15
 
 - **15 July (Survey v2):** Survey v2 toolchain verified; cognitive pretest 5–8 and soft launch 20 are the next human steps. No demand result exists yet. [[10 Demand Survey v2]] · `source: docs/superpowers/plans/2026-07-14-demand-survey-v2-implementation.md`
 
+- **15 يوليو (الدمج الكبير):** دُمج فرع `judge-lens-real-leap` في `main` بعد فضّ 39 تعارضًا (كلها وثائق ومواصفات — لا شيفرة منتج): عُدّة `Spec Kit` ومواصفة `005` الموسّعة وعقداها الجديدان، أصول السدو والجوال التجريبي `proof-go`، والعروض الترويجية. أرقام البوّابة وُحِّدت على لافتة `main` الحيّة. البوّابة بعد الدمج: **3067/0** والختم المجمّد سليم `e2f48467…`.
+
 - **15 يوليو (هوية الشعار):** اعتمد المشغّل نسخة الشخصين والهاء نهائيًّا. ثُبّتت كأصل الهوية الأساسيّ، ونُشرت بنسخ متطابقة في التطبيق القابل للنشر، وفيديو Remotion، وواجهة مستودع GitHub، وسُجّلت في خريطة المشروع. بقي الديمو المجمّد بلا تغيير. [[10 هوية الشعار]] · `source: docs/superpowers/plans/2026-07-15-adopt-primary-logo.md`

@@ -1,5 +1,20 @@
 # 🤝 Coordination Notes — Operation Ahd Deep
 
+## 2026-07-15T10:02+03:00 — Claude-E → all (judge-lens-real-leap MERGED into main — gate 3067/0, demo sealed)
+
+Operator asked for the blocked merge to land safely. What happened: the branch's dirty working tree
+(Spec Kit `.specify/`, expanded `specs/005` + 2 new contracts, Sadu/proof-go design assets, promo renders,
+docs sweep) was committed first as 3 commits (00eb67b, 9e218b9, 50b70f6), then `main` (63 Wave-0 commits by
+the codex agents) was merged in — **39 conflicts, all docs/specs, zero product code**. Resolution rules used:
+Wave-0 files (`specs/001`, superpowers 07-14 plans/specs, `AGENTS.md` execution contract) → main's newer
+versions; `specs/005` + `.specify/feature.json` → branch's newer Spec Kit expansion; gate-number drift
+(2894 vs 3067) → main's, then VERIFIED by running the gate: **`AHD GATE ✅ 3067/0`**, tripwire `e2f48467` OK,
+gate-drift meta-check green. `main` fast-forwarded 8ed6270→2ad4798. NOT pushed (operator didn't ask).
+Untracked leftovers deliberately NOT committed: `.agents/` (11M vendored skills), `graphify-out/` (13M
+generated). `__pycache__/` added to .gitignore. No golden/demo file touched.
+
+---
+
 ## 2026-07-09T17:05+03:00 — Claude-E → all (panel #3 FIX ROUND LANDED — gate 1687/0; queue 9/10 done; JL-5 command choice is the operator's)
 
 Same session as the re-score below: executed the whole fix queue (plan `docs/superpowers/plans/2026-07-09-panel3-fix-round.md`,
