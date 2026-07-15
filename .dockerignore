@@ -3,7 +3,12 @@
 # add nothing to the running process but bloat build context + image size.
 # Nothing here changes server behavior — pure build-context hygiene.
 .git
+Dockerfile*
+.dockerignore
 node_modules
+coverage
+*.log*
+.env*
 promo/out
 graphify-out
 AmadHackathon

@@ -74,7 +74,7 @@ function checkAgentPresenceHealth(root) {
 
 function checkSingleStatusFile(root) {
   const CANONICAL = new Set(["_meta/STATUS.md", "_meta/overnight-log.md"]);
-  const SKIP_DIR_NAMES = new Set(["node_modules", ".git", "dist", ".claude"]);
+  const SKIP_DIR_NAMES = new Set(["node_modules", ".git", ".worktrees", "dist", ".claude"]);
   const SKIP_DIR_EXACT = new Set(["_meta/archive", "docs/research"]);
   const offenders = [];
   function walk(dir) {
@@ -159,10 +159,12 @@ if (require.main === module) {
         fs.mkdirSync(path.join(dir, "_meta/archive"), { recursive: true });
         fs.mkdirSync(path.join(dir, "docs/research/old"), { recursive: true });
         fs.mkdirSync(path.join(dir, "docs/rogue"), { recursive: true });
+        fs.mkdirSync(path.join(dir, ".worktrees/other-branch/_meta"), { recursive: true });
         fs.mkdirSync(path.join(dir, "_meta"), { recursive: true });
         fs.writeFileSync(path.join(dir, "_meta/STATUS.md"), "canonical");
         fs.writeFileSync(path.join(dir, "_meta/archive/STATUS.md"), "archived, exempt");
         fs.writeFileSync(path.join(dir, "docs/research/old/STATUS.md"), "historical vault, exempt");
+        fs.writeFileSync(path.join(dir, ".worktrees/other-branch/_meta/STATUS.md"), "separate worktree, exempt");
         fs.writeFileSync(path.join(dir, "docs/rogue/STATUS.md"), "a NEW rogue status file");
       },
       (dir) => checkSingleStatusFile(dir)

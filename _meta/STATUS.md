@@ -2,6 +2,10 @@
 
 Deep-track status log for Operation Ahd. Append-only; one DONE line per completed work package.
 
+> **CURRENT · 2026-07-15:** local prototype, not production. App: **21 registered screens**. Server: **6 routes**, HMAC auth default-on for mutating live-HTTP routes, deterministic rate limits, durable JSONL, gate-wired live HTTP smoke. Gate: **2979/0 across 69 app suites**. Frozen demo hash: `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40`.
+
+> **W0 COMPLETE · 2026-07-15:** owner `root`; immutable candidate `A=e308749f7453617e3e37f2a0793abd5964403a7c`; attestation `B=86cda05f53b911b7dd70946f91801942a24e16ec`; clean recovery `1.513 minutes`; final release gate **2979/0**; review date `2026-07-15`; no tag or push. Next execution target: W1 judge readiness.
+
 ---
 
 DONE · 2026-06-19T13:51+03:00 · Claude-Hardening · **PROMPT 4 — Performance Hardening** · `10_Deep/Hardening/`
@@ -109,3 +113,34 @@ Executed `docs/superpowers/plans/2026-07-12-judge-lens-real-leap.md`. **Four ind
 - Executable plan: `docs/superpowers/plans/2026-07-14-figma-baseline-transfer.md`.
 - Plan covers 17-screen inventory, deterministic captures, Figma variables/components, hash-cached overlay review, judge flow, Expo handoff, model-routing policy, and V2 lock.
 - No product code, frozen demo, engine, or UI source changed in this planning session.
+
+---
+
+DONE · 2026-07-14 · Codex · **Ahd master Spec Kit specification + clarity review** · `.specify/`, `specs/001-ahd-product-system/`, `docs/superpowers/specs/`, `tests/structure-check.cjs`
+Reviewed the current project from the Graphify graph and authoritative repository state. Found
+that the product registers **21 screens and 35 mapped feature units**, while older prose carries
+several stale counts. Created constitution v1.0.0; synchronized the specification, plan, and task
+templates; created the master specification with **10 user stories, 128 unique normative
+requirements, 13 measurable success criteria, 21 entities, six lifecycle states, decision and
+dependency gates, current-evidence mapping, state transitions, and explicit exclusions**. Added
+24/24 passed quality checks, 47 reviewer checks, and a 12-finding clarity review. No critical
+clarification remains: uncertainty is named as decisions or external gates. The full gate initially
+found a real meta-tooling defect: `structure-check.cjs` traversed a separate nested Git worktree and
+reported its canonical status files as duplicates. Fixed through TDD by proving the failure first and
+excluding `.worktrees` only; rogue files inside the repository remain detected. Fresh gate:
+**AHD GATE ✅ 2869/0**, drift 12/0, live HTTP parity green, frozen demo tripwire
+`e2f48467… OK`. No product behavior, golden function, golden vector, or Shariah ruling changed.
+
+---
+
+DONE · 2026-07-14 · Codex · **Ahd master planning package and second clarity review** ·
+`specs/001-ahd-product-system/`, `docs/superpowers/plans/`, `_meta/`, `AmadHackathon/`
+
+Expanded the approved master specification to **142 requirements**, including 14 separate security
+and privacy controls. Added the complete SpecKit planning package: research, 21-entity data model,
+four boundary contracts, quickstart, and **124 dependency-ordered TDD tasks**. Added four detailed
+writing-plans execution documents. Cross-artifact analysis found **0 critical conflicts**, **142/142
+requirement coverage**, **0 duplicate/invalid/pathless tasks**, and **0 missing decision mappings**.
+The formal requirements-review checklist is **47/47**. Fresh evidence: Open-Witness intact fixtures
+VALID, tampered fixture rejected with expected exit 1, live HTTP smoke OK, and **AHD GATE 2869/0**
+with frozen-demo tripwire intact. No product behavior, golden function, vector, or Shariah ruling changed.
