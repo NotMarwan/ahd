@@ -38,13 +38,13 @@ An external absolute draft manifest is accepted only while its status is `draft`
 
 | Field | Result |
 |---|---|
-| Candidate `A` | pending T030 |
-| Attestation `B` | pending T031 |
-| Manifest blob SHA-256 | pending T032 |
-| Restored outputs | pending T032; exact declared set only |
-| Release gate | pending T032 |
-| Elapsed recovery | pending T032; must be `< 15 minutes` |
-| Two normalized stage preflights | pending T033 |
-| Frozen demo and generated engine | pending T034 |
+| Candidate `A` | `e308749f7453617e3e37f2a0793abd5964403a7c` |
+| Attestation `B` | `86cda05f53b911b7dd70946f91801942a24e16ec` |
+| Manifest blob SHA-256 | `bfd20eefdb9e482adea39907762f178f0a70c1238a67dc8d1826793d2ae58d64` |
+| Restored outputs | none; the manifest declares no `attestation-bundle` assets |
+| Release gate | `2979/0`; all five controls true; exact A/B identities matched |
+| Elapsed recovery | `1.513 minutes` (`90,791 ms`), below 15 minutes |
+| Two normalized stage preflights | byte-identical; SHA-256 `6d7c4532962cc58622ca2169bc987e0e70ca9fa00aa5cafa0ec7381c707a27d1` |
+| Frozen demo and generated engine | demo `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40`; engine `52bc6921ad7df9638b2ce0cf0b9f04d871f9bce3fc5f453804503c50c102bb65`; source/tree/checkout equal |
 
 No tag, push, release, overwrite, cleanup, Shariah ruling, or substantive owner decision is authorized by this drill.

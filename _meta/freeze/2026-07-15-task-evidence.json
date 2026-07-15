@@ -113,6 +113,7 @@
       "tests": [
         {"command": "constitution boundary review", "result": "pass; demo/engine/money untouched; source parked; no human gate inferred"}
       ],
+      "session_sync_finalization": {"status": "finalized", "owner": "root", "task": "T035", "mirrors": ["AmadHackathon/00 Home.md", "AmadHackathon/01 الخطة الرئيسة.md", "AmadHackathon/05 حالة المشروع.md"], "canonical_sources_preserved": true},
       "result": "Single-agent execution rule recorded. Human gates remain closed. Session-sync owner root; expires T036/2026-07-15; T035 finalizes or rolls back mirrors."
     },
     {
@@ -571,6 +572,71 @@
       "reviews": [{"review_id": "T031-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "This commit creates attestation B over immutable candidate A; final clean-checkout validation remains explicitly pending T032."
+    },
+    {
+      "task_id": "T032",
+      "dispatch_id": "wave0-T032-recovery-controller-self-20260715",
+      "dispatch_sha256": "204af2ffd604f5894653870cfb8ef14a1bd845bda76d2059b06e825a4fcc505b",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "The A/B recovery procedure is fully specified and reduces to bounded identity, hash, and gate checks.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": [".superpowers/sdd/2026-07-15-T032-recovery.json", ".superpowers/sdd/2026-07-15-T032-final-release-gate.txt"],
+      "tests": [{"command": "final release gate from separate clean A/B checkouts", "result": "RELEASE-GATE: OK; candidate e308749f7453617e3e37f2a0793abd5964403a7c; attestation 86cda05f53b911b7dd70946f91801942a24e16ec; manifest bfd20eefdb9e482adea39907762f178f0a70c1238a67dc8d1826793d2ae58d64; 2979/0; 1.513 minutes total recovery"}],
+      "reviews": [{"review_id": "T032-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Final validation consumed tracked Git-tree inputs only; no restore output was declared or created; both detached worktrees remained clean."
+    },
+    {
+      "task_id": "T033",
+      "dispatch_id": "controller-readonly:T033",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Two repeat executions plus byte comparison are deterministic mechanical checks.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": [".superpowers/sdd/2026-07-15-T033-preflight-1.json", ".superpowers/sdd/2026-07-15-T033-preflight-2.json"],
+      "tests": [{"command": "two fresh-process normalized stage preflights", "result": "ready/ready; 8 checks each; byte-identical SHA-256 6d7c4532962cc58622ca2169bc987e0e70ca9fa00aa5cafa0ec7381c707a27d1"}],
+      "reviews": [{"review_id": "T033-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Stage preflight evidence is reproducible after volatile fields are removed."
+    },
+    {
+      "task_id": "T034",
+      "dispatch_id": "controller-readonly:T034",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Frozen-file comparison is a bounded byte/hash check.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": [".superpowers/sdd/2026-07-15-T034-frozen-integrity.json"],
+      "tests": [{"command": "source/tree/clean-checkout frozen integrity check", "result": "demo e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40 and engine 52bc6921ad7df9638b2ce0cf0b9f04d871f9bce3fc5f453804503c50c102bb65 equal in all three roots; tracked checksum source hash a5fe0ff3ba0235444348aeb1ead92542f141bc83c586882459da05d1f146d6d3"}],
+      "reviews": [{"review_id": "T034-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Neither the frozen presenter demo nor generated engine changed in source or candidate."
+    },
+    {
+      "task_id": "T035",
+      "dispatch_id": "wave0-T035-unicode-controller-self-20260715",
+      "dispatch_sha256": "fd34d8d2bb255aae7234a4e58f70892ececb445d9ee840d1fc49aafddb568033",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Canonical evidence is complete; status and cockpit synchronization are bounded mechanical updates.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/freeze/2026-07-15-recovery-drill.md", "_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md", "_meta/OPEN-ITEMS.md", "_meta/STATUS.md", "AmadHackathon/00 Home.md", "AmadHackathon/01 الخطة الرئيسة.md", "AmadHackathon/05 حالة المشروع.md"],
+      "tests": [
+        {"command": "node tests/release-truth-check.cjs after metadata commit", "result": "RELEASE-TRUTH: OK — 21 screens, 69 suites, 6 routes"},
+        {"command": "final release gate against immutable clean A/B after metadata commit", "result": "RELEASE-GATE: OK; 2979/0; exact A/B/manifest identities unchanged"}
+      ],
+      "reviews": [{"review_id": "T035-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Canonical status, open items, recovery record, and all three cockpit mirrors agree; temporary session-sync exception is finalized."
     }
   ]
 }

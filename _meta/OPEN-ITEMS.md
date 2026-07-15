@@ -5,6 +5,10 @@
 > merges it with `docs/DECISIONS-FOR-MARWAN.md`'s "Standing items" and marks resolved items done rather
 > than deleting them, so IDs stay traceable.
 
+## W0 release-control closure · 2026-07-15
+
+Candidate `A=e308749f7453617e3e37f2a0793abd5964403a7c` and attestation `B=86cda05f53b911b7dd70946f91801942a24e16ec` reproduce **2979/0** from clean detached checkouts in `1.513 minutes`. The frozen demo and generated engine are byte-identical across source, Git tree, and candidate checkout. This closes the release-control gap only; existing human-gated validation and Judge Lens items below remain open and no approval is inferred.
+
 ## JL — judge-lens gaps (win items, freeze 15 July; see `docs/JUDGE-LENS.md`)
 
 | ID | Item | Front | Status |
