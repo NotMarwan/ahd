@@ -54,7 +54,7 @@ function findFontFiles(dir, out) {
   let entries;
   try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch (e) { return out; }
   for (const e of entries) {
-    if (e.name === "node_modules" || e.name === ".git") continue;
+    if (e.name === "node_modules" || e.name === ".git" || e.name === ".worktrees") continue;
     const full = path.join(dir, e.name);
     if (e.isDirectory()) findFontFiles(full, out);
     else if (/\.(woff2?|ttf|otf)$/i.test(e.name)) out.push(full);

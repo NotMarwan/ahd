@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "عهد",
+    "slug": "ahd-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/ahd-logo.png",
+    "scheme": "ahd",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "icon": "./assets/images/ahd-logo.png"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F7F1EA",
+        "foregroundImage": "./assets/images/ahd-logo.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/ahd-logo.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#EFE9DC",
+          "image": "./assets/images/ahd-logo.png",
+          "imageWidth": 180
+        }
+      ],
+      "expo-localization",
+      "expo-sqlite"
+    ],
+    "extra": {
+      "supportsRTL": true,
+      "forcesRTL": true
+    },
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
