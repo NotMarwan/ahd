@@ -43,8 +43,8 @@ description: "Strictly ordered freeze-safety work with agent, release, and evide
 - [x] T013 Implement the read-only manifest validator in `tests/release-manifest.cjs` until T011 passes
 - [x] T014 Extend `tests/app/tripwire-portability.test.cjs` to require a tracked checksum source and prove a clean checkout works without `_overnight/backup/demo.sha256`; record RED
 - [x] T015 Add the tracked checksum source and update `tests/tripwire.cjs` plus governed instructions until the portability suite passes; never edit `demo/index.html`
-- [ ] T016 Write failing live-truth cases in `tests/release-truth-check.test.cjs` for architecture, status, agent guides, screen count, suite count, authentication, routes, live smoke, deployment, stale source comments, and globally duplicated active decision identifiers
-- [ ] T017 Run `node tests/release-truth-check.test.cjs` and record the expected current mismatches before implementation
+- [x] T016 Write failing live-truth cases in `tests/release-truth-check.test.cjs` for architecture, status, agent guides, screen count, suite count, authentication, routes, live smoke, deployment, stale source comments, and globally duplicated active decision identifiers
+- [x] T017 Run `node tests/release-truth-check.test.cjs` and record the expected current mismatches before implementation
 - [ ] T018 Write failing stage-preflight cases in `tests/stage-preflight.test.cjs` for offline-only app launch, fallback media, terminal proof, exact gate command, stale presence, wrong demo hash, 30-second budget, timeout cleanup, and volatile evidence normalization
 - [ ] T019 Run `node tests/stage-preflight.test.cjs` and record the expected RED evidence before implementation
 - [ ] T020 Extend `tests/stage-preflight.cjs` with bounded read-only execution, cleanup, actionable failures, and normalized evidence until T018 passes

@@ -262,6 +262,38 @@
       "result": "Read-only pure validator and Git-backed CLI implemented; no release mutation capability."
     },
     {
+      "task_id": "T016",
+      "dispatch_id": "wave0-T016-controller-self-20260715",
+      "dispatch_sha256": "f60a62dffdfd5f970702d679c85bfe24f18a455f608aaf4281de3259ee933e94",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Static live-truth fixtures and discovery assertions are bounded mechanical tests.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["tests/release-truth-check.test.cjs"],
+      "tests": [{"command": "node tests/release-truth-check.test.cjs", "phase": "RED", "result": "0 passed, 1 failed; validator missing"}],
+      "reviews": [{"review_id": "T016-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Failing cases cover live topology, security/runtime claims, deployment, source comments, and decision identity."
+    },
+    {
+      "task_id": "T017",
+      "dispatch_id": "wave0-T016-controller-self-20260715",
+      "dispatch_sha256": "f60a62dffdfd5f970702d679c85bfe24f18a455f608aaf4281de3259ee933e94",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "One focused RED plus bounded source probes records current mismatch evidence.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/freeze/2026-07-15-task-evidence.json"],
+      "tests": [{"command": "node tests/release-truth-check.test.cjs", "phase": "RED", "result": "expected failure confirmed; observed stale 20-screen guide claim and 1687/0 preflight source comment"}],
+      "reviews": [{"review_id": "T017-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Current mismatches recorded for T021-T024 correction; no product behavior changed."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
