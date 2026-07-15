@@ -514,6 +514,44 @@
       "reviews": [{"review_id": "T028-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "One command now validates explicit roots, clean/tree-backed inputs, exact restore outputs, all focused controls, the full gate, and emitted candidate/attestation/manifest identities."
+    },
+    {
+      "task_id": "T029",
+      "dispatch_id": "controller-readonly:T029",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "Claim-free release execution is mechanical, while the constitution and Judge Lens verdict requires bounded cross-criterion judgment.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": [".superpowers/sdd/2026-07-15-T029-release-gate.txt", ".superpowers/sdd/2026-07-15-T029-review.json"],
+      "tests": [
+        {"command": "node tests/release-gate.cjs --manifest <external-draft> --target <candidate> --attestation-root <candidate>", "result": "RELEASE-GATE: OK; 2979 passed, 0 failed; all five controls true; 12.102 seconds"},
+        {"command": "claim-free inventory/source/stage review", "result": "108 included + 1 generated exclusion = 109 inventory items; zero staged paths; parked source false and absent; no owner-decision inclusion; frozen diff empty"}
+      ],
+      "reviews": [{"review_id": "T029-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "judge_lens": {"innovation": 8, "technical": 9, "data_analysis": 8, "ux": 8, "feasibility": 9},
+      "result": "Claim-free candidate precheck and owner-directed controller review passed; evidence remains outside Git as required."
+    },
+    {
+      "task_id": "T030",
+      "dispatch_id": "wave0-T030-controller-self-20260715",
+      "dispatch_sha256": "d43cdd3b0b4b79d23101c9d84f24f12d38373fc35f6abfcc9f51250ebfe111e7",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "Freezing the immutable candidate boundary is release-sensitive and benefits from the stronger model tier.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md", ".superpowers/sdd/2026-07-15-candidate-A.json"],
+      "tests": [
+        {"command": "git diff --cached --name-only plus controller content review", "result": "only the two T029/T030 evidence-control files are staged; no parked-source path, demo, or engine bytes"},
+        {"command": "node tests/agent-governance.cjs && node tests/tripwire.cjs", "result": "governance and frozen-demo tripwire green before commit A"}
+      ],
+      "reviews": [{"review_id": "T030-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "This commit freezes candidate content A; its full SHA is written to ignored external evidence immediately after commit creation."
     }
   ]
 }
