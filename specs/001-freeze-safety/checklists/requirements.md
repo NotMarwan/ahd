@@ -22,10 +22,10 @@
 ## Feature Readiness
 
 - [x] Functional requirements have acceptance coverage
-- [x] User scenarios cover freeze, truth, and stage preflight
+- [x] User scenarios cover agent governance, freeze, truth, and stage preflight
 - [x] Constitution constraints are explicit
 
 ## Notes
 
-Validation passed on first review.
-
+Revalidated after the 2026-07-15 adversarial preflight. The active-wave, agent-claim, attestation,
+approval-scope, portable-tripwire, recovery-time, and mandatory-release-gate gaps are resolved in the artifacts.

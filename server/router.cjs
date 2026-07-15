@@ -39,12 +39,32 @@ function bearerToken(headers) {
   return m ? m[1] : null;
 }
 
+/* Optional availability guard. The direct/parity route API stays byte-for-byte
+   compatible when ctx.rateLimit is absent. Live HTTP supplies separate fixed
+   windows for mutating routes and public verification; /health is deliberately
+   unlimited so an orchestrator can always observe process health. */
+function rateLimitResult(routeDef, ctx) {
+  var cfg = ctx && ctx.rateLimit;
+  if (!cfg || !cfg.enabled || routeDef.path === "/health") return null;
+  var limiter = routeDef.mutating ? (cfg.mutatingLimiter || cfg.limiter)
+    : (routeDef.path === "/verify" ? (cfg.verifyLimiter || cfg.limiter) : null);
+  if (!limiter || typeof limiter.check !== "function" || typeof cfg.now !== "function") return null;
+  var decision = limiter.check(cfg.clientKey || "unknown", cfg.now());
+  if (decision.allowed) return null;
+  return {
+    status: 429,
+    body: { ok: false, error: "rate limit exceeded", retryAfterMs: decision.retryAfterMs }
+  };
+}
+
 function route(method, pathname, body, ctx, headers) {
   var m = String(method || "GET").toUpperCase();
   var p = String(pathname || "/").split("?")[0];
   for (var i = 0; i < ROUTES.length; i++) {
     var r = ROUTES[i];
     if (r.method !== m || r.path !== p) continue;
+    var limited = rateLimitResult(r, ctx);
+    if (limited) return limited;
     if (r.mutating && ctx && ctx.auth && ctx.auth.enabled) {
       var token = bearerToken(headers);
       var v = Auth.verifyToken(token, ctx.auth.secretKey, ctx.auth.now);
@@ -55,4 +75,4 @@ function route(method, pathname, body, ctx, headers) {
   return { status: 404, body: { ok: false, error: "no such route: " + m + " " + p } };
 }
 
-module.exports = { route: route, ROUTES: ROUTES };
+module.exports = { route: route, ROUTES: ROUTES, rateLimitResult: rateLimitResult };

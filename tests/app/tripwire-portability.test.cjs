@@ -38,17 +38,19 @@ fs.mkdirSync(demo);
 const fixture = path.join(demo, "index.html");
 fs.writeFileSync(fixture, "sealed bytes", "utf8");
 const fixtureHash = crypto.createHash("sha256").update("sealed bytes").digest("hex");
-fs.mkdirSync(path.join(temp, "_overnight", "backup"), { recursive: true });
-fs.writeFileSync(path.join(temp, "_overnight", "backup", "demo.sha256"), fixtureHash + " *demo/index.html\r\n", "utf8");
+fs.mkdirSync(path.join(temp, "tests", "fixtures"), { recursive: true });
+fs.writeFileSync(path.join(temp, "tests", "fixtures", "demo.sha256"), fixtureHash + " *demo/index.html\r\n", "utf8");
 ok(Tripwire.sha256File(fixture) === fixtureHash, "hashes file bytes with Node crypto");
-ok(Tripwire.verify(temp).ok === true, "verifies a matching temporary fixture");
+ok(Tripwire.verify(temp).ok === true && !fs.existsSync(path.join(temp, "_overnight", "backup", "demo.sha256")), "verifies tracked fixture without ignored checksum dependency");
 fs.writeFileSync(fixture, "tampered bytes", "utf8");
 ok(Tripwire.verify(temp).ok === false, "rejects a tampered temporary fixture");
 fs.rmSync(temp, { recursive: true, force: true });
 
 ok(Tripwire.verify(ROOT).ok === true, "verifies the frozen demo hash in this checkout");
 const source = fs.readFileSync(TRIPWIRE_PATH, "utf8");
-ok(!/sha256sum|child_process/.test(source), "tripwire has no platform shell dependency");
+ok(/tests["'],\s*["']fixtures["'],\s*["']demo\.sha256/.test(source) &&
+  !/_overnight["'],\s*["']backup["'],\s*["']demo\.sha256/.test(source) &&
+  !/sha256sum|child_process/.test(source), "tripwire uses tracked fixture with no ignored or shell dependency");
 ok(!/sha256sum/.test(fs.readFileSync(path.join(ROOT, "tests", "run-all.cjs"), "utf8")), "full gate delegates tripwire without sha256sum");
 ok(!/sha256sum/.test(fs.readFileSync(path.join(ROOT, "tests", "stage-preflight.cjs"), "utf8")), "stage preflight delegates tripwire without sha256sum");
 

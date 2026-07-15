@@ -30,9 +30,9 @@ Rejected approaches:
 
 ### Wave 0: Freeze Safety and Truth
 
-Protect user work, reconcile live code with documentation, prove the 2,869/0 gate, freeze stage assets,
-and prepare a release candidate without modifying the frozen demo. This wave blocks all judge-visible
-or release work.
+Protect user work, bind every agent to the active wave, reconcile live code with documentation, prove the
+live gate with zero failures, freeze stage assets, and prepare a candidate plus later attestation without
+modifying the frozen demo. This wave blocks all shared-file or release work.
 
 ### Wave 1: Judge Readiness
 
@@ -87,7 +87,8 @@ Planning state uses stable identifiers:
 - `W0` through `W4` for waves.
 - `FR-###` and `SC-###` inside each specification.
 - `T###` inside each task package.
-- Existing `JL-*`, `OT-*`, and `D-*` identifiers remain authoritative and are mapped, never renamed.
+- Existing decision `D-*` identifiers remain authoritative. A separate colliding innovation note is
+  namespaced `INN-D4`; this changes only its reference, never its pending substance or authority.
 
 Every task has one of four states: `pending`, `ready`, `blocked`, or `complete`. A blocked task names its
 owner and required evidence. Human-gated tasks never become complete from code alone.
@@ -112,8 +113,8 @@ Set-Location tests
 node run-all.cjs
 ```
 
-Expected result: `AHD GATE` green, 2,869 product assertions, zero failures, demo tripwire intact, live
-HTTP parity green. Judge-visible work additionally requires rehearsal evidence and Judge Lens scores.
+Expected result: the live `AHD GATE` banner is green with zero failures, the tracked demo tripwire is intact,
+and live HTTP parity is green. Judge-visible work additionally requires rehearsal evidence and Judge Lens scores.
 
 ## 9. Success
 

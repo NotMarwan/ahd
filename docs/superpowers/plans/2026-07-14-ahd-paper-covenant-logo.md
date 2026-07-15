@@ -1,5 +1,7 @@
 # Ahd Paper-Covenant Logo Implementation Plan
 
+> **Superseded:** The user rejected these divergent directions. The active plan is `docs/superpowers/plans/2026-07-14-ahd-close-logo-refinement.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Produce three materially different, bank-grade Ahd logo concepts that read as paper covenants rather than a DNA helix.

@@ -27,9 +27,8 @@ export const SADU_BAND =
   `repeating-linear-gradient(45deg, ${S.ink} 0 5px, transparent 5px 10px),` +
   `${S.track}`;
 
-/* operator flips to true after dropping promo/public/logo/ahd-mark.png (Gemini asset);
-   false = the built-in octagon SVG emblem */
-export const USE_LOGO_ASSET = false;
+/* Approved primary mark, checked in at promo/public/logo/ahd-mark.png. */
+export const USE_LOGO_ASSET = true;
 
 /* per-beat durations (frames @60fps, before PACE) — heroes run longest.
    v2 pacing (reference scout): 3s hook, beats 1.5-3s/idea, montage accelerates, calm close. */

@@ -1,0 +1,32 @@
+{
+  "schema": "ahd-task-review-history-v1",
+  "task_id": "T001",
+  "dispatch_id": "wave0-T001-20260715-010900",
+  "implementer": "wave0_t001_implementer",
+  "reviews": [
+    {
+      "review_id": "T001-R1",
+      "reviewer": "wave0_t001_reviewer",
+      "audit_claim_id": "bootstrap-readonly:wave0-T001-review-package",
+      "reviewed_commit": "4bbe91e280dae079b46a44a9590eee88756ef415",
+      "verdict": "needs-fix",
+      "created_at": "2026-07-15T01:30:00+03:00",
+      "supersedes": null,
+      "constitution": "fail:principle-vi-claim-honesty",
+      "findings": [
+        "The inventory and external report incorrectly said the source workspace was wholly unchanged even though controller-authorized ignored evidence files were created under .superpowers/sdd/wave0."
+      ]
+    },
+    {
+      "review_id": "T001-R2",
+      "reviewer": "wave0_t001_reviewer",
+      "audit_claim_id": "bootstrap-readonly:wave0-T001-rereview-package",
+      "reviewed_commit": "82d7c6b10e6621d5f3d0d202436e6cd7b7e1ca6e",
+      "verdict": "approved",
+      "created_at": "2026-07-15T01:35:00+03:00",
+      "supersedes": "T001-R1",
+      "constitution": "pass",
+      "findings": []
+    }
+  ]
+}

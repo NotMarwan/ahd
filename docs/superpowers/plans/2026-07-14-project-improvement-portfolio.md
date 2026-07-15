@@ -17,7 +17,7 @@ below are its independently executable delivery decomposition.
 
 | Wave | Package | Window | Exit gate |
 |------|---------|--------|-----------|
-| W0 | [Freeze Safety](../../../specs/001-freeze-safety/) | 14-15 Jul | Clean reproducible candidate; truth checks green; operator release approval |
+| W0 | [Freeze Safety](../../../specs/001-freeze-safety/) | 14-15 Jul | Clean reproducible candidate and later attestation; release operations remain separately approval-gated |
 | W1 | [Judge Readiness](../../../specs/002-judge-readiness/) | 14-17 Jul | Three clean rehearsals; current stage bundle; six-lens review |
 | W2 | [External Validation](../../../specs/003-external-validation/) | Start 14 Jul; human lead time | Survey/interviews; written review decisions; pilot evidence or explicit blockers |
 | W3 | [Production Hardening](../../../specs/004-production-hardening/) | Post-freeze/post-event | Authz, transactions, abuse limits, recovery, TLS deployment, security gate |
@@ -30,12 +30,12 @@ promote claims before evidence. W3 and W4 do not modify the frozen competition c
 
 | Wave | Tasks | Primary owners |
 |------|------:|----------------|
-| W0 | 27 | Release owner, maintainer, presenter |
+| W0 | 36 | Release owner, maintainer, presenter, agent controller |
 | W1 | 28 | Presenter, product/design, evidence owner |
 | W2 | 30 | Research owner, scholar, counsel, partnerships |
 | W3 | 40 | Backend, security, platform, privacy |
 | W4 | 47 | Protocol, product, mobile, governance |
-| **Total** | **172** | Mixed; human gates named in each package |
+| **Total** | **181** | Mixed; human gates named in each package |
 
 ## Complete Backlog Coverage
 
@@ -75,7 +75,7 @@ promote claims before evidence. W3 and W4 do not modify the frozen competition c
 | D-2 | W0 | Addressed; display-toggle regression only |
 | D-3 | W2/W4 | Reviewer decision, then approved pledge or custody profile only |
 | D-4 demo fate | W0 | Preserve frozen fallback; verify decision remains resolved |
-| Inheritance proposal also called D-4 | W0/W2/W4 | Rename to unique ID, obtain owner/scholar decision, then implement or close |
+| Innovation/inheritance note formerly also called D-4 | W0/W2/W4 | Namespace as `INN-D4` without changing its pending substance; obtain owner/scholar decision before implementation |
 | D-5 | W0/W4 | Preserve conservative riba-linter behavior; scholar-debatable clauses remain unruled |
 | D-6 / D-6a | W2 | Written fee-model review before public approval or billing implementation |
 | D-7 / D-8 | W2/W4 | Written multilateral-settlement and mercy-consent decisions before behavior changes |

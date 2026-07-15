@@ -581,3 +581,11 @@ _Backlog (from brief §4, priority order):_
 - Token-efficiency rule: deterministic hashes/captures first; high-reasoning visual review only at architecture and final gates; approved screens are cached by source/token SHA-256.
 - Graph-backed sources: Sadu prototype partials, design tokens, RN mapping, Expo proof, golden engine, create/proof/settlement feature paths.
 - No implementation started. Next action is Task 1 in `docs/superpowers/plans/2026-07-14-figma-baseline-transfer.md`.
+
+## 2026-07-14 — full-roadmap survey and safety delivery
+
+- Final gate: **2979/0**; app **2781 assertions / 69 suites**. Clean `git archive` rerun also passed **2979/0**. Frozen demo SHA unchanged: `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40`.
+- Delivered: survey generator/analyzer (no raw data committed), security/rate-limit lane, validation packs, TSA/cloud profiles, multi-issuer verification, local Arabic type/rehearsal material, gift-only settlement, actor-bound forgiveness/duress, and estate spec only.
+- Morning truth: **no survey responses, no external approvals, no pilot**. OT-A1 is SUPPORTED-DIRECTIONAL only after planned field thresholds; it is not closed today.
+- Conservative review: Innovation 7.8 · Technical 8.0 · Data 7.2 · UX 7.8 · Feasibility 7.3 · tired judge 7.6. Next human work: JL-13..JL-17 in `_meta/OPEN-ITEMS.md`.
+- Detail: `docs/session-report-2026-07-14-full-roadmap-survey.md`.

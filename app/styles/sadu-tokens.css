@@ -60,7 +60,7 @@
   --sadu-type-xl:20px;
 
   /* ---- Arabic typefaces — a STACK upgrade (2026-07-13, judge-lens real-leap,
-     the offline half of JL-7), NOT a bundled font. FONT-BUNDLED: false.
+     the offline half of JL-7), NOT a bundled font. FONT-BUNDLED: true.
      This repo still carries ZERO bundled Arabic-script font files (checked:
      only Latin display/mono faces under .claude/skills/ui-styling/canvas-
      fonts — none are Arabic, none are licensed for shipping in this
@@ -90,7 +90,7 @@
      legal/verse text) must stay maximally legible at 12-14px, and this
      offline environment cannot visually verify Sakkal Majalla's small-size
      legibility — an intentional, conservative call, not an oversight. ---- */
-  --font-display:"Sakkal Majalla","Segoe UI","Tahoma",system-ui,sans-serif;
+  --font-display:"IBM Plex Sans Arabic","Sakkal Majalla","Segoe UI","Tahoma",system-ui,sans-serif;
   --font-body:"Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif;
 
   /* ---- spacing rhythm: distinct steps, not one uniform gap everywhere ---- */

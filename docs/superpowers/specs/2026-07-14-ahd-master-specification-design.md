@@ -18,7 +18,7 @@ golden engine function, seal vector, Shariah ruling, or irreversible project dec
 
 The current repository is rich but fragmented:
 
-1. The app registers 21 screens and the navigator map names 35 feature units, while the
+1. The app registers 20 screens and the navigator map names 35 feature units, while the
    root README still says 12 screens and `app/README.md` still describes three screens.
 2. `docs/PUBLISHABLE-PRODUCT-SPEC.md` describes an earlier product snapshot. Several items
    marked future work are now built, and later capabilities are absent.
@@ -99,7 +99,6 @@ The master spec uses stable identifiers:
 - `SR-###`: Shariah and spine requirements.
 - `DR-###`: data and evidence requirements.
 - `PR-###`: production-readiness requirements.
-- `SEC-###`: security and privacy control requirements.
 - `JR-###`: judge-visible requirements.
 - `SC-###`: measurable success criteria.
 
@@ -235,3 +234,4 @@ The specification system is ready for planning when:
 - production seams and prototype limits are explicit;
 - the requirements-quality checklist passes;
 - a cross-artifact review finds no critical contradiction.
+

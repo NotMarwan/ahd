@@ -4,7 +4,7 @@ var fs = require("fs");
 var path = require("path");
 var crypto = require("crypto");
 
-var CHECKSUM_FILE = path.join("_overnight", "backup", "demo.sha256");
+var CHECKSUM_FILE = path.join("tests", "fixtures", "demo.sha256");
 var CHECKSUM_RE = /^([0-9a-f]{64}) [ *]([^\r\n]+)\r?\n?$/;
 
 function parseChecksum(text) {

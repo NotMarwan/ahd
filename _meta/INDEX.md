@@ -12,6 +12,7 @@ One page. Start here, then follow a link.
 | Master clarity review | Findings, amendments, counts, and zero-critical analysis result | `specs/001-ahd-product-system/clarity-review.md` |
 | Master implementation plan | Architecture, research, data model, contracts, and gated delivery strategy | `specs/001-ahd-product-system/plan.md` |
 | Master task portfolio | 124 dependency-ordered TDD tasks covering all 142 requirements | `specs/001-ahd-product-system/tasks.md` |
+| W0 immutable release reference | Candidate A, attestation B, clean-recovery evidence, and exact release gate | `_meta/freeze/2026-07-15-release-manifest.json` · `_meta/freeze/2026-07-15-recovery-drill.md` |
 | Handoffs | Per-session exit notes, numbered chronologically | `_meta/handoffs/` |
 | Agent coordination | Presence, claims, and the collision-handling protocol | `_meta/agent-presence/README.md` |
 | Architecture | How the two builds + engine + app fit together | `docs/ARCHITECTURE.md` |

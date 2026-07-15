@@ -18,6 +18,13 @@
       "type": "remotion-video"
     }
   ],
+  "brandIdentity": {
+    "primaryMark": "assets/brand/ahd-logo.png",
+    "appMark": "app/assets/ahd-logo.png",
+    "promoMark": "promo/public/logo/ahd-mark.png",
+    "sourceConcept": "promo/public/logo/concepts/ahd-role-people-medial-ha-long-separated-curves-triangle.png",
+    "meaning": "Two connected people: a teal circular giver above and an amber triangular receiver below, following the separated curves of a paper-ribbon medial haa."
+  },
   "layers": [],
   "engineInfo": {
     "golden": {
@@ -54,6 +61,13 @@
     }
   },
   "features": [
+    {
+      "name": "care",
+      "featureFile": "app/features/care.js",
+      "screenFile": null,
+      "testFiles": ["app/care.test.cjs"],
+      "description": "Auxiliary third-party gift, forgiveness-request, and duress-report guards; no new debt, scoring, judgment, or seal rewrite."
+    },
     {
       "name": "home-layout",
       "featureFile": "app/features/home-layout.js",

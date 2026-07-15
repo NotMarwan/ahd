@@ -1,9 +1,13 @@
 # عهد · Ahd — Design System
 
-> **Current consolidated reference:** [Ahd full application design](AHD-FULL-DESIGN.md). This file remains the historical design-system foundation; the consolidated reference resolves the live 21-screen, Sadu, responsive-layout, density, and mobile-portability state.
+> **Current consolidated reference:** [Ahd full application design](AHD-FULL-DESIGN.md). This file remains the historical design-system foundation; the consolidated reference resolves the live screen, Sadu, responsive-layout, density, and mobile-portability state.
 
 > The visual identity of an interest-free banking prototype: dignity-first, Arabic-native,
 > Shariah-aligned, and deterministically rendered.
+
+## Primary brand mark
+
+The approved mark depicts two linked people around a paper-ribbon medial **haa**: a teal circular giver above and an amber triangular receiver below. Their separate curves follow the protected bond without merging into the letter. The canonical repository asset is `assets/brand/ahd-logo.png`; the offline app and promo renderer carry byte-identical deployment copies.
 
 ---
 

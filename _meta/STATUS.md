@@ -2,6 +2,10 @@
 
 Deep-track status log for Operation Ahd. Append-only; one DONE line per completed work package.
 
+> **CURRENT · 2026-07-15:** local prototype, not production. App: **21 registered screens**. Server: **6 routes**, HMAC auth default-on for mutating live-HTTP routes, deterministic rate limits, durable JSONL, gate-wired live HTTP smoke. Gate: **2979/0 across 69 app suites**. Frozen demo hash: `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40`.
+
+> **W0 COMPLETE · 2026-07-15:** owner `root`; immutable candidate `A=e308749f7453617e3e37f2a0793abd5964403a7c`; attestation `B=86cda05f53b911b7dd70946f91801942a24e16ec`; clean recovery `1.513 minutes`; final release gate **2979/0**; review date `2026-07-15`; no tag or push. Next execution target: W1 judge readiness.
+
 ---
 
 DONE · 2026-06-19T13:51+03:00 · Claude-Hardening · **PROMPT 4 — Performance Hardening** · `10_Deep/Hardening/`

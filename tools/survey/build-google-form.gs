@@ -1,0 +1,42 @@
+/* Generated from docs/evidence/survey/form-spec.json. Do not edit by hand. */
+function buildAhdDemandSurveyV2() {
+  var form = FormApp.create("استبيان مجهول عن التعاملات المالية دون فائدة بين المعارف");
+  form.setDescription("استبيان بحثي مجهول يستغرق نحو دقيقتين إلى ثلاث. لا نجمع الاسم أو البريد أو رقم الهاتف أو الهوية أو بيانات الحساب. نستخدم النتائج المجمعة فقط، وهذه عينة اتجاهية وليست ممثلة لسكان المملكة.");
+  form.setCollectEmail(false);
+  form.setRequireLogin(false);
+  form.setLimitOneResponsePerUser(false);
+  form.setConfirmationMessage("شكرًا لمشاركتك. لا تجمع هذه الدراسة بيانات تعريفية، وتُحلل الإجابات بصورة مجمعة فقط.");
+  var responseSheet = SpreadsheetApp.create("Ahd Demand Survey v2 — PRIVATE RESPONSES");
+  form.setDestination(FormApp.DestinationType.SPREADSHEET, responseSheet.getId());
+  var consent = form.addMultipleChoiceItem().setTitle("هل توافق على المشاركة الطوعية في هذا الاستبيان المجهول واستخدام إجاباتك بصورة مجمعة لأغراض هذا المشروع البحثي؟").setRequired(true);
+  var page_eligibility = form.addPageBreakItem().setTitle("الأهلية");
+  var eligible = form.addMultipleChoiceItem().setTitle("هل عمرك 18 سنة أو أكثر وتقيم حاليًا في المملكة العربية السعودية؟").setRequired(true);
+  var page_behavior = form.addPageBreakItem().setTitle("التجربة خلال آخر 12 شهرًا");
+  var experience_12m = form.addMultipleChoiceItem().setTitle("خلال آخر 12 شهرًا، أيٌّ من الآتي حدث لك مع شخص تعرفه، دون فائدة؟").setRequired(true);
+  experience_12m.setChoiceValues(["أقرضت شخصًا فقط","اقترضت من شخص فقط","أقرضت واقترضت","لم يحدث أي منهما","أفضل عدم الإجابة"]);
+  var delayed_repayment = form.addMultipleChoiceItem().setTitle("هل سبق أن تأخر شخص تعرفه في إعادة مبلغ أقرضته له؟").setRequired(true);
+  var page_delay_experience = form.addPageBreakItem().setTitle("التجربة عند تأخر السداد");
+  var asking_awkwardness = form.addMultipleChoiceItem().setTitle("في آخر مرة تأخر فيها السداد، كيف كان شعورك عند طلب المبلغ؟").setRequired(true);
+  asking_awkwardness.setChoiceValues(["غير محرج إطلاقًا","غير محرج نوعًا ما","لا هذا ولا ذاك","محرج نوعًا ما","محرج جدًا","أفضل عدم الإجابة"]);
+  var first_action = form.addMultipleChoiceItem().setTitle("في آخر مرة تأخر فيها السداد، ماذا فعلت أولًا؟").setRequired(true);
+  first_action.setChoiceValues(["طلبت المبلغ مباشرة","لمّحت بدل أن أطلب مباشرة","انتظرت وأجلت الطلب","اتفقنا على مهلة جديدة","أبرأت الدين أو سامحت به برغبتي","لم أطلب حفاظًا على العلاقة","أفضل عدم الإجابة"]);
+  var relationship_effect = form.addMultipleChoiceItem().setTitle("بعد تلك التجربة، كيف تأثرت علاقتك بالشخص؟").setRequired(true);
+  relationship_effect.setChoiceValues(["تحسنت","لم تتأثر","تأثرت سلبًا بدرجة بسيطة","تأثرت سلبًا بدرجة واضحة","أفضل عدم الإجابة"]);
+  var page_documentation_and_fit = form.addPageBreakItem().setTitle("التوثيق والتفضيلات");
+  var documentation_method = form.addMultipleChoiceItem().setTitle("عند الإقراض أو الاقتراض بين المعارف، كيف توثّق الاتفاق عادة؟").setRequired(true);
+  documentation_method.setChoiceValues(["اتفاق مكتوب يوضح المبلغ والشروط","تحويل بنكي مع مرجع","محادثة عبر واتساب","ملاحظة شخصية","لا أوثّق","لم يسبق لي التعامل","أفضل عدم الإجابة"]);
+  var reminder_preference = form.addMultipleChoiceItem().setTitle("إذا تأخر السداد، ما طريقة التذكير الأكثر راحة لك؟").setRequired(true);
+  reminder_preference.setChoiceValues(["أطلب مباشرة بنفسي","تذكير آلي ومحايد","تذكير من شخص ثالث موثوق","أفضل عدم التذكير","لا أعرف","أفضل عدم الإجابة"]);
+  var agreement_preference = form.addMultipleChoiceItem().setTitle("عند قرض جديد بينك وبين شخص تعرفه، أي خيار يجعلك أكثر اطمئنانًا؟").setRequired(true);
+  agreement_preference.setChoiceValues(["اتفاق مكتوب وواضح","اتفاق شفهي فقط","لا فرق لدي","يعتمد على الشخص أو المبلغ","لا أعرف","أفضل عدم الإجابة"]);
+  var product_priority = form.addMultipleChoiceItem().setTitle("تخيّل خدمة تحفظ اتفاق القرض، وترسل تذكيرًا متفقًا عليه، وتثبت السداد، دون أن تقرض المال أو تفرض فائدة أو غرامة أو تحكم بين الطرفين. ما الخيار الأكثر قيمة لك؟").setRequired(false);
+  product_priority.setChoiceValues(["توثيق الاتفاق","التذكير المحايد","إثبات السداد","طلب مهلة أو إبراء الدين","لا أرى قيمة في الخدمة","لا أعرف","أفضل عدم الإجابة"]);
+  var source_group = form.addMultipleChoiceItem().setTitle("رمز مجموعة النشر — اتركه كما هو").setRequired(true);
+  source_group.setChoiceValues(["G1","G2","G3","G4","G5"]);
+  consent.setChoices([consent.createChoice("نعم", page_eligibility), consent.createChoice("لا", FormApp.PageNavigationType.SUBMIT)]);
+  eligible.setChoices([eligible.createChoice("نعم", page_behavior), eligible.createChoice("لا", FormApp.PageNavigationType.SUBMIT)]);
+  delayed_repayment.setChoices([delayed_repayment.createChoice("نعم", page_delay_experience), delayed_repayment.createChoice("لا", page_documentation_and_fit), delayed_repayment.createChoice("لم أقرض شخصًا", page_documentation_and_fit), delayed_repayment.createChoice("لا أتذكر", page_documentation_and_fit), delayed_repayment.createChoice("أفضل عدم الإجابة", page_documentation_and_fit)]);
+  var links = {};
+  ["G1","G2","G3","G4","G5"].forEach(function (code) { links[code] = form.createResponse().withItemResponse(source_group.createResponse(code)).toPrefilledUrl(); });
+  Logger.log(JSON.stringify({ editUrl: form.getEditUrl(), responseSheetUrl: responseSheet.getUrl(), publishedUrl: form.getPublishedUrl(), sourceLinks: links }));
+}

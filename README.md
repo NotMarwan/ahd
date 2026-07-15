@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/brand/ahd-logo.png" alt="شعار عهد — المعطي والآخذ بينهما رباط محفوظ" width="320">
+</p>
+
 # عهد · Ahd
 
 **A bank that *witnesses, seals, settles, and nets* interest-free interpersonal loans (قرض حسن / qard hasan) — and never lends its own money, never judges disputes, never charges interest or penalty, and never scores credit.**
@@ -130,14 +134,14 @@ cd tests
 # Demo core (184) + offline seams + structure gate (14)
 node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs
 
-# App suites (65 suites, 2,696 assertions)
+# App suites (73 suites, 2,869 assertions)
 node app/run-app-tests.cjs
 
 # Or the whole gate in ONE command — core + app + structure + tripwire, one banner:
-node run-all.cjs        # → AHD GATE ✅ 2894/0   (≈6s, fully offline, deterministic)
+node run-all.cjs        # → AHD GATE ✅ 3067/0   (≈6s, fully offline, deterministic)
 ```
 
-Total: **2,894 assertions, 0 failed** — demo core 184 + app 2,696 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red. (Single source of truth: re-run `run-all.cjs` — its banner outranks any number cited in a doc.)
+Total: **3,067 assertions, 0 failed** — demo core 184 + app 2,869 + structure 14, plus the tripwire proving `demo/index.html` is byte-unchanged (SHA-256 `e2f48467…`). The gate is the hard boundary — never weaken an assertion, never merge red. (Single source of truth: re-run `run-all.cjs` — its banner outranks any number cited in a doc.)
 
 ---
 
@@ -168,7 +172,7 @@ ahd/
 │   ├── offline-check.cjs     # Zero network seams (9)
 │   ├── dom-smoke.cjs         # Headless render + robustness (40)
 │   ├── structure-check.cjs   # Repo-structure gate (14)
-│   ├── run-all.cjs           # One-command gate + tripwire (2894/0)
+│   ├── run-all.cjs           # One-command gate + tripwire (3067/0)
 │   ├── load-logic.cjs        # Engine slicer
 │   └── app/                  # App test suites (60 files)
 │

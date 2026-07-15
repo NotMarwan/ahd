@@ -90,7 +90,7 @@ The missing fifth move is *versioning + an open license + a multi-issuer interop
 - **Gate:** LIGHT — owner decision on open-licensing + any "invite other banks / SAMA" governance framing
   (`docs/DECISIONS-FOR-MARWAN.md`). The spec/verifier/vectors themselves are offline and shipped.
 
-**I-L3 — ميراث الدَّين: debt-at-death handling** *(highest wow, HARD-gated; roadmap not sprint — this is D-4)*
+**I-L3 — ميراث الدَّين: debt-at-death handling** *(highest wow, HARD-gated; roadmap not sprint — this is INN-D4)*
 On a witnessed death event, sealed debts of the deceased are flagged and routed to **estate (تركة) settlement before
 distribution**; heirs are offered one-tap **voluntary** إبراء (waive) or قضاء (pay), recorded as إحسان; the creditor may waive.
 - **Honest novelty read:** the *fiqh is classical and settled* (debt paid from estate before distribution; deferred debt
@@ -113,7 +113,7 @@ backstop** — that drifts toward lending/pooling and trips the spine. Build cos
 |---|---|---|
 | I-L1 رِفْق mercy-clearing | ✅ constraint layer around golden netting | LIGHT — scholar confirm muqāṣṣa consent condition |
 | I-L2 Open-Witness standard | ✅ spec + verifier + vectors exist; add version/license/interop | LIGHT — owner licensing/governance decision |
-| I-L3 ميراث الدَّين | ⚠️ proposal spec only (build-ready) | **HARD — D-4 owner + scholar (فرائض)** |
+| I-L3 ميراث الدَّين | ⚠️ proposal spec only (build-ready) | **HARD — INN-D4 owner + scholar (فرائض)** |
 | I-L4 third-party قضاء | ✅ | none |
 
 ### 1.4 Score path
@@ -299,7 +299,7 @@ as build-ready specs now and executed the moment their human unblocks.
 **Consolidated human-gate register (surfaced, not faked).**
 | Gate | Unlocks | Owner / action | By |
 |---|---|---|---|
-| **D-4** pick ميراث الدَّين | Innovation → 8.5/9 (I-L3) | Owner + scholar (فرائض) | pre-freeze |
+| **INN-D4** pick ميراث الدَّين | Innovation → 8.5/9 (I-L3) | Owner + scholar (فرائض) | pre-freeze |
 | Scholar — muqāṣṣa consent condition | Innovation I-L1 clean confirm | Scholar | pre-freeze |
 | Scholar — Hilah + D-1/D-3/D-7 | Feasibility → 8 (separate criterion) | Scholar | pre-freeze |
 | **Survey fielding** (OT-A1) | Data → 8.5/9 (D-L5) | Named team member, 24h start | 15 Jul |

@@ -5,6 +5,10 @@
 > merges it with `docs/DECISIONS-FOR-MARWAN.md`'s "Standing items" and marks resolved items done rather
 > than deleting them, so IDs stay traceable.
 
+## W0 release-control closure · 2026-07-15
+
+Candidate `A=e308749f7453617e3e37f2a0793abd5964403a7c` and attestation `B=86cda05f53b911b7dd70946f91801942a24e16ec` reproduce **2979/0** from clean detached checkouts in `1.513 minutes`. The frozen demo and generated engine are byte-identical across source, Git tree, and candidate checkout. This closes the release-control gap only; existing human-gated validation and Judge Lens items below remain open and no approval is inferred.
+
 ## JL — judge-lens gaps (win items, freeze 15 July; see `docs/JUDGE-LENS.md`)
 
 | ID | Item | Front | Status |
@@ -74,9 +78,9 @@ Scores: innovation 8= · technical **9→8** · data 7.5= · UX 8= · feasibilit
 | **OT-DEPTH** | v2 mechanisms - **partially addressed**: dispute-export (P12) roughly built via F2 proof-pack screen; recurring-covenant (P13) roughly built via Circle-adv recurring auto-post; on-screen attestation-boundary panel (P15) **done 2026-07-08** via the «الضمانات والحدود» bounds panel (JL-4 — the «حدود المصرف» column states witnesses/never-lends/never-judges/no-fee/no-score/AI-no-fatwa, each with its guard test). **Still unbuilt:** duress/coercion flag (P11), AML/collusion signal (P14) | v2 | |
 | **OT-P1other** | Borrower-side asks - **partially addressed**: grace ("يُسر") real state logic done; standalone borrower-protections panel **done 2026-07-08** (JL-4 «الضمانات والحدود» — the «للمدين» column, guarantees-as-code; describes existing guarantees only, zero semantics changed). **Still open:** borrower-invokable إبراء (shipped as lender-owned only, not borrower-invokable — D-gated, `docs/DECISIONS-FOR-MARWAN.md`) | Product | |
 | **OT-IDSTATE** | Reconcile the `ahd_id` type (ULID/UUIDv7/base32/string) and declare one binding state-name enum | Needs verification | Status unclear - the app's event-sourced fold() now uses one consistent state vocabulary in practice; hasn't been checked whether `ahd_id` generation was ever reconciled against the original ULID/UUIDv7 question |
-| **OT-13** | A second, divergent handoff series reportedly exists outside this repo at a separate local path | Unverifiable from here | Outside this repo/working directory - needs the operator to confirm whether that path still exists |
-| **OT-14** | Possible duplicate Agent-1 legal layer files inside the research vault | Unverified, low priority | Vault content - out of scope per this consolidation's non-goals (no physical vault merge); confirm the duplicate still exists before acting |
-| **OT-LINKS** | A dangling wikilink, a dead source citation, and a stale dossier demo-hook, all inside the research vault (`contracts.md`, the growth layer, dossier section 6) | Unverified, low priority | Vault content - out of scope per this consolidation's non-goals (no physical vault merge); confirm still relevant before acting |
+| **OT-13 · CLOSED 2026-07-15** | A second, divergent handoff series was reported at `C:\Users\PCD\Desktop\دما نوثاكاه\handoffs` | Verified absent in the current execution environment; never candidate input | `Test-Path -LiteralPath` returned `False`. Historical report remains in the ledger; no copy, deletion, or reconciliation performed. |
+| **OT-14 · CLOSED 2026-07-15** | Possible duplicate Agent-1 legal layer files inside the research vault | Duplicate no longer present in the tracked tree | `rg --files` finds only `docs/research/Amad Obsidian Vault/AMAD-2026/08_Ahd_Deep/Agent-1/layer-legal-shariah-regulatory.md`; no `layer-legal.md` exists. |
+| **OT-LINKS · VERIFIED OPEN 2026-07-15** | Three research-vault link/source/hook defects | Exact defects still present; research-only, not candidate runtime | `contracts.md:74` still links `../Agent-2/layer-tech` while only `layer-tech-security.md` exists; `layer-growth-adoption.md:215` still cites `staff4all.org`; the dossier §6 hook remains the older US framing instead of the tracked `09_Finish/FINAL/demo-v2.md`. Owner: research/docs. |
 
 ### Ceiling-break research items (2026-07-13 — deep-research session; full rationale + sources in `docs/superpowers/plans/2026-07-13-ceiling-break-8-9-plan.md`)
 
@@ -98,7 +102,7 @@ Scores: innovation 8= · technical **9→8** · data 7.5= · UX 8= · feasibilit
 | **OT-TSA** | **RFC-3161 trusted timestamp** — token stored as an external attestation, never hashed into logic (determinism kept). SEAL property 3 of OT-SEAL5. A live freeTSA.org call from `demo-bank-node.cjs` is a judge-visible moment (pre-fetch a fallback token). | Technical | **OFFLINE** demo-grade (freeTSA); evidentiary = **accredited TSA (emdha) gate** |
 | **OT-DEPLOY** | **Deploy story** — Dockerfile (distroless `nodejs20 :nonroot`) + Node-`http` healthcheck + hardening checklist (read-only fs + tmpfs, secrets mounted) + honest "localhost-hardened, not yet cloud" README line; + over-the-wire CI parity (boot + `wait-on` + `curl`/`jq` black-box). | Technical | **OFFLINE** config/CI; real cloud + TLS = **post-hackathon gate** |
 
-> **Annotations to existing items:** **D-4** — prior-art confirms ميراث الدَّين's novelty is the *productization* (no digital witness product operationalizes debt-at-death), not the fiqh (classical/settled); still HARD-gated (owner + scholar فرائض, minority view on deferred-debt auto-maturity). **OT-A1** — a runnable 13-question bilingual survey instrument + sampling frame + consent + analysis plan now exists (plan Appendix B); the gate is *fielding* it (named human, ~24h start for a directional pilot n≈80–150). **OT-SEAL5** — now split into offline parts (multi-block chain, Merkle inclusion, Ed25519 signature crypto) vs vendor-gated parts (accredited TSA, HSM key custody); see OT-BANKSIG/OT-TSA.
+> **Annotations to existing items:** **INN-D4** — prior-art confirms ميراث الدَّين's novelty is the *productization* (no digital witness product operationalizes debt-at-death), not the fiqh (classical/settled); still HARD-gated (owner + scholar فرائض, minority view on deferred-debt auto-maturity). No approval is inferred. **OT-A1** — a runnable 13-question bilingual survey instrument + sampling frame + consent + analysis plan now exists (plan Appendix B); the gate is *fielding* it (named human, ~24h start for a directional pilot n≈80–150). **OT-SEAL5** — now split into offline parts (multi-block chain, Merkle inclusion, Ed25519 signature crypto) vs vendor-gated parts (accredited TSA, HSM key custody); see OT-BANKSIG/OT-TSA.
 
 ## Resolved (kept for traceability - do not re-open without new evidence)
 - **OT-SOUL, OT-FSM, OT-CONSENT, OT-PCT, OT-RIBA, OT-STEP0, OT-X1, OT-X2, OT-X3** - closed 2026-06-19,
@@ -123,3 +127,14 @@ Scores: innovation 8= · technical **9→8** · data 7.5= · UX 8= · feasibilit
 ## Links
 `_meta/deep-work/ledger/open-threads.md` (original, full source rationale) · `docs/DECISIONS-FOR-MARWAN.md`
 (decisions needing sign-off, distinct from open work items) · `_meta/deep-work/ledger/00_LEDGER.md`
+
+## Roadmap-closure review (2026-07-14)
+
+| ID | Item | Front | Status |
+|---|---|---|---|
+| **JL-13** | Prove the one-sentence innovation retell: an independent judge must restate “the bank witnesses, does not lend” and the distinguishing proof mechanism after the demo. | Innovation | open — conservative score 7.8 |
+| **JL-14** | Collect and analyze real Saudi survey responses under the published privacy/preregistration rules. OT-A1 can become **SUPPORTED-DIRECTIONAL** only if the preregistered criteria pass; currently no result exists and demand evidence remains open. | Data | open — conservative score 7.2. Survey v2 toolchain ready: 9/12 path, private linked Sheet, deterministic analyzer, and pretest checklist. Still open until real responses are collected and analyzed. |
+| **JL-15** | Independent Arabic UX rehearsal with current screenshots and zero-console-error proof on the judge path. | UX | open — conservative score 7.8 |
+| **JL-16** | Obtain external written validation where applicable: scholar, Saudi legal, SAMA/custody, Nafath, timestamp provider, and partner/pilot. | Feasibility | open — conservative score 7.3; no approval claimed |
+| **JL-17** | Run a live, timed 3-minute rehearsal and capture whether the final proof/closing remains memorable after a judge has seen many projects. | Memorability | open — conservative score 7.6 |
+| **JL-18** | Raise the Phase 1 mobile judge path before it becomes the primary stage surface: it works cleanly, but does not yet expose judge-driven tamper detection, the aggregate data story, or a signature Sadu/seal climax. | Mobile demo path | 2026-07-15 score: innovation 8 · technical 7 · data 5 · UX 8 · feasibility 8 · memorability 7. Add a safe tamper interaction, contextual «أثر عهد» route, and a memorable proof ceremony without expanding the four main tabs. |
