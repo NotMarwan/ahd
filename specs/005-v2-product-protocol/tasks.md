@@ -1,91 +1,100 @@
 ---
-description: "Dependency-ordered v2 product and protocol work"
+description: "Dependency index for the three detailed v2 execution plans"
 ---
 
 # Tasks: V2 Product and Protocol
 
-## Phase 1: Setup and Decisions
+This file is the cross-track dependency index. Exact TDD steps, code, commands, expected output, and commit
+boundaries live in:
 
-- [ ] T001 Resolve the decision-ID collision identified in Wave 0 before linking any v2 approval
-- [ ] T002 Record owner decisions for Open-Witness license, governance, issuer profile, mobile dependency set, and whether the inheritance proposal proceeds in `docs/DECISIONS-FOR-MARWAN.md`
-- [ ] T003 Record vendor gates for accredited TSA, HSM/KMS, identity provider, and mobile build services in `docs/DECISIONS-FOR-MARWAN.md`
-- [ ] T004 Keep `OT-PATCH` in a separate migration specification; do not include demo or golden changes in this package
+- `docs/superpowers/plans/2026-07-14-open-witness-five-property.md`
+- `docs/superpowers/plans/2026-07-14-approval-gates-protective-features.md`
+- `docs/superpowers/plans/2026-07-14-arabic-mobile-parity.md`
 
-## Phase 2: Foundational Approval and Conformance
+## Phase 0: Human and External Gates
 
-- [ ] T005 [P] Implement approval-artifact schema tests in `tests/app/approval-artifact.test.cjs` with missing, rejected, expired, tampered, and condition-mismatch fixtures
-- [ ] T006 [P] Write property-localization and version-compatibility failures in `tests/app/open-witness-conformance.test.cjs`
-- [ ] T007 [P] Create independent second-issuer fixture contract under `protocol/issuers/reference-2/README.md`
-- [ ] T008 Run T005-T007 tests and confirm the intended failures before implementation
+- [ ] T001 Owner approves collision-free canonical decision IDs and historical aliases; no destructive rename
+- [ ] T002 Owner records unique decision IDs for borrower release, duress, and collusion review
+- [ ] T003 Qualified authorities record exact approvals for netting/Rifq, Circle mode B, release, duress, and collusion
+- [ ] T004 Owner/security team approves a pinned RFC-3161/CMS adapter and accredited TSA trust profile
+- [ ] T005 Platform owner records non-exportable HSM/KMS issuer-key custody and lifecycle metadata
+- [ ] T006 Owner chooses Open-Witness specification/code licenses, governance authority, and security contact
+- [ ] T007 Owner accepts the Sadu baseline reconciliation and four supplemental route design states
+- [ ] T008 Design owner approves IBM Plex Sans Arabic source, license, and exact weights
+- [ ] T009 Mobile owner approves Expo SDK 57 dependencies, build services, and distribution credentials
+- [ ] T010 Device owner supplies one iOS 16.4+ iPhone and one Android 7+ Samsung/Android phone
 
-## Phase 3: User Story 1 - Complete Open Seal (P1)
+Gates do not block pure schemas, inert adapters, tests, fixture tooling, or route inventory. They block production
+activation, publication, visual-parity claims, and external-service claims.
 
-**Independent Test**: Independent verifier passes all five valid properties and localizes every tamper.
+## Track A: Open-Witness Five-Property Protocol
 
-- [ ] T009 [P] [US1] Add valid and tampered RFC-3161 fixtures under `protocol/fixtures/timestamp/` using a demo provider only; label them non-evidentiary
-- [ ] T010 [P] [US1] Add issuer key-rotation, revocation, wrong-key, and signature-tamper fixtures under `protocol/fixtures/issuer/`
-- [ ] T011 [P] [US1] Add Merkle path, checkpoint, reorder, omission, and wrong-root fixtures under `protocol/fixtures/merkle/`
-- [ ] T012 [US1] Extend `protocol/verify-ahd-seal.cjs` with profile/version dispatch and property-specific results without importing Ahd code
-- [ ] T013 [US1] Add external timestamp verification that never enters canonical business logic
-- [ ] T014 [US1] Add issuer key lifecycle verification using Node cryptographic primitives and approved public metadata
-- [ ] T015 [US1] Make `tests/app/open-witness-conformance.test.cjs` pass for valid, tampered, missing, and unsupported cases
-- [ ] T016 [US1] Build a second independent implementation under `protocol/issuers/reference-2/` and exchange three fixtures in each direction
-- [ ] T017 [US1] Publish version, license, governance, conformance, security considerations, and compatibility in `docs/specs/open-witness-v1.md`
-- [ ] T018 [US1] Keep production TSA and HSM/KMS profiles disabled until provider evidence is recorded
+- [ ] T011 [P] Add strict protocol profiles and per-property result assembly
+- [ ] T012 Add sequence/envelope continuity enforcement and explicit `--record|--package|--chain` CLI modes
+- [ ] T013 [P] Add trusted-time adapter contract and fixture-only fail-closed adapter
+- [ ] T014 Integrate the owner/security-approved RFC-3161/CMS adapter after T004
+- [ ] T015 [P] Add issuer key and authenticated checkpoint lifecycle registries
+- [ ] T016 Persist valid, missing, unsupported, and property-specific tampered conformance fixtures
+- [ ] T017 Build clean-room `reference-2` issuer/verifier and exchange three records in each direction
+- [ ] T018 Publish governance, security, conformance, registries, and licenses after T006
+- [ ] T019 Correct protocol-status drift in Open-Witness, production-path, and open-item documents
 
-## Phase 4: User Story 2 - Approved Protective Features (P1)
+Track exit: five mandatory properties are valid for the complete fixture, every property tamper localizes, legacy
+fixtures remain valid, two independent implementations pass three-by-three exchange, and production profiles stay
+disabled until T004/T005.
 
-**Independent Test**: Each feature is inert without approval and preserves principal, consent, neutrality, and rollback after approval.
+## Track B: Approval Gates and Protective Features
 
-- [ ] T019 [P] [US2] Write failing borrower-requested release tests in `tests/app/borrower-release.test.cjs` covering request-only semantics, lender consent, decline, and conservation
-- [ ] T020 [P] [US2] Write failing duress hold tests in `tests/app/duress.test.cjs` covering request, neutral hold, dispute, withdrawal, and no-guilt language
-- [ ] T021 [P] [US2] Write failing collusion-signal tests in `tests/app/collusion-signal.test.cjs` covering privacy-safe structural signals, false positives, holds, and no score output
-- [ ] T022 [P] [US2] Write failing Circle mode B tests in `tests/app/circle-mode-b.test.cjs` for disabled, pledge-only, custody-approved, rollback, and no bank-fund states
-- [ ] T023 [P] [US2] Write failing ID/state migration tests in `tests/app/identity-state.test.cjs` for legacy mappings, uniqueness, vocabulary version, and backward verification
-- [ ] T024 [US2] Implement approval parsing and inert defaults in `app/features/approval.js` until T005 passes
-- [ ] T025 [US2] Implement borrower release requests in `app/features/borrower-release.js` and contextual rendering in `app/screens/borrower-release.js` only after exact approval
-- [ ] T026 [US2] Implement neutral duress holds in `app/features/duress.js` and `app/screens/duress.js` only after exact approval
-- [ ] T027 [US2] Implement privacy-safe structural collusion signals in `app/features/collusion-signal.js` without numbers, underwriting, or verdicts only after exact approval
-- [ ] T028 [US2] Implement only the approved Circle mode B profile in `app/features/circle-mode-b.js` and `app/screens/circle-mode-b.js`
-- [ ] T029 [US2] Implement canonical identifier and state vocabulary migration in `app/features/identity-state.js` with old-record verification
-- [ ] T030 [US2] Run all focused feature suites, DOM smoke, privacy tests, engine parity, and full gate
+- [ ] T020 Add canonical `DEC-*` registry and collision-safe legacy aliases after T001
+- [ ] T021 Add deterministic approval validation, lifecycle, condition checks, and inert execution
+- [ ] T022 Wrap existing Rifq with conjunctive netting/Rifq approvals; do not modify `rifq.js`
+- [ ] T023 Add exact-profile Circle mode B; never permit Ahd pooled custody
+- [ ] T024 Add borrower-requested release and lender-bound consent
+- [ ] T025 [P] Add neutral duress signal/hold state machine
+- [ ] T026 [P] Add privacy-safe structural collusion review/hold state machine
+- [ ] T027 Add issuer-scoped canonical identity bindings and versioned state vocabularies
+- [ ] T028 Add `K_FLOOR=3` public aggregate suppression and fixed safe output keys
+- [ ] T029 Add rollback/backward-reader cases for every capability
+- [ ] T030 Wire only capabilities whose real approvals exist; keep contextual screens out of primary navigation
 
-## Phase 5: User Story 3 - Mobile Parity (P2)
+Track exit: 100% of unapproved capabilities are inert; approved test profiles preserve exact principal and consent;
+no neutral safeguard judges or scores; old records/states/proofs remain readable; no production capability is
+enabled by a fixture artifact.
 
-**Independent Test**: Core web and mobile journeys match canonical outputs and seals on iOS and Android.
+## Track C: Arabic Mobile Parity
 
-- [ ] T031 [US3] Reconcile `docs/superpowers/plans/2026-07-10-mobile-app-skeleton.md` with the current 21-screen registry and approved dependencies
-- [ ] T032 [US3] Complete hash-tracked Figma baseline transfer and record approved screen hashes in `application/design/README.md`
-- [ ] T033 [P] [US3] Write failing mobile engine parity and determinism tests in `application/ahd-mobile/tests/engine-parity.test.cjs`
-- [ ] T034 [P] [US3] Write failing journey parity fixtures in `application/ahd-mobile/tests/journey-parity.test.cjs` for request, create, verify, ledger, grace, and settlement
-- [ ] T035 [US3] Scaffold approved Expo/TypeScript mobile application under `application/ahd-mobile/` without modifying `app/` or `tests/app/`
-- [ ] T036 [US3] Implement read-only engine sync from `app/engine.js` to `application/ahd-mobile/src/engine/engine.js` until parity passes
-- [ ] T037 [US3] Port design tokens from `application/design/tokens.json` and RTL rules from `application/design/RN-MAPPING.md`
-- [ ] T038 [US3] Implement core journeys as pure feature consumers and native screens; make journey parity pass
-- [ ] T039 [US3] Run accessibility and offline fallback checks on one iOS and one Android device; store evidence under `application/ahd-mobile/design-evidence/`
+- [ ] T031 Add non-writing Sadu check mode and reconcile the dirty output only after T007
+- [ ] T032 Create a clean Expo SDK 57 Router product; retain SDK 56 `proof-go` as historical evidence
+- [ ] T033 Register exactly 21 keys with four tabs and 17 stack routes
+- [ ] T034 Generate/hash the engine, required features, and design tokens into the mobile tree
+- [ ] T035 Prove source bytes, golden seal, 9-to-2 netting, respread, riba negation, and Metro/Hermes bundling
+- [ ] T036 Add versioned Expo SQLite state and noncanonical `needs_connection` outbox intents
+- [ ] T037 Configure static RTL, approved fonts, tokens, safe areas, vector icons, and reduced motion after T008
+- [ ] T038 Implement exact request, create, proof, ledger, grace, and settlement journey fixtures
+- [ ] T039 Port the 17 approved Sadu screens and keep four truthful baseline-pending routes until T007 completes
+- [ ] T040 Pass 21-route reachability, 200% text, screen-reader, target-size, contrast, and reduced-motion tests
+- [ ] T041 Build development clients and complete the physical iPhone/Samsung device matrix after T009/T010
 
-## Phase 6: User Story 4 - Standard Governance (P2)
+Track exit: six core journeys match web canonical/seal/money/state results; all 21 routes are reachable; external
+offline actions never fake success; both native exports and both physical-device accessibility/offline matrices pass.
 
-**Independent Test**: Two implementations verify each other's supported fixtures and reject incompatible versions.
+## Final V2 Gate
 
-- [ ] T040 [P] [US4] Add conformance profile, algorithm registry, version lifecycle, security contact, and errata process to `docs/specs/open-witness-v1.md`
-- [ ] T041 [P] [US4] Add approved open-source license files and contributor/governance policy under `protocol/`
-- [ ] T042 [US4] Publish conformance fixtures and machine-readable result summaries under `protocol/conformance/`
-- [ ] T043 [US4] Run cross-implementation exchange and record all incompatibilities before claiming interoperability
-
-## Final Phase: V2 Gate
-
-- [ ] T044 Run protocol, feature, mobile, parity, privacy, and full repository gates; confirm frozen demo remains pinned
-- [ ] T045 Conduct independent security, Shariah-boundary, privacy, and Judge Lens reviews for every visible v2 surface
-- [ ] T046 Update `docs/ARCHITECTURE.md`, `docs/PUBLISHABLE-PRODUCT-SPEC.md`, `_meta/OPEN-ITEMS.md`, `_meta/STATUS.md`, and `AmadHackathon/` cockpit with exact approved/built/pending states
-- [ ] T047 Obtain named approval before enabling production TSA/HSM, gated product behavior, mobile distribution, or any golden migration
+- [ ] T042 Run every focused protocol/product/mobile suite
+- [ ] T043 Run `node tests/app/run-app-tests.cjs` and record the live suite result
+- [ ] T044 Run `cd tests; node run-all.cjs`; require zero failures and intact demo tripwire
+- [ ] T045 Run independent security, privacy, Shariah-boundary, and Judge Lens reviews
+- [ ] T046 Update architecture, product spec, status, open items, and Obsidian cockpit with exact evidence labels
+- [ ] T047 Obtain explicit owner release approval before production TSA/HSM, capability activation, standard publication, or mobile distribution
 
 ## Dependencies
 
-- T001-T004 block the portfolio.
-- T005-T008 establish approval and conformance teeth.
-- US1 protocol can proceed with demo profiles; production profiles remain vendor-gated.
-- US2 tasks are individually blocked by their exact approval artifacts.
-- US3 begins after mobile dependency approval and Figma baseline acceptance.
-- US4 depends on US1 conformance assets and owner license decision.
-- T044-T047 require every selected story complete or explicitly blocked.
+- T011-T013, T015-T016, T020-T021, T027-T029, T031, T033-T036, and automated route tests may proceed without
+  external approval because they are additive, inert, fixture-only, or read-only.
+- T014 depends on T004. Production issuer activation depends on T005.
+- T018 depends on T006.
+- T022-T026 production activation depends on the exact subset of T001-T003 relevant to that capability.
+- T032/T037/T041 depend on T007-T010 as stated; no dependency is replaced with Expo Go or synthetic evidence.
+- T030 depends on real approval artifacts and never registers an unapproved action.
+- T042-T047 depend on every selected track being complete or visibly blocked with owner and required evidence.
+- `OT-PATCH` is outside this package. No task changes golden canonicalization or repins a vector.
