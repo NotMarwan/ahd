@@ -1,5 +1,7 @@
 # عهد · Ahd — Design System
 
+> **Current consolidated reference:** [Ahd full application design](AHD-FULL-DESIGN.md). This file remains the historical design-system foundation; the consolidated reference resolves the live 21-screen, Sadu, responsive-layout, density, and mobile-portability state.
+
 > The visual identity of an interest-free banking prototype: dignity-first, Arabic-native,
 > Shariah-aligned, and deterministically rendered.
 

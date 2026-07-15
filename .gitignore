@@ -27,3 +27,6 @@ AmadHackathon/.obsidian/
 
 # Local isolated feature workspaces
 .worktrees/
+
+# Python bytecode cache
+__pycache__/
