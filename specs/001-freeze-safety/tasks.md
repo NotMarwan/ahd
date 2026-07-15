@@ -55,7 +55,7 @@ description: "Strictly ordered freeze-safety work with agent, release, and evide
 - [x] T022 Resolve the identifier collision mechanically in `_meta/score-leap-loop-state.md`, `_meta/OPEN-ITEMS.md`, `docs/session-report-2026-07-13-ar.md`, `docs/superpowers/plans/2026-07-12-score-leap-master-plan.md`, `docs/superpowers/plans/2026-07-13-ceiling-break-8-9-plan.md`, and `docs/superpowers/plans/2026-07-13-four-criteria-push.md` by reserving `D-4` for the frozen-demo decision and namespacing the separate innovation note as `INN-D4`; preserve its pending-Marwan substance and record that no approval was inferred
 - [x] T023 Verify or close stale `OT-13`, `OT-14`, and `OT-LINKS` claims with exact evidence in `_meta/OPEN-ITEMS.md`
 - [x] T024 Implement live-source parsing in `tests/release-truth-check.cjs` until every T016 case passes
-- [ ] T025 Run `node tests/release-truth-check.test.cjs`, the agent policy check, and `node tests/run-all.cjs` so gate-drift receives its authoritative environment; record zero current-state mismatches
+- [x] T025 Run `node tests/release-truth-check.test.cjs`, the agent policy check, and `node tests/run-all.cjs` so gate-drift receives its authoritative environment; record zero current-state mismatches
 
 ## Phase 5: Candidate Construction
 

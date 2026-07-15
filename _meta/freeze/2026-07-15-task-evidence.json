@@ -439,6 +439,25 @@
         {"command": "node tests/run-all.cjs", "phase": "GREEN", "result": "2979 passed, 0 failed; no-drift 12/0; demo sealed"}
       ],
       "result": "Portable tracked tripwire restored the clean reference gate; controller validation passed."
+    },
+    {
+      "task_id": "T025",
+      "dispatch_id": "controller-readonly:T025",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Focused and phase-gate execution is mechanical; no architecture decision is required.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["specs/001-freeze-safety/tasks.md", "_meta/freeze/2026-07-15-task-evidence.json"],
+      "tests": [
+        {"command": "node tests/release-truth-check.test.cjs", "result": "17 passed, 0 failed; zero current-state mismatches"},
+        {"command": "node tests/agent-governance.cjs", "result": "AGENT-GOVERNANCE: OK"},
+        {"command": "node tests/run-all.cjs", "result": "AHD GATE 2979 passed, 0 failed; tripwire exact; live smoke green"}
+      ],
+      "reviews": [{"review_id": "T025-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Phase 4 closed on the authoritative green environment without demo, engine, money, or seal drift."
     }
   ]
 }
