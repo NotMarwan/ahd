@@ -4,6 +4,8 @@
 **Build workers:** sonnet, xhigh effort. **Judges/critics:** opus-4.8, high effort (stricter, harder to fool). Via Workflow tool (per-phase, ≤4 agents). **Pacing:** /loop dynamic mode.
 **Roadmap:** `docs/superpowers/plans/2026-07-12-score-leap-master-plan.md`.
 
+> **CURRENT · 2026-07-15:** local prototype, not production; **21 screens**, **69 app suites**, **6 server routes**; HMAC default-on for mutating live HTTP, live smoke gate-wired; authoritative gate **2979/0**; frozen demo hash `e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40`. Older entries below are dated history.
+
 ## Iron rule (anti-inflation)
 Owner mandate: لا تجامل، ولا ترفع، ولا تقعد تمدح — نبغى شي حقيقي، واقعي، صارم جداً.
 A score delta counts **only** if ≥ a refute-mode critic cites concrete file/screen evidence. Unevidenced deltas discarded to baseline. No panel grades its own output. Single-screen change ≠ whole-app criterion move.

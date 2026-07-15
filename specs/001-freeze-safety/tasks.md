@@ -51,7 +51,7 @@ description: "Strictly ordered freeze-safety work with agent, release, and evide
 
 ## Phase 4: Current Truth and Decision Identity
 
-- [ ] T021 Correct stale current-state claims in `docs/ARCHITECTURE.md`, `_meta/STATUS.md`, `_meta/score-leap-loop-state.md`, `AGENTS.md`, `CLAUDE.md`, and governed source comments without rewriting historical entries
+- [x] T021 Correct stale current-state claims in `docs/ARCHITECTURE.md`, `_meta/STATUS.md`, `_meta/score-leap-loop-state.md`, `AGENTS.md`, `CLAUDE.md`, and governed source comments in `tests/stage-preflight.cjs` without rewriting historical entries
 - [ ] T022 Resolve the identifier collision mechanically by reserving `D-4` for the frozen-demo decision and namespacing the separate innovation note as `INN-D4`; preserve its pending-Marwan substance and record that no approval was inferred
 - [ ] T023 Verify or close stale `OT-13`, `OT-14`, and `OT-LINKS` claims with exact evidence in `_meta/OPEN-ITEMS.md`
 - [ ] T024 Implement live-source parsing in `tests/release-truth-check.cjs` until every T016 case passes

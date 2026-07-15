@@ -345,6 +345,25 @@
       "result": "Preflight is read-only, bounded to 30 seconds, cleans children, reports actionable failures, and normalizes volatile evidence."
     },
     {
+      "task_id": "T021",
+      "dispatch_id": "wave0-T021-controller-self-20260715",
+      "dispatch_sha256": "7c12c9bb71d0a51992ee451dff341fb781903fde34b6ad842eed06d924f93213",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Live-claim correction is mechanical once facts are derived from registries, routes, and gate output.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["docs/ARCHITECTURE.md", "_meta/STATUS.md", "_meta/score-leap-loop-state.md", "CLAUDE.md", "specs/001-freeze-safety/tasks.md"],
+      "tests": [
+        {"command": "bounded current-claim grep", "result": "no current 20-screen, no-auth, non-gate-wired smoke, no-deployment-story, or 1687/0 source claim remains"},
+        {"command": "node tests/agent-governance.test.cjs", "result": "38 passed, 0 failed after root-file authorization correction"}
+      ],
+      "reviews": [{"review_id": "T021-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Current banners and architecture now state 21 screens, 69 suites, 6 routes, HMAC default-on, gate-wired smoke, and local-not-production status; dated history preserved."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",

@@ -87,7 +87,7 @@ It runs three classes of check:
 
 ## 3 · The feature‑module → screen‑registry → shell pattern
 
-The parallel app mirrors the demo's *proven* pattern (screens render `innerHTML` strings; actions are
+The parallel app has **21 registered screens** and mirrors the demo's *proven* pattern (screens render `innerHTML` strings; actions are
 global methods invoked from inline `onclick`), but splits **pure logic** from **rendering** so the logic
 is dependency‑injected and Node‑testable.
 
@@ -409,9 +409,9 @@ seal it, and get literally the same hash either way.
 - **The parity test never opens a socket.** `server/router.cjs`'s `route(method, pathname, body, ctx)` is
   a pure function — the exact one `server/http.cjs` wires to a real `http.createServer` — so
   `tests/app/server-parity.test.cjs` calls it directly (mock request, real logic) and stays inside the
-  fast, deterministic gate. A **separate, optional** script, `server/smoke-live.cjs`, opens a real socket
-  and makes a real HTTP round‑trip to `POST /verify`; it is not named to match the auto‑discovery pattern
-  and is not invoked by `run-all.cjs`, so it can never make the gate flaky. Run it by hand:
+  fast, deterministic gate. A **gate-wired meta** script, `server/smoke-live.cjs`, opens an ephemeral real socket
+  and makes a real HTTP round‑trip to `POST /verify`. `run-all.cjs` invokes it outside the product assertion
+  count; any parity failure still reddens the one-command gate. Run it directly with:
   `node server/smoke-live.cjs`.
 - **Durable persistence (T1, 2026‑07‑13)**: `server/store.cjs` is an append‑only JSONL event log, not a bare
   `Map`. Every `putLoan` (draft create, seal) appends one JSON line via `fs.openSync(..., "a")` +
@@ -429,8 +429,9 @@ seal it, and get literally the same hash either way.
 This is a **hackathon proof slice**, not a production backend. Specifically absent, all left as residual
 gaps:
 
-- **No authentication or authorization** — any caller can create/seal/verify/list any loan; there is no
-  session, token, Nafath integration, or per‑party access control.
+- **Authentication is local-demo grade, not production identity** — live HTTP enables HMAC bearer sessions by
+  default for mutating routes. `/verify`, `/list`, and `/health` remain public; there is no Nafath integration,
+  durable party directory, or per-record authorization policy.
 - **No real database engine** — `server/store.cjs` is a durable append‑only log + in‑memory replay, not a
   relational/document DB. No transactions, no indexes, no query language, no migrations, no compaction of
   superseded records (a loan's draft line is never removed once its seal line is appended — the log only
@@ -438,10 +439,12 @@ gaps:
 - **No concurrency control** — writes are not safe under multiple concurrent processes sharing one log file
   (only Node's single‑threaded event loop within one process is assumed); there is no file locking, no
   optimistic concurrency, no idempotency key beyond the simple "id already exists" 409 check.
-- **No rate limiting, no request size limits, no TLS** — `server/http.cjs` is a bare `http.createServer`,
-  offline‑only, meant to be run on `localhost` for a demo, not exposed to the internet.
-- **No deployment story** — no process manager, no container, no environment config, no health checks
-  beyond "the process is listening."
+- **Availability controls remain local-demo grade** — deterministic fixed-window limits cover mutating routes
+  and public verification, but request-size limits, TLS, proxy trust, distributed coordination, and production
+  monitoring are absent.
+- **Packaging exists; production deployment does not** — a pinned minimal `Dockerfile`, static `/health`, and
+  `HEALTHCHECK` exist. The service still binds loopback only and has no managed hosting, TLS, autoscaling,
+  residency, or production operations evidence.
 - **No pagination, filtering, or auth‑scoped listing** on `GET /list` — it returns every loan in the
   in‑memory store.
 - **PKI/TSA are still seams** (unchanged from the demo/app): the hashing is real; a licensed timestamp

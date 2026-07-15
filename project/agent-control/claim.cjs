@@ -41,7 +41,7 @@ function parseTasks(tasksText) {
     let token;
     const re = /`([^`]+)`/g;
     while ((token = re.exec(match[3]))) {
-      if (/[\\/]/.test(token[1]) && !/^https?:/.test(token[1]) && !token[1].startsWith("--")) {
+      if ((/[\\/]/.test(token[1]) || /\.[A-Za-z0-9]+$/.test(token[1])) && !/^https?:/.test(token[1]) && !token[1].startsWith("--")) {
         try { paths.push(normalizeRepoPath(token[1])); } catch (_) {}
       }
     }

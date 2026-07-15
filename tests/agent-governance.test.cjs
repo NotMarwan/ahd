@@ -80,6 +80,7 @@ const badHash = makeDispatch(); badHash.dispatch_sha256 = "0".repeat(64);
 ok(!validate(badHash, badHash).ok, "rejects dispatch hash mismatch");
 ok(!validate(makeDispatch({ files: ["src/a.js", "src/a.js/child"] })).ok, "rejects ancestor-descendant path collision");
 ok(Claim.normalizeRepoPath("SRC\\A.js") === "src/a.js", "normalizes separators and case");
+ok(Claim.parseTasks("- [ ] T021 guides `AGENTS.md` and `CLAUDE.md`").get("T021").paths.length === 2, "authorizes explicit root-level task files");
 
 for (const rule of contract.rules) {
   const sample = rule.kind === "prefix" ? rule.path + "case.json" : rule.path;
