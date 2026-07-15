@@ -195,6 +195,25 @@
       "result": "Policy check is an uncounted mandatory run-all meta gate; needs-fix history behavior remains covered."
     },
     {
+      "task_id": "T010",
+      "dispatch_id": "bootstrap-root:T001-T010",
+      "dispatch_sha256": "8a34edf7c5579963a646524b4bc4160c752f67b9ce68c01b7296b381efe6fc5e",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "Bootstrap closure and fail-closed audit are sensitive control transitions.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["specs/001-freeze-safety/tasks.md", "_meta/freeze/2026-07-15-task-evidence.json"],
+      "tests": [
+        {"command": "node tests/agent-governance.test.cjs", "result": "37 passed, 0 failed"},
+        {"command": "node tests/agent-governance.cjs", "result": "AGENT-GOVERNANCE: OK"}
+      ],
+      "reviews": [{"review_id": "T010-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Accumulated evidence valid; fail-closed cases proven; root-owned bootstrap lock authorized for release."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
