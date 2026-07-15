@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 
+const cp = require("child_process");
+const fs = require("fs");
+const os = require("os");
 const path = require("path");
 let Release;
 try { Release = require(path.join(__dirname, "release-manifest.cjs")); } catch (_) {}
@@ -105,6 +108,19 @@ function bad(changeManifest, changeContext, pattern, name) {
 }
 
 ok(result().ok, "accepts valid draft precheck");
+let unicodeDiffOk = false;
+const unicodeRepo = fs.mkdtempSync(path.join(os.tmpdir(), "ahd-release-unicode-"));
+try {
+  const git = args => cp.execFileSync("git", args, { cwd: unicodeRepo, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
+  git(["init", "-q"]); git(["config", "user.name", "Ahd Test"]); git(["config", "user.email", "test@ahd.invalid"]);
+  fs.writeFileSync(path.join(unicodeRepo, "base.txt"), "base\n"); git(["add", "base.txt"]); git(["commit", "-qm", "base"]); const unicodeBase = git(["rev-parse", "HEAD"]);
+  const arabicPath = "الخطة الرئيسة.md";
+  fs.writeFileSync(path.join(unicodeRepo, arabicPath), "candidate\n"); git(["add", "--", arabicPath]); git(["commit", "-qm", "candidate"]); const unicodeCandidate = git(["rev-parse", "HEAD"]);
+  unicodeDiffOk = typeof Release.diffPathsFromGit === "function" && JSON.stringify(Release.diffPathsFromGit(unicodeRepo, unicodeBase, unicodeCandidate)) === JSON.stringify([arabicPath]);
+} finally {
+  fs.rmSync(unicodeRepo, { recursive: true, force: true });
+}
+ok(unicodeDiffOk, "extracts Unicode diff paths without Git quoting");
 bad(m => delete m.schema, null, /schema/i, "rejects missing schema");
 bad(m => m.attestation_status = "ready", null, /attestation_status/i, "rejects invalid attestation status");
 bad(m => m.base_commit = "bad", null, /base_commit/i, "rejects malformed base commit");

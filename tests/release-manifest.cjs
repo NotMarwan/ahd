@@ -178,6 +178,11 @@ function validate(manifest, context) {
 function git(root, args, options) {
   return cp.execFileSync("git", ["-C", root].concat(args), Object.assign({ encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }, options || {}));
 }
+function diffPathsFromGit(root, base, candidate) {
+  return cp.execFileSync("git", ["-C", root, "-c", "core.quotepath=false", "diff", "--name-only", "-z", base + ".." + candidate], {
+    encoding: "utf8", stdio: ["ignore", "pipe", "pipe"]
+  }).split("\0").filter(Boolean).map(normalize);
+}
 function gitBuffer(root, commit, file) { return cp.execFileSync("git", ["-C", root, "show", commit + ":" + file], { encoding: null, stdio: ["ignore", "pipe", "pipe"] }); }
 function existsCommit(root, commit) { try { git(root, ["cat-file", "-e", commit + "^{commit}"]); return true; } catch (_) { return false; } }
 function trackedBuffer(root, commit, file) { try { return gitBuffer(root, commit, file); } catch (_) { return null; } }
@@ -249,7 +254,7 @@ function buildContext(manifest, options) {
     tracked,
     checkoutMatchesTree: checkoutComparisons.every(Boolean),
     unexpectedGovernedShadows: [],
-    diffPaths: git(target, ["diff", "--name-only", base + ".." + candidate]).trim().split(/\r?\n/).filter(Boolean),
+    diffPaths: diffPathsFromGit(target, base, candidate),
     inventoryData: inventoryBytes ? parseInventory(inventoryBytes.toString("utf8")) : null,
     completedTasks,
     attestationDeltaPaths: finalMode ? git(attestation, ["diff", "--name-only", candidate + ".." + attestationHead]).trim().split(/\r?\n/).filter(Boolean) : [],
@@ -270,7 +275,7 @@ function parseArgs(argv) {
   return { manifest: out.manifest, target: out.target, attestationRoot: out["attestation-root"] };
 }
 
-module.exports = { validate, buildContext, parseInventory, normalize, parseArgs, COMMAND, DEMO_HASH };
+module.exports = { validate, buildContext, parseInventory, normalize, parseArgs, diffPathsFromGit, COMMAND, DEMO_HASH };
 
 if (require.main === module) {
   try {
