@@ -380,6 +380,22 @@
       "result": "Innovation note remains pending owner and scholar review; no approval or product behavior inferred."
     },
     {
+      "task_id": "T023",
+      "dispatch_id": "wave0-T023-controller-self-20260715",
+      "dispatch_sha256": "ad029e7c55880fef12277d52226af3e475ca4c6fa52d80bea09f85dbf6c79e92",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Open-thread verification is bounded filesystem and text lookup.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/OPEN-ITEMS.md"],
+      "tests": [{"command": "Test-Path plus bounded rg/rg --files probes", "result": "OT-13 absent and closed; OT-14 duplicate absent and closed; OT-LINKS exact defects verified open"}],
+      "reviews": [{"review_id": "T023-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Stale ambiguity replaced with exact current evidence; no research file mutated."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
