@@ -72,7 +72,7 @@ description: "Strictly ordered freeze-safety work with agent, release, and evide
 - [x] T033 With no writer claim active, run two fresh-shell stage preflights against the candidate commit, normalize volatile fields, require byte-identical evidence, and record both results outside Git before the next writer claim
 - [x] T034 Verify `git diff -- demo/index.html app/engine.js` is empty in source and clean checkout; record both hashes and the tracked checksum source
 - [x] T035 Reacquire a scoped writer claim; record recovery/preflight evidence in `_meta/freeze/2026-07-15-recovery-drill.md`, `_meta/freeze/2026-07-15-task-evidence.json`, and `specs/001-freeze-safety/tasks.md`; update `_meta/OPEN-ITEMS.md`, `_meta/STATUS.md`, `AmadHackathon/00 Home.md`, `AmadHackathon/01 الخطة الرئيسة.md`, and `AmadHackathon/05 حالة المشروع.md`; complete the temporary session-sync exception, commit, release the claim, and rerun truth/release gates claim-free
-- [ ] T036 Reacquire a final scoped claim to record `complete` or `blocked` with owner/artifact/review date, commit and release it, then run the release gate and independent review claim-free; confirm no tag, push, overwrite, cleanup, Shariah ruling, or substantive Marwan decision occurred
+- [x] T036 Reacquire a final scoped claim to record `complete` or `blocked` with owner/artifact/review date in `_meta/freeze/2026-07-15-task-evidence.json`, `specs/001-freeze-safety/tasks.md`, `_meta/STATUS.md`, and `_meta/INDEX.md`; commit and release it, then run the release gate and owner-directed controller review claim-free; confirm no tag, push, overwrite, cleanup, Shariah ruling, or substantive Marwan decision occurred
 
 ## Dependencies
 

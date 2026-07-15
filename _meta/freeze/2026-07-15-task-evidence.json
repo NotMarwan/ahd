@@ -637,6 +637,30 @@
       "reviews": [{"review_id": "T035-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "Canonical status, open items, recovery record, and all three cockpit mirrors agree; temporary session-sync exception is finalized."
+    },
+    {
+      "task_id": "T036",
+      "dispatch_id": "wave0-T036-controller-self-20260715",
+      "dispatch_sha256": "25cd8802680baf98be7f9e1ec28d8a95c502ee1f27e4133edd0ceb20b8be6d95",
+      "responsible": "root",
+      "owner": "root",
+      "model_requested": "Luna",
+      "model_used": "controller-single-agent",
+      "model_reason": "Final release closure, invariant review, and next-wave handoff justify the strongest tier.",
+      "status": "complete",
+      "review_date": "2026-07-15",
+      "owner_single_agent_override": true,
+      "artifact": "_meta/freeze/2026-07-15-release-manifest.json",
+      "candidate_commit": "e308749f7453617e3e37f2a0793abd5964403a7c",
+      "attestation_commit": "86cda05f53b911b7dd70946f91801942a24e16ec",
+      "files": ["_meta/freeze/2026-07-15-task-evidence.json", "specs/001-freeze-safety/tasks.md", "_meta/STATUS.md", "_meta/INDEX.md", ".superpowers/sdd/2026-07-15-T036-final-review.json"],
+      "tests": [
+        {"command": "claim-free final release gate against immutable A/B", "result": "RELEASE-GATE: OK; 2979/0; exact candidate, attestation, and manifest blob identities"},
+        {"command": "owner-directed controller final review", "result": "approved; all 36 tasks have evidence; no tag, push, overwrite, cleanup, Shariah ruling, or substantive Marwan decision"}
+      ],
+      "reviews": [{"review_id": "T036-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Wave 0 is complete. The immutable tested reference is ready; W1 may become the sole active execution package."
     }
   ]
 }
