@@ -85,10 +85,12 @@ const styles = StyleSheet.create({
   brand: {
     width: '100%',
     alignItems: 'center',
+    marginTop: spacing.x6,
+    marginBottom: spacing.x2,
   },
   logo: {
-    width: 112,
-    height: 112,
+    width: 96,
+    height: 96,
     borderRadius: 24,
   },
   row: {
