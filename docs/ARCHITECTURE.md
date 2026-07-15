@@ -225,7 +225,7 @@ process, and aggregates. The original foundation had **8 suites** (≈283 assert
 **How they gate:** the two tiers are independent. Tier 1 keeps the frozen demo correct and unchanged;
 Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step with the demo (via
 `engine-parity.cjs`) and provably offline/deterministic (via `app-offline.test.cjs` +
-`determinism.test.cjs`). Combined (recomputed live 2026-07-15; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,844 (71 suites) + structure 14 = 3,042 assertions, all green** — one command: `cd tests && node run-all.cjs`.
+`determinism.test.cjs`). Combined (recomputed live 2026-07-15; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,869 (73 suites) + structure 14 = 3,067 assertions, all green** — one command: `cd tests && node run-all.cjs`.
 
 ---
 
