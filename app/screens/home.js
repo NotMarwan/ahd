@@ -131,6 +131,28 @@
       (band ? hst("daftari", "سجلّ وفائك", App.esc(band.word)) : "") +
       "</div>" : "";
 
+    /* «وش الوضع؟» — the Zirtue-inspired strip: for the single row that needs the
+       viewer's attention first (first overdue, else first live), answer the three
+       questions المتفق عليه / ما حدث / التالي + a Najiz-style reference chip.
+       Pure NextStep.fromRow over the SAME Daftari rows already built above. */
+    var nsx = "";
+    if (app.NextStep && led) {
+      var nsAll = [].concat(led.owedToMe, led.iOwe);
+      var nsClosed = { KEPT: 1, FORGIVEN: 1, VOID: 1 };
+      var nsUrgent = null;
+      for (var ni = 0; ni < nsAll.length && !nsUrgent; ni++) if (nsAll[ni].isOverdue) nsUrgent = nsAll[ni];
+      for (var nj = 0; nj < nsAll.length && !nsUrgent; nj++) if (!nsClosed[nsAll[nj].statusKey]) nsUrgent = nsAll[nj];
+      if (nsUrgent) {
+        var nsS = app.NextStep.fromRow(nsUrgent);
+        nsx = '<div class="nsx ' + nsS.tone + '">' +
+          '<div class="nsx-head"><span class="nsx-title">وش الوضع؟</span><span class="nsx-ref">' + App.esc(nsS.ref) + '</span></div>' +
+          '<div class="nsx-line"><span>المتفق عليه</span><b>' + App.esc(nsS.agreedAr) + '</b></div>' +
+          '<div class="nsx-line"><span>ما حدث</span><b>' + App.esc(nsS.happenedAr) + '</b></div>' +
+          '<div class="nsx-line next"><span>التالي</span><b>' + App.esc(nsS.nextAr) + '</b></div>' +
+          '<button class="mini" onclick="AhdApp.go(\'daftari\')">افتح دفتري ←</button></div>';
+      }
+    }
+
     var G = groupsOf(DESTS);
     var primaryCards = G.primary.map(card).join("");
     var moreCards = G.more.map(card).join("");
@@ -152,6 +174,7 @@
         '<div class="hstat"><span class="hstat-l">عليك للناس</span><span class="hstat-v">' + App.fmtN(tiles.on.amountSAR) + '<small> ر.س</small></span></div>' +
       "</div>" +
       standing +
+      nsx +
       '<div class="hsteps">' +
         '<div class="step"><span>١</span> اكتب العهد</div>' +
         '<div class="step"><span>٢</span> يُشهَد ويُختَم<br><small>نفاذ · SHA-256</small></div>' +

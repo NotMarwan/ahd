@@ -25,6 +25,7 @@
   var CovenantLog = (typeof window !== "undefined" ? window.CovenantLog : null);
   var Standing = (typeof window !== "undefined" ? window.Standing : null);
   var Billing = (typeof window !== "undefined" ? window.Billing : null);
+  var NextStep = (typeof window !== "undefined" ? window.NextStep : null);
   var FeeReceipt = (typeof window !== "undefined" ? window.FeeReceipt : null);
   var Rifq = (typeof window !== "undefined" ? window.Rifq : null);
 
@@ -124,6 +125,7 @@
     /* «الأجرة والخطط» revenue surfaces (Phase A) — the قرض is 0 to the bank; the
        flat أجرة is a separate service fee, surfaced at the seal moment (spine). */
     Billing: Billing,
+    NextStep: NextStep,
     FeeReceipt: FeeReceipt,
 
     esc: esc,

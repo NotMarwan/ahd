@@ -73,11 +73,17 @@
     var open = (app.daftariState.sheetId === row.id), composing = (app.daftariState.composeId === row.id);
     var canAct = row.statusKey !== "KEPT" && row.statusKey !== "FORGIVEN" && row.statusKey !== "VOID";
     var dots = canAct ? '<button class="dots" onclick="AhdApp.daftariOpenSheet(\'' + row.id + '\')" aria-label="إجراءات">⋯</button>' : "";
+    /* next-step line (Zirtue G1): the row itself says what to do next + its reference */
+    var nextLine = "";
+    if (App.NextStep && canAct) {
+      var ns = App.NextStep.fromRow(row);
+      nextLine = '<div class="row-next"><span class="nsx-ref">' + App.esc(ns.ref) + '</span> ' + App.esc(ns.nextAr) + "</div>";
+    }
     return '<div class="row">' +
       '<div class="row-main">' + avatar(row.counterparty) +
         '<div class="row-body"><div class="who">' + App.esc(row.counterparty) + "</div>" + amountLine(row) + dueLine(row) + "</div>" +
         '<div class="row-side"><span class="chip ' + chipClass(row) + '">' + App.esc(row.chipLabel) + "</span>" + dots + "</div>" +
-      "</div>" +
+      "</div>" + nextLine +
       (open ? sheet(row, app) : "") + (composing ? compose(row, app) : "") + "</div>";
   }
 

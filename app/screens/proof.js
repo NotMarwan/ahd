@@ -47,7 +47,11 @@
       : pv.schedule.map(function (s) {
           return '<div class="pv-row"><span>قسط ' + App.digit(s.n) + '</span><b>' + App.fmtN(s.amountMinor / 100) + " ر.س · " + App.esc(App.digit(s.dueISO || "")) + "</b></div>";
         }).join("");
-    var prov = '<div class="pf-prov"><div class="pl">سَنَد العهد · provenance</div>' +
+    /* Najiz G3: surfaced reference number + last action, right at the top of the سند */
+    var refRow = App.NextStep
+      ? '<div class="pv-row"><span>المرجع</span><b>' + App.esc(App.NextStep.refOf(r.id)) + " · آخر إجراء: " + App.esc(pv.statusAr || "مُوثَّق") + "</b></div>"
+      : "";
+    var prov = '<div class="pf-prov"><div class="pl">سَنَد العهد · provenance</div>' + refRow +
       '<div class="pv-row"><span>الطرفان</span><b>' + App.esc(pv.lender) + " ← " + App.esc(pv.borrower) + "</b></div>" +
       '<div class="pv-row"><span>الأصل</span><b>' + App.fmtN(pv.principalSAR) + ' ر.س</b></div>' +
       '<div class="pv-row"><span>النوع</span><b>' + App.esc(pv.type) + "</b></div>" + sched +

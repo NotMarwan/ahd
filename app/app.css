@@ -1186,3 +1186,21 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
   font-size:var(--sadu-type-title);
   font-weight:800;
 }
+
+/* ==== next-step strip «وش الوضع؟» (Zirtue G1 + Najiz G3) ==================
+   One card that answers: المتفق عليه / ما حدث / التالي — plus a mono
+   reference chip. Attention is AMBER, never red (red = tamper only). */
+.nsx{background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:14px 16px; margin:14px 0; box-shadow:0 1px 3px rgba(28,43,42,.06); display:grid; gap:8px}
+.nsx.attention{border-color:var(--amber); background:linear-gradient(180deg,var(--amber-soft),var(--card) 55%)}
+.nsx.warm{border-color:var(--gold); background:linear-gradient(180deg,var(--gold-soft),var(--card) 55%)}
+.nsx-head{display:flex; align-items:center; justify-content:space-between; gap:8px}
+.nsx-title{font-weight:800; color:var(--ink)}
+.nsx-ref{font-family:ui-monospace,Consolas,monospace; font-size:12px; color:var(--teal);
+  background:var(--teal-soft); border-radius:var(--r-pill); padding:2px 10px; direction:rtl}
+.nsx-line{display:flex; gap:10px; align-items:baseline; font-size:14px}
+.nsx-line span{flex:none; color:var(--mut); font-size:12px; min-width:72px}
+.nsx-line b{font-weight:600; color:var(--ink)}
+.nsx-line.next b{font-weight:800; color:var(--teal)}
+.nsx.attention .nsx-line.next b{color:var(--amber)}
+.row-next{margin:6px 4px 2px; font-size:12.5px; color:var(--mut); display:flex; gap:8px; align-items:center}

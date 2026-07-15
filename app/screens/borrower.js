@@ -59,11 +59,19 @@
         '<button class="primary" onclick="AhdApp.borrowerPay(\'' + App.esc(id) + '\',' + (o.remainingMinor / 100) + ')">سدِّد ما تيسّر</button>' +
         '<button class="ghost" onclick="AhdApp.openProof(\'' + App.esc(id) + '\')">🔏 الوثيقة</button>' +
       "</div>" + (o.inGrace ? "" : graceReasons(o));
+    /* next-step line (Zirtue G1): borrower rows get the same «التالي» guidance,
+       built from the SAME Daftari.rowFor projection the ledger uses. */
+    var nextLine = "";
+    if (App.NextStep && App.D && !closed) {
+      var nsRow = App.D.rowFor(o.record, App.viewer, App.engine, App.AS_OF);
+      var ns = App.NextStep.fromRow(nsRow);
+      nextLine = '<div class="row-next"><span class="nsx-ref">' + App.esc(ns.ref) + '</span> ' + App.esc(ns.nextAr) + "</div>";
+    }
     return '<div class="bw-row' + (o.isOverdue ? " overdue" : "") + '">' +
       '<div class="bw-main">' + avatar(o.counterparty) +
         '<div class="bw-body"><div class="bw-who">لـ ' + App.esc(o.counterparty) + "</div>" + remLine + "</div>" +
         '<div class="bw-side"><span class="chip ' + chipClass(o) + '">' + App.esc(statusWord(o)) + "</span></div>" +
-      "</div>" + acts + "</div>";
+      "</div>" + nextLine + acts + "</div>";
   }
 
   function render(app) {
