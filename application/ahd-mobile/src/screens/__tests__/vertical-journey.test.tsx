@@ -52,7 +52,7 @@ describe('رحلة عهد الأولى على الجوال', () => {
     await view.unmount();
 
     view = await renderScreen(<SettlementScreen />);
-    await fireEvent.press(view.getByRole('button', { name: 'تنفيذ المقاصّة' }));
+    await fireEvent.press(view.getByRole('button', { name: 'شغّل مقاصّة الشبكة' }));
     await waitFor(() => expect(store.getState().step).toBe('settlement'));
     expect(view.getByText('حُفظ مجموع الالتزامات')).toBeTruthy();
     await fireEvent.press(view.getByRole('button', { name: 'التحقق من الإثبات' }));
