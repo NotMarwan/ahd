@@ -661,6 +661,30 @@
       "reviews": [{"review_id": "T036-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "Wave 0 is complete. The immutable tested reference is ready; W1 may become the sole active execution package."
+    },
+    {
+      "task_id": "T129",
+      "wave": "specs/002-judge-readiness",
+      "dispatch_id": "wave1-T129-root-20260715-103616",
+      "dispatch_sha256": "47c2a9b26312d631bfbb8e36dc82aff40e394246176c869b0aa4e53c18a91b40",
+      "responsible": "root",
+      "model_requested": "Luna",
+      "model_used": "controller-single-agent",
+      "model_reason": "Bounded Markdown rewrite and deterministic contract test; user requested token economy and no subagents.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "implementation_commits": ["9fc27f93fb45866685242343c653c9dda27e98bd"],
+      "files": ["README.md", "tests/readme-judge-contract.cjs", "tests/run-all.cjs", "_meta/STATUS.md", "AmadHackathon/00 Home.md"],
+      "tests": [
+        {"command": "node tests/readme-judge-contract.cjs", "phase": "RED", "result": "old README failed 20 judge-first checks"},
+        {"command": "node tests/readme-judge-contract.cjs", "phase": "GREEN", "result": "README JUDGE CONTRACT OK"},
+        {"command": "cd tests && node run-all.cjs", "result": "AHD GATE 3067/0; readme-judge meta gate green; tripwire exact"}
+      ],
+      "reviews": [{"review_id": "T129-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "judge_lens": {"innovation": 8, "technical": 9, "data_analysis": 8, "ux": 8, "feasibility": 8, "memorability": 9},
+      "result": "GitHub front page explains Ahd to judges in 30 seconds; agent/process detail is removed from the public opening; technical depth remains below disclosures.",
+      "completed_at": "2026-07-15T10:38:10+03:00"
     }
   ]
 }
