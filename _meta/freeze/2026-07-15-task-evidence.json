@@ -478,6 +478,22 @@
       "reviews": [{"review_id": "T026-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "Draft manifest validates exact Unicode-safe base/diff/inventory bijection and excludes the parked source."
+    },
+    {
+      "task_id": "T027",
+      "dispatch_id": "wave0-T027-controller-self-20260715",
+      "dispatch_sha256": "9415eb2577940f3c33f9a4d38078e307959b219c8b5715a4e3499558d79ebb23",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "The recovery lifecycle is already fixed by the release contract; writing the exact runbook is bounded documentation.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/freeze/2026-07-15-recovery-drill.md", "_meta/freeze/2026-07-15-change-inventory.md"],
+      "tests": [{"command": "recovery interface and inventory parse check", "result": "A/B lifecycle, all three explicit arguments, under-15-minute target, exact restore set, and no tag/push are present; inventory JSON valid"}],
+      "reviews": [{"review_id": "T027-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Clean recovery is executable from immutable Git-tree inputs and cannot infer data from the parked source workspace."
     }
   ]
 }

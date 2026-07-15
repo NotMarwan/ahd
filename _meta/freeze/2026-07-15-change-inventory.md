@@ -267,7 +267,7 @@ The integrated master-planning commits are patch-equivalent (`git patch-id --sta
     {
       "path": "_meta/freeze/2026-07-15-recovery-drill.md",
       "origin": "planned-T003-T030",
-      "disposition": "generated",
+      "disposition": "release",
       "owner": "T027",
       "candidate_input": true
     },
