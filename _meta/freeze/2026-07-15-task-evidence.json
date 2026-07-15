@@ -214,6 +214,38 @@
       "result": "Accumulated evidence valid; fail-closed cases proven; root-owned bootstrap lock authorized for release."
     },
     {
+      "task_id": "T011",
+      "dispatch_id": "wave0-T011-controller-self-20260715",
+      "dispatch_sha256": "b64ab495a1748e5df9d5c9fe0045c935da9ef0f0754a5f5fdba3eb7a5b6f5846",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Release-contract test cases are deterministic mutation fixtures.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["tests/release-manifest.test.cjs"],
+      "tests": [{"command": "node tests/release-manifest.test.cjs", "phase": "RED", "result": "0 passed, 1 failed; validator missing"}],
+      "reviews": [{"review_id": "T011-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Failing contract covers identity, inventory, assets, gate evidence, and approvals."
+    },
+    {
+      "task_id": "T012",
+      "dispatch_id": "wave0-T011-controller-self-20260715",
+      "dispatch_sha256": "b64ab495a1748e5df9d5c9fe0045c935da9ef0f0754a5f5fdba3eb7a5b6f5846",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "One focused command records expected RED evidence.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/freeze/2026-07-15-task-evidence.json"],
+      "tests": [{"command": "node tests/release-manifest.test.cjs", "phase": "RED", "result": "expected validator-missing failure confirmed"}],
+      "reviews": [{"review_id": "T012-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "RED recorded before validator implementation."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
