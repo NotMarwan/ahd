@@ -458,6 +458,26 @@
       "reviews": [{"review_id": "T025-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "Phase 4 closed on the authoritative green environment without demo, engine, money, or seal drift."
+    },
+    {
+      "task_id": "T026",
+      "dispatch_id": "wave0-T026-unicode-controller-self-20260715",
+      "dispatch_sha256": "3ebb605250bab63a8cd2dfda6d5fcb0f5d7a46b37553bba3b36d3de4a5ec3fc8",
+      "responsible": "root",
+      "model_requested": "Sol",
+      "model_used": "controller-single-agent",
+      "model_reason": "Inventory normalization, deterministic hashing, and Unicode path extraction are bounded mechanical work.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["_meta/freeze/2026-07-15-change-inventory.md", ".superpowers/sdd/2026-07-15-release-manifest.draft.json", "tests/release-manifest.cjs", "tests/release-manifest.test.cjs"],
+      "tests": [
+        {"command": "node tests/release-manifest.test.cjs", "phase": "RED", "result": "43 passed, 1 failed on Git-quoted Arabic path"},
+        {"command": "node tests/release-manifest.test.cjs", "phase": "GREEN", "result": "44 passed, 0 failed"},
+        {"command": "node tests/release-manifest.cjs --manifest <external-draft> --target <candidate> --attestation-root <candidate>", "result": "RELEASE-MANIFEST: OK; 105 included, 4 generated exclusions, 8 deterministic assets"}
+      ],
+      "reviews": [{"review_id": "T026-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Draft manifest validates exact Unicode-safe base/diff/inventory bijection and excludes the parked source."
     }
   ]
 }
