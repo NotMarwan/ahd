@@ -1,0 +1,438 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عهد — الدرس الشامل للمالك</title>
+<style>
+:root{
+  --ground:#efe9dc; --card:#fff; --card2:#f7f2e7; --hair:rgba(60,50,30,.14);
+  --ink:#1c1812; --ink2:#6d6353; --ink3:#8b8271;
+  --terra:#a1442e; --terra-soft:#f4e2da; --terra-deep:#7f3221;
+  --teal:#177f6d; --teal-soft:#e3f0eb; --teal-text:#116153;
+  --gold:#a8863f; --gold-text:#7a5f27; --gold-soft:#f3ead2;
+  --stop:#7a2410; --stop-soft:#f6e3da; --stop-line:#e0bcab;
+  --auth:#12312b; --seal-bg:#221d16; --seal-ink:#ece3d0; --seal-hash:#d8b978;
+  --amber:#8a3f14; --amber-soft:#f7e9d6;
+  --mono:"Consolas","Courier New",monospace;
+  --r:16px; --rs:10px; --shadow:0 1px 2px rgba(28,24,18,.06),0 10px 30px rgba(28,24,18,.06);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);direction:rtl;
+  font-family:"IBM Plex Sans Arabic","Segoe UI","Noto Naskh Arabic","Tahoma",system-ui,sans-serif;
+  line-height:1.85;font-size:16px;-webkit-font-smoothing:antialiased}
+@font-face{font-family:"IBM Plex Sans Arabic";src:local("IBM Plex Sans Arabic")}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+code,.mono{font-family:var(--mono);direction:ltr;unicode-bidi:embed;font-size:.86em}
+h2{font-size:26px;font-weight:800;margin:0 0 6px;letter-spacing:-.3px}
+h3{font-size:19px;font-weight:800;margin:22px 0 8px}
+p{margin:8px 0}
+a{color:var(--terra);text-decoration:none}
+.k{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);font-weight:700}
+
+/* sadu top band */
+.sadu{height:10px;background:
+  repeating-linear-gradient(135deg,var(--terra) 0 8px,#c9502f 8px 16px,var(--gold) 16px 20px,var(--auth) 20px 26px,var(--terra) 26px 34px)}
+header.hero{background:var(--seal-bg);color:var(--seal-ink);padding:54px 0 46px;text-align:center;position:relative;overflow:hidden}
+header.hero:before{content:"";position:absolute;inset:0;opacity:.10;background:
+  repeating-linear-gradient(45deg,transparent 0 22px,var(--gold) 22px 24px),
+  repeating-linear-gradient(-45deg,transparent 0 22px,var(--terra) 22px 24px)}
+header.hero .in{position:relative}
+header.hero .logo{font-size:64px;font-weight:800;letter-spacing:-2px;color:#f3e7cf}
+header.hero .soul{font-size:20px;color:var(--seal-hash);margin-top:2px}
+header.hero .sub{max-width:56ch;margin:16px auto 0;color:#b8ae97;font-size:15px}
+header.hero .badge{display:inline-block;margin-top:20px;font-size:12.5px;color:#d9cba6;
+  border:1px solid rgba(216,185,120,.35);border-radius:999px;padding:6px 16px}
+
+/* sticky nav */
+nav.jump{position:sticky;top:0;z-index:50;background:rgba(239,233,220,.92);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+nav.jump .row{display:flex;gap:6px;overflow-x:auto;padding:10px 20px;max-width:960px;margin:0 auto;scrollbar-width:thin}
+nav.jump a{white-space:nowrap;font-size:13px;font-weight:700;color:var(--ink2);
+  padding:6px 12px;border-radius:999px;border:1px solid transparent}
+nav.jump a:hover{background:var(--terra-soft);color:var(--terra-deep);border-color:var(--stop-line)}
+
+section{padding:46px 0;border-bottom:1px solid var(--hair)}
+.lead{font-size:18px;color:var(--ink2);max-width:62ch}
+
+/* the one answer */
+.answer{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:34px;text-align:center;border:1px solid var(--hair)}
+.answer .big{font-size:34px;font-weight:800;color:var(--terra-deep);line-height:1.5}
+.answer .big b{color:var(--terra);border-bottom:3px solid var(--gold)}
+.answer .note{color:var(--ink2);margin-top:14px;font-size:15px}
+
+/* cards grid */
+.grid{display:grid;gap:16px;margin-top:18px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:20px;border:1px solid var(--hair)}
+.card .ico{font-size:26px}
+.card h4{margin:8px 0 4px;font-size:17px;font-weight:800}
+.card .why{color:var(--ink2);font-size:14.5px}
+.card .kill{margin-top:10px;font-size:13.5px;background:var(--terra-soft);color:var(--terra-deep);
+  border-radius:var(--rs);padding:8px 12px;font-weight:700}
+
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+.pill.ok{background:var(--teal-soft);color:var(--teal-text)}
+.pill.no{background:var(--stop-soft);color:var(--stop)}
+.pill.gold{background:var(--gold-soft);color:var(--gold-text)}
+
+/* spine list */
+.spine{list-style:none;padding:0;margin:14px 0}
+.spine li{background:var(--card);border-radius:var(--rs);padding:12px 16px;margin-bottom:8px;
+  border:1px solid var(--hair);display:flex;gap:12px;align-items:center;box-shadow:var(--shadow)}
+.spine li .x{color:var(--stop);font-weight:800;font-size:20px}
+
+.ayah{color:var(--gold-text);font-size:18px;text-align:center;margin:16px 0;font-weight:700}
+
+/* steps */
+.steps{counter-reset:s;display:grid;gap:12px}
+.steps .step{background:var(--card);border-radius:var(--r);padding:18px 20px 18px 56px;position:relative;
+  box-shadow:var(--shadow);border:1px solid var(--hair)}
+.steps .step:before{counter-increment:s;content:counter(s,arabic-indic);position:absolute;
+  left:16px;top:16px;width:34px;height:34px;background:var(--terra);color:#fff;border-radius:50%;
+  display:grid;place-items:center;font-weight:800}
+.steps .step b{color:var(--terra-deep)}
+
+/* revenue */
+.rev{display:grid;gap:12px}
+.rev .r{background:var(--card);border-radius:var(--r);padding:16px 18px;border:1px solid var(--hair);
+  box-shadow:var(--shadow);border-right:5px solid var(--teal)}
+.rev .r .tag{font-weight:800;color:var(--teal-text)}
+.freebar{background:var(--auth);color:#dfeee7;border-radius:var(--r);padding:18px 22px;margin-top:6px;
+  font-size:16px;font-weight:700;text-align:center}
+.freebar b{color:var(--seal-hash)}
+
+/* judge Q */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.filters button{font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  border:1px solid var(--hair);background:var(--card);color:var(--ink2);
+  padding:7px 14px;border-radius:999px}
+.filters button.on{background:var(--terra);color:#fff;border-color:var(--terra)}
+.qa{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  border:1px solid var(--hair);margin-bottom:10px;overflow:hidden}
+.qa summary{cursor:pointer;padding:16px 20px;font-weight:800;font-size:15.5px;list-style:none;
+  display:flex;gap:10px;align-items:flex-start}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .qid{font-size:11px;color:#fff;background:var(--ink3);border-radius:6px;
+  padding:2px 7px;flex:none;margin-top:3px;font-family:var(--mono)}
+.qa[open] summary{background:var(--card2)}
+.qa .body{padding:0 20px 18px;color:var(--ink2);font-size:14.5px}
+.qa .body .lbl{font-weight:800;color:var(--ink);display:block;margin-top:10px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-inline-start:6px}
+.dot.g{background:var(--teal)} .dot.y{background:var(--gold)} .dot.r{background:var(--stop)}
+.legend{font-size:12.5px;color:var(--ink3);margin-top:10px}
+
+/* passion / criteria */
+.crit{display:grid;gap:10px}
+.crit .c{background:var(--card);border-radius:var(--r);padding:14px 18px;border:1px solid var(--hair);
+  box-shadow:var(--shadow)}
+.crit .c .n{font-weight:800;color:var(--terra-deep)}
+.quote{border-inline-start:4px solid var(--gold);background:var(--gold-soft);
+  padding:12px 18px;border-radius:0 var(--rs) var(--rs) 0;color:var(--gold-text);font-weight:700;margin:12px 0}
+
+.demopath{counter-reset:d;display:grid;gap:8px}
+.demopath .b{background:var(--card);border-radius:var(--rs);padding:12px 16px 12px 46px;position:relative;
+  border:1px solid var(--hair);font-size:14.5px}
+.demopath .b:before{counter-increment:d;content:counter(d,arabic-indic);position:absolute;left:12px;top:11px;
+  width:26px;height:26px;background:var(--seal-bg);color:var(--seal-hash);border-radius:50%;
+  display:grid;place-items:center;font-weight:800;font-size:13px}
+.demopath .b b{color:var(--terra-deep)}
+
+footer{background:var(--seal-bg);color:var(--seal-ink);text-align:center;padding:44px 20px}
+footer .soul{font-size:24px;color:#f3e7cf;font-weight:800}
+footer .src{color:#8f8878;font-size:12px;margin-top:16px;line-height:1.9}
+footer code{color:var(--seal-hash)}
+.warnbox{background:var(--amber-soft);border:1px solid #e6c99f;border-radius:var(--rs);
+  padding:12px 16px;color:var(--amber);font-size:13.5px;margin-top:12px}
+.tip{font-size:13px;color:var(--ink3);margin-top:6px}
+</style>
+
+<div class="sadu"></div>
+<header class="hero"><div class="in wrap">
+  <div class="logo">عَهد</div>
+  <div class="soul">كلمتك محفوظة، وعلاقتك محميّة</div>
+  <div class="sub">الدرس الشامل للمالك — ما هو المشروع، لماذا كل ميزة، من أين المال، وكيف تفوز على أسئلة الحكّام. صفحة واحدة، تقرؤها فتُجيب مثل صاحب القصة.</div>
+  <div class="badge">هاكاثون أمد ٢٠٢٦ · مصرف الإنماء × طويق · التحكيم ١٨ يوليو</div>
+</div></header>
+
+<nav class="jump"><div class="row">
+  <a href="#answer">الجملة الواحدة</a>
+  <a href="#spine">العمود الفقري</a>
+  <a href="#problem">المشكلة</a>
+  <a href="#how">كيف يعمل</a>
+  <a href="#features">الميزات ولماذا</a>
+  <a href="#tech">لماذا التقسيم التقني</a>
+  <a href="#money">من أين المال</a>
+  <a href="#criteria">معايير الحكّام</a>
+  <a href="#judges">٣٦ سؤال حكم</a>
+  <a href="#passion">كيف تجيب وتستعيد الشغف</a>
+  <a href="#demo">مسار العرض الحيّ</a>
+</div></nav>
+
+<!-- 0 · THE ONE ANSWER -->
+<section id="answer"><div class="wrap">
+  <div class="k">إذا سألك أحد «ما هو عهد؟» — قل هذا فقط</div>
+  <div class="answer">
+    <div class="big">عهد = <b>بنكٌ يَشهد ولا يُقرض</b>.</div>
+    <p class="note">مصرفٌ محايد يكتب القرض الحسن بين شخصين، ويُشهِد عليه عبر <b>نفاذ</b>، ويختمه ببصمة <span class="mono">SHA-256</span> لا تُعبَث، ويُسوّيه، ويُقاصّ الديون المتشابكة — <b>دون أن يُقرض مالًا من عنده، ولا يحكم في خلاف، ولا يأخذ فائدة، ولا يُصنّف الناس</b>.</p>
+  </div>
+  <p class="lead" style="margin-top:22px">لماذا كنت تعطي إجابة مختلفة كل مرّة؟ لأنك كنت تشرح <b>الميزات</b>. الناس لا يتذكّرون الميزات — يتذكّرون <b>المفارقة</b>: بنك… لا يُقرض. ابدأ بها دائمًا، ثم فصّل بقدر السؤال.</p>
+</div></section>
+
+<!-- 1 · SPINE -->
+<section id="spine"><div class="wrap">
+  <div class="k">العمود الفقري — لا يُخترَق أبدًا</div>
+  <h2>أربع محرّمات مصمَّم على نفيها — هذه هويّته لا قيوده</h2>
+  <ul class="spine">
+    <li><span class="x">✗</span><span><b>لا يُقرض</b> — المال مال الناس؛ المصرف شاهدٌ لا مُقرِض. صفر مخاطرة ميزانيّة.</span></li>
+    <li><span class="x">✗</span><span><b>لا يحكم</b> في الخلاف — القضاء مرجعهم؛ نحن نُنتج البيّنة لا الحُكم.</span></li>
+    <li><span class="x">✗</span><span><b>لا يأخذ على القرض شيئًا</b> — لا فائدة، لا غرامة، لا زيادة عند التأخّر. أبدًا.</span></li>
+    <li><span class="x">✗</span><span><b>لا يُصنّف ائتمانيًّا</b> — لا رقم ثقة يُصدَّر أو يُستعلَم أو يُموّل قرارًا.</span></li>
+  </ul>
+  <p class="ayah">﴿ وإذا تداينتم بدَينٍ إلى أجلٍ مسمًّى فاكتبوه ﴾ · ﴿ وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة ﴾</p>
+  <p class="lead">الأولى (٢:٢٨٢) = <b>التوثيق</b>. الثانية (٢:٢٨٠) = <b>الرحمة عند العُسر</b>. المشروع كلّه شرحٌ لهاتين الآيتين ببرمجيّة.</p>
+</div></section>
+
+<!-- 2 · PROBLEM -->
+<section id="problem"><div class="wrap">
+  <div class="k">الجرح — ابدأ عرضك من هنا</div>
+  <h2>أكثر معاملةٍ ماليّة شيوعًا… وبلا منتج</h2>
+  <div class="grid g3">
+    <div class="card"><div class="ico">😬</div><h4>الحرج يقتل الحقّ</h4><div class="why">تطلب مالك فتُصبح أنت «المُطالِب». رسالة «وينك؟» تُرخِص نفسك وتُتلِف العلاقة.</div></div>
+    <div class="card"><div class="ico">💸</div><h4>لا أثر ولا إثبات</h4><div class="why">«ردّها متى ما تيسّر» تُقال بالكلام، تُكتب في دفتر المطبخ أو لا تُكتب — فإذا نُسيت، لا وثيقة ولا شاهد.</div></div>
+    <div class="card"><div class="ico">🕌</div><h4>قلق الورع من الربا</h4><div class="why">مَن أراد أن يُقرض حلالًا يخشى أيّ شرطٍ يجرّه إلى الربا، فيتردّد أو يكتب عقدًا ركيكًا.</div></div>
+  </div>
+  <p class="lead" style="margin-top:18px">الدليل السعوديّ الصلب: <b>السندات لأمر = ٥٨٫٦٪ من طلبات محاكم التنفيذ — ١١٥٫٤ مليار ريال عبر ٥٧١٬٢٥١ قضيّة</b> (وزارة العدل، بيانات ٢٠٢٠–٢١). العادة والأداة موجودتان؛ النسخة <b>العادلة، بلا فائدة، المنظَّمة</b> غير موجودة. تلك هي الفجوة.</p>
+  <p class="tip">النسب العاطفيّة («ثلث السعوديين يقترضون من الأهل») مصدرها مسوحٌ أمريكيّة/عالميّة — استعملها كتوضيح، ودليلك الصلب هو أرقام المحاكم السعوديّة.</p>
+</div></section>
+
+<!-- 3 · HOW IT WORKS -->
+<section id="how"><div class="wrap">
+  <div class="k">المحرّك — أربع خطوات</div>
+  <h2>أنشئ ← أَشهِد واختِم ← سَوِّ ← قاصِص</h2>
+  <div class="steps">
+    <div class="step"><b>أنشئ:</b> المساعد «علّام» يصوغ الشروط بعربيّةٍ واضحة، و<b>فاحص الربا</b> يرصد أي بند غرامة/زيادة و<b>يوقف الختم</b> إن وُجد.</div>
+    <div class="step"><b>أَشهِد واختِم:</b> الطرفان يؤكّدان عبر <b>نفاذ</b>، فتُختَم الوثيقة ببصمة <span class="mono">SHA-256</span> ضمن سلسلةٍ مترابطة = سجلٌّ مشهودٌ لا يُعبَث.</div>
+    <div class="step"><b>سَوِّ:</b> السداد عبر «سريع»؛ وعند العُسر زرّ <b>«أحتاج وقت»</b> يُعيد الجدولة <b>بلا أي زيادة</b>، أو <b>إبراء</b> صدقةً يُغلق الذمّة بكرامة.</div>
+    <div class="step"><b>قاصِص (المقاصّة):</b> عند تشابك الديون، يحسب عهد <b>أقلّ عددٍ من التحويلات</b> — في العرض: <b>٩ التزامات ← تحويلان فقط</b>، مع برهان حفظ المجموع.</div>
+  </div>
+  <div class="quote" style="margin-top:16px">لحظة «الواو» التقنيّة: غيِّر حرفًا واحدًا في الوثيقة → تنكسر البصمة ويظهر «✗ عبثٌ مكشوف» فورًا. لا تشرح الأمان — <b>اكسِره أمامهم</b>.</div>
+</div></section>
+
+<!-- 4 · FEATURES -->
+<section id="features"><div class="wrap">
+  <div class="k">الأسطح — أربعة من روحٍ واحدة، ولماذا كلّ ميزة</div>
+  <h2>الميزات… ولماذا هي موجودة أصلًا</h2>
+  <div class="grid g2">
+    <div class="card"><div class="ico">📔</div><h4>دفتري — بيت الدائن</h4><div class="why"><b>لماذا:</b> كلّ ما لك وما عليك في مكان واحد. سبب الاحتفاظ اليوميّ.</div><div class="kill">القاتلة: «تذكيرٌ بالمعروف» — المصرف يُذكّر المَدين بلطفٍ نيابةً عنك. لا تصير أنت المُطالِب. بلا عدّاد تأخّر، بلا أحمر.</div></div>
+    <div class="card"><div class="ico">♾️</div><h4>القرض المفتوح · متى ما تيسّر</h4><div class="why"><b>لماذا:</b> قرضٌ حسن بلا موعدٍ ولا جدول — لا يُنتج «متأخّرًا» إطلاقًا.</div><div class="kill">القاتلة: زرّ «🤍 اجعلها صدقة (إبراء)» — الفعل الذي يحفظ كرامة الطرفين. للمُقرِض وحده.</div></div>
+    <div class="card"><div class="ico">🔗</div><h4>الدائرة — المصاريف المشتركة</h4><div class="why"><b>لماذا:</b> الطبقة اليوميّة (شقّة/شِلّة): قِسمة بنقرة، ميزان حيّ، تسوية شهريّة. سبب التكرار.</div><div class="kill">القاتلة: الترقية (قَيْد ← عهد) — حين يكبر المبلغ يتحوّل القيد الخفيف تلقائيًّا إلى عهدٍ موثّق مختوم.</div></div>
+    <div class="card"><div class="ico">🔁</div><h4>الدائرة المتقدّمة — عهد المناسبة</h4><div class="why"><b>لماذا:</b> مناسبة واحدة تصير N عهودٍ حسنة موثّقة في لوحة أمين صندوق واحدة. سبب الفيروسيّة (٨–١٢ عضوًا).</div><div class="kill">القاتلة: تذكيرٌ جماعيّ لا يفضح المتأخّر + قِسمة بالأصناف + تكرار تلقائيّ.</div></div>
+  </div>
+  <h3>وميزات المحرّك التي تحرس الروح</h3>
+  <div class="grid g3">
+    <div class="card"><div class="ico">🔏</div><h4>الختم (سلسلة SHA-256)</h4><div class="why">الورقة بين الأصدقاء تُنكَر؛ الختم يجعل الإنكار مستحيلًا تقنيًّا. أي عبثٍ يفضح نفسه.</div></div>
+    <div class="card"><div class="ico">🛡️</div><h4>فاحص الربا</h4><div class="why">البنك السعوديّ لن يلمس منتجًا فيه شبهة. الفاحص محرّك <b>قواعد حتميّ</b> يمنع الربا قبل الختم — <b>لا يُفتي</b>.</div></div>
+    <div class="card"><div class="ico">🌿</div><h4>التأخّر كهرمانيّ لا أحمر</h4><div class="why">المتعثّر ليس مجرمًا — ﴿فنظرةٌ إلى ميسرة﴾. لا غرامة، لا تشهير، لا عدّاد أيام.</div></div>
+    <div class="card"><div class="ico">🪞</div><h4>إشارة الثقة (لا رقم)</h4><div class="why">كلمةٌ نوعيّة من سجلّ الشخص نفسه («وفّى بعهوده») — ٣ مراتب، لا تُصدَّر ولا تُموّل قرارًا.</div></div>
+    <div class="card"><div class="ico">⚖️</div><h4>المقاصّة ٩←٢</h4><div class="why">أبهى لحظة بصريّة: ٩ ديون متشابكة تنهار لتحويلين، والحقوق محفوظة بالهللة، مع برهان.</div></div>
+    <div class="card"><div class="ico">🧭</div><h4>الضمانات والحدود</h4><div class="why">ثلاثة أعمدة (للمدين · للدائن · حدود المصرف)، وكلّ بندٍ تحته «يحرسه:» باسم ملفّ الاختبار.</div></div>
+  </div>
+  <p class="tip" style="margin-top:14px">الأساس التقنيّ: كلّ هذه الأسطح تُعيد استخدام <b>محرّكٍ واحد</b> (الختم، الطيّ، المقاصّة، الرحمة، الإبراء) — اتّساقٌ لا تشتُّت. هذه جملةٌ تُقال للحكّام.</p>
+</div></section>
+
+<!-- 5 · TECH DIVISIONS -->
+<section id="tech"><div class="wrap">
+  <div class="k">لماذا قسّمنا المشروع تقنيًّا هكذا</div>
+  <h2>التقسيم ليس عشوائيًّا — كلّ حدٍّ يخدم الفوز</h2>
+  <div class="grid g2">
+    <div class="card"><h4>سطحان، محرّكٌ واحد</h4><div class="why"><b>العرض المجمَّد</b> (<span class="mono">demo/index.html</span>) = مسرحٌ مثبَّت بايتًا ببايت، لا يُلمَس. <b>التطبيق</b> (<span class="mono">app/</span>، ١٢+ شاشة) = المنتج القابل للنشر. لماذا فصلناهما؟ ليبقى العرض ثابتًا مضمونًا على المسرح، بينما نطوّر التطبيق بحريّة. والتطبيق يُعيد استخدام <b>نسخة طبق الأصل بايتيًّا</b> من محرّك العرض (يُثبتها اختبار <span class="mono">engine-parity</span>).</div></div>
+    <div class="card"><h4>الحتميّة (Determinism)</h4><div class="why">لا <span class="mono">Date.now</span>، لا <span class="mono">Math.random</span>، لا تاريخ نظام، لا فلوت في المال (هللات صحيحة، ١ ريال = ١٠٠). <b>لماذا:</b> نفس المدخلات = نفس الأختام دائمًا — شرط أي تدقيق شرعيّ/قضائيّ، وضمانٌ ألّا «يتصرّف» العرض على المسرح.</div></div>
+    <div class="card"><h4>البصمة الحقيقيّة</h4><div class="why"><span class="mono">SHA-256</span> عبر WebCrypto فعليًّا (لا حيلة عرض)، بمُتحقّقٍ حيّ وزرّ عبث يفشل بالأحمر. <b>لماذا:</b> هذا القلب الوحيد الذي بنيناه «حقيقيًّا كاملًا» — ونقول بصراحة إن نفاذ/سريع/الختم الزمنيّ/الذكاء محاكاةٌ للتكامل.</div></div>
+    <div class="card"><h4>البوّابة (١٬٦٨٧+/٠)</h4><div class="why">اختباراتٌ تعمل <b>دون إنترنت</b> بأمرٍ واحد أمام الحكّام. <b>لماذا:</b> الكلام رخيص؛ اختبارٌ أخضر يُشغَّل أمامهم = ثقةٌ لا تُشترى، ويضعك في أعلى ٥٪ تنفيذًا.</div></div>
+  </div>
+  <div class="warnbox">تحقّق قبل الصعود: شغّل <code>cd tests &amp;&amp; node run-all.cjs</code> — يجب أن تظهر لافتة خضراء <code>AHD GATE ✅</code>. الرقم الدقيق قد يرتفع بين الجلسات (١٬٦٨٧ في بعض الملفّات، ١٬٨٠٩ في أحدثها) — <b>لا تحفظ رقمًا؛ اقرأه من اللافتة صباح ١٨ يوليو</b> كي لا يصير أقوى جوابك بلوفًا.</div>
+</div></section>
+
+<!-- 6 · MONEY -->
+<section id="money"><div class="wrap">
+  <div class="k">من أين المال — بلا ريال ربا واحد</div>
+  <h2>المبدأ: القرض الحسن مجّانيّ للأبد؛ الأجرة على <b>الخدمة</b>، لا على القرض</h2>
+  <div class="freebar">القرض الحسن بين الطرفين: <b>صفر ريال للبنك، للأبد</b> — خطٌّ أحمر. · خدمة التوثيق/الحفظ/المقاصّة: <b>أجرة خدمة ثابتة</b> (حلال: أجرة على عمل حقيقيّ) — لا نسبة، لا تزيد بالتأخّر، منفصلة تعاقديًّا.</div>
+  <h3>مسارات الدخل، مرتّبة بالأمان الشرعيّ</h3>
+  <div class="rev">
+    <div class="r"><span class="tag">R1 · الوضع الافتراضيّ — الـFloat</span><div class="why">عائدٌ على الأرصدة العابرة المحفوظة أمانةً لحظة التسوية عبر «سريع». <b>الأنظف شرعيًّا</b> (لا رسم على القرض إطلاقًا) والأقوى نموًّا (صفر احتكاك سعريّ). لكنه رقيقٌ إن سُوّي فورًا.</div></div>
+    <div class="r"><span class="tag">R2 · أجرة توثيق ثابتة (بديل)</span><div class="why">مبلغٌ ثابت لكل عهدٍ مختوم (مثال ٥ ريال = التكلفة المباشرة الفعليّة)، مفصولٌ عن المبلغ والمدّة — AAOIFI SS-19. <b>مشروط باعتماد هيئة الإنماء الشرعيّة</b>؛ يُقال كخطّة لا كفتوى.</div></div>
+    <div class="r"><span class="tag">R3 · أوّليّة الودائع (الأكبر فعليًّا)</span><div class="why">كل ضيفٍ يتحوّل إلى علاقة وديعةٍ لدى الإنماء (CASA + بيعٌ متقاطع). <b>العهد نفسه هو قناة الاستحواذ</b> — كلفة اكتساب شبه صفر.</div></div>
+    <div class="r"><span class="tag">R4 · B2B — ترخيص للبنوك/المنشآت</span><div class="why">محرّك العهد + المقاصّة كطبقة white-label للإنماء/أرباب العمل (رواتب مساند، الإيجار). <b>تبيع البرمجية لا القروض</b> — مسار «الشركة» الحقيقيّ.</div></div>
+  </div>
+  <p class="lead" style="margin-top:16px"><b>رقمٌ واحد للـpitch:</b> لو ١٪ فقط ممّن يقترضون من الأهل وثّقوا عهدًا واحدًا سنويًّا برسم ٥ ريال — سوقٌ أوّليٌّ بملايين الريالات، بلا ريال ربا. القصّة للحكّام: «الخير مجّانيّ، والبنية التحتيّة لها أجرة — كالمسجد المجّانيّ وبناؤه المدفوع».</p>
+  <p class="tip">لماذا يموّل الإنماء هذا؟ كلفة اكتساب شبه صفر · أوّليّة ودائع · حصنٌ لا يُقلَّد (بنكٌ = «الكاتب العدل لكلمتك» ٢:٢٨٢) · حُسن نيّةٍ تنظيميّ متوافق مع رؤية ٢٠٣٠.</p>
+</div></section>
+
+<!-- 7 · CRITERIA -->
+<section id="criteria"><div class="wrap">
+  <div class="k">معايير التحكيم الخمسة — وكيف نصيب كلّ واحد</div>
+  <h2>ماذا يُقيّمون، وما اللحظة التي تكسب كلّ بند</h2>
+  <div class="crit">
+    <div class="c"><span class="n">١ · الابتكار:</span> «لم أرَ هذا من قبل» + يُعاد بجملة: «البنك يَشهد ولا يُقرض». الفكرة مضادّة للتيار — كلّهم يُقرضون أسرع، أنت لا تُقرض.</div>
+    <div class="c"><span class="n">٢ · التطبيق التقني:</span> لحظةٌ حيّة تُنطِق مهندسًا: <b>اعبث بالوثيقة على المسرح فيكشفها الختم</b>. والعمق بالأرقام لا بالسرد (بوّابة اختبارات، حتميّة، هللات صحيحة).</div>
+    <div class="c"><span class="n">٣ · تحليل البيانات:</span> بياناتٌ على الشاشة: ضغط المقاصّة (المال المتحرّك ١٬٨٠٠←٩٠٠ والصافي صفر) + تجميعات <span class="mono">k-anonymous</span> + أرقام المحاكم. <b>أبدًا رقم فردٍ، أبدًا تصنيف</b>.</div>
+    <div class="c"><span class="n">٤ · تجربة المستخدم:</span> كلّ شاشةٍ تُصوَّر كمنتج سعوديٍّ مشحون. عربيّة أوّلًا، اتجاه السدو، حركةٌ تُوضّح، صفر زاوية غير مصمّمة.</div>
+    <div class="c"><span class="n">٥ · قابليّة التنفيذ:</span> «الإنماء يقدر يطلقه»: عقدان منفصلان + إطارٌ شرعيّ + مسار تكامل — <b>مع اعترافٍ صادق بالحدود، وبلا ادّعاء اعتمادٍ غير مؤكَّد</b>.</div>
+  </div>
+  <div class="quote">السؤال الحاكم بعد كلّ شيء: «هل يجعل الحكم المتعَب يتذكّرنا بعد ساعة؟» إن كانت الإجابة هزّة كتف — العمل لم يكتمل. اللحظتان الذهبيّتان: «✗ عبثٌ مكشوف» و«المقاصّة ٩←٢».</div>
+</div></section>
+
+<!-- 8 · JUDGE QUESTIONS -->
+<section id="judges"><div class="wrap">
+  <div class="k">٣٦ سؤال حكم — وجوابك بنفَسٍ واحد</div>
+  <h2>غرفة حرب الأسئلة</h2>
+  <p class="lead">أجِب في <b>نفَسٍ واحد</b>، ثم قدّم الدليل فقط إن أُلِحَّ. القاعدة الذهبيّة: <b>لا تُقدّم 🔴 على أنّها 🟢</b> — الحكم الذكيّ يعاقب البلوف أشدّ من الثغرة المُعترَف بها.</p>
+  <div class="legend"><span class="dot g"></span> جوابٌ يستند لحقيقةٍ موثّقة &nbsp;·&nbsp; <span class="dot y"></span> تصميمٌ/استدلال دافع به بصراحة &nbsp;·&nbsp; <span class="dot r"></span> ثغرةٌ مفتوحة — اعترف واذكر خطوة الإثبات</div>
+  <div class="filters" id="filters">
+    <button class="on" data-f="all">الكل</button>
+    <button data-f="demand">الطلب والسوق</button>
+    <button data-f="shariah">الشريعة</button>
+    <button data-f="legal">القانون والتنظيم</button>
+    <button data-f="product">المنتج والتمييز</button>
+    <button data-f="tech">التقنية والبيانات</button>
+    <button data-f="growth">النموّ</button>
+    <button data-f="money">المال</button>
+    <button data-f="brand">السمعة</button>
+  </div>
+  <div id="qlist">
+
+  <details class="qa" data-c="demand"><summary><span class="qid">A1</span><span>كلّمتم سعوديًّا واحدًا سيستخدمه؟ أين الطلب؟ <span class="dot g"></span></span></summary><div class="body">السعوديون يوثّقون المال بينهم بحجم <b>مشكلةٍ وطنيّة</b> بأداةٍ فظّة: السندات لأمر = ٥٨٫٦٪ من طلبات التنفيذ، ١١٥٫٤ مليار، ٥٧١ ألف قضيّة (العدل ٢٠٢٠–٢١)، و«ناجز» ٤٣ مليون خدمة في نصف عام. العادة موجودة، والنسخة العادلة غير موجودة.<span class="lbl">الذيل الصادق (🔴):</span> لا يوجد بعد مسحٌ سعوديٌّ أوّليّ يثبت أنّهم يريدونه <b>مشهودًا</b> — «دليل المحاكم صلب، ودليل الدفء هو المقابلات التي نجريها». (أهمّ مهمّةٍ لك هذا الأسبوع: OT-A1.)</div></details>
+
+  <details class="qa" data-c="demand"><summary><span class="qid">A2</span><span>لماذا الإنماء لا الراجحي؟ بنكٌ أكبر يقلّده في شهر. <span class="dot y"></span></span></summary><div class="body">معك حقّ أنّ السكّة تُقلَّد — لذا هي <b>استحواذ فئة لا ميزة</b>. الإنماء لا يبدأ من صفر: عنده <b>AlinmaPay</b> (محفظة مرخّصة حرّكت ٢٫٤ مليار)، ذراعٌ استثماريّ في فنتك شرعيّ (Wadaie)، ومنصّة API. الحصن ثلاثة يجب أخذها الآن: امتلاك الاسم «عهد» + ٢:٢٨٢ · شريك توزيع حصريّ · <b>قفل شبكة الدائرة</b> (تحرّك عهدًا فتتحرّك الدائرة كلّها لأن المقاصّة تربطها). هذا أخطر سؤال — اعترف ثم اغرز الإسفين.</div></details>
+
+  <details class="qa" data-c="shariah"><summary><span class="qid">B1</span><span>أليس أيّ رسمٍ على قرضٍ حسن ربا؟ <span class="dot g"></span></span></summary><div class="body">القرض يحمل <b>صفر</b> رسم أو غرامة — المصرف ليس طرفًا فيه. أيّ رسمٍ يقع على عقد <b>وكالة/أمانة منفصل</b>: ثابتٌ، مفصولٌ عن المبلغ والمدّة، تكلفةٌ مباشرة فقط (AAOIFI SS-19 يمنع ربط الرسم بالمبلغ). والأأمن: <b>مجّانيّ والربح من الـfloat</b> — يلغي السؤال أصلًا. الرقم والفصل لهيئتكم لتعتمدها.</div></details>
+
+  <details class="qa" data-c="shariah"><summary><span class="qid">B2</span><span>فصل العقدين مجرّد حيلة — ربا معاد تسميته. <span class="dot g"></span></span></summary><div class="body">مادة SS-19 (٧/٨) — الحيلة — هي <b>الاختبار الذي نحترمه لا نرسب فيه</b>. الخدمة يجب أن تكون <b>حقيقيّة ومستقلّة، لا شرطًا</b> للقرض. القرض يقف وحده بلا رسم؛ خدمة التوثيق/التسوية عملٌ منفصلٌ ذو قيمة. والافتراضيّ المجّاني/float يعني لا رسم أصلًا لإعادة تسميته.</div></details>
+
+  <details class="qa" data-c="shariah"><summary><span class="qid">B3</span><span>البنك لا يصلح شاهدًا — وإن شهد صار مسؤولًا عن الدَّين. <span class="dot g"></span></span></summary><div class="body">صحيح، ولا ندّعيه. آية الدَّين تسمّي دورين: <b>الكاتب بالعدل</b> و<b>الشاهدان</b>. الإنماء هو <b>الكاتب</b> (يصوغ ويحفظ)؛ الإشهاد للطرفين + نفاذ. الشركة لا تشهد، فنقول «كاتب» لا «شاهد». والسجلّ يذكر صراحةً <b>أربعة أشياء لا يضمنها البنك</b> (أن المال تحرّك، العدل، الطواعية، صدق الأصل) — يوثّق واقعة التوقيع لا الدَّين. صفر تعرّض ميزانيّة.</div></details>
+
+  <details class="qa" data-c="shariah"><summary><span class="qid">B4</span><span>ماذا عن التعثّر؟ غرامة التأخير ربا. <span class="dot g"></span></span></summary><div class="body">حالة «متعثّر» <b>بلا أيّ عقوبة</b> — قاعدة لا مكرمة. تُغيّر نبرة التذكير وتُتيح تصدير البيّنة فقط. وعند العُسر الحقيقيّ <b>المهلة واجبة لا اختياريّة</b> — ٢:٢٨٠. الردع اجتماعيٌّ وإثباتيٌّ، لا ماليّ. التصعيد الوحيد تعهّد صدقةٍ اختياريّ — لإحسان لا للمُقرِض ولا البنك، ولا على المُعسِر (SS-3).</div></details>
+
+  <details class="qa" data-c="shariah"><summary><span class="qid">B5</span><span>هل يُصدر الذكاء فتوى أو يصوغ بندًا حرامًا؟ <span class="dot g"></span></span></summary><div class="body">أبدًا. الذكاء مقيّدٌ بمكتبة قوالب معتمَدة — يختار ويملأ فقط. وفاحص الربا <b>lint حتميّ</b> ضدّ قائمة أنماطٍ ثابتة (فائدة، ٪، غرامة، عمولة)، لا حكم LLM — أضِف «١٠٪ غرامة» فتصير الشارة حمراء ويُعطَّل زرّ الختم حيًّا.<span class="lbl">تحفّظ صادق:</span> نفي عربيّ صدر السطر («بلا فائدة») قد يُوقفه خطأً — حالةٌ حدّيّة معروفة تُرقَّع خارج المسرح.</div></details>
+
+  <details class="qa" data-c="legal"><summary><span class="qid">C1</span><span>هل السجلّ مقبولٌ قضائيًّا فعلًا؟ قولكم لا يجعله كذلك. <span class="dot g"></span></span></summary><div class="body">نهندس <b>السلامة لا الحُكم</b>: SHA-256 (سلامة) + إثباتات نفاذ (نسبة) + ختم RFC-3161 (زمن) + سلسلة وتوقيع البنك (عدم إنكار). ونظام الإثبات (م/٤٣، ٢٠٢٢) <b>ينقل العبء إلى مَن يُنكر</b> الدليل الرقميّ.<span class="lbl">الذيل (🔴):</span> أرقام الموادّ الدقيقة غير متحقّقةٍ أوّليًّا، ومزوّد الختم المعتمَد قيد الإجراء — قل «شروطٌ شبه قاطعة» لا «مضمون».</div></details>
+
+  <details class="qa" data-c="legal"><summary><span class="qid">C2</span><span>أهذا إقراض؟ يحتاج رخصة تمويل ومخاطرة ميزانيّة؟ <span class="dot g"></span></span></summary><div class="body">لا. نظام مراقبة شركات التمويل يعرّف التمويل بأنّه «منح ائتمان بعقد» — و<b>الدائن فردٌ خاص</b>، والبنك يقيّد <b>صفر ذمّة مدينة</b>، فلا نشاط تمويل. اللمسة المنظَّمة الوحيدة هي المدفوعات: أموالٌ عابرة تُدار <b>كوكيلٍ على سكّة الإنماء المرخّصة</b>، عبر <b>مختبر ساما التنظيميّ</b> بخطّة خروج.</div></details>
+
+  <details class="qa" data-c="legal"><summary><span class="qid">C4</span><span>هل تسمح سدايا/نفاذ أصلًا بـ AES لدَينٍ فرديّ خاص؟ <span class="dot r"></span></span></summary><div class="body">هذا الإذن <b>مفترَضٌ لا مؤكَّد</b> — أصدق بندٍ مفتوحٍ عندنا، وهو <b>خطوة إثبات لا إعادة تصميم</b>. البنية مُقلَّلة البيانات ومتوافقة PDPL (رضا + عقد، إثبات هويّة + بصمة رقم، لا تخزين حيويّ، داخل المملكة). المطلوب موافقة استخدامٍ نؤمّنها قبل الإنتاج. <b>اعترف بهذا نظيفًا، لا تدّعِه على المسرح.</b></div></details>
+
+  <details class="qa" data-c="product"><summary><span class="qid">D1</span><span>أليس هذا مجرّد PDF موثّق أو سند لأمر مزخرف؟ <span class="dot g"></span></span></summary><div class="body">السند المجرّد <b>بلا أجلٍ وقابلٌ للإساءة</b> — لا بنية قرضٍ حسن، لا جدول، لا تسوية، حتى إنّ ساما قيّدت طلبه من المستهلكين. عهد يضيف الأربعة الناقصة: <b>شروطٌ عادلة بلا فائدة يصوغها الذكاء، جدول سداد، تسوية تلقائيّة عبر سريع، وبناءٌ نظيفٌ شرعيًّا</b> — والمُقرِض يوقّع أوّلًا فيصل للمقترض <b>إيصال هديّة لا مطالبة</b>.</div></details>
+
+  <details class="qa" data-c="product"><summary><span class="qid">D2</span><span>أليس هذا Splitwise؟ لماذا يحتاج الناس بنكًا؟ <span class="dot g"></span></span></summary><div class="body">Splitwise <b>يحسب فقط</b> — لا عربيّة، لا تسوية، لا شاهد، لا سجلّ نافذ. و«سريع» يحرّك المال لكن لا يسجّل الشروط. «ناجز» يوثّق العقار لا المال الشخصيّ العابر. <b>لا أحد يُنتج إقرارًا مشهودًا بنفاذ، مختوم السلامة، يُسوّى تلقائيًّا عبر سريع</b> — وبنكٌ إسلاميٌّ وحده يملك فئة الأمانة/الوكالة/القرض الحسن/٢:٢٨٢. Splitwise حاسبة؛ عهد صكٌّ مشهودٌ يُسوّى.</div></details>
+
+  <details class="qa" data-c="product"><summary><span class="qid">D3</span><span>معظم المال الشخصيّ صغيرٌ ومبنيٌّ على الثقة — تحسينٌ لا رَكيزة. <span class="dot g"></span></span></summary><div class="body">رأس الجسر ليس القروض الصغيرة العابرة — بل المال <b>المتكرّر عالي التردّد</b> (رواتب، إيجار، أقساط) + <b>قرض العائلة عالي المخاطر</b> حيث الألم حقيقيّ. المتكرّر يحوّل ~٤ أحداث/سنة إلى ~١٨. وأرقام المحاكم تثبت أنّه ليس تافهًا — ١٠٠+ مليار ريال حركة تنفيذ.</div></details>
+
+  <details class="qa" data-c="tech"><summary><span class="qid">E1</span><span>بصمتكم مسرحيّة — ومعظم سلسلة القيمة محاكاة. <span class="dot g"></span></span></summary><div class="body">البصمة <b>SHA-256 حقيقيّة عبر WebCrypto دون إنترنت</b>، بمُتحقّقٍ حيّ وزرّ عبثٍ يفشل بالأحمر — لا بديل عرض. ونحن صرحاء أن <b>نفاذ والتوقيع وسريع والذكاء والختم الزمنيّ محاكاة تكامل</b> — العمق الحقيقيّ <b>قانونيّ/مفاهيميّ</b> (الختم، عقيدة الكاتب، المراتب المتدرّجة). في بناء ٧٢ ساعة: الحبل التشفيريّ حقيقيّ والتكاملات مجزّأة، ونقول أيّها أيّ.</div></details>
+
+  <details class="qa" data-c="tech"><summary><span class="qid">E2</span><span>المقاصّة «تقلّل» التحويلات؟ أعطيك مثالًا مضادًّا. <span class="dot g"></span></span></summary><div class="body"><b>لا ندّعي الحدّ الأدنى</b> — ذلك NP-hard، ونكشف مثالًا يعطي فيه الجشع ٤ والأمثل ٣. ندّعي <b>≤ (عدد الأطراف − ١) تحويلًا</b> (كل تكرار يُصفّر طرفًا)، <span class="mono">O(E + n log n)</span>، <b>محفوظ الصافي</b> (كلٌّ يسوّي صافيه بالضبط). وجدول الحفظ يثبت «قبل = بعد» (٩ إقرارات ← تحويلان، Σ=صفر). أقوى ما تكون حين تعترف بالمثال المضادّ أوّلًا.</div></details>
+
+  <details class="qa" data-c="tech"><summary><span class="qid">E3</span><span>تُقاصّون ديونًا بين أناسٍ لم يتّفقوا — هذا غرر. <span class="dot g"></span></span></summary><div class="body">كلّ ساقٍ مقاصّةٍ يُنفَّذ <b>كتحوّلٍ (novation) برضا</b> — كل طرفٍ متأثّرٍ يعيد التأكيد بنقرةٍ قبل أي تحويل، ورفضٌ يُرجِع للتسوية الثنائيّة. تلك <b>المقاصّة الكلاسيكيّة</b>، عهدُ عهودٍ مشهود — الرضا يزيل الغرر.<span class="lbl">صدق البناء:</span> تأكّد أن بطاقة موافقة كلّ عضوٍ فعلًا في البناء الذي تعرضه، أو اشرح موضعها.</div></details>
+
+  <details class="qa" data-c="tech"><summary><span class="qid">E4</span><span>إشارة ثقتكم تصنيفٌ ائتمانيٌّ ممنوع. <span class="dot g"></span></span></summary><div class="body"><b>رفض التصنيف هويّتنا لا نقصنا</b> — لن نحوّل المعروف إلى تقييم. وبنيويًّا <b>عاجزةٌ</b> عنه: نسبة وفاءٍ منزلقة متحلّلة من سجلّ الشخص نفسه فقط، تُعرَض <b>مرآةً من ٣ مراتب — لا رقم، لا ترتيب، لا تُصدَّر، لا تُموّل قرارًا، لا تصل سمة، لا تغادر الطرفين</b>. كلّ مخرجٍ يحمل أعلامًا: <span class="mono">is_number_exported:false</span>. مرآةٌ خاصّة لا درجة.</div></details>
+
+  <details class="qa" data-c="tech"><summary><span class="qid">E5</span><span>«سريع» لا يسحب صامتًا — فـ«التسوية التلقائيّة» كذبة. <span class="dot g"></span></span></summary><div class="body">صحيح — «سريع» <b>دفعٌ فقط</b>. التسوية التلقائيّة الحقّة تحتاج <b>تفويضًا دائمًا يُلتقَط عند التوقيع</b>؛ وبدونه هي <b>تأكيدٌ-ثمّ-دفع صادق</b>. والأقساط فوق ٢٠٬٠٠٠ ريال تُقسَّم تلقائيًّا احترامًا لسقف المعاملة. لا ندّعي سحبًا صامتًا أبدًا.</div></details>
+
+  <details class="qa" data-c="tech"><summary><span class="qid">H1</span><span>أين تحليل البيانات؟ (معيارٌ مُقيَّم) <span class="dot g"></span></span></summary><div class="body">ثلاث طبقات صادقة: <b>على الشاشة</b> — المقاصّة تضغط ٩ التزامات إلى تحويلين وتثبت الحفظ حيًّا (المال المتحرّك ١٬٨٠٠←٩٠٠ وصافي كلٍّ صفر)، ثم تجميعات <span class="mono">k-anonymous</span>؛ وبقاعدة الروح <b>لا رقم فرد، لا تصنيف</b>. <b>خلفها</b> أرقام المحاكم. <b>أمامها</b> أداة مسحٍ طلبٍ غير موجِّهة جاهزة. «نُريكم فجوةً مسمّاة لا بياناتٍ مزيّفة».</div></details>
+
+  <details class="qa" data-c="growth"><summary><span class="qid">F1</span><span>هل هو فيروسيّ؟ اشتراط طرفين عادةً يقتلكم. <span class="dot y"></span></span></summary><div class="body"><b>لا ندّعي الفيروسيّة.</b> k العضويّ ≈ ٠٫١٠–٠٫٣٦ (روابط الدعوة أضعف صنف)، ونقولها. النموّ صادق: الحلقة العضويّة، <b>مضخّمةً داخل الدوائر الكثيفة</b> بالمقاصّة (k محلّيّ >١)، و<b>مُيسَّرةً</b> بحضور المحافظ/KYC الذي يخلقه تفويض رواتب ٢٠٢٦.<span class="lbl">تصحيح صادق:</span> ذلك التفويض سكّةٌ أحاديّة (رب عمل←محفظة)، لا يصنع رَكيزةً ثنائيّة ولا يُصلح k<١. الـGTM الثنائيّ عملٌ منفصل.</div></details>
+
+  <details class="qa" data-c="growth"><summary><span class="qid">F2</span><span>طلب توقيعٍ إلكترونيّ من حبيبٍ يُقرأ إهانةً. <span class="dot y"></span></span></summary><div class="body">ذلك الشعور القاتل الوحيد — فحوّلناه لقلب المنتج. الصكّ <b>متدرّج</b> (خاص/خفيف/كامل)، و<b>المُقرِض يوقّع أوّلًا ويُعطي</b>: تصل الدعوة «نورة وفّت بكلمتها وأعطتك ٥٬٠٠٠ بلا فائدة — أكّد الاستلام» — <b>إيصال هديّة لا اتهام</b>. التوثيق يصير <b>طاعةً لـ٢:٢٨٢</b>.<span class="lbl">أحدّ ثغرة ثقافيّة (🔴):</span> «التوقيع أوّلًا» يعالج شعور المقترض، لكنّ المُقرِض ما زال يقترح صكًّا لحبيب — خفِّف ولا تدّعِ الحلّ التامّ.</div></details>
+
+  <details class="qa" data-c="growth"><summary><span class="qid">F3</span><span>المقترض لا سبب لديه للانضمام — يأخذ المال فقط. <span class="dot y"></span></span></summary><div class="body">المقترض ينال ما لا يمنحه إقرارٌ شفويّ: <b>حقّ التسوية النهائيّة المشهودة</b>، بضمانٍ حديديّ صفر ربا وصفر غرامة. التوقيع يحمي <b>المقترض</b> أكثر من المُقرِض — يسقُف التزامه ويُثبت أنّه قرضٌ حسن لا فائدةً مقنّعة.<span class="lbl">قوِّه:</span> اجعل «ذِمّة محفوظة» <b>إبراءً يستدعيه المقترض</b>، واعرض حمايات المقترض كميزته هو — كما يفعل بناء «القرض المفتوح».</div></details>
+
+  <details class="qa" data-c="growth"><summary><span class="qid">F4</span><span>يُستخدَم مرّتين بالسنة — لا احتفاظ. <span class="dot g"></span></span></summary><div class="body">الرواتب والإيجار والأقساط <b>شهريّة</b> — كائن العهد المتكرّر يحوّل ~٤ أحداث/سنة إلى ~١٨، مضاعفًا الاحتفاظ. سجلّ العهود + مرآة الكلمة الخاصّة هما خطّافا العودة؛ والعاطفيّ منها كرامة مشاهدة <b>ذمّةٍ تُغلَق</b>.<span class="lbl">صدق:</span> أرقام الاحتفاظ (D1/D7/D30) نموذجيّة توضيحيّة لا مقيسة — لا تقدّمها كأنّها مُقاسة.</div></details>
+
+  <details class="qa" data-c="money"><summary><span class="qid">G1</span><span>أين الإيراد بلا فائدة؟ الـfloat رقيق — هذا مركز تكلفة. <span class="dot y"></span></span></summary><div class="body">خمسٌ، لا فائدة فيها: <b>float</b> على الأرصدة العابرة (أمانة)؛ <b>اكتساب شبه صفر التكلفة</b> (كل عهدٍ يجرّ طرفًا ثانيًا)؛ <b>أوّليّة الودائع</b> (بيعٌ متقاطع حلال)؛ <b>رسم B2B ثابت اختياريّ</b> (رواتب/HR — لا نسبة من الأصل)؛ و<b>حصنٌ لا يُقلَّد</b>. يُموّل <b>الحضور والوضع</b> لا الإقراض، على سوقٍ مرساتُه ٢١٣ مليار تحويلات و١١٥+ مليار دينٍ موثّق.<span class="lbl">قل «توضيحيّ» بصوتٍ عالٍ:</span> الأرقام مشروطة بهيئة الإنماء وبياناتها.</div></details>
+
+  <details class="qa" data-c="money"><summary><span class="qid">H4</span><span>ما نموذج الربح إن لم تكن فائدة؟ (نفَسٌ واحد) <span class="dot y"></span></span></summary><div class="body"><b>أجرة خدمة/اشتراك بالتكلفة المباشرة</b> — AAOIFI SS-19 يمنع ربط أيّ رسمٍ بمبلغ القرض، ولا نفعل — <b>زائدًا ما يشتريه عهد للإنماء استراتيجيًّا: احتفاظ، حضورٌ يوميّ</b> عبر دفتري والدائرة، <b>وإسفين تجربة القرض الحسن الذي لا يملكه منافس</b>؛ ومنهجيّة الرسم نفسها <b>لهيئة الإنماء الشرعيّة لتعتمدها</b>. قل «مشروطٌ بالهيئة» ولا تقتبس رقمًا.</div></details>
+
+  <details class="qa" data-c="money"><summary><span class="qid">G2</span><span>دينيٌّ جدًّا / متخصّصٌ جدًّا لرَكيزةٍ وطنيّة. <span class="dot g"></span></span></summary><div class="body">آية الدَّين (٢:٢٨٢) <b>أطول آيةٍ في القرآن</b> — تأمر <b>كلّ</b> مسلمٍ بكتابة الدَّين. عهد يجعل ٣٥ مليونًا يمتثلون بنقرة. طبقة الإيمان ليست حدًّا — هي <b>قناة التوزيع</b> والحصن الذي لا يقلّده بنكٌ تقليديّ. والسكّة عالميّة: ٩٩٪ نفاذ إنترنت، ٢٣٫٥ مليون مستخدم نفاذ، ٧٩٪ بلا نقد.</div></details>
+
+  <details class="qa" data-c="brand"><summary><span class="qid">A10</span><span>عند التعثّر، <b>بنكٌ</b> ينبّه الناس على ديون أحبّتهم ويسلّح المحاكم ضدّ العائلة — أليس هذا خيانةً لأطروحة الدفء؟ <span class="dot r"></span></span></summary><div class="body">التوتّر حقيقيٌّ ونأخذه بجدّيّة. التصميم يدفع عكسه: <b>بلا عقوبة أبدًا</b>، <b>مهلةٌ واجبة</b> (٢:٢٨٠)، تذكيرٌ بصوت المصرف اللطيف <b>بلا عدّاد أيّامٍ للمدين</b>، إيقاعٌ رحيمٌ محدودٌ <b>يتوقّف ويسلّم</b>، وتصدير البيّنة حقٌّ أخيرٌ للمُقرِض وحده — لا آلة مطالبة. الهدف <b>وبقيت المودّة</b>.<span class="lbl">اعترف (🔴):</span> هذا موقفُ أخلاقيّاتِ منتجٍ لا مشكلةٌ محلولة — اعرض التصميم على الشاشة كي يكون <b>مُبرهَنًا لا مُدّعى</b>.</div></details>
+
+  <details class="qa" data-c="demand"><summary><span class="qid">H2</span><span>بنيتم هذا قبل الهاكاثون؟ <span class="dot g"></span></span></summary><div class="body">نعم — بفخر، وداخل بنية البرنامج نفسها. الفكرة <b>قُدّمت عند التسجيل</b> (بوّابة ٢٦ يونيو)، والبرنامج الإثرائيّ للمنظّمين <b>٥–١٦ يوليو</b> — اثنا عشر يومًا قبل الأيّام الحضوريّة (١٦–١٨) — مصمّمٌ ليصل الفريق أقوى. الساعات الـ٧٢ للتكامل والصقل لا للبدء من صفر. وكلّ سطرٍ ملكنا ومُثبَت: سجلّ git مفتوح، والحزمة تُفحَص آليًّا.</div></details>
+
+  <details class="qa" data-c="tech"><summary><span class="qid">H3</span><span>لماذا نصدّق أرقام اختباراتكم؟ <span class="dot g"></span></span></summary><div class="body">لا تصدّقونا — <b>شغّلوها</b>، أمرٌ واحد: <span class="mono">cd tests &amp;&amp; node run-all.cjs</span>. البوّابة <b>حتميّة ودون إنترنت</b> — لا <span class="mono">Date.now</span>، لا <span class="mono">Math.random</span>، لا شبكة — تطبع نفس اللافتة الخضراء على أيّ جهازٍ في ~٤ ثوانٍ، <b>زائدًا tripwire يثبت أن العرض مجمَّدٌ بايتيًّا</b>. أرقامٌ ليست شرائح؛ أمرٌ نسلّمك اللابتوب لتشغيله.<span class="lbl">أبقِها طازجة:</span> أعد التشغيل صباح ١٨ يوليو وحدّث الرقم — رقمٌ قديمٌ يحوّل أقوى جوابك بلوفًا.</div></details>
+
+  <details class="qa" data-c="product"><summary><span class="qid">X1</span><span>ماذا لو رفض الطرف الثاني التوقيع؟ <span class="dot y"></span></span></summary><div class="body">يبقى العهد في مرتبةٍ خفيفة (قَيْد/ملاحظة خاصّة) غير مشهود — لا نُجبر أحدًا. والمُقرِض وقّع وأعطى أصلًا، فلا يخسر شيئًا؛ ومتى وافق الطرف الثاني تُرقّى تلقائيًّا إلى عهدٍ مختوم. الرفض حالةٌ مُصمَّمة لا عطل.</div></details>
+
+  <details class="qa" data-c="product"><summary><span class="qid">X2</span><span>لماذا الاسم «عهد»؟ <span class="dot g"></span></span></summary><div class="body">«عهد» = الكلمة/الميثاق — جوهر المنتج: كلمتك محفوظة. تربطه فورًا بـ«أوفوا بالعهد» و٢:٢٨٢، وتُعطي الإنماء <b>اسم فئةٍ يملكه</b> (جزءٌ من الحصن ضدّ التقليد). قصيرٌ، عربيٌّ، لا يحتاج ترجمة.</div></details>
+
+  <details class="qa" data-c="growth"><summary><span class="qid">X3</span><span>ما خطّة السنة الأولى / كيف تصلون للمليون؟ <span class="dot y"></span></span></summary><div class="body">رأس الجسر: <b>مساند/الرواتب</b> (>٢ مليون أسرة عمالةٍ منزليّة صارت رواتبها رقميّة ٢٠٢٦) + طيّارات شقق/عائلات. البذرة مرساةٌ بتفويضٍ حكوميٍّ حقيقيّ لا بمنحنى فيروسيّ متفائل، مع مضاعف عضويّ ١٫٥٧× (نتيجة k≈٠٫٣٦). <b>اعترف:</b> قناة الاكتساب المكلَّفة (channel + CAC) عملٌ يُنجَز — وأشِر لأصول توزيع الإنماء.</div></details>
+
+  <details class="qa" data-c="brand"><summary><span class="qid">X4</span><span>من فريقكم؟ لماذا أنتم؟ <span class="dot y"></span></span></summary><div class="body">أنت <b>صاحب القصّة الوحيد في القاعة</b> — سعوديٌّ يبني لسعوديين بنسيج السدو وقيم القرض الحسن، لا تطبيقًا أمريكيًّا مترجمًا. ومعك <b>منتجٌ يعمل دون إنترنت + بوّابة اختبارات خضراء</b> أمامهم — تنفيذٌ في أعلى ٥٪. اشرح كأنك تحكي لصديق، لا كأنك تدافع.</div></details>
+
+  <details class="qa" data-c="legal"><summary><span class="qid">X5</span><span>كيف تحمون الخصوصيّة (PDPL)؟ <span class="dot g"></span></span></summary><div class="body">مُقلَّل البيانات بالتصميم: أساس الرضا + العقد، إثبات هويّةٍ + <b>بصمة رقم</b> لا الرقم، <b>لا تخزين حيويّ</b>، والبيانات داخل المملكة. إشارة الثقة لا تغادر الطرفين ولا تصل سمة. الخصوصيّة مبنيّةٌ لا ملصقة.</div></details>
+
+  <details class="qa" data-c="demand"><summary><span class="qid">X6</span><span>كيف تتوسّعون خارج السعوديّة؟ <span class="dot y"></span></span></summary><div class="body">أوّلًا نملك السعوديّة — البنية (نفاذ/سريع/نظام الإثبات) سعوديّة، والفئة الدينيّة عالميّة. التوسّع لاحقٌ لأسواق إسلاميّة بنيتها الرقميّة ناضجة (الخليج). لكن على المسرح: <b>ركّز على الفوز في المملكة</b> — التوسّع المبكّر يُضعف القصّة.</div></details>
+
+  </div>
+</div></section>
+
+<!-- 9 · PASSION -->
+<section id="passion"><div class="wrap">
+  <div class="k">كيف تجيب مثل المحترفين — وتستعيد الشغف</div>
+  <h2>أنت الوحيد الذي يملك هذه القصّة</h2>
+  <div class="grid g2">
+    <div class="card"><h4>لماذا احتمالك ليس ضعيفًا</h4><div class="why">اللجنة تشوف ~١٠٠٠ فكرة أغلبها شرائح ووعود. أنت معك <b>تطبيقٌ يعمل دون إنترنت وبوّابة اختباراتٍ خضراء يشغّلونها بأنفسهم</b> — أعلى ٥٪ تنفيذًا. والفكرة <b>مضادّة للتيار</b>: الحكم المتعَب يتذكّر «البنك الذي لا يُقرض»، لا القرض السريع رقم ٤٠٠.</div></div>
+    <div class="card"><h4>ضعفك الوحيد الصادق</h4><div class="why">لا مستخدم حقيقيّ بعد؛ كلّ البيانات <span class="pill no">fixtures</span> معلَّمة. أهمّ ما تفعله <b>أنت</b> هذا الأسبوع: استبيان OT-A1 — ٢٠ ردًّا يقلب «لا مستخدمين» إلى «طلبٌ موثّق». ادخل بعقليّة «أنا الأعلى جاهزيّة»، فإن خسرت تخسر على الذوق لا التقصير.</div></div>
+  </div>
+  <div class="quote">درس التسويق الأهم: <b>لا تشرح المزايا — اعرضها تنكسر وتصحّ أمامهم</b>. زرّ العبث في ٤ شاشات لهذا السبب: الجمهور يصدّق ما يراه ينكسر.</div>
+  <h3>القصّة في ٣ دقائق</h3>
+  <div class="steps">
+    <div class="step"><b>افتح بالجرح (١٥ث):</b> «كم علاقة انقطعت بسبب ٥٠٠ ريال؟ نُقرض أهلنا كل يوم — بلا ورقة، بلا شاهد، بلا كرامة عند التذكير.»</div>
+    <div class="step"><b>السطر القاتل (٥ث):</b> «عهد: بنكٌ يَشهد ولا يُقرض.»</div>
+    <div class="step"><b>العرض الحيّ (٩٠ث):</b> أنشئ عهدًا ← الفاحص يمنع الغرامة ← اختم ← اعبث فينكسر ← المقاصّة ٩←٢.</div>
+    <div class="step"><b>الصدق (١٥ث):</b> «كل الأرقام بيانات اختبار معلَّمة، والبوّابة تعمل الآن أمامكم — شغّلوها.»</div>
+    <div class="step"><b>اختم بالروح (١٠ث):</b> «كلمتك محفوظة، وعلاقتك محميّة.»</div>
+  </div>
+</div></section>
+
+<!-- 10 · DEMO PATH -->
+<section id="demo"><div class="wrap">
+  <div class="k">مسار العرض الحيّ — ٧ لمسات</div>
+  <h2>ما تنقره بالضبط على المسرح</h2>
+  <div class="demopath">
+    <div class="b"><b>الافتتاح البارد:</b> من «حافظة الإثبات» المُجهَّزة، اضغط «جرّب العبث بالمبلغ 🧪» ← يظهر «✗ عبثٌ مكشوف» ← «أصلِح الوثيقة». ثم قل «بنكٌ يَشهد ولا يُقرض».</div>
+    <div class="b"><b>سطر المشكلة:</b> أثناء التنقّل للرئيسية ← «أنشئ عهدًا».</div>
+    <div class="b"><b>لحظة الورع:</b> «🧪 شرط غرامة» ← الفاحص يوقف الختم ويعرض البديل ← «أزِل الشرط» ← «اختم العهد عبر نفاذ (محاكاة)».</div>
+    <div class="b"><b>الرحمة:</b> «♾️ قرضٌ مفتوح» ← «🤍 اجعلها صدقة» ← «أُبرئ المبلغ كاملًا لوجه الله».</div>
+    <div class="b"><b>⭐ المقاصّة:</b> «🔗 المقاصّة» تفتح محسوبة: ٩←٢ + «المال المتحرّك ١٬٨٠٠⟶٩٠٠» + جدول المراكز. (أشِر، لا زرّ.)</div>
+    <div class="b"><b>الأرقام:</b> لمحة الطرفيّة الخضراء (لافتة البوّابة شُغّلت قبل دقائق) — ثانيتان ثم عُد.</div>
+    <div class="b"><b>الإغلاق:</b> الإنماء + «مَن يُعرّف الفئة يملكها» + الطلبات ← العودة للرئيسيّة على «كلمتهم محفوظة، وعلاقتهم محميّة».</div>
+  </div>
+  <div class="warnbox">أبقِ تبويبين مفتوحين: العرض المجمَّد (<span class="mono">demo/index.html</span>) + التطبيق (<span class="mono">node app/_serve-app.cjs</span> ← <span class="mono">localhost:8124</span>). كلاهما دون إنترنت وحتميّ. مخرج الطوارئ في العرض: <span class="mono">Esc</span>.</div>
+</div></section>
+
+<footer>
+  <div class="soul">كلمتك محفوظة، وعلاقتك محميّة</div>
+  <p style="color:#b8ae97;margin-top:6px">عهد — بنكٌ يَشهد ولا يُقرض</p>
+  <div class="src">
+    مصادر داخليّة: <code>docs/JUDGE-LENS.md</code> · <code>docs/DECK-DRAFT-AR.md</code> · <code>docs/OWNER-LESSONS.ar.md</code> · <code>docs/evidence/REBUTTAL-PLAYBOOK.md</code> · <code>docs/PRESENTER-GUIDE.md</code> · <code>08_Ahd_Deep/Agent-4/business-case.md</code><br>
+    درسٌ للمالك — ليس للحكّام. الأرقام المُعلَّمة توضيحيّة أو تنتظر إثباتًا؛ لا تُقال كحقائق مؤكَّدة على المسرح.
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('#filters button');
+  var cards=document.querySelectorAll('#qlist .qa');
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    var f=b.getAttribute('data-f');
+    cards.forEach(function(c){
+      c.style.display=(f==='all'||c.getAttribute('data-c')===f)?'':'none';
+    });
+  });});
+})();
+</script>

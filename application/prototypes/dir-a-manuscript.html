@@ -63,7 +63,7 @@ body{margin:0; background:var(--stage); color:var(--stage-ink);
 .wordmark{position:relative; z-index:2; margin-top:20px; text-align:center}
 .wordmark .w{font-size:56px; font-weight:800; color:var(--gold-deep);
   text-shadow:0 1px 0 rgba(43,36,26,.18), 2px 3px 6px rgba(43,36,26,.22);
-  letter-spacing:1px}
+  letter-spacing:-.02em}
 .wordmark .t{font-size:13px; color:var(--mut); margin-top:2px; font-weight:600}
 .wordmark .verse{font-size:12.5px; color:var(--gold); margin-top:8px; line-height:1.9; padding:0 8px}
 /* wax seal disc hanging bottom-corner of the scene */
@@ -83,14 +83,14 @@ body{margin:0; background:var(--stage); color:var(--stage-ink);
 .badge.stop{background:radial-gradient(circle at 32% 28%, #c15334 0%, var(--stop) 55%, #4a1408 100%); color:#f4e3c8;
   box-shadow:0 0 0 8px rgba(143,44,20,.20), 0 0 0 18px rgba(143,44,20,.10), inset 0 0 0 4px rgba(0,0,0,.18), 0 16px 40px rgba(0,0,0,.4)}
 .badge .stamp{position:absolute; bottom:14px; font-size:9px; letter-spacing:2px; color:rgba(244,227,200,.7); font-weight:700}
-.badge-h{font-size:25px; font-weight:800; color:var(--gold-deep); text-align:center; line-height:1.4}
+.badge-h{font-size:25px; font-weight:800; color:var(--gold-deep); text-align:center; line-height:1.4; letter-spacing:-.01em}
 .badge-s{font-size:13px; color:var(--mut); text-align:center; margin-top:-8px; padding:0 26px; line-height:1.8}
 
 /* ---- cream bottom sheet (kept from v2) ---- */
 .sheet{flex:1; background:var(--cream); color:var(--ink); border-radius:var(--r-sheet) var(--r-sheet) 0 0;
   margin-top:auto; padding:20px 20px 30px; box-shadow:0 -10px 40px rgba(0,0,0,.24); position:relative; z-index:5}
 .grab{width:44px; height:5px; border-radius:999px; background:var(--paper-line); margin:0 auto 16px}
-.sh-title{font-size:22px; font-weight:800}
+.sh-title{font-size:22px; font-weight:800; letter-spacing:-.02em}
 .sh-sub{color:var(--mut); font-size:12.5px; margin-top:2px; margin-bottom:14px}
 .rows{display:flex; flex-direction:column; gap:10px}
 .rowc{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
@@ -134,6 +134,22 @@ body{margin:0; background:var(--stage); color:var(--stage-ink);
 .stage-foot{margin-top:36px; text-align:center; color:#8f8878; font-size:12px; line-height:2}
 .stage-foot code{font-family:var(--mono); direction:ltr; unicode-bidi:embed; color:#c9a45c}
 @media (max-width:1320px){ .phone{width:360px; height:740px} }
+
+/* instant thumb feedback on all interactive controls */
+.go, .actbar .primary, .actbar .ghost{transition:transform .12s ease-out}
+.go:active, .actbar .primary:active, .actbar .ghost:active{transform:scale(.97)}
+@media (prefers-reduced-motion: reduce){
+  .go, .actbar .primary, .actbar .ghost{transition:none}
+  .go:active, .actbar .primary:active, .actbar .ghost:active{transform:none}
+}
+
+/* progressive-disclosure pattern (copied from dir-b-sadu.html) */
+details.more{margin-top:2px}
+details.more summary{list-style:none; cursor:pointer; font-size:12px; font-weight:700; color:var(--gold-deep); display:inline-flex; align-items:center; gap:4px}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"؟"; display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:var(--gold-soft); font-size:10.5px}
+details.more[open] summary{margin-bottom:6px}
+details.more .more-body{font-size:12.5px; line-height:1.85; color:var(--mut)}
 </style>
 
 <div class="stage">
@@ -187,7 +203,7 @@ body{margin:0; background:var(--stage); color:var(--stage-ink);
         </div>
         <div class="sheet">
           <div class="grab"></div>
-          <div class="termsq">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه في أجله، <u>وإن تأخّرتُ فعليّ غرامة 50 ريالًا</u>.</div>
+          <div class="termsq">قرضٌ حسن 2,500 ريال من خالد لنورة — بشرطِ <u>غرامة تأخير 50 ريالًا</u><details class="more"><summary>نصّ الإقرار الكامل</summary><div class="more-body">أقرّ أنا خالد بأنّ في ذمّتي لنورة مبلغ 2,500 ريال قرضًا حسنًا، وأرُدُّه في أجله، وإن تأخّرتُ فعليّ غرامة 50 ريالًا.</div></details></div>
           <div style="height:10px"></div>
           <div class="stopcard">
             <div class="h">«غرامة» — شرطُ زيادةٍ عند التأخّر</div>
