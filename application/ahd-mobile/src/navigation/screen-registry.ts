@@ -13,6 +13,7 @@ export const SCREEN_REGISTRY = [
   { key: 'create', label: 'أنشئ عهدًا', route: '/create', surface: 'tab', baseline: 's02' },
   { key: 'daftari', label: 'دفتري', route: '/daftari', surface: 'tab', baseline: 's04' },
   { key: 'settle', label: 'المقاصّة', route: '/settle', surface: 'tab', baseline: 's03' },
+  { key: 'more', label: 'المزيد', route: '/more', surface: 'tab', baseline: null },
   { key: 'timeline', label: 'السجلّ', route: '/timeline', surface: 'stack', baseline: 's10' },
   { key: 'open', label: 'قرضٌ مفتوح', route: '/open', surface: 'stack', baseline: 's09' },
   { key: 'circle', label: 'الدائرة', route: '/circle', surface: 'stack', baseline: 's11' },
@@ -30,6 +31,7 @@ export const SCREEN_REGISTRY = [
   { key: 'shariah', label: 'الأساس الشرعي', route: '/shariah', surface: 'stack', baseline: null },
   { key: 'plans', label: 'الأجرة والخطط', route: '/plans', surface: 'stack', baseline: null },
   { key: 'org', label: 'لوحة المؤسسة', route: '/org', surface: 'stack', baseline: null },
+  { key: 'jamiya', label: 'الجمعية', route: '/jamiya', surface: 'stack', baseline: null },
 ] as const satisfies readonly ScreenDefinition[];
 
 export type ScreenKey = (typeof SCREEN_REGISTRY)[number]['key'];

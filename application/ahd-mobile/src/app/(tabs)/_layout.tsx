@@ -34,6 +34,14 @@ export default function TabLayout() {
       {/* forcesRTL renders the FIRST child rightmost — declared in reverse so
           الرئيسية lands leftmost as requested */}
       <Tabs.Screen
+        name="more"
+        options={{
+          title: 'المزيد',
+          tabBarAccessibilityLabel: 'المزيد',
+          tabBarIcon: ({ color }) => <TabIcon name="more" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="settle"
         options={{
           title: 'المقاصّة',
