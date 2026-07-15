@@ -51,6 +51,8 @@ description: "Dependency-ordered judge readiness work"
 
 ## Final Phase: Judge Gate
 
+- [ ] T129 [US2] Rebuild the public judge story in `README.md`, protect it with `tests/readme-judge-contract.cjs` and `tests/run-all.cjs`, record mirrors in `_meta/STATUS.md` and `AmadHackathon/00 Home.md`, then complete `specs/002-judge-readiness/tasks.md` through `_meta/freeze/2026-07-15-task-evidence.json` and `_meta/freeze/reviews/T129/review-001.json`
+
 - [ ] T025 Run six-lens Judge Lens review plus tired-judge recall against the final app, deck, and script; record evidence in `_meta/OPEN-ITEMS.md`
 - [ ] T026 Create or retain `JL-` items for every score below 8 with owner, next action, and human blocker
 - [ ] T027 Run `node tests/stage-path-contract.cjs`, `node tests/app/app-dom-smoke.cjs`, and `cd tests && node run-all.cjs`

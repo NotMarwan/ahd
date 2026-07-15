@@ -64,6 +64,16 @@ try {
 if (!policyOk) broken.push("agent-policy (agent-governance)");
 console.log((policyOk ? "  ✓ " : "  ✗ ") + "agent-policy (agent-governance) — " + (policyOk ? "binding task/evidence/path policy green (meta, not in product total)" : "FAILED:\n" + policyOut));
 
+var readmeOut = "", readmeOk = false;
+try {
+  readmeOut = cp.execSync("node readme-judge-contract.cjs", { cwd: HERE, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  readmeOk = /README JUDGE CONTRACT OK/.test(readmeOut);
+} catch (e) {
+  readmeOut = String((e && e.stdout) || "") + String((e && e.stderr) || "");
+}
+if (!readmeOk) broken.push("readme-judge (public story)");
+console.log((readmeOk ? "  ✓ " : "  ✗ ") + "readme-judge (public story) — " + (readmeOk ? "judge-first story and tracked visuals green (meta, not in product total)" : "FAILED:\n" + readmeOut));
+
 var driftEnv = Object.assign({}, process.env, {
   AHD_GATE_TOTAL: String(totalPassed),
   AHD_GATE_CORE_LOGIC: String(stepCounts.coreLogic || 0),
