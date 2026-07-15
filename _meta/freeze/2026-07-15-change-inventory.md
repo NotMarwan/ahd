@@ -228,3 +228,646 @@ The external evidence directory is intentionally outside the candidate Git tree 
 - Product, demo, engine, vectors, task checkboxes, evidence JSON, reviews, and cockpit mirrors modified: no.
 - Branch merge, stash, cleanup, overwrite, tag, push, or release performed: no.
 - Item dispositions assigned: no; T002 remains responsible.
++
+## T002 Normalized Candidate Inventory
+
+The changing source workspace is parked as one excluded epoch. No dirty source path is copied or reconciled.
+The integrated master-planning commits are patch-equivalent (`git patch-id --stable` = `b0075f3f39e03c2541f0c28990e309a7fbf64742`).
+
+```json
+{
+  "schema": "ahd-freeze-inventory-v1",
+  "approved_base_commit": "ff2de0e3fb85b501f82a8539549f5b1e55e80453",
+  "active_package": "specs/001-freeze-safety",
+  "source_workspace": {
+    "disposition": "park-whole-workspace",
+    "candidate_input": false
+  },
+  "items": [
+    {
+      "path": "_meta/agent-presence/README.md",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/freeze/2026-07-15-change-inventory.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/freeze/2026-07-15-current-state.md",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/freeze/2026-07-15-recovery-drill.md",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/freeze/2026-07-15-release-manifest.json",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/freeze/2026-07-15-task-evidence.json",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/freeze/reviews/T001/review-001.json",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/INDEX.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/OPEN-ITEMS.md",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/overnight-log.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/score-leap-loop-state.md",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "_meta/STATUS.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": ".dockerignore",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": ".gitignore",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": ".specify/feature.json",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": ".specify/memory/constitution.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": ".specify/templates/plan-template.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": ".specify/templates/spec-template.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": ".specify/templates/tasks-template.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "AGENTS.md",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "AmadHackathon/00 Home.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "AmadHackathon/01 الخطة الرئيسة.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "AmadHackathon/05 حالة المشروع.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "AmadHackathon/10 المواصفة الأم.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "AmadHackathon/11 خطة التحسين الشاملة.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "CLAUDE.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-14-ahd-local-server-safety.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-14-ahd-production-readiness.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-14-ahd-spec-governance.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-14-ahd-stage-readiness.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-14-project-improvement-portfolio.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-14-ahd-master-specification-design.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-14-project-improvement-portfolio-design.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "project/agent-control/claim.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "project/agent-control/protected-paths.json",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/checklists/master-quality.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/checklists/requirements.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/clarity-review.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/contracts/local-server-api.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/contracts/open-witness-v1.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/contracts/product-surfaces.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/contracts/production-seams.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/data-model.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/plan.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/quickstart.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/research.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/spec.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-ahd-product-system/tasks.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/checklists/implementation-readiness.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/checklists/requirements.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/contracts/release-manifest.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/data-model.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/plan.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/quickstart.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/research.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/spec.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/001-freeze-safety/tasks.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/checklists/requirements.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/contracts/stage-path.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/data-model.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/plan.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/quickstart.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/research.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/spec.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/002-judge-readiness/tasks.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/checklists/requirements.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/contracts/evidence-register.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/data-model.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/plan.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/quickstart.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/research.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/spec.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/003-external-validation/tasks.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/checklists/requirements.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/contracts/service-v1.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/data-model.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/plan.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/quickstart.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/research.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/spec.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/004-production-hardening/tasks.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/checklists/requirements.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/contracts/open-witness-v1.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/data-model.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/plan.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/quickstart.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/research.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/spec.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "specs/005-v2-product-protocol/tasks.md",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/agent-governance.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/agent-governance.test.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/app/tripwire-portability.test.cjs",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/fixtures/demo.sha256",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/release-gate.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/release-manifest.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/release-manifest.test.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/release-truth-check.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/release-truth-check.test.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/run-all.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/stage-preflight.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/stage-preflight.test.cjs",
+      "origin": "planned-T003-T030",
+      "disposition": "create-or-update",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/structure-check.cjs",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    },
+    {
+      "path": "tests/tripwire.cjs",
+      "origin": "base-delta",
+      "disposition": "keep",
+      "candidate_input": true
+    }
+  ]
+}
+```

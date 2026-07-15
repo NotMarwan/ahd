@@ -28,7 +28,7 @@ non-self-referential candidate attestation. No product-domain or golden logic ch
 - Golden functions, vectors, and `app/engine.js` internals are called or regenerated only through existing approved paths, never edited here.
 - Logic remains deterministic, offline, and integer-halala; no assertion is weakened.
 - Pre-existing user work is inventoried and preserved. No cleanup, overwrite, tag, push, or release occurs without scoped named approval.
-- One writer task is active at a time. Read-only audits may run concurrently. Every checked task requires evidence, independent review, and a constitution result.
+- One writer task is active at a time. Every checked task requires evidence, controller validation, and a constitution result. For this owner-directed single-agent run, controller validation replaces subagent review; it cannot approve Shariah, legal, regulatory, external, release, tag, push, overwrite, or cleanup gates.
 - Live code and command output govern current-state facts; historical statements remain explicitly historical.
 - T001-T010 use one controller-owned exclusive bootstrap claim in the shared Git common directory. It expires
   after T010 or at 2026-07-15 end-of-day and is removed only after T010 is reviewed and checked; T011 is the first
@@ -41,7 +41,7 @@ non-self-referential candidate attestation. No product-domain or golden logic ch
 - [x] Spine unaffected; no Shariah behavior or ruling changes.
 - [x] Frozen demo, generated engine, functions, and vectors untouched.
 - [x] Determinism, integer money, offline behavior, privacy, and evidence labels preserved.
-- [x] TDD, focused RED/GREEN evidence, independent review, and full release verification planned.
+- [x] TDD, focused RED/GREEN evidence, controller validation, and full release verification planned.
 - [x] Judge-visible preflight, recovery, and claim evidence planned.
 - [x] Dirty user changes and cockpit synchronization handled explicitly.
 - [x] Human gates are scoped by operation and fail closed.
