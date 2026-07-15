@@ -114,6 +114,21 @@ app.js  (AhdApp)     The shell: a tiny screen registry + router + the action met
   `window.AHD` directly when running under Node; the UMD‑style wrapper hands them `require("./engine.js")`
   in Node and `root.AHD` in the browser. This is what makes them unit‑testable in plain Node.
 
+- **New capability layer (T130/T131, 2026‑07‑15)** — two consumer capabilities built additively on the same
+  DI pattern, raising the app from 21 to 23 registered screens:
+  - **الجمعية الموثّقة** (`app/features/jamiya.js` + `app/screens/jamiya.js`, spec `docs/specs/jamiya-v1.md`):
+    a sealed ROSCA. Payout order is **consensual** (members agree the order — no lottery/قرعة, no maysir),
+    every contribution/payout round is a sealed event through the golden engine, and **funds never pass
+    through the bank** — Ahd witnesses only. Conservation is proven in integer halalas across the full cycle
+    (`tests/app/jamiya-conservation.test.cjs`), riba wording is linted (`jamiya-riba-lint.test.cjs`).
+  - **عهد اليومي** (`app/features/qaid.js`, `walink.js`, `reminder.js`, `split.js` + `app/screens/daily.js` +
+    `app/confirm.html`, spec `docs/specs/daily-v1.md`): a lite personal ledger (قيد خفيف, explicitly labelled
+    «قيد شخصي — غير مختوم»), upgradable to a sealed ahd; an offline WhatsApp confirm link — payload as
+    `confirm.html#<base64url(JSON)>`, locally re‑sealed, deterministic accept code = first 12 hex of
+    `sha256(canonical(record) + ":ACCEPT")`, carrying the mandatory honesty label «نموذج تجريبي — في الإنتاج
+    يتم التأكيد داخل القناة البنكية»; dignified reminders; and a largest‑remainder bill split that conserves
+    every halala. All deterministic, all offline, engine untouched.
+
 - **Screen modules** (`app/screens/*.js`) are render‑only. Each ends with
   `App.registerScreen({ key:"daftari", label:"دفتري", icon:"📔", render })`. They read `AhdApp` state and
   the feature outputs, and emit strings. No business rule lives here.
@@ -225,7 +240,7 @@ process, and aggregates. The original foundation had **8 suites** (≈283 assert
 **How they gate:** the two tiers are independent. Tier 1 keeps the frozen demo correct and unchanged;
 Tier 2 keeps the parallel app correct *and* keeps it provably in lock‑step with the demo (via
 `engine-parity.cjs`) and provably offline/deterministic (via `app-offline.test.cjs` +
-`determinism.test.cjs`). Combined (recomputed live 2026-07-15; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,869 (73 suites) + structure 14 = 3,067 assertions, all green** — one command: `cd tests && node run-all.cjs`.
+`determinism.test.cjs`). Combined (recomputed live 2026-07-15; single source of truth is the `run-all.cjs` banner, re-run rather than trust this number): **core 184 + app 2,977 (84 suites) + structure 14 = 3,175 assertions, all green** — one command: `cd tests && node run-all.cjs`.
 
 ---
 
