@@ -54,6 +54,16 @@ for (var i = 0; i < steps.length; i++) {
    the headline product totalPassed/totalFailed, so adding drift-check teeth
    never itself moves the very number every doc cites (which would just
    reintroduce the drift this check exists to catch). */
+var policyOk = false, policyOut = "";
+try {
+  policyOut = cp.execSync("node agent-governance.cjs", { cwd: HERE, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  policyOk = /AGENT-GOVERNANCE: OK/.test(policyOut);
+} catch (e) {
+  policyOut = String((e && e.stdout) || "") + String((e && e.stderr) || "");
+}
+if (!policyOk) broken.push("agent-policy (agent-governance)");
+console.log((policyOk ? "  ✓ " : "  ✗ ") + "agent-policy (agent-governance) — " + (policyOk ? "binding task/evidence/path policy green (meta, not in product total)" : "FAILED:\n" + policyOut));
+
 var driftEnv = Object.assign({}, process.env, {
   AHD_GATE_TOTAL: String(totalPassed),
   AHD_GATE_CORE_LOGIC: String(stepCounts.coreLogic || 0),

@@ -29,6 +29,10 @@
    before the session ends; <8 on a judge-visible surface → a `JL-` item in `_meta/OPEN-ITEMS.md`.
    The lens never overrides the spine.
 
+## Execution authority and claims
+
+Read `.specify/memory/constitution.md`, recorded human decisions, the portfolio, `.specify/feature.json`, then the active `spec.md`, `plan.md`, and `tasks.md`; live code/gates outrank status mirrors for current facts. Only active-wave tasks authorize edits. Controller dispatches and the Git-common-dir `ahd-agent-control/writer.lock` bind one writer to exact files; `project/agent-control/claim.cjs` rejects missing, mismatched, colliding, off-task, or protected paths. Checked tasks require `_meta/freeze/2026-07-15-task-evidence.json`, focused tests, controller validation, and constitution status. The owner-directed single-agent override cannot approve human or irreversible gates.
+
 ## Where things are
 - `_meta/INDEX.md` — start here: one page linking to current status, open items, decisions, handoffs, and agent coordination.
 - `docs/JUDGE-LENS.md` — the competitive gate: mission, five judging bars, scoring protocol, judge-panel review procedure.
