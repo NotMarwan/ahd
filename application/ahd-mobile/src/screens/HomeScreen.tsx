@@ -12,6 +12,7 @@ import {
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
 import { useAhdJourney } from '@/state';
+import { demoGuide } from '@/state/demo-script';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
 export function HomeScreen() {
@@ -26,6 +27,10 @@ export function HomeScreen() {
   const showDaftari = async () => {
     await openDaftari();
     router.push('/daftari');
+  };
+
+  const startDemo = () => {
+    demoGuide.start();
   };
 
   return (
@@ -73,6 +78,8 @@ export function HomeScreen() {
           <AhdButton label="ابدأ عهدًا جديدًا" onPress={startJourney} />
         </Section>
       )}
+
+      <AhdButton label="ابدأ الجولة التجريبية" onPress={startDemo} />
 
       <Text style={styles.footnote}>
         عهد شاهدٌ على الاتفاق ومسار السداد، وليس مقرضًا أو حكمًا بين الأطراف.
