@@ -326,6 +326,25 @@
       "result": "RED recorded before bounded preflight implementation."
     },
     {
+      "task_id": "T020",
+      "dispatch_id": "wave0-T020-controller-self-20260715",
+      "dispatch_sha256": "a6a102cf94dbe8d238840d600fa11bdd143f5f7523c33289a4250332dd377993",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "Process timeout, cleanup, stage asset integrity, and bounded execution are sensitive operational controls.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["tests/stage-preflight.cjs"],
+      "tests": [
+        {"command": "node tests/stage-preflight.test.cjs", "phase": "GREEN", "result": "16 passed, 0 failed"},
+        {"command": "node tests/stage-preflight.cjs", "result": "READY FOR STAGE; app and terminal executed and cleaned; tripwire exact"}
+      ],
+      "reviews": [{"review_id": "T020-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Preflight is read-only, bounded to 30 seconds, cleans children, reports actionable failures, and normalizes volatile evidence."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
