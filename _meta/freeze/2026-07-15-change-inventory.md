@@ -851,14 +851,14 @@ The integrated master-planning commits are patch-equivalent (`git patch-id --sta
     {
       "path": "tests/release-gate.cjs",
       "origin": "planned-T003-T030",
-      "disposition": "generated",
+      "disposition": "release",
       "owner": "T028",
       "candidate_input": true
     },
     {
       "path": "tests/release-gate.test.cjs",
       "origin": "planned-T028",
-      "disposition": "generated",
+      "disposition": "release",
       "owner": "T028",
       "candidate_input": true
     },

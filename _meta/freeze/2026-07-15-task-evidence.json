@@ -494,6 +494,26 @@
       "reviews": [{"review_id": "T027-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
       "constitution": "pass",
       "result": "Clean recovery is executable from immutable Git-tree inputs and cannot infer data from the parked source workspace."
+    },
+    {
+      "task_id": "T028",
+      "dispatch_id": "wave0-T028-controller-self-20260715",
+      "dispatch_sha256": "2039232ee22ed3ffa313cf47d6ae261876e95f2b542a7f3261ba34292f96f61f",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "The release wrapper binds clean Git identities, restore boundaries, and final evidence, so it needs stronger implementation reasoning than a mechanical edit.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["tests/release-gate.cjs", "tests/release-gate.test.cjs", "_meta/freeze/2026-07-15-change-inventory.md"],
+      "tests": [
+        {"command": "node tests/release-gate.test.cjs", "phase": "RED", "result": "0 passed, 1 failed because wrapper did not exist"},
+        {"command": "node tests/release-gate.test.cjs", "phase": "GREEN", "result": "20 passed, 0 failed"},
+        {"command": "node tests/release-manifest.test.cjs", "result": "44 passed, 0 failed"}
+      ],
+      "reviews": [{"review_id": "T028-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "One command now validates explicit roots, clean/tree-backed inputs, exact restore outputs, all focused controls, the full gate, and emitted candidate/attestation/manifest identities."
     }
   ]
 }
