@@ -246,6 +246,22 @@
       "result": "RED recorded before validator implementation."
     },
     {
+      "task_id": "T013",
+      "dispatch_id": "wave0-T013-controller-self-20260715",
+      "dispatch_sha256": "58a9603c912696c4f8e2a902c15654637b80a55f2a51aa8c4c8715c8c07b4f6e",
+      "responsible": "root",
+      "model_requested": "Terra",
+      "model_used": "controller-single-agent",
+      "model_reason": "Git-tree identity, ancestry, bijection, hashes, and approval validation are sensitive release controls.",
+      "status": "complete",
+      "owner_single_agent_override": true,
+      "files": ["tests/release-manifest.cjs"],
+      "tests": [{"command": "node tests/release-manifest.test.cjs", "phase": "GREEN", "result": "43 passed, 0 failed"}],
+      "reviews": [{"review_id": "T013-CV1", "reviewer": "root", "verdict": "approved", "supersedes": null}],
+      "constitution": "pass",
+      "result": "Read-only pure validator and Git-backed CLI implemented; no release mutation capability."
+    },
+    {
       "task_id": "T014",
       "responsible": "root",
       "model_requested": "Sol",
