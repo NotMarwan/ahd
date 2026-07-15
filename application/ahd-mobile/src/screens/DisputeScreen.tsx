@@ -50,7 +50,6 @@ export function DisputeScreen() {
   return (
     <AppShell testID="dispute-screen">
       <ScreenHeader
-        eyebrow="محلّ خلاف"
         title={`عهد «${sealedRecord.record.lender}» و«${sealedRecord.record.borrower}»`}
         subtitle="عهدٌ يشهد ولا يحكم."
       />

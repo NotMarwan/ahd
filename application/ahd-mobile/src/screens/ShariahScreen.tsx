@@ -250,7 +250,7 @@ function QuestionRow({ question }: { readonly question: OpenQuestion }) {
 export function ShariahScreen() {
   return (
     <AppShell testID="shariah-screen">
-      <ScreenHeader eyebrow="📜 الأساس الشرعي" title={HEADING} subtitle={SUB} />
+      <ScreenHeader title={HEADING} subtitle={SUB} />
       <Section title="الآليّات المستندة إلى نصٍّ أو معيار">
         <RowGroup>
           {MECHANICS.map((mechanic) => (

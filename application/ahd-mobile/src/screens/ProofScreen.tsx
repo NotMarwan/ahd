@@ -20,7 +20,6 @@ export function ProofScreen() {
   return (
     <AppShell testID="proof-screen">
       <ScreenHeader
-        eyebrow="الإثبات"
         title="تحقق مستقلًا من العهد"
         subtitle="النتيجة الأساسية ظاهرة، والتفاصيل التقنية تفتح عند الحاجة."
       />

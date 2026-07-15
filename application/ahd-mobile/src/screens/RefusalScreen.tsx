@@ -79,7 +79,7 @@ function RefusalCard({ item }: { readonly item: RefusalItem }) {
 export function RefusalScreen() {
   return (
     <AppShell testID="refusal-screen">
-      <ScreenHeader eyebrow="🛡️ ما لا يفعله عهد" title={HEADING} subtitle={SUB} />
+      <ScreenHeader title={HEADING} subtitle={SUB} />
       <Text style={styles.quote}>{QUOTE}</Text>
       <Section title="الرفض الثلاثي">
         <RowGroup>

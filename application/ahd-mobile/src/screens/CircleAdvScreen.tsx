@@ -35,7 +35,6 @@ export function CircleAdvScreen() {
   return (
     <AppShell testID="circle-adv-screen">
       <ScreenHeader
-        eyebrow="الدائرة+"
         title="تقسيمٌ وتخريجٌ وتعهّد"
         subtitle="دوائر الصندوق ومقاصّتها معًا — بلا فائدةٍ ولا غرامة"
       />

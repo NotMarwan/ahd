@@ -72,7 +72,6 @@ export function RequestScreen() {
   return (
     <AppShell testID="request-screen">
       <ScreenHeader
-        eyebrow="اطلب عهدًا · قرضٌ حسن"
         title="أنت تطلب — وعهدٌ يكتبها بكرامة"
         subtitle="لا حرج في أن تسأل، والكلمة محفوظة."
       />

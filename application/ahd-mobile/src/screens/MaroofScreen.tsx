@@ -35,7 +35,6 @@ export function MaroofScreen() {
   return (
     <AppShell testID="maroof-screen">
       <ScreenHeader
-        eyebrow="معروف"
         title="من عُرِف بالوفاء"
         subtitle="أثرٌ نوعيٌّ من تاريخك أنت وحدك — بلا رقمٍ، وبلا درجة ائتمانية، ولا يُصدَّر خارج عهد."
       />

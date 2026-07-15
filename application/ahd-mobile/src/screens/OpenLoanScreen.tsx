@@ -26,7 +26,6 @@ export function OpenLoanScreen() {
   return (
     <AppShell testID="open-loan-screen">
       <ScreenHeader
-        eyebrow="قرضٌ مفتوح"
         title="قرضٌ مفتوحٌ بينك وبين المقترض — متى ما تيسّر"
         subtitle="لا موعد، لا تذكير منك، لا حرج. حين ييسّر الله، يردّ — ولكِ أن تُبرئ متى شئتِ."
       />

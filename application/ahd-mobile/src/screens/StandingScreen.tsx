@@ -58,7 +58,6 @@ export function StandingScreen() {
   return (
     <AppShell testID="standing-screen">
       <ScreenHeader
-        eyebrow="سُلفة بالمعروف"
         title="قرضٌ حسنٌ قائمٌ بين طرفين"
         subtitle={`${circle.organizer} · ${circle.name}`}
       />

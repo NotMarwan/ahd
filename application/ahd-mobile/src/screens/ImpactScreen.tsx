@@ -38,7 +38,6 @@ export function ImpactScreen() {
   return (
     <AppShell testID="impact-screen">
       <ScreenHeader
-        eyebrow="أثر عهد"
         title="أثر عهد — أثر المقاصّة عبر الدوائر"
         subtitle="المصرف يشهد ويحفظ — مجاميع مجهّلة فقط، لا يظهر هنا اسمٌ ولا رقمٌ فرديّ."
       />

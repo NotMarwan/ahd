@@ -40,7 +40,6 @@ export function TimelineScreen() {
   return (
     <AppShell testID="timeline-screen">
       <ScreenHeader
-        eyebrow="السجلّ"
         title="سِجلّ الشهادة"
         subtitle="المصرف يشهد ويحفظ — لا يُقرض، ولا يحكم، ولا يُصنّف. هذا ما جرى توثيقه."
       />

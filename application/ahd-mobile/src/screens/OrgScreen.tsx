@@ -41,7 +41,6 @@ export function OrgScreen() {
   return (
     <AppShell testID="org-screen">
       <ScreenHeader
-        eyebrow="لوحة المؤسسة"
         title="صندوق قرض حسن"
         subtitle="تجميعاتٌ فقط — لا رقمَ فردٍ، ولا تصنيف، ولا يُصدَّر شيء"
       />

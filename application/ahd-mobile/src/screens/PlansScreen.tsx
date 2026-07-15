@@ -132,7 +132,7 @@ function PlanCard({ plan }: { readonly plan: Plan }) {
 export function PlansScreen() {
   return (
     <AppShell testID="plans-screen">
-      <ScreenHeader eyebrow="🧾 الأجرة والخطط" title="الأجرة والخطط" subtitle={SUB_LINE} />
+      <ScreenHeader title="الأجرة والخطط" subtitle={SUB_LINE} />
       <Text style={styles.thesis}>
         {SERVICE_NOT_LOAN_AR}
         {' · '}

@@ -112,7 +112,7 @@ function BoundRow({ item }: { readonly item: BoundItem }) {
 export function BoundsScreen() {
   return (
     <AppShell testID="bounds-screen">
-      <ScreenHeader eyebrow="🧭 حدود عهد" title="الضمانات والحدود — مكتوبةٌ في الكود" subtitle={HERO_LINE} />
+      <ScreenHeader title="الضمانات والحدود — مكتوبةٌ في الكود" subtitle={HERO_LINE} />
       {SECTIONS.map((section) => (
         <Section key={section.key} title={section.titleAr}>
           <RowGroup>

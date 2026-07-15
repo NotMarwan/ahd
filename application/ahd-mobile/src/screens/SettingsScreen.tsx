@@ -10,7 +10,7 @@ export function SettingsScreen() {
 
   return (
     <AppShell testID="settings-screen">
-      <ScreenHeader eyebrow="الإعدادات" title="الإعدادات · عن عهد" />
+      <ScreenHeader title="الإعدادات · عن عهد" />
 
       <Section title="الإفصاح الذاتي">
         <RowGroup>

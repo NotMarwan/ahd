@@ -49,7 +49,6 @@ export function MineScreen() {
   return (
     <AppShell testID="mine-screen">
       <ScreenHeader
-        eyebrow="التزاماتي"
         title="ما عليّ"
         subtitle="التزاماتُك — بترتيب ما يستحقّ عنايتك أوّلًا، بلا مطالبة ولا عدّ أيّام"
       />
