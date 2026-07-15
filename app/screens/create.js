@@ -68,6 +68,21 @@
           '<div class="pl-badge">🕋 ' + App.esc(fr.badge) + "</div>" +
           '<button class="mini" onclick="AhdApp.go(\'plans\')">الأجرة والخطط ←</button></div>';
       }
+    } else if (App.ReviewGate && st.reviewing) {
+      /* the FIXED review (Najiz/DocuSign G2): exactly what will be sealed + what is NOT in it */
+      var rv = App.ReviewGate.build({ lender: draft.lender, borrower: draft.borrower, amountMinor: draft.amountMinor, months: draft.months, open: draft.open }, terms);
+      var rvLines = rv.lines.map(function (l) {
+        return '<div class="pv-row"><span>' + App.esc(l.k) + "</span><b>" + App.esc(l.v) + "</b></div>";
+      }).join("");
+      var rvAbsent = rv.absentAr.map(function (a) { return '<div class="rv-abs">✕ ' + App.esc(a) + "</div>"; }).join("");
+      sealArea = '<div class="cr-card rv-card"><div class="cr-sub">مراجعة أخيرة — هذا ما سيُختَم:</div>' + rvLines +
+        '<div class="rv-abshead">ما ليس في هذا العهد:</div>' + rvAbsent +
+        '<div class="rv-fp">بصمة المعاينة: ' + rv.fingerprint + "</div>" +
+        '<div class="cr-act"><button class="primary"' + (clean && !duressBlocked ? "" : " disabled") + ' onclick="AhdApp.createSeal()">أكّد واختم العهد عبر نفاذ (محاكاة)</button>' +
+        '<button class="ghost" onclick="AhdApp.createBackFromReview()">عدّل</button></div></div>' + duressNote;
+    } else if (App.ReviewGate) {
+      sealArea = '<div class="cr-act"><button class="primary"' + (clean && !duressBlocked ? "" : " disabled") + ' onclick="AhdApp.createOpenReview()">راجع قبل الختم</button></div>' + duressNote +
+        (clean ? "" : '<div class="cr-note">لا يُختَم حتى يُزال الشرط المخالف — هذا ما يحفظه عهد لكما.</div>');
     } else {
       sealArea = '<div class="cr-act"><button class="primary"' + (clean && !duressBlocked ? "" : " disabled") + ' onclick="AhdApp.createSeal()">اختم العهد عبر نفاذ (محاكاة)</button></div>' + duressNote +
         (clean ? "" : '<div class="cr-note">لا يُختَم حتى يُزال الشرط المخالف — هذا ما يحفظه عهد لكما.</div>');

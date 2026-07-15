@@ -1196,11 +1196,18 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .nsx.warm{border-color:var(--gold); background:linear-gradient(180deg,var(--gold-soft),var(--card) 55%)}
 .nsx-head{display:flex; align-items:center; justify-content:space-between; gap:8px}
 .nsx-title{font-weight:800; color:var(--ink)}
-.nsx-ref{font-family:ui-monospace,Consolas,monospace; font-size:12px; color:var(--teal);
+.nsx-ref{font-family:ui-monospace,Consolas,monospace; font-size:var(--sadu-type-xs); color:var(--teal);
   background:var(--teal-soft); border-radius:var(--r-pill); padding:2px 10px; direction:rtl}
-.nsx-line{display:flex; gap:10px; align-items:baseline; font-size:14px}
-.nsx-line span{flex:none; color:var(--mut); font-size:12px; min-width:72px}
+.nsx-line{display:flex; gap:10px; align-items:baseline; font-size:var(--sadu-type-body)}
+.nsx-line span{flex:none; color:var(--mut); font-size:var(--sadu-type-xs); min-width:72px}
 .nsx-line b{font-weight:600; color:var(--ink)}
 .nsx-line.next b{font-weight:800; color:var(--teal)}
 .nsx.attention .nsx-line.next b{color:var(--amber)}
-.row-next{margin:6px 4px 2px; font-size:12.5px; color:var(--mut); display:flex; gap:8px; align-items:center}
+.row-next{margin:6px 4px 2px; font-size:var(--sadu-type-xs); color:var(--mut); display:flex; gap:8px; align-items:center}
+
+/* ==== review-before-seal card (Najiz/DocuSign G2) ========================= */
+.rv-card{border:1.5px solid var(--teal); background:linear-gradient(180deg,var(--teal-soft),var(--card) 40%)}
+.rv-abshead{margin-top:10px; font-weight:800; font-size:var(--sadu-type-sm); color:var(--ink)}
+.rv-abs{font-size:var(--sadu-type-sm); color:var(--mut); padding:2px 4px}
+.rv-fp{font-family:ui-monospace,Consolas,monospace; font-size:var(--sadu-type-xs); color:var(--mut);
+  margin-top:8px; border-top:1px dashed var(--line); padding-top:6px; direction:rtl}

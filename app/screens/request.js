@@ -40,6 +40,21 @@
     } else if (st.sent) {
       action = '<div class="cr-card"><div class="cr-sub">أُرسل الطلب — بانتظار موافقة ' + App.esc(req.lender) + ".</div>" +
         '<div class="rem-sim">محاكاة: <button class="mini" onclick="AhdApp.requestAccept()">وافق ' + App.esc(req.lender) + ' على العهد 🤍</button></div></div>';
+    } else if (App.ReviewGate && st.reviewing) {
+      /* the same fixed review before SENDING the ask (Najiz/DocuSign G2) */
+      var rv = App.ReviewGate.build({ lender: req.lender, borrower: req.borrower, amountMinor: Math.round(req.amountSAR * 100), months: req.months, open: req.open }, terms);
+      var rvLines = rv.lines.map(function (l) {
+        return '<div class="pv-row"><span>' + App.esc(l.k) + "</span><b>" + App.esc(l.v) + "</b></div>";
+      }).join("");
+      var rvAbsent = rv.absentAr.map(function (a) { return '<div class="rv-abs">✕ ' + App.esc(a) + "</div>"; }).join("");
+      action = '<div class="cr-card rv-card"><div class="cr-sub">مراجعة أخيرة — هذا ما سيُرسَل:</div>' + rvLines +
+        '<div class="rv-abshead">ما ليس في هذا الطلب:</div>' + rvAbsent +
+        '<div class="rv-fp">بصمة المعاينة: ' + rv.fingerprint + "</div>" +
+        '<div class="cr-act"><button class="primary"' + (clean ? "" : " disabled") + ' onclick="AhdApp.requestSend()">أكّد وأرسِل الطلب بالمعروف</button>' +
+        '<button class="ghost" onclick="AhdApp.requestBackFromReview()">عدّل</button></div></div>';
+    } else if (App.ReviewGate) {
+      action = '<div class="cr-act"><button class="primary"' + (clean ? "" : " disabled") + ' onclick="AhdApp.requestOpenReview()">راجع قبل الإرسال</button></div>' +
+        '<div class="cr-note">الطلب لا يُلزم أحدًا — للمُقرض أن يوافق أو يعتذر بلا حرج.</div>';
     } else {
       action = '<div class="cr-act"><button class="primary"' + (clean ? "" : " disabled") + ' onclick="AhdApp.requestSend()">أرسِل الطلب بالمعروف</button></div>' +
         '<div class="cr-note">الطلب لا يُلزم أحدًا — للمُقرض أن يوافق أو يعتذر بلا حرج.</div>';

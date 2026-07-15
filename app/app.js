@@ -26,6 +26,7 @@
   var Standing = (typeof window !== "undefined" ? window.Standing : null);
   var Billing = (typeof window !== "undefined" ? window.Billing : null);
   var NextStep = (typeof window !== "undefined" ? window.NextStep : null);
+  var ReviewGate = (typeof window !== "undefined" ? window.ReviewGate : null);
   var FeeReceipt = (typeof window !== "undefined" ? window.FeeReceipt : null);
   var Rifq = (typeof window !== "undefined" ? window.Rifq : null);
 
@@ -83,7 +84,7 @@
     circleAdvState: { graduated: null, recStopped: false, flash: null },
     CreateAhd: CreateAhd,
     createDraft: CreateAhd ? CreateAhd.makeDraft({ id: "NEW-AHD-1", lender: "أنت", borrower: "سلطان", amountSAR: 1200, months: 3 }) : null,
-    createState: { extra: "", sealed: null, tamper: false, flash: null, auxiliaryEvents: [] },
+    createState: { extra: "", sealed: null, tamper: false, flash: null, auxiliaryEvents: [], reviewing: false },
     Settlement: Settlement,
     SettlePresets: (typeof window !== "undefined" ? window.SettlePresets : null),
     settleState: { preset: "golden" },
@@ -111,7 +112,7 @@
     privacy: false,         // «إخفاء المبالغ» — display-only mask; engine bytes/seals unaffected
     RequestAhd: RequestAhd,
     request: RequestAhd ? RequestAhd.makeRequest({ id: "REQ-NAIF", borrower: "نايف", lender: "خالد", amountSAR: 1500, months: 3, purpose: "تجهيز عربة القهوة" }) : null,
-    requestState: { sent: false, accepted: null, flash: null },
+    requestState: { sent: false, accepted: null, flash: null, reviewing: false },
     /* ما عليّ (borrower home) — the debtor's mirror of دفتري; reads app.records/viewer */
     Borrower: Borrower,
     borrowerState: { flash: null },
@@ -126,6 +127,7 @@
        flat أجرة is a separate service fee, surfaced at the seal moment (spine). */
     Billing: Billing,
     NextStep: NextStep,
+    ReviewGate: ReviewGate,
     FeeReceipt: FeeReceipt,
 
     esc: esc,
@@ -398,6 +400,12 @@
       }
       return this.rerender();
     },
+    /* review-before-seal (Najiz/DocuSign G2): a UI gate only — createSeal keeps
+       its exact semantics; the review card's confirm button calls it. */
+    createOpenReview: function () { this.createState.reviewing = true; return this.rerender(); },
+    createBackFromReview: function () { this.createState.reviewing = false; return this.rerender(); },
+    requestOpenReview: function () { this.requestState.reviewing = true; return this.rerender(); },
+    requestBackFromReview: function () { this.requestState.reviewing = false; return this.rerender(); },
     createTamperToggle: function () { this.createState.tamper = !this.createState.tamper; return this.rerender(); },
     createDismiss: function () { this.createState.flash = null; return this.rerender(); },
 

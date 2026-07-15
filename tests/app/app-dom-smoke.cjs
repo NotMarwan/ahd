@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/review-gate.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -179,7 +179,11 @@ ok(!!sandbox.CreateAhd, "CreateAhd module attaches to window");
 let cr = noThrow(() => App.go("create"), "go('create') renders the create-عهد flow");
 ok(/أنشئ عهدًا/.test(cr) && /قرض/.test(cr), "create shows the form + قرض حسن");
 ok(/النصّ سليم/.test(cr), "auto-drafted terms read CLEAN in the riba linter");
-ok(/اختم العهد عبر نفاذ \(محاكاة\)/.test(cr), "the Nafath seal button carries the (محاكاة) honesty tag on the guaranteed demo path");
+ok(/راجع قبل الختم/.test(cr), "create offers the review step FIRST — nothing seals unreviewed (Najiz/DocuSign G2)");
+let crv = noThrow(() => App.createOpenReview(), "open the fixed review before sealing");
+ok(/هذا ما سيُختَم/.test(crv) && /ما ليس في هذا العهد/.test(crv), "review card shows the frozen summary + the absent list (لا فائدة/لا غرامة/لا حيازة)");
+ok(/بصمة المعاينة/.test(crv) && /أكّد واختم العهد عبر نفاذ \(محاكاة\)/.test(crv), "review carries a preview fingerprint + the confirm-seal button with the (محاكاة) honesty tag");
+noThrow(() => App.createBackFromReview(), "step back from review to edit");
 let crb = noThrow(() => App.createInjectRiba(), "inject a late-penalty clause");
 ok(/✗/.test(crb) && /غرامة|تأخير/.test(crb), "linter BLOCKS the penalty clause with the reason + halal fix");
 ok(/disabled/.test(crb), "seal button is disabled while the terms are blocked");
@@ -379,7 +383,9 @@ ok(navKeys.indexOf("request") < 0, "request is CONTEXTUAL — from a home card, 
 ok(/اطلب عهدًا/.test(App.go("home")), "home surfaces the «اطلب عهدًا» ask card");
 let rq = noThrow(() => App.go("request"), "go('request') renders the ask flow");
 ok(/اطلب عهدًا/.test(rq) && /النصّ سليم/.test(rq), "request shows the ask + riba-clean terms");
-ok(/أرسِل الطلب/.test(rq), "request offers «أرسِل الطلب»");
+ok(/راجع قبل الإرسال/.test(rq), "request offers the review step FIRST (Najiz/DocuSign G2)");
+let rqv = noThrow(() => App.requestOpenReview(), "open the fixed review before sending");
+ok(/هذا ما سيُرسَل/.test(rqv) && /أكّد وأرسِل الطلب/.test(rqv), "request review shows the frozen summary + confirm-send");
 let rqs = noThrow(() => App.requestSend(), "send the request");
 ok(/بانتظار موافقة/.test(rqs), "after send: «أُرسل — بانتظار موافقة {lender}»");
 let rqa = noThrow(() => App.requestAccept(), "lender accepts (محاكاة) → seals the عهد");
