@@ -23,13 +23,15 @@ appId: sa.ahd.mobile
     visible:
       id: "create-lender-input"
     timeout: 15000
+# Maestro inputText supports ASCII only on Android; display names are
+# free-form, so the journey uses Latin names for the same real flow.
 - tapOn:
     id: "create-lender-input"
-- inputText: "ريم"
+- inputText: "Reem"
 - hideKeyboard
 - tapOn:
     id: "create-borrower-input"
-- inputText: "سارة"
+- inputText: "Sara"
 - hideKeyboard
 - tapOn:
     id: "create-amount-input"
