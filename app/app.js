@@ -418,6 +418,23 @@
       var P = this.SettlePresets;
       var known = P && P.PRESETS.some(function (p) { return p.key === key; });
       this.settleState.preset = known ? key : "golden";
+      /* consents are per-tangle — a new preset starts a fresh consent round */
+      this.settleState.scState = null;
+      this.settleState.scSealed = false;
+      return this.rerender();
+    },
+    /* G11: a leg party consents (محاكاة) — the settlement seals only on allReady */
+    scConsent: function (index, party) {
+      var SCn = (typeof window !== "undefined" ? window.SettleConsent : null);
+      if (SCn && this.settleState.scState) {
+        try { this.settleState.scState = SCn.consent(this.settleState.scState, index, party); }
+        catch (err) { this.settleState.scFlash = err.message; }
+      }
+      return this.rerender();
+    },
+    scSeal: function () {
+      var SCn = (typeof window !== "undefined" ? window.SettleConsent : null);
+      if (SCn && this.settleState.scState && SCn.allReady(this.settleState.scState)) this.settleState.scSealed = true;
       return this.rerender();
     },
 

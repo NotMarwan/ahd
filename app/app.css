@@ -1250,3 +1250,13 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
   padding:10px; margin:10px 0; background:var(--card)}
 .jam-scen strong{font-size:var(--sadu-type-sm); color:var(--ink)}
 .jam-changes .pv-row b{font-weight:600}
+
+/* ==== settlement per-leg consent (G11) ==================================== */
+.se-consent{display:grid; gap:6px}
+.se-consent.ready{border-inline-start:3px solid var(--teal)}
+.se-impact{font-size:var(--sadu-type-xs); color:var(--mut); line-height:1.7}
+.se-consent-act{display:flex; gap:6px; flex-wrap:wrap; align-items:center}
+.se-consent-gate{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:8px}
+.se-gate-note{font-size:var(--sadu-type-xs); color:var(--mut)}
+.se-approved{margin-top:8px; padding:8px 12px; border-radius:var(--r-md);
+  background:var(--teal-soft); color:var(--teal); font-weight:700; font-size:var(--sadu-type-sm)}

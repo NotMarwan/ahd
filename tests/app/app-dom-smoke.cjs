@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/review-gate.js", "features/pay-confirm.js", "features/open-loan.js", "features/circle-adv.js", "features/drafts.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/review-gate.js", "features/pay-confirm.js", "features/open-loan.js", "features/circle-adv.js", "features/drafts.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-consent.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -235,6 +235,16 @@ ok(/تدفع/.test(se), "settle lists the concrete minimal transfers");
 ok(/برهان الحفظ/.test(se), "settle shows the conservation proof (Σ net = 0)");
 ok(/مركز كلِّ عضوٍ/.test(se) && /نفسه قبل وبعد/.test(se), "settle proves every member's net is PRESERVED before & after (the strong proof)");
 ok(/المال المتحرّك/.test(se), "settle shows the money-moved reduction (efficiency, no creation)");
+/* G11: per-leg interactive consent gates the settlement */
+ok(/يوافق/.test(se) && /اعتماد المقاصّة — بعد موافقة الكل/.test(se) && /disabled[^>]*onclick="AhdApp\.scSeal\(\)"/.test(se), "every leg asks BOTH parties; the approve button starts disabled");
+const scLegs = App.settleState.scState.legs;
+let seC = se;
+scLegs.forEach((leg, i) => { seC = App.scConsent(i, leg.from); seC = App.scConsent(i, leg.to); });
+ok(/الرِّجل جاهزة ✓/.test(seC) && !/disabled[^>]*onclick="AhdApp\.scSeal\(\)"/.test(seC), "all consents in → every leg ready, the approve button unlocks");
+let seSealed = noThrow(() => App.scSeal(), "approve the settlement after unanimous consent");
+ok(/اعتُمدت المقاصّة بتراضي الجميع/.test(seSealed), "the approved settlement states its consent basis");
+noThrow(() => App.settlePreset("golden"), "switching preset resets the consent round");
+ok(App.settleState.scState === null || !sandbox.SettleConsent.allReady(App.settleState.scState || { legs: [] }), "a fresh tangle starts unconsented");
 ok(/حوالةٌ بالتراضي/.test(se), "settle frames each leg as consented novation (حوالةٌ بالتراضي)");
 ok(se.indexOf("%") < 0 && !/\b\d{1,3}\s*٪/.test(se), "no percentage/score on the Muqassa screen");
 

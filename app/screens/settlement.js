@@ -64,9 +64,34 @@
       var on = p.key === presetKey;
       return '<button class="fchip' + (on ? " on" : "") + '" onclick="AhdApp.settlePreset(\'' + p.key + '\')">' + App.esc(p.labelAr) + "</button>";
     }).join("") + "</div>" : "";
-    var transfers = v.after.map(function (t) {
-      return '<div class="se-row"><span>' + App.esc(t.from) + " تدفع " + App.esc(t.to) + "</span><b>" + App.fmtN(t.amount) + " ر.س</b></div>";
-    }).join("");
+    /* G11: interactive consent per leg — the settlement is APPROVED only when
+       both parties of every minimal transfer said نعم. Fallback: plain rows. */
+    var SCn = (typeof window !== "undefined") ? window.SettleConsent : null;
+    var st = app.settleState;
+    var transfers;
+    if (SCn) {
+      if (!st.scState) { st.scState = SCn.makeState(v.after); st.scSealed = false; }
+      transfers = st.scState.legs.map(function (leg, i) {
+        var ready = SCn.legReady(leg);
+        var btn = function (party) {
+          return leg.consents[party]
+            ? '<span class="chip good">' + App.esc(party) + ' ✓</span>'
+            : '<button class="mini" onclick="AhdApp.scConsent(' + i + ',\'' + App.esc(party) + '\')">يوافق ' + App.esc(party) + ' (محاكاة)</button>';
+        };
+        return '<div class="se-row se-consent' + (ready ? " ready" : "") + '"><span>' + App.esc(leg.from) + " تدفع " + App.esc(leg.to) + "</span><b>" + App.fmtN(leg.amount) + " ر.س</b>" +
+          '<div class="se-impact">' + App.esc(SCn.impactAr(leg, leg.from)) + "<br>" + App.esc(SCn.impactAr(leg, leg.to)) + "</div>" +
+          '<div class="se-consent-act">' + btn(leg.from) + btn(leg.to) + (ready ? '<span class="chip good">الرِّجل جاهزة ✓</span>' : "") + "</div></div>";
+      }).join("");
+      var allOk = SCn.allReady(st.scState);
+      transfers += st.scSealed
+        ? '<div class="se-approved">✓ اعتُمدت المقاصّة بتراضي الجميع — تُختَم أحداثها في السجل</div>'
+        : '<div class="se-consent-gate"><button class="primary"' + (allOk ? "" : " disabled") + ' onclick="AhdApp.scSeal()">اعتماد المقاصّة — بعد موافقة الكل</button>' +
+          (allOk ? "" : '<span class="se-gate-note">لا تُعتمد حتى يوافق طرفا كلِّ حوالة</span>') + "</div>";
+    } else {
+      transfers = v.after.map(function (t) {
+        return '<div class="se-row"><span>' + App.esc(t.from) + " تدفع " + App.esc(t.to) + "</span><b>" + App.fmtN(t.amount) + " ر.س</b></div>";
+      }).join("");
+    }
     var legs = v.legs.map(function (m) {
       var pays = (m.pays || []).map(function (p) { return "يدفع " + App.esc(p.to) + " " + App.fmtN(p.amount); });
       var gets = (m.gets || []).map(function (g) { return "يقبض من " + App.esc(g.from) + " " + App.fmtN(g.amount); });
