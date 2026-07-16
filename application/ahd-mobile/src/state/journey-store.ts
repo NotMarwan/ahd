@@ -70,6 +70,64 @@ function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
+function stableJson(value: unknown): string {
+  const normalize = (item: unknown): unknown => {
+    if (Array.isArray(item)) return item.map(normalize);
+    if (item && typeof item === "object") {
+      return Object.keys(item as Record<string, unknown>)
+        .sort()
+        .reduce<Record<string, unknown>>((result, key) => {
+          result[key] = normalize((item as Record<string, unknown>)[key]);
+          return result;
+        }, {});
+    }
+    return item;
+  };
+  return JSON.stringify(normalize(value));
+}
+
+function rebuildSealed(
+  core: typeof ahdCore,
+  sealed: SealedAhd,
+): SealedAhd {
+  const source = sealed.prepared.sourceDraft;
+  return core.sealPrepared(core.prepareDraft({
+    id: source.id,
+    lender: source.lender,
+    borrower: source.borrower,
+    amountMinor: source.amountMinor,
+    months: source.months,
+    open: source.open,
+    start: source.start,
+    timestamp: source.timestamp,
+    purpose: source.purpose,
+  }));
+}
+
+function assertStoredRecordIntegrity(core: typeof ahdCore, entry: AhdStoredRecord): void {
+  try {
+    const recomputed = rebuildSealed(core, entry.sealed);
+    const proofVerification = verifyAttachedProof(entry.sealed.record, entry.proof);
+    if (stableJson(recomputed) !== stableJson(entry.sealed) || !proofVerification.ok) {
+      throw new Error("Stored Ahd integrity check failed");
+    }
+  } catch (error) {
+    if (error instanceof Error && error.message === "Stored Ahd integrity check failed") throw error;
+    throw new Error("Stored Ahd integrity check failed", { cause: error });
+  }
+}
+
+function assertImportedRecordIntegrity(entry: ImportedAhdRecord): void {
+  try {
+    if (!verifyAttachedProof(entry.record, entry.proof).ok) {
+      throw new Error("Stored imported proof integrity check failed");
+    }
+  } catch (error) {
+    if (error instanceof Error && error.message === "Stored imported proof integrity check failed") throw error;
+    throw new Error("Stored imported proof integrity check failed", { cause: error });
+  }
+}
+
 export function initialJourneyState(): AhdJourneyState {
   return {
     version: 1,
@@ -126,10 +184,40 @@ export class AhdJourneyStore {
             }]
           : [];
       const imports = Array.isArray(legacy.imports) ? clone(legacy.imports) : [];
+      records.forEach((entry) => assertStoredRecordIntegrity(this.core, entry));
+      imports.forEach(assertImportedRecordIntegrity);
       const settlementConsent = legacy.settlementConsent;
       const settlement = legacy.settlement && settlementConsent ? legacy.settlement : undefined;
+      const rootSteps: readonly AhdJourneyStep[] = [
+        "sealed",
+        "daftari",
+        "record_detail",
+        "settlement",
+        "proof",
+      ];
+      const needsRootRecord = Boolean(legacy.sealed) || rootSteps.includes(legacy.step);
+      const storedActiveId = Object.prototype.hasOwnProperty.call(legacy, "activeRecordId")
+        ? legacy.activeRecordId
+        : undefined;
+      const activeRecordId = needsRootRecord
+        ? storedActiveId
+          ?? legacy.sealed?.record.id
+          ?? records.at(-1)?.sealed.record.id
+          ?? null
+        : storedActiveId ?? null;
+      const activeEntry = activeRecordId
+        ? records.find((entry) => entry.sealed.record.id === activeRecordId)
+        : undefined;
+      if (activeRecordId && !activeEntry) throw new Error("Stored active Ahd record was not found");
+      if (needsRootRecord && !activeEntry) throw new Error("Stored Ahd root record was not found");
+      if (legacy.sealed && activeEntry && stableJson(legacy.sealed) !== stableJson(activeEntry.sealed)) {
+        throw new Error("Stored Ahd root integrity check failed");
+      }
+      if (legacy.proof && activeEntry && !verifyAttachedProof(activeEntry.sealed.record, legacy.proof).ok) {
+        throw new Error("Stored Ahd root proof integrity check failed");
+      }
       const step = legacy.step === "settlement" && !settlement
-        ? (legacy.sealed ? "record_detail" : "home")
+        ? (activeEntry ? "record_detail" : "home")
         : legacy.step;
       const candidate: AhdJourneyState = {
         ...clone(stored),
@@ -138,11 +226,17 @@ export class AhdJourneyStore {
         imports,
         settlement,
         settlementConsent,
-        activeRecordId: legacy.activeRecordId
-          ?? legacy.sealed?.record.id
-          ?? records.at(-1)?.sealed.record.id
-          ?? null,
+        activeRecordId,
       };
+      if (activeEntry && needsRootRecord) {
+        candidate.sealed = clone(activeEntry.sealed);
+        candidate.proof = clone(activeEntry.proof);
+        candidate.proofVerification = verifyAttachedProof(activeEntry.sealed.record, activeEntry.proof);
+      } else {
+        delete candidate.sealed;
+        delete candidate.proof;
+        delete candidate.proofVerification;
+      }
       if (JSON.stringify(candidate) !== JSON.stringify(stored)) {
         await this.repository.save(candidate);
       }
@@ -240,7 +334,6 @@ export class AhdJourneyStore {
   }
 
   async settle(recordIds: readonly string[], consentConfirmed: boolean): Promise<AhdJourneyState> {
-    this.requireSealed();
     if (!consentConfirmed) throw new Error("Settlement requires explicit consent");
     const uniqueRecordIds = [...new Set(recordIds)];
     if (uniqueRecordIds.length === 0) throw new Error("Settlement requires at least one local record");
@@ -256,7 +349,20 @@ export class AhdJourneyStore {
     }));
     const settlement = this.core.buildSettlement(transfers);
     const settlementConsent: SettlementConsent = { confirmed: true, recordIds: uniqueRecordIds };
-    return this.commit({ ...this.state, step: "settlement", settlement, settlementConsent });
+    const activeEntry = entries.find((entry) => (
+      entry.sealed.record.id === this.state.activeRecordId
+    )) ?? entries.at(-1);
+    if (!activeEntry) throw new Error("Settlement requires an active local record");
+    return this.commit({
+      ...this.state,
+      step: "settlement",
+      settlement,
+      settlementConsent,
+      activeRecordId: activeEntry.sealed.record.id,
+      sealed: clone(activeEntry.sealed),
+      proof: clone(activeEntry.proof),
+      proofVerification: verifyAttachedProof(activeEntry.sealed.record, activeEntry.proof),
+    });
   }
 
   async verifyProof(): Promise<AhdJourneyState> {

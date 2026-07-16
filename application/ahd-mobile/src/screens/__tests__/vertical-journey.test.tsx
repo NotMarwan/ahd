@@ -34,6 +34,9 @@ describe('رحلة عهد الأولى على الجوال', () => {
     await fireEvent.changeText(view.getByLabelText('صاحب المال'), 'نورة');
     await fireEvent.changeText(view.getByLabelText('المستفيد'), 'سارة');
     await fireEvent.changeText(view.getByLabelText('مبلغ العهد بالريال'), '1200');
+    await fireEvent.changeText(view.getByLabelText('عدد أشهر السداد'), '3');
+    await fireEvent.changeText(view.getByLabelText('شهر أول استحقاق'), '2026-08');
+    await fireEvent.changeText(view.getByLabelText('تاريخ الاتفاق'), '2026-07-16');
     await fireEvent.press(view.getByRole('button', { name: 'فحص الشروط' }));
     await waitFor(() => expect(store.getState().step).toBe('riba_check'));
     expect(view.getByText('الشروط خالية من الزيادة المشروطة')).toBeTruthy();

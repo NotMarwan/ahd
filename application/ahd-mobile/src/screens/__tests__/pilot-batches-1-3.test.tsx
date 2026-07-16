@@ -24,7 +24,11 @@ describe('Pilot UI batches 1–3', () => {
     expect(screen.getByLabelText('المستفيد').props.value).toBe('');
     expect(screen.getByLabelText('مبلغ العهد بالريال').props.value).toBe('');
     expect(screen.getByLabelText('غرض العهد').props.value).toBe('');
+    expect(screen.getByLabelText('عدد أشهر السداد').props.value).toBe('');
+    expect(screen.getByLabelText('شهر أول استحقاق').props.value).toBe('');
+    expect(screen.getByLabelText('تاريخ الاتفاق').props.value).toBe('');
     expect(screen.queryByRole('button', { name: 'تعبئة تجريبية' })).toBeNull();
+    expect(screen.queryByText(/4 أقساط|2026-07-01/)).toBeNull();
     expect(screen.getByLabelText('شعار عهد الرسمي')).toBeTruthy();
   });
 

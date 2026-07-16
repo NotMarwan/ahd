@@ -1,4 +1,10 @@
-import type { AhdJourneyState } from './journey-store';
+import { ahdCore, type ProofPack, type SealedAhd } from '../core/ahd-core';
+import { verifyAttachedProof } from '../share';
+import type {
+  AhdJourneyState,
+  AhdStoredRecord,
+  ImportedAhdRecord,
+} from './journey-store';
 import { initialJourneyState } from './journey-store';
 
 export const PILOT_SLICE_KEYS = [
@@ -91,6 +97,48 @@ const JOURNEY_STEPS = new Set([
 
 function invalid(path: string): never {
   throw new Error(`Invalid Pilot data shape at ${path}`);
+}
+
+function stableJson(value: unknown): string {
+  const normalize = (item: unknown): unknown => {
+    if (Array.isArray(item)) return item.map(normalize);
+    if (item && typeof item === 'object') {
+      return Object.keys(item as UnknownRecord)
+        .sort()
+        .reduce<UnknownRecord>((result, key) => {
+          result[key] = normalize((item as UnknownRecord)[key]);
+          return result;
+        }, {});
+    }
+    return item;
+  };
+  return JSON.stringify(normalize(value));
+}
+
+function rebuildSealed(sealed: SealedAhd): SealedAhd {
+  const source = sealed.prepared.sourceDraft;
+  return ahdCore.sealPrepared(ahdCore.prepareDraft({
+    id: source.id,
+    lender: source.lender,
+    borrower: source.borrower,
+    amountMinor: source.amountMinor,
+    months: source.months,
+    open: source.open,
+    start: source.start,
+    timestamp: source.timestamp,
+    purpose: source.purpose,
+  }));
+}
+
+function sealedProofIntegrityAt(sealed: SealedAhd, proof: ProofPack, path: string): void {
+  try {
+    const recomputed = rebuildSealed(sealed);
+    if (stableJson(recomputed) !== stableJson(sealed) || !verifyAttachedProof(sealed.record, proof).ok) {
+      invalid(`${path}.integrity`);
+    }
+  } catch {
+    invalid(`${path}.integrity`);
+  }
 }
 
 function recordAt(
@@ -325,6 +373,8 @@ function storedRecordAt(value: unknown, path: string): void {
   const sealed = entry.sealed as { record: { id: string } };
   const proof = entry.proof as { id: string };
   if (sealed.record.id !== proof.id) invalid(`${path}.proof.id`);
+  const typed = entry as unknown as AhdStoredRecord;
+  sealedProofIntegrityAt(typed.sealed, typed.proof, path);
 }
 
 function importedRecordAt(value: unknown, path: string): void {
@@ -335,6 +385,12 @@ function importedRecordAt(value: unknown, path: string): void {
   const record = entry.record as { id: string };
   const proof = entry.proof as { id: string };
   if (record.id !== proof.id) invalid(`${path}.proof.id`);
+  try {
+    const typed = entry as unknown as ImportedAhdRecord;
+    if (!verifyAttachedProof(typed.record, typed.proof).ok) invalid(`${path}.integrity`);
+  } catch {
+    invalid(`${path}.integrity`);
+  }
 }
 
 function journeyAt(value: unknown, path: string): void {
@@ -439,6 +495,24 @@ function journeyAt(value: unknown, path: string): void {
   if (hasRecords && journey.sealed) {
     const sealedId = (journey.sealed as { record: { id: string } }).record.id;
     if (journey.activeRecordId !== sealedId) invalid(`${path}.activeRecordId`);
+    const activeEntry = (journey.records as readonly unknown[]).find((entry) => (
+      (entry as AhdStoredRecord).sealed.record.id === sealedId
+    )) as AhdStoredRecord | undefined;
+    if (!activeEntry || stableJson(activeEntry.sealed) !== stableJson(journey.sealed)) {
+      invalid(`${path}.sealed.integrity`);
+    }
+    if (journey.proof !== undefined) {
+      const rootProof = journey.proof as ProofPack;
+      if (!verifyAttachedProof(activeEntry.sealed.record, rootProof).ok) {
+        invalid(`${path}.proof.integrity`);
+      }
+      if (journey.proofVerification !== undefined) {
+        const expected = verifyAttachedProof(activeEntry.sealed.record, rootProof);
+        if (stableJson(expected) !== stableJson(journey.proofVerification)) {
+          invalid(`${path}.proofVerification`);
+        }
+      }
+    }
   }
 }
 

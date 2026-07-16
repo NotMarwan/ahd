@@ -41,6 +41,17 @@ describe("typed Ahd core adapter", () => {
     expect(() => ahdCore.parseSarTextToMinor("1,200.00")).toThrow("valid SAR amount");
     expect(() => ahdCore.parseSarTextToMinor("1٬200.00")).toThrow("valid SAR amount");
     expect(() => ahdCore.parseSarTextToMinor("1.234")).toThrow("valid SAR amount");
+    expect(() => ahdCore.parseSarTextToMinor("90071992547409.90")).toThrow(/Pilot|limit|safe/i);
+  });
+
+  test("caps the decimal golden adapter at a verified Pilot-safe principal", () => {
+    const { ahdCore } = requireCore();
+
+    expect(ahdCore.parseSarTextToMinor("100000000.00")).toBe(10_000_000_000);
+    expect(() => ahdCore.prepareDraft({
+      ...INPUT,
+      amountMinor: 10_000_000_001,
+    })).toThrow(/Pilot|limit|safe/i);
   });
 
   test("keeps principal and schedule in integer halalas", () => {

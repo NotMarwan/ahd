@@ -189,6 +189,43 @@ describe("Phase 1 journey state", () => {
     expect(() => assertPilotSlice("journey", store.getState())).not.toThrow();
   });
 
+  test("restores the selected record when settlement follows an abandoned create flow", async () => {
+    const { repository, journey } = requireStateModules();
+    const store = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
+    await store.beginCreate();
+    await store.reviewDraft(INPUT);
+    await store.seal();
+    await store.beginCreate();
+    expect(store.getState().sealed).toBeUndefined();
+
+    await store.settle([INPUT.id], true);
+
+    expect(store.getState().step).toBe("settlement");
+    expect(store.getState().activeRecordId).toBe(INPUT.id);
+    expect(store.getState().sealed?.record.id).toBe(INPUT.id);
+  });
+
+  test("fails closed when persisted local content no longer matches its attached proof", async () => {
+    const { repository, journey } = requireStateModules();
+    const persistence = new repository.InMemoryAhdRepository<
+      ReturnType<typeof journey.initialJourneyState>
+    >();
+    const writer = new journey.AhdJourneyStore(persistence, ahdCore);
+    await writer.beginCreate();
+    await writer.reviewDraft(INPUT);
+    await writer.seal();
+    const tampered = await persistence.load();
+    if (!tampered) throw new Error("expected persisted journey");
+    tampered.records[0].sealed.record.amountMinor += 1;
+    tampered.sealed!.record.amountMinor += 1;
+    await persistence.save(tampered);
+
+    expect(() => assertPilotSlice("journey", tampered)).toThrow(/integrity|proof|Invalid/i);
+    const reader = new journey.AhdJourneyStore(persistence, ahdCore);
+    await expect(reader.hydrate()).rejects.toThrow(/integrity|proof|stored/i);
+    expect(reader.getState()).toEqual(journey.initialJourneyState());
+  });
+
   test("persists only verified shared records without adding them to financial records", async () => {
     const { repository, journey } = requireStateModules();
     const source = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);

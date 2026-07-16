@@ -6,6 +6,7 @@ const settlementFeature = require("../generated/features/settlement.js") as Gene
 const proofFeature = require("../generated/features/proof.js") as GeneratedProof;
 
 export const AS_OF = "2026-06-21" as const;
+export const MAX_PILOT_AMOUNT_MINOR = 10_000_000_000;
 
 export type RibaVerdict = "clean" | "block";
 
@@ -165,9 +166,7 @@ export function parseSarTextToMinor(value: string): number {
     ? 0
     : integerDigits(fractionDigits) * (fractionDigits.length === 1 ? 10 : 1);
   const amountMinor = whole * 100 + fraction;
-  if (!Number.isSafeInteger(amountMinor)) {
-    throw new TypeError("Amount must be a valid SAR amount");
-  }
+  assertMinor(amountMinor);
   return amountMinor;
 }
 
@@ -183,11 +182,18 @@ function assertMinor(value: number, label = "amountMinor"): void {
   if (!Number.isSafeInteger(value) || value < 0) {
     throw new TypeError(`${label} must be non-negative integer halalas`);
   }
+  if (value > MAX_PILOT_AMOUNT_MINOR) {
+    throw new RangeError(`${label} exceeds the Pilot safe limit`);
+  }
 }
 
 function minorToGeneratedSar(amountMinor: number): number {
   assertMinor(amountMinor);
-  return amountMinor / 100;
+  const amountSar = amountMinor / 100;
+  if (engine.toMinor(amountSar) !== amountMinor) {
+    throw new RangeError("amountMinor cannot make a safe Pilot round-trip");
+  }
+  return amountSar;
 }
 
 function generatedRecord(record: AhdRecord): GeneratedRecord {
@@ -361,6 +367,7 @@ function buildSettlement(transfers: readonly SettlementTransfer[]): SettlementRe
 
 export const ahdCore = Object.freeze({
   AS_OF,
+  MAX_PILOT_AMOUNT_MINOR,
   parseSarTextToMinor,
   formatMinorSar,
   prepareDraft,

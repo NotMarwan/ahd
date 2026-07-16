@@ -16,6 +16,7 @@ import {
   createShareEnvelope,
   serializeShareEnvelope,
   shareEnvelopeText,
+  verifyAttachedProof,
   type ShareEnvelopeResult,
 } from '@/share';
 import { useAhdJourney } from '@/state';
@@ -49,9 +50,9 @@ export function ProofScreen() {
   const [shareFeedback, setShareFeedback] = useState<string>();
   const [importText, setImportText] = useState('');
   const [importResult, setImportResult] = useState<ShareEnvelopeResult>();
-  const verification = state.proofVerification;
   const sealed = state.sealed;
   const proof = state.proof;
+  const verification = sealed && proof ? verifyAttachedProof(sealed.record, proof) : undefined;
 
   const shareRecord = async () => {
     if (!sealed || !proof) return;
