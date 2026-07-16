@@ -1243,3 +1243,10 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .ji-name small{color:var(--mut); font-weight:400}
 .chip.amber{background:var(--amber-soft); color:var(--amber)}
 .chip.good{background:var(--teal-soft); color:var(--teal)}
+
+/* ==== jamiya goal + scenarios + change log (G8/G9) ======================== */
+.jam-goal .muted{color:var(--mut); font-size:var(--sadu-type-sm)}
+.jam-scen{display:grid; gap:6px; border:1px dashed var(--line); border-radius:var(--r-md);
+  padding:10px; margin:10px 0; background:var(--card)}
+.jam-scen strong{font-size:var(--sadu-type-sm); color:var(--ink)}
+.jam-changes .pv-row b{font-weight:600}

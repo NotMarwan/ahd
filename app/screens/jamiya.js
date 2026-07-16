@@ -8,6 +8,8 @@
   var App = (typeof window !== "undefined") ? window.AhdApp : null;
   var J = (typeof window !== "undefined") ? window.Jamiya : null;
   var JI = (typeof window !== "undefined") ? window.JamiyaInvite : null;   // Hakbah G7 (optional)
+  var JC = (typeof window !== "undefined") ? window.JamiyaChanges : null;  // Hakbah G8 (optional)
+  var JG = (typeof window !== "undefined") ? window.JamiyaGoal : null;     // MoneyFellows G9 (optional)
   if (!App || !J) return;
 
   function money(minor) {
@@ -44,7 +46,29 @@
   App.JamiyaInvite = JI;
   App.jamiyaState = App.jamiyaState || {
     contract: demoJamiya(), flash: null,
-    inviteState: JI ? JI.makeState(["أم سارة", "نورة", "هند", "منال", "عبير", "لجين"]) : null
+    inviteState: JI ? JI.makeState(["أم سارة", "نورة", "هند", "منال", "عبير", "لجين"]) : null,
+    changesLog: JC ? JC.makeLog() : null,
+    goalAr: "دفعة أولى لبيت العائلة"
+  };
+
+  /* Hakbah G8: swap the LAST TWO (future, unpaid) rounds بالتراضي — logged,
+     then the contract is re-sealed as a NEW documented version and every
+     already-sealed payment replays byte-consistently (round+member keyed). */
+  App.jamSwapDemo = function () {
+    if (!JC) return this.rerender();
+    try {
+      var c = this.jamiyaState.contract;
+      var a = c.orderAgreed[c.orderAgreed.length - 2], b = c.orderAgreed[c.orderAgreed.length - 1];
+      var res = JC.swapRounds(this.jamiyaState.changesLog, c, a, b);
+      var rebuilt = J.jamiyaSeal(J.makeJamiya({
+        members: c.members, monthlyMinor: c.monthlyMinor, startMonth: c.startMonth, orderAgreed: res.orderAfter
+      }));
+      (c.payments || []).forEach(function (p) { rebuilt = J.recordPayment(rebuilt, { round: p.round, member: p.member }); });
+      this.jamiyaState.changesLog = res.log;
+      this.jamiyaState.contract = rebuilt;
+      this.jamiyaState.flash = "بُدّل دوران بالتراضي — سُجّل التغيير وخُتمت نسخة جديدة";
+    } catch (error) { this.jamiyaState.flash = error.message; }
+    return this.rerender();
   };
 
   /* invitation decisions (Hakbah G7) — recorded per member, sim like rem-sim */
@@ -126,6 +150,7 @@
       '<div class="formrow"><label class="field"><span>مساهمة كل عضو شهريًّا · ر.س</span><input id="jamiya-amount" inputmode="decimal" value="' + App.esc(App.engine.minorToFixed2(contract.monthlyMinor)) + '"></label>' +
       '<label class="field"><span>شهر البداية</span><input id="jamiya-start" type="month" value="' + App.esc(contract.startMonth) + '"></label></div>' +
       '<div class="jamiya-order"><strong>ترتيب الاستلام المتفق عليه</strong><div class="formrow">' + orderSelects(contract) + '</div></div>' +
+      scenarioTable(contract) +
       inviteSection(contract) +
       '<button class="primary"' + (sealGateClosed(contract) ? " disabled" : "") + ' onclick="AhdApp.jamiyaCreate()">وثّق الجمعية واختمها</button>' +
     '</section>';
@@ -201,13 +226,47 @@
       '<div class="jamiya-grid">' + head + rows + '</div></section>';
   }
 
+  /* MoneyFellows G9 (adapted): a descriptive goal + progress — never a promise */
+  function goalSection(contract, state) {
+    if (!JG) return "";
+    var d = JG.describe(state.goalAr, contract);
+    return '<section class="card jam-goal"><div class="eyebrow">الهدف</div>' +
+      '<div class="title-row"><h3>' + App.esc(d.goalAr) + '</h3><strong>' + App.digit(d.progress.done) + ' من ' + App.digit(d.progress.total) + ' دفعة</strong></div>' +
+      '<div class="progress" role="progressbar" aria-label="تقدّم الهدف" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + d.progress.pct + '"><span style="width:' + d.progress.pct + '%"></span></div>' +
+      '<div class="muted">' + App.esc(d.promiseFreeAr) + '</div></section>';
+  }
+
+  /* MoneyFellows G9: compare cycle scenarios BEFORE inviting anyone */
+  function scenarioTable(contract) {
+    if (!JG) return "";
+    var rows = JG.scenarios(contract.monthlyMinor, [6, 10, 12]).map(function (s) {
+      return '<div class="pv-row"><span>' + App.digit(s.months) + ' أشهر</span><b>' + money(s.perRoundMinor) + ' ر.س شهريًا · إجمالي دورتك ' + money(s.totalMinor) + ' ر.س</b></div>';
+    }).join("");
+    return '<div class="jam-scen"><strong>قارن السيناريوهات قبل الدعوة</strong>' + rows +
+      '<div class="muted">المدة الفعلية تتبع عدد الأعضاء — كل الالتزامات ظاهرة قبل المشاركة، ولا رسوم بأي سيناريو.</div></div>';
+  }
+
+  /* Hakbah G8: the append-only change log under the board */
+  function changesSection(state) {
+    if (!JC || !state.changesLog) return "";
+    var v = JC.verify(state.changesLog);
+    var rows = state.changesLog.entries.length
+      ? state.changesLog.entries.map(function (e) {
+          return '<div class="pv-row"><span>' + App.esc(e.id) + '</span><b>' + App.esc(e.detailAr) + '</b></div>';
+        }).join("")
+      : '<div class="muted">لا تغييرات — الترتيب كما اتُّفق عليه أول مرة.</div>';
+    return '<section class="card jam-changes"><div class="title-row"><h3>سجل التغييرات</h3><span class="chip ' + (v.ok ? "good" : "amber") + '">' + (v.ok ? "✓ متسلسل" : "✗ " + App.esc(v.whyAr || "")) + '</span></div>' + rows +
+      '<button class="ghost" onclick="AhdApp.jamSwapDemo()">بدّل آخر دورين بالتراضي (محاكاة)</button>' +
+      '<div class="muted">كل تبديل دورٍ أو انسحاب قيدٌ مرقّم لا يُمحى — درس هكبة، بأسلوب عهد.</div></section>';
+  }
+
   function render(app) {
     var state = app.jamiyaState;
     var contract = state.contract;
     var flash = state.flash ? '<div class="flash" role="status">' + App.esc(state.flash) + '</div>' : "";
     return '<div class="jamiya">' + flash +
       '<header class="screen-head"><div><span class="eyebrow">شهادةٌ بلا حيازة</span><h2>الجمعية الموثّقة</h2><p>ترتيبٌ بالتراضي، وكل دفعةٍ حدثٌ مختوم. الأموال لا تمر بالمصرف.</p></div><div class="hero-icon" aria-hidden="true">🤝</div></header>' +
-      createForm(contract) + contractCard(contract) + roundsGrid(contract) +
+      goalSection(contract, state) + createForm(contract) + contractCard(contract) + roundsGrid(contract) + changesSection(state) +
     '</div>';
   }
 
