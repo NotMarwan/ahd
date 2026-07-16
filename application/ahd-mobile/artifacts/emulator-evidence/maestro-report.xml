@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" device="test" tests="1" failures="0" time="53.0">
+    <testcase id="pilot-journey" name="pilot-journey" classname="pilot-journey" file=".maestro/pilot-journey.yaml" time="53.0" status="SUCCESS"/>
+  </testsuite>
+</testsuites>

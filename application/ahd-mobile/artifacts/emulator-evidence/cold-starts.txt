@@ -1,0 +1,21 @@
+Starting: Intent { cmp=sa.ahd.mobile/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: sa.ahd.mobile/.MainActivity
+TotalTime: 1049
+WaitTime: 1061
+Complete
+Starting: Intent { cmp=sa.ahd.mobile/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: sa.ahd.mobile/.MainActivity
+TotalTime: 934
+WaitTime: 951
+Complete
+Starting: Intent { cmp=sa.ahd.mobile/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: sa.ahd.mobile/.MainActivity
+TotalTime: 1116
+WaitTime: 1118
+Complete
