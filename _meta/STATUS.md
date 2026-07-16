@@ -146,3 +146,15 @@ requirement coverage**, **0 duplicate/invalid/pathless tasks**, and **0 missing 
 The formal requirements-review checklist is **47/47**. Fresh evidence: Open-Witness intact fixtures
 VALID, tampered fixture rejected with expected exit 1, live HTTP smoke OK, and **AHD GATE 2869/0**
 with frozen-demo tripwire intact. No product behavior, golden function, vector, or Shariah ruling changed.
+
+DONE · 2026-07-16T14:35+03:00 · Codex · **Trust Weave mobile batch 1** · `application/ahd-mobile/`
+
+Replaced the old Sadu-colored Expo surface with the owner-approved Trust Weave language on Home,
+Open Loan, and Settlement. The live client now uses a white ground, cobalt/gold semantic threads,
+the official mark as a transparent integrated header asset without a wordmark, a real loan ledger,
+and a deterministic local netting preview that never mutates balances silently. Focused mobile tests
+are **7/7**, TypeScript is green, `git diff --check` is clean, and the repository gate remains
+**3380/0** with the frozen demo untouched. Judge Lens for this visible batch: innovation 8 · technical
+8 · data 6 · UX 8.5 · feasibility 8 · memorability 8; the existing `JL-18` retains the below-bar data
+and full-mobile-path gap. Baseline full mobile Jest has one unrelated generated `daftari.js` drift,
+assigned to the next Pilot foundation task.

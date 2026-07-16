@@ -1546,6 +1546,113 @@
       },
       "result": "Ahd Daily shipped with private unsealed qaids, exact split conservation, fixed dignified reminders, offline confirm links, deterministic acceptance codes, and Arabic-first screen.",
       "completed_at": "2026-07-15T19:05:00+03:00"
+    },
+    {
+      "task_id": "T132",
+      "status": "complete",
+      "wave": "specs/002-judge-readiness",
+      "implementer": "root",
+      "owner_single_agent_override": true,
+      "dispatch_id": "wave1-T132-root-20260716-143319-final",
+      "files": [
+        "docs/superpowers/specs/2026-07-16-trust-weave-mobile-design.md",
+        "docs/superpowers/plans/2026-07-16-trust-weave-mobile.md",
+        "application/ahd-mobile/assets/images/ahd-logo-transparent.png",
+        "application/ahd-mobile/src/theme/tokens.ts",
+        "application/ahd-mobile/src/components/app-shell.tsx",
+        "application/ahd-mobile/src/components/screen-header.tsx",
+        "application/ahd-mobile/src/components/ahd-button.tsx",
+        "application/ahd-mobile/src/components/row-group.tsx",
+        "application/ahd-mobile/src/components/section.tsx",
+        "application/ahd-mobile/src/components/status-chip.tsx",
+        "application/ahd-mobile/src/components/trust-weave-header.tsx",
+        "application/ahd-mobile/src/components/weave-band.tsx",
+        "application/ahd-mobile/src/components/seal-chip.tsx",
+        "application/ahd-mobile/src/components/thread-meter.tsx",
+        "application/ahd-mobile/src/components/netting-visual.tsx",
+        "application/ahd-mobile/src/components/index.ts",
+        "application/ahd-mobile/src/app/(tabs)/_layout.tsx",
+        "application/ahd-mobile/src/app/(stack)/_layout.tsx",
+        "application/ahd-mobile/src/screens/HomeScreen.tsx",
+        "application/ahd-mobile/src/screens/OpenLoanScreen.tsx",
+        "application/ahd-mobile/src/screens/SettlementScreen.tsx",
+        "application/ahd-mobile/src/theme/__tests__/trust-weave-theme.test.ts",
+        "application/ahd-mobile/src/screens/__tests__/trust-weave-batch1.test.tsx",
+        "application/ahd-mobile/src/screens/__tests__/open-screen.test.tsx",
+        "_meta/STATUS.md",
+        "_meta/OPEN-ITEMS.md",
+        "AmadHackathon/00 Home.md",
+        "specs/002-judge-readiness/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "_meta/freeze/reviews/T132/review-001.json"
+      ],
+      "artifacts": [
+        {
+          "path": "application/ahd-mobile/assets/images/ahd-logo-transparent.png",
+          "sha256": "3004c6c36615e24fedace69f8ae38a9dd029c93aa65e1fe62c378d314a867323"
+        },
+        {
+          "path": "application/ahd-mobile/src/theme/tokens.ts",
+          "sha256": "071e235a9a86ced88b52c5749ddd84bbff810d955c3c350153dd87791b254a63"
+        },
+        {
+          "path": "application/ahd-mobile/src/components/trust-weave-header.tsx",
+          "sha256": "03662e170d3960efb92d6b644767c0d8e2a68f67b4dc5a2f631f79fbe6dd8512"
+        },
+        {
+          "path": "application/ahd-mobile/src/screens/HomeScreen.tsx",
+          "sha256": "0b98890aae1f2ffb5783b3cbce8fd6b56f00d5c3e75c81804ad210b2c7c374ef"
+        },
+        {
+          "path": "application/ahd-mobile/src/screens/OpenLoanScreen.tsx",
+          "sha256": "347b3481dd8674a83fc6162efd161d4dbb1d7c6a095bbae13026d34d48691019"
+        },
+        {
+          "path": "application/ahd-mobile/src/screens/SettlementScreen.tsx",
+          "sha256": "a2305b083f3914339d57be0949a223423861dfabf5c74f436e55b14f7e209190"
+        }
+      ],
+      "tests": [
+        {
+          "command": "npm.cmd test -- --runInBand src/theme/__tests__/trust-weave-theme.test.ts src/screens/__tests__/trust-weave-batch1.test.tsx src/screens/__tests__/open-screen.test.tsx",
+          "phase": "GREEN",
+          "result": "3 suites, 7 tests passed"
+        },
+        {
+          "command": "npm.cmd run typecheck",
+          "result": "passed"
+        },
+        {
+          "command": "git diff --check",
+          "result": "clean"
+        },
+        {
+          "command": "node tests/run-all.cjs",
+          "result": "AHD GATE 3380/0; frozen demo exact"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T132-CV1",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": null,
+          "artifact_path": "_meta/freeze/reviews/T132/review-001.json",
+          "reviewed_commit": "working-tree@360d09252aa9024ac7d64e2f8b1ba5c9d100ad96",
+          "created_at": "2026-07-16T14:35:00+03:00"
+        }
+      ],
+      "constitution": "pass",
+      "judge_lens": {
+        "innovation": 8,
+        "technical": 8,
+        "data_analysis": 6,
+        "ux": 8.5,
+        "feasibility": 8,
+        "memorability": 8
+      },
+      "result": "Trust Weave batch 1 shipped in the real Expo client with white ground, integrated transparent official mark, and live Home/Open Loan/Settlement behavior.",
+      "completed_at": "2026-07-16T14:35:00+03:00"
     }
   ]
 }

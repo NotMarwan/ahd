@@ -7,7 +7,7 @@ export default function ContextLayout() {
   return (
     <Stack
       screenOptions={{
-        animation: 'none',
+        animation: 'fade',
         contentStyle: { backgroundColor: colors.ground },
         headerBackButtonDisplayMode: 'minimal',
         headerShadowVisible: false,
@@ -26,7 +26,11 @@ export default function ContextLayout() {
         <Stack.Screen
           key={screen.key}
           name={screen.route.slice(1)}
-          options={{ title: screen.label, headerTitle: '' }}
+          options={{
+            title: screen.label,
+            headerTitle: '',
+            headerShown: screen.key !== 'open',
+          }}
         />
       ))}
       <Stack.Screen name="record/[id]" options={{ title: 'تفاصيل العهد', headerTitle: '' }} />

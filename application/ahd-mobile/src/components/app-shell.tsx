@@ -21,6 +21,7 @@ export function AppShell({
       testID={testID}
       contentInsetAdjustmentBehavior="automatic"
       keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+      showsVerticalScrollIndicator={false}
       style={styles.scroll}
       contentContainerStyle={[
         styles.content,
@@ -41,11 +42,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: '100%',
     boxSizing: 'border-box',
-    maxWidth: 720,
+    maxWidth: 520,
     alignSelf: 'center',
     gap: spacing.x4,
-    paddingTop: spacing.x3,
-    paddingBottom: spacing.x6,
+    paddingTop: spacing.x2,
+    paddingBottom: spacing.x8,
     writingDirection: 'rtl',
     fontFamily: fontFamilies.body,
   },

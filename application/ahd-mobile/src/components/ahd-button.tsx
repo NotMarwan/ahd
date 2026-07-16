@@ -49,26 +49,33 @@ export function AhdButton({
 const styles = StyleSheet.create({
   base: {
     minHeight: controls.minTarget,
-    paddingHorizontal: spacing.x3,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.x4,
+    paddingVertical: spacing.x3,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: radii.card,
+    borderRadius: radii.medium,
     borderCurve: 'continuous',
   },
   primary: {
     backgroundColor: colors.accent,
+    shadowColor: colors.accent,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 3,
   },
   secondary: {
     backgroundColor: colors.card,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.hairline,
+    borderWidth: 1,
+    borderColor: colors.line,
   },
   quiet: {
     backgroundColor: 'transparent',
   },
   disabled: {
     backgroundColor: colors.disabled,
+    shadowOpacity: 0,
+    elevation: 0,
   },
   label: {
     ...typography.row,
@@ -76,7 +83,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   primaryLabel: {
-    color: colors.card,
+    color: colors.white,
   },
   secondaryLabel: {
     color: colors.ink,

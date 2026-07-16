@@ -24,17 +24,18 @@ export function Section({ title, accessory, children }: SectionProps) {
 
 const styles = StyleSheet.create({
   section: {
-    gap: spacing.x2,
+    gap: spacing.x3,
   },
   headingRow: {
-    minHeight: 24,
+    minHeight: 22,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: spacing.x2,
   },
   title: {
-    ...typography.row,
+    ...typography.body,
+    fontWeight: '700',
     color: colors.ink,
     fontFamily: fontFamilies.body,
     textAlign: 'right',
