@@ -1,0 +1,19 @@
+{
+  "cli": {
+    "version": ">= 13.0.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "pilot": {
+      "distribution": "internal",
+      "channel": "pilot",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "EXPO_NO_TELEMETRY": "1"
+      }
+    }
+  }
+}

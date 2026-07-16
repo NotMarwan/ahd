@@ -1,0 +1,130 @@
+name: mobile-pilot-android
+
+# Ahd Pilot — build a release-preview APK for one or two Pilot customers,
+# install and exercise it on an Android emulator, and publish the APK plus
+# its SHA-256 and runtime evidence. No store release, no tag, no merge.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - codex/mobile-pilot-mvp
+    paths:
+      - 'application/ahd-mobile/**'
+      - '.github/workflows/mobile-pilot-android.yml'
+
+concurrency:
+  group: mobile-pilot-android-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: application/ahd-mobile
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: application/ahd-mobile/package-lock.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Focused verification
+        run: |
+          npm run check:core
+          npm run check:boundaries
+          npm run typecheck
+          npm test
+
+      - name: Prebuild Android project
+        run: npx expo prebuild --platform android --no-install
+        env:
+          EXPO_NO_TELEMETRY: '1'
+          CI: '1'
+
+      - name: Build release-preview APK (:app:assembleRelease)
+        working-directory: application/ahd-mobile/android
+        run: ./gradlew :app:assembleRelease --no-daemon
+
+      - name: Collect APK and SHA-256 checksum
+        run: |
+          mkdir -p artifacts
+          cp android/app/build/outputs/apk/release/app-release.apk artifacts/ahd-pilot-v1.apk
+          cd artifacts
+          sha256sum ahd-pilot-v1.apk | tee ahd-pilot-v1.apk.sha256
+          ls -la
+          APK_BYTES=$(stat -c %s ahd-pilot-v1.apk)
+          echo "APK size: ${APK_BYTES} bytes"
+          test "$APK_BYTES" -lt 104857600 || { echo 'APK exceeds 100 MB gate'; exit 1; }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ahd-pilot-apk
+          path: |
+            application/ahd-mobile/artifacts/ahd-pilot-v1.apk
+            application/ahd-mobile/artifacts/ahd-pilot-v1.apk.sha256
+          if-no-files-found: error
+
+  emulator-journey:
+    needs: build-apk
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ahd-pilot-apk
+          path: application/ahd-mobile/artifacts
+
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Enable KVM for the emulator
+        working-directory: .
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run customer journey, launch timings, jank, and logcat checks
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          working-directory: application/ahd-mobile
+          script: bash scripts/android-emulator-ci.sh artifacts/ahd-pilot-v1.apk artifacts/emulator-evidence
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ahd-pilot-emulator-evidence
+          path: application/ahd-mobile/artifacts/emulator-evidence
+          if-no-files-found: error

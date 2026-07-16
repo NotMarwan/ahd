@@ -23,6 +23,7 @@ type FieldProps = {
   keyboardType?: 'default' | 'decimal-pad' | 'number-pad';
   editable?: boolean;
   placeholder?: string;
+  testID?: string;
 };
 
 function Field({
@@ -32,6 +33,7 @@ function Field({
   keyboardType = 'default',
   editable = true,
   placeholder,
+  testID,
 }: FieldProps) {
   return (
     <View style={styles.field}>
@@ -43,6 +45,7 @@ function Field({
         onChangeText={onChangeText}
         placeholder={placeholder}
         style={[styles.input, !editable && styles.inputDisabled]}
+        testID={testID}
         value={value}
       />
     </View>
@@ -161,13 +164,14 @@ export function CreateAhdScreen() {
         <Section title="الأطراف والمبلغ">
           <RowGroup>
             <View style={styles.form}>
-              <Field label="صاحب المال" value={lender} onChangeText={setLender} />
-              <Field label="المستفيد" value={borrower} onChangeText={setBorrower} />
+              <Field label="صاحب المال" value={lender} onChangeText={setLender} testID="create-lender-input" />
+              <Field label="المستفيد" value={borrower} onChangeText={setBorrower} testID="create-borrower-input" />
               <Field
                 label="مبلغ العهد بالريال"
                 value={amountSarText}
                 onChangeText={setAmountSarText}
                 keyboardType="decimal-pad"
+                testID="create-amount-input"
               />
               <Field label="غرض العهد" value={purpose} onChangeText={setPurpose} />
               <View accessibilityRole="radiogroup" style={styles.modeGroup}>
@@ -211,12 +215,13 @@ export function CreateAhdScreen() {
                 label="تاريخ الاتفاق"
                 onChangeText={setAgreementDate}
                 placeholder="YYYY-MM-DD"
+                testID="create-agreement-date-input"
                 value={agreementDate}
               />
             </View>
           </RowGroup>
           {error ? <Text style={styles.error}>{error}</Text> : null}
-          <AhdButton label="فحص الشروط" onPress={review} />
+          <AhdButton label="فحص الشروط" onPress={review} testID="create-review-button" />
         </Section>
       ) : null}
 
@@ -239,6 +244,7 @@ export function CreateAhdScreen() {
             disabled={screening.verdict !== 'clean'}
             label="اختم العهد"
             onPress={sealAhd}
+            testID="create-seal-button"
           />
         </Section>
       ) : null}
@@ -254,7 +260,7 @@ export function CreateAhdScreen() {
           <Text style={styles.disclaimer}>
             لا يمثّل هذا الختم نفاذًا أو ختمًا زمنيًا خارجيًا أو توقيع جهة مصدرة.
           </Text>
-          <AhdButton label="افتح دفتري" onPress={showDaftari} />
+          <AhdButton label="افتح دفتري" onPress={showDaftari} testID="create-open-daftari-button" />
         </Section>
       ) : null}
     </AppShell>

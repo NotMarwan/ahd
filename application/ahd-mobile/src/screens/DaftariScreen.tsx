@@ -67,6 +67,7 @@ export function DaftariScreen() {
                 <AhdButton
                   label="فتح تفاصيل العهد"
                   onPress={() => showRecord(entry.sealed.record.id)}
+                  testID="daftari-open-record"
                   variant="quiet"
                 />
               </View>

@@ -1,0 +1,63 @@
+# Ahd Pilot — primary customer journey on a real Android build.
+# Welcome disclosure -> create a real Ahd -> riba screen -> seal -> ledger -> detail -> proof.
+appId: sa.ahd.mobile
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "welcome-start"
+    timeout: 30000
+- tapOn:
+    id: "welcome-start"
+- extendedWaitUntil:
+    visible: "أنشئ عهدًا"
+    timeout: 15000
+- tapOn: "أنشئ عهدًا"
+- extendedWaitUntil:
+    visible:
+      id: "create-lender-input"
+    timeout: 15000
+- tapOn:
+    id: "create-lender-input"
+- inputText: "ريم"
+- hideKeyboard
+- tapOn:
+    id: "create-borrower-input"
+- inputText: "سارة"
+- hideKeyboard
+- tapOn:
+    id: "create-amount-input"
+- inputText: "1200"
+- hideKeyboard
+- tapOn: "عهد مفتوح"
+- tapOn:
+    id: "create-agreement-date-input"
+- inputText: "2026-07-16"
+- hideKeyboard
+- tapOn:
+    id: "create-review-button"
+- extendedWaitUntil:
+    visible: "الشروط خالية من الزيادة المشروطة"
+    timeout: 15000
+- tapOn:
+    id: "create-seal-button"
+- extendedWaitUntil:
+    visible: "تم حفظ الكلمة"
+    timeout: 15000
+- tapOn:
+    id: "create-open-daftari-button"
+- extendedWaitUntil:
+    visible: "AHD-PILOT-0001"
+    timeout: 15000
+- tapOn:
+    id: "daftari-open-record"
+- extendedWaitUntil:
+    visible:
+      id: "record-open-proof"
+    timeout: 15000
+- tapOn:
+    id: "record-open-proof"
+- extendedWaitUntil:
+    visible: "الختم مطابق للسجل"
+    timeout: 15000
