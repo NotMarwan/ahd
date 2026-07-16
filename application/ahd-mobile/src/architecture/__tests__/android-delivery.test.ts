@@ -39,6 +39,9 @@ describe('Android Pilot delivery configuration', () => {
     expect(workflow).toContain('workflow_dispatch');
     expect(workflow).toContain('codex/mobile-pilot-mvp');
     expect(workflow).toContain(':app:assembleRelease');
+    // Pilot ships one APK for real arm64 handsets plus the CI x86_64 emulator;
+    // dropping the two legacy ABIs keeps the artifact under the 100 MB gate.
+    expect(workflow).toContain('reactNativeArchitectures=arm64-v8a,x86_64');
     expect(workflow).toContain('reactivecircus/android-emulator-runner');
     expect(workflow).toContain('maestro');
     expect(workflow).toContain('logcat');
