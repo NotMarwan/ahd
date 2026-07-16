@@ -7,6 +7,7 @@
   "use strict";
   var App = (typeof window !== "undefined") ? window.AhdApp : null;
   var J = (typeof window !== "undefined") ? window.Jamiya : null;
+  var JI = (typeof window !== "undefined") ? window.JamiyaInvite : null;   // Hakbah G7 (optional)
   if (!App || !J) return;
 
   function money(minor) {
@@ -40,12 +41,43 @@
   }
 
   App.Jamiya = J;
-  App.jamiyaState = App.jamiyaState || { contract: demoJamiya(), flash: null };
+  App.JamiyaInvite = JI;
+  App.jamiyaState = App.jamiyaState || {
+    contract: demoJamiya(), flash: null,
+    inviteState: JI ? JI.makeState(["أم سارة", "نورة", "هند", "منال", "عبير", "لجين"]) : null
+  };
+
+  /* invitation decisions (Hakbah G7) — recorded per member, sim like rem-sim */
+  App.jamInviteAccept = function (name) {
+    if (JI && this.jamiyaState.inviteState) {
+      try {
+        this.jamiyaState.inviteState = JI.accept(this.jamiyaState.inviteState, name);
+        this.jamiyaState.flash = "قَبِل " + name + " شروط الجمعية — قبولٌ مسجّل";
+      } catch (error) { this.jamiyaState.flash = error.message; }
+    }
+    return this.rerender();
+  };
+  App.jamInviteDecline = function (name) {
+    if (JI && this.jamiyaState.inviteState) {
+      try {
+        this.jamiyaState.inviteState = JI.decline(this.jamiyaState.inviteState, name, "الشهر لا يناسبه");
+        this.jamiyaState.flash = name + " اعتذر — عدّلوا الترتيب أو الشهر بالتراضي، بلا حرج";
+      } catch (error) { this.jamiyaState.flash = error.message; }
+    }
+    return this.rerender();
+  };
 
   App.jamiyaCreate = function () {
     try {
-      var agreed = document.getElementById("jamiya-agreed");
-      if (!agreed || !agreed.checked) throw new Error("يلزم تأكيد موافقة الجميع على الترتيب قبل الختم");
+      if (JI && this.jamiyaState.inviteState) {
+        /* the seal is gated on unanimous RECORDED acceptances, not a checkbox */
+        if (!JI.allAccepted(this.jamiyaState.inviteState, this.jamiyaState.contract.members)) {
+          throw new Error("لا تُختَم الجمعية حتى يقبل كل عضو دعوته — " + JI.summaryAr(this.jamiyaState.inviteState, this.jamiyaState.contract.members));
+        }
+      } else {
+        var agreed = document.getElementById("jamiya-agreed");
+        if (!agreed || !agreed.checked) throw new Error("يلزم تأكيد موافقة الجميع على الترتيب قبل الختم");
+      }
       var memberText = document.getElementById("jamiya-members");
       var amount = document.getElementById("jamiya-amount");
       var start = document.getElementById("jamiya-start");
@@ -94,9 +126,42 @@
       '<div class="formrow"><label class="field"><span>مساهمة كل عضو شهريًّا · ر.س</span><input id="jamiya-amount" inputmode="decimal" value="' + App.esc(App.engine.minorToFixed2(contract.monthlyMinor)) + '"></label>' +
       '<label class="field"><span>شهر البداية</span><input id="jamiya-start" type="month" value="' + App.esc(contract.startMonth) + '"></label></div>' +
       '<div class="jamiya-order"><strong>ترتيب الاستلام المتفق عليه</strong><div class="formrow">' + orderSelects(contract) + '</div></div>' +
-      '<label class="check"><input id="jamiya-agreed" type="checkbox"> <span>الكل وافق على الترتيب</span></label>' +
-      '<button class="primary" onclick="AhdApp.jamiyaCreate()">وثّق الجمعية واختمها</button>' +
+      inviteSection(contract) +
+      '<button class="primary"' + (sealGateClosed(contract) ? " disabled" : "") + ' onclick="AhdApp.jamiyaCreate()">وثّق الجمعية واختمها</button>' +
     '</section>';
+  }
+
+  function sealGateClosed(contract) {
+    var st = App.jamiyaState;
+    return !!(JI && st.inviteState && !JI.allAccepted(st.inviteState, contract.members));
+  }
+
+  /* Hakbah G7: the invitation card — ALL the terms + the absent-list + each
+     member's recorded decision, before anything seals */
+  function inviteSection(contract) {
+    if (!JI || !App.jamiyaState.inviteState) {
+      return '<label class="check"><input id="jamiya-agreed" type="checkbox"> <span>الكل وافق على الترتيب</span></label>';
+    }
+    var st = App.jamiyaState.inviteState;
+    var card = JI.build({ members: contract.members, monthlyMinor: contract.monthlyMinor, startMonth: contract.startMonth, orderAgreed: contract.orderAgreed });
+    var terms = card.termsAr.map(function (t) {
+      return '<div class="pv-row"><span>' + App.esc(t.k) + "</span><b>" + App.esc(t.v) + "</b></div>";
+    }).join("");
+    var absent = card.absentAr.map(function (a) { return '<div class="rv-abs">✕ ' + App.esc(a) + "</div>"; }).join("");
+    var rows = card.perMember.map(function (pm) {
+      var d = st.decisions[pm.name];
+      var status = d
+        ? (d.status === "accepted" ? '<span class="chip good">قَبِل ✓</span>' : '<span class="chip amber">اعتذر — ' + App.esc(d.reasonAr) + "</span>")
+        : '<span class="chip mute">بانتظار</span>';
+      var acts = (!d || d.status !== "accepted")
+        ? '<button class="mini" onclick="AhdApp.jamInviteAccept(\'' + App.esc(pm.name) + '\')">يقبل (محاكاة)</button>' +
+          '<button class="mini" onclick="AhdApp.jamInviteDecline(\'' + App.esc(pm.name) + '\')">يعتذر</button>'
+        : "";
+      return '<div class="ji-row"><span class="ji-name">' + App.esc(pm.name) + ' <small>دوره: الشهر ' + App.digit(pm.round) + "</small></span>" + status + acts + "</div>";
+    }).join("");
+    return '<div class="ji-box"><div class="ji-title">بطاقة الدعوة — كل الشروط قبل القبول</div>' + terms +
+      '<div class="rv-abshead">ما ليس في هذه الجمعية:</div>' + absent +
+      '<div class="ji-sum">' + App.esc(JI.summaryAr(st, contract.members)) + "</div>" + rows + "</div>";
   }
 
   function contractCard(contract) {
