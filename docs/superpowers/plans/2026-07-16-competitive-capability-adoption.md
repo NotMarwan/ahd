@@ -52,7 +52,7 @@ process.exit(failed ? 1 : 0);
 - Consumes: a daftari ROW (output of `Daftari.rowFor`): `{ id, role, counterparty, amountSAR, remainingSAR, statusKey, isOverdue, graced, nextDueLabel, daysOverdue }`. No engine dependency.
 - Produces: `NextStep.fromRow(row) -> { ref, agreedAr, happenedAr, nextAr, tone }` and `NextStep.refOf(id) -> "عهد-XXXX"`. `tone` ∈ `"ok"|"warm"|"attention"`.
 
-- [ ] **Step 1: Write the failing test** `tests/app/next-step.test.cjs`:
+- [x] **Step 1: Write the failing test** `tests/app/next-step.test.cjs`:
 
 ```js
 const path = require("path");
@@ -93,8 +93,8 @@ console.log(`\nNEXTSTEP: ${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);
 ```
 
-- [ ] **Step 2: Run to verify it fails.** `node tests/app/next-step.test.cjs` → `NEXTSTEP RED: Cannot find module`.
-- [ ] **Step 3: Implement** `app/features/next-step.js` (UMD pattern above, `root.NextStep`):
+- [x] **Step 2: Run to verify it fails.** `node tests/app/next-step.test.cjs` → `NEXTSTEP RED: Cannot find module`.
+- [x] **Step 3: Implement** `app/features/next-step.js` (UMD pattern above, `root.NextStep`):
 
 ```js
   function refOf(id) {
@@ -127,8 +127,8 @@ process.exit(failed ? 1 : 0);
   return { fromRow: fromRow, refOf: refOf, NEXT: NEXT };
 ```
 
-- [ ] **Step 4: Run test → PASS.** Then `node tests/app/run-app-tests.cjs` → all green (suite count +1).
-- [ ] **Step 5: Commit** `feat: next-step feature — agreed/happened/next model (Zirtue G1, Najiz G3)`.
+- [x] **Step 4: Run test → PASS.** Then `node tests/app/run-app-tests.cjs` → all green (suite count +1).
+- [x] **Step 5: Commit** `feat: next-step feature — agreed/happened/next model (Zirtue G1, Najiz G3)`.
 
 ### Task 2: Wire NextStep into home + daftari + borrower + proof
 
@@ -140,10 +140,10 @@ process.exit(failed ? 1 : 0);
 
 **Interfaces:** Consumes `NextStep.fromRow(row)` + `Daftari.rowFor/buildLedger` already on app.
 
-- [ ] **Step 1:** Extend home: after the `.hstanding` strip, render `وش الوضع؟` card for the single most-urgent row (first overdue, else first active): ref chip + three lines (المتفق عليه/ما حدث/التالي) + a button `AhdApp.go('daftari')`. CSS: add `.nsx` block to `app/app.css` (card + `.nsx.attention` amber border + `.nsx-ref` mono chip). Amber only, never red.
-- [ ] **Step 2:** daftari + borrower rows: one-line `nextAr` under each live row + `ref` chip. proof: header line `المرجع: عهد-XXXX · آخر إجراء: <statusLabel>`.
-- [ ] **Step 3:** Update smokes: home smoke asserts `وش الوضع؟` present + ref chip `عهد-`; daftari smoke asserts a `nextAr` string appears; second-render determinism still asserted.
-- [ ] **Step 4:** `node tests/app/run-app-tests.cjs` green. **Step 5: Commit** `feat: status+next-step strips on home/daftari/borrower/proof`.
+- [x] **Step 1:** Extend home: after the `.hstanding` strip, render `وش الوضع؟` card for the single most-urgent row (first overdue, else first active): ref chip + three lines (المتفق عليه/ما حدث/التالي) + a button `AhdApp.go('daftari')`. CSS: add `.nsx` block to `app/app.css` (card + `.nsx.attention` amber border + `.nsx-ref` mono chip). Amber only, never red.
+- [x] **Step 2:** daftari + borrower rows: one-line `nextAr` under each live row + `ref` chip. proof: header line `المرجع: عهد-XXXX · آخر إجراء: <statusLabel>`.
+- [x] **Step 3:** Update smokes: home smoke asserts `وش الوضع؟` present + ref chip `عهد-`; daftari smoke asserts a `nextAr` string appears; second-render determinism still asserted.
+- [x] **Step 4:** `node tests/app/run-app-tests.cjs` green. **Step 5: Commit** `feat: status+next-step strips on home/daftari/borrower/proof`.
 
 ### Task 3: ReviewGate — مراجعة ثابتة قبل الختم (Najiz+DocuSign G2)
 
@@ -155,7 +155,7 @@ process.exit(failed ? 1 : 0);
 - Consumes: create draft `{ lender, borrower, amountMinor, months, open }` + terms string.
 - Produces: `ReviewGate.build(draft, termsAr) -> { lines: [{k,v}], absentAr: [..3 items], fingerprint }`; `ReviewGate.fingerprint(str) -> 8-hex deterministic (djb2, NOT crypto — labeled بصمة معاينة)`.
 
-- [ ] **Step 1: Failing test:**
+- [x] **Step 1: Failing test:**
 
 ```js
 const draft = { lender: "نايف", borrower: "سالم", amountMinor: 50000, months: 5, open: false };
@@ -170,7 +170,7 @@ const open = RG.build(Object.assign({}, draft, { open: true }), "x");
 ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفتوح schedule");
 ```
 
-- [ ] **Step 2: RED run.** **Step 3: Implement** (djb2 over UTF-16 codes, `(h >>> 0).toString(16).padStart(8, "0")`; lines: المُقرِض/المقترض/المبلغ/السداد/النص; absentAr fixed 3 strings: `"لا فائدة ولا زيادة مشروطة"`, `"لا غرامة تأخير"`, `"لا خصم آلي ولا حيازة أموال"`). **Step 4: PASS + suite green.** **Step 5: Commit** `feat: review-gate fixed summary before seal`.
+- [x] **Step 2: RED run.** **Step 3: Implement** (djb2 over UTF-16 codes, `(h >>> 0).toString(16).padStart(8, "0")`; lines: المُقرِض/المقترض/المبلغ/السداد/النص; absentAr fixed 3 strings: `"لا فائدة ولا زيادة مشروطة"`, `"لا غرامة تأخير"`, `"لا خصم آلي ولا حيازة أموال"`). **Step 4: PASS + suite green.** **Step 5: Commit** `feat: review-gate fixed summary before seal`.
 
 ### Task 4: Wire ReviewGate into create + request
 
@@ -178,10 +178,10 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 - Modify: `app/index.html`, `app/app.js` (state `createState.reviewing`; actions `createOpenReview()`, `createBackFromReview()`; `createSeal()` unchanged but now invoked from the review card's confirm button), `app/screens/create.js`, `app/screens/request.js`
 - Modify tests: create/request screen smokes — add review-step assertions.
 
-- [ ] **Step 1:** create.js: when clean & not sealed & `!st.reviewing` → primary button becomes `راجع قبل الختم` calling `AhdApp.createOpenReview()`. When `st.reviewing` → render review card: lines table + «ما ليس في هذا العهد» absent list + `بصمة المعاينة: <fingerprint>` + buttons `أكّد واختم` (calls `AhdApp.createSeal()`) / `عدّل` (back). Riba check still gates before review.
-- [ ] **Step 2:** request.js: same two-step before the lender-accept simulation.
-- [ ] **Step 3:** smokes assert `راجع قبل الختم` and, after `createOpenReview()`, `ما ليس في هذا العهد`. Determinism assertions intact.
-- [ ] **Step 4: Gate green. Step 5: Commit** `feat: review-before-seal step in create/request`.
+- [x] **Step 1:** create.js: when clean & not sealed & `!st.reviewing` → primary button becomes `راجع قبل الختم` calling `AhdApp.createOpenReview()`. When `st.reviewing` → render review card: lines table + «ما ليس في هذا العهد» absent list + `بصمة المعاينة: <fingerprint>` + buttons `أكّد واختم` (calls `AhdApp.createSeal()`) / `عدّل` (back). Riba check still gates before review.
+- [x] **Step 2:** request.js: same two-step before the lender-accept simulation.
+- [x] **Step 3:** smokes assert `راجع قبل الختم` and, after `createOpenReview()`, `ما ليس في هذا العهد`. Determinism assertions intact.
+- [x] **Step 4: Gate green. Step 5: Commit** `feat: review-before-seal step in create/request`.
 
 ### Task 5: PayConfirm — تصديق السداد برد الطرف (Najiz G4)
 
@@ -199,8 +199,8 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
   - `PayConfirm.pendingFor(state, recordId)` / `PayConfirm.byId(state, id)`
 - Immutable: every transition returns a new state object; original untouched.
 
-- [ ] **Step 1: Failing test:** claim happy path (pending, id PC-1, evidence kept), claim validation throws (amount 0, empty evidence), accept transitions + immutability (`old state still pending`), reject with `notReceived` sets reasonAr + opensDispute true, reject with unknown reason throws, double-accept throws `"لا يمكن تصديق دفعة مغلقة"`, determinism (same ops → deep-equal states).
-- [ ] **Step 2: RED. Step 3: Implement** (pure copies via `slice`/`Object.assign`; seq counter in state — no randomness). **Step 4: PASS + suite green. Step 5: Commit** `feat: pay-confirm claim/accept/reject-with-reason state machine`.
+- [x] **Step 1: Failing test:** claim happy path (pending, id PC-1, evidence kept), claim validation throws (amount 0, empty evidence), accept transitions + immutability (`old state still pending`), reject with `notReceived` sets reasonAr + opensDispute true, reject with unknown reason throws, double-accept throws `"لا يمكن تصديق دفعة مغلقة"`, determinism (same ops → deep-equal states).
+- [x] **Step 2: RED. Step 3: Implement** (pure copies via `slice`/`Object.assign`; seq counter in state — no randomness). **Step 4: PASS + suite green. Step 5: Commit** `feat: pay-confirm claim/accept/reject-with-reason state machine`.
 
 ### Task 6: Wire PayConfirm into borrower + daftari + dispute
 
@@ -208,10 +208,10 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 - Modify: `app/index.html`, `app/app.js` (state `payConfirm`; actions `pcClaim(recordId)`, `pcAccept(id)`, `pcReject(id, reasonKey)`; on accept ALSO apply the existing borrower-pay path so balance moves only on تصديق), `app/screens/borrower.js` (claim form: amount + evidence text), `app/screens/daftari.js` (pending claims box with accept / reject-reason select), `app/screens/dispute.js` (when arriving from a rejection, show both records: claim + reason)
 - Modify tests: borrower/daftari smokes.
 
-- [ ] **Step 1:** borrower row action `سجّلت دفعة — اطلب تصديقها` → deterministic inline form (amount prefilled = next installment, evidence textarea) → `pcClaim`. Status chip `بانتظار تصديق <counterparty>`.
-- [ ] **Step 2:** daftari: box `دفعات بانتظار تصديقك` listing pending claims: `صدّق (يُختم الحدث)` / reason select + `ارفض`. Reject → flash + link `افتح محلّ خلاف ←` (`AhdApp.go('dispute')`).
-- [ ] **Step 3:** No silent balance change: assert in smoke that before accept, remaining unchanged; after `pcAccept`, remaining drops (reuse existing pay action semantics).
-- [ ] **Step 4: Gate green. Step 5: Commit** `feat: payment confirmation flow — claim, accept, reasoned reject into dispute`.
+- [x] **Step 1:** borrower row action `سجّلت دفعة — اطلب تصديقها` → deterministic inline form (amount prefilled = next installment, evidence textarea) → `pcClaim`. Status chip `بانتظار تصديق <counterparty>`.
+- [x] **Step 2:** daftari: box `دفعات بانتظار تصديقك` listing pending claims: `صدّق (يُختم الحدث)` / reason select + `ارفض`. Reject → flash + link `افتح محلّ خلاف ←` (`AhdApp.go('dispute')`).
+- [x] **Step 3:** No silent balance change: assert in smoke that before accept, remaining unchanged; after `pcAccept`, remaining drops (reuse existing pay action semantics).
+- [x] **Step 4: Gate green. Step 5: Commit** `feat: payment confirmation flow — claim, accept, reasoned reject into dispute`.
 
 ### Task 7: SplitModes + person filter (Splitwise G5+G6)
 
@@ -224,11 +224,11 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 - `SplitModes.make({ mode, totalMinor, payer, participants, values }) -> { totalMinor, payer, participants, shares, qaidDrafts, mode }` — same shape as `Split.makeSplit` + mode. `values`: exact → minor amounts aligned to participants; percent → integers; shares → positive integer weights. Unused for equal (delegates to `Split.makeSplit`).
 - `SplitModes.validate(spec) -> { ok: true } | { ok: false, errorAr }` — never throws.
 
-- [ ] **Step 1: Failing test:** exact conserves (sum must equal total, else `errorAr` says `المجموع لا يساوي الأصل`); percent 100-check + largest-remainder halala conservation on 33/33/34 of 10001; shares weights 1/2/3 of 6000 → 1000/2000/3000; payer excluded from qaidDrafts in all modes; equal delegates (same output as `Split.makeSplit`); validate returns Arabic error not exception; determinism.
-- [ ] **Step 2: RED. Step 3: Implement** (reuse `require("./split.js")` for equal; largest-remainder identical policy: leftover to earliest). **Step 4: PASS.**
-- [ ] **Step 5:** daily.js: mode `<select>` (متساوٍ/مبالغ محددة/نسب/حصص) + per-participant value inputs when mode ≠ equal + live validate: save button `disabled` until `ok`, error line shows `errorAr`. Smoke asserts select present + disabled-until-valid behavior.
-- [ ] **Step 6:** daftari feature: `peopleOf(rows)` unique counterparties sorted; `filterByPerson(rows, name)`; screen renders person chips row (الكل + names) composing WITH existing status filter. New test file asserts composition (person+status). Smoke updated.
-- [ ] **Step 7: Gate green. Commit** `feat: split modes (exact/percent/shares) + person filter in daftari`.
+- [x] **Step 1: Failing test:** exact conserves (sum must equal total, else `errorAr` says `المجموع لا يساوي الأصل`); percent 100-check + largest-remainder halala conservation on 33/33/34 of 10001; shares weights 1/2/3 of 6000 → 1000/2000/3000; payer excluded from qaidDrafts in all modes; equal delegates (same output as `Split.makeSplit`); validate returns Arabic error not exception; determinism.
+- [x] **Step 2: RED. Step 3: Implement** (reuse `require("./split.js")` for equal; largest-remainder identical policy: leftover to earliest). **Step 4: PASS.**
+- [x] **Step 5:** daily.js: mode `<select>` (متساوٍ/مبالغ محددة/نسب/حصص) + per-participant value inputs when mode ≠ equal + live validate: save button `disabled` until `ok`, error line shows `errorAr`. Smoke asserts select present + disabled-until-valid behavior.
+- [x] **Step 6:** daftari feature: `peopleOf(rows)` unique counterparties sorted; `filterByPerson(rows, name)`; screen renders person chips row (الكل + names) composing WITH existing status filter. New test file asserts composition (person+status). Smoke updated.
+- [x] **Step 7: Gate green. Commit** `feat: split modes (exact/percent/shares) + person filter in daftari`.
 
 ### Task 8: JamiyaInvite — بطاقة دعوة بكل الشروط (Hakbah G7)
 
@@ -240,10 +240,10 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 - `JamiyaInvite.build(jamiyaSpec) -> { termsAr: [{k,v}], absentAr: [..], perMember: [{name, roundLabel}] }` (consumes the same spec `makeJamiya` takes: members, monthlyAmountMinor, startMonth, order)
 - `JamiyaInvite.makeState(members) -> { decisions: {} }`; `accept(state, name)` / `decline(state, name, reasonAr)` immutable; `allAccepted(state, members) -> bool`; `summaryAr(state, members)`.
 
-- [ ] **Step 1: Failing test:** build lists amount/duration/order/your-round + absent (`لا رسوم`, `لا حيازة`, `لا سند تنفيذي`); accept/decline immutability; allAccepted only when every member accepted; decline keeps reason; re-accept after decline allowed (change of mind before seal); determinism.
-- [ ] **Step 2: RED. Step 3: Implement. Step 4: PASS.**
-- [ ] **Step 5:** jamiya.js: replace the single `الكل وافق على الترتيب` checkbox with per-member invite cards (terms + دورك + قبول/اعتذار buttons); seal button enabled only when `allAccepted`. Update `tests/app/jamiya-screen-smoke` accordingly (assert cards + gated seal; keep existing assertions that don't reference the checkbox — the checkbox assertion is REPLACED by a stronger per-member one, structure preserved).
-- [ ] **Step 6: Gate green. Commit** `feat: jamiya per-member invitation cards with full terms before seal`.
+- [x] **Step 1: Failing test:** build lists amount/duration/order/your-round + absent (`لا رسوم`, `لا حيازة`, `لا سند تنفيذي`); accept/decline immutability; allAccepted only when every member accepted; decline keeps reason; re-accept after decline allowed (change of mind before seal); determinism.
+- [x] **Step 2: RED. Step 3: Implement. Step 4: PASS.**
+- [x] **Step 5:** jamiya.js: replace the single `الكل وافق على الترتيب` checkbox with per-member invite cards (terms + دورك + قبول/اعتذار buttons); seal button enabled only when `allAccepted`. Update `tests/app/jamiya-screen-smoke` accordingly (assert cards + gated seal; keep existing assertions that don't reference the checkbox — the checkbox assertion is REPLACED by a stronger per-member one, structure preserved).
+- [x] **Step 6: Gate green. Commit** `feat: jamiya per-member invitation cards with full terms before seal`.
 
 ### Task 9: JamiyaChanges + JamiyaGoal (Hakbah G8 + MoneyFellows G9)
 
@@ -254,9 +254,9 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 **Interfaces:**
 - Changes: `makeLog() -> {entries:[], seq:0}`; `swapRounds(log, jamiya, nameA, nameB) -> {log, orderAfter}` (requires both names exist; entry `{id:"JC-n", type:"swap", detailAr, bothConsent:true}`); `withdraw(log, jamiya, name, reasonAr)`; entries append-only; `verify(log)` recomputes seq chain.
 - Goal: `describe(goalAr, jamiya) -> { goalAr, progress: {done, total, pct}, promiseFreeAr }` (pct integer 0..100 from rounds completed; `promiseFreeAr` fixed: `"هدف وصفي — لا وعد مالي ولا عائد"`); `scenarios(amountMinor, monthsOptions) -> [{months, perRoundMinor, totalMinor}]` integer math.
-- [ ] **Step 1–4:** RED→GREEN both features (swap immutability + order actually swapped; withdraw marks member; append-only verify fails after splice; goal pct math 3/10→30; scenarios conserve total).
-- [ ] **Step 5:** Wire: board footer `سجل التغييرات` list + demo swap button (both-consent wording); create form header goal input + two-scenario compare table before invite. Smoke updated additively.
-- [ ] **Step 6: Gate green. Commit** `feat: jamiya change log + descriptive goal and scenario compare`.
+- [x] **Step 1–4:** RED→GREEN both features (swap immutability + order actually swapped; withdraw marks member; append-only verify fails after splice; goal pct math 3/10→30; scenarios conserve total).
+- [x] **Step 5:** Wire: board footer `سجل التغييرات` list + demo swap button (both-consent wording); create form header goal input + two-scenario compare table before invite. Smoke updated additively.
+- [x] **Step 6: Gate green. Commit** `feat: jamiya change log + descriptive goal and scenario compare`.
 
 ### Task 10: Drafts queue — المتكرر مسودة لا التزام (Splitwise G10)
 
@@ -266,9 +266,9 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 
 **Interfaces:**
 - `Drafts.makeState()`; `propose(state, item) -> state` (id `"DR-n"`, status `"proposed"`); `approve(state, id) -> { state, item }`; `decline(state, id, reasonAr) -> state`; `pending(state)`.
-- [ ] **Step 1–4:** RED→GREEN (propose/approve/decline immutable; approve returns the item exactly once; double-approve throws Arabic error; pending filter).
-- [ ] **Step 5:** circle-adv: `CircleAdv.recurringPosts(...)` output goes into `Drafts.propose` per post; UI lists `مسودات بانتظار اعتمادك` with اعتمد/أهمل; only approved posts reach the ledger. Smoke: recurring tick produces drafts, not posts; approve moves one through.
-- [ ] **Step 6: Gate green. Commit** `feat: recurring posts become approvable drafts, never auto-commitments`.
+- [x] **Step 1–4:** RED→GREEN (propose/approve/decline immutable; approve returns the item exactly once; double-approve throws Arabic error; pending filter).
+- [x] **Step 5:** circle-adv: `CircleAdv.recurringPosts(...)` output goes into `Drafts.propose` per post; UI lists `مسودات بانتظار اعتمادك` with اعتمد/أهمل; only approved posts reach the ledger. Smoke: recurring tick produces drafts, not posts; approve moves one through.
+- [x] **Step 6: Gate green. Commit** `feat: recurring posts become approvable drafts, never auto-commitments`.
 
 ### Task 11: SettleConsent — أرجل مقاصّة تفاعلية (G11)
 
@@ -279,9 +279,9 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 **Interfaces:**
 - Consumes `Settlement.settlementView(...).legs` (each leg has from/to/amount).
 - `SettleConsent.makeState(legs) -> { legs: [{from,to,amountMinor,consents:{}}] }`; `consent(state, i, party) -> state` (party must be leg.from or leg.to); `legReady(leg)` both consented; `allReady(state)`; `impactAr(leg, member)` one-line effect on that member's net.
-- [ ] **Step 1–4:** RED→GREEN (consent by stranger throws; both-parties → ready; allReady gates; impact line contains amount; immutability + determinism).
-- [ ] **Step 5:** settlement.js: each leg renders a card (from→to, amount, impact line per party, two consent buttons); the `اعتماد المقاصّة` action disabled until `allReady`; conservation proof stays rendered before/after. Smoke asserts gating.
-- [ ] **Step 6: Gate green. Commit** `feat: per-leg interactive consent gating settlement`.
+- [x] **Step 1–4:** RED→GREEN (consent by stranger throws; both-parties → ready; allReady gates; impact line contains amount; immutability + determinism).
+- [x] **Step 5:** settlement.js: each leg renders a card (from→to, amount, impact line per party, two consent buttons); the `اعتماد المقاصّة` action disabled until `allReady`; conservation proof stays rendered before/after. Smoke asserts gating.
+- [x] **Step 6: Gate green. Commit** `feat: per-leg interactive consent gating settlement`.
 
 ### Task 12: Tone pass — عصري معتدل (G12)
 
@@ -291,18 +291,18 @@ ok(open.lines.some(l => l.v.indexOf("مفتوح") >= 0), "open loan shows مفت
 
 Rules (from spec §2/P7): identity lines stay (`قرضٌ حسن — مكتوبٌ ومشهود، بكرامة`); verses stay in `shariah-basis` + forgiveness actions; general strips lose repeated preaching; buttons/labels lose heavy تشكيل; language plain modern Arabic. NO screen-key/label changes (nav labels are test keys).
 
-- [ ] **Step 1:** Inventory: `grep -n "﴿" app/screens/*.js` + list every button/strip string in the five screens. Produce a two-column change table in the commit body (قبل → بعد) — every changed string must appear there.
-- [ ] **Step 2:** Apply. Example class of change: home how-it-works step `وثّق عهدك عبر نفاذ ليُختم بشهادة المصرف` → `وثّق اتفاقك بدقيقة — عهد يختمه ويحفظه لك`. Quranic strip on home collapses into a small `الأساس الشرعي ←` link line (verse itself lives in shariah-basis).
-- [ ] **Step 3:** Update the exact same strings in smokes. Run gate; every suite green; assertion count not reduced.
-- [ ] **Step 4: Commit** `feat: moderate-modern tone pass on primary screens (strings table in body)`.
+- [x] **Step 1:** Inventory: `grep -n "﴿" app/screens/*.js` + list every button/strip string in the five screens. Produce a two-column change table in the commit body (قبل → بعد) — every changed string must appear there.
+- [x] **Step 2:** Apply. Example class of change: home how-it-works step `وثّق عهدك عبر نفاذ ليُختم بشهادة المصرف` → `وثّق اتفاقك بدقيقة — عهد يختمه ويحفظه لك`. Quranic strip on home collapses into a small `الأساس الشرعي ←` link line (verse itself lives in shariah-basis).
+- [x] **Step 3:** Update the exact same strings in smokes. Run gate; every suite green; assertion count not reduced.
+- [x] **Step 4: Commit** `feat: moderate-modern tone pass on primary screens (strings table in body)`.
 
 ### Task 13: Final gate + judge lens + housekeeping
 
-- [ ] **Step 1:** `cd tests && node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs && node app/run-app-tests.cjs && node run-all.cjs` — one green banner; record the new assertion total.
-- [ ] **Step 2:** `node tests/tripwire.cjs` — demo untouched.
-- [ ] **Step 3:** Judge-lens score (docs/JUDGE-LENS.md, five criteria 1–10 with evidence) for the changed surfaces; any <8 → `JL-` item in `_meta/OPEN-ITEMS.md`.
-- [ ] **Step 4:** Update `_meta/overnight-log.md` (deliverables index + how-to-review) and the Obsidian vault (`AmadHackathon/` Home + plan checkboxes + topical note with `source:` pointers).
-- [ ] **Step 5:** Final commit. NO merge to main — leave branch for owner review.
+- [x] **Step 1:** `cd tests && node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs && node app/run-app-tests.cjs && node run-all.cjs` — one green banner; record the new assertion total.
+- [x] **Step 2:** `node tests/tripwire.cjs` — demo untouched.
+- [x] **Step 3:** Judge-lens score (docs/JUDGE-LENS.md, five criteria 1–10 with evidence) for the changed surfaces; any <8 → `JL-` item in `_meta/OPEN-ITEMS.md`.
+- [x] **Step 4:** Update `_meta/overnight-log.md` (deliverables index + how-to-review) and the Obsidian vault (`AmadHackathon/` Home + plan checkboxes + topical note with `source:` pointers).
+- [x] **Step 5:** Final commit. NO merge to main — leave branch for owner review.
 
 ## Self-Review
 

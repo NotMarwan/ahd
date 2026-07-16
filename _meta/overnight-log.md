@@ -5,6 +5,45 @@
 
 ---
 
+## 2026-07-16 · Competitive capability adoption — benchmark features, gate 3175 → 3380
+
+Branch `claude/competitive-features-plan-50ab83` (worktree; **NOT merged to main — awaiting
+owner review**, توجيه المالك). Source: the seven benchmark dossiers (Zirtue, Splitwise,
+Hakbah, MoneyFellows, ناجز, DocuSign, سُلفة) — capabilities adopted **قدرةً قدرةً**, every
+rejected pattern (custody, fees, execution, scoring, auto-fatwa) stayed rejected.
+
+**Nine new pure DI feature modules** (each TDD — failing test first — with its own suite):
+- `next-step.js` — «وش الوضع؟» agreed/happened/next strip + عهد-XXXX reference (Zirtue G1 + ناجز G3); wired into home, daftari & borrower rows, proof header.
+- `review-gate.js` — frozen «راجع قبل الختم» summary + absent-list + preview fingerprint before create/request seals (ناجز + DocuSign G2).
+- `pay-confirm.js` — «تصديق السداد»: claim with مؤيد → creditor accepts (balance moves ONLY then, via payWhatEased) or rejects with fixed-enum reason opening «محلّ خلاف» (ناجز G4).
+- `split-modes.js` — exact/percent/shares splitting, halala-conserving, Arabic validate + preview-before-save in اليومي (Splitwise G5).
+- daftari feature: additive `peopleOf`/`filterByPerson` + person chips composing with status filter (Splitwise G6).
+- `jamiya-invite.js` — per-member invitation cards with ALL terms + absent-list; unanimous RECORDED acceptances gate the seal, one decline re-locks it (Hakbah G7).
+- `jamiya-changes.js` — append-only numbered change log (consented swap re-seals a new version, payments replay) + verify() (Hakbah G8).
+- `jamiya-goal.js` — descriptive goal + progress with fixed «لا وعد مالي» line + scenario compare before inviting (MoneyFellows G9, adapted).
+- `drafts.js` — recurring circle-adv cycles propose DRAFTS; publish only on explicit approval (Splitwise G10).
+- `settle-consent.js` — per-leg interactive consent (both parties) gating «اعتماد المقاصّة» (G11).
+
+**Tone (G12, توجيه المالك «عصري معتدل»):** front-door hero speaks plain Arabic (بلا فوائد،
+بلا غرامات، بلا تصنيف); the verse strip became one quiet «الأساس الشرعي» link — verses stay
+in their semantic homes (shariah-basis, forgiveness, proof citation). Identity tagline untouched.
+
+**Gate (real output):** `AHD GATE ✅ 3380/0` — core 184/0 + structure 14/0 + app 3,182/0
+(94 suites) + tripwire OK (`e2f48467…`). Banners swept everywhere (README, deck, script,
+evidence, vault, CLAUDE.md); project-map +9 features; drift + readme contracts green.
+Live browser verification on the worktree app (port 8125): all seven new surfaces render,
+zero console errors.
+
+**Docs:** spec `docs/superpowers/specs/2026-07-16-competitive-capability-adoption-design.md`,
+plan `docs/superpowers/plans/2026-07-16-competitive-capability-adoption.md` (13 tasks, all done).
+
+**Judge-lens (five bars, this branch's surfaces):** Innovation 8 — consent-everywhere
+(invites, legs, تصديق) is a visible differentiator; Feasibility 9 — everything runs offline,
+one command proves it; Impact 8 — the daily-use loop (split modes, person filter, next-step)
+makes the app habitual, not ceremonial; Presentation 8 — every new control is clickable in
+the demo path with محاكاة honesty tags; Alignment 9 — every benchmark rejection enforced in
+code and stated on-screen. No bar <8 → no new JL- item.
+
 ## 2026-07-14 · Master Spec Kit specification and planning — approved for gated implementation
 
 - Queried the existing Graphify graph, then reviewed current app registration, the 35-unit
