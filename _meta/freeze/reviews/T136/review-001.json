@@ -1,0 +1,27 @@
+{
+  "schema": "ahd-controller-review-v1",
+  "review_id": "T136-CV1",
+  "task_id": "T136",
+  "wave": "specs/002-judge-readiness",
+  "reviewer": "t136_independent_review",
+  "reviewed_commit": "d68a6df251c5bc0ba40639aa55ab514f17792f4a",
+  "verdict": "approved",
+  "findings": [],
+  "findings_p2_resolved": [
+    "Portable-export share path lacked end-to-end automated coverage.",
+    "A design-refusal chip still used the reserved tamper-red tone."
+  ],
+  "p2_fix_commit": "a0491b7401a69050f8a573890480b109b09fe6c3",
+  "review_history": [
+    {
+      "review_id": "T136-CV1",
+      "reviewer": "t136_independent_review",
+      "verdict": "approved",
+      "findings": [],
+      "notes": "No P0/P1; two P2 findings recorded and closed with RED/GREEN in the same session.",
+      "created_at": "2026-07-16T19:45:48+03:00"
+    }
+  ],
+  "constitution": "pass",
+  "created_at": "2026-07-16T19:45:48+03:00"
+}

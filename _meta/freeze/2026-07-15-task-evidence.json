@@ -2102,6 +2102,131 @@
       },
       "result": "Pilot batches 4-6 now derive history from real local records, persist Jamiya planning with honest organizer attestations, serialize mutations, migrate legacy slices fail-closed, and keep all external requests and dispute reconciliation in needs_connection without moving balances.",
       "completed_at": "2026-07-16T18:52:00+03:00"
+    },
+    {
+      "task_id": "T136",
+      "status": "complete",
+      "wave": "specs/002-judge-readiness",
+      "implementer": "root",
+      "controller": "root",
+      "owner_single_agent_override": true,
+      "dispatch_id": "wave1-T136-root-20260716-194548-evidence",
+      "dispatch_sha256": "1071a4f4c5deca2e1c578924021c14d019c9e80c55672776f1eb35edfb926611",
+      "files": [
+        "application/ahd-mobile/src/state/pilot-state.ts",
+        "application/ahd-mobile/src/state/pilot-store.tsx",
+        "application/ahd-mobile/src/navigation/screen-registry.ts",
+        "application/ahd-mobile/src/navigation/__tests__/screen-registry.test.ts",
+        "application/ahd-mobile/src/app/(stack)/daily.tsx",
+        "application/ahd-mobile/src/screens/ImpactScreen.tsx",
+        "application/ahd-mobile/src/screens/BoundsScreen.tsx",
+        "application/ahd-mobile/src/screens/RefusalScreen.tsx",
+        "application/ahd-mobile/src/screens/OrgScreen.tsx",
+        "application/ahd-mobile/src/screens/PlansScreen.tsx",
+        "application/ahd-mobile/src/screens/SettingsScreen.tsx",
+        "application/ahd-mobile/src/screens/DailyScreen.tsx",
+        "application/ahd-mobile/src/share/native-share.ts",
+        "application/ahd-mobile/src/state/__tests__/pilot-store.test.tsx",
+        "application/ahd-mobile/src/screens/__tests__/pilot-batches-7-9.test.tsx",
+        "application/ahd-mobile/src/screens/__tests__/impact-screen.test.tsx",
+        "application/ahd-mobile/src/screens/__tests__/org-screen.test.tsx",
+        "application/ahd-mobile/src/screens/__tests__/settings-screen.test.tsx",
+        ".superpowers/sdd/progress.md",
+        "_meta/STATUS.md",
+        "_meta/OPEN-ITEMS.md",
+        "AmadHackathon/00 Home.md",
+        "specs/002-judge-readiness/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "_meta/freeze/reviews/T136/review-001.json"
+      ],
+      "implementation_commits": [
+        "d68a6df251c5bc0ba40639aa55ab514f17792f4a",
+        "a0491b7401a69050f8a573890480b109b09fe6c3"
+      ],
+      "artifacts": [
+        {
+          "path": "application/ahd-mobile/src/state/pilot-state.ts",
+          "sha256": "6c83b8f44c8418e272f218b9dc67a32d200f74e7e3f95e0ba8cdce2e7879e34c"
+        },
+        {
+          "path": "application/ahd-mobile/src/state/pilot-store.tsx",
+          "sha256": "65c204f8ad32316b8cad472890c1c2268fb5813f5412170163566f65db657a5a"
+        },
+        {
+          "path": "application/ahd-mobile/src/screens/DailyScreen.tsx",
+          "sha256": "9d66b2d91aab1899fb5e91333a67552cc3ee02f13a039579f9aa71d7d504b500"
+        },
+        {
+          "path": "application/ahd-mobile/src/screens/SettingsScreen.tsx",
+          "sha256": "c29ddfd17ec4ec97d98f33003fd1bbf7a78ab6ed78d04c0536ec233ce82756ff"
+        },
+        {
+          "path": "application/ahd-mobile/src/screens/ImpactScreen.tsx",
+          "sha256": "2d19bb248bc96b5e3108b3a7dea5165a4adfc9555eb9ca3a4f30f54b84e014bb"
+        },
+        {
+          "path": "application/ahd-mobile/src/navigation/screen-registry.ts",
+          "sha256": "47582eb998223214e8f77628e1ef36e5dcfff661e6a7693125156ea8aaaf0dcb"
+        }
+      ],
+      "tests": [
+        {
+          "command": "npx jest pilot-batches-7-9 (pre-implementation)",
+          "phase": "RED",
+          "result": "4/4 batch-7 behaviors failed before implementation; daily-note store test and tamper-red scan failed before their fixes"
+        },
+        {
+          "command": "npm.cmd test -- --runInBand",
+          "phase": "GREEN",
+          "result": "38 suites passed; 129 tests passed; 0 failed"
+        },
+        {
+          "command": "npm.cmd run typecheck",
+          "result": "passed"
+        },
+        {
+          "command": "npm.cmd run lint",
+          "result": "0 errors; 20 pre-existing/non-blocking warnings"
+        },
+        {
+          "command": "npm.cmd run check:core",
+          "result": "generated Phase 1 core byte-faithful"
+        },
+        {
+          "command": "npm.cmd run check:boundaries",
+          "result": "client boundary clean"
+        },
+        {
+          "command": "seeded-runtime scan",
+          "result": "no product screen reads SEED_AHDS/NODES/IOUS from the generated engine"
+        },
+        {
+          "command": "device-size screenshot review",
+          "result": "nine 394x878 screenshots across batches 7-9 reviewed; Trust Weave surface and official mark consistent"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T136-CV1",
+          "reviewer": "t136_independent_review",
+          "verdict": "approved",
+          "supersedes": null,
+          "artifact_path": "_meta/freeze/reviews/T136/review-001.json",
+          "reviewed_commit": "d68a6df251c5bc0ba40639aa55ab514f17792f4a",
+          "created_at": "2026-07-16T19:45:48+03:00"
+        }
+      ],
+      "constitution": "pass",
+      "judge_lens": {
+        "innovation": 8,
+        "technical": 8.5,
+        "data_analysis": 6.5,
+        "ux": 8.5,
+        "feasibility": 8.5,
+        "memorability": 8
+      },
+      "result": "Pilot batches 7-9 now derive impact only from local records, demonstrate the live riba screen on bounds/refusal, keep org/plans free of implied subscriptions or institutional links, persist settings with deterministic portable export and deliberate delete-all, and add a real typed /daily qaid flow on the persisted daily slice.",
+      "completed_at": "2026-07-16T19:45:48+03:00"
     }
   ]
 }

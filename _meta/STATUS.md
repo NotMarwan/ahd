@@ -202,3 +202,20 @@ data while downgrading unverifiable consent. Verification is green at **116/116 
 TypeScript, generated-core parity, client boundaries, lint at zero errors, deterministic-source scan, and diff
 checks green. Independent re-review is approved with no remaining P0/P1. Nine device-size screenshots were
 reviewed. T136 and T137 remain unstarted; the full repository gate stays reserved for T137.
+
+---
+
+DONE · 2026-07-16T19:46+03:00 · Codex · **Mobile Pilot batches 7–9 with the real /daily flow** · `application/ahd-mobile/`
+
+Completed impact, bounds, refusal, org, plans, settings, shariah, more, and the new daily surfaces
+without seeded runtime data or implied external state. Impact aggregates come only from local sealed
+records and circles; bounds and refusal run the real riba screen live on-device against typed or preset
+clauses; org declares that no institution is linked (`needs_connection`) and shows local circle totals
+only; plans states that no subscription is active and nothing is collected. Settings persists the display
+name and preferences, exports the full deterministic `AhdPilotExportV1` envelope via the native share
+sheet, and deletes all local data behind a deliberate two-step confirmation. The `/daily` route is a real
+typed qaid flow on the persisted daily slice through the serialized store mutation. The reserved tamper
+red no longer appears outside tamper detection. Verification is green at **129/129 tests across 38
+suites** with TypeScript, generated-core parity, client boundaries, and lint at zero errors. Independent
+review approved with no P0/P1; both P2 findings were closed with RED/GREEN regressions. Nine device-size
+screenshots were reviewed. T137 remains; the full repository gate stays reserved for T137.
