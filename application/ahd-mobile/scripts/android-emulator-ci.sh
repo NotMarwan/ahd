@@ -16,9 +16,15 @@ adb install -r "$APK_PATH"
 echo "== clear logcat =="
 adb logcat -c || true
 
+echo "== reset journey frame counters =="
+adb shell dumpsys gfxinfo "$APP_ID" reset > /dev/null || true
+
 echo "== maestro customer journey =="
 export MAESTRO_DRIVER_STARTUP_TIMEOUT=120000
 maestro test .maestro/pilot-journey.yaml --format junit --output "$OUT_DIR/maestro-report.xml"
+
+echo "== journey frame stats (before any restart clears them) =="
+adb shell dumpsys gfxinfo "$APP_ID" > "$OUT_DIR/gfxinfo.txt" || true
 
 echo "== cold starts (3 runs) =="
 : > "$OUT_DIR/cold-starts.txt"
@@ -34,9 +40,6 @@ adb shell input keyevent KEYCODE_HOME
 sleep 2
 adb shell am start -W -n "$ACTIVITY" | tee "$OUT_DIR/warm-start.txt"
 sleep 3
-
-echo "== frame stats after journey =="
-adb shell dumpsys gfxinfo "$APP_ID" > "$OUT_DIR/gfxinfo.txt" || true
 
 echo "== logcat dump =="
 adb logcat -d > "$OUT_DIR/logcat.txt"

@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   error: {
     ...typography.caption,
-    color: colors.tamper,
+    color: colors.stopped,
     fontFamily: fontFamilies.body,
     textAlign: 'center',
   },

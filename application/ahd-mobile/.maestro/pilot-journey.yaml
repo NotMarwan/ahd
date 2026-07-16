@@ -58,6 +58,9 @@ appId: sa.ahd.mobile
     timeout: 15000
 - tapOn:
     id: "record-open-proof"
+# proof-verdict exists only on the proof screen after verifyProof() succeeds —
+# the record-detail screen shows the same Arabic sentence, so assert the id, not the text.
 - extendedWaitUntil:
-    visible: "الختم مطابق للسجل"
+    visible:
+      id: "proof-verdict"
     timeout: 15000

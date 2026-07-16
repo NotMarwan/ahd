@@ -61,6 +61,7 @@ describe('Android Pilot delivery configuration', () => {
       'create-open-daftari-button',
       'daftari-open-record',
       'record-open-proof',
+      'proof-verdict',
     ];
     const screens = [
       read('src/screens/WelcomeScreen.tsx'),
@@ -80,6 +81,16 @@ describe('Android Pilot delivery configuration', () => {
     expect(emulatorScript).toContain('sa.ahd.mobile');
     expect(emulatorScript).toContain('am start -W');
     expect(emulatorScript).toContain('logcat');
+    // Journey frame stats must be reset before and captured right after the
+    // Maestro run — before any force-stop clears the in-process counters.
+    const resetIndex = emulatorScript.indexOf('gfxinfo "$APP_ID" reset');
+    const maestroIndex = emulatorScript.indexOf('maestro test');
+    const captureIndex = emulatorScript.indexOf('gfxinfo "$APP_ID" >');
+    const forceStopIndex = emulatorScript.indexOf('force-stop');
+    expect(resetIndex).toBeGreaterThan(-1);
+    expect(maestroIndex).toBeGreaterThan(resetIndex);
+    expect(captureIndex).toBeGreaterThan(maestroIndex);
+    expect(forceStopIndex).toBeGreaterThan(captureIndex);
 
     const perfScript = read('scripts/android-perf.mjs');
     expect(perfScript).toContain('2500');

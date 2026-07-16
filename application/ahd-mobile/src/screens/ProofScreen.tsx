@@ -94,7 +94,7 @@ export function ProofScreen() {
               label={verification.ok ? 'مطابق' : 'عبث مكتشف'}
               tone={verification.ok ? 'verified' : 'tamper'}
             />
-            <Text style={[styles.verdict, !verification.ok && styles.tampered]}>
+            <Text style={[styles.verdict, !verification.ok && styles.tampered]} testID="proof-verdict">
               {verification.ok ? 'الختم مطابق للسجل' : 'الختم لا يطابق السجل المرفق'}
             </Text>
           </View>
