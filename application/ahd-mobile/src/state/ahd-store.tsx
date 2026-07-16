@@ -8,7 +8,8 @@ import {
   type ReactNode,
 } from "react";
 
-import type { AhdDraftInput, NeedsConnection, SettlementTransfer } from "../core/ahd-core";
+import type { AhdDraftInput, NeedsConnection } from "../core/ahd-core";
+import type { ShareEnvelopeResult } from "../share";
 import { InMemoryAhdRepository, type AhdRepository } from "./ahd-repository";
 import {
   AhdJourneyStore,
@@ -26,8 +27,9 @@ export interface AhdJourneyContextValue {
   seal(): Promise<AhdJourneyState>;
   openDaftari(): Promise<AhdJourneyState>;
   openRecord(recordId?: string): Promise<AhdJourneyState>;
-  settle(transfers: readonly SettlementTransfer[]): Promise<AhdJourneyState>;
+  settle(recordIds: readonly string[], consentConfirmed: boolean): Promise<AhdJourneyState>;
   verifyProof(): Promise<AhdJourneyState>;
+  importSharedRecord(serialized: string): Promise<ShareEnvelopeResult>;
   requestExternal(operation: NeedsConnection["operation"]): Promise<AhdJourneyState>;
 }
 
@@ -72,8 +74,11 @@ export function AhdJourneyProvider({
     seal: () => transition((journey) => journey.seal()),
     openDaftari: () => transition((journey) => journey.openDaftari()),
     openRecord: (recordId) => transition((journey) => journey.openRecord(recordId)),
-    settle: (transfers) => transition((journey) => journey.settle(transfers)),
+    settle: (recordIds, consentConfirmed) => (
+      transition((journey) => journey.settle(recordIds, consentConfirmed))
+    ),
     verifyProof: () => transition((journey) => journey.verifyProof()),
+    importSharedRecord: (serialized) => store.importSharedRecord(serialized),
     requestExternal: (operation) => transition((journey) => journey.requestExternal(operation)),
   }), [state, store, transition]);
 

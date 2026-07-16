@@ -4,343 +4,216 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import {
   AhdButton,
+  AmountDisplay,
   AppShell,
+  EmptyState,
+  RowGroup,
   ScreenHeader,
   SealChip,
+  Section,
+  StatusChip,
   ThreadMeter,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
-import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
+import { useAhdJourney } from '@/state';
+import { colors, fontFamilies, radii, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js');
-
-type Engine = {
-  respread: (totalMinor: number, count: number) => number[];
-  toMinor: (sar: number) => number;
-};
-
-const AhdEngine = engine as Engine;
-const PRINCIPAL_SAR = 8000;
-const RESPREAD_MONTHS = 3;
-const SAMPLE_PAID_MINOR = AhdEngine.toMinor(4160);
+function paymentTotal(events: readonly { type: string; [key: string]: unknown }[]): number {
+  return events.reduce((total, event) => {
+    if (event.type !== 'PAYMENT_RECORDED') return total;
+    const amountMinor = event.amountMinor;
+    return Number.isSafeInteger(amountMinor) && (amountMinor as number) > 0
+      ? total + (amountMinor as number)
+      : total;
+  }, 0);
+}
 
 export function OpenLoanScreen() {
   const router = useRouter();
+  const { state, verifyProof } = useAhdJourney();
   const [showForgivenessNotice, setShowForgivenessNotice] = useState(false);
-  const principalMinor = AhdEngine.toMinor(PRINCIPAL_SAR);
-  const shares = AhdEngine.respread(principalMinor, RESPREAD_MONTHS);
-  const remainingMinor = principalMinor - SAMPLE_PAID_MINOR;
+  const entry = state.records.find((item) => item.sealed.record.id === state.activeRecordId)
+    ?? state.records[state.records.length - 1];
+
+  if (!entry) {
+    return (
+      <AppShell header={{ onBack: () => router.back() }} testID="open-loan-screen">
+        <ScreenHeader
+          eyebrow="رحلة الوفاء"
+          title="العهد أولًا، ثم الحركة."
+          subtitle="لا نعرض أرقامًا أو أطرافًا قبل وجود سجل حقيقي محفوظ على جهازك."
+        />
+        <Section>
+          <RowGroup>
+            <EmptyState title="لا يوجد عهد مفتوح" body="أنشئ عهدًا واختمه لتظهر رحلة الوفاء هنا." />
+          </RowGroup>
+          <AhdButton label="أنشئ عهدًا" onPress={() => router.push('/create')} />
+        </Section>
+      </AppShell>
+    );
+  }
+
+  const { sealed } = entry;
+  const { prepared, record } = sealed;
+  const paidMinor = Math.min(record.amountMinor, paymentTotal(record.events));
+  const remainingMinor = record.amountMinor - paidMinor;
+  const progress = record.amountMinor > 0 ? Math.round((paidMinor * 100) / record.amountMinor) : 0;
+  const showProof = async () => {
+    await verifyProof();
+    router.push('/proof');
+  };
 
   return (
     <AppShell header={{ onBack: () => router.back() }} testID="open-loan-screen">
-
       <ScreenHeader
-        eyebrow="قرض مفتوح · AH-2841"
+        eyebrow={`عهد قائم · ${record.id}`}
         title="رحلة الوفاء"
-        subtitle="بين طرفين، وبلا موعد يضغط أو غرامة تزيد أصل القرض."
+        subtitle="كل رقم هنا من السجل المحلي نفسه؛ لا غرامة ولا تغيير صامت للأصل."
       />
 
-      <View style={styles.partyLine}>
-        <View style={styles.partyDot}><Text style={styles.partyLetter}>س</Text></View>
-        <Text style={styles.partyName}>سارة</Text>
-        <View style={styles.partyThread} />
-        <View style={styles.partyDot}><Text style={styles.partyLetter}>أ</Text></View>
-        <Text style={styles.partyName}>أحمد</Text>
+      <View style={styles.parties}>
+        <View style={styles.party}>
+          <View style={styles.partyDot}><Text style={styles.partyLetter}>{record.lender.slice(0, 1)}</Text></View>
+          <Text style={styles.partyName}>{record.lender}</Text>
+          <Text style={styles.partyRole}>صاحب المال</Text>
+        </View>
+        <View style={styles.thread} />
+        <View style={styles.party}>
+          <View style={styles.partyDot}><Text style={styles.partyLetter}>{record.borrower.slice(0, 1)}</Text></View>
+          <Text style={styles.partyName}>{record.borrower}</Text>
+          <Text style={styles.partyRole}>المستفيد</Text>
+        </View>
       </View>
 
       <View testID="open-loan-hero" style={styles.hero}>
-        <Text style={styles.heroLabel}>المتبقّي من أصل 8,000.00 ر.س</Text>
-        <View style={styles.amountRow}>
-          <Text style={styles.amount}>{ahdCore.formatMinorSar(remainingMinor).replace(' ر.س', '')}</Text>
-          <Text style={styles.currency}>ر.س</Text>
+        <View style={styles.heroTop}>
+          <Text style={styles.heroLabel}>المتبقي من أصل العهد</Text>
+          <StatusChip label={paidMinor > 0 ? 'حركة مسجّلة' : 'لا دفعات مسجّلة'} tone="active" />
         </View>
-        <ThreadMeter
-          testID="repayment-thread-meter"
-          progress={52}
-          paidLabel="سُدّد على دفعات موثّقة"
-          remainingLabel={`${ahdCore.formatMinorSar(SAMPLE_PAID_MINOR)} نُسج ذهبًا`}
-        />
+        <AmountDisplay value={ahdCore.formatMinorSar(remainingMinor)} />
+        <View style={styles.meterPanel}>
+          <ThreadMeter
+            testID="repayment-thread-meter"
+            progress={progress}
+            paidLabel={paidMinor > 0 ? `سُدّد ${ahdCore.formatMinorSar(paidMinor)}` : 'لم تسجّل دفعة بعد'}
+            remainingLabel={`الأصل ${ahdCore.formatMinorSar(record.amountMinor)}`}
+          />
+        </View>
       </View>
 
-      <View style={styles.lateNote}>
-        <View style={styles.lateDot} />
-        <Text style={styles.lateTitle}>تأخّر ودّي</Text>
-        <Text style={styles.lateCopy}>بلا غرامة، أبدًا</Text>
-      </View>
-
-      <View>
-        <View style={styles.ledgerHeading}>
-          <Text style={styles.ledgerTitle}>الدفتر الحي</Text>
-          <Text style={styles.ledgerCaption}>ما حدث · وما التالي</Text>
-        </View>
-        <View style={styles.ledger}>
-          <View style={styles.ledgerRail} />
-          <View style={styles.ledgerRow}>
-            <View style={[styles.ledgerKnot, styles.knotKept]} />
-            <View style={styles.ledgerCopy}>
-              <Text style={styles.ledgerMain}>مختوم برضا الطرفين</Text>
-              <Text style={styles.ledgerSub}>نسخة الاتفاق محفوظة محليًا</Text>
-            </View>
-          </View>
-          {shares.map((shareMinor, index) => (
-            <View key={index} style={styles.ledgerRow}>
-              <View style={[styles.ledgerKnot, index === 0 ? styles.knotKept : styles.knotActive]} />
-              <View style={styles.ledgerCopy}>
-                <Text style={styles.ledgerMain}>القسط {index + 1}</Text>
-                <Text style={styles.ledgerSub}>{ahdCore.formatMinorSar(shareMinor)} · متى ما تيسّر</Text>
+      <Section title="الجدول المحفوظ">
+        <RowGroup>
+          {prepared.open ? (
+            <View style={styles.scheduleRow}>
+              <View style={styles.knot} />
+              <View style={styles.scheduleCopy}>
+                <Text style={styles.scheduleTitle}>عهد مفتوح بلا موعد إلزامي</Text>
+                <Text style={styles.scheduleMeta}>عند العجز يُمهل المستفيد بالمعروف.</Text>
               </View>
             </View>
-          ))}
-          <View style={styles.ledgerRow}>
-            <View style={[styles.ledgerKnot, styles.knotFuture]} />
-            <View style={styles.ledgerCopy}>
-              <Text style={styles.ledgerMain}>الإغلاق: سداد أو إبراء</Text>
-              <Text style={styles.ledgerSub}>يُحفظ المعروف عند الاكتمال</Text>
+          ) : prepared.schedule.map((item, index) => (
+            <View key={`${item.dueISO}-${index}`} style={styles.scheduleRow}>
+              <View style={styles.knot} />
+              <View style={styles.scheduleCopy}>
+                <Text style={styles.scheduleTitle}>{item.label}</Text>
+                <Text style={styles.scheduleMeta}>{item.dueISO}</Text>
+              </View>
+              <Text style={styles.scheduleAmount}>{ahdCore.formatMinorSar(item.amountMinor)}</Text>
             </View>
-          </View>
-        </View>
+          ))}
+        </RowGroup>
+      </Section>
+
+      <View style={styles.notice}>
+        <Text style={styles.noticeTitle}>القاعدة ثابتة</Text>
+        <Text style={styles.noticeCopy}>التأخر لا يضيف هللة واحدة. الإبراء يحتاج تأكيد صاحب الحق ثم سجلًا جديدًا مختومًا.</Text>
       </View>
 
-      <View style={styles.nextStep}>
-        <Text style={styles.nextLabel}>الخطوة التالية</Text>
-        <Text style={styles.nextTitle}>سجّل ما تيسّر، أو اتفقا على مهلة — الخيط يُنسج ولا يُشد.</Text>
-      </View>
-
-      <Text style={styles.note}>
-        طلبُ إعادة الجدولة لا يزيد المبلغ ولا يضيف أيّ غرامة — الحاصل الجُمَعيّ محفوظٌ تمامًا (٢٬٢٨٠: نظرةٌ إلى ميسرة).
-      </Text>
-
-      <AhdButton
-        label="راجع الإبراء"
-        onPress={() => setShowForgivenessNotice(true)}
-        variant="secondary"
-        testID="open-loan-forgive"
-      />
+      <AhdButton label="راجع الإبراء" onPress={() => setShowForgivenessNotice(true)} variant="secondary" />
       {showForgivenessNotice ? (
-        <View accessibilityLiveRegion="polite" style={styles.forgivenessNotice}>
-          <Text style={styles.forgivenessTitle}>الإبراء يحتاج تأكيدًا موثقًا من صاحبة الحق</Text>
-          <Text style={styles.forgivenessCopy}>لم يتغيّر الرصيد. افتحي العهد نفسه لإتمام الإبراء وختمه.</Text>
+        <View accessibilityLiveRegion="polite" style={styles.forgiveness}>
+          <Text style={styles.forgivenessTitle}>الإبراء لم يُنفذ</Text>
+          <Text style={styles.forgivenessCopy}>لم يتغيّر الرصيد. يلزم رضا صاحب الحق وإثبات محلي جديد قبل أي تغيير.</Text>
         </View>
       ) : null}
+      <AhdButton label="فتح المقاصّة" onPress={() => router.push('/settle')} />
+      <AhdButton label="التحقق والمشاركة" onPress={showProof} variant="quiet" />
 
-      <SealChip eyebrow="هذا العهد مختوم" label="النسخة v1 · سليمة" hash="a3f27c…" />
+      <SealChip
+        eyebrow="هذا العهد مختوم"
+        label="النسخة المحلية مطابقة للسجل"
+        hash={`${entry.proof.seal.slice(0, 12)}…`}
+      />
     </AppShell>
   );
 }
 
 const styles = StyleSheet.create({
-  partyLine: {
-    minHeight: 36,
+  parties: {
+    minHeight: 72,
+    paddingHorizontal: spacing.x3,
     flexDirection: 'row-reverse',
     alignItems: 'center',
-    gap: spacing.x2,
+    justifyContent: 'center',
   },
+  party: { minWidth: 92, alignItems: 'center', gap: spacing.x1 },
   partyDot: {
-    width: 32,
-    height: 32,
+    width: 34,
+    height: 34,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radii.pill,
     backgroundColor: colors.accentSoft,
   },
-  partyLetter: {
-    ...typography.sub,
-    color: colors.accent,
-    fontFamily: fontFamilies.body,
-  },
-  partyName: {
-    ...typography.sub,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-  },
-  partyThread: {
-    width: 30,
-    height: 3,
-    borderRadius: radii.pill,
-    backgroundColor: colors.waiting,
-  },
+  partyLetter: { ...typography.title, color: colors.accent, fontFamily: fontFamilies.body },
+  partyName: { ...typography.sub, color: colors.ink, fontFamily: fontFamilies.body },
+  partyRole: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.body },
+  thread: { width: 56, height: 3, borderRadius: radii.pill, backgroundColor: colors.covenant },
   hero: {
-    padding: spacing.x5,
-    overflow: 'hidden',
+    padding: spacing.x4,
+    gap: spacing.x3,
     borderRadius: radii.large,
-    backgroundColor: colors.accent,
-    shadowColor: colors.accent,
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.2,
-    shadowRadius: 24,
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: colors.accentLine,
+    backgroundColor: colors.cardSecondary,
   },
-  heroLabel: {
-    ...typography.sub,
-    color: colors.onAccentDim,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
+  heroTop: { flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'space-between', gap: spacing.x2 },
+  heroLabel: { ...typography.sub, color: colors.inkSecondary, fontFamily: fontFamilies.body },
+  meterPanel: {
+    padding: spacing.x3,
+    borderRadius: radii.medium,
+    backgroundColor: colors.accentDeep,
   },
-  amountRow: {
-    marginVertical: spacing.x1,
-    flexDirection: 'row-reverse',
-    alignItems: 'baseline',
-    gap: spacing.x2,
-  },
-  amount: {
-    fontSize: 43,
-    lineHeight: 54,
-    fontWeight: '800',
-    color: colors.white,
-    fontFamily: fontFamilies.display,
-    fontVariant: ['tabular-nums'],
-  },
-  currency: {
-    ...typography.body,
-    color: colors.onAccentDim,
-    fontFamily: fontFamilies.body,
-  },
-  lateNote: {
-    minHeight: 46,
+  scheduleRow: {
+    minHeight: 58,
     paddingHorizontal: spacing.x3,
     flexDirection: 'row-reverse',
     alignItems: 'center',
-    gap: spacing.x2,
-    borderRadius: radii.medium,
-    borderWidth: 1,
-    borderColor: colors.waiting,
-    backgroundColor: colors.waitingSoft,
+    gap: spacing.x3,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
   },
-  lateDot: {
-    width: 9,
-    height: 9,
-    borderRadius: radii.pill,
-    backgroundColor: colors.waiting,
-  },
-  lateTitle: {
-    ...typography.title,
-    color: colors.waiting,
-    fontFamily: fontFamilies.body,
-  },
-  lateCopy: {
-    ...typography.caption,
-    flex: 1,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'left',
-  },
-  ledgerHeading: {
-    marginBottom: spacing.x2,
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  ledgerTitle: {
-    ...typography.body,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    fontWeight: '700',
-  },
-  ledgerCaption: {
-    ...typography.caption,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-  },
-  ledger: {
-    position: 'relative',
-    paddingRight: spacing.x2,
-  },
-  ledgerRail: {
-    position: 'absolute',
-    top: 18,
-    bottom: 18,
-    right: 14,
-    width: 3,
-    borderRadius: radii.pill,
-    backgroundColor: colors.accentLine,
-  },
-  ledgerRow: {
-    minHeight: controls.rowHeight,
-    paddingRight: 36,
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-  },
-  ledgerKnot: {
-    position: 'absolute',
-    right: 0,
-    width: 15,
-    height: 15,
-    borderRadius: radii.pill,
-    borderWidth: 3,
-    backgroundColor: colors.card,
-  },
-  knotKept: {
-    borderColor: colors.covenant,
-    backgroundColor: colors.covenant,
-  },
-  knotActive: {
-    borderColor: colors.accent,
-  },
-  knotFuture: {
-    borderColor: colors.line,
-  },
-  ledgerCopy: {
-    flex: 1,
-  },
-  ledgerMain: {
-    ...typography.sub,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  ledgerSub: {
-    ...typography.caption,
-    marginTop: 2,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    fontVariant: ['tabular-nums'],
-    textAlign: 'right',
-  },
-  nextStep: {
+  knot: { width: 8, height: 8, borderRadius: radii.pill, backgroundColor: colors.covenant },
+  scheduleCopy: { flex: 1, alignItems: 'flex-end' },
+  scheduleTitle: { ...typography.sub, color: colors.ink, fontFamily: fontFamilies.body },
+  scheduleMeta: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.body },
+  scheduleAmount: { ...typography.sub, color: colors.ink, fontFamily: fontFamilies.display, writingDirection: 'ltr' },
+  notice: {
     padding: spacing.x3,
-    borderRadius: radii.medium,
+    gap: spacing.x1,
     borderRightWidth: 4,
-    borderRightColor: colors.accent,
-    backgroundColor: colors.accentSoft,
-  },
-  nextLabel: {
-    ...typography.caption,
-    color: colors.accent,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  nextTitle: {
-    ...typography.sub,
-    marginTop: spacing.x1,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  note: {
-    ...typography.caption,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  forgivenessNotice: {
-    padding: spacing.x3,
+    borderRightColor: colors.covenant,
     borderRadius: radii.medium,
-    borderWidth: 1,
-    borderColor: colors.covenant,
     backgroundColor: colors.covenantSoft,
   },
-  forgivenessTitle: {
-    ...typography.sub,
-    color: colors.verifiedText,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
+  noticeTitle: { ...typography.sub, color: colors.verifiedText, fontFamily: fontFamilies.body, textAlign: 'right' },
+  noticeCopy: { ...typography.body, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  forgiveness: {
+    padding: spacing.x3,
+    gap: spacing.x1,
+    borderRadius: radii.medium,
+    backgroundColor: colors.waitingSoft,
   },
-  forgivenessCopy: {
-    ...typography.caption,
-    marginTop: spacing.x1,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
+  forgivenessTitle: { ...typography.sub, color: colors.waiting, fontFamily: fontFamilies.body, textAlign: 'right' },
+  forgivenessCopy: { ...typography.body, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
 });

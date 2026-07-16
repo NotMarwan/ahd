@@ -1,17 +1,57 @@
 import { expect, jest, test } from '@jest/globals';
-import { render } from '@testing-library/react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 
+import { AhdJourneyProvider, AhdJourneyStore, InMemoryAhdRepository } from '@/state';
 import { OpenLoanScreen } from '../OpenLoanScreen';
 
 jest.mock('expo-router', () => ({
-  useRouter: () => ({ back: jest.fn() }),
+  useRouter: () => ({ back: jest.fn(), push: jest.fn() }),
 }));
 
-test('يعرض رحلة الوفاء المفتوحة وتوزيع اليسر المحفوظ', async () => {
-  const view = await render(<OpenLoanScreen />);
+async function sealedStore() {
+  const store = new AhdJourneyStore(new InMemoryAhdRepository());
+  await store.beginCreate();
+  await store.reviewDraftFromForm({
+    id: 'AHD-REAL-0001',
+    lender: 'سارة',
+    borrower: 'أحمد',
+    amountSarText: '8000',
+    months: 4,
+    start: { y: 2026, m: 7 },
+    timestamp: '2026-07-16T16:00:00+03:00',
+  });
+  await store.seal();
+  return store;
+}
+
+test('يعرض رحلة الوفاء من السجل الحقيقي بلا أرقام أو أطراف مزروعة', async () => {
+  const store = await sealedStore();
+  const view = await render(
+    <AhdJourneyProvider store={store}>
+      <OpenLoanScreen />
+    </AhdJourneyProvider>,
+  );
 
   expect(view.getByText('رحلة الوفاء')).toBeTruthy();
-  expect(view.getByText('القسط 1')).toBeTruthy();
-  expect(view.getByRole('button', { name: 'راجع الإبراء' })).toBeTruthy();
+  expect(view.getByText(/AHD-REAL-0001/)).toBeTruthy();
+  expect(view.getByText('سارة')).toBeTruthy();
+  expect(view.getByText('أحمد')).toBeTruthy();
+  expect(view.getByText('8,000.00 ر.س')).toBeTruthy();
+  expect(view.queryByText(/AH-2841|4,160|52%|a3f27c/)).toBeNull();
   expect(view.getByTestId('repayment-thread-meter')).toBeTruthy();
+
+  fireEvent.press(view.getByRole('button', { name: 'راجع الإبراء' }));
+  await waitFor(() => expect(view.getByText(/لم يتغيّر الرصيد/)).toBeTruthy());
+});
+
+test('يعرض إجراءً واضحًا حين لا يوجد عهد حقيقي', async () => {
+  const store = new AhdJourneyStore(new InMemoryAhdRepository());
+  const view = await render(
+    <AhdJourneyProvider store={store}>
+      <OpenLoanScreen />
+    </AhdJourneyProvider>,
+  );
+
+  expect(view.getByText('لا يوجد عهد مفتوح')).toBeTruthy();
+  expect(view.getByRole('button', { name: 'أنشئ عهدًا' })).toBeTruthy();
 });

@@ -1,56 +1,71 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 
 import { AhdJourneyProvider, AhdJourneyStore, InMemoryAhdRepository } from '@/state';
 import { SettlementScreen } from '../SettlementScreen';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../../generated/engine.js');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Settlement = require('../../generated/features/settlement.js');
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: jest.fn() }),
 }));
 
-describe('مقاصّة الشبكة', () => {
-  it('تقلّص شبكة التحويلات وتحافظ على مجموع الالتزامات', () => {
-    const view = Settlement.settlementView(engine.IOUS, engine);
-    expect(view.conserved).toBe(true);
-    expect(view.afterCount).toBeLessThan(view.beforeCount);
-  });
-
-  it('تعرض الشبكة قبل المقاصّة وتظهر «المجموع محفوظ» بعد التشغيل', async () => {
-    const store = new AhdJourneyStore(new InMemoryAhdRepository());
+async function networkStore() {
+  const store = new AhdJourneyStore(new InMemoryAhdRepository());
+  for (const draft of [
+    { id: 'AHD-NET-0001', lender: 'سارة', borrower: 'أحمد' },
+    { id: 'AHD-NET-0002', lender: 'أحمد', borrower: 'ريم' },
+  ]) {
     await store.beginCreate();
     await store.reviewDraftFromForm({
-      id: 'AHD-TEST-001',
-      lender: 'نورة',
-      borrower: 'سارة',
+      ...draft,
       amountSarText: '1200',
-      months: 4,
-      open: false,
+      months: 3,
       start: { y: 2026, m: 7 },
-      timestamp: '2026-07-01T10:00:00+03:00',
-      purpose: 'قرض حسن',
+      timestamp: '2026-07-16T16:00:00+03:00',
     });
     await store.seal();
+  }
+  return store;
+}
 
-    const screen = await render(
+describe('مقاصّة السجلات الحقيقية', () => {
+  it('تعرض الشبكة المتصلة وتمنع الحفظ حتى الإقرار الصريح', async () => {
+    const store = await networkStore();
+    const view = await render(
       <AhdJourneyProvider store={store}>
         <SettlementScreen />
       </AhdJourneyProvider>,
     );
 
-    expect(screen.getByText('400.00 ر.س')).toBeTruthy();
-    expect(screen.getByText('50.00 ر.س')).toBeTruthy();
+    expect(view.getByTestId('netting-visual')).toBeTruthy();
+    expect(view.getByText('قبل: 2')).toBeTruthy();
+    expect(view.getByText('بعد: 1')).toBeTruthy();
+    expect(view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' })).toBeDisabled();
 
-    fireEvent.press(screen.getByRole('button', { name: 'شغّل مقاصّة الشبكة' }));
+    fireEvent.press(view.getByRole('checkbox', { name: 'أؤكد رضا جميع الأطراف عن هذا الاقتراح' }));
+    await waitFor(() => expect(
+      view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }),
+    ).toBeEnabled());
+    await act(async () => {
+      await fireEvent.press(view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }));
+    });
+
     await waitFor(() => expect(store.getState().step).toBe('settlement'));
+    expect(store.getState().settlement?.beforeCount).toBe(2);
+    expect(store.getState().settlement?.afterCount).toBe(1);
+    expect(store.getState().settlementConsent?.confirmed).toBe(true);
+    expect(view.getByText('المجموع محفوظ')).toBeTruthy();
+  });
 
-    expect(await screen.findByText('المجموع محفوظ')).toBeTruthy();
-    expect(screen.getByText('حُفظ مجموع الالتزامات')).toBeTruthy();
-    expect(screen.getByText(`قبل: ${engine.IOUS.length} تحويلات`)).toBeTruthy();
-    expect(screen.getByText('بعد: 2 تحويل')).toBeTruthy();
+  it('لا يعرض شبكة مزروعة عندما يكون الدفتر خاليًا', async () => {
+    const store = new AhdJourneyStore(new InMemoryAhdRepository());
+    const view = await render(
+      <AhdJourneyProvider store={store}>
+        <SettlementScreen />
+      </AhdJourneyProvider>,
+    );
+
+    expect(view.getByText('لا توجد شبكة للمقاصّة')).toBeTruthy();
+    expect(view.queryByTestId('netting-visual')).toBeNull();
+    expect(view.getByRole('button', { name: 'أنشئ عهدًا' })).toBeTruthy();
   });
 });

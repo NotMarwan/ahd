@@ -1,43 +1,65 @@
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import {
   AhdButton,
   AppShell,
+  EmptyState,
   NettingVisual,
   RowGroup,
   ScreenHeader,
   SealChip,
+  Section,
   StatusChip,
 } from '@/components';
-import { ahdCore } from '@/core/ahd-core';
-import { useAhdJourney } from '@/state';
+import { ahdCore, type SettlementResult, type SettlementTransfer } from '@/core/ahd-core';
+import { useAhdJourney, type AhdStoredRecord } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js');
-
-type NetworkTransfer = { from: string; to: string; amount: number };
-
-const NETWORK_IOUS = engine.IOUS as readonly NetworkTransfer[];
-const PREVIEW_SETTLEMENT = ahdCore.buildSettlement(
-  NETWORK_IOUS.map((transfer) => ({
-    from: transfer.from,
-    to: transfer.to,
-    amountMinor: engine.toMinor(transfer.amount),
-  })),
-);
-
-function formatSar(amountSar: number): string {
-  return ahdCore.formatMinorSar(engine.toMinor(amountSar));
+function connectedLocalRecords(
+  records: readonly AhdStoredRecord[],
+  activeRecordId: string | null,
+): readonly AhdStoredRecord[] {
+  const local = records.filter((entry) => entry.source === 'local');
+  const active = local.find((entry) => entry.sealed.record.id === activeRecordId)
+    ?? local[local.length - 1];
+  if (!active) return [];
+  const parties = new Set([active.sealed.record.lender, active.sealed.record.borrower]);
+  const selected = new Set([active.sealed.record.id]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const entry of local) {
+      const record = entry.sealed.record;
+      if (selected.has(record.id)) continue;
+      if (parties.has(record.lender) || parties.has(record.borrower)) {
+        selected.add(record.id);
+        parties.add(record.lender);
+        parties.add(record.borrower);
+        changed = true;
+      }
+    }
+  }
+  return local.filter((entry) => selected.has(entry.sealed.record.id));
 }
 
-function TransferRow({ transfer, index }: { transfer: NetworkTransfer; index: number }) {
+function transfersFor(records: readonly AhdStoredRecord[]): SettlementTransfer[] {
+  return records.map(({ sealed }) => ({
+    from: sealed.record.borrower,
+    to: sealed.record.lender,
+    amountMinor: sealed.record.amountMinor,
+  }));
+}
+
+function TransferRow({ transfer }: { transfer: SettlementTransfer }) {
   return (
     <View style={styles.transferRow}>
-      <View style={[styles.transferThread, { backgroundColor: index % 3 === 0 ? colors.waiting : colors.accent }]} />
-      <Text style={styles.row}>{transfer.to} ← {transfer.from}</Text>
-      <Text style={styles.transferAmount}>{formatSar(transfer.amount)}</Text>
+      <View style={styles.transferThread} />
+      <View style={styles.transferCopy}>
+        <Text style={styles.transferParties}>{transfer.to} ← {transfer.from}</Text>
+        <Text style={styles.transferAmount}>{ahdCore.formatMinorSar(transfer.amountMinor)}</Text>
+      </View>
     </View>
   );
 }
@@ -45,20 +67,26 @@ function TransferRow({ transfer, index }: { transfer: NetworkTransfer; index: nu
 export function SettlementScreen() {
   const router = useRouter();
   const { settle, state, verifyProof } = useAhdJourney();
-  const sealed = state.sealed;
-  const settlement = state.settlement;
-  const visualSettlement = settlement ?? PREVIEW_SETTLEMENT;
+  const [consentConfirmed, setConsentConfirmed] = useState(false);
+  const connected = connectedLocalRecords(state.records, state.activeRecordId);
+  const recordIds = connected.map((entry) => entry.sealed.record.id);
+  const transfers = transfersFor(connected);
+  let preview: SettlementResult | undefined;
+  let previewError: string | undefined;
+  try {
+    preview = transfers.length > 0 ? ahdCore.buildSettlement(transfers) : undefined;
+  } catch (error) {
+    previewError = error instanceof Error ? error.message : 'تعذّر حساب الشبكة';
+  }
+  const currentConsentIds = state.settlementConsent?.recordIds ?? [];
+  const resultMatches = currentConsentIds.length === recordIds.length
+    && currentConsentIds.every((recordId, index) => recordId === recordIds[index]);
+  const settlement = resultMatches ? state.settlement : undefined;
+  const visual = settlement ?? preview;
 
   const runSettlement = async () => {
-    await settle(
-      NETWORK_IOUS.map((transfer) => ({
-        from: transfer.from,
-        to: transfer.to,
-        amountMinor: engine.toMinor(transfer.amount),
-      })),
-    );
+    await settle(recordIds, consentConfirmed);
   };
-
   const showProof = async () => {
     await verifyProof();
     router.push('/proof');
@@ -67,187 +95,114 @@ export function SettlementScreen() {
   return (
     <AppShell testID="settlement-screen">
       <ScreenHeader
-        eyebrow="المقاصّة · اقتراح قابل للشرح"
-        title="نفكّ التشابك،"
-        accentTitle="لا نقصّ الخيوط."
-        subtitle="الصوافي لا تتغيّر، ولا شيء يُطبّق بلا رضا الجميع."
+        eyebrow="المقاصّة · اقتراح محلي"
+        title="نختصر التحويل،"
+        accentTitle="ولا نغيّر الحق."
+        subtitle="تدخل فقط العهود المحلية المتصلة، ولا يُحفظ الاقتراح بلا إقرار صريح."
       />
 
-      <NettingVisual
-        testID="netting-visual"
-        beforeCount={visualSettlement.beforeCount}
-        afterCount={visualSettlement.afterCount}
-      />
-
-      <View style={styles.explainer}>
-        <View style={styles.explainerTop}>
-          <Text style={styles.explainerLabel}>المسار المقترح</Text>
-          <StatusChip label={settlement ? 'محسوب محليًا' : 'معاينة محلية'} tone="active" />
-        </View>
-        <Text style={styles.explainerTitle}>نقلّل عدد التحويلات، ونحفظ صافي حق كل طرف.</Text>
-        <Text style={styles.explainerNote}>
-          {sealed
-            ? 'هذه نتيجة المحرك على شبكة العهد الحالية.'
-            : 'هذه شبكة الاختبار الحتمية داخل التطبيق؛ التطبيق لا يطبّقها على أشخاص حقيقيين قبل وجود عهد مختوم.'}
-        </Text>
-      </View>
-
-      {!sealed ? (
-        <View style={styles.emptyCard}>
-          <View style={styles.emptyThread} />
-          <View style={styles.emptyCopy}>
-            <Text style={styles.emptyTitle}>لا يوجد عهد للمقاصّة</Text>
-            <Text style={styles.emptyBody}>اختم عهدًا أولًا ثم ارجع لتشغيل المسار الحقيقي.</Text>
-          </View>
-          <AhdButton label="أنشئ عهدًا" onPress={() => router.push('/create')} variant="secondary" />
-        </View>
-      ) : !settlement ? (
-        <View>
-          <View style={styles.listHeading}>
-            <Text style={styles.listTitle}>شبكة الالتزامات الحالية</Text>
-            <Text style={styles.listCaption}>{NETWORK_IOUS.length} خيوط</Text>
-          </View>
+      {!visual ? (
+        <Section>
           <RowGroup>
-            {NETWORK_IOUS.map((transfer, index) => (
-              <TransferRow key={`${transfer.from}-${transfer.to}-${index}`} transfer={transfer} index={index} />
-            ))}
-          </RowGroup>
-          <View style={styles.actionGap} />
-          <AhdButton label="شغّل مقاصّة الشبكة" onPress={runSettlement} />
-        </View>
-      ) : (
-        <View style={styles.resultSection}>
-          <View style={styles.resultTop}>
-            <StatusChip
-              label={settlement.conserved ? 'المجموع محفوظ' : 'تحتاج مراجعة'}
-              tone={settlement.conserved ? 'kept' : 'tamper'}
+            <EmptyState
+              title={previewError ? 'توقّف الحساب بأمان' : 'لا توجد شبكة للمقاصّة'}
+              body={previewError
+                ? 'هذه الشبكة تتجاوز حدّ الـPilot المحلي. لم يتغيّر أي رصيد.'
+                : 'أنشئ عهدًا مختومًا ليظهر اقتراح المقاصّة من سجلاتك الفعلية.'}
             />
-            <Text style={styles.resultTitle}>
-              {settlement.conserved ? 'حُفظ مجموع الالتزامات' : 'توقفت النتيجة للمراجعة'}
-            </Text>
-          </View>
+          </RowGroup>
+          <AhdButton label="أنشئ عهدًا" onPress={() => router.push('/create')} />
+        </Section>
+      ) : (
+        <>
+          <NettingVisual
+            testID="netting-visual"
+            beforeCount={visual.beforeCount}
+            afterCount={visual.afterCount}
+          />
 
-          <View style={styles.summary}>
-            <Text style={styles.summaryValue}>قبل: {settlement.beforeCount} تحويلات</Text>
-            <View style={styles.summaryThread} />
-            <Text style={styles.summaryValue}>بعد: {settlement.afterCount} تحويل</Text>
-          </View>
-
-          <View>
-            <View style={styles.listHeading}>
-              <Text style={styles.listTitle}>التحويلات بعد المقاصّة</Text>
-              <Text style={styles.listCaption}>اقتراح فقط</Text>
-            </View>
-            <RowGroup>
-              {settlement.after.map((transfer, index) => (
-                <View key={`${transfer.from}-${transfer.to}-${index}`} style={styles.transferRow}>
-                  <View style={[styles.transferThread, { backgroundColor: colors.covenant }]} />
-                  <Text style={styles.row}>{transfer.to} ← {transfer.from}</Text>
-                  <Text style={styles.transferAmount}>{ahdCore.formatMinorSar(transfer.amountMinor)}</Text>
+          {!settlement ? (
+            <View style={styles.consentArea}>
+              <Pressable
+                accessibilityLabel="أؤكد رضا جميع الأطراف عن هذا الاقتراح"
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: consentConfirmed }}
+                onPress={() => setConsentConfirmed((current) => !current)}
+                style={[styles.consentCard, consentConfirmed && styles.consentCardChecked]}
+              >
+                <View style={[styles.checkbox, consentConfirmed && styles.checkboxChecked]}>
+                  <Text style={styles.checkmark}>{consentConfirmed ? '✓' : ''}</Text>
                 </View>
+                <View style={styles.consentCopy}>
+                  <Text style={styles.consentTitle}>أؤكد رضا جميع الأطراف عن هذا الاقتراح</Text>
+                  <Text style={styles.consentBody}>إقرار محلي للـPilot؛ لا ينفّذ تحويلًا ولا يغيّر الرصيد.</Text>
+                </View>
+              </Pressable>
+              <AhdButton
+                label="احفظ اقتراح المقاصّة"
+                onPress={runSettlement}
+                disabled={!consentConfirmed}
+              />
+            </View>
+          ) : null}
+
+          <View style={styles.summaryCard}>
+            <View style={styles.summaryTop}>
+              <Text style={styles.summaryLabel}>{settlement ? 'اقتراح محفوظ محليًا' : 'معاينة قبل الحفظ'}</Text>
+              <StatusChip
+                label={settlement?.conserved ? 'المجموع محفوظ' : 'لا تغيير بعد'}
+                tone={settlement?.conserved ? 'verified' : 'active'}
+              />
+            </View>
+            <Text style={styles.summaryTitle}>الصافي محفوظ لكل طرف؛ الذي يتغيّر هو عدد التحويلات المقترحة فقط.</Text>
+            <View style={styles.counts}>
+              <Text style={styles.count}>قبل: {visual.beforeCount}</Text>
+              <View style={styles.countThread} />
+              <Text style={styles.count}>بعد: {visual.afterCount}</Text>
+            </View>
+          </View>
+
+          <Section title={settlement ? 'التحويلات المقترحة' : 'العهود الداخلة في الحساب'}>
+            <RowGroup>
+              {(settlement?.after ?? transfers).map((transfer, index) => (
+                <TransferRow key={`${transfer.from}-${transfer.to}-${index}`} transfer={transfer} />
               ))}
             </RowGroup>
-          </View>
+          </Section>
 
-          <AhdButton label="التحقق من الإثبات" onPress={showProof} />
-        </View>
+          {settlement ? (
+            <View style={styles.resultActions}>
+              <Text style={styles.resultNote}>حُفظ الاقتراح فقط. التنفيذ الخارجي ما زال يحتاج اتصالًا وموافقة مستقلة.</Text>
+              <AhdButton label="التحقق من الإثبات" onPress={showProof} />
+            </View>
+          ) : null}
+
+          <SealChip
+            eyebrow="المحرك حتمي"
+            label="نفس السجلات تعطي نفس الاقتراح"
+            hash={`${visual.beforeCount}→${visual.afterCount}`}
+          />
+        </>
       )}
-
-      <View style={styles.consentCard}>
-        <View style={styles.consentKnot}><View style={styles.consentRing} /></View>
-        <View style={styles.consentCopy}>
-          <Text style={styles.consentLabel}>رضا جميع الأطراف</Text>
-          <Text style={styles.consentTitle}>المقترح لا يصبح نافذًا بصمت.</Text>
-        </View>
-        <StatusChip label="لا تغيير بعد" tone="late" />
-      </View>
-
-      <SealChip eyebrow="المحرك حتمي" label="نفس الشبكة تعطي نفس النتيجة" hash="9→2" />
     </AppShell>
   );
 }
 
 const styles = StyleSheet.create({
-  explainer: {
-    padding: spacing.x3,
-    borderRadius: radii.medium,
+  summaryCard: {
+    padding: spacing.x4,
+    gap: spacing.x3,
+    borderRadius: radii.large,
     borderRightWidth: 4,
     borderRightColor: colors.accent,
     backgroundColor: colors.accentSoft,
   },
-  explainerTop: {
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.x2,
-  },
-  explainerLabel: {
-    ...typography.caption,
-    color: colors.accent,
-    fontFamily: fontFamilies.body,
-    fontWeight: '700',
-  },
-  explainerTitle: {
-    ...typography.title,
-    marginTop: spacing.x2,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  explainerNote: {
-    ...typography.caption,
-    marginTop: spacing.x1,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  emptyCard: {
-    padding: spacing.x4,
-    gap: spacing.x3,
-    borderRadius: radii.large,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.card,
-  },
-  emptyThread: {
-    width: 52,
-    height: 6,
-    borderRadius: radii.pill,
-    backgroundColor: colors.accent,
-  },
-  emptyCopy: {
-    gap: spacing.x1,
-  },
-  emptyTitle: {
-    ...typography.title,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  emptyBody: {
-    ...typography.body,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  listHeading: {
-    marginBottom: spacing.x2,
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.x2,
-  },
-  listTitle: {
-    ...typography.body,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    fontWeight: '700',
-  },
-  listCaption: {
-    ...typography.caption,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-  },
+  summaryTop: { flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'space-between', gap: spacing.x2 },
+  summaryLabel: { ...typography.caption, color: colors.accent, fontFamily: fontFamilies.body, fontWeight: '700' },
+  summaryTitle: { ...typography.title, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  counts: { flexDirection: 'row-reverse', alignItems: 'center', gap: spacing.x3 },
+  count: { ...typography.sub, color: colors.ink, fontFamily: fontFamilies.body, fontVariant: ['tabular-nums'] },
+  countThread: { flex: 1, height: 2, borderRadius: radii.pill, backgroundColor: colors.covenant },
   transferRow: {
     minHeight: controls.rowHeight,
     paddingHorizontal: spacing.x3,
@@ -257,102 +212,37 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.line,
   },
-  transferThread: {
-    width: 5,
-    height: 32,
-    borderRadius: radii.pill,
-  },
-  row: {
-    ...typography.sub,
-    flex: 1,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  transferAmount: {
-    ...typography.sub,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    fontVariant: ['tabular-nums'],
-    writingDirection: 'ltr',
-  },
-  actionGap: {
-    height: spacing.x3,
-  },
-  resultSection: {
-    gap: spacing.x4,
-  },
-  resultTop: {
-    gap: spacing.x2,
-  },
-  resultTitle: {
-    ...typography.title,
-    color: colors.verifiedText,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  summary: {
-    minHeight: 58,
-    paddingHorizontal: spacing.x3,
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    gap: spacing.x2,
-    borderRadius: radii.medium,
-    backgroundColor: colors.accentDeep,
-  },
-  summaryValue: {
-    ...typography.sub,
-    flex: 1,
-    color: colors.white,
-    fontFamily: fontFamilies.body,
-    fontVariant: ['tabular-nums'],
-    textAlign: 'center',
-  },
-  summaryThread: {
-    width: 3,
-    height: 30,
-    borderRadius: radii.pill,
-    backgroundColor: colors.sealHash,
-  },
+  transferThread: { width: 5, height: 32, borderRadius: radii.pill, backgroundColor: colors.covenant },
+  transferCopy: { flex: 1, flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'space-between', gap: spacing.x2 },
+  transferParties: { ...typography.sub, flex: 1, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  transferAmount: { ...typography.sub, color: colors.inkSecondary, fontFamily: fontFamilies.body, writingDirection: 'ltr' },
+  consentArea: { gap: spacing.x3 },
   consentCard: {
-    minHeight: 64,
+    minHeight: 78,
     padding: spacing.x3,
     flexDirection: 'row-reverse',
     alignItems: 'center',
     gap: spacing.x3,
     borderRadius: radii.medium,
     borderWidth: 1,
-    borderColor: colors.covenant,
-    backgroundColor: colors.covenantSoft,
+    borderColor: colors.line,
+    backgroundColor: colors.card,
   },
-  consentKnot: {
-    width: 34,
-    height: 34,
+  consentCardChecked: { borderColor: colors.covenant, backgroundColor: colors.covenantSoft },
+  checkbox: {
+    width: 28,
+    height: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: radii.pill,
-    backgroundColor: colors.seal,
+    borderRadius: radii.small,
+    borderWidth: 2,
+    borderColor: colors.inkSecondary,
   },
-  consentRing: {
-    width: 15,
-    height: 15,
-    borderRadius: radii.pill,
-    borderWidth: 3,
-    borderColor: colors.sealHash,
-  },
-  consentCopy: {
-    flex: 1,
-  },
-  consentLabel: {
-    ...typography.caption,
-    color: colors.verifiedText,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  consentTitle: {
-    ...typography.sub,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
+  checkboxChecked: { borderColor: colors.covenant, backgroundColor: colors.covenant },
+  checkmark: { ...typography.sub, color: colors.white, fontFamily: fontFamilies.body },
+  consentCopy: { flex: 1, alignItems: 'flex-end' },
+  consentTitle: { ...typography.sub, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  consentBody: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
+  resultActions: { gap: spacing.x3 },
+  resultNote: { ...typography.body, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
 });

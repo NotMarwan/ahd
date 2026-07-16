@@ -1,6 +1,8 @@
 import { describe, expect, jest, test } from "@jest/globals";
 
 import { ahdCore } from "../../core/ahd-core";
+import { createShareEnvelope, serializeShareEnvelope } from "../../share";
+import { assertPilotSlice } from "../pilot-state";
 
 type RepositoryModule = typeof import("../ahd-repository");
 type JourneyModule = typeof import("../journey-store");
@@ -56,7 +58,7 @@ async function runJourney(store: {
   seal(): Promise<unknown>;
   openDaftari(): Promise<unknown>;
   openRecord(): Promise<unknown>;
-  settle(transfers: Array<{ from: string; to: string; amountMinor: number }>): Promise<unknown>;
+  settle(recordIds: readonly string[], consentConfirmed: boolean): Promise<unknown>;
   verifyProof(): Promise<unknown>;
   getState(): { step: string };
 }) {
@@ -71,10 +73,7 @@ async function runJourney(store: {
   steps.push(store.getState().step);
   await store.openRecord();
   steps.push(store.getState().step);
-  await store.settle([
-    { from: "نورة", to: "سارة", amountMinor: 10_000 },
-    { from: "سارة", to: "خالد", amountMinor: 10_000 },
-  ]);
+  await store.settle([INPUT.id], true);
   steps.push(store.getState().step);
   await store.verifyProof();
   steps.push(store.getState().step);
@@ -169,6 +168,57 @@ describe("Phase 1 journey state", () => {
     expect(store.getState().proofVerification?.ok).toBe(true);
   });
 
+  test("requires explicit consent and derives settlement only from selected local records", async () => {
+    const { repository, journey } = requireStateModules();
+    const store = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
+    await store.beginCreate();
+    await store.reviewDraft(INPUT);
+    await store.seal();
+
+    await expect(store.settle([INPUT.id], false)).rejects.toThrow("explicit consent");
+    expect(store.getState().settlement).toBeUndefined();
+
+    await store.settle([INPUT.id], true);
+    expect(store.getState().settlement?.before).toEqual([
+      { from: INPUT.borrower, to: INPUT.lender, amountMinor: INPUT.amountMinor },
+    ]);
+    expect(store.getState().settlementConsent).toEqual({
+      confirmed: true,
+      recordIds: [INPUT.id],
+    });
+    expect(() => assertPilotSlice("journey", store.getState())).not.toThrow();
+  });
+
+  test("persists only verified shared records without adding them to financial records", async () => {
+    const { repository, journey } = requireStateModules();
+    const source = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
+    await source.beginCreate();
+    await source.reviewDraft(INPUT);
+    await source.seal();
+    const sourceState = source.getState();
+    const serialized = serializeShareEnvelope(createShareEnvelope({
+      record: sourceState.sealed!.record,
+      proof: sourceState.proof!,
+      exportedAt: sourceState.sealed!.prepared.sourceDraft.timestamp,
+    }));
+
+    const target = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
+    await expect(target.importSharedRecord(serialized)).resolves.toMatchObject({ status: "verified" });
+    await expect(target.importSharedRecord(serialized)).resolves.toMatchObject({ status: "verified" });
+
+    expect(target.getState().records).toEqual([]);
+    expect(target.getState().imports).toHaveLength(1);
+    expect(target.getState().imports[0].record.id).toBe(INPUT.id);
+    expect(() => assertPilotSlice("journey", target.getState())).not.toThrow();
+
+    const tampered = JSON.parse(serialized) as { record: { amount_minor: number } };
+    tampered.record.amount_minor += 1;
+    await expect(target.importSharedRecord(JSON.stringify(tampered))).resolves.toMatchObject({
+      status: "tampered",
+    });
+    expect(target.getState().imports).toHaveLength(1);
+  });
+
   test("produces byte-equivalent state for the same fixed inputs", async () => {
     const { repository, journey } = requireStateModules();
     const first = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
@@ -243,6 +293,7 @@ describe("Phase 1 journey state", () => {
       asOf: ahdCore.AS_OF,
       step: "home" as const,
       records: [],
+      imports: [],
       activeRecordId: null,
     };
 

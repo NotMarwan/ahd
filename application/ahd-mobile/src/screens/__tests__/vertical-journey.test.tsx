@@ -6,6 +6,7 @@ import { InMemoryAhdRepository, AhdJourneyProvider, AhdJourneyStore } from '@/st
 import { CreateAhdScreen } from '../CreateAhdScreen';
 import { DaftariScreen } from '../DaftariScreen';
 import { HomeScreen } from '../HomeScreen';
+import { OpenLoanScreen } from '../OpenLoanScreen';
 import { ProofScreen } from '../ProofScreen';
 import { RecordDetailScreen } from '../RecordDetailScreen';
 import { SettlementScreen } from '../SettlementScreen';
@@ -51,13 +52,22 @@ describe('رحلة عهد الأولى على الجوال', () => {
     await view.unmount();
 
     view = await renderScreen(<RecordDetailScreen />);
+    await fireEvent.press(view.getByRole('button', { name: 'فتح رحلة الوفاء' }));
+    await view.unmount();
+
+    view = await renderScreen(<OpenLoanScreen />);
+    expect(view.getByText('رحلة الوفاء')).toBeTruthy();
     await fireEvent.press(view.getByRole('button', { name: 'فتح المقاصّة' }));
     await view.unmount();
 
     view = await renderScreen(<SettlementScreen />);
-    await fireEvent.press(view.getByRole('button', { name: 'شغّل مقاصّة الشبكة' }));
+    await fireEvent.press(view.getByRole('checkbox', { name: 'أؤكد رضا جميع الأطراف عن هذا الاقتراح' }));
+    await waitFor(() => expect(
+      view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }),
+    ).toBeEnabled());
+    await fireEvent.press(view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }));
     await waitFor(() => expect(store.getState().step).toBe('settlement'));
-    expect(view.getByText('حُفظ مجموع الالتزامات')).toBeTruthy();
+    expect(view.getByText('المجموع محفوظ')).toBeTruthy();
     await fireEvent.press(view.getByRole('button', { name: 'التحقق من الإثبات' }));
     await waitFor(() => expect(store.getState().step).toBe('proof'));
     await view.unmount();
@@ -67,6 +77,6 @@ describe('رحلة عهد الأولى على الجوال', () => {
     expect(view.queryByText(/contentHash:/)).toBeNull();
     await fireEvent.press(view.getByRole('button', { name: 'طلب إثبات خارجي' }));
     await waitFor(() => expect(store.getState().connection?.status).toBe('needs_connection'));
-    expect(view.getByText('يتطلب اتصالًا بالخدمة الخارجية')).toBeTruthy();
+    expect(view.getByText(/يتطلب اتصالًا بالخدمة الخارجية/)).toBeTruthy();
   }, 15_000);
 });

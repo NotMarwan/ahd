@@ -20,7 +20,7 @@ export function NettingVisual({ beforeCount, afterCount, testID }: NettingVisual
         <View style={styles.stat}>
           <Text style={styles.statLabel}>قبل</Text>
           <Text style={styles.before}>{beforeCount}</Text>
-          <Text style={styles.statCaption}>تحويلات متشابكة</Text>
+          <Text style={styles.statCaption}>{beforeCount === 1 ? 'تحويل قائم' : 'تحويلات متشابكة'}</Text>
         </View>
         <View accessibilityElementsHidden style={styles.arrowLane}>
           <View style={styles.arrowThread} />
@@ -29,7 +29,7 @@ export function NettingVisual({ beforeCount, afterCount, testID }: NettingVisual
         <View style={[styles.stat, styles.statAfter]}>
           <Text style={styles.statLabel}>بعد</Text>
           <Text style={styles.after}>{afterCount}</Text>
-          <Text style={styles.statCaption}>تحويلان واضحان</Text>
+          <Text style={styles.statCaption}>{afterCount === 1 ? 'تحويل واضح' : 'تحويلات واضحة'}</Text>
         </View>
       </View>
 

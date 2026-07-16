@@ -222,6 +222,32 @@ function preparedAt(value: unknown, path: string): void {
   draftAt(prepared.sourceDraft, `${path}.sourceDraft`);
 }
 
+function ahdRecordAt(value: unknown, path: string): void {
+  const ahdRecord = recordAt(
+    value,
+    path,
+    ['id', 'lender', 'borrower', 'amountMinor', 'installments', 'events'],
+  );
+  stringAt(ahdRecord.id, `${path}.id`);
+  stringAt(ahdRecord.lender, `${path}.lender`);
+  stringAt(ahdRecord.borrower, `${path}.borrower`);
+  integerAt(ahdRecord.amountMinor, `${path}.amountMinor`);
+  arrayAt(ahdRecord.installments, `${path}.installments`);
+  ahdRecord.installments.forEach((item, index) => {
+    const itemPath = `${path}.installments[${index}]`;
+    const installment = recordAt(item, itemPath, ['dueISO', 'amountMinor']);
+    stringOrNullAt(installment.dueISO, `${itemPath}.dueISO`);
+    integerAt(installment.amountMinor, `${itemPath}.amountMinor`);
+  });
+  arrayAt(ahdRecord.events, `${path}.events`);
+  ahdRecord.events.forEach((item, index) => {
+    const itemPath = `${path}.events[${index}]`;
+    if (!item || typeof item !== 'object' || Array.isArray(item)) invalid(itemPath);
+    stringAt((item as UnknownRecord).type, `${itemPath}.type`);
+    jsonValueAt(item, itemPath);
+  });
+}
+
 function sealedAt(value: unknown, path: string): void {
   const sealed = recordAt(value, path, [
     'prepared',
@@ -250,29 +276,7 @@ function sealedAt(value: unknown, path: string): void {
   stringAt(verification.recomputed, `${path}.verification.recomputed`);
   stringAt(verification.canonicalHash, `${path}.verification.canonicalHash`);
 
-  const ahdRecord = recordAt(
-    sealed.record,
-    `${path}.record`,
-    ['id', 'lender', 'borrower', 'amountMinor', 'installments', 'events'],
-  );
-  stringAt(ahdRecord.id, `${path}.record.id`);
-  stringAt(ahdRecord.lender, `${path}.record.lender`);
-  stringAt(ahdRecord.borrower, `${path}.record.borrower`);
-  integerAt(ahdRecord.amountMinor, `${path}.record.amountMinor`);
-  arrayAt(ahdRecord.installments, `${path}.record.installments`);
-  ahdRecord.installments.forEach((item, index) => {
-    const itemPath = `${path}.record.installments[${index}]`;
-    const installment = recordAt(item, itemPath, ['dueISO', 'amountMinor']);
-    stringOrNullAt(installment.dueISO, `${itemPath}.dueISO`);
-    integerAt(installment.amountMinor, `${itemPath}.amountMinor`);
-  });
-  arrayAt(ahdRecord.events, `${path}.record.events`);
-  ahdRecord.events.forEach((item, index) => {
-    const itemPath = `${path}.record.events[${index}]`;
-    if (!item || typeof item !== 'object' || Array.isArray(item)) invalid(itemPath);
-    stringAt((item as UnknownRecord).type, `${itemPath}.type`);
-    jsonValueAt(item, itemPath);
-  });
+  ahdRecordAt(sealed.record, `${path}.record`);
 }
 
 function transferAt(value: unknown, path: string): void {
@@ -323,6 +327,16 @@ function storedRecordAt(value: unknown, path: string): void {
   if (sealed.record.id !== proof.id) invalid(`${path}.proof.id`);
 }
 
+function importedRecordAt(value: unknown, path: string): void {
+  const entry = recordAt(value, path, ['record', 'proof', 'exportedAt']);
+  ahdRecordAt(entry.record, `${path}.record`);
+  proofAt(entry.proof, `${path}.proof`);
+  stringAt(entry.exportedAt, `${path}.exportedAt`);
+  const record = entry.record as { id: string };
+  const proof = entry.proof as { id: string };
+  if (record.id !== proof.id) invalid(`${path}.proof.id`);
+}
+
 function journeyAt(value: unknown, path: string): void {
   const journey = recordAt(
     value,
@@ -330,11 +344,13 @@ function journeyAt(value: unknown, path: string): void {
     ['version', 'asOf', 'step'],
     [
       'records',
+      'imports',
       'activeRecordId',
       'prepared',
       'screening',
       'sealed',
       'settlement',
+      'settlementConsent',
       'proof',
       'proofVerification',
       'connection',
@@ -346,6 +362,7 @@ function journeyAt(value: unknown, path: string): void {
     invalid(`${path}.step`);
   }
   const hasRecords = Object.prototype.hasOwnProperty.call(journey, 'records');
+  const hasImports = Object.prototype.hasOwnProperty.call(journey, 'imports');
   const hasActiveRecordId = Object.prototype.hasOwnProperty.call(journey, 'activeRecordId');
   if (hasRecords !== hasActiveRecordId) invalid(`${path}.records`);
   if (hasRecords) {
@@ -360,10 +377,31 @@ function journeyAt(value: unknown, path: string): void {
       invalid(`${path}.activeRecordId`);
     }
   }
+  if (hasImports) {
+    arrayAt(journey.imports, `${path}.imports`);
+    journey.imports.forEach((entry, index) => importedRecordAt(entry, `${path}.imports[${index}]`));
+    const importedIds = journey.imports.map((entry) => (
+      entry as { record: { id: string } }
+    ).record.id);
+    if (new Set(importedIds).size !== importedIds.length) invalid(`${path}.imports`);
+  }
   if (journey.prepared !== undefined) preparedAt(journey.prepared, `${path}.prepared`);
   if (journey.screening !== undefined) screeningAt(journey.screening, `${path}.screening`);
   if (journey.sealed !== undefined) sealedAt(journey.sealed, `${path}.sealed`);
   if (journey.settlement !== undefined) settlementAt(journey.settlement, `${path}.settlement`);
+  if (journey.settlementConsent !== undefined) {
+    const consent = recordAt(
+      journey.settlementConsent,
+      `${path}.settlementConsent`,
+      ['confirmed', 'recordIds'],
+    );
+    if (consent.confirmed !== true) invalid(`${path}.settlementConsent.confirmed`);
+    arrayAt(consent.recordIds, `${path}.settlementConsent.recordIds`);
+    consent.recordIds.forEach((recordId, index) => (
+      stringAt(recordId, `${path}.settlementConsent.recordIds[${index}]`)
+    ));
+    if (consent.recordIds.length === 0) invalid(`${path}.settlementConsent.recordIds`);
+  }
   if (journey.proof !== undefined) proofAt(journey.proof, `${path}.proof`);
   if (journey.proofVerification !== undefined) {
     const verification = recordAt(

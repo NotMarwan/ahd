@@ -114,4 +114,28 @@ describe("typed Ahd core adapter", () => {
     expect(result.after).toEqual([{ from: "نورة", to: "خالد", amountMinor: 10_001 }]);
     expect(result.after.every((item) => Number.isInteger(item.amountMinor))).toBe(true);
   });
+
+  test("adapts real display names to the fixed golden netting nodes", () => {
+    const { ahdCore } = requireCore();
+
+    const result = ahdCore.buildSettlement([
+      { from: "ريم", to: "دانة", amountMinor: 120_000 },
+      { from: "دانة", to: "مي", amountMinor: 120_000 },
+    ]);
+
+    expect(result.conserved).toBe(true);
+    expect(result.after).toEqual([{ from: "ريم", to: "مي", amountMinor: 120_000 }]);
+  });
+
+  test("fails closed when a settlement component exceeds five real parties", () => {
+    const { ahdCore } = requireCore();
+
+    expect(() => ahdCore.buildSettlement([
+      { from: "طرف 1", to: "طرف 2", amountMinor: 100 },
+      { from: "طرف 2", to: "طرف 3", amountMinor: 100 },
+      { from: "طرف 3", to: "طرف 4", amountMinor: 100 },
+      { from: "طرف 4", to: "طرف 5", amountMinor: 100 },
+      { from: "طرف 5", to: "طرف 6", amountMinor: 100 },
+    ])).toThrow("at most 5 parties");
+  });
 });

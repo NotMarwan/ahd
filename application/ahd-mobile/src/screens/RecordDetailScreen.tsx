@@ -65,8 +65,9 @@ export function RecordDetailScreen() {
           </Section>
 
           <Section>
-            <AhdButton label="فتح المقاصّة" onPress={() => router.push('/settle')} />
-            <AhdButton label="التحقق من الإثبات" onPress={showProof} variant="secondary" />
+            <AhdButton label="فتح رحلة الوفاء" onPress={() => router.push('/open')} />
+            <AhdButton label="فتح المقاصّة" onPress={() => router.push('/settle')} variant="secondary" />
+            <AhdButton label="التحقق والمشاركة" onPress={showProof} variant="quiet" />
           </Section>
         </>
       )}

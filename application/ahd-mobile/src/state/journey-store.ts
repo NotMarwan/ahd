@@ -1,6 +1,7 @@
 import {
   ahdCore,
   type AhdDraftInput,
+  type AhdRecord,
   type NeedsConnection,
   type PreparedAhd,
   type ProofPack,
@@ -10,6 +11,11 @@ import {
   type SettlementResult,
   type SettlementTransfer,
 } from "../core/ahd-core";
+import {
+  parseShareEnvelope,
+  verifyAttachedProof,
+  type ShareEnvelopeResult,
+} from "../share";
 import type { AhdRepository } from "./ahd-repository";
 
 export type AhdJourneyStep =
@@ -28,16 +34,29 @@ export type AhdStoredRecord = {
   source: "local" | "imported";
 };
 
+export type ImportedAhdRecord = {
+  record: AhdRecord;
+  proof: ProofPack;
+  exportedAt: string;
+};
+
+export type SettlementConsent = {
+  confirmed: true;
+  recordIds: readonly string[];
+};
+
 export interface AhdJourneyState {
   version: 1;
   asOf: typeof ahdCore.AS_OF;
   step: AhdJourneyStep;
   records: readonly AhdStoredRecord[];
+  imports: readonly ImportedAhdRecord[];
   activeRecordId: string | null;
   prepared?: PreparedAhd;
   screening?: RibaScreening;
   sealed?: SealedAhd;
   settlement?: SettlementResult;
+  settlementConsent?: SettlementConsent;
   proof?: ProofPack;
   proofVerification?: ProofVerification;
   connection?: NeedsConnection;
@@ -57,6 +76,7 @@ export function initialJourneyState(): AhdJourneyState {
     asOf: ahdCore.AS_OF,
     step: "home",
     records: [],
+    imports: [],
     activeRecordId: null,
   };
 }
@@ -93,6 +113,7 @@ export class AhdJourneyStore {
     if (stored) {
       const legacy = stored as AhdJourneyState & {
         records?: readonly AhdStoredRecord[];
+        imports?: readonly ImportedAhdRecord[];
         activeRecordId?: string | null;
       };
       const records = Array.isArray(legacy.records)
@@ -104,9 +125,19 @@ export class AhdJourneyStore {
               source: "local" as const,
             }]
           : [];
+      const imports = Array.isArray(legacy.imports) ? clone(legacy.imports) : [];
+      const settlementConsent = legacy.settlementConsent;
+      const settlement = legacy.settlement && settlementConsent ? legacy.settlement : undefined;
+      const step = legacy.step === "settlement" && !settlement
+        ? (legacy.sealed ? "record_detail" : "home")
+        : legacy.step;
       const candidate: AhdJourneyState = {
         ...clone(stored),
+        step,
         records,
+        imports,
+        settlement,
+        settlementConsent,
         activeRecordId: legacy.activeRecordId
           ?? legacy.sealed?.record.id
           ?? records.at(-1)?.sealed.record.id
@@ -138,6 +169,7 @@ export class AhdJourneyStore {
       ...initialJourneyState(),
       step: "create",
       records: clone(this.state.records),
+      imports: clone(this.state.imports),
     });
   }
 
@@ -174,7 +206,7 @@ export class AhdJourneyStore {
       step: "sealed",
       sealed,
       proof,
-      proofVerification: this.core.verifyProof(sealed.record),
+      proofVerification: verifyAttachedProof(sealed.record, proof),
       records,
       activeRecordId: sealed.record.id,
     });
@@ -188,7 +220,7 @@ export class AhdJourneyStore {
       activeRecordId: entry?.sealed.record.id ?? null,
       sealed: entry?.sealed,
       proof: entry?.proof,
-      proofVerification: entry ? this.core.verifyProof(entry.sealed.record) : undefined,
+      proofVerification: entry ? verifyAttachedProof(entry.sealed.record, entry.proof) : undefined,
     });
   }
 
@@ -203,21 +235,53 @@ export class AhdJourneyStore {
       activeRecordId: entry.sealed.record.id,
       sealed: entry.sealed,
       proof: entry.proof,
-      proofVerification: this.core.verifyProof(entry.sealed.record),
+      proofVerification: verifyAttachedProof(entry.sealed.record, entry.proof),
     });
   }
 
-  async settle(transfers: readonly SettlementTransfer[]): Promise<AhdJourneyState> {
+  async settle(recordIds: readonly string[], consentConfirmed: boolean): Promise<AhdJourneyState> {
     this.requireSealed();
+    if (!consentConfirmed) throw new Error("Settlement requires explicit consent");
+    const uniqueRecordIds = [...new Set(recordIds)];
+    if (uniqueRecordIds.length === 0) throw new Error("Settlement requires at least one local record");
+    const entries = uniqueRecordIds.map((recordId) => {
+      const entry = this.findRecord(recordId);
+      if (!entry || entry.source !== "local") throw new Error("Settlement record is not local");
+      return entry;
+    });
+    const transfers: SettlementTransfer[] = entries.map(({ sealed }) => ({
+      from: sealed.record.borrower,
+      to: sealed.record.lender,
+      amountMinor: sealed.record.amountMinor,
+    }));
     const settlement = this.core.buildSettlement(transfers);
-    return this.commit({ ...this.state, step: "settlement", settlement });
+    const settlementConsent: SettlementConsent = { confirmed: true, recordIds: uniqueRecordIds };
+    return this.commit({ ...this.state, step: "settlement", settlement, settlementConsent });
   }
 
   async verifyProof(): Promise<AhdJourneyState> {
     const sealed = this.requireSealed();
-    const proof = this.core.buildProof(sealed.record);
-    const proofVerification = this.core.verifyProof(sealed.record);
+    const proof = this.state.proof ?? this.findRecord(sealed.record.id)?.proof;
+    if (!proof) throw new Error("No attached proof for the sealed Ahd");
+    const proofVerification = verifyAttachedProof(sealed.record, proof);
     return this.commit({ ...this.state, step: "proof", proof, proofVerification });
+  }
+
+  async importSharedRecord(serialized: string): Promise<ShareEnvelopeResult> {
+    const result = parseShareEnvelope(serialized);
+    if (result.status !== "verified") return result;
+    const existing = this.state.imports.find((entry) => entry.record.id === result.record.id);
+    if (existing) {
+      if (existing.proof.seal === result.proof.seal) return result;
+      return { status: "invalid", reason: "A different imported record already uses this identifier" };
+    }
+    const imported: ImportedAhdRecord = {
+      record: result.record,
+      proof: result.proof,
+      exportedAt: result.envelope.exported_at,
+    };
+    await this.commit({ ...this.state, imports: [...this.state.imports, imported] });
+    return result;
   }
 
   async requestExternal(operation: NeedsConnection["operation"]): Promise<AhdJourneyState> {

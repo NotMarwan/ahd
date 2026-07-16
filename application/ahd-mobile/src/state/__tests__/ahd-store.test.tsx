@@ -76,10 +76,7 @@ describe("Ahd journey React binding", () => {
     expect(hook.result.current.state.step).toBe("record_detail");
 
     await act(async () => {
-      await hook.result.current.settle([
-        { from: "نورة", to: "سارة", amountMinor: 10_000 },
-        { from: "سارة", to: "خالد", amountMinor: 10_000 },
-      ]);
+      await hook.result.current.settle(["MOBILE-PROVIDER-1"], true);
     });
     expect(hook.result.current.state.step).toBe("settlement");
 

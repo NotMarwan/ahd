@@ -323,11 +323,25 @@ function requestExternal(
 }
 
 function buildSettlement(transfers: readonly SettlementTransfer[]): SettlementResult {
+  const parties = Array.from(new Set(transfers.flatMap((transfer) => [transfer.from, transfer.to])))
+    .sort((left, right) => left < right ? -1 : left > right ? 1 : 0);
+  if (parties.length > engine.NODES.length) {
+    throw new RangeError(`Settlement supports at most ${engine.NODES.length} parties`);
+  }
+  const aliases = new Map(parties.map((party, index) => [party, engine.NODES[index]]));
+  const names = new Map(parties.map((party, index) => [engine.NODES[index], party]));
   const generatedTransfers = transfers.map((transfer) => {
     assertMinor(transfer.amountMinor);
+    if (transfer.amountMinor === 0) throw new TypeError("Settlement transfer must be positive");
+    if (!transfer.from || !transfer.to || transfer.from === transfer.to) {
+      throw new TypeError("Settlement transfer must connect two distinct parties");
+    }
+    const from = aliases.get(transfer.from);
+    const to = aliases.get(transfer.to);
+    if (!from || !to) throw new TypeError("Settlement party mapping failed");
     return {
-      from: transfer.from,
-      to: transfer.to,
+      from,
+      to,
       amount: minorToGeneratedSar(transfer.amountMinor),
     };
   });
@@ -335,8 +349,8 @@ function buildSettlement(transfers: readonly SettlementTransfer[]): SettlementRe
   return {
     before: transfers.map((transfer) => ({ ...transfer })),
     after: result.after.map((transfer) => ({
-      from: transfer.from,
-      to: transfer.to,
+      from: names.get(transfer.from) ?? transfer.from,
+      to: names.get(transfer.to) ?? transfer.to,
       amountMinor: engine.toMinor(transfer.amount),
     })),
     beforeCount: result.beforeCount,
@@ -360,6 +374,7 @@ export const ahdCore = Object.freeze({
 });
 
 interface GeneratedEngine {
+  NODES: readonly string[];
   toMinor(amountSAR: number): number;
 }
 
