@@ -2,7 +2,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
-type TrustWeaveHeaderProps = {
+export type TrustWeaveHeaderProps = {
   readonly onBack?: () => void;
   readonly actionLabel?: string;
   readonly onAction?: () => void;
@@ -41,7 +41,7 @@ export function TrustWeaveHeader({ onBack, actionLabel, onAction }: TrustWeaveHe
           <View style={styles.sideSpacer} />
         )}
 
-        <View style={styles.brand}>
+        <View style={styles.brand} testID="trust-weave-brand">
           <Image
             accessibilityLabel="شعار عهد الرسمي"
             resizeMode="contain"
@@ -82,20 +82,21 @@ const styles = StyleSheet.create({
     borderRadius: radii.pill,
   },
   row: {
-    minHeight: 48,
+    minHeight: 68,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   brand: {
-    width: 68,
-    height: 40,
+    width: 132,
+    height: 68,
+    overflow: 'visible',
     alignItems: 'center',
     justifyContent: 'center',
   },
   logo: {
-    width: 68,
-    height: 40,
+    width: 128,
+    height: 128,
   },
   iconButton: {
     minWidth: 40,

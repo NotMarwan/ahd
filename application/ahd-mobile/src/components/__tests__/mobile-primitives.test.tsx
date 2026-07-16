@@ -38,6 +38,15 @@ describe('Ahd mobile primitives', () => {
     expect(screen.getByText('لا توجد عهود')).toBeTruthy();
     const shellStyle = StyleSheet.flatten(screen.getByTestId('shell').props.contentContainerStyle);
     expect(shellStyle.flexGrow).toBe(1);
+    expect(StyleSheet.flatten(screen.getByTestId('shell-content').props.style)).toMatchObject({
+      width: '100%',
+      maxWidth: 520,
+      boxSizing: 'border-box',
+    });
+    const logo = screen.getByLabelText('شعار عهد الرسمي');
+    expect(StyleSheet.flatten(logo.props.style)).toMatchObject({ width: 128, height: 128 });
+    expect(StyleSheet.flatten(screen.getByTestId('trust-weave-brand').props.style).overflow).toBe('visible');
+    expect(screen.getAllByLabelText('شعار عهد الرسمي')).toHaveLength(1);
   });
 
   it('keeps the primary control at least 44px high', async () => {

@@ -9,7 +9,6 @@ import {
   ScreenHeader,
   SealChip,
   StatusChip,
-  TrustWeaveHeader,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
 import { useAhdJourney } from '@/state';
@@ -67,8 +66,6 @@ export function SettlementScreen() {
 
   return (
     <AppShell testID="settlement-screen">
-      <TrustWeaveHeader />
-
       <ScreenHeader
         eyebrow="المقاصّة · اقتراح قابل للشرح"
         title="نفكّ التشابك،"

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AhdButton, AppShell, TrustWeaveHeader } from '@/components';
+import { AhdButton, AppShell } from '@/components';
 import { usePilot } from '@/state';
 import { colors, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -45,8 +45,6 @@ export function WelcomeScreen() {
 
   return (
     <AppShell testID="welcome-screen">
-      <TrustWeaveHeader />
-
       <View style={styles.hero}>
         <Text style={styles.eyebrow}>نسخة Pilot محلية</Text>
         <Text style={styles.title}>كلمتكم، محفوظة بينكم.</Text>

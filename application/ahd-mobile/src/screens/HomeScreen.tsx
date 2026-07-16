@@ -6,7 +6,6 @@ import {
   AppShell,
   ScreenHeader,
   SealChip,
-  TrustWeaveHeader,
   WeaveBand,
   type WeaveThreadTone,
 } from '@/components';
@@ -74,8 +73,6 @@ export function HomeScreen() {
 
   return (
     <AppShell testID="home-screen">
-      <TrustWeaveHeader />
-
       <ScreenHeader
         eyebrow={`الرئيسية · ${state.asOf}`}
         title="المعروف بينكم"

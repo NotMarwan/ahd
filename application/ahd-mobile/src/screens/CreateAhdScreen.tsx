@@ -16,15 +16,8 @@ import { ahdCore } from '@/core/ahd-core';
 import { useAhdJourney } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
-const PROTOTYPE_ID = 'AHD-MOBILE-001';
-const PROTOTYPE_TIMESTAMP = '2026-07-01T10:00:00+03:00';
-
-const DEMO_FILL = {
-  lender: 'نورة',
-  borrower: 'سارة',
-  amountSarText: '1200',
-  purpose: 'قرض حسن لتجهيز المنزل',
-} as const;
+const PILOT_ID = 'AHD-PILOT-0001';
+const PILOT_TIMESTAMP = '2026-07-01T10:00:00+03:00';
 
 type FieldProps = {
   label: string;
@@ -51,34 +44,36 @@ function Field({ label, value, onChangeText, keyboardType = 'default' }: FieldPr
 export function CreateAhdScreen() {
   const router = useRouter();
   const { beginCreate, openDaftari, reviewDraftFromForm, seal, state } = useAhdJourney();
-  const [lender, setLender] = useState<string>(DEMO_FILL.lender);
-  const [borrower, setBorrower] = useState<string>(DEMO_FILL.borrower);
-  const [amountSarText, setAmountSarText] = useState<string>(DEMO_FILL.amountSarText);
-  const [purpose, setPurpose] = useState<string>(DEMO_FILL.purpose);
+  const [lender, setLender] = useState('');
+  const [borrower, setBorrower] = useState('');
+  const [amountSarText, setAmountSarText] = useState('');
+  const [purpose, setPurpose] = useState('');
   const [error, setError] = useState<string | null>(null);
-
-  const applyDemoFill = () => {
-    setLender(DEMO_FILL.lender);
-    setBorrower(DEMO_FILL.borrower);
-    setAmountSarText(DEMO_FILL.amountSarText);
-    setPurpose(DEMO_FILL.purpose);
-    setError(null);
-  };
 
   const review = async () => {
     setError(null);
     try {
+      const normalizedLender = lender.trim();
+      const normalizedBorrower = borrower.trim();
+      if (!normalizedLender || !normalizedBorrower || !amountSarText.trim()) {
+        setError('اكتب اسمي العرض والمبلغ قبل فحص الشروط.');
+        return;
+      }
+      if (normalizedLender === normalizedBorrower) {
+        setError('اختر اسمي عرض مختلفين للطرفين.');
+        return;
+      }
       if (state.step !== 'create') await beginCreate();
       await reviewDraftFromForm({
-        id: PROTOTYPE_ID,
-        lender,
-        borrower,
+        id: PILOT_ID,
+        lender: normalizedLender,
+        borrower: normalizedBorrower,
         amountSarText,
         months: 4,
         open: false,
         start: { y: 2026, m: 7 },
-        timestamp: PROTOTYPE_TIMESTAMP,
-        purpose,
+        timestamp: PILOT_TIMESTAMP,
+        purpose: purpose.trim(),
       });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'تعذّر فحص البيانات');
@@ -129,7 +124,6 @@ export function CreateAhdScreen() {
           </RowGroup>
           {error ? <Text style={styles.error}>{error}</Text> : null}
           <AhdButton label="فحص الشروط" onPress={review} />
-          <AhdButton label="تعبئة تجريبية" onPress={applyDemoFill} />
         </Section>
       ) : null}
 
@@ -163,7 +157,7 @@ export function CreateAhdScreen() {
             verdict="الختم مطابق للمحتوى"
             technicalDetails={`seal: ${sealed.seal}\ncanonicalHash: ${sealed.canonicalHash}`}
           />
-          <Text style={styles.prototype}>إثبات محلي حتمي للنموذج الأولي</Text>
+          <Text style={styles.localProof}>إثبات محلي حتمي ومحفوظ على هذا الجهاز</Text>
           <Text style={styles.disclaimer}>
             لا يمثّل هذا الختم نفاذًا أو ختمًا زمنيًا خارجيًا أو توقيع جهة مصدرة.
           </Text>
@@ -223,7 +217,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilies.body,
     textAlign: 'right',
   },
-  prototype: {
+  localProof: {
     ...typography.row,
     color: colors.verifiedText,
     fontFamily: fontFamilies.body,

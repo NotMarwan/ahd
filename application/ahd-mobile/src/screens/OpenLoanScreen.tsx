@@ -8,7 +8,6 @@ import {
   ScreenHeader,
   SealChip,
   ThreadMeter,
-  TrustWeaveHeader,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
@@ -34,8 +33,7 @@ export function OpenLoanScreen() {
   const remainingMinor = principalMinor - SAMPLE_PAID_MINOR;
 
   return (
-    <AppShell testID="open-loan-screen">
-      <TrustWeaveHeader onBack={() => router.back()} />
+    <AppShell header={{ onBack: () => router.back() }} testID="open-loan-screen">
 
       <ScreenHeader
         eyebrow="قرض مفتوح · AH-2841"

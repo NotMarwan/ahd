@@ -23,6 +23,7 @@ describe('Trust Weave reference batch 1', () => {
     expect(screen.getByTestId('home-weave')).toBeTruthy();
     expect(screen.getByTestId('home-balance-board')).toBeTruthy();
     expect(screen.getByLabelText('شعار عهد الرسمي')).toBeTruthy();
+    expect(screen.getAllByLabelText('شعار عهد الرسمي')).toHaveLength(1);
     expect(screen.getByRole('button', { name: 'ابدأ عهدًا جديدًا' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'ابدأ الجولة التجريبية' })).toBeNull();
   });
@@ -34,6 +35,7 @@ describe('Trust Weave reference batch 1', () => {
     expect(screen.getByTestId('open-loan-hero')).toBeTruthy();
     expect(screen.getByTestId('repayment-thread-meter')).toBeTruthy();
     expect(screen.getByText('الدفتر الحي')).toBeTruthy();
+    expect(screen.getAllByLabelText('شعار عهد الرسمي')).toHaveLength(1);
     fireEvent.press(screen.getByRole('button', { name: 'راجع الإبراء' }));
     await waitFor(() => expect(screen.getByText(/الإبراء يحتاج تأكيدًا موثقًا/)).toBeTruthy());
   });
@@ -45,5 +47,6 @@ describe('Trust Weave reference batch 1', () => {
     expect(screen.getByTestId('netting-visual')).toBeTruthy();
     expect(screen.getByText('9')).toBeTruthy();
     expect(screen.getByText('2')).toBeTruthy();
+    expect(screen.getAllByLabelText('شعار عهد الرسمي')).toHaveLength(1);
   });
 });
