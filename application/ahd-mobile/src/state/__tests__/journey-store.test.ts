@@ -82,6 +82,58 @@ async function runJourney(store: {
 }
 
 describe("Phase 1 journey state", () => {
+  test("starts with a real empty record collection and deterministic next ID", () => {
+    const { repository, journey } = requireStateModules();
+    const store = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
+
+    expect(store.getState().records).toEqual([]);
+    expect(store.getState().activeRecordId).toBeNull();
+    expect(store.nextDraftId()).toBe("AHD-PILOT-0001");
+  });
+
+  test("keeps multiple sealed records and selects details by real record ID", async () => {
+    const { repository, journey } = requireStateModules();
+    const store = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
+
+    await store.beginCreate();
+    await store.reviewDraft({ ...INPUT, id: store.nextDraftId() });
+    await store.seal();
+    const firstSeal = store.getState().sealed?.seal;
+
+    await store.beginCreate();
+    expect(store.nextDraftId()).toBe("AHD-PILOT-0002");
+    await store.reviewDraft({
+      ...INPUT,
+      id: store.nextDraftId(),
+      lender: "ريم",
+      borrower: "هناء",
+      amountMinor: 75_000,
+    });
+    await store.seal();
+
+    expect(store.getState().records.map((entry) => entry.sealed.record.id)).toEqual([
+      "AHD-PILOT-0001",
+      "AHD-PILOT-0002",
+    ]);
+    expect(store.getState().records[0].proof.seal).toEqual(expect.any(String));
+
+    await store.openRecord("AHD-PILOT-0001");
+    expect(store.getState().activeRecordId).toBe("AHD-PILOT-0001");
+    expect(store.getState().sealed?.record.id).toBe("AHD-PILOT-0001");
+    expect(store.getState().sealed?.seal).toBe(firstSeal);
+  });
+
+  test("rejects control characters that can collide in the canonical record", async () => {
+    const { repository, journey } = requireStateModules();
+    const store = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
+    await store.beginCreate();
+
+    await expect(store.reviewDraft({ ...INPUT, lender: "أمل\nborrower=سارة" })).rejects.toThrow(
+      /control|line|name|canonical/i,
+    );
+    expect(store.getState().step).toBe("create");
+  });
+
   test("parses form SAR text in core before reviewing the draft", async () => {
     const { repository, journey } = requireStateModules();
     const store = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);
@@ -190,6 +242,8 @@ describe("Phase 1 journey state", () => {
       version: 1 as const,
       asOf: ahdCore.AS_OF,
       step: "home" as const,
+      records: [],
+      activeRecordId: null,
     };
 
     await repository.save(state);

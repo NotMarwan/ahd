@@ -22,10 +22,18 @@ export type AhdJourneyStep =
   | "settlement"
   | "proof";
 
+export type AhdStoredRecord = {
+  sealed: SealedAhd;
+  proof: ProofPack;
+  source: "local" | "imported";
+};
+
 export interface AhdJourneyState {
   version: 1;
   asOf: typeof ahdCore.AS_OF;
   step: AhdJourneyStep;
+  records: readonly AhdStoredRecord[];
+  activeRecordId: string | null;
   prepared?: PreparedAhd;
   screening?: RibaScreening;
   sealed?: SealedAhd;
@@ -44,7 +52,19 @@ function clone<T>(value: T): T {
 }
 
 export function initialJourneyState(): AhdJourneyState {
-  return { version: 1, asOf: ahdCore.AS_OF, step: "home" };
+  return {
+    version: 1,
+    asOf: ahdCore.AS_OF,
+    step: "home",
+    records: [],
+    activeRecordId: null,
+  };
+}
+
+function assertCanonicalField(value: string, label: string, maxLength: number): void {
+  if (!value || value.length > maxLength || /[\u0000-\u001f\u007f]/.test(value)) {
+    throw new TypeError(`${label} contains invalid control characters for the canonical record`);
+  }
 }
 
 export class AhdJourneyStore {
@@ -71,7 +91,31 @@ export class AhdJourneyStore {
   async hydrate(): Promise<AhdJourneyState> {
     const stored = await this.repository.load();
     if (stored) {
-      this.state = clone(stored);
+      const legacy = stored as AhdJourneyState & {
+        records?: readonly AhdStoredRecord[];
+        activeRecordId?: string | null;
+      };
+      const records = Array.isArray(legacy.records)
+        ? clone(legacy.records)
+        : legacy.sealed
+          ? [{
+              sealed: clone(legacy.sealed),
+              proof: clone(legacy.proof ?? this.core.buildProof(legacy.sealed.record)),
+              source: "local" as const,
+            }]
+          : [];
+      const candidate: AhdJourneyState = {
+        ...clone(stored),
+        records,
+        activeRecordId: legacy.activeRecordId
+          ?? legacy.sealed?.record.id
+          ?? records.at(-1)?.sealed.record.id
+          ?? null,
+      };
+      if (JSON.stringify(candidate) !== JSON.stringify(stored)) {
+        await this.repository.save(candidate);
+      }
+      this.state = candidate;
       this.emit();
     }
     return this.getState();
@@ -82,12 +126,26 @@ export class AhdJourneyStore {
     this.emit();
   }
 
+  nextDraftId(): string {
+    const existing = new Set(this.state.records.map((entry) => entry.sealed.record.id));
+    let sequence = 1;
+    while (existing.has(`AHD-PILOT-${String(sequence).padStart(4, "0")}`)) sequence += 1;
+    return `AHD-PILOT-${String(sequence).padStart(4, "0")}`;
+  }
+
   async beginCreate(): Promise<AhdJourneyState> {
-    return this.commit({ ...initialJourneyState(), step: "create" });
+    return this.commit({
+      ...initialJourneyState(),
+      step: "create",
+      records: clone(this.state.records),
+    });
   }
 
   async reviewDraft(input: AhdDraftInput): Promise<AhdJourneyState> {
     this.requireStep("create");
+    assertCanonicalField(input.id, "id", 64);
+    assertCanonicalField(input.lender, "lender name", 80);
+    assertCanonicalField(input.borrower, "borrower name", 80);
     const prepared = this.core.prepareDraft(input);
     const screening = this.core.screenTerms(prepared.termsAr);
     return this.commit({ ...this.state, step: "riba_check", prepared, screening });
@@ -105,17 +163,48 @@ export class AhdJourneyStore {
     this.requireStep("riba_check");
     if (!this.state.prepared) throw new Error("No prepared Ahd to seal");
     const sealed = this.core.sealPrepared(this.state.prepared);
-    return this.commit({ ...this.state, step: "sealed", sealed });
+    const proof = this.core.buildProof(sealed.record);
+    const entry: AhdStoredRecord = { sealed, proof, source: "local" };
+    const records = [
+      ...this.state.records.filter((item) => item.sealed.record.id !== sealed.record.id),
+      entry,
+    ];
+    return this.commit({
+      ...this.state,
+      step: "sealed",
+      sealed,
+      proof,
+      proofVerification: this.core.verifyProof(sealed.record),
+      records,
+      activeRecordId: sealed.record.id,
+    });
   }
 
   async openDaftari(): Promise<AhdJourneyState> {
-    this.requireSealed();
-    return this.commit({ ...this.state, step: "daftari" });
+    const entry = this.findRecord(this.state.activeRecordId) ?? this.state.records.at(-1);
+    return this.commit({
+      ...this.state,
+      step: "daftari",
+      activeRecordId: entry?.sealed.record.id ?? null,
+      sealed: entry?.sealed,
+      proof: entry?.proof,
+      proofVerification: entry ? this.core.verifyProof(entry.sealed.record) : undefined,
+    });
   }
 
-  async openRecord(): Promise<AhdJourneyState> {
-    this.requireSealed();
-    return this.commit({ ...this.state, step: "record_detail" });
+  async openRecord(recordId?: string): Promise<AhdJourneyState> {
+    const entry = this.findRecord(
+      recordId ?? this.state.activeRecordId ?? this.state.sealed?.record.id ?? null,
+    );
+    if (!entry) throw new Error("No sealed Ahd record was found");
+    return this.commit({
+      ...this.state,
+      step: "record_detail",
+      activeRecordId: entry.sealed.record.id,
+      sealed: entry.sealed,
+      proof: entry.proof,
+      proofVerification: this.core.verifyProof(entry.sealed.record),
+    });
   }
 
   async settle(transfers: readonly SettlementTransfer[]): Promise<AhdJourneyState> {
@@ -146,6 +235,11 @@ export class AhdJourneyStore {
   private requireSealed(): SealedAhd {
     if (!this.state.sealed) throw new Error("No sealed Ahd in the journey");
     return this.state.sealed;
+  }
+
+  private findRecord(recordId: string | null): AhdStoredRecord | undefined {
+    if (!recordId) return undefined;
+    return this.state.records.find((entry) => entry.sealed.record.id === recordId);
   }
 
   private async commit(next: AhdJourneyState): Promise<AhdJourneyState> {

@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import {
@@ -18,10 +18,16 @@ import { colors, fontFamilies, spacing, typography } from '@/theme';
 
 export function RecordDetailScreen() {
   const router = useRouter();
-  const { state, verifyProof } = useAhdJourney();
-  const sealed = state.sealed;
+  const params = useLocalSearchParams<{ id?: string | string[] }>();
+  const { openRecord, state, verifyProof } = useAhdJourney();
+  const requestedId = Array.isArray(params.id) ? params.id[0] : params.id;
+  const selectedEntry = requestedId
+    ? state.records.find((entry) => entry.sealed.record.id === requestedId)
+    : state.records.find((entry) => entry.sealed.record.id === state.activeRecordId);
+  const sealed = selectedEntry?.sealed ?? (!requestedId ? state.sealed : undefined);
 
   const showProof = async () => {
+    if (sealed && state.activeRecordId !== sealed.record.id) await openRecord(sealed.record.id);
     await verifyProof();
     router.push('/proof');
   };

@@ -16,7 +16,6 @@ import { ahdCore } from '@/core/ahd-core';
 import { useAhdJourney } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
-const PILOT_ID = 'AHD-PILOT-0001';
 const PILOT_TIMESTAMP = '2026-07-01T10:00:00+03:00';
 
 type FieldProps = {
@@ -43,7 +42,7 @@ function Field({ label, value, onChangeText, keyboardType = 'default' }: FieldPr
 
 export function CreateAhdScreen() {
   const router = useRouter();
-  const { beginCreate, openDaftari, reviewDraftFromForm, seal, state } = useAhdJourney();
+  const { beginCreate, openDaftari, reviewDraftFromForm, seal, state, store } = useAhdJourney();
   const [lender, setLender] = useState('');
   const [borrower, setBorrower] = useState('');
   const [amountSarText, setAmountSarText] = useState('');
@@ -65,7 +64,7 @@ export function CreateAhdScreen() {
       }
       if (state.step !== 'create') await beginCreate();
       await reviewDraftFromForm({
-        id: PILOT_ID,
+        id: store.nextDraftId(),
         lender: normalizedLender,
         borrower: normalizedBorrower,
         amountSarText,

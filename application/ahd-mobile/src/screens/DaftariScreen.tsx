@@ -18,17 +18,16 @@ import { colors, fontFamilies, spacing, typography } from '@/theme';
 export function DaftariScreen() {
   const router = useRouter();
   const { beginCreate, openRecord, state } = useAhdJourney();
-  const sealed = state.sealed;
+  const records = state.records;
 
   const createAhd = async () => {
     await beginCreate();
     router.push('/create');
   };
 
-  const showRecord = async () => {
-    if (!sealed) return;
-    await openRecord();
-    router.push(`/record/${sealed.record.id}`);
+  const showRecord = async (recordId: string) => {
+    await openRecord(recordId);
+    router.push(`/record/${recordId}`);
   };
 
   return (
@@ -39,7 +38,7 @@ export function DaftariScreen() {
         subtitle="تظهر هنا العهود المختومة التي شاركت فيها، من غير درجة ائتمانية."
       />
 
-      {!sealed ? (
+      {records.length === 0 ? (
         <Section>
           <RowGroup>
             <EmptyState
@@ -50,19 +49,28 @@ export function DaftariScreen() {
           <AhdButton label="أنشئ عهدًا" onPress={createAhd} />
         </Section>
       ) : (
-        <Section title="العهد النشط">
+        <Section title={`العهود المحفوظة · ${records.length}`}>
           <RowGroup>
-            <View style={styles.record}>
-              <View style={styles.heading}>
-                <Text style={styles.id}>{sealed.record.id}</Text>
-                <StatusChip label="مختوم" tone="verified" />
+            {records.map((entry) => (
+              <View key={entry.sealed.record.id} style={styles.record}>
+                <View style={styles.heading}>
+                  <Text style={styles.id}>{entry.sealed.record.id}</Text>
+                  <StatusChip
+                    label={entry.source === 'local' ? 'مختوم محليًا' : 'مستورد ومتحقق'}
+                    tone="verified"
+                  />
+                </View>
+                <Text style={styles.parties}>
+                  {entry.sealed.record.lender} ← {entry.sealed.record.borrower}
+                </Text>
+                <AmountDisplay value={ahdCore.formatMinorSar(entry.sealed.record.amountMinor)} />
+                <AhdButton
+                  label="فتح تفاصيل العهد"
+                  onPress={() => showRecord(entry.sealed.record.id)}
+                  variant="quiet"
+                />
               </View>
-              <Text style={styles.parties}>
-                {sealed.record.lender} ← {sealed.record.borrower}
-              </Text>
-              <AmountDisplay value={ahdCore.formatMinorSar(sealed.record.amountMinor)} />
-              <AhdButton label="فتح تفاصيل العهد" onPress={showRecord} variant="quiet" />
-            </View>
+            ))}
           </RowGroup>
         </Section>
       )}

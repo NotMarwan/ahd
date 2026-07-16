@@ -14,6 +14,7 @@ const mockPush = jest.fn();
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: mockPush }),
+  useLocalSearchParams: () => ({}),
 }));
 
 describe('رحلة عهد الأولى على الجوال', () => {
@@ -29,6 +30,8 @@ describe('رحلة عهد الأولى على الجوال', () => {
     await view.unmount();
 
     view = await renderScreen(<CreateAhdScreen />);
+    await fireEvent.changeText(view.getByLabelText('صاحب المال'), 'نورة');
+    await fireEvent.changeText(view.getByLabelText('المستفيد'), 'سارة');
     await fireEvent.changeText(view.getByLabelText('مبلغ العهد بالريال'), '1200');
     await fireEvent.press(view.getByRole('button', { name: 'فحص الشروط' }));
     await waitFor(() => expect(store.getState().step).toBe('riba_check'));
@@ -36,7 +39,7 @@ describe('رحلة عهد الأولى على الجوال', () => {
 
     await fireEvent.press(view.getByRole('button', { name: 'اختم العهد' }));
     await waitFor(() => expect(store.getState().step).toBe('sealed'));
-    expect(view.getByText('إثبات محلي حتمي للنموذج الأولي')).toBeTruthy();
+    expect(view.getByText('إثبات محلي حتمي ومحفوظ على هذا الجهاز')).toBeTruthy();
     await fireEvent.press(view.getByRole('button', { name: 'افتح دفتري' }));
     await waitFor(() => expect(store.getState().step).toBe('daftari'));
     await view.unmount();

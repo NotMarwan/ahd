@@ -313,17 +313,52 @@ function proofAt(value: unknown, path: string): void {
   });
 }
 
+function storedRecordAt(value: unknown, path: string): void {
+  const entry = recordAt(value, path, ['sealed', 'proof', 'source']);
+  sealedAt(entry.sealed, `${path}.sealed`);
+  proofAt(entry.proof, `${path}.proof`);
+  if (entry.source !== 'local' && entry.source !== 'imported') invalid(`${path}.source`);
+  const sealed = entry.sealed as { record: { id: string } };
+  const proof = entry.proof as { id: string };
+  if (sealed.record.id !== proof.id) invalid(`${path}.proof.id`);
+}
+
 function journeyAt(value: unknown, path: string): void {
   const journey = recordAt(
     value,
     path,
     ['version', 'asOf', 'step'],
-    ['prepared', 'screening', 'sealed', 'settlement', 'proof', 'proofVerification', 'connection'],
+    [
+      'records',
+      'activeRecordId',
+      'prepared',
+      'screening',
+      'sealed',
+      'settlement',
+      'proof',
+      'proofVerification',
+      'connection',
+    ],
   );
   if (journey.version !== 1) invalid(`${path}.version`);
   if (journey.asOf !== initialJourneyState().asOf) invalid(`${path}.asOf`);
   if (typeof journey.step !== 'string' || !JOURNEY_STEPS.has(journey.step)) {
     invalid(`${path}.step`);
+  }
+  const hasRecords = Object.prototype.hasOwnProperty.call(journey, 'records');
+  const hasActiveRecordId = Object.prototype.hasOwnProperty.call(journey, 'activeRecordId');
+  if (hasRecords !== hasActiveRecordId) invalid(`${path}.records`);
+  if (hasRecords) {
+    arrayAt(journey.records, `${path}.records`);
+    journey.records.forEach((entry, index) => storedRecordAt(entry, `${path}.records[${index}]`));
+    stringOrNullAt(journey.activeRecordId, `${path}.activeRecordId`);
+    const ids = journey.records.map((entry) => (
+      entry as { sealed: { record: { id: string } } }
+    ).sealed.record.id);
+    if (new Set(ids).size !== ids.length) invalid(`${path}.records`);
+    if (journey.activeRecordId !== null && !ids.includes(journey.activeRecordId as string)) {
+      invalid(`${path}.activeRecordId`);
+    }
   }
   if (journey.prepared !== undefined) preparedAt(journey.prepared, `${path}.prepared`);
   if (journey.screening !== undefined) screeningAt(journey.screening, `${path}.screening`);
@@ -362,6 +397,10 @@ function journeyAt(value: unknown, path: string): void {
   if (step === 'settlement' && (!journey.sealed || !journey.settlement)) invalid(`${path}.step`);
   if (step === 'proof' && (!journey.sealed || !journey.proof || !journey.proofVerification)) {
     invalid(`${path}.step`);
+  }
+  if (hasRecords && journey.sealed) {
+    const sealedId = (journey.sealed as { record: { id: string } }).record.id;
+    if (journey.activeRecordId !== sealedId) invalid(`${path}.activeRecordId`);
   }
 }
 

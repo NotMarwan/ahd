@@ -48,6 +48,9 @@ function QuickAction({ label, detail, tone, onPress }: QuickActionProps) {
 export function HomeScreen() {
   const router = useRouter();
   const { beginCreate, openDaftari, state } = useAhdJourney();
+  const records = state.records;
+  const activeEntry = records.find((entry) => entry.sealed.record.id === state.activeRecordId)
+    ?? records[records.length - 1];
 
   const startJourney = async () => {
     await beginCreate();
@@ -55,7 +58,7 @@ export function HomeScreen() {
   };
 
   const showDaftari = async () => {
-    if (!state.sealed) {
+    if (records.length === 0) {
       await startJourney();
       return;
     }
@@ -63,13 +66,12 @@ export function HomeScreen() {
     router.push('/daftari');
   };
 
-  const threads: readonly WeaveThreadTone[] = state.sealed
-    ? ['kept', 'active', 'active', 'late', 'kept', 'active', 'active']
-    : ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'];
-  const activeCount = state.sealed ? '1' : '0';
-  const balance = state.sealed
-    ? ahdCore.formatMinorSar(state.sealed.record.amountMinor)
-    : '0.00 ر.س';
+  const threads: readonly WeaveThreadTone[] = Array.from({ length: 7 }, (_, index) => (
+    index < records.length ? 'active' : 'empty'
+  ));
+  const activeCount = String(records.length);
+  const totalMinor = records.reduce((total, entry) => total + entry.sealed.record.amountMinor, 0);
+  const balance = ahdCore.formatMinorSar(totalMinor);
 
   return (
     <AppShell testID="home-screen">
@@ -82,9 +84,9 @@ export function HomeScreen() {
       <WeaveBand
         testID="home-weave"
         threads={threads}
-        detail={state.sealed ? 'كل خيط عهد واحد' : 'يبدأ بعد أول عهد'}
-        caption={state.sealed ? 'الأزرق قائم، والذهبي وُفّي' : 'الخيوط تظهر حين تحفظ أول كلمة'}
-        alert={state.sealed ? 'خيط واحد يحتاجك' : 'دفترك جديد'}
+        detail={records.length > 0 ? 'كل خيط عهد محفوظ' : 'يبدأ بعد أول عهد'}
+        caption={records.length > 0 ? 'الأزرق عهد قائم وموثّق محليًا' : 'الخيوط تظهر حين تحفظ أول كلمة'}
+        alert={records.length > 0 ? `${records.length} في دفترك` : 'دفترك جديد'}
       />
 
       <View testID="home-balance-board" style={styles.board}>
@@ -101,27 +103,27 @@ export function HomeScreen() {
           </View>
           <View style={styles.balances}>
             <View style={styles.balanceCell}>
-              <Text style={styles.balanceLabel}>لك عند الآخرين</Text>
-              <Text style={styles.balanceValue}>{state.sealed ? balance : '0.00 ر.س'}</Text>
+              <Text style={styles.balanceLabel}>إجمالي الأصل الموثّق</Text>
+              <Text style={styles.balanceValue}>{balance}</Text>
             </View>
             <View style={[styles.balanceCell, styles.balanceDivider]}>
-              <Text style={styles.balanceLabel}>عليك للآخرين</Text>
-              <Text style={styles.balanceValue}>0.00 ر.س</Text>
+              <Text style={styles.balanceLabel}>سجلات محفوظة محليًا</Text>
+              <Text style={styles.balanceValue}>{activeCount}</Text>
             </View>
           </View>
         </View>
         <View style={styles.nearest}>
           <View style={styles.nearestMark}>
             <View style={styles.nearestDot} />
-            <Text style={styles.nearestLetter}>{state.sealed ? 'ع' : '＋'}</Text>
+            <Text style={styles.nearestLetter}>{activeEntry ? 'ع' : '＋'}</Text>
           </View>
           <View style={styles.nearestCopy}>
-            <Text style={styles.nearestLabel}>{state.sealed ? 'الخطوة الأقرب' : 'دفترك خالٍ وواضح'}</Text>
+            <Text style={styles.nearestLabel}>{activeEntry ? 'آخر عهد محفوظ' : 'دفترك خالٍ وواضح'}</Text>
             <Text style={styles.nearestTitle}>
-              {state.sealed ? `افتح ${state.sealed.record.id} وتابع الوفاء` : 'ابدأ عهدك الأول حين تتفقون'}
+              {activeEntry ? `افتح ${activeEntry.sealed.record.id} وراجع تفاصيله` : 'ابدأ عهدك الأول حين تتفقون'}
             </Text>
           </View>
-          <Text style={styles.nearestState}>{state.sealed ? 'قائم' : 'جاهز'}</Text>
+          <Text style={styles.nearestState}>{activeEntry ? 'محفوظ' : 'جاهز'}</Text>
         </View>
       </View>
 
@@ -137,9 +139,9 @@ export function HomeScreen() {
       </View>
 
       <SealChip
-        eyebrow={state.sealed ? 'دفترك مختوم' : 'الختم ينتظر أول عهد'}
-        label={state.sealed ? 'المحتوى مطابق للختم المحلي' : 'لا يوجد ختم قبل موافقة الطرفين'}
-        hash={state.sealed ? `${state.sealed.seal.slice(0, 8)}…` : undefined}
+        eyebrow={activeEntry ? 'دفترك مختوم' : 'الختم ينتظر أول عهد'}
+        label={activeEntry ? 'المحتوى مطابق للختم المحلي' : 'لا يوجد ختم قبل موافقة الطرفين'}
+        hash={activeEntry ? `${activeEntry.sealed.seal.slice(0, 8)}…` : undefined}
       />
 
       <Text style={styles.footnote}>

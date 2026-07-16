@@ -25,7 +25,7 @@ export interface AhdJourneyContextValue {
   reviewDraftFromForm(input: AhdDraftFormInput): Promise<AhdJourneyState>;
   seal(): Promise<AhdJourneyState>;
   openDaftari(): Promise<AhdJourneyState>;
-  openRecord(): Promise<AhdJourneyState>;
+  openRecord(recordId?: string): Promise<AhdJourneyState>;
   settle(transfers: readonly SettlementTransfer[]): Promise<AhdJourneyState>;
   verifyProof(): Promise<AhdJourneyState>;
   requestExternal(operation: NeedsConnection["operation"]): Promise<AhdJourneyState>;
@@ -71,7 +71,7 @@ export function AhdJourneyProvider({
     reviewDraftFromForm: (input) => transition((journey) => journey.reviewDraftFromForm(input)),
     seal: () => transition((journey) => journey.seal()),
     openDaftari: () => transition((journey) => journey.openDaftari()),
-    openRecord: () => transition((journey) => journey.openRecord()),
+    openRecord: (recordId) => transition((journey) => journey.openRecord(recordId)),
     settle: (transfers) => transition((journey) => journey.settle(transfers)),
     verifyProof: () => transition((journey) => journey.verifyProof()),
     requestExternal: (operation) => transition((journey) => journey.requestExternal(operation)),
