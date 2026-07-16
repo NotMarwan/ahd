@@ -173,3 +173,18 @@ atomically clears both the persisted slices and the live journey snapshot. Focus
 green at **31/31 tests across 6 suites**; typecheck, generated-core parity, client-boundary guard,
 and lint all pass (zero errors). Controller re-review approved the two storage remediations with no
 P0/P1. The one full repository gate remains deferred to the final Pilot phase by owner direction.
+
+---
+
+DONE · 2026-07-16T17:40+03:00 · Codex · **Mobile Pilot batches 1–3 and verified local sharing** · `application/ahd-mobile/`
+
+Completed the first nine customer-facing states with the enlarged official mark integrated once through
+the shared shell: first start, Home, Create, seal review, ledger, record detail, open Ahd, consented
+settlement, and proof. Create contains no seeded parties, amount, schedule, or date. Records, attached
+proofs, imported envelopes, active roots, and saved settlement proposals are recomputed during hydration
+and fail closed on mismatch. `ShareEnvelopeV1` shares through the native interface, imports read-only,
+detects tampering locally, and never changes a balance. Per-record principals remain integer halalas and
+within the Pilot-safe adapter limit; aggregate balances remain displayable. Verification is green at
+**104/104 tests across 36 suites** with TypeScript, generated-core parity, client boundaries, lint at
+zero errors, and diff checks green. Independent review is approved with no remaining P0/P1. Nine
+device-size screenshots were reviewed. The full repository gate remains reserved for final Pilot delivery.

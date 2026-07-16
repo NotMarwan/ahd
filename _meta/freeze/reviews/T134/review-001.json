@@ -1,0 +1,47 @@
+{
+  "schema": "ahd-controller-review-v1",
+  "review_id": "T134-CV2",
+  "task_id": "T134",
+  "wave": "specs/002-judge-readiness",
+  "reviewer": "t134_review",
+  "reviewed_commit": "27b09f4cc7eabfa9f7c8585cbc1a66a6eb79ed60",
+  "verdict": "approved",
+  "supersedes": "T134-CV1",
+  "findings": [],
+  "findings_resolved": [
+    "Create used fixed repayment months, due month, and agreement timestamp instead of user terms.",
+    "Hydration trusted stored sealed/proof/root fields instead of failing closed on modified local content.",
+    "Settlement failed after an abandoned create flow cleared the denormalized active sealed record.",
+    "The decimal golden adapter lacked a verified Pilot-safe per-record principal boundary.",
+    "The first cap also blocked valid aggregate formatting above the per-record limit.",
+    "Zero or underfunded scheduled principals could create unshareable zero-halalah installments.",
+    "Persisted settlement output was not recomputed from consented local records.",
+    "The first installment invariant incorrectly rejected intentionally schedule-free open Ahd records."
+  ],
+  "review_history": [
+    {
+      "review_id": "T134-CV1",
+      "verdict": "needs-fix",
+      "findings": [
+        "Create used fixed repayment months, due month, and agreement timestamp instead of user terms.",
+        "Hydration trusted stored sealed/proof/root fields instead of failing closed on modified local content.",
+        "Settlement failed after an abandoned create flow cleared the denormalized active sealed record.",
+        "The decimal golden adapter lacked a verified Pilot-safe per-record principal boundary.",
+        "The first cap also blocked valid aggregate formatting above the per-record limit.",
+        "Zero or underfunded scheduled principals could create unshareable zero-halalah installments.",
+        "Persisted settlement output was not recomputed from consented local records.",
+        "The first installment invariant incorrectly rejected intentionally schedule-free open Ahd records."
+      ],
+      "created_at": "2026-07-16T17:11:00+03:00"
+    },
+    {
+      "review_id": "T134-CV2",
+      "verdict": "approved",
+      "supersedes": "T134-CV1",
+      "findings": [],
+      "created_at": "2026-07-16T17:40:00+03:00"
+    }
+  ],
+  "constitution": "pass",
+  "created_at": "2026-07-16T17:40:00+03:00"
+}
