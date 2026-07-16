@@ -1,5 +1,8 @@
 import { Redirect } from 'expo-router';
 
+import { usePilot } from '@/state';
+
 export default function IndexRoute() {
-  return <Redirect href="/home" />;
+  const { state } = usePilot();
+  return <Redirect href={state.profile.welcomeAccepted ? '/home' : '/welcome'} />;
 }

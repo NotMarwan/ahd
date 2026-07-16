@@ -1653,6 +1653,177 @@
       },
       "result": "Trust Weave batch 1 shipped in the real Expo client with white ground, integrated transparent official mark, and live Home/Open Loan/Settlement behavior.",
       "completed_at": "2026-07-16T14:35:00+03:00"
+    },
+    {
+      "task_id": "T133",
+      "status": "complete",
+      "wave": "specs/002-judge-readiness",
+      "implementer": "root",
+      "controller": "root",
+      "owner_single_agent_override": true,
+      "dispatch_id": "wave1-T133-root-20260716-152852-review-fixes",
+      "dispatch_sha256": "3d7d82f85c21abf44fc91dbf7df2195ff93f9ce956f31bbcb9a8ebbd0fb109c2",
+      "files": [
+        "docs/superpowers/specs/2026-07-16-mobile-pilot-mvp-design.md",
+        "docs/superpowers/plans/2026-07-16-mobile-pilot-mvp.md",
+        "application/ahd-mobile/app.json",
+        "application/ahd-mobile/package.json",
+        "application/ahd-mobile/scripts/check-client-boundaries.cjs",
+        "application/ahd-mobile/src/architecture/__tests__/client-boundary.test.ts",
+        "application/ahd-mobile/src/generated/features/daftari.js",
+        "application/ahd-mobile/src/state/pilot-state.ts",
+        "application/ahd-mobile/src/state/pilot-repository.ts",
+        "application/ahd-mobile/src/state/expo-sqlite-pilot-repository.ts",
+        "application/ahd-mobile/src/state/web-pilot-repository.ts",
+        "application/ahd-mobile/src/state/pilot-store.tsx",
+        "application/ahd-mobile/src/state/pilot-bootstrap.tsx",
+        "application/ahd-mobile/src/state/pilot-database-provider.tsx",
+        "application/ahd-mobile/src/state/pilot-database-provider.web.tsx",
+        "application/ahd-mobile/src/state/ahd-repository.ts",
+        "application/ahd-mobile/src/state/ahd-store.tsx",
+        "application/ahd-mobile/src/state/expo-sqlite-ahd-repository.ts",
+        "application/ahd-mobile/src/state/journey-store.ts",
+        "application/ahd-mobile/src/state/index.ts",
+        "application/ahd-mobile/src/app/_layout.tsx",
+        "application/ahd-mobile/src/app/index.tsx",
+        "application/ahd-mobile/src/app/welcome.tsx",
+        "application/ahd-mobile/src/screens/WelcomeScreen.tsx",
+        "application/ahd-mobile/src/screens/HomeScreen.tsx",
+        "application/ahd-mobile/src/components/index.ts",
+        "application/ahd-mobile/src/components/demo-guide.tsx",
+        "application/ahd-mobile/src/state/demo-script.ts",
+        "application/ahd-mobile/src/state/__tests__/demo-script.test.ts",
+        "application/ahd-mobile/src/state/__tests__/pilot-repository.test.ts",
+        "application/ahd-mobile/src/state/__tests__/pilot-store.test.tsx",
+        "application/ahd-mobile/src/state/__tests__/journey-store.test.ts",
+        "application/ahd-mobile/src/state/__tests__/ahd-store.test.tsx",
+        "application/ahd-mobile/src/screens/__tests__/welcome-screen.test.tsx",
+        "application/ahd-mobile/src/screens/__tests__/trust-weave-batch1.test.tsx",
+        ".superpowers/sdd/progress.md",
+        "_meta/STATUS.md",
+        "_meta/OPEN-ITEMS.md",
+        "AmadHackathon/00 Home.md",
+        "specs/002-judge-readiness/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "_meta/freeze/reviews/T133/review-001.json"
+      ],
+      "artifacts": [
+        {
+          "path": "docs/superpowers/specs/2026-07-16-mobile-pilot-mvp-design.md",
+          "sha256": "d389893f9485fc846a3214d6d7a6eac8c7e9a442869797ca90f995a658357645"
+        },
+        {
+          "path": "docs/superpowers/plans/2026-07-16-mobile-pilot-mvp.md",
+          "sha256": "de007b6a58f1b8c2504e1ac295b660fad82c0e7c780c48d66451fcfa27716d93"
+        },
+        {
+          "path": "application/ahd-mobile/app.json",
+          "sha256": "d6687cb61dd0fb18b5955ab8e7091e7fd69ed2b4f89d408a247367c2b060b549"
+        },
+        {
+          "path": "application/ahd-mobile/scripts/check-client-boundaries.cjs",
+          "sha256": "c6465095eb66c16c818d2e5ca3e8b0abdf3abff925b55f704c66cab056484216"
+        },
+        {
+          "path": "application/ahd-mobile/src/state/pilot-state.ts",
+          "sha256": "d65bae88c472c9ec055859112f756b3cd890bf0f44c07c29389972b530918a60"
+        },
+        {
+          "path": "application/ahd-mobile/src/state/expo-sqlite-pilot-repository.ts",
+          "sha256": "d618562c29fb45f76538bfc3df2e6eea86ab1218d2f028119f426b881e95debd"
+        },
+        {
+          "path": "application/ahd-mobile/src/state/web-pilot-repository.ts",
+          "sha256": "e01885a76764ac512620159e2004ba0c338b66453cc1d9ed2eda00960b6aaf3a"
+        },
+        {
+          "path": "application/ahd-mobile/src/state/pilot-store.tsx",
+          "sha256": "a460b596acb4e69a81341bb409730b4c40c61d6fad6e7c8961de7a903d04338b"
+        },
+        {
+          "path": "application/ahd-mobile/src/state/journey-store.ts",
+          "sha256": "c60f568645463af5323f2e773814f1e5170ba51104905e2ff3832f4f7c4f08be"
+        },
+        {
+          "path": "application/ahd-mobile/src/state/pilot-database-provider.tsx",
+          "sha256": "601723752b8989f01a0ac5bcbcdb10f97eae581f369ab8315080c55b2303445c"
+        },
+        {
+          "path": "application/ahd-mobile/src/screens/WelcomeScreen.tsx",
+          "sha256": "26fd5dca9b772198eb233af5f48436b2ce77d7f874ea7bae8f37038271a8f9df"
+        },
+        {
+          "path": "application/ahd-mobile/src/architecture/__tests__/client-boundary.test.ts",
+          "sha256": "722f6581c70ae4f663d4a016b048acdd56e3e808fe0b064d427f367c658b79c3"
+        }
+      ],
+      "tests": [
+        {
+          "command": "focused persistence review-fix suites",
+          "phase": "RED",
+          "result": "4 expected failures: malformed SQLite/web shapes accepted, coordinated journey reset absent, React snapshot stale"
+        },
+        {
+          "command": "npm.cmd test -- --runInBand <six T133 suites>",
+          "phase": "GREEN",
+          "result": "6 suites passed; 31 tests passed; 0 failed"
+        },
+        {
+          "command": "npm.cmd run typecheck",
+          "result": "passed"
+        },
+        {
+          "command": "npm.cmd run lint -- --no-cache",
+          "result": "passed with 0 errors and 20 pre-existing/non-blocking warnings"
+        },
+        {
+          "command": "npm.cmd run check:core",
+          "result": "generated Phase 1 core byte-faithful"
+        },
+        {
+          "command": "npm.cmd run check:boundaries",
+          "result": "client boundary clean"
+        },
+        {
+          "command": "npx.cmd expo config --type public --json",
+          "result": "Android package sa.ahd.mobile; versionCode 1; Arabic locale and RTL enabled; white native surfaces"
+        },
+        {
+          "command": "git diff --check plus protected-diff scan",
+          "result": "clean; frozen demo, golden engine, and vectors untouched; demo SHA-256 exact e2f48467a70a958be0840dd9f0f9fca27c47bb35445481f19ba27de0d1b8be40"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T133-CV1",
+          "reviewer": "root",
+          "verdict": "needs-fix",
+          "supersedes": null,
+          "artifact_path": "_meta/freeze/reviews/T133/review-001.json",
+          "reviewed_commit": "working-tree@7340da551459d6d4fb2cd63ff128f29a1d1a8e74",
+          "created_at": "2026-07-16T15:27:00+03:00"
+        },
+        {
+          "review_id": "T133-CV2",
+          "reviewer": "root",
+          "verdict": "approved",
+          "supersedes": "T133-CV1",
+          "artifact_path": "_meta/freeze/reviews/T133/review-001.json",
+          "reviewed_commit": "working-tree@7340da551459d6d4fb2cd63ff128f29a1d1a8e74",
+          "created_at": "2026-07-16T15:40:38+03:00"
+        }
+      ],
+      "constitution": "pass",
+      "judge_lens": {
+        "innovation": 8,
+        "technical": 8.5,
+        "data_analysis": 6,
+        "ux": 8.5,
+        "feasibility": 8.5,
+        "memorability": 8
+      },
+      "result": "The real Expo client now has an offline-first Pilot foundation with pre-render hydration, five versioned local slices, native SQLite, first-run disclosure, demo-tour removal, strict client boundaries, fail-closed structural validation, and coordinated full deletion.",
+      "completed_at": "2026-07-16T15:40:38+03:00"
     }
   ]
 }

@@ -158,3 +158,18 @@ are **7/7**, TypeScript is green, `git diff --check` is clean, and the repositor
 8 · data 6 · UX 8.5 · feasibility 8 · memorability 8; the existing `JL-18` retains the below-bar data
 and full-mobile-path gap. Baseline full mobile Jest has one unrelated generated `daftari.js` drift,
 assigned to the next Pilot foundation task.
+
+---
+
+DONE · 2026-07-16T15:40+03:00 · Codex · **Offline-first mobile Pilot foundation** · `application/ahd-mobile/`
+
+The real Expo client now waits for local hydration before mounting product UI, persists the five
+versioned `profile`, `journey`, `daily`, `jamiya`, and `settings` slices through native SQLite, and
+uses an isolated local-storage adapter only for browser preview. Added the first-run local-Pilot
+disclosure, removed demo-tour entry points, set Android identity to `sa.ahd.mobile`, and installed a
+client-boundary guard that rejects runtime imports from prototype, proof, pitch, handoff, and root
+fallback surfaces. Persistence is save-before-memory, structurally fail-closed, and full deletion
+atomically clears both the persisted slices and the live journey snapshot. Focused verification is
+green at **31/31 tests across 6 suites**; typecheck, generated-core parity, client-boundary guard,
+and lint all pass (zero errors). Controller re-review approved the two storage remediations with no
+P0/P1. The one full repository gate remains deferred to the final Pilot phase by owner direction.

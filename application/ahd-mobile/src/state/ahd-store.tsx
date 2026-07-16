@@ -4,6 +4,7 @@ import {
   useContext,
   useMemo,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
@@ -51,12 +52,11 @@ export function AhdJourneyProvider({
     () => injectedStore
       ?? new AhdJourneyStore(repository ?? new InMemoryAhdRepository<AhdJourneyState>()),
   );
-  const [state, setState] = useState<AhdJourneyState>(() => store.getState());
+  const state = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot);
 
   const transition = useCallback(
     async (operation: (journey: AhdJourneyStore) => Promise<AhdJourneyState>) => {
       const next = await operation(store);
-      setState(next);
       return next;
     },
     [store],

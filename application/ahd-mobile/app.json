@@ -11,8 +11,10 @@
       "icon": "./assets/images/ahd-logo.png"
     },
     "android": {
+      "package": "sa.ahd.mobile",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#F7F1EA",
+        "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/images/ahd-logo.png"
       },
       "predictiveBackGestureEnabled": false
@@ -26,12 +28,19 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#EFE9DC",
+          "backgroundColor": "#FFFFFF",
           "image": "./assets/images/ahd-logo.png",
           "imageWidth": 180
         }
       ],
-      "expo-localization",
+      [
+        "expo-localization",
+        {
+          "supportedLocales": [
+            "ar"
+          ]
+        }
+      ],
       "expo-sqlite"
     ],
     "extra": {

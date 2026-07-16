@@ -50,7 +50,8 @@
     "test": "jest --runInBand",
     "test:mobile": "jest --runInBand --testPathPatterns=core --testPathPatterns=state",
     "test:ui": "jest --runInBand --testPathPatterns=ui --testPathPatterns=screen --testPathPatterns=navigation --testPathPatterns=journey",
-    "check:core": "node ./scripts/check-generated.cjs"
+    "check:core": "node ./scripts/check-generated.cjs",
+    "check:boundaries": "node ./scripts/check-client-boundaries.cjs"
   },
   "private": true
 }

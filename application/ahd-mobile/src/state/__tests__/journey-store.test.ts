@@ -161,6 +161,19 @@ describe("Phase 1 journey state", () => {
     expect(after.sealed?.seal).toBe(before.sealed?.seal);
   });
 
+  test("keeps the in-memory journey unchanged when persistence fails", async () => {
+    const { journey } = requireStateModules();
+    const repository = {
+      load: async () => null,
+      save: async () => { throw new Error("disk unavailable"); },
+      clear: async () => undefined,
+    };
+    const store = new journey.AhdJourneyStore(repository, ahdCore);
+
+    await expect(store.beginCreate()).rejects.toThrow("disk unavailable");
+    expect(store.getState().step).toBe("home");
+  });
+
   test("Expo SQLite repository round-trips through an injected database", async () => {
     const { sqlite } = requireStateModules();
     let payload: string | null = null;

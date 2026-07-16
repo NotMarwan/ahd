@@ -106,4 +106,19 @@ describe("Ahd journey React binding", () => {
     expect(hook.result.current.store).toBe(firstStore);
     expect(hook.result.current.state.step).toBe("create");
   });
+
+  test("reacts immediately when full local deletion resets the journey", async () => {
+    const { store } = requireBindings();
+    const journeyStore = new AhdJourneyStore(new InMemoryAhdRepository(), ahdCore);
+    const Wrapper = ({ children }: PropsWithChildren) => (
+      <store.AhdJourneyProvider store={journeyStore}>{children}</store.AhdJourneyProvider>
+    );
+    const hook = await renderHook(() => store.useAhdJourney(), { wrapper: Wrapper });
+    await act(async () => { await hook.result.current.beginCreate(); });
+    expect(hook.result.current.state.step).toBe("create");
+
+    await act(async () => { journeyStore.resetAfterExternalClear(); });
+
+    expect(hook.result.current.state.step).toBe("home");
+  });
 });

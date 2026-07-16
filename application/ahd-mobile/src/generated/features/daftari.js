@@ -163,6 +163,20 @@
       meSAR: meMinor / 100, onSAR: onMinor / 100, netSAR: Math.abs(netMinor) / 100,
       side: netMinor > 0 ? "lak" : (netMinor < 0 ? "alayk" : "balanced") };
   }
+  /* person filter (Splitwise G6) — ADDITIVE: composes with filterRows.
+     «الكل» / null are pass-through sentinels. Never mutates the input. */
+  function peopleOf(rows) {
+    var seen = {}, out = [];
+    (rows || []).forEach(function (r) {
+      if (r.counterparty && !seen[r.counterparty]) { seen[r.counterparty] = true; out.push(r.counterparty); }
+    });
+    return out;
+  }
+  function filterByPerson(rows, name) {
+    if (!name || name === "الكل") return (rows || []).slice();
+    return (rows || []).filter(function (r) { return r.counterparty === name; });
+  }
+
   function filterRows(rows, filter) {
     rows = rows || [];
     if (filter === "overdue") return rows.filter(function (r) { return r.isOverdue; });
@@ -177,6 +191,7 @@
     daysFromCivil: daysFromCivil, daysBetween: daysBetween, dayNum: dayNum, arDueLabel: arDueLabel,
     rowFor: rowFor, buildLedger: buildLedger, summaryTiles: summaryTiles,
     reminderTemplate: reminderTemplate, canSendReminder: canSendReminder, selfBand: selfBand,
-    groupLedger: groupLedger, netPosition: netPosition, filterRows: filterRows
+    groupLedger: groupLedger, netPosition: netPosition, filterRows: filterRows,
+    peopleOf: peopleOf, filterByPerson: filterByPerson
   };
 });

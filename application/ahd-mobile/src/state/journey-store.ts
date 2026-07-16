@@ -49,6 +49,7 @@ export function initialJourneyState(): AhdJourneyState {
 
 export class AhdJourneyStore {
   private state: AhdJourneyState = initialJourneyState();
+  private readonly listeners = new Set<() => void>();
 
   constructor(
     private readonly repository: AhdRepository<AhdJourneyState>,
@@ -59,10 +60,26 @@ export class AhdJourneyStore {
     return clone(this.state);
   }
 
+  // useSyncExternalStore requires the same reference until a committed write.
+  getSnapshot = (): AhdJourneyState => this.state;
+
+  subscribe = (listener: () => void): (() => void) => {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  };
+
   async hydrate(): Promise<AhdJourneyState> {
     const stored = await this.repository.load();
-    if (stored) this.state = clone(stored);
+    if (stored) {
+      this.state = clone(stored);
+      this.emit();
+    }
     return this.getState();
+  }
+
+  resetAfterExternalClear(): void {
+    this.state = initialJourneyState();
+    this.emit();
   }
 
   async beginCreate(): Promise<AhdJourneyState> {
@@ -132,8 +149,14 @@ export class AhdJourneyStore {
   }
 
   private async commit(next: AhdJourneyState): Promise<AhdJourneyState> {
-    this.state = clone(next);
-    await this.repository.save(this.state);
+    const candidate = clone(next);
+    await this.repository.save(candidate);
+    this.state = candidate;
+    this.emit();
     return this.getState();
+  }
+
+  private emit(): void {
+    this.listeners.forEach((listener) => listener());
   }
 }

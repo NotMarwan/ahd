@@ -12,7 +12,6 @@ import {
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
 import { useAhdJourney } from '@/state';
-import { demoGuide } from '@/state/demo-script';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
 type QuickActionProps = {
@@ -145,8 +144,6 @@ export function HomeScreen() {
         label={state.sealed ? 'المحتوى مطابق للختم المحلي' : 'لا يوجد ختم قبل موافقة الطرفين'}
         hash={state.sealed ? `${state.sealed.seal.slice(0, 8)}…` : undefined}
       />
-
-      <AhdButton label="ابدأ الجولة التجريبية" onPress={() => demoGuide.start()} variant="quiet" />
 
       <Text style={styles.footnote}>
         عهد يشهد على الاتفاق ومسار الوفاء؛ لا يقرض، ولا يحكم، ولا يضيف فائدة أو غرامة.

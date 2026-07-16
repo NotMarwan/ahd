@@ -24,6 +24,7 @@ describe('Trust Weave reference batch 1', () => {
     expect(screen.getByTestId('home-balance-board')).toBeTruthy();
     expect(screen.getByLabelText('شعار عهد الرسمي')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'ابدأ عهدًا جديدًا' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'ابدأ الجولة التجريبية' })).toBeNull();
   });
 
   it('renders the open-loan hero, woven repayment meter, and living ledger', async () => {
