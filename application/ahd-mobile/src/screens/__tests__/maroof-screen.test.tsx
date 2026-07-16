@@ -1,13 +1,18 @@
-import { expect, test } from '@jest/globals';
+import { expect, jest, test } from '@jest/globals';
 import { render } from '@testing-library/react-native';
 
+import { AhdJourneyProvider, PilotProvider, PilotStore } from '@/state';
+import { InMemoryPilotRepository } from '@/state/pilot-repository';
 import { MaroofScreen } from '../MaroofScreen';
 
-test('يعرض شاشة معروف بأثرٍ نوعيٍّ للوفاء دون أي رقم', async () => {
-  const view = await render(<MaroofScreen />);
+jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn() }) }));
 
-  expect(view.getByText('من عُرِف بالوفاء')).toBeTruthy();
-  expect(view.getByText('نورة')).toBeTruthy();
-  expect(view.getAllByText('وفّى بعهوده').length).toBeGreaterThan(0);
-  expect(view.queryByText(/0\.\d+/)).toBeNull();
+test('لا يصنع سجل معروف أو نسبة ثقة من بذور ثابتة', async () => {
+  const store = new PilotStore(new InMemoryPilotRepository());
+  await store.hydrate();
+  await store.setDisplayName('سارة');
+  const view = await render(<PilotProvider store={store}><AhdJourneyProvider><MaroofScreen /></AhdJourneyProvider></PilotProvider>);
+  expect(view.getByText('سجلّ المعروف')).toBeTruthy();
+  expect(view.getByText('لا يوجد تاريخ محلي بعد')).toBeTruthy();
+  expect(view.queryByText('نورة')).toBeNull();
 });

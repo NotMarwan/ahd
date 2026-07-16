@@ -1,13 +1,18 @@
-import { expect, test } from '@jest/globals';
+import { expect, jest, test } from '@jest/globals';
 import { render } from '@testing-library/react-native';
 
+import { AhdJourneyProvider, PilotProvider, PilotStore } from '@/state';
+import { InMemoryPilotRepository } from '@/state/pilot-repository';
 import { TimelineScreen } from '../TimelineScreen';
 
-test('يعرض سِجلّ الشهادة وعهود البذرة بحالتها المشتقّة', async () => {
-  const view = await render(<TimelineScreen />);
+jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn() }) }));
 
-  expect(view.getByText('سِجلّ الشهادة')).toBeTruthy();
-  expect(view.getByText('فيصل ← عمر')).toBeTruthy();
-  expect(view.getByText('متعثّر — بلا غرامة')).toBeTruthy();
-  expect(view.getByText('أُبرئ — إبراءٌ من المُقرِض')).toBeTruthy();
+test('يعرض خطًا زمنيًا فارغًا صادقًا بلا ملاحظات مزروعة', async () => {
+  const store = new PilotStore(new InMemoryPilotRepository());
+  await store.hydrate();
+  await store.setDisplayName('سارة');
+  const view = await render(<PilotProvider store={store}><AhdJourneyProvider><TimelineScreen /></AhdJourneyProvider></PilotProvider>);
+  expect(view.getByText('الخط الزمني')).toBeTruthy();
+  expect(view.getByText('لا توجد أحداث بعد')).toBeTruthy();
+  expect(view.getByRole('button', { name: 'أنشئ عهدًا' })).toBeTruthy();
 });

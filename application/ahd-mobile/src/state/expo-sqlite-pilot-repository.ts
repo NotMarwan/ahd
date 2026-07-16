@@ -3,8 +3,10 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 import { serializePilotExport, type PilotRepository } from './pilot-repository';
 import {
   PILOT_SLICE_KEYS,
+  PILOT_SLICE_VERSIONS,
   assertPilotSlice,
   initialPilotSlices,
+  migratePilotSlice,
   type PilotSlice,
   type PilotSliceKey,
   type PilotSlices,
@@ -57,7 +59,10 @@ export class ExpoSQLitePilotRepository implements PilotRepository {
       if (!isPilotSliceKey(row.slice_key)) {
         throw new Error(`Unknown Pilot slice: ${row.slice_key}`);
       }
-      if (row.version !== 1) {
+      const expectedVersion = PILOT_SLICE_VERSIONS[row.slice_key];
+      const migratableLegacy = row.version === 1
+        && (row.slice_key === 'daily' || row.slice_key === 'jamiya');
+      if (row.version !== expectedVersion && !migratableLegacy) {
         throw new Error(`Unsupported ${row.slice_key} slice version: ${row.version}`);
       }
       let parsed: unknown;
@@ -66,8 +71,20 @@ export class ExpoSQLitePilotRepository implements PilotRepository {
       } catch {
         throw new Error(`Corrupt ${row.slice_key} Pilot slice`);
       }
-      assertPilotSlice(row.slice_key, parsed);
-      slices[row.slice_key] = clone(parsed) as never;
+      const migrated = migratePilotSlice(row.slice_key, parsed);
+      if ((migrated as { version?: unknown }).version !== expectedVersion) {
+        throw new Error(`Unsupported ${row.slice_key} slice version: ${row.version}`);
+      }
+      assertPilotSlice(row.slice_key, migrated);
+      slices[row.slice_key] = clone(migrated) as never;
+      if (row.version !== expectedVersion) {
+        await this.database.runAsync(
+          UPSERT_SQL,
+          row.slice_key,
+          expectedVersion,
+          JSON.stringify(migrated),
+        );
+      }
     }
 
     return clone(slices);

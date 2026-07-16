@@ -1,159 +1,153 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { useRouter } from 'expo-router';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { AhdButton, AmountDisplay, AppShell, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
-import { ahdCore } from '@/core/ahd-core';
-import { colors, fontFamilies, spacing, typography } from '@/theme';
-
-const DISPUTE_RECORD_ID = 'AHD-MOBILE-DISPUTE-001';
-const DISPUTE_TIMESTAMP = '2026-06-01T10:00:00+03:00';
-
-const prepared = ahdCore.prepareDraft({
-  id: DISPUTE_RECORD_ID,
-  lender: 'سالم',
-  borrower: 'عبدالله',
-  amountMinor: 90000,
-  months: 3,
-  open: false,
-  start: { y: 2026, m: 6 },
-  timestamp: DISPUTE_TIMESTAMP,
-  purpose: 'قرض حسن لظرفٍ طارئ',
-});
-const sealedRecord = ahdCore.sealPrepared(prepared);
-
-type DisputePath = {
-  key: 'reconcile' | 'judiciary';
-  icon: string;
-  ar: string;
-  note: string;
-  encouraged?: boolean;
-};
-
-const PATHS: DisputePath[] = [
-  {
-    key: 'reconcile',
-    icon: '🌿',
-    ar: 'الصلح والتراضي',
-    note: 'إعادة جدولةٍ بالمعروف، أو إبراءٌ لما تبقّى — بلا زيادةٍ في الحالين.',
-    encouraged: true,
-  },
-  {
-    key: 'judiciary',
-    icon: '🔏',
-    ar: 'القضاء',
-    note: 'الوثيقة المختومة تُعرَض دليلًا محايدًا أمام الجهة المختصة.',
-  },
-];
+import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { useAhdJourney, usePilot } from '@/state';
+import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
 export function DisputeScreen() {
-  const verified = sealedRecord.verification.ok;
+  const router = useRouter();
+  const { openRecord, state: journey } = useAhdJourney();
+  const { state: pilot, store } = usePilot();
+  const disputes = pilot.daily.entries.filter((entry) => entry.kind === 'dispute');
+  const [recordId, setRecordId] = useState<string>();
+  const [reason, setReason] = useState('');
+  const [effectiveDate, setEffectiveDate] = useState('');
+  const [reconciliationDate, setReconciliationDate] = useState('');
+  const [reconciliationConfirmed, setReconciliationConfirmed] = useState(false);
+  const [feedback, setFeedback] = useState<string>();
+
+  const save = async () => {
+    if (!recordId) return;
+    setFeedback(undefined);
+    try {
+      await store.openDispute({ recordId, reason, effectiveDate });
+      setFeedback('فُتحت القضية محليًا. لم يتغيّر الختم أو المبلغ أو حالة الطرف الآخر.');
+    } catch (caught) {
+      setFeedback(caught instanceof Error ? caught.message : 'تعذّر فتح القضية');
+    }
+  };
+  const showProof = async (id: string) => {
+    await openRecord(id);
+    router.push('/proof');
+  };
+  const resolve = async (id: string) => {
+    if (!pilot.profile.displayName) return;
+    setFeedback(undefined);
+    try {
+      await store.recordDisputeReconciliation(id, {
+        attestedBy: pilot.profile.displayName,
+        effectiveDate: reconciliationDate,
+        confirmed: reconciliationConfirmed,
+      });
+      setFeedback('حُفظ إقرارك المحلي بأن الصلح تم خارج التطبيق. ما زال السجل يحتاج اتصالًا لمشاركته مع الطرف الآخر.');
+      setReconciliationConfirmed(false);
+      setReconciliationDate('');
+    }
+    catch (caught) { setFeedback(caught instanceof Error ? caught.message : 'تعذّر تسجيل الصلح'); }
+  };
 
   return (
     <AppShell testID="dispute-screen">
       <ScreenHeader
-        title={`عهد «${sealedRecord.record.lender}» و«${sealedRecord.record.borrower}»`}
-        subtitle="عهدٌ يشهد ولا يحكم."
+        eyebrow="سجل محايد"
+        title="النزاع"
+        subtitle="افتح قضية على عهد حقيقي محفوظ. عهد يوثّق ولا يحكم، وفتح القضية لا يغيّر الرصيد."
       />
 
-      <Section title="المبلغ والوثيقة">
-        <RowGroup>
-          <View style={styles.recordBody}>
-            <AmountDisplay value={ahdCore.formatMinorSar(sealedRecord.record.amountMinor)} />
-            <StatusChip
-              label={verified ? 'السجلّ مطابق للختم' : 'تعذّر التحقق'}
-              tone={verified ? 'verified' : 'stopped'}
-            />
-          </View>
-        </RowGroup>
-      </Section>
-
-      <Section>
-        <Text style={styles.paused}>
-          ⏸️ أوقف عهد التذكيرات هنا — بلا غرامة، بلا انحياز، بلا أيّ زيادة. الوقت الآن للصلح.
-        </Text>
-      </Section>
-
-      <Section title="الوثيقة المحايدة">
-        <RowGroup>
-          <Text style={styles.exhibit}>
-            سجلٌّ مختومٌ يحفظ الاتفاق كما كُتب — لا يُعدَّل، ولا ينحاز لطرف.
-          </Text>
-        </RowGroup>
-      </Section>
-
-      <Section title="المسارات">
-        {PATHS.map((path) => (
-          <RowGroup key={path.key}>
-            <View style={styles.path}>
-              <View style={styles.pathHeading}>
-                <Text style={styles.pathTitle}>
-                  {path.icon} {path.ar}
-                </Text>
-                {path.encouraged ? <StatusChip label="الأحبّ" tone="covenant" /> : null}
-              </View>
-              <Text style={styles.pathNote}>{path.note}</Text>
-            </View>
+      {journey.records.length === 0 ? (
+        <Section>
+          <RowGroup><EmptyState title="لا يوجد عهد لفتح قضية عليه" body="يجب أن يكون السجل مختومًا ومحفوظًا أولًا." /></RowGroup>
+          <AhdButton label="افتح دفتري" onPress={() => router.push('/daftari')} />
+        </Section>
+      ) : (
+        <Section title="اختر العهد">
+          <RowGroup>
+            {journey.records.map((entry) => {
+              const id = entry.sealed.record.id;
+              const selected = recordId === id;
+              return (
+                <Pressable
+                  accessibilityLabel={`اختر العهد ${id}`}
+                  accessibilityRole="radio"
+                  accessibilityState={{ checked: selected }}
+                  key={id}
+                  onPress={() => setRecordId(id)}
+                  style={[styles.record, selected && styles.recordSelected]}
+                >
+                  <Text style={styles.title}>{entry.sealed.record.lender} ← {entry.sealed.record.borrower}</Text>
+                  <Text style={styles.id}>{id}</Text>
+                </Pressable>
+              );
+            })}
           </RowGroup>
-        ))}
-      </Section>
+          <TextInput accessibilityLabel="سبب النزاع" multiline onChangeText={setReason} style={[styles.input, styles.reason]} value={reason} />
+          <TextInput accessibilityLabel="تاريخ فتح النزاع" onChangeText={setEffectiveDate} placeholder="YYYY-MM-DD" style={styles.input} value={effectiveDate} />
+          <AhdButton disabled={!recordId} label="افتح القضية محليًا" onPress={save} />
+          {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
+        </Section>
+      )}
 
-      <AhdButton label="اعرض السجلّ المختوم 🔏" onPress={() => undefined} variant="secondary" />
-
-      <Text style={styles.footnote}>
-        المصرف ليس خصمًا ولا حَكَمًا — يشهد، ويحفظ الحقّ بكرامةٍ للطرفين.
-      </Text>
+      {disputes.length > 0 ? (
+        <Section title={`قضايا محلية · ${disputes.length}`}>
+          <RowGroup>
+            {disputes.map((dispute) => (
+              <View key={dispute.id} style={styles.case}>
+                <View style={styles.heading}>
+                  <Text style={styles.title}>{dispute.recordId}</Text>
+                  <StatusChip label={dispute.status === 'open' ? 'مفتوحة محليًا' : 'إقرار صلح محلي'} tone={dispute.status === 'open' ? 'neutral' : 'verified'} />
+                </View>
+                <Text style={styles.note}>{dispute.reason}</Text>
+                <Text style={styles.note}>{dispute.effectiveDate}</Text>
+                <Text style={styles.note}>يحتاج اتصالًا لمشاركته مع الطرف الآخر؛ لا يغيّر الختم أو الرصيد.</Text>
+                <AhdButton label="اعرض السجل المختوم" onPress={() => showProof(dispute.recordId)} variant="secondary" />
+                {dispute.status === 'open' && pilot.profile.displayName ? (
+                  <View style={styles.reconciliation}>
+                    <TextInput
+                      accessibilityLabel={`تاريخ الصلح ${dispute.id}`}
+                      onChangeText={setReconciliationDate}
+                      placeholder="YYYY-MM-DD"
+                      style={styles.input}
+                      value={reconciliationDate}
+                    />
+                    <Pressable
+                      accessibilityLabel={`أقر أن الصلح تم خارج التطبيق ${dispute.id}`}
+                      accessibilityRole="checkbox"
+                      accessibilityState={{ checked: reconciliationConfirmed }}
+                      onPress={() => setReconciliationConfirmed((value) => !value)}
+                      style={styles.attestation}
+                    >
+                      <Text style={styles.note}>{reconciliationConfirmed ? '✓ ' : '○ '}أقر أن الصلح تم خارج التطبيق، وهذا تسجيل محلي مني فقط.</Text>
+                    </Pressable>
+                    <AhdButton
+                      disabled={!reconciliationDate || !reconciliationConfirmed}
+                      label="احفظ إقرار الصلح المحلي"
+                      onPress={() => resolve(dispute.id)}
+                      variant="quiet"
+                    />
+                  </View>
+                ) : null}
+              </View>
+            ))}
+          </RowGroup>
+        </Section>
+      ) : null}
     </AppShell>
   );
 }
 
 const styles = StyleSheet.create({
-  recordBody: {
-    gap: spacing.x2,
-    padding: spacing.x3,
-  },
-  paused: {
-    ...typography.secondary,
-    padding: spacing.x3,
-    color: colors.stopped,
-    fontFamily: fontFamilies.body,
-    lineHeight: 20,
-    textAlign: 'right',
-  },
-  exhibit: {
-    ...typography.secondary,
-    padding: spacing.x3,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    lineHeight: 20,
-    textAlign: 'right',
-  },
-  path: {
-    gap: spacing.x1,
-    padding: spacing.x3,
-  },
-  pathHeading: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.x2,
-  },
-  pathTitle: {
-    ...typography.row,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  pathNote: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    lineHeight: 20,
-    textAlign: 'right',
-  },
-  footnote: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    lineHeight: 20,
-    textAlign: 'right',
-  },
+  record: { gap: spacing.x1, padding: spacing.x3, borderWidth: 1, borderColor: colors.hairline, borderRadius: radii.card, backgroundColor: colors.ground },
+  recordSelected: { borderColor: colors.accent, backgroundColor: colors.accentSoft },
+  title: { ...typography.row, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  id: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.technical, writingDirection: 'ltr' },
+  input: { minHeight: controls.minTarget, paddingHorizontal: spacing.x3, paddingVertical: spacing.x2, borderWidth: 1, borderColor: colors.hairline, borderRadius: radii.card, color: colors.ink, backgroundColor: colors.ground, fontFamily: fontFamilies.body, textAlign: 'right', writingDirection: 'rtl' },
+  reason: { minHeight: 92, textAlignVertical: 'top' },
+  case: { gap: spacing.x2, padding: spacing.x3, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.hairline },
+  heading: { flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'space-between', gap: spacing.x2 },
+  note: { ...typography.secondary, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
+  reconciliation: { gap: spacing.x2, paddingTop: spacing.x1 },
+  attestation: { minHeight: controls.minTarget, justifyContent: 'center', paddingHorizontal: spacing.x2 },
+  feedback: { ...typography.secondary, color: colors.waiting, fontFamily: fontFamilies.body, textAlign: 'right' },
 });

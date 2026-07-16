@@ -1,64 +1,79 @@
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AppShell, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import {
+  AhdButton,
+  AppShell,
+  EmptyState,
+  RowGroup,
+  ScreenHeader,
+  Section,
+  StatusChip,
+} from '@/components';
+import { deriveMaroofBands, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js') as GeneratedEngine;
-
-type TrustBand = 'kept' | 'mixed' | 'overdue' | 'new';
-
-interface TrustEntry {
-  band: TrustBand;
-  ratio: number;
-  count: number;
-}
-
-interface GeneratedEngine {
-  TRUST: Record<string, TrustEntry>;
-  TRUST_BAND_AR: Record<TrustBand, string>;
-}
-
-type StatusTone = 'verified' | 'covenant' | 'stopped' | 'neutral';
-
-const BAND_TONE: Record<TrustBand, StatusTone> = {
-  kept: 'verified',
-  mixed: 'covenant',
-  overdue: 'stopped',
-  new: 'neutral',
+const BAND = {
+  documented: { label: 'عهد موثّق محليًا', tone: 'neutral' as const },
+  settled: { label: 'وفاء مسجّل', tone: 'verified' as const },
+  reconciled: { label: 'صلح مسجّل', tone: 'covenant' as const },
 };
 
 export function MaroofScreen() {
-  const trust = engine.TRUST as Record<string, TrustEntry>;
-  const names = Object.keys(trust);
+  const router = useRouter();
+  const { beginCreate, state: journey } = useAhdJourney();
+  const { state: pilot } = usePilot();
+  const displayName = pilot.profile.displayName;
+  const entries = deriveMaroofBands(journey.records, displayName);
+
+  const createAhd = async () => {
+    await beginCreate();
+    router.push('/create');
+  };
 
   return (
     <AppShell testID="maroof-screen">
       <ScreenHeader
-        title="من عُرِف بالوفاء"
-        subtitle="أثرٌ نوعيٌّ من تاريخك أنت وحدك — بلا رقمٍ، وبلا درجة ائتمانية، ولا يُصدَّر خارج عهد."
+        eyebrow="سجل العلاقة"
+        title="سجلّ المعروف"
+        subtitle="وصف نوعي لما وثّقته أنت فقط؛ بلا نسبة ثقة، وبلا درجة ائتمانية، وبلا حكم على أحد."
       />
 
-      <Section title="سجلّ الوفاء">
-        <RowGroup>
-          {names.map((name, index) => {
-            const entry = trust[name];
-            const label = engine.TRUST_BAND_AR[entry.band];
-            return (
-              <View
-                key={name}
-                style={[styles.row, index === names.length - 1 && styles.rowLast]}
-              >
-                <Text style={styles.name}>{name}</Text>
-                <StatusChip label={label} tone={BAND_TONE[entry.band]} />
+      {!displayName ? (
+        <Section>
+          <RowGroup>
+            <EmptyState title="حدّد اسم العرض" body="يعتمد هذا السجل على اسم العرض المحلي في جهازك." />
+          </RowGroup>
+          <AhdButton label="افتح الإعدادات" onPress={() => router.push('/settings')} />
+        </Section>
+      ) : entries.length === 0 ? (
+        <Section>
+          <RowGroup>
+            <EmptyState title="لا يوجد تاريخ محلي بعد" body="يظهر هنا فقط ما نتج عن عهود مختومة شاركت فيها." />
+          </RowGroup>
+          <AhdButton label="أنشئ أول عهد" onPress={createAhd} />
+        </Section>
+      ) : (
+        <Section title="العلاقات الموثّقة">
+          <RowGroup>
+            {entries.map((entry) => (
+              <View key={entry.recordId} style={styles.row}>
+                <View style={styles.heading}>
+                  <Text style={styles.name}>{entry.counterpart}</Text>
+                  <StatusChip label={BAND[entry.band].label} tone={BAND[entry.band].tone} />
+                </View>
+                <Text style={styles.meta}>
+                  {entry.role === 'lender' ? 'أنت صاحب المال في هذا العهد' : 'أنت المستفيد في هذا العهد'}
+                </Text>
+                <Text style={styles.id}>{entry.recordId}</Text>
               </View>
-            );
-          })}
-        </RowGroup>
-      </Section>
+            ))}
+          </RowGroup>
+        </Section>
+      )}
 
       <Text style={styles.disclaimer}>
-        هذا وصفٌ نوعيٌّ لعلاقتك بمن تعاملت معهم فقط، ولا يُستخدَم للإقراض ولا للحكم على أحد.
+        لا يُصدَّر هذا الوصف كتصنيف، ولا يُستخدم لمنح المال أو رفضه.
       </Text>
     </AppShell>
   );
@@ -66,28 +81,19 @@ export function MaroofScreen() {
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.x2,
+    gap: spacing.x1,
     padding: spacing.x3,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.hairline,
   },
-  rowLast: {
-    borderBottomWidth: 0,
+  heading: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.x2,
   },
-  name: {
-    ...typography.row,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  disclaimer: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    lineHeight: 20,
-    textAlign: 'right',
-  },
+  name: { ...typography.row, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  meta: { ...typography.secondary, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
+  id: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.technical, writingDirection: 'ltr' },
+  disclaimer: { ...typography.secondary, color: colors.inkSecondary, fontFamily: fontFamilies.body, lineHeight: 20, textAlign: 'right' },
 });

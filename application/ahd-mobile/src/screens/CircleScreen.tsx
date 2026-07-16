@@ -1,155 +1,93 @@
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AppShell, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js') as GeneratedCircleEngine;
-
-interface GeneratedCircleShareEvent {
-  type: string;
-  [key: string]: unknown;
-}
-
-interface GeneratedCircleMember {
-  name: string;
-  amountMinor: number;
-  self: boolean;
-  events: GeneratedCircleShareEvent[];
-}
-
-interface GeneratedCircle {
-  id: string;
-  name: string;
-  organizer: string;
-  totalMinor: number;
-  members: GeneratedCircleMember[];
-}
-
-interface GeneratedCircleEngine {
-  DEMO_CIRCLE: GeneratedCircle;
-  CIRCLE_STATE_AR: Record<string, string>;
-  circleShares: (circle: GeneratedCircle) => GeneratedCircleMember[];
-  foldCircle: (circle: GeneratedCircle) => {
-    status: string;
-    debtCount: number;
-    closed: number;
-    owedMinor: number;
-    collectedMinor: number;
-  };
-  toMinor: (sar: number) => number;
-}
-
-function memberTone(events: GeneratedCircleShareEvent[]): 'verified' | 'stopped' | 'neutral' {
-  const kinds = events.map((event) => event.type);
-  if (kinds.includes('SETTLEMENT_SETTLED') || kinds.includes('FORGIVEN')) return 'verified';
-  if (kinds.includes('DISPUTE_RAISED')) return 'stopped';
-  return 'neutral';
-}
-
-function memberStatusAr(events: GeneratedCircleShareEvent[]): string {
-  const kinds = events.map((event) => event.type);
-  if (kinds.includes('SETTLEMENT_SETTLED')) return 'محفوظة';
-  if (kinds.includes('FORGIVEN')) return 'أُبرئ';
-  if (kinds.includes('GRACE_GRANTED')) return 'مؤجّل بالتراضي';
-  if (kinds.includes('DISPUTE_RAISED')) return 'محلّ خلاف';
-  if (kinds.includes('ACTIVATED')) return 'نشِط';
-  return 'بانتظار';
-}
-
 export function CircleScreen() {
-  const circle = engine.DEMO_CIRCLE;
-  const fold = engine.foldCircle(circle);
-  const shares = engine.circleShares(circle);
-  const statusAr = engine.CIRCLE_STATE_AR[fold.status] ?? fold.status;
+  const router = useRouter();
+  const { state, store } = usePilot();
+  const active = state.jamiya.circles.find((circle) => circle.id === state.jamiya.activeCircleId)
+    ?? state.jamiya.circles.at(-1);
 
   return (
     <AppShell testID="circle-screen">
       <ScreenHeader
-        eyebrow="لوحة أمين الصندوق"
-        title={`دائرة «${circle.name}»`}
-        subtitle={`أمين الصندوق ${circle.organizer}`}
+        eyebrow="دفتر الدوائر"
+        title="الدائرة"
+        subtitle="كل الأسماء والموافقات والدفعات أدخلها العميل؛ لا توجد أموال أو أعضاء مزروعون."
       />
 
-      <Section title="التقدّم">
-        <RowGroup>
-          <View style={styles.progressRow}>
-            <Text style={styles.heroNumber}>{ahdCore.formatMinorSar(fold.collectedMinor)}</Text>
-            <Text style={styles.progressLabel}>
-              جُمِع من إجمالي {ahdCore.formatMinorSar(fold.owedMinor)}
-            </Text>
-            <Text style={styles.progressLabel}>{statusAr}</Text>
-          </View>
-        </RowGroup>
-      </Section>
+      {!active ? (
+        <Section>
+          <RowGroup><EmptyState title="لا توجد دائرة" body="أنشئ جمعية محلية وحدّد أعضاءها وحصصهم." /></RowGroup>
+          <AhdButton label="أنشئ جمعية" onPress={() => router.push('/jamiya')} />
+        </Section>
+      ) : (
+        <>
+          {state.jamiya.circles.length > 1 ? (
+            <Section title="دوائرك">
+              <RowGroup>
+                {state.jamiya.circles.map((circle) => (
+                  <View key={circle.id} style={styles.row}>
+                    <Text style={styles.title}>{circle.title}</Text>
+                    <AhdButton label="اختر الدائرة" onPress={() => store.selectCircle(circle.id)} variant="quiet" />
+                  </View>
+                ))}
+              </RowGroup>
+            </Section>
+          ) : null}
 
-      <Section title="الأعضاء">
-        <RowGroup>
-          {shares.map((member) => (
-            <View key={member.name} style={styles.memberRow}>
-              <Text style={styles.memberText}>
-                {member.name} · {ahdCore.formatMinorSar(member.amountMinor)}
-              </Text>
-              <StatusChip label={memberStatusAr(member.events)} tone={memberTone(member.events)} />
-            </View>
-          ))}
-        </RowGroup>
-      </Section>
+          <Section title={active.title}>
+            <RowGroup>
+              <View style={styles.card}>
+                <View style={styles.heading}>
+                  <Text style={styles.title}>{active.organizer}</Text>
+                  <StatusChip
+                    label={active.status === 'draft' ? 'مسودة' : active.status === 'active' ? 'نشطة محليًا' : 'مكتملة'}
+                    tone={active.status === 'complete' ? 'verified' : 'covenant'}
+                  />
+                </View>
+                <Text style={styles.meta}>{active.id} · البداية {active.startMonth}</Text>
+              </View>
+            </RowGroup>
+          </Section>
 
-      <Section title="ملاحظة">
-        <RowGroup>
-          <View style={styles.noteRow}>
-            <Text style={styles.noteText}>
-              التذكير جماعيٌّ يصل الجميع — لا يُسمّى المتأخّر ولا يُفضح. ومتى تعسّر عضوٌ: «أحتاج وقت» (٢٨٠) أو
-              إبراءٌ صدقةً.
-            </Text>
-          </View>
-        </RowGroup>
-      </Section>
+          <Section title="الأعضاء">
+            <RowGroup>
+              {active.members.map((member) => {
+                const payments = active.payments.filter((payment) => payment.memberId === member.id).length;
+                return (
+                  <View key={member.id} style={styles.row}>
+                    <View style={styles.heading}>
+                      <Text style={styles.title}>{member.displayName}</Text>
+                      <StatusChip
+                        label={member.consentAttestation ? 'إقرار المنظّم محفوظ' : 'بانتظار إقرار المنظّم'}
+                        tone={member.consentAttestation ? 'verified' : 'neutral'}
+                      />
+                    </View>
+                    <Text style={styles.meta}>الحصة {ahdCore.formatMinorSar(member.shareMinor)}</Text>
+                    <Text style={styles.meta}>دفعات مسجّلة محليًا: {payments}</Text>
+                  </View>
+                );
+              })}
+            </RowGroup>
+          </Section>
+
+          <AhdButton label="إدارة الجمعية" onPress={() => router.push('/jamiya')} />
+          <AhdButton label="معاينة الدائرة+" onPress={() => router.push('/circle-adv')} variant="secondary" />
+        </>
+      )}
     </AppShell>
   );
 }
 
 const styles = StyleSheet.create({
-  progressRow: {
-    gap: spacing.x1,
-    padding: spacing.x3,
-  },
-  heroNumber: {
-    ...typography.amount,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  progressLabel: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  memberRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.x2,
-    padding: spacing.x3,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.hairline,
-  },
-  memberText: {
-    ...typography.row,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  noteRow: {
-    padding: spacing.x3,
-  },
-  noteText: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
+  card: { gap: spacing.x2, padding: spacing.x3 },
+  row: { gap: spacing.x2, padding: spacing.x3, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.hairline },
+  heading: { flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'space-between', gap: spacing.x2 },
+  title: { ...typography.row, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  meta: { ...typography.secondary, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
 });

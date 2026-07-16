@@ -153,6 +153,112 @@ describe('Pilot slice repository', () => {
     expect(await second.loadAll()).toEqual(loaded.state.initialPilotSlices());
   });
 
+  it('migrates and persists legacy daily and Jamiya slices in the web repository', async () => {
+    if (!loaded.web || !loaded.state) return;
+    const legacySlices = {
+      ...loaded.state.initialPilotSlices(),
+      daily: {
+        version: 1,
+        entries: [{
+          id: 'DAY-0001',
+          title: 'قيد قديم',
+          note: 'محفوظ كما كتبه صاحبه',
+          effectiveDate: '2026-07-15',
+        }],
+      },
+      jamiya: {
+        version: 1,
+        circleId: 'LEGACY-CIRCLE-1',
+        title: 'جمعية قديمة',
+        contributionMinor: 25_000,
+        members: [{
+          id: 'LEGACY-MEMBER-1',
+          displayName: 'سارة',
+          consented: true,
+          paidMinor: 25_000,
+        }],
+      },
+    };
+    const values = new Map<string, string>([[
+      'sa.ahd.mobile.pilot.v1',
+      JSON.stringify({
+        format: 'AhdPilotExportV1',
+        version: 1,
+        asOf: legacySlices.journey.asOf,
+        slices: legacySlices,
+      }),
+    ]]);
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => { values.set(key, value); },
+      removeItem: (key: string) => { values.delete(key); },
+    };
+
+    const migrated = await new loaded.web.WebPilotRepository(storage).loadAll();
+
+    expect(migrated.daily).toMatchObject({
+      version: 2,
+      entries: [{ kind: 'note', id: 'DAY-0001', title: 'قيد قديم' }],
+    });
+    expect(migrated.jamiya).toMatchObject({
+      version: 2,
+      circles: [],
+      legacySnapshot: {
+        circleId: 'LEGACY-CIRCLE-1',
+        contributionMinor: 25_000,
+      },
+    });
+    const persisted = JSON.parse(values.get('sa.ahd.mobile.pilot.v1') ?? '{}');
+    expect(persisted.slices.daily.version).toBe(2);
+    expect(persisted.slices.jamiya.version).toBe(2);
+  });
+
+  it('migrates legacy SQLite rows before returning hydrated slices', async () => {
+    if (!loaded.sqlite || !loaded.state) return;
+    const rows = [
+      {
+        slice_key: 'daily',
+        version: 1,
+        payload: JSON.stringify({
+          version: 1,
+          entries: [{
+            id: 'DAY-0001',
+            title: 'قيد قديم',
+            note: 'محفوظ',
+            effectiveDate: '2026-07-15',
+          }],
+        }),
+      },
+      {
+        slice_key: 'jamiya',
+        version: 1,
+        payload: JSON.stringify({
+          version: 1,
+          circleId: null,
+          title: '',
+          contributionMinor: 0,
+          members: [],
+        }),
+      },
+    ];
+    const database = {
+      execAsync: jest.fn(async () => undefined),
+      runAsync: jest.fn(async () => ({ lastInsertRowId: 0, changes: 1 })),
+      getAllAsync: jest.fn(async () => rows),
+    };
+
+    const migrated = await new loaded.sqlite.ExpoSQLitePilotRepository(database as never).loadAll();
+
+    expect(migrated.daily.version).toBe(2);
+    expect(migrated.jamiya.version).toBe(2);
+    expect(database.runAsync).toHaveBeenCalledWith(
+      expect.stringContaining('INSERT INTO ahd_pilot_slices'),
+      'daily',
+      2,
+      expect.any(String),
+    );
+  });
+
   it('fails closed on valid JSON with an invalid web slice shape', async () => {
     if (!loaded.web || !loaded.state) return;
     const invalid = {

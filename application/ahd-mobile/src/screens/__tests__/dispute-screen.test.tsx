@@ -1,19 +1,18 @@
-import { expect, test } from '@jest/globals';
+import { expect, jest, test } from '@jest/globals';
 import { render } from '@testing-library/react-native';
 
+import { AhdJourneyProvider, PilotProvider, PilotStore } from '@/state';
+import { InMemoryPilotRepository } from '@/state/pilot-repository';
 import { DisputeScreen } from '../DisputeScreen';
 
-test('يعرض محلّ الخلاف بلا غرامة ومع وثيقة مختومة محايدة', async () => {
-  const view = await render(<DisputeScreen />);
+jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn() }) }));
 
-  expect(view.getByText('عهد «سالم» و«عبدالله»')).toBeTruthy();
-  expect(view.getByText('السجلّ مطابق للختم')).toBeTruthy();
-  expect(
-    view.getByText(
-      '⏸️ أوقف عهد التذكيرات هنا — بلا غرامة، بلا انحياز، بلا أيّ زيادة. الوقت الآن للصلح.',
-    ),
-  ).toBeTruthy();
-  expect(
-    view.getByText('المصرف ليس خصمًا ولا حَكَمًا — يشهد، ويحفظ الحقّ بكرامةٍ للطرفين.'),
-  ).toBeTruthy();
+test('لا ينشئ النزاع سجلًا ثابتًا ويطلب عهدًا حقيقيًا أولًا', async () => {
+  const store = new PilotStore(new InMemoryPilotRepository());
+  await store.hydrate();
+  const view = await render(<PilotProvider store={store}><AhdJourneyProvider><DisputeScreen /></AhdJourneyProvider></PilotProvider>);
+  expect(view.getByText('النزاع')).toBeTruthy();
+  expect(view.getByText('لا يوجد عهد لفتح قضية عليه')).toBeTruthy();
+  expect(view.queryByText(/سالم/)).toBeNull();
+  expect(view.getByRole('button', { name: 'افتح دفتري' })).toBeTruthy();
 });

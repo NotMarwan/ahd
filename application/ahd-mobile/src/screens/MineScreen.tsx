@@ -1,146 +1,124 @@
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AmountDisplay, AppShell, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import {
+  AhdButton,
+  AmountDisplay,
+  AppShell,
+  EmptyState,
+  RowGroup,
+  ScreenHeader,
+  Section,
+  StatusChip,
+} from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { selectMineRecords, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js');
-
-type AhdEvent = { type: string };
-
-type SeedAhd = {
-  id: string;
-  lender: string;
-  borrower: string;
-  amount: number;
-  note: string;
-  events: AhdEvent[];
-};
-
-type Engine = {
-  SEED_AHDS: SeedAhd[];
-  fold: (events: AhdEvent[]) => { status: string; graced: boolean };
-  statusLabel: (events: AhdEvent[]) => string;
-  toMinor: (sar: number) => number;
-};
-
-const AhdEngine = engine as Engine;
-
-function isClosed(status: string): boolean {
-  return status === 'KEPT' || status === 'FORGIVEN' || status === 'VOID';
-}
-
-function statusTone(status: string): 'verified' | 'covenant' | 'stopped' | 'neutral' {
-  if (isClosed(status)) return 'verified';
-  if (status === 'DEFAULTED') return 'stopped';
-  if (status === 'DISPUTED') return 'neutral';
-  return 'covenant';
-}
-
 export function MineScreen() {
-  const obligations = AhdEngine.SEED_AHDS;
-  const openObligations = obligations.filter((o) => !isClosed(AhdEngine.fold(o.events).status));
-  const totalRemainingMinor = openObligations.reduce(
-    (sum, o) => sum + AhdEngine.toMinor(o.amount),
+  const router = useRouter();
+  const { beginCreate, openRecord, state: journey } = useAhdJourney();
+  const { state: pilot } = usePilot();
+  const displayName = pilot.profile.displayName;
+  const records = selectMineRecords(journey.records, displayName);
+  const totalDocumentedMinor = records.reduce(
+    (sum, entry) => sum + entry.sealed.record.amountMinor,
     0,
   );
+
+  const createAhd = async () => {
+    await beginCreate();
+    router.push('/create');
+  };
+  const showRecord = async (recordId: string) => {
+    await openRecord(recordId);
+    router.push(`/record/${recordId}`);
+  };
 
   return (
     <AppShell testID="mine-screen">
       <ScreenHeader
+        eyebrow="دفترك أنت"
         title="ما عليّ"
-        subtitle="التزاماتُك — بترتيب ما يستحقّ عنايتك أوّلًا، بلا مطالبة ولا عدّ أيّام"
+        subtitle="أصول العهود التي يظهر فيها اسم عرضك كمستفيد. لا ندّعي مبلغًا متبقيًا بلا سجل سداد."
       />
-      <Section title="ملخّص">
-        <RowGroup>
-          <View style={styles.row}>
-            <AmountDisplay label="إجمالي ما عليك" value={ahdCore.formatMinorSar(totalRemainingMinor)} />
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.tileLabel}>عهودٌ قائمة</Text>
-            <Text style={styles.tileValue}>{openObligations.length}</Text>
-          </View>
-        </RowGroup>
-      </Section>
-      <Text style={styles.verse}>
-        ﴿وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ — لك أن تطلب المهلة بكرامة، ولك أن تسدّد متى تيسّر.
-      </Text>
-      <Section title="عهودك">
-        {obligations.length === 0 ? (
-          <Text style={styles.empty}>لا شيء عليك الآن 🤍 — ذمّتك خفيفة.</Text>
-        ) : (
+
+      {!displayName ? (
+        <Section>
           <RowGroup>
-            {obligations.map((o) => {
-              const f = AhdEngine.fold(o.events);
-              const closed = isClosed(f.status);
-              return (
-                <View key={o.id} style={styles.row}>
-                  <View style={styles.rowHead}>
-                    <Text style={styles.who}>لـ {o.lender}</Text>
-                    <StatusChip label={AhdEngine.statusLabel(o.events)} tone={statusTone(f.status)} />
-                  </View>
-                  <Text style={styles.amt}>
-                    {closed ? 'ذمّةٌ محفوظة' : `المتبقّي ${ahdCore.formatMinorSar(AhdEngine.toMinor(o.amount))}`}
-                  </Text>
-                </View>
-              );
-            })}
+            <EmptyState
+              title="حدّد اسم العرض أولًا"
+              body="نستخدم اسم عرض محليًا فقط لنعرف أي العهود تخصّك؛ لا نطلب هوية أو هاتفًا."
+            />
           </RowGroup>
-        )}
-      </Section>
+          <AhdButton label="افتح الإعدادات" onPress={() => router.push('/settings')} />
+        </Section>
+      ) : records.length === 0 ? (
+        <Section>
+          <RowGroup>
+            <EmptyState
+              title="لا يوجد عهد عليك بهذا الاسم"
+              body={`لم نجد سجلًا مختومًا يكون فيه «${displayName}» مستفيدًا.`}
+            />
+          </RowGroup>
+          <AhdButton label="أنشئ عهدًا" onPress={createAhd} />
+        </Section>
+      ) : (
+        <>
+          <Section title="الأصل الموثّق">
+            <AmountDisplay
+              label={`${records.length} عهود محلية`}
+              value={ahdCore.formatMinorSar(totalDocumentedMinor)}
+            />
+          </Section>
+          <Section title="عهودك">
+            <RowGroup>
+              {records.map((entry) => (
+                <View key={entry.sealed.record.id} style={styles.record}>
+                  <View style={styles.heading}>
+                    <Text style={styles.party}>لـ {entry.sealed.record.lender}</Text>
+                    <StatusChip label="أصل موثّق" tone="covenant" />
+                  </View>
+                  <AmountDisplay value={ahdCore.formatMinorSar(entry.sealed.record.amountMinor)} />
+                  <Text style={styles.meta}>{entry.sealed.record.id}</Text>
+                  <AhdButton
+                    label="افتح العهد"
+                    onPress={() => showRecord(entry.sealed.record.id)}
+                    variant="quiet"
+                  />
+                </View>
+              ))}
+            </RowGroup>
+          </Section>
+        </>
+      )}
     </AppShell>
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
-    gap: spacing.x1,
+  record: {
+    gap: spacing.x2,
     padding: spacing.x3,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.hairline,
   },
-  rowHead: {
+  heading: {
     flexDirection: 'row-reverse',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: spacing.x2,
   },
-  who: {
+  party: {
     ...typography.row,
     color: colors.ink,
     fontFamily: fontFamilies.body,
     textAlign: 'right',
   },
-  amt: {
-    ...typography.secondary,
+  meta: {
+    ...typography.caption,
     color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  tileLabel: {
-    ...typography.label,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  tileValue: {
-    ...typography.amount,
-    color: colors.ink,
-    fontFamily: fontFamilies.display,
-    textAlign: 'right',
-  },
-  verse: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-    lineHeight: 20,
-  },
-  empty: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
+    fontFamily: fontFamilies.technical,
+    writingDirection: 'ltr',
   },
 });

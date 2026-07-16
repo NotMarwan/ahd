@@ -7,6 +7,14 @@ export * from './pilot-bootstrap';
 export * from './pilot-database-provider';
 export * from './pilot-repository';
 export * from './pilot-state';
-export { PilotProvider, PilotStore, usePilot } from './pilot-store';
-export type { PilotContextValue, PilotStoreStatus } from './pilot-store';
+export { PilotProvider, PilotStore, previewCircleNetting, usePilot } from './pilot-store';
+export type {
+  CreateCircleInput,
+  OpenDisputeInput,
+  PilotContextValue,
+  PilotStoreStatus,
+  RecordCircleConsentAttestationInput,
+  RecordDisputeReconciliationInput,
+  SaveRequestInput,
+} from './pilot-store';
 export * from './web-pilot-repository';

@@ -1,9 +1,11 @@
 import { hasAllPilotSlices, serializePilotExport, type PilotRepository } from './pilot-repository';
 import {
   PILOT_SLICE_KEYS,
+  PILOT_SLICE_VERSIONS,
   assertPilotSlice,
   assertPilotSlices,
   initialPilotSlices,
+  migratePilotSlice,
   type PilotSlice,
   type PilotSliceKey,
   type PilotSlices,
@@ -17,8 +19,8 @@ function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
-function parseStoredSlices(raw: string | null): PilotSlices {
-  if (raw === null) return initialPilotSlices();
+function parseStoredSlices(raw: string | null): { slices: PilotSlices; migrated: boolean } {
+  if (raw === null) return { slices: initialPilotSlices(), migrated: false };
   let value: unknown;
   try {
     value = JSON.parse(raw);
@@ -33,13 +35,21 @@ function parseStoredSlices(raw: string | null): PilotSlices {
   if (!envelope.slices || !hasAllPilotSlices(envelope.slices)) {
     throw new Error('Incomplete local Pilot preview data');
   }
+  const migratedSlices = { ...envelope.slices } as Record<PilotSliceKey, unknown>;
+  let migrated = false;
   for (const key of PILOT_SLICE_KEYS) {
-    if (envelope.slices[key].version !== 1) {
+    const before = envelope.slices[key];
+    const after = migratePilotSlice(key, before);
+    if ((after as { version?: unknown }).version !== PILOT_SLICE_VERSIONS[key]) {
       throw new Error(`Unsupported ${key} preview slice version`);
     }
+    migratedSlices[key] = after;
+    if ((before as { version?: unknown }).version !== (after as { version?: unknown }).version) {
+      migrated = true;
+    }
   }
-  assertPilotSlices(envelope.slices);
-  return clone(envelope.slices);
+  assertPilotSlices(migratedSlices);
+  return { slices: clone(migratedSlices), migrated };
 }
 
 export class WebPilotRepository implements PilotRepository {
@@ -49,14 +59,16 @@ export class WebPilotRepository implements PilotRepository {
 
   async loadAll(): Promise<PilotSlices> {
     await this.writeTail;
-    return parseStoredSlices(this.storage.getItem(STORAGE_KEY));
+    const parsed = parseStoredSlices(this.storage.getItem(STORAGE_KEY));
+    if (parsed.migrated) this.storage.setItem(STORAGE_KEY, serializePilotExport(parsed.slices));
+    return parsed.slices;
   }
 
   saveSlice<K extends PilotSliceKey>(key: K, value: PilotSlice<K>): Promise<void> {
     const candidate = clone(value);
     assertPilotSlice(key, candidate);
     const write = this.writeTail.then(() => {
-      const slices = parseStoredSlices(this.storage.getItem(STORAGE_KEY));
+      const { slices } = parseStoredSlices(this.storage.getItem(STORAGE_KEY));
       const next = { ...slices, [key]: candidate };
       this.storage.setItem(STORAGE_KEY, serializePilotExport(next));
     });

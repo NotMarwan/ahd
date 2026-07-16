@@ -2,6 +2,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { act, render, waitFor } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
+import { ahdCore } from '../../core/ahd-core';
 import { AhdJourneyProvider } from '../ahd-store';
 import { InMemoryAhdRepository } from '../ahd-repository';
 import { AhdJourneyStore, initialJourneyState, type AhdJourneyState } from '../journey-store';
@@ -97,6 +98,213 @@ describe('Pilot store', () => {
     expect(store.getState()).toBe(first);
     await store.acceptWelcome();
     expect(store.getState()).not.toBe(first);
+  });
+
+  it('persists a local request as needs_connection without creating an Ahd or changing money', async () => {
+    if (!loaded.repository || !loaded.store) return;
+    const repository = new loaded.repository.InMemoryPilotRepository();
+    const store = new loaded.store.PilotStore(repository);
+    await store.hydrate();
+
+    await store.saveRequest({
+      borrower: 'سارة',
+      lender: 'ريم',
+      amountMinor: 50_000,
+      purpose: 'ظرف عائلي',
+      effectiveDate: '2026-07-16',
+    });
+
+    const saved = store.getState().daily.entries[0];
+    expect(saved).toMatchObject({
+      kind: 'request',
+      id: 'REQ-PILOT-0001',
+      status: 'needs_connection',
+      amountMinor: 50_000,
+    });
+    expect(store.getState().journey.records).toHaveLength(0);
+
+    const reader = new loaded.store.PilotStore(repository);
+    await reader.hydrate();
+    expect(reader.getState().daily.entries).toEqual(store.getState().daily.entries);
+  });
+
+  it('serializes concurrent mutations without losing either local request', async () => {
+    if (!loaded.repository || !loaded.store) return;
+    const repository = new loaded.repository.InMemoryPilotRepository();
+    const store = new loaded.store.PilotStore(repository);
+    await store.hydrate();
+
+    await Promise.all([
+      store.saveRequest({
+        borrower: 'سارة',
+        lender: 'ريم',
+        amountMinor: 50_000,
+        purpose: 'احتياج أول',
+        effectiveDate: '2026-07-16',
+      }),
+      store.saveRequest({
+        borrower: 'سارة',
+        lender: 'هند',
+        amountMinor: 60_000,
+        purpose: 'احتياج ثانٍ',
+        effectiveDate: '2026-07-17',
+      }),
+    ]);
+
+    const requests = store.getState().daily.entries.filter((entry: { kind: string }) => entry.kind === 'request');
+    expect(requests).toHaveLength(2);
+    expect(requests.map((entry: { id: string }) => entry.id)).toEqual([
+      'REQ-PILOT-0001',
+      'REQ-PILOT-0002',
+    ]);
+  });
+
+  it('validates Gregorian date-only input without runtime clock objects', () => {
+    if (!loaded.state) return;
+    expect(loaded.state.isValidPilotDateOnly).toEqual(expect.any(Function));
+    expect(loaded.state.isValidPilotDateOnly('2028-02-29')).toBe(true);
+    expect(loaded.state.isValidPilotDateOnly('2026-02-29')).toBe(false);
+    expect(loaded.state.isValidPilotDateOnly('2026-13-01')).toBe(false);
+  });
+
+  it('opens and explicitly resolves a persisted dispute only for a real local record', async () => {
+    if (!loaded.repository || !loaded.store) return;
+    const repository = new loaded.repository.InMemoryPilotRepository();
+    const journeyStore = new AhdJourneyStore(
+      new loaded.repository.JourneySliceRepository(repository),
+      ahdCore,
+    );
+    await journeyStore.beginCreate();
+    await journeyStore.reviewDraft({
+      id: 'AHD-PILOT-0001',
+      lender: 'ريم',
+      borrower: 'سارة',
+      amountMinor: 90_000,
+      months: 3,
+      start: { y: 2026, m: 8 },
+      timestamp: '2026-07-16T00:00:00+03:00',
+    });
+    await journeyStore.seal();
+    const store = new loaded.store.PilotStore(repository);
+    await store.hydrate();
+
+    await expect(store.openDispute({
+      recordId: 'missing',
+      reason: 'اختلاف في التوثيق',
+      effectiveDate: '2026-07-16',
+    })).rejects.toThrow(/record|سجل/i);
+    await store.openDispute({
+      recordId: 'AHD-PILOT-0001',
+      reason: 'اختلاف في التوثيق',
+      effectiveDate: '2026-07-16',
+    });
+    const dispute = store.getState().daily.entries.find((entry: { kind: string }) => entry.kind === 'dispute');
+    expect(dispute).toMatchObject({
+      id: 'DSP-PILOT-0001',
+      status: 'open',
+      externalStatus: 'needs_connection',
+    });
+
+    await expect(store.recordDisputeReconciliation('DSP-PILOT-0001', {
+      attestedBy: 'سارة',
+      effectiveDate: '2026-07-17',
+      confirmed: false,
+    })).rejects.toThrow(/confirm|إقرار|صلح/i);
+    await store.recordDisputeReconciliation('DSP-PILOT-0001', {
+      attestedBy: 'سارة',
+      effectiveDate: '2026-07-17',
+      confirmed: true,
+    });
+    expect(store.getState().daily.entries.find((entry: { id: string }) => entry.id === 'DSP-PILOT-0001'))
+      .toMatchObject({
+        status: 'reconciled',
+        externalStatus: 'needs_connection',
+        reconciliation: {
+          attestedBy: 'سارة',
+          effectiveDate: '2026-07-17',
+          confirmed: true,
+        },
+      });
+  });
+
+  it('persists circles, requires recorded consent, and stores netting only as a local receipt', async () => {
+    if (!loaded.repository || !loaded.store) return;
+    const repository = new loaded.repository.InMemoryPilotRepository();
+    const store = new loaded.store.PilotStore(repository);
+    await store.hydrate();
+    await store.createCircle({
+      kind: 'jamiya',
+      title: 'جمعية الأسرة',
+      organizer: 'سارة',
+      startMonth: '2026-08',
+      members: [
+        { displayName: 'سارة', shareMinor: 50_000 },
+        { displayName: 'ريم', shareMinor: 50_000 },
+        { displayName: 'هند', shareMinor: 50_000 },
+      ],
+    });
+    const circle = store.getState().jamiya.circles[0];
+    expect(circle.id).toBe('CIR-PILOT-0001');
+    await expect(store.activateCircle(circle.id)).rejects.toThrow(/consent|مواف/i);
+    for (const member of circle.members) {
+      await store.recordCircleConsentAttestation(circle.id, member.id, {
+        recordedBy: circle.organizer,
+        effectiveDate: '2026-07-16',
+        confirmed: true,
+      });
+    }
+    expect(store.getState().jamiya.circles[0].members[0].consentAttestation).toMatchObject({
+      mode: 'organizer_attestation',
+      recordedBy: circle.organizer,
+    });
+    await store.activateCircle(circle.id);
+
+    await expect(store.confirmCircleNetting([circle.id], false, '2026-07-16'))
+      .rejects.toThrow(/consent|مواف/i);
+    const before = store.getState().jamiya.circles;
+    await store.confirmCircleNetting([circle.id], true, '2026-07-16');
+    expect(store.getState().jamiya.circles).toEqual(before);
+    expect(store.getState().jamiya.nettingReceipts[0]).toMatchObject({
+      id: 'NET-PILOT-0001',
+      consentConfirmed: true,
+      conserved: true,
+    });
+  });
+
+  it('records circle payments idempotently and rejects a future round', async () => {
+    if (!loaded.repository || !loaded.store) return;
+    const repository = new loaded.repository.InMemoryPilotRepository();
+    const store = new loaded.store.PilotStore(repository);
+    await store.hydrate();
+    await store.createCircle({
+      kind: 'jamiya',
+      title: 'جمعية صغيرة',
+      organizer: 'سارة',
+      startMonth: '2026-08',
+      members: [
+        { displayName: 'سارة', shareMinor: 10_000 },
+        { displayName: 'ريم', shareMinor: 10_000 },
+      ],
+    });
+    const circle = store.getState().jamiya.circles[0];
+    for (const member of circle.members) {
+      await store.recordCircleConsentAttestation(circle.id, member.id, {
+        recordedBy: circle.organizer,
+        effectiveDate: '2026-07-16',
+        confirmed: true,
+      });
+    }
+    await store.activateCircle(circle.id);
+
+    await expect(store.recordCirclePayment(circle.id, 2, circle.members[0].id, '2026-08-01'))
+      .rejects.toThrow(/future|round|جولة/i);
+    await store.recordCirclePayment(circle.id, 1, circle.members[0].id, '2026-08-01');
+    await expect(store.recordCirclePayment(circle.id, 1, circle.members[0].id, '2026-08-01'))
+      .rejects.toThrow(/duplicate|مسجل|payment/i);
+
+    const reader = new loaded.store.PilotStore(repository);
+    await reader.hydrate();
+    expect(reader.getState().jamiya.circles[0].payments).toHaveLength(1);
   });
 
   it('does not mount product UI until Pilot and journey hydration finish', async () => {

@@ -1,4 +1,10 @@
-import { ahdCore, type ProofPack, type SealedAhd } from '../core/ahd-core';
+import {
+  MAX_PILOT_AMOUNT_MINOR,
+  ahdCore,
+  type ProofPack,
+  type SealedAhd,
+  type SettlementTransfer,
+} from '../core/ahd-core';
 import { verifyAttachedProof } from '../share';
 import type {
   AhdJourneyState,
@@ -23,31 +29,114 @@ export type PilotProfileSlice = {
   displayName: string | null;
 };
 
-export type PilotDailyEntry = {
+export type PilotNoteEntry = {
+  kind: 'note';
   id: string;
   title: string;
   note: string;
   effectiveDate: string;
 };
 
+export type PilotRequestEntry = {
+  kind: 'request';
+  id: string;
+  borrower: string;
+  lender: string;
+  amountMinor: number;
+  purpose: string;
+  termsAr: string;
+  effectiveDate: string;
+  status: 'needs_connection';
+};
+
+export type PilotDisputeEntry = {
+  kind: 'dispute';
+  id: string;
+  recordId: string;
+  reason: string;
+  effectiveDate: string;
+  status: 'open' | 'reconciled';
+  externalStatus: 'needs_connection';
+  reconciliation?: {
+    attestedBy: string;
+    effectiveDate: string;
+    confirmed: true;
+  };
+};
+
+export type PilotDailyEntry = PilotNoteEntry | PilotRequestEntry | PilotDisputeEntry;
+
 export type PilotDailySlice = {
-  version: 1;
+  version: 2;
   entries: readonly PilotDailyEntry[];
 };
 
-export type PilotJamiyaMember = {
-  id: string;
-  displayName: string;
-  consented: boolean;
-  paidMinor: number;
+export type PilotCircleKind = 'jamiya' | 'occasion' | 'standing';
+
+export type PilotCircleConsentAttestation = {
+  mode: 'organizer_attestation';
+  recordedBy: string;
+  effectiveDate: string;
+  confirmed: true;
 };
 
-export type PilotJamiyaSlice = {
-  version: 1;
+export type PilotCircleMember = {
+  id: string;
+  displayName: string;
+  consentAttestation: PilotCircleConsentAttestation | null;
+  shareMinor: number;
+};
+
+export type PilotCirclePayment = {
+  id: string;
+  round: number;
+  memberId: string;
+  amountMinor: number;
+  effectiveDate: string;
+};
+
+export type PilotCircle = {
+  id: string;
+  kind: PilotCircleKind;
+  title: string;
+  organizer: string;
+  startMonth: string;
+  members: readonly PilotCircleMember[];
+  orderMemberIds: readonly string[];
+  payments: readonly PilotCirclePayment[];
+  status: 'draft' | 'active' | 'complete';
+};
+
+export type PilotNettingReceipt = {
+  id: string;
+  circleIds: readonly string[];
+  before: readonly SettlementTransfer[];
+  after: readonly SettlementTransfer[];
+  beforeCount: number;
+  afterCount: number;
+  conserved: boolean;
+  consentConfirmed: true;
+  effectiveDate: string;
+};
+
+export type PilotLegacyJamiyaSnapshot = {
   circleId: string | null;
   title: string;
   contributionMinor: number;
-  members: readonly PilotJamiyaMember[];
+  members: readonly {
+    id: string;
+    displayName: string;
+    consented: boolean;
+    paidMinor: number;
+  }[];
+};
+
+export type PilotJamiyaSlice = {
+  version: 2;
+  circles: readonly PilotCircle[];
+  activeCircleId: string | null;
+  nettingReceipts: readonly PilotNettingReceipt[];
+  legacySnapshot: PilotLegacyJamiyaSnapshot | null;
 };
 
 export type PilotSettingsSlice = {
@@ -66,20 +155,173 @@ export type PilotSlices = {
 
 export type PilotSlice<K extends PilotSliceKey> = PilotSlices[K];
 
+export const PILOT_SLICE_VERSIONS = {
+  profile: 1,
+  journey: 1,
+  daily: 2,
+  jamiya: 2,
+  settings: 1,
+} as const satisfies Record<PilotSliceKey, number>;
+
 export function initialPilotSlices(): PilotSlices {
   return {
     profile: { version: 1, welcomeAccepted: false, displayName: null },
     journey: initialJourneyState(),
-    daily: { version: 1, entries: [] },
+    daily: { version: 2, entries: [] },
     jamiya: {
-      version: 1,
-      circleId: null,
-      title: '',
-      contributionMinor: 0,
-      members: [],
+      version: 2,
+      circles: [],
+      activeCircleId: null,
+      nettingReceipts: [],
+      legacySnapshot: null,
     },
     settings: { version: 1, digitMode: 'western', hideAmounts: false },
   };
+}
+
+function migrationRecord(value: unknown): Record<string, unknown> | null {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : null;
+}
+
+function migrationClone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+export function migratePilotSlice<K extends PilotSliceKey>(key: K, value: unknown): unknown {
+  const slice = migrationRecord(value);
+  if (!slice || slice.version !== 1) return value;
+
+  if (key === 'daily' && Array.isArray(slice.entries)) {
+    return {
+      version: 2,
+      entries: slice.entries.map((item) => {
+        const entry = migrationRecord(item);
+        if (!entry) return item;
+        if (typeof entry.kind !== 'string') return { kind: 'note', ...migrationClone(entry) };
+        if (entry.kind !== 'dispute') return migrationClone(entry);
+        const migrated: Record<string, unknown> = {
+          ...migrationClone(entry),
+          externalStatus: 'needs_connection',
+        };
+        if (migrated.status === 'reconciled' && !migrationRecord(migrated.reconciliation)) {
+          migrated.status = 'open';
+        }
+        return migrated;
+      }),
+    };
+  }
+
+  if (key === 'jamiya') {
+    if (Array.isArray(slice.circles)) {
+      const circles = slice.circles.map((item) => {
+        const circle = migrationRecord(item);
+        if (!circle || !Array.isArray(circle.members)) return item;
+        const members = circle.members.map((memberValue) => {
+          const member = migrationRecord(memberValue);
+          if (!member) return memberValue;
+          const { consented: _legacyConsent, ...preserved } = member;
+          return { ...migrationClone(preserved), consentAttestation: null };
+        });
+        return { ...migrationClone(circle), members, status: 'draft' };
+      });
+      return {
+        version: 2,
+        circles,
+        activeCircleId: slice.activeCircleId ?? null,
+        nettingReceipts: Array.isArray(slice.nettingReceipts)
+          ? migrationClone(slice.nettingReceipts)
+          : [],
+        legacySnapshot: null,
+      };
+    }
+    return {
+      version: 2,
+      circles: [],
+      activeCircleId: null,
+      nettingReceipts: [],
+      legacySnapshot: migrationClone({
+        circleId: slice.circleId,
+        title: slice.title,
+        contributionMinor: slice.contributionMinor,
+        members: slice.members,
+      }),
+    };
+  }
+
+  return value;
+}
+
+export function selectRelatedRecords(
+  records: readonly AhdStoredRecord[],
+  displayName: string | null,
+): readonly AhdStoredRecord[] {
+  if (!displayName) return [];
+  return records.filter(({ sealed }) => (
+    sealed.record.lender === displayName || sealed.record.borrower === displayName
+  ));
+}
+
+export function selectMineRecords(
+  records: readonly AhdStoredRecord[],
+  displayName: string | null,
+): readonly AhdStoredRecord[] {
+  if (!displayName) return [];
+  return records.filter(({ sealed }) => sealed.record.borrower === displayName);
+}
+
+export type PilotMaroofEntry = {
+  recordId: string;
+  counterpart: string;
+  role: 'lender' | 'borrower';
+  band: 'documented' | 'settled' | 'reconciled';
+};
+
+export function deriveMaroofBands(
+  records: readonly AhdStoredRecord[],
+  displayName: string | null,
+): readonly PilotMaroofEntry[] {
+  return selectRelatedRecords(records, displayName).map(({ sealed }) => {
+    const eventTypes = new Set(sealed.record.events.map((event) => event.type));
+    const role = sealed.record.lender === displayName ? 'lender' as const : 'borrower' as const;
+    const band = eventTypes.has('SETTLEMENT_SETTLED')
+      ? 'settled' as const
+      : eventTypes.has('DISPUTE_RECONCILED')
+        ? 'reconciled' as const
+        : 'documented' as const;
+    return {
+      recordId: sealed.record.id,
+      counterpart: role === 'lender' ? sealed.record.borrower : sealed.record.lender,
+      role,
+      band,
+    };
+  });
+}
+
+export type PilotTimelineEntry = {
+  id: string;
+  recordId: string;
+  eventIndex: number;
+  eventType: string;
+  lender: string;
+  borrower: string;
+};
+
+export function buildLocalTimeline(
+  records: readonly AhdStoredRecord[],
+  displayName: string | null,
+): readonly PilotTimelineEntry[] {
+  return selectRelatedRecords(records, displayName).flatMap(({ sealed }) => (
+    sealed.record.events.map((event, eventIndex) => ({
+      id: `${sealed.record.id}:${eventIndex}`,
+      recordId: sealed.record.id,
+      eventIndex,
+      eventType: event.type,
+      lender: sealed.record.lender,
+      borrower: sealed.record.borrower,
+    }))
+  ));
 }
 
 type UnknownRecord = Record<string, unknown>;
@@ -173,6 +415,58 @@ function stringOrNullAt(value: unknown, path: string): asserts value is string |
 
 function arrayAt(value: unknown, path: string): asserts value is readonly unknown[] {
   if (!Array.isArray(value)) invalid(path);
+}
+
+function nonEmptyStringAt(value: unknown, path: string): asserts value is string {
+  stringAt(value, path);
+  if (!(value as string).trim() || /[\u0000-\u001f\u007f]/.test(value as string)) invalid(path);
+}
+
+export function isValidPilotDateOnly(value: string): boolean {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (year < 1 || month < 1 || month > 12 || day < 1) return false;
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const daysByMonth = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return day <= daysByMonth[month - 1];
+}
+
+function dateOnlyAt(value: unknown, path: string): asserts value is string {
+  stringAt(value, path);
+  if (!isValidPilotDateOnly(value as string)) invalid(path);
+}
+
+function monthAt(value: unknown, path: string): asserts value is string {
+  stringAt(value, path);
+  const match = /^(\d{4})-(\d{2})$/.exec(value as string);
+  if (!match || Number(match[1]) < 1 || Number(match[2]) < 1 || Number(match[2]) > 12) {
+    invalid(path);
+  }
+}
+
+function positivePilotMinorAt(value: unknown, path: string): asserts value is number {
+  integerAt(value, path, 1);
+  if ((value as number) > MAX_PILOT_AMOUNT_MINOR) invalid(path);
+}
+
+function transfersConserve(
+  before: readonly SettlementTransfer[],
+  after: readonly SettlementTransfer[],
+): boolean {
+  const balances = (transfers: readonly SettlementTransfer[]) => {
+    const result = new Map<string, number>();
+    transfers.forEach((transfer) => {
+      result.set(transfer.from, (result.get(transfer.from) ?? 0) - transfer.amountMinor);
+      result.set(transfer.to, (result.get(transfer.to) ?? 0) + transfer.amountMinor);
+    });
+    return [...result.entries()].filter(([, amount]) => amount !== 0).sort(([left], [right]) => (
+      left < right ? -1 : left > right ? 1 : 0
+    ));
+  };
+  return stableJson(balances(before)) === stableJson(balances(after));
 }
 
 function jsonValueAt(value: unknown, path: string): void {
@@ -561,37 +855,216 @@ export function assertPilotSlice<K extends PilotSliceKey>(
   }
   if (key === 'daily') {
     const daily = recordAt(value, 'daily', ['version', 'entries']);
-    if (daily.version !== 1) invalid('daily.version');
+    if (daily.version !== 2) invalid('daily.version');
     arrayAt(daily.entries, 'daily.entries');
     daily.entries.forEach((item, index) => {
       const path = `daily.entries[${index}]`;
-      const entry = recordAt(item, path, ['id', 'title', 'note', 'effectiveDate']);
-      stringAt(entry.id, `${path}.id`);
-      stringAt(entry.title, `${path}.title`);
-      stringAt(entry.note, `${path}.note`);
-      stringAt(entry.effectiveDate, `${path}.effectiveDate`);
+      const kind = (item as UnknownRecord | null)?.kind;
+      if (kind === 'note') {
+        const entry = recordAt(item, path, ['kind', 'id', 'title', 'note', 'effectiveDate']);
+        nonEmptyStringAt(entry.id, `${path}.id`);
+        nonEmptyStringAt(entry.title, `${path}.title`);
+        nonEmptyStringAt(entry.note, `${path}.note`);
+        dateOnlyAt(entry.effectiveDate, `${path}.effectiveDate`);
+      } else if (kind === 'request') {
+        const entry = recordAt(item, path, [
+          'kind', 'id', 'borrower', 'lender', 'amountMinor', 'purpose', 'termsAr',
+          'effectiveDate', 'status',
+        ]);
+        nonEmptyStringAt(entry.id, `${path}.id`);
+        nonEmptyStringAt(entry.borrower, `${path}.borrower`);
+        nonEmptyStringAt(entry.lender, `${path}.lender`);
+        if (entry.borrower === entry.lender) invalid(`${path}.lender`);
+        positivePilotMinorAt(entry.amountMinor, `${path}.amountMinor`);
+        stringAt(entry.purpose, `${path}.purpose`);
+        nonEmptyStringAt(entry.termsAr, `${path}.termsAr`);
+        dateOnlyAt(entry.effectiveDate, `${path}.effectiveDate`);
+        if (entry.status !== 'needs_connection') invalid(`${path}.status`);
+      } else if (kind === 'dispute') {
+        const entry = recordAt(
+          item,
+          path,
+          ['kind', 'id', 'recordId', 'reason', 'effectiveDate', 'status', 'externalStatus'],
+          ['reconciliation'],
+        );
+        nonEmptyStringAt(entry.id, `${path}.id`);
+        nonEmptyStringAt(entry.recordId, `${path}.recordId`);
+        nonEmptyStringAt(entry.reason, `${path}.reason`);
+        dateOnlyAt(entry.effectiveDate, `${path}.effectiveDate`);
+        if (entry.status !== 'open' && entry.status !== 'reconciled') invalid(`${path}.status`);
+        if (entry.externalStatus !== 'needs_connection') invalid(`${path}.externalStatus`);
+        if (entry.reconciliation !== undefined) {
+          const reconciliation = recordAt(entry.reconciliation, `${path}.reconciliation`, [
+            'attestedBy', 'effectiveDate', 'confirmed',
+          ]);
+          nonEmptyStringAt(reconciliation.attestedBy, `${path}.reconciliation.attestedBy`);
+          dateOnlyAt(reconciliation.effectiveDate, `${path}.reconciliation.effectiveDate`);
+          if (reconciliation.confirmed !== true) invalid(`${path}.reconciliation.confirmed`);
+        }
+        if ((entry.status === 'reconciled') !== (entry.reconciliation !== undefined)) {
+          invalid(`${path}.reconciliation`);
+        }
+      } else {
+        invalid(`${path}.kind`);
+      }
     });
+    const ids = daily.entries.map((entry) => (entry as { id: string }).id);
+    if (new Set(ids).size !== ids.length) invalid('daily.entries');
     return;
   }
   if (key === 'jamiya') {
-    const jamiya = recordAt(
-      value,
-      'jamiya',
-      ['version', 'circleId', 'title', 'contributionMinor', 'members'],
-    );
-    if (jamiya.version !== 1) invalid('jamiya.version');
-    stringOrNullAt(jamiya.circleId, 'jamiya.circleId');
-    stringAt(jamiya.title, 'jamiya.title');
-    integerAt(jamiya.contributionMinor, 'jamiya.contributionMinor');
-    arrayAt(jamiya.members, 'jamiya.members');
-    jamiya.members.forEach((item, index) => {
-      const path = `jamiya.members[${index}]`;
-      const member = recordAt(item, path, ['id', 'displayName', 'consented', 'paidMinor']);
-      stringAt(member.id, `${path}.id`);
-      stringAt(member.displayName, `${path}.displayName`);
-      booleanAt(member.consented, `${path}.consented`);
-      integerAt(member.paidMinor, `${path}.paidMinor`);
+    const jamiya = recordAt(value, 'jamiya', [
+      'version', 'circles', 'activeCircleId', 'nettingReceipts', 'legacySnapshot',
+    ]);
+    if (jamiya.version !== 2) invalid('jamiya.version');
+    arrayAt(jamiya.circles, 'jamiya.circles');
+    stringOrNullAt(jamiya.activeCircleId, 'jamiya.activeCircleId');
+    arrayAt(jamiya.nettingReceipts, 'jamiya.nettingReceipts');
+    jamiya.circles.forEach((item, circleIndex) => {
+      const path = `jamiya.circles[${circleIndex}]`;
+      const circle = recordAt(item, path, [
+        'id', 'kind', 'title', 'organizer', 'startMonth', 'members', 'orderMemberIds',
+        'payments', 'status',
+      ]);
+      nonEmptyStringAt(circle.id, `${path}.id`);
+      if (!['jamiya', 'occasion', 'standing'].includes(circle.kind as string)) invalid(`${path}.kind`);
+      nonEmptyStringAt(circle.title, `${path}.title`);
+      nonEmptyStringAt(circle.organizer, `${path}.organizer`);
+      monthAt(circle.startMonth, `${path}.startMonth`);
+      arrayAt(circle.members, `${path}.members`);
+      if (circle.members.length < 2 || circle.members.length > 5) invalid(`${path}.members`);
+      circle.members.forEach((memberValue, memberIndex) => {
+        const memberPath = `${path}.members[${memberIndex}]`;
+        const member = recordAt(memberValue, memberPath, [
+          'id', 'displayName', 'consentAttestation', 'shareMinor',
+        ]);
+        nonEmptyStringAt(member.id, `${memberPath}.id`);
+        nonEmptyStringAt(member.displayName, `${memberPath}.displayName`);
+        if (member.consentAttestation !== null) {
+          const attestation = recordAt(
+            member.consentAttestation,
+            `${memberPath}.consentAttestation`,
+            ['mode', 'recordedBy', 'effectiveDate', 'confirmed'],
+          );
+          if (attestation.mode !== 'organizer_attestation') {
+            invalid(`${memberPath}.consentAttestation.mode`);
+          }
+          nonEmptyStringAt(attestation.recordedBy, `${memberPath}.consentAttestation.recordedBy`);
+          if (attestation.recordedBy !== circle.organizer) {
+            invalid(`${memberPath}.consentAttestation.recordedBy`);
+          }
+          dateOnlyAt(attestation.effectiveDate, `${memberPath}.consentAttestation.effectiveDate`);
+          if (attestation.confirmed !== true) invalid(`${memberPath}.consentAttestation.confirmed`);
+        }
+        positivePilotMinorAt(member.shareMinor, `${memberPath}.shareMinor`);
+      });
+      const members = circle.members as readonly PilotCircleMember[];
+      const memberIds = members.map((member) => member.id);
+      const memberNames = members.map((member) => member.displayName);
+      if (new Set(memberIds).size !== memberIds.length || new Set(memberNames).size !== memberNames.length) {
+        invalid(`${path}.members`);
+      }
+      arrayAt(circle.orderMemberIds, `${path}.orderMemberIds`);
+      circle.orderMemberIds.forEach((memberId, index) => (
+        nonEmptyStringAt(memberId, `${path}.orderMemberIds[${index}]`)
+      ));
+      if (
+        circle.orderMemberIds.length !== memberIds.length
+        || new Set(circle.orderMemberIds as readonly string[]).size !== memberIds.length
+        || !(circle.orderMemberIds as readonly string[]).every((id) => memberIds.includes(id))
+      ) invalid(`${path}.orderMemberIds`);
+      arrayAt(circle.payments, `${path}.payments`);
+      circle.payments.forEach((paymentValue, paymentIndex) => {
+        const paymentPath = `${path}.payments[${paymentIndex}]`;
+        const payment = recordAt(paymentValue, paymentPath, [
+          'id', 'round', 'memberId', 'amountMinor', 'effectiveDate',
+        ]);
+        nonEmptyStringAt(payment.id, `${paymentPath}.id`);
+        integerAt(payment.round, `${paymentPath}.round`, 1);
+        if ((payment.round as number) > members.length) invalid(`${paymentPath}.round`);
+        nonEmptyStringAt(payment.memberId, `${paymentPath}.memberId`);
+        const member = members.find((candidate) => candidate.id === payment.memberId);
+        if (!member) invalid(`${paymentPath}.memberId`);
+        positivePilotMinorAt(payment.amountMinor, `${paymentPath}.amountMinor`);
+        if (payment.amountMinor !== member.shareMinor) invalid(`${paymentPath}.amountMinor`);
+        dateOnlyAt(payment.effectiveDate, `${paymentPath}.effectiveDate`);
+      });
+      const payments = circle.payments as readonly PilotCirclePayment[];
+      const paymentKeys = payments.map((payment) => `${payment.round}:${payment.memberId}`);
+      if (new Set(paymentKeys).size !== paymentKeys.length) invalid(`${path}.payments`);
+      payments.forEach((payment) => {
+        for (let round = 1; round < payment.round; round += 1) {
+          if (members.some((member) => !payments.some((item) => (
+            item.round === round && item.memberId === member.id
+          )))) invalid(`${path}.payments`);
+        }
+      });
+      if (!['draft', 'active', 'complete'].includes(circle.status as string)) invalid(`${path}.status`);
+      if (circle.status !== 'draft' && members.some((member) => !member.consentAttestation)) {
+        invalid(`${path}.status`);
+      }
+      const allPaid = members.every((member) => members.every((_, roundIndex) => (
+        payments.some((payment) => payment.round === roundIndex + 1 && payment.memberId === member.id)
+      )));
+      if ((circle.status === 'complete') !== allPaid) invalid(`${path}.status`);
     });
+    const circles = jamiya.circles as readonly PilotCircle[];
+    const circleIds = circles.map((circle) => circle.id);
+    if (new Set(circleIds).size !== circleIds.length) invalid('jamiya.circles');
+    if (jamiya.activeCircleId !== null && !circleIds.includes(jamiya.activeCircleId as string)) {
+      invalid('jamiya.activeCircleId');
+    }
+    jamiya.nettingReceipts.forEach((item, receiptIndex) => {
+      const path = `jamiya.nettingReceipts[${receiptIndex}]`;
+      const receipt = recordAt(item, path, [
+        'id', 'circleIds', 'before', 'after', 'beforeCount', 'afterCount', 'conserved',
+        'consentConfirmed', 'effectiveDate',
+      ]);
+      nonEmptyStringAt(receipt.id, `${path}.id`);
+      arrayAt(receipt.circleIds, `${path}.circleIds`);
+      if (receipt.circleIds.length === 0) invalid(`${path}.circleIds`);
+      receipt.circleIds.forEach((circleId, index) => nonEmptyStringAt(circleId, `${path}.circleIds[${index}]`));
+      if (
+        new Set(receipt.circleIds as readonly string[]).size !== receipt.circleIds.length
+        || !(receipt.circleIds as readonly string[]).every((id) => circleIds.includes(id))
+      ) invalid(`${path}.circleIds`);
+      arrayAt(receipt.before, `${path}.before`);
+      arrayAt(receipt.after, `${path}.after`);
+      receipt.before.forEach((transfer, index) => transferAt(transfer, `${path}.before[${index}]`));
+      receipt.after.forEach((transfer, index) => transferAt(transfer, `${path}.after[${index}]`));
+      integerAt(receipt.beforeCount, `${path}.beforeCount`);
+      integerAt(receipt.afterCount, `${path}.afterCount`);
+      if (receipt.beforeCount !== receipt.before.length || receipt.afterCount !== receipt.after.length) {
+        invalid(`${path}.beforeCount`);
+      }
+      if (receipt.conserved !== true || receipt.consentConfirmed !== true) invalid(`${path}.conserved`);
+      dateOnlyAt(receipt.effectiveDate, `${path}.effectiveDate`);
+      if (!transfersConserve(
+        receipt.before as readonly SettlementTransfer[],
+        receipt.after as readonly SettlementTransfer[],
+      )) invalid(`${path}.conserved`);
+    });
+    const receiptIds = (jamiya.nettingReceipts as readonly PilotNettingReceipt[]).map((item) => item.id);
+    if (new Set(receiptIds).size !== receiptIds.length) invalid('jamiya.nettingReceipts');
+    if (jamiya.legacySnapshot !== null) {
+      const snapshot = recordAt(jamiya.legacySnapshot, 'jamiya.legacySnapshot', [
+        'circleId', 'title', 'contributionMinor', 'members',
+      ]);
+      stringOrNullAt(snapshot.circleId, 'jamiya.legacySnapshot.circleId');
+      stringAt(snapshot.title, 'jamiya.legacySnapshot.title');
+      integerAt(snapshot.contributionMinor, 'jamiya.legacySnapshot.contributionMinor');
+      arrayAt(snapshot.members, 'jamiya.legacySnapshot.members');
+      snapshot.members.forEach((memberValue, index) => {
+        const path = `jamiya.legacySnapshot.members[${index}]`;
+        const member = recordAt(memberValue, path, [
+          'id', 'displayName', 'consented', 'paidMinor',
+        ]);
+        nonEmptyStringAt(member.id, `${path}.id`);
+        nonEmptyStringAt(member.displayName, `${path}.displayName`);
+        booleanAt(member.consented, `${path}.consented`);
+        integerAt(member.paidMinor, `${path}.paidMinor`);
+      });
+    }
     return;
   }
   const settings = recordAt(value, 'settings', ['version', 'digitMode', 'hideAmounts']);
