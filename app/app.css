@@ -1260,3 +1260,9 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .se-gate-note{font-size:var(--sadu-type-xs); color:var(--mut)}
 .se-approved{margin-top:8px; padding:8px 12px; border-radius:var(--r-md);
   background:var(--teal-soft); color:var(--teal); font-weight:700; font-size:var(--sadu-type-sm)}
+
+/* ==== moderate-modern front door (G12) ==================================== */
+.hbasis-link{appearance:none; border:1px solid var(--line); background:var(--card);
+  color:var(--teal); border-radius:var(--r-pill); padding:8px 16px; cursor:pointer;
+  font-size:var(--sadu-type-sm); font-weight:700}
+.hbasis-link:hover{border-color:var(--teal)}

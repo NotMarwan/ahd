@@ -64,6 +64,8 @@ ok(/قرضٌ حسن/.test(hh) && /لك عند الناس/.test(hh), "home shows 
 ok(/صافي مركزك/.test(hh) && /سجلّ الشهادة/.test(hh) && /سجلّ وفائك/.test(hh), "home's standing strip surfaces net + witnessed-moments + the standing WORD (the deepened product at a glance)");
 ok(/وش الوضع؟/.test(hh) && /عهد-/.test(hh), "home's next-step strip answers وش الوضع؟ with a reference chip (Zirtue G1 + Najiz G3)");
 ok(/المتفق عليه/.test(hh) && /ما حدث/.test(hh) && /التالي/.test(hh), "next-step strip carries the three questions: agreed / happened / next");
+ok(/بلا فوائد، بلا غرامات، بلا تصنيف/.test(hh), "hero speaks plain modern Arabic (moderate tone, constraints intact)");
+ok(/الأساس الشرعي — النصوص والمعايير/.test(hh) && !/﴿إذا تداينتم/.test(hh), "verses live on the Shariah-basis screen; the front door links there once (G12)");
 ok(/لحظة محفوظة/.test(hh) && !/\b\d{1,3}\s*[%٪]/.test(hh), "the witnessed-moments tally is a count (لحظة محفوظة), never a percentage/score");
 /* Front A — the front door has hierarchy + the Sadu identity, not a flat menu */
 ok(/sadu-band/.test(hh), "Front A: the woven Sadu identity strip renders in the shell (every screen)");

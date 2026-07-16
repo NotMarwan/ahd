@@ -162,7 +162,7 @@
       '<div class="hero">' + EMBLEM +
         '<div class="brand">عهد</div>' +
         '<div class="tag">قرضٌ حسن — مكتوبٌ ومشهود، بكرامة.</div>' +
-        '<div class="sub">المصرف يكتب ويشهد ويحفظ ويُسوّي — ولا يُقرض، ولا يحكم، ولا يأخذ على القرض شيئًا. بلا ربا، بلا غرامة، بلا تصنيف.</div></div>' +
+        '<div class="sub">عهد يكتب اتفاقك ويختمه ويحفظه ويصفّيه — ولا يُقرض، ولا يحكم، ولا يأخذ على القرض شيئًا. بلا فوائد، بلا غرامات، بلا تصنيف.</div></div>' +
       SADU_MOTIF +
       weaveHTML(led, tamperedId) +
       heroTile(G.hero) +
@@ -180,7 +180,9 @@
         '<div class="step"><span>٢</span> يُشهَد ويُختَم<br><small>نفاذ · SHA-256</small></div>' +
         '<div class="step"><span>٣</span> يُسوّى بالمعروف</div>' +
       "</div>" +
-      '<div class="hbasis">﴿إذا تداينتم بدينٍ إلى أجلٍ مسمًّى فاكتبوه﴾ · ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾</div>' +
+      /* moderate-modern (G12): the verses live in their semantic home — the
+         Shariah-basis screen — and the front door links there once, quietly. */
+      '<button class="hbasis hbasis-link" onclick="AhdApp.go(\'shariah\')">📜 الأساس الشرعي — النصوص والمعايير وراء كل آلية ←</button>' +
       '<button class="hsettings" onclick="AhdApp.go(\'settings\')">⚙️ الإعدادات · عن عهد · نظام الأرقام</button>' +
     "</div>";
   }
