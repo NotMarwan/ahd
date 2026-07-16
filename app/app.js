@@ -82,7 +82,7 @@
     CircleAdv: CircleAdv,
     advCircle: { id: "CIR-STD-MALQA", organizer: "سعود", name: "شقة الملقا" },
     advShare: { name: "تركي", amountMinor: (AHD ? AHD.toMinor(1500) : 150000) },
-    circleAdvState: { graduated: null, recStopped: false, flash: null },
+    circleAdvState: { graduated: null, recStopped: false, flash: null, draftsState: null },
     CreateAhd: CreateAhd,
     createDraft: CreateAhd ? CreateAhd.makeDraft({ id: "NEW-AHD-1", lender: "أنت", borrower: "سلطان", amountSAR: 1200, months: 3 }) : null,
     createState: { extra: "", sealed: null, tamper: false, flash: null, auxiliaryEvents: [], reviewing: false },
@@ -373,6 +373,28 @@
       return this.rerender();
     },
     circleAdvDismiss: function () { this.circleAdvState.flash = null; return this.rerender(); },
+    /* recurring drafts (Splitwise G10): a cycle publishes ONLY on explicit approval */
+    circleDraftApprove: function (id) {
+      var DRF = (typeof window !== "undefined" ? window.Drafts : null);
+      if (DRF && this.circleAdvState.draftsState) {
+        try {
+          var res = DRF.approve(this.circleAdvState.draftsState, id);
+          this.circleAdvState.draftsState = res.state;
+          this.circleAdvState.flash = "اعتُمدت مسودة «" + res.item.labelAr + "» ونُشرت قيودها.";
+        } catch (err) { this.circleAdvState.flash = err.message; }
+      }
+      return this.rerender();
+    },
+    circleDraftDecline: function (id) {
+      var DRF = (typeof window !== "undefined" ? window.Drafts : null);
+      if (DRF && this.circleAdvState.draftsState) {
+        try {
+          this.circleAdvState.draftsState = DRF.decline(this.circleAdvState.draftsState, id, "لا نحتاجها هذه الدورة");
+          this.circleAdvState.flash = "أُهملت المسودة — لا قيد بلا اعتماد.";
+        } catch (err) { this.circleAdvState.flash = err.message; }
+      }
+      return this.rerender();
+    },
     /* recurring قِسْمة: stop/resume — stopping is honest (future cycles only, no retro effect) */
     circleRecurringToggle: function () {
       this.circleAdvState.recStopped = !this.circleAdvState.recStopped;

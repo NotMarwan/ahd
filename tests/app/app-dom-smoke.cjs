@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/review-gate.js", "features/pay-confirm.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/review-gate.js", "features/pay-confirm.js", "features/open-loan.js", "features/circle-adv.js", "features/drafts.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -169,7 +169,14 @@ ok(!!sandbox.CircleAdv, "CircleAdv module attaches to window");
 let ca = noThrow(() => App.go("circle-adv"), "go('circle-adv') renders the advanced Circle screen");
 ok(/بالأصناف/.test(ca), "shows the بالأصناف (by-item) split panel");
 ok(/كلُّ صنفٍ يُقسَّم بالهللة/.test(ca) && /محفوظ ✓/.test(ca), "بالأصناف shows the PER-ITEM conservation proof (each item conserves)");
-ok(/قِسْمة دائمة|الإيجار/.test(ca), "shows the recurring auto-post panel");
+ok(/قِسْمة دائمة|الإيجار/.test(ca), "shows the recurring panel");
+/* Splitwise G10: recurring cycles are DRAFTS, never auto-commitments */
+ok(/مسودة/.test(ca) && /اعتمد وانشر/.test(ca) && /أهمل/.test(ca), "recurring cycles render as drafts with approve/decline");
+let caAp = noThrow(() => App.circleDraftApprove("DR-1"), "approve the first recurring draft");
+ok(/نُشرت ✓/.test(caAp), "an approved draft publishes visibly");
+let caDc = noThrow(() => App.circleDraftDecline("DR-2"), "decline the second draft");
+ok(/أُهملت — لا نحتاجها هذه الدورة/.test(caDc), "a declined draft keeps its reason on screen");
+ok(/لا تصير قيدًا حتى تعتمدها/.test(caDc), "the panel states the no-auto-commitment rule");
 ok(/نجمع للهدف/.test(ca) && /شرعيّة/.test(ca), "mode-B pledge sketch carries the visible Shariah-review guard");
 ok(/وثّقها كعهد/.test(ca), "graduation offers «وثّقها كعهد»");
 let cg = noThrow(() => App.circleGraduate(), "graduate the share → witnessed عهد");

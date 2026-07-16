@@ -38,20 +38,43 @@
       rowsFromShares(bc.shares, e) + itemProof +
       '<div class="ca-ok">' + (bc.conserved && sc.allConserved ? "✓ كلُّ صنفٍ يُقسَّم بالهللة بلا كَسْر — والمجموع محفوظ تمامًا، لا ربا" : "✗ خلل في الحفظ") + "</div></div>";
 
-    /* 2 · recurring — with a REAL stop/resume control (no advertised-but-dead buttons) */
+    /* 2 · recurring — with a REAL stop/resume control (no advertised-but-dead buttons).
+       Splitwise G10: each cycle is a DRAFT awaiting approval, never an auto-commitment. */
     var tmpl = { name: "الإيجار", amountMinor: e.toMinor(3600), payer: "تركي", members: ["سعود", "تركي", "عبدالله"], split: "equal" };
     var stopped = !!st.recStopped;
     var posts = stopped ? [] : CA.recurringPosts(tmpl, ["2026-07", "2026-08", "2026-09"]);
-    var recBody = stopped
-      ? '<div class="ca-line ca-stopped"><span>القِسْمة مُوقَفة — لا تُنشَر دوراتٌ جديدة، وما نُشر سابقًا يبقى كما هو.</span></div>'
-      : posts.map(function (p) {
-          return '<div class="ca-line"><span>' + arMonth(p.cycleKey, e) + "</span><span>نصيب سعود وعبدالله: " + App.fmtN(p.owed["سعود"] / 100) + " ر.س لكلٍّ</span></div>";
-        }).join("");
+    var DRF = (typeof window !== "undefined") ? window.Drafts : null;
+    if (DRF && !st.draftsState) {
+      var ds = DRF.makeState();
+      CA.recurringPosts(tmpl, ["2026-07", "2026-08", "2026-09"]).forEach(function (p) {
+        ds = DRF.propose(ds, { kind: "recurring", cycleKey: p.cycleKey, labelAr: "قسمة إيجار " + p.cycleKey, amountMinor: p.totalMinor });
+      });
+      st.draftsState = ds;
+    }
+    var recBody;
+    if (stopped) {
+      recBody = '<div class="ca-line ca-stopped"><span>القِسْمة مُوقَفة — لا تُقترح مسوداتٌ جديدة، وما اعتُمد سابقًا يبقى كما هو.</span></div>';
+    } else if (DRF && st.draftsState) {
+      recBody = posts.map(function (p) {
+        var draft = st.draftsState.items.filter(function (d) { return d.cycleKey === p.cycleKey; })[0];
+        var line = '<span>' + arMonth(p.cycleKey, e) + "</span><span>نصيب سعود وعبدالله: " + App.fmtN(p.owed["سعود"] / 100) + " ر.س لكلٍّ</span>";
+        if (!draft) return '<div class="ca-line">' + line + "</div>";
+        if (draft.status === "approved") return '<div class="ca-line">' + line + '<span class="chip good">نُشرت ✓</span></div>';
+        if (draft.status === "declined") return '<div class="ca-line ca-stopped">' + line + '<span class="chip mute">أُهملت — ' + App.esc(draft.reasonAr) + "</span></div>";
+        return '<div class="ca-line">' + line + '<span class="chip amber">مسودة</span>' +
+          '<button class="mini" onclick="AhdApp.circleDraftApprove(\'' + draft.id + '\')">اعتمد وانشر</button>' +
+          '<button class="mini" onclick="AhdApp.circleDraftDecline(\'' + draft.id + '\')">أهمل</button></div>';
+      }).join("");
+    } else {
+      recBody = posts.map(function (p) {
+        return '<div class="ca-line"><span>' + arMonth(p.cycleKey, e) + "</span><span>نصيب سعود وعبدالله: " + App.fmtN(p.owed["سعود"] / 100) + " ر.س لكلٍّ</span></div>";
+      }).join("");
+    }
     var pRec = '<div class="ca-card"><div class="ca-h">قِسْمة دائمة · الإيجار</div>' +
       '<div class="ca-sub">' + App.fmtN(tmpl.amountMinor / 100) + ' ر.س · كل شهر · يدفع تركي ثم تُقسَّم بالتساوي</div>' +
       recBody +
       '<button class="mini" onclick="AhdApp.circleRecurringToggle()">' + (stopped ? "استأنف القِسْمة" : "أوقف القِسْمة") + "</button>" +
-      '<div class="ca-note">تُنشَر تلقائيًّا كلَّ شهر ما دامت جارية — بلا فائدةٍ ولا غرامة.</div></div>';
+      '<div class="ca-note">كل دورةٍ تُقترح مسودةً — لا تصير قيدًا حتى تعتمدها بنفسك، وبلا فائدةٍ ولا غرامة.</div></div>';
 
     /* 3 · graduation */
     var pGrad;
