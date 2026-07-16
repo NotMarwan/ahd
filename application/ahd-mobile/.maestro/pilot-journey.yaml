@@ -40,36 +40,50 @@ appId: sa.ahd.mobile
 - inputText: "1200"
 - pressKey: Enter
 - tapOn: "عهد مفتوح"
-- scrollUntilVisible:
-    element:
+# scrollUntilVisible's centered micro-swipes start on TextInputs and get
+# captured as text drags — swipe explicitly from the mode-row zone instead.
+- swipe:
+    start: "50%, 70%"
+    end: "50%, 25%"
+- extendedWaitUntil:
+    visible:
       id: "create-agreement-date-input"
-    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: "create-agreement-date-input"
 - inputText: "2026-07-16"
 - pressKey: Enter
-- scrollUntilVisible:
-    element:
+- swipe:
+    start: "50%, 70%"
+    end: "50%, 30%"
+- extendedWaitUntil:
+    visible:
       id: "create-review-button"
-    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: "create-review-button"
 - extendedWaitUntil:
     visible: "الشروط خالية من الزيادة المشروطة"
     timeout: 15000
-- scrollUntilVisible:
-    element:
+- swipe:
+    start: "50%, 70%"
+    end: "50%, 30%"
+- extendedWaitUntil:
+    visible:
       id: "create-seal-button"
-    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: "create-seal-button"
 - extendedWaitUntil:
     visible: "تم حفظ الكلمة"
     timeout: 15000
-- scrollUntilVisible:
-    element:
+- swipe:
+    start: "50%, 70%"
+    end: "50%, 30%"
+- extendedWaitUntil:
+    visible:
       id: "create-open-daftari-button"
-    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: "create-open-daftari-button"
 - extendedWaitUntil:
@@ -80,10 +94,13 @@ appId: sa.ahd.mobile
 - extendedWaitUntil:
     visible: "الأصل والأطراف"
     timeout: 15000
-- scrollUntilVisible:
-    element:
+- swipe:
+    start: "50%, 70%"
+    end: "50%, 30%"
+- extendedWaitUntil:
+    visible:
       id: "record-open-proof"
-    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: "record-open-proof"
 # proof-verdict exists only on the proof screen after verifyProof() succeeds —
