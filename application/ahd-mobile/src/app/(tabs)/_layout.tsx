@@ -1,9 +1,14 @@
 import { Tabs } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TabIcon } from '@/components/tab-icon';
 import { colors, fontFamilies } from '@/theme';
 
 export default function TabLayout() {
+  // Edge-to-edge Android draws the system navigation bar over the app; the
+  // fixed-height tab bar must grow by the bottom inset or 3-button nav
+  // devices cover the tab buttons (found by the CI emulator journey).
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       backBehavior="history"
@@ -20,9 +25,9 @@ export default function TabLayout() {
           fontWeight: '700',
         },
         tabBarStyle: {
-          height: 78,
+          height: 78 + insets.bottom,
           paddingHorizontal: 6,
-          paddingBottom: 10,
+          paddingBottom: 10 + insets.bottom,
           paddingTop: 8,
           backgroundColor: colors.card,
           borderTopColor: colors.hairline,
