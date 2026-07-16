@@ -55,6 +55,7 @@ describe('Android Pilot delivery configuration', () => {
     expect(journey).toContain('appId: sa.ahd.mobile');
     const requiredIds = [
       'welcome-start',
+      'tab-create',
       'create-lender-input',
       'create-borrower-input',
       'create-amount-input',
@@ -67,6 +68,7 @@ describe('Android Pilot delivery configuration', () => {
       'proof-verdict',
     ];
     const screens = [
+      read('src/app/(tabs)/_layout.tsx'),
       read('src/screens/WelcomeScreen.tsx'),
       read('src/screens/CreateAhdScreen.tsx'),
       read('src/screens/DaftariScreen.tsx'),

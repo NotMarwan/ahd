@@ -47,6 +47,7 @@ export default function TabLayout() {
         options={{
           title: 'المزيد',
           tabBarAccessibilityLabel: 'المزيد',
+          tabBarButtonTestID: 'tab-more',
           tabBarIcon: ({ color }) => <TabIcon name="more" color={color} />,
         }}
       />
@@ -55,6 +56,7 @@ export default function TabLayout() {
         options={{
           title: 'المقاصّة',
           tabBarAccessibilityLabel: 'المقاصّة',
+          tabBarButtonTestID: 'tab-settle',
           tabBarIcon: ({ color }) => <TabIcon name="settle" color={color} />,
         }}
       />
@@ -63,6 +65,7 @@ export default function TabLayout() {
         options={{
           title: 'دفتري',
           tabBarAccessibilityLabel: 'دفتري',
+          tabBarButtonTestID: 'tab-daftari',
           tabBarIcon: ({ color }) => <TabIcon name="daftari" color={color} />,
         }}
       />
@@ -71,6 +74,7 @@ export default function TabLayout() {
         options={{
           title: 'أنشئ عهدًا',
           tabBarAccessibilityLabel: 'أنشئ عهدًا',
+          tabBarButtonTestID: 'tab-create',
           tabBarIcon: ({ color }) => <TabIcon name="create" color={color} />,
         }}
       />
@@ -79,6 +83,7 @@ export default function TabLayout() {
         options={{
           title: 'الرئيسية',
           tabBarAccessibilityLabel: 'الرئيسية',
+          tabBarButtonTestID: 'tab-home',
           tabBarIcon: ({ color }) => <TabIcon name="home" color={color} />,
         }}
       />

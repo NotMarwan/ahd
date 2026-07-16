@@ -21,10 +21,23 @@ adb shell dumpsys gfxinfo "$APP_ID" reset > /dev/null || true
 
 echo "== maestro customer journey =="
 export MAESTRO_DRIVER_STARTUP_TIMEOUT=120000
-maestro test .maestro/pilot-journey.yaml --format junit --output "$OUT_DIR/maestro-report.xml"
+export MAESTRO_CLI_NO_ANALYTICS=1
+MAESTRO_EXIT=0
+maestro test .maestro/pilot-journey.yaml \
+  --format junit --output "$OUT_DIR/maestro-report.xml" \
+  --debug-output "$OUT_DIR/maestro-debug" || MAESTRO_EXIT=$?
 
 echo "== journey frame stats (before any restart clears them) =="
 adb shell dumpsys gfxinfo "$APP_ID" > "$OUT_DIR/gfxinfo.txt" || true
+
+if [ "$MAESTRO_EXIT" -ne 0 ]; then
+  echo "== journey failed: collect screen + logcat, then stop =="
+  adb exec-out screencap -p > "$OUT_DIR/failure-screen.png" || true
+  adb shell uiautomator dump /sdcard/failure-hierarchy.xml || true
+  adb pull /sdcard/failure-hierarchy.xml "$OUT_DIR/" || true
+  adb logcat -d > "$OUT_DIR/logcat.txt" || true
+  exit "$MAESTRO_EXIT"
+fi
 
 echo "== cold starts (3 runs) =="
 : > "$OUT_DIR/cold-starts.txt"

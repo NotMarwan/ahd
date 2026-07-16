@@ -11,9 +11,14 @@ appId: sa.ahd.mobile
 - tapOn:
     id: "welcome-start"
 - extendedWaitUntil:
-    visible: "أنشئ عهدًا"
+    visible:
+      id: "tab-create"
     timeout: 15000
-- tapOn: "أنشئ عهدًا"
+- tapOn:
+    id: "tab-create"
+- extendedWaitUntil:
+    visible: "اكتب تفاصيل العهد"
+    timeout: 15000
 - extendedWaitUntil:
     visible:
       id: "create-lender-input"
