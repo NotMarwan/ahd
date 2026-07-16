@@ -56,9 +56,10 @@ function routeLeaves(directory) {
   });
 }
 
-/* Full-screens phase: 25 route leaves (index + 5 tabs + 19 stack).
+/* Pilot phase: 27 route leaves — index + /welcome (T133 disclosure) + 5 tabs
+   + 20 stack leaves (19 named screens incl. the T136 /daily route + record/[id]).
    Exact route↔registry pairing is enforced by the registry-route parity guard. */
-ok(routeLeaves(routeRoot).length === 25, "full-screens phase implements twenty-five route leaves");
+ok(routeLeaves(routeRoot).length === 27, "pilot phase implements twenty-seven route leaves");
 
 const screenRoot = path.join(MOBILE, "src", "screens");
 const screenSource = fs.existsSync(screenRoot)

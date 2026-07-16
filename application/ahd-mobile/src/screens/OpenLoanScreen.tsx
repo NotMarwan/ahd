@@ -15,18 +15,8 @@ import {
   ThreadMeter,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
-import { useAhdJourney } from '@/state';
+import { deriveOpenLoanPosition, useAhdJourney } from '@/state';
 import { colors, fontFamilies, radii, spacing, typography } from '@/theme';
-
-function paymentTotal(events: readonly { type: string; [key: string]: unknown }[]): number {
-  return events.reduce((total, event) => {
-    if (event.type !== 'PAYMENT_RECORDED') return total;
-    const amountMinor = event.amountMinor;
-    return Number.isSafeInteger(amountMinor) && (amountMinor as number) > 0
-      ? total + (amountMinor as number)
-      : total;
-  }, 0);
-}
 
 export function OpenLoanScreen() {
   const router = useRouter();
@@ -55,9 +45,7 @@ export function OpenLoanScreen() {
 
   const { sealed } = entry;
   const { prepared, record } = sealed;
-  const paidMinor = Math.min(record.amountMinor, paymentTotal(record.events));
-  const remainingMinor = record.amountMinor - paidMinor;
-  const progress = record.amountMinor > 0 ? Math.round((paidMinor * 100) / record.amountMinor) : 0;
+  const { paidMinor, remainingMinor, progressPercent: progress } = deriveOpenLoanPosition(record);
   const showProof = async () => {
     await verifyProof();
     router.push('/proof');

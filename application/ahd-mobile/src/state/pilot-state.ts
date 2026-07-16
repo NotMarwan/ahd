@@ -328,6 +328,31 @@ export function derivePilotImpact(
   };
 }
 
+export type OpenLoanPosition = {
+  paidMinor: number;
+  remainingMinor: number;
+  progressPercent: number;
+};
+
+export function deriveOpenLoanPosition(record: {
+  amountMinor: number;
+  events: readonly { type: string; [key: string]: unknown }[];
+}): OpenLoanPosition {
+  const recordedMinor = record.events.reduce((total, event) => {
+    if (event.type !== 'PAYMENT_RECORDED') return total;
+    const amountMinor = event.amountMinor;
+    return Number.isSafeInteger(amountMinor) && (amountMinor as number) > 0
+      ? total + (amountMinor as number)
+      : total;
+  }, 0);
+  const paidMinor = Math.min(record.amountMinor, recordedMinor);
+  const remainingMinor = record.amountMinor - paidMinor;
+  const progressPercent = record.amountMinor > 0
+    ? Math.round((paidMinor * 100) / record.amountMinor)
+    : 0;
+  return { paidMinor, remainingMinor, progressPercent };
+}
+
 export type PilotTimelineEntry = {
   id: string;
   recordId: string;
