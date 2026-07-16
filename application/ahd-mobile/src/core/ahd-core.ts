@@ -166,7 +166,7 @@ export function parseSarTextToMinor(value: string): number {
     ? 0
     : integerDigits(fractionDigits) * (fractionDigits.length === 1 ? 10 : 1);
   const amountMinor = whole * 100 + fraction;
-  assertMinor(amountMinor);
+  assertPilotPrincipal(amountMinor);
   return amountMinor;
 }
 
@@ -181,6 +181,13 @@ export function formatMinorSar(amountMinor: number): string {
 function assertMinor(value: number, label = "amountMinor"): void {
   if (!Number.isSafeInteger(value) || value < 0) {
     throw new TypeError(`${label} must be non-negative integer halalas`);
+  }
+}
+
+function assertPilotPrincipal(value: number, label = "principal amountMinor"): void {
+  assertMinor(value, label);
+  if (value === 0) {
+    throw new RangeError(`${label} must be positive`);
   }
   if (value > MAX_PILOT_AMOUNT_MINOR) {
     throw new RangeError(`${label} exceeds the Pilot safe limit`);
@@ -229,11 +236,14 @@ function mobileRecord(record: GeneratedRecord): AhdRecord {
 }
 
 function prepareDraft(input: AhdDraftInput): PreparedAhd {
-  assertMinor(input.amountMinor);
+  assertPilotPrincipal(input.amountMinor);
   const open = Boolean(input.open);
   const months = open ? 0 : (input.months ?? 1);
   if (!open && (!Number.isSafeInteger(months) || months < 1)) {
     throw new TypeError("months must be a positive integer");
+  }
+  if (!open && input.amountMinor < months) {
+    throw new RangeError("principal must provide at least one halala per installment month");
   }
 
   const sourceDraft = createFeature.makeDraft({
@@ -248,6 +258,15 @@ function prepareDraft(input: AhdDraftInput): PreparedAhd {
     purpose: input.purpose ?? "",
   });
   const schedule = createFeature.draftSchedule(sourceDraft, engine);
+  const invalidOpenSchedule = open && schedule.length !== 0;
+  const invalidScheduledSchedule = !open && (
+    schedule.length !== months
+    || schedule.some((item) => !Number.isSafeInteger(item.amountMinor) || item.amountMinor <= 0)
+    || schedule.reduce((sum, item) => sum + item.amountMinor, 0) !== input.amountMinor
+  );
+  if (invalidOpenSchedule || invalidScheduledSchedule) {
+    throw new Error("Generated installment schedule violates the integer-principal invariant");
+  }
 
   return {
     id: sourceDraft.id,

@@ -226,6 +226,27 @@ describe("Phase 1 journey state", () => {
     expect(reader.getState()).toEqual(journey.initialJourneyState());
   });
 
+  test("fails closed when a persisted settlement no longer matches its consented records", async () => {
+    const { repository, journey } = requireStateModules();
+    const persistence = new repository.InMemoryAhdRepository<
+      ReturnType<typeof journey.initialJourneyState>
+    >();
+    const writer = new journey.AhdJourneyStore(persistence, ahdCore);
+    await writer.beginCreate();
+    await writer.reviewDraft(INPUT);
+    await writer.seal();
+    await writer.settle([INPUT.id], true);
+    const tampered = await persistence.load();
+    if (!tampered?.settlement) throw new Error("expected persisted settlement");
+    tampered.settlement.after[0].amountMinor += 1;
+    await persistence.save(tampered);
+
+    expect(() => assertPilotSlice("journey", tampered)).toThrow(/settlement|integrity|Invalid/i);
+    const reader = new journey.AhdJourneyStore(persistence, ahdCore);
+    await expect(reader.hydrate()).rejects.toThrow(/settlement|integrity|stored/i);
+    expect(reader.getState()).toEqual(journey.initialJourneyState());
+  });
+
   test("persists only verified shared records without adding them to financial records", async () => {
     const { repository, journey } = requireStateModules();
     const source = new journey.AhdJourneyStore(new repository.InMemoryAhdRepository(), ahdCore);

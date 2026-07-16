@@ -457,6 +457,34 @@ function journeyAt(value: unknown, path: string): void {
       stringAt(recordId, `${path}.settlementConsent.recordIds[${index}]`)
     ));
     if (consent.recordIds.length === 0) invalid(`${path}.settlementConsent.recordIds`);
+    if (new Set(consent.recordIds as readonly string[]).size !== consent.recordIds.length) {
+      invalid(`${path}.settlementConsent.recordIds`);
+    }
+  }
+  if (Boolean(journey.settlement) !== Boolean(journey.settlementConsent)) {
+    invalid(`${path}.settlement.integrity`);
+  }
+  if (journey.settlement !== undefined && journey.settlementConsent !== undefined) {
+    if (!hasRecords) invalid(`${path}.settlement.integrity`);
+    try {
+      const consent = journey.settlementConsent as { confirmed: true; recordIds: readonly string[] };
+      const records = journey.records as readonly AhdStoredRecord[];
+      const entries = consent.recordIds.map((recordId) => {
+        const entry = records.find((candidate) => candidate.sealed.record.id === recordId);
+        if (!entry || entry.source !== 'local') invalid(`${path}.settlement.integrity`);
+        return entry;
+      });
+      const recomputed = ahdCore.buildSettlement(entries.map(({ sealed }) => ({
+        from: sealed.record.borrower,
+        to: sealed.record.lender,
+        amountMinor: sealed.record.amountMinor,
+      })));
+      if (stableJson(recomputed) !== stableJson(journey.settlement)) {
+        invalid(`${path}.settlement.integrity`);
+      }
+    } catch {
+      invalid(`${path}.settlement.integrity`);
+    }
   }
   if (journey.proof !== undefined) proofAt(journey.proof, `${path}.proof`);
   if (journey.proofVerification !== undefined) {

@@ -52,6 +52,16 @@ describe("typed Ahd core adapter", () => {
       ...INPUT,
       amountMinor: 10_000_000_001,
     })).toThrow(/Pilot|limit|safe/i);
+    expect(() => ahdCore.prepareDraft({ ...INPUT, amountMinor: 0 })).toThrow(/positive|principal/i);
+    expect(() => ahdCore.prepareDraft({ ...INPUT, amountMinor: 2, months: 3 })).toThrow(
+      /installment|months|principal/i,
+    );
+  });
+
+  test("formats safe aggregate balances above the per-record Pilot cap", () => {
+    const { ahdCore } = requireCore();
+
+    expect(ahdCore.formatMinorSar(20_000_000_000)).toBe("200,000,000.00 ر.س");
   });
 
   test("keeps principal and schedule in integer halalas", () => {
@@ -65,6 +75,16 @@ describe("typed Ahd core adapter", () => {
     expect(() => ahdCore.prepareDraft({ ...INPUT, amountMinor: 120_000.5 })).toThrow(
       "integer halalas",
     );
+  });
+
+  test("keeps an open Ahd intentionally schedule-free", () => {
+    const { ahdCore } = requireCore();
+
+    const prepared = ahdCore.prepareDraft({ ...INPUT, open: true, months: undefined });
+    expect(prepared.open).toBe(true);
+    expect(prepared.months).toBe(0);
+    expect(prepared.schedule).toEqual([]);
+    expect(ahdCore.sealPrepared(prepared).verification.ok).toBe(true);
   });
 
   test("blocks an explicit interest clause", () => {

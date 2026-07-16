@@ -128,6 +128,37 @@ function assertImportedRecordIntegrity(entry: ImportedAhdRecord): void {
   }
 }
 
+function assertStoredSettlementIntegrity(
+  core: typeof ahdCore,
+  settlement: SettlementResult,
+  consent: SettlementConsent,
+  records: readonly AhdStoredRecord[],
+): void {
+  try {
+    if (new Set(consent.recordIds).size !== consent.recordIds.length) {
+      throw new Error("Stored settlement contains duplicate consent records");
+    }
+    const entries = consent.recordIds.map((recordId) => {
+      const entry = records.find((candidate) => candidate.sealed.record.id === recordId);
+      if (!entry || entry.source !== "local") {
+        throw new Error("Stored settlement references a non-local record");
+      }
+      return entry;
+    });
+    const recomputed = core.buildSettlement(entries.map(({ sealed }) => ({
+      from: sealed.record.borrower,
+      to: sealed.record.lender,
+      amountMinor: sealed.record.amountMinor,
+    })));
+    if (stableJson(recomputed) !== stableJson(settlement)) {
+      throw new Error("Stored settlement integrity check failed");
+    }
+  } catch (error) {
+    if (error instanceof Error && /Stored settlement/i.test(error.message)) throw error;
+    throw new Error("Stored settlement integrity check failed", { cause: error });
+  }
+}
+
 export function initialJourneyState(): AhdJourneyState {
   return {
     version: 1,
@@ -187,7 +218,13 @@ export class AhdJourneyStore {
       records.forEach((entry) => assertStoredRecordIntegrity(this.core, entry));
       imports.forEach(assertImportedRecordIntegrity);
       const settlementConsent = legacy.settlementConsent;
+      if (Boolean(legacy.settlement) !== Boolean(settlementConsent)) {
+        throw new Error("Stored settlement integrity check failed");
+      }
       const settlement = legacy.settlement && settlementConsent ? legacy.settlement : undefined;
+      if (settlement && settlementConsent) {
+        assertStoredSettlementIntegrity(this.core, settlement, settlementConsent, records);
+      }
       const rootSteps: readonly AhdJourneyStep[] = [
         "sealed",
         "daftari",
