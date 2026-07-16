@@ -219,3 +219,22 @@ red no longer appears outside tamper detection. Verification is green at **129/1
 suites** with TypeScript, generated-core parity, client boundaries, and lint at zero errors. Independent
 review approved with no P0/P1; both P2 findings were closed with RED/GREEN regressions. Nine device-size
 screenshots were reviewed. T137 remains; the full repository gate stays reserved for T137.
+
+---
+
+DONE · 2026-07-17T01:40+03:00 · Codex · **Android Pilot APK delivered with emulator evidence** · `application/ahd-mobile/artifacts/`
+
+`ahd-pilot-v1.apk` (`sa.ahd.mobile`, arm64-v8a + x86_64, 72,989,162 bytes, SHA-256
+`e8db5794fcef5305338ca38f9f1dc8b55c4c2d717c0c64ba92127a0b26a9db76`) is built by the new GitHub Actions
+workflow, installed on an api-34 emulator, and exercised end-to-end by the Maestro customer journey —
+welcome, create, riba screen, seal, daftari, record detail, proof — in green run 29538463704. Launch
+gates pass with margin: cold start mean **1033 ms** (< 2.5 s), warm start **135 ms** (< 1 s), p95 frame
+**200 ms** (< 300 ms transition bound), **zero crashes and zero ANRs** in logcat. Jank is measured and
+recorded (92.4%) but gated informationally because the GPU-less CI emulator renders via SwiftShader;
+a real-device jank check is tracked as an open item before customer handoff. The delivery iterations
+fixed a real customer-facing bug (Android system navigation covered the tab bar — safe-area inset fix)
+and hardened the journey against Maestro's ASCII/keyboard/scroll limits; the journey also passed on a
+local Android 14 emulator against the CI-built APK. Whole-branch review needs-fix → approved; delta
+re-review zero Critical/Important. The single full repository gate is green at **3380/0** with the
+frozen demo tripwire intact. Branch-only delivery on `codex/mobile-pilot-mvp`: no merge, no tag, no
+store release.

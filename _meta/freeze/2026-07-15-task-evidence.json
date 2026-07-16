@@ -2227,6 +2227,163 @@
       },
       "result": "Pilot batches 7-9 now derive impact only from local records, demonstrate the live riba screen on bounds/refusal, keep org/plans free of implied subscriptions or institutional links, persist settings with deterministic portable export and deliberate delete-all, and add a real typed /daily qaid flow on the persisted daily slice.",
       "completed_at": "2026-07-16T19:45:48+03:00"
+    },
+    {
+      "task_id": "T137",
+      "status": "complete",
+      "wave": "specs/002-judge-readiness",
+      "implementer": "root",
+      "controller": "root",
+      "owner_single_agent_override": true,
+      "dispatch_id": "wave1-T137-root-20260717-013859-evidence",
+      "dispatch_sha256": "0e14350358b8312b13a863369f95df6bf04eb4560d88af58cbfe093b34f3e566",
+      "files": [
+        "application/ahd-mobile/eas.json",
+        ".github/workflows/mobile-pilot-android.yml",
+        "application/ahd-mobile/.maestro/pilot-journey.yaml",
+        "application/ahd-mobile/scripts/android-emulator-ci.sh",
+        "application/ahd-mobile/scripts/android-perf.mjs",
+        "application/ahd-mobile/src/architecture/__tests__/android-delivery.test.ts",
+        "application/ahd-mobile/src/app/(tabs)/_layout.tsx",
+        "application/ahd-mobile/src/screens/CreateAhdScreen.tsx",
+        "application/ahd-mobile/src/screens/DaftariScreen.tsx",
+        "application/ahd-mobile/src/screens/RecordDetailScreen.tsx",
+        "application/ahd-mobile/src/screens/ProofScreen.tsx",
+        "application/ahd-mobile/src/screens/WelcomeScreen.tsx",
+        "application/ahd-mobile/src/screens/OpenLoanScreen.tsx",
+        "application/ahd-mobile/src/state/pilot-state.ts",
+        "tests/app/mobile-vertical-slice-structure.test.cjs",
+        "application/ahd-mobile/artifacts/ahd-pilot-v1.apk",
+        "application/ahd-mobile/artifacts/ahd-pilot-v1.apk.sha256",
+        "application/ahd-mobile/artifacts/emulator-evidence/perf.json",
+        ".superpowers/sdd/progress.md",
+        "_meta/STATUS.md",
+        "_meta/OPEN-ITEMS.md",
+        "AmadHackathon/00 Home.md",
+        "specs/002-judge-readiness/tasks.md",
+        "_meta/freeze/2026-07-15-task-evidence.json",
+        "_meta/freeze/reviews/T137/review-001.json"
+      ],
+      "implementation_commits": [
+        "562cb99af5a678d1eceb6139a28d027004167331",
+        "de1cbbde62fb5d1ace2457a5093f11316ffe78e5",
+        "e56da580319db492dc817cde3fe2e979bdec134a",
+        "004f7103cbbdee475b2297607512b9a54f060992",
+        "86c6d3296f998cb82d66451d30d9cb191d01f557",
+        "43fec0e2896be39aa15170efec88c98b32cf4c4b",
+        "f81f2923d8820ccd0e84015eff55217dba93fe7a",
+        "62dae4c63c39243ec24248650cd4b5f2e2ee2887",
+        "47afe374657737c5413beba887c301ad2f1988d5",
+        "7417f4f4810dc4a6f6211366cf1c37e63775f14d",
+        "d99b6b81a954e9a457ee5db03f42dc8d4d852cea",
+        "116a1194d5b8a3733b3b1865f60b3b4b07bdb659"
+      ],
+      "artifacts": [
+        {
+          "path": "application/ahd-mobile/artifacts/ahd-pilot-v1.apk",
+          "sha256": "e8db5794fcef5305338ca38f9f1dc8b55c4c2d717c0c64ba92127a0b26a9db76",
+          "bytes": 72989162
+        },
+        {
+          "path": "application/ahd-mobile/artifacts/ahd-pilot-v1.apk.sha256",
+          "sha256": "a038a03216f1e33929a41421a2759e2ba35c03bfc65f868c90bfdede4f7f26ac"
+        },
+        {
+          "path": "application/ahd-mobile/artifacts/emulator-evidence/perf.json",
+          "sha256": "1747b891aa70d75c4329d23d6dadcff738cc2ecf6687d729d60a14efe10d82a4"
+        },
+        {
+          "path": ".github/workflows/mobile-pilot-android.yml",
+          "sha256": "a071f3df6c8e5f07b978b03a31cdd504351c9a7f70273392e6c7f5812dcbdd5d"
+        },
+        {
+          "path": "application/ahd-mobile/.maestro/pilot-journey.yaml",
+          "sha256": "42ce9bd8479be55052811300f70e63787a514bcd057343fc47130b1f8e7f8be0"
+        }
+      ],
+      "tests": [
+        {
+          "command": "npx jest android-delivery (pre-implementation)",
+          "phase": "RED",
+          "result": "4/5 delivery configuration assertions failed before the pipeline existed; later RED rounds covered frame-stat ordering and journey ids"
+        },
+        {
+          "command": "npm.cmd test -- --runInBand",
+          "phase": "GREEN",
+          "result": "39 suites passed; 134 tests passed; 0 failed"
+        },
+        {
+          "command": "npm.cmd run typecheck",
+          "result": "passed"
+        },
+        {
+          "command": "npm.cmd run lint",
+          "result": "0 errors; 20 pre-existing/non-blocking warnings"
+        },
+        {
+          "command": "npm.cmd run check:core",
+          "result": "generated Phase 1 core byte-faithful"
+        },
+        {
+          "command": "npm.cmd run check:boundaries",
+          "result": "client boundary clean"
+        },
+        {
+          "command": "npx expo-doctor@latest",
+          "result": "19/20 checks passed; the one failure lists newer in-range package patches — lockfile deliberately pinned for build determinism"
+        },
+        {
+          "command": "npx expo export --platform android",
+          "result": "exported (3.4MB Hermes bundle)"
+        },
+        {
+          "command": "GitHub Actions run 29538463704 (build-apk)",
+          "result": "release-preview APK built (arm64-v8a + x86_64), 72,989,162 bytes < 100 MB gate, SHA-256 e8db5794fcef5305338ca38f9f1dc8b55c4c2d717c0c64ba92127a0b26a9db76"
+        },
+        {
+          "command": "GitHub Actions run 29538463704 (emulator-journey, api-34 x86_64)",
+          "result": "Maestro customer journey passed end-to-end (welcome -> create -> riba screen -> seal -> daftari -> record -> proof); journey also verified on a local Android 14 emulator against the CI APK"
+        },
+        {
+          "command": "android-perf gate (run 29538463704)",
+          "result": "cold start mean 1033ms (<2500), warm start 135ms (<1000), p95 frame 200ms (<300), 0 FATAL EXCEPTION, 0 ANR; jank 92.36% recorded as informational under the software-rendered CI emulator, real-device jank check tracked as an open item"
+        },
+        {
+          "command": "cd tests && node run-all.cjs (single full repository gate)",
+          "result": "3380 passed, 0 failed; frozen demo tripwire intact"
+        }
+      ],
+      "reviews": [
+        {
+          "review_id": "T137-CV1",
+          "reviewer": "t137_whole_branch_review",
+          "verdict": "needs-fix",
+          "supersedes": null,
+          "artifact_path": "_meta/freeze/reviews/T137/review-001.json",
+          "reviewed_commit": "de1cbbde62fb5d1ace2457a5093f11316ffe78e5",
+          "created_at": "2026-07-16T20:15:00+03:00"
+        },
+        {
+          "review_id": "T137-CV2",
+          "reviewer": "t137_delta_review",
+          "verdict": "approved",
+          "supersedes": "T137-CV1",
+          "artifact_path": "_meta/freeze/reviews/T137/review-001.json",
+          "reviewed_commit": "d99b6b81a954e9a457ee5db03f42dc8d4d852cea",
+          "created_at": "2026-07-17T01:38:59+03:00"
+        }
+      ],
+      "constitution": "pass",
+      "judge_lens": {
+        "innovation": 8,
+        "technical": 9,
+        "data_analysis": 6.5,
+        "ux": 8.5,
+        "feasibility": 9,
+        "memorability": 8
+      },
+      "result": "The Android Pilot is delivered: a deterministic release-preview APK (sa.ahd.mobile, arm64-v8a + x86_64, 69.6 MB) built and exercised end-to-end on a GitHub Actions emulator — full customer journey green, cold start 1033ms mean, warm 135ms, zero crashes or ANRs — with SHA-256 checksum, committed emulator evidence, branch-only delivery (no merge, no tag, no store), and the single full repository gate green at 3380/0.",
+      "completed_at": "2026-07-17T01:38:59+03:00"
     }
   ]
 }

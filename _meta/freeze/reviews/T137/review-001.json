@@ -1,0 +1,42 @@
+{
+  "schema": "ahd-controller-review-v1",
+  "review_id": "T137-CV2",
+  "task_id": "T137",
+  "wave": "specs/002-judge-readiness",
+  "reviewer": "t137_delta_review",
+  "reviewed_commit": "d99b6b81a954e9a457ee5db03f42dc8d4d852cea",
+  "verdict": "approved",
+  "supersedes": "T137-CV1",
+  "findings": [],
+  "findings_resolved": [
+    "Journey frame stats were captured after force-stop restarts had cleared the in-process counters.",
+    "The final journey assertion was satisfied by record-detail text before proof navigation completed."
+  ],
+  "minor_noted": [
+    "AHD_SOFT_GPU is set unconditionally by the CI emulator script; a real-device jank run must strip it (tracked as an open item)."
+  ],
+  "review_history": [
+    {
+      "review_id": "T137-CV1",
+      "reviewer": "t137_whole_branch_review",
+      "verdict": "needs-fix",
+      "findings": [
+        "Journey frame stats were captured after force-stop restarts had cleared the in-process counters.",
+        "The final journey assertion was satisfied by record-detail text before proof navigation completed."
+      ],
+      "reviewed_commit": "de1cbbde62fb5d1ace2457a5093f11316ffe78e5",
+      "created_at": "2026-07-16T20:15:00+03:00"
+    },
+    {
+      "review_id": "T137-CV2",
+      "reviewer": "t137_delta_review",
+      "verdict": "approved",
+      "supersedes": "T137-CV1",
+      "findings": [],
+      "notes": "Delta de1cbbd..d99b6b8 re-reviewed after the delivery iterations: zero Critical/Important; one forward-looking minor recorded.",
+      "created_at": "2026-07-17T01:38:59+03:00"
+    }
+  ],
+  "constitution": "pass",
+  "created_at": "2026-07-17T01:38:59+03:00"
+}
