@@ -65,7 +65,9 @@
       "name": "care",
       "featureFile": "app/features/care.js",
       "screenFile": null,
-      "testFiles": ["app/care.test.cjs"],
+      "testFiles": [
+        "app/care.test.cjs"
+      ],
       "description": "Auxiliary third-party gift, forgiveness-request, and duress-report guards; no new debt, scoring, judgment, or seal rewrite."
     },
     {
@@ -443,6 +445,87 @@
         "app/tripwire-portability.test.cjs"
       ],
       "description": "Checked-in Findex, GASTAT, and Nafith evidence ladder with source grades and explicit scope limits."
+    },
+    {
+      "name": "next-step",
+      "featureFile": "app/features/next-step.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/next-step.test.cjs"
+      ],
+      "description": "Zirtue G1 + Najiz G3: agreed/happened/next strip model over daftari rows, with a reference number; amber attention, never red."
+    },
+    {
+      "name": "review-gate",
+      "featureFile": "app/features/review-gate.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/review-gate.test.cjs"
+      ],
+      "description": "Najiz/DocuSign G2: frozen review summary before sealing (lines + absent-list + djb2 preview fingerprint); wired into create/request."
+    },
+    {
+      "name": "pay-confirm",
+      "featureFile": "app/features/pay-confirm.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/pay-confirm.test.cjs"
+      ],
+      "description": "Najiz G4: payment claim with evidence, creditor accept (payment seals) or fixed-enum reasoned reject opening the dispute path; no silent balance change."
+    },
+    {
+      "name": "split-modes",
+      "featureFile": "app/features/split-modes.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/split-modes.test.cjs"
+      ],
+      "description": "Splitwise G5: exact/percent/shares splitting over the same halala-conserving largest-remainder policy; validate() returns Arabic errors; equal delegates to split.js."
+    },
+    {
+      "name": "jamiya-invite",
+      "featureFile": "app/features/jamiya-invite.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/jamiya-invite.test.cjs"
+      ],
+      "description": "Hakbah G7: per-member invitation cards with all terms + absent-list; unanimous recorded acceptances gate the jamiya seal."
+    },
+    {
+      "name": "jamiya-changes",
+      "featureFile": "app/features/jamiya-changes.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/jamiya-changes.test.cjs"
+      ],
+      "description": "Hakbah G8: append-only numbered change log (consented swaps, withdrawals) with verify(); demo swap re-seals a new contract version."
+    },
+    {
+      "name": "jamiya-goal",
+      "featureFile": "app/features/jamiya-goal.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/jamiya-goal.test.cjs"
+      ],
+      "description": "MoneyFellows G9 adapted: descriptive goal + progress with a fixed promise-free line, and scenario compare before inviting; no fees or matching."
+    },
+    {
+      "name": "drafts",
+      "featureFile": "app/features/drafts.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/drafts.test.cjs"
+      ],
+      "description": "Splitwise G10: generic propose/approve/decline draft queue; recurring circle-adv cycles publish only on explicit approval."
+    },
+    {
+      "name": "settle-consent",
+      "featureFile": "app/features/settle-consent.js",
+      "screenFile": null,
+      "testFiles": [
+        "app/settle-consent.test.cjs"
+      ],
+      "description": "G11: per-leg interactive consent over the golden netting's minimal transfers; settlement approval unlocks only on unanimous consent."
     }
   ]
 }
