@@ -43,6 +43,8 @@ body{margin:0;color:var(--ink);font-family:"IBM Plex Sans Arabic","Segoe UI",Tah
 button{font:inherit;cursor:pointer}
 button:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:6px}
 .num{font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tk{direction:ltr;unicode-bidi:isolate;font-family:Consolas,"Cascadia Mono",ui-monospace,monospace;font-size:var(--t-cap);font-weight:400;letter-spacing:0}
+
 
 /* ================= page chrome ================= */
 .page-head{max-width:1300px;margin:0 auto;padding:44px 28px 6px;display:flex;align-items:flex-end;justify-content:space-between;gap:26px;flex-wrap:wrap}
@@ -179,7 +181,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-ra
 .rowi.kept .ava{background:var(--gold-soft);color:var(--gold)}
 .rowi .who{font-size:var(--t-body);font-weight:700}
 .rowi .next{font-size:var(--t-cap);color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px}
-.rowi .ref{direction:ltr;font-family:Consolas,ui-monospace,monospace;font-size:var(--t-cap);color:var(--brand);background:var(--brand-soft);border-radius:5px;padding:0 6px}
+.rowi .ref{direction:ltr;unicode-bidi:isolate;font-family:Consolas,"Cascadia Mono",ui-monospace,monospace;font-size:var(--t-cap);font-weight:400;color:var(--brand);background:var(--brand-soft);border-radius:5px;padding:0 6px}
 .rowi .side{text-align:left;display:grid;gap:4px;justify-items:end}
 .rowi .amt{font-size:var(--t-title);font-weight:800}
 .rowi .amt em{font-style:normal;font-size:var(--t-cap);color:var(--muted);font-weight:600;margin-right:3px}
@@ -255,7 +257,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-ra
       </div>
 
       <article class="doc" aria-label="وثيقة العهد قيد المراجعة">
-        <div class="doc-head"><b>وثيقة العهد</b><span>نسخة المعاينة v1</span></div>
+        <div class="doc-head"><b>وثيقة العهد</b><span>نسخة المعاينة <span class="tk">v1</span></span></div>
         <div class="doc-rows">
           <div class="doc-row"><small>المُقرِض</small><b>سارة العتيبي</b></div>
           <div class="doc-row"><small>المقترض</small><b>أحمد الدوسري</b></div>
@@ -275,8 +277,8 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-ra
       <div class="cr-actions"><button class="primary">أكّد واختم عبر نفاذ (محاكاة)</button><button class="secondary">عدّل</button></div>
       <div class="seal-chip">
         <span class="knot" aria-hidden="true"></span>
-        <span><small>بعد التأكيد</small><b>يُختم SHA-256 ويهبط في دفترك — عقدة لا تنحلّ</b></span>
-        <span class="hash">v1</span>
+        <span><small>بعد التأكيد</small><b>يُختم <span class="tk">SHA-256</span> ويهبط في دفترك — عقدة لا تنحلّ</b></span>
+        <span class="hash tk">v1</span>
       </div>
     </div>
     <nav class="bottom-nav" aria-label="التنقل الرئيسي"><span><i>⌂</i>الرئيسية</span><span class="active"><i>＋</i>أنشئ</span><span><i>◫</i>دفتري</span><span><i>···</i>المزيد</span></nav>
@@ -303,7 +305,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-ra
       <div class="pc" aria-label="دفعة بانتظار تصديقك">
         <div class="pc-head"><b>دفعة بانتظار تصديقك</b><span>الرصيد لا يتغيّر حتى تصدّق</span></div>
         <div class="pc-body"><b>أحمد يقول إنه سدّد <span class="num">500.00</span> ر.س</b>
-          <div class="pc-ev">المؤيد: حوالة مصرفية — مرجع <span class="num" dir="ltr">90144</span> · أمس</div>
+          <div class="pc-ev">المؤيد: حوالة مصرفية — مرجع <span class="tk">90144</span> · أمس</div>
         </div>
         <div class="pc-act">
           <button class="primary">صدّق — يُختَم السداد</button>
@@ -347,16 +349,16 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-ra
   <section class="phone" aria-label="الإثبات — سند العهد">
     <div class="screen-pad">
       <header class="app-head"><button class="icon-btn" aria-label="رجوع">→</button><b class="wordmark">عهد</b><button class="icon-btn" aria-label="مشاركة">↥</button></header>
-      <p class="eyebrow">الإثبات · <span dir="ltr" class="num">AHD-2841</span></p>
+      <p class="eyebrow">الإثبات · <span class="tk">AHD-2841</span></p>
       <h2 class="screen-title">سند العهد<span class="sub">بيّنة محايدة: من، وكم، ومتى — وبصمة لا تقبل التعديل.</span></h2>
 
       <article class="proof-doc" aria-label="الوثيقة المختومة">
         <div class="pd-head"><b>الوثيقة المختومة</b><span class="pd-badge"><i>✓</i>سليمة · v1</span></div>
         <div class="pd-rows">
-          <div class="pd-row"><small>المرجع</small><b><span dir="ltr" class="num">AHD-2841</span> · آخر إجراء: دفعة جزئية</b></div>
+          <div class="pd-row"><small>المرجع</small><b><span class="tk" style="color:#fff">AHD-2841</span> · آخر إجراء: دفعة جزئية</b></div>
           <div class="pd-row"><small>الطرفان</small><b>سارة ← أحمد</b></div>
           <div class="pd-row"><small>الأصل</small><b class="num">2,400.00 ر.س · مفتوح</b></div>
-          <div class="pd-row"><small>التوثيق</small><b>نفاذ (محاكاة) + SHA-256</b></div>
+          <div class="pd-row"><small>التوثيق</small><b>نفاذ (محاكاة) + <span class="tk" style="color:#fff">SHA-256</span></b></div>
         </div>
         <div class="canonical">id:AHD-2841|lender:سارة|borrower:أحمد|amount:<b>240000</b>|term:open|v:1</div>
       </article>
@@ -364,7 +366,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-ra
       <div class="chain">
         <div class="chain-head"><b>سلسلة الختم</b><span>كل حلقة تُقفل ما قبلها</span></div>
         <ol>
-          <li><b>الجذر — genesis</b><span>نقطة البداية الثابتة للسجل كله</span><br><code>f80fcd62…</code></li>
+          <li><b>الجذر <span class="tk" style="color:var(--muted)">genesis</span></b><span>نقطة البداية الثابتة للسجل كله</span><br><code>f80fcd62…</code></li>
           <li><b>بصمة المحتوى</b><span>هذا النص بالضبط، حرفًا حرفًا</span><br><code>a3f27c9e…</code></li>
           <li class="link-seal"><b>الختم النهائي</b><span>يربط المحتوى بالجذر — عقدة لا تنحلّ</span><br><code>6c9410b9…</code></li>
         </ol>
