@@ -4,9 +4,6 @@ import { AppShell, RowGroup, ScreenHeader, Section, StatusChip } from '@/compone
 import { ahdCore } from '@/core/ahd-core';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js') as { toMinor: (amountSAR: number) => number };
-
 type Plan = {
   readonly key: string;
   readonly name: string;
@@ -92,8 +89,10 @@ const PLANS: readonly Plan[] = [
   },
 ];
 
-function money(sar: number): string {
-  return ahdCore.formatMinorSar(engine.toMinor(sar));
+const HALALAS_PER_SAR = 100;
+
+function money(wholeSar: number): string {
+  return ahdCore.formatMinorSar(wholeSar * HALALAS_PER_SAR);
 }
 
 function PlanCard({ plan }: { readonly plan: Plan }) {
@@ -138,6 +137,17 @@ export function PlansScreen() {
         {' · '}
         {LOAN_FREE_AR}
       </Text>
+      <Section title="حالة هذه النسخة">
+        <RowGroup>
+          <View style={styles.pilotRow}>
+            <Text style={styles.note}>
+              عرضٌ تعريفيٌّ للنموذج فقط — لا اشتراك نشطًا في هذه النسخة التجريبية، ولا وسيلةَ
+              دفعٍ، ولا يُحصَّل أيّ مبلغ.
+            </Text>
+            <StatusChip label="بلا اشتراك" tone="neutral" />
+          </View>
+        </RowGroup>
+      </Section>
       <Section title={RECEIPT_TITLE}>
         <RowGroup>
           <View style={styles.receiptRow}>
@@ -165,6 +175,11 @@ export function PlansScreen() {
 }
 
 const styles = StyleSheet.create({
+  pilotRow: {
+    gap: spacing.x2,
+    padding: spacing.x3,
+    alignItems: 'flex-end',
+  },
   thesis: {
     ...typography.row,
     color: colors.ink,

@@ -32,6 +32,7 @@ export const SCREEN_REGISTRY = [
   { key: 'plans', label: 'الأجرة والخطط', route: '/plans', surface: 'stack', baseline: null },
   { key: 'org', label: 'لوحة المؤسسة', route: '/org', surface: 'stack', baseline: null },
   { key: 'jamiya', label: 'الجمعية', route: '/jamiya', surface: 'stack', baseline: null },
+  { key: 'daily', label: 'اليومي', route: '/daily', surface: 'stack', baseline: null },
 ] as const satisfies readonly ScreenDefinition[];
 
 export type ScreenKey = (typeof SCREEN_REGISTRY)[number]['key'];

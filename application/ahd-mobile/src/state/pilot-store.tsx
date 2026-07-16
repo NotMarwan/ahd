@@ -16,6 +16,7 @@ import {
   type PilotCircleMember,
   type PilotDailyEntry,
   type PilotDisputeEntry,
+  type PilotNoteEntry,
   type PilotRequestEntry,
   type PilotSettingsSlice,
   type PilotSlice,
@@ -77,6 +78,12 @@ function nextCircleRound(circle: PilotCircle): number | null {
   }
   return null;
 }
+
+export type AddDailyNoteInput = {
+  title: string;
+  note: string;
+  effectiveDate: string;
+};
 
 export type SaveRequestInput = {
   borrower: string;
@@ -196,6 +203,20 @@ export class PilotStore {
 
   async updateSettings(patch: Partial<Omit<PilotSettingsSlice, 'version'>>): Promise<PilotSlices> {
     return this.updateFreshSlice('settings', (settings) => ({ ...settings, ...patch, version: 1 }));
+  }
+
+  async addDailyNote(input: AddDailyNoteInput): Promise<PilotSlices> {
+    const title = requiredText(input.title, 'title');
+    const note = requiredText(input.note, 'note', 320);
+    const effectiveDate = dateOnly(input.effectiveDate, 'effectiveDate');
+    return this.updateFreshSlice('daily', (daily) => {
+      const id = nextId(
+        'QID-PILOT-',
+        daily.entries.filter((entry) => entry.kind === 'note').map((entry) => entry.id),
+      );
+      const entry: PilotNoteEntry = { kind: 'note', id, title, note, effectiveDate };
+      return { ...daily, entries: [...daily.entries, entry] };
+    });
   }
 
   async saveRequest(input: SaveRequestInput): Promise<PilotSlices> {

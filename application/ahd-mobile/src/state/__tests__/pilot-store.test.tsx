@@ -159,6 +159,43 @@ describe('Pilot store', () => {
     ]);
   });
 
+  it('persists a typed daily qaid locally and rejects invalid input', async () => {
+    if (!loaded.repository || !loaded.store) return;
+    const repository = new loaded.repository.InMemoryPilotRepository();
+    const store = new loaded.store.PilotStore(repository);
+    await store.hydrate();
+
+    await store.addDailyNote({
+      title: 'قيد اليوم',
+      note: 'سلّمت ريم دفعة ٢٠٠ ر.س يدًا بيد',
+      effectiveDate: '2026-07-16',
+    });
+
+    const saved = store.getState().daily.entries[0];
+    expect(saved).toMatchObject({
+      kind: 'note',
+      id: 'QID-PILOT-0001',
+      title: 'قيد اليوم',
+      effectiveDate: '2026-07-16',
+    });
+    expect(store.getState().journey.records).toHaveLength(0);
+
+    await expect(store.addDailyNote({
+      title: '',
+      note: 'بلا عنوان',
+      effectiveDate: '2026-07-16',
+    })).rejects.toThrow();
+    await expect(store.addDailyNote({
+      title: 'تاريخ فاسد',
+      note: 'نص',
+      effectiveDate: '2026-02-30',
+    })).rejects.toThrow();
+
+    const reader = new loaded.store.PilotStore(repository);
+    await reader.hydrate();
+    expect(reader.getState().daily.entries).toHaveLength(1);
+  });
+
   it('validates Gregorian date-only input without runtime clock objects', () => {
     if (!loaded.state) return;
     expect(loaded.state.isValidPilotDateOnly).toEqual(expect.any(Function));

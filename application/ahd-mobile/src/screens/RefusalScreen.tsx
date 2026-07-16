@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AppShell, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { AhdButton, AppShell, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { ahdCore, type RibaScreening } from '@/core/ahd-core';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
 type RefusalItem = {
@@ -76,11 +78,50 @@ function RefusalCard({ item }: { readonly item: RefusalItem }) {
   );
 }
 
+const PENALTY_ATTEMPT = 'وعند التأخير تُضاف غرامة ٥٪ على المبلغ';
+
+function LiveRefusalDemo() {
+  const [screening, setScreening] = useState<RibaScreening>();
+
+  return (
+    <View style={styles.demo}>
+      <Text style={styles.body}>
+        الرفض هنا ليس شعارًا — جرّب أن تشترط غرامة تأخير، وسيرفضها المحرّك نفسه الذي يختم كلّ
+        عهد، محليًّا الآن.
+      </Text>
+      <Text style={styles.demoAttempt}>{PENALTY_ATTEMPT}</Text>
+      <AhdButton
+        label="جرّب: اشترط غرامة تأخير"
+        onPress={() => setScreening(ahdCore.screenTerms(PENALTY_ATTEMPT))}
+        variant="quiet"
+      />
+      {screening && screening.verdict === 'block' ? (
+        <View style={styles.demoResult}>
+          <Text style={styles.demoRefused}>رفض المحرّك الشرط — لا يُختَم عهدٌ بهذا النصّ:</Text>
+          {screening.hits.map((hit) => (
+            <Text key={hit.category + hit.why} style={styles.why}>
+              {'· '}
+              {hit.why}
+              {' — البديل: '}
+              {hit.fix}
+            </Text>
+          ))}
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 export function RefusalScreen() {
   return (
     <AppShell testID="refusal-screen">
       <ScreenHeader title={HEADING} subtitle={SUB} />
       <Text style={styles.quote}>{QUOTE}</Text>
+      <Section title="جرّبه الآن">
+        <RowGroup>
+          <LiveRefusalDemo />
+        </RowGroup>
+      </Section>
       <Section title="الرفض الثلاثي">
         <RowGroup>
           {ITEMS.map((item) => (
@@ -107,6 +148,27 @@ export function RefusalScreen() {
 }
 
 const styles = StyleSheet.create({
+  demo: {
+    gap: spacing.x2,
+    padding: spacing.x3,
+  },
+  demoAttempt: {
+    ...typography.secondary,
+    color: colors.ink,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+    backgroundColor: colors.ground,
+    padding: spacing.x2,
+  },
+  demoResult: {
+    gap: 4,
+  },
+  demoRefused: {
+    ...typography.row,
+    color: colors.waiting,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+  },
   quote: {
     ...typography.row,
     color: colors.ink,
@@ -133,7 +195,7 @@ const styles = StyleSheet.create({
   },
   act: {
     ...typography.row,
-    color: colors.stopped,
+    color: colors.waiting,
     fontFamily: fontFamilies.body,
     textAlign: 'right',
   },

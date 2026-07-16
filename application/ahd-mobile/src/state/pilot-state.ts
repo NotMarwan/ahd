@@ -299,6 +299,35 @@ export function deriveMaroofBands(
   });
 }
 
+export type PilotImpactSummary = {
+  documentedCount: number;
+  documentedMinor: number;
+  clearedCount: number;
+  circleCount: number;
+  nettingReceiptCount: number;
+  transfersBefore: number;
+  transfersAfter: number;
+};
+
+export function derivePilotImpact(
+  records: readonly AhdStoredRecord[],
+  jamiya: PilotJamiyaSlice,
+): PilotImpactSummary {
+  const clearedCount = records.filter(({ sealed }) => {
+    const eventTypes = new Set(sealed.record.events.map((event) => event.type));
+    return eventTypes.has('SETTLEMENT_SETTLED') || eventTypes.has('DISPUTE_RECONCILED');
+  }).length;
+  return {
+    documentedCount: records.length,
+    documentedMinor: records.reduce((sum, { sealed }) => sum + sealed.record.amountMinor, 0),
+    clearedCount,
+    circleCount: jamiya.circles.length,
+    nettingReceiptCount: jamiya.nettingReceipts.length,
+    transfersBefore: jamiya.nettingReceipts.reduce((sum, receipt) => sum + receipt.beforeCount, 0),
+    transfersAfter: jamiya.nettingReceipts.reduce((sum, receipt) => sum + receipt.afterCount, 0),
+  };
+}
+
 export type PilotTimelineEntry = {
   id: string;
   recordId: string;

@@ -6,10 +6,11 @@ import { describe, expect, it } from '@jest/globals';
 import { PRIMARY_TABS, SCREEN_REGISTRY } from '../screen-registry';
 
 describe('Ahd mobile route registry', () => {
-  it('declares exactly 23 unique product routes', () => {
-    expect(SCREEN_REGISTRY).toHaveLength(23);
-    expect(new Set(SCREEN_REGISTRY.map((screen) => screen.key)).size).toBe(23);
-    expect(new Set(SCREEN_REGISTRY.map((screen) => screen.route)).size).toBe(23);
+  it('declares exactly 24 unique product routes', () => {
+    expect(SCREEN_REGISTRY).toHaveLength(24);
+    expect(new Set(SCREEN_REGISTRY.map((screen) => screen.key)).size).toBe(24);
+    expect(new Set(SCREEN_REGISTRY.map((screen) => screen.route)).size).toBe(24);
+    expect(SCREEN_REGISTRY.some((screen) => screen.route === '/daily')).toBe(true);
   });
 
   it('exposes exactly five primary tabs in the approved order', () => {
@@ -21,7 +22,7 @@ describe('Ahd mobile route registry', () => {
       { key: 'more', label: 'المزيد' },
     ]);
     expect(SCREEN_REGISTRY.filter((screen) => screen.surface === 'tab')).toHaveLength(5);
-    expect(SCREEN_REGISTRY.filter((screen) => screen.surface === 'stack')).toHaveLength(18);
+    expect(SCREEN_REGISTRY.filter((screen) => screen.surface === 'stack')).toHaveLength(19);
   });
 
   it('every registered route has a route file', () => {

@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { AppShell, RowGroup, ScreenHeader, Section } from '@/components';
-import { colors, fontFamilies, spacing, typography } from '@/theme';
+import { AhdButton, AppShell, RowGroup, ScreenHeader, Section } from '@/components';
+import { ahdCore, type RibaScreening } from '@/core/ahd-core';
+import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
 type BoundItem = {
   readonly text: string;
@@ -109,10 +111,62 @@ function BoundRow({ item }: { readonly item: BoundItem }) {
   );
 }
 
+function LiveRibaCheck() {
+  const [terms, setTerms] = useState('');
+  const [screening, setScreening] = useState<RibaScreening>();
+
+  const check = () => {
+    const normalized = terms.trim();
+    if (!normalized) {
+      setScreening(undefined);
+      return;
+    }
+    setScreening(ahdCore.screenTerms(normalized));
+  };
+
+  return (
+    <View style={styles.demo}>
+      <Text style={styles.demoIntro}>
+        هذا هو الفاحص نفسه الذي يمنع ختم أيّ عهدٍ فيه ربًا أو غرامة — اكتب شرطًا وجرّبه الآن،
+        محليًّا بلا إنترنت.
+      </Text>
+      <Text style={styles.demoLabel}>نصّ الشرط</Text>
+      <TextInput
+        accessibilityLabel="نصّ الشرط"
+        multiline
+        onChangeText={setTerms}
+        style={styles.demoInput}
+        value={terms}
+      />
+      <AhdButton label="افحص الشرط" onPress={check} />
+      {screening ? (
+        screening.verdict === 'clean' ? (
+          <Text style={styles.demoClean}>✓ سليمٌ من الربا — يقبله المحرّك كما هو.</Text>
+        ) : (
+          <View style={styles.demoBlock}>
+            <Text style={styles.demoBlockTitle}>رُفض الشرط — لن يُختَم عهدٌ بهذا النصّ:</Text>
+            {screening.hits.map((hit) => (
+              <View key={hit.category + hit.why} style={styles.demoHit}>
+                <Text style={styles.demoHitWhy}>{hit.why}</Text>
+                <Text style={styles.demoHitFix}>البديل: {hit.fix}</Text>
+              </View>
+            ))}
+          </View>
+        )
+      ) : null}
+    </View>
+  );
+}
+
 export function BoundsScreen() {
   return (
     <AppShell testID="bounds-screen">
       <ScreenHeader title="الضمانات والحدود — مكتوبةٌ في الكود" subtitle={HERO_LINE} />
+      <Section title="جرّب الحارس بنفسك">
+        <RowGroup>
+          <LiveRibaCheck />
+        </RowGroup>
+      </Section>
       {SECTIONS.map((section) => (
         <Section key={section.key} title={section.titleAr}>
           <RowGroup>
@@ -131,6 +185,67 @@ export function BoundsScreen() {
 }
 
 const styles = StyleSheet.create({
+  demo: {
+    gap: spacing.x2,
+    padding: spacing.x3,
+  },
+  demoIntro: {
+    ...typography.secondary,
+    color: colors.inkSecondary,
+    fontFamily: fontFamilies.body,
+    lineHeight: 20,
+    textAlign: 'right',
+  },
+  demoLabel: {
+    ...typography.label,
+    color: colors.inkSecondary,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+  },
+  demoInput: {
+    minHeight: controls.minTarget,
+    paddingHorizontal: spacing.x3,
+    paddingVertical: spacing.x2,
+    color: colors.ink,
+    backgroundColor: colors.ground,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    borderRadius: radii.card,
+    fontFamily: fontFamilies.body,
+    fontSize: 16,
+    textAlign: 'right',
+    writingDirection: 'rtl',
+  },
+  demoClean: {
+    ...typography.row,
+    color: colors.verifiedText,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+  },
+  demoBlock: {
+    gap: spacing.x1,
+  },
+  demoBlockTitle: {
+    ...typography.row,
+    color: colors.waiting,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+  },
+  demoHit: {
+    gap: 2,
+  },
+  demoHitWhy: {
+    ...typography.secondary,
+    color: colors.ink,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+  },
+  demoHitFix: {
+    ...typography.secondary,
+    color: colors.inkSecondary,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+  },
   row: {
     gap: spacing.x1,
     padding: spacing.x3,

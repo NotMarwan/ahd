@@ -1,68 +1,80 @@
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AppShell, RowGroup, ScreenHeader, Section } from '@/components';
+import {
+  AhdButton,
+  AppShell,
+  EmptyState,
+  RowGroup,
+  ScreenHeader,
+  Section,
+  StatusChip,
+} from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js') as GeneratedOrgEngine;
-
-interface GeneratedIouEdge {
-  from: string;
-  to: string;
-  amount: number;
-}
-
-interface GeneratedOrgEngine {
-  NODES: string[];
-  IOUS: GeneratedIouEdge[];
-  toMinor: (sar: number) => number;
-}
-
-interface KpiTileProps {
-  readonly label: string;
-  readonly value: string;
-}
-
-function KpiTile({ label, value }: KpiTileProps) {
-  return (
-    <View style={styles.kpiTile}>
-      <Text style={styles.kpiLabel}>{label}</Text>
-      <Text style={styles.kpiValue}>{value}</Text>
-    </View>
-  );
-}
-
 export function OrgScreen() {
-  const nodes = engine.NODES;
-  const ious = engine.IOUS;
-  const outstandingMinor = ious.reduce((sum, edge) => sum + engine.toMinor(edge.amount), 0);
+  const router = useRouter();
+  const { state } = usePilot();
+  const circles = state.jamiya.circles;
+  const totalPledgedMinor = circles.reduce(
+    (sum, circle) => sum + circle.members.reduce((memberSum, member) => memberSum + member.shareMinor, 0),
+    0,
+  );
 
   return (
     <AppShell testID="org-screen">
       <ScreenHeader
-        title="صندوق قرض حسن"
-        subtitle="تجميعاتٌ فقط — لا رقمَ فردٍ، ولا تصنيف، ولا يُصدَّر شيء"
+        title="لوحة المؤسسة"
+        subtitle="صندوق قرضٍ حسنٍ مؤسّسيّ يحتاج ربطًا خارجيًّا لم يحدث في هذه النسخة — لا نعرض هنا إلا ما على جهازك."
       />
 
-      <Section title="متبقٍّ للصندوق">
+      <Section title="الربط المؤسّسي">
         <RowGroup>
-          <View style={styles.heroRow}>
-            <Text style={styles.heroNumber}>{ahdCore.formatMinorSar(outstandingMinor)}</Text>
+          <View style={styles.linkRow}>
+            <View style={styles.linkBody}>
+              <Text style={styles.linkTitle}>لا مؤسسة مرتبطة بهذه النسخة التجريبية</Text>
+              <Text style={styles.linkNote}>
+                ربط جمعيةٍ أو جهة عملٍ أو مكتبٍ عائليّ يتطلّب اتصالًا واعتمادًا خارج هذا الجهاز —
+                لم يتمّ أيّ ربط، ولا يوجد صندوقٌ فعليّ هنا.
+              </Text>
+            </View>
+            <StatusChip label="يحتاج اتصالًا" tone="neutral" />
           </View>
         </RowGroup>
       </Section>
 
-      <Section title="مؤشّرات">
-        <RowGroup>
-          <View style={styles.kpiGrid}>
-            <KpiTile label="الأعضاء المشتركون" value={String(nodes.length)} />
-            <KpiTile label="عهودٌ نشطة" value={String(ious.length)} />
-            <KpiTile label="أُقرِض قرضًا حسنًا" value={ahdCore.formatMinorSar(outstandingMinor)} />
-            <KpiTile label="متبقٍّ" value={ahdCore.formatMinorSar(outstandingMinor)} />
-          </View>
-        </RowGroup>
-      </Section>
+      {circles.length === 0 ? (
+        <Section title="دوائرك المحليّة">
+          <RowGroup>
+            <EmptyState
+              title="لا دوائر محليّة بعد"
+              body="ما تنشئه من دوائر على هذا الجهاز يظهر هنا كمجاميع محليّة فقط."
+            />
+          </RowGroup>
+          <AhdButton label="أنشئ دائرة" onPress={() => router.push('/circle')} />
+        </Section>
+      ) : (
+        <Section title="مجاميع من هذا الجهاز فقط">
+          <RowGroup>
+            {circles.map((circle) => (
+              <View key={circle.id} style={styles.circleRow}>
+                <Text style={styles.circleTitle}>{circle.title}</Text>
+                <Text style={styles.circleMeta}>
+                  {circle.members.length} أعضاء · {ahdCore.formatMinorSar(
+                    circle.members.reduce((sum, member) => sum + member.shareMinor, 0),
+                  )}
+                </Text>
+              </View>
+            ))}
+            <View style={styles.circleRow}>
+              <Text style={styles.circleTitle}>إجمالي الحصص المتعاهد بها محليًّا</Text>
+              <Text style={styles.circleMeta}>{ahdCore.formatMinorSar(totalPledgedMinor)}</Text>
+            </View>
+          </RowGroup>
+        </Section>
+      )}
 
       <Section title="حماية">
         <RowGroup>
@@ -79,34 +91,45 @@ export function OrgScreen() {
 }
 
 const styles = StyleSheet.create({
-  heroRow: {
-    padding: spacing.x3,
-  },
-  heroNumber: {
-    ...typography.amount,
-    color: colors.ink,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  kpiGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  linkRow: {
+    flexDirection: 'row-reverse',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     gap: spacing.x2,
     padding: spacing.x3,
   },
-  kpiTile: {
-    flexBasis: '45%',
+  linkBody: {
+    flex: 1,
     gap: spacing.x1,
   },
-  kpiLabel: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
+  linkTitle: {
+    ...typography.row,
+    color: colors.ink,
     fontFamily: fontFamilies.body,
     textAlign: 'right',
   },
-  kpiValue: {
+  linkNote: {
+    ...typography.secondary,
+    color: colors.inkSecondary,
+    fontFamily: fontFamilies.body,
+    lineHeight: 20,
+    textAlign: 'right',
+  },
+  circleRow: {
+    gap: spacing.x1,
+    padding: spacing.x3,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.hairline,
+  },
+  circleTitle: {
     ...typography.row,
     color: colors.ink,
+    fontFamily: fontFamilies.body,
+    textAlign: 'right',
+  },
+  circleMeta: {
+    ...typography.secondary,
+    color: colors.inkSecondary,
     fontFamily: fontFamilies.body,
     textAlign: 'right',
   },

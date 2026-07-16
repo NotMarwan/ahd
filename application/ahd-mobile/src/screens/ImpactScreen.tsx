@@ -1,64 +1,84 @@
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AppShell, RowGroup, ScreenHeader, Section } from '@/components';
+import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { derivePilotImpact, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const engine = require('../generated/engine.js');
-
-type AhdEvent = { type: string };
-
-type SeedAhd = {
-  id: string;
-  lender: string;
-  borrower: string;
-  amount: number;
-  note: string;
-  events: AhdEvent[];
-};
-
-type Engine = {
-  SEED_AHDS: SeedAhd[];
-  fold: (events: AhdEvent[]) => { status: string; graced: boolean };
-  toMinor: (sar: number) => number;
-};
-
-const AhdEngine = engine as Engine;
+function ImpactCard({ label, value }: { readonly label: string; readonly value: string }) {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.cardValue}>{value}</Text>
+      <Text style={styles.cardLabel}>{label}</Text>
+    </View>
+  );
+}
 
 export function ImpactScreen() {
-  const seeds = AhdEngine.SEED_AHDS;
-  const totalObligations = seeds.length;
-  const totalMovedMinor = seeds.reduce((sum, o) => sum + AhdEngine.toMinor(o.amount), 0);
-  const keptOrForgivenCount = seeds.filter((o) => {
-    const status = AhdEngine.fold(o.events).status;
-    return status === 'KEPT' || status === 'FORGIVEN';
-  }).length;
+  const router = useRouter();
+  const { beginCreate, state: journey } = useAhdJourney();
+  const { state: pilot } = usePilot();
+  const impact = derivePilotImpact(journey.records, pilot.jamiya);
+
+  const createAhd = async () => {
+    await beginCreate();
+    router.push('/create');
+  };
+
+  if (impact.documentedCount === 0 && impact.circleCount === 0) {
+    return (
+      <AppShell testID="impact-screen">
+        <ScreenHeader
+          title="أثر عهد"
+          subtitle="الأثر هنا يُقاس من سجلّات هذا الجهاز فقط — لا نعرض أرقامًا لم تحدث."
+        />
+        <Section>
+          <RowGroup>
+            <EmptyState
+              title="لا أثر بعد"
+              body="حين تُنشئ أول عهد مختوم على هذا الجهاز، تظهر مجاميعه هنا كما هي — بلا تجميل."
+            />
+          </RowGroup>
+          <AhdButton label="أنشئ عهدًا" onPress={createAhd} />
+        </Section>
+      </AppShell>
+    );
+  }
 
   return (
     <AppShell testID="impact-screen">
       <ScreenHeader
-        title="أثر عهد — أثر المقاصّة عبر الدوائر"
-        subtitle="المصرف يشهد ويحفظ — مجاميع مجهّلة فقط، لا يظهر هنا اسمٌ ولا رقمٌ فرديّ."
+        title="أثر عهد"
+        subtitle="مجاميعُ محسوبةٌ من سجلّات هذا الجهاز فقط — لا مسح ميدانيّ ولا توقّعات."
       />
-      <Section title="ملخّص العهود">
+      <Section title="ما وُثّق على هذا الجهاز">
         <RowGroup>
-          <View style={styles.card}>
-            <Text style={styles.cardValue}>{totalObligations}</Text>
-            <Text style={styles.cardLabel}>التزامًا موثّقًا</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardValue}>{keptOrForgivenCount}</Text>
-            <Text style={styles.cardLabel}>ذمّةٌ محفوظة أو أُبرئت</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardValue}>{ahdCore.formatMinorSar(totalMovedMinor)}</Text>
-            <Text style={styles.cardLabel}>ر.س موثّقة عبر الشهادة</Text>
-          </View>
+          <ImpactCard label="التزامًا موثّقًا" value={String(impact.documentedCount)} />
+          <ImpactCard
+            label="قيمةٌ موثّقةٌ عبر الشهادة"
+            value={ahdCore.formatMinorSar(impact.documentedMinor)}
+          />
+          <ImpactCard label="ذمّةٌ أُقفلت تسويةً أو صلحًا" value={String(impact.clearedCount)} />
         </RowGroup>
       </Section>
+      {impact.circleCount > 0 ? (
+        <Section title="الدوائر والمقاصّة">
+          <RowGroup>
+            <ImpactCard label="دائرةً محليّة" value={String(impact.circleCount)} />
+            <ImpactCard label="إيصال مقاصّةٍ موثّق" value={String(impact.nettingReceiptCount)} />
+            {impact.nettingReceiptCount > 0 ? (
+              <ImpactCard
+                label={`تحويلًا اختُصر إلى ${impact.transfersAfter}`}
+                value={String(impact.transfersBefore)}
+              />
+            ) : null}
+          </RowGroup>
+        </Section>
+      ) : null}
       <Text style={styles.note}>
-        الأرقام هنا مجاميعُ مجهّلة على بيانات اختبار — لا تُقدَّم كمسحٍ ميدانيّ، والمصادر مذكورة في الشاشة الكاملة.
+        كلّ رقمٍ أعلاه مُشتقٌّ لحظيًّا من سجلّات هذا الجهاز فقط — لا تجميع خارجيًّا، ولا اسمَ فردٍ
+        ولا تصنيف.
       </Text>
     </AppShell>
   );
