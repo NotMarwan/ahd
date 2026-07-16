@@ -66,7 +66,7 @@ function RefusalCard({ item }: { readonly item: RefusalItem }) {
       </Text>
       <View style={styles.controlRow}>
         <Text style={styles.controlLabel}>{item.control}</Text>
-        <StatusChip label="🔒 معطّلٌ في عهد" tone="stopped" />
+        <StatusChip label="🔒 معطّلٌ في عهد" tone="neutral" />
       </View>
       <Text style={styles.body}>{item.bankDoes}</Text>
       <Text style={styles.why}>{item.whyRefused}</Text>

@@ -1,6 +1,7 @@
 import { describe, expect, jest, test } from '@jest/globals';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
+import { Share } from 'react-native';
 
 import { ahdCore } from '@/core/ahd-core';
 import {
@@ -125,6 +126,7 @@ describe('Pilot UI batches 7–9', () => {
     await fireEvent.press(refusal.getByRole('button', { name: 'جرّب: اشترط غرامة تأخير' }));
     await waitFor(() => expect(refusal.getByText(/رفض المحرّك الشرط/)).toBeTruthy());
     expect(refusal.queryByText(/تم التحويل/)).toBeNull();
+    expect(JSON.stringify(refusal.toJSON())).not.toContain('#C2402A');
     await refusal.unmount();
   });
 
@@ -187,8 +189,13 @@ describe('Pilot UI batches 7–9', () => {
       ['profile', 'journey', 'daily', 'jamiya', 'settings'],
     );
 
+    const shareSpy = jest.spyOn(Share, 'share').mockResolvedValue({ action: Share.sharedAction });
     const settings = await render(providers(<SettingsScreen />, pilotStore));
-    expect(settings.getByRole('button', { name: 'صدّر بيانات عهد' })).toBeTruthy();
+    await fireEvent.press(settings.getByRole('button', { name: 'صدّر بيانات عهد' }));
+    await waitFor(() => expect(shareSpy).toHaveBeenCalledTimes(1));
+    const [content] = shareSpy.mock.calls[0] as unknown as [{ message: string }];
+    expect(content.message).toBe(serialized);
+    shareSpy.mockRestore();
     await settings.unmount();
   });
 
