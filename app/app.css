@@ -1211,3 +1211,23 @@ details.bd-item .bd-guard{display:block;color:var(--mut);font-size:var(--t-xs,12
 .rv-abs{font-size:var(--sadu-type-sm); color:var(--mut); padding:2px 4px}
 .rv-fp{font-family:ui-monospace,Consolas,monospace; font-size:var(--sadu-type-xs); color:var(--mut);
   margin-top:8px; border-top:1px dashed var(--line); padding-top:6px; direction:rtl}
+
+/* ==== تصديق السداد (Najiz G4) ============================================ */
+.pc-box{background:var(--card); border:1.5px solid var(--gold); border-radius:var(--r-lg);
+  padding:12px 14px; margin:12px 0; display:grid; gap:10px}
+.pc-title{font-weight:800; color:var(--gold); font-size:var(--sadu-type-title)}
+.pc-claim{border:1px solid var(--line); border-radius:var(--r-md); padding:10px; display:grid; gap:8px}
+.pc-claim.rejected{border-color:var(--amber); background:var(--amber-soft)}
+.pc-body{font-size:var(--sadu-type-body); color:var(--ink)}
+.pc-ev{font-size:var(--sadu-type-sm); color:var(--mut); margin-top:4px}
+.pc-act{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.pc-act select{border:1px solid var(--line); border-radius:var(--r-sm); padding:6px 8px;
+  font-size:var(--sadu-type-sm); background:var(--card); color:var(--ink)}
+.pc-note{font-size:var(--sadu-type-xs); color:var(--mut)}
+.pc-pending{font-size:var(--sadu-type-sm); color:var(--gold); background:var(--gold-soft);
+  border-radius:var(--r-sm); padding:6px 10px; margin-top:6px}
+.pc-form{display:grid; gap:8px; border:1px dashed var(--line); border-radius:var(--r-md);
+  padding:10px; margin-top:6px}
+.pc-form label{display:grid; gap:4px; font-size:var(--sadu-type-sm); color:var(--mut)}
+.pc-form input{border:1px solid var(--line); border-radius:var(--r-sm); padding:8px;
+  font-size:var(--sadu-type-body); background:var(--card); color:var(--ink)}

@@ -54,10 +54,32 @@
     var remLine = closed
       ? '<div class="bw-amt">— · ذمّةٌ محفوظة</div>'
       : '<div class="bw-amt">المتبقّي <b>' + App.fmtN(o.remainingMinor / 100) + '</b> <small>ر.س</small></div>';
+    /* تصديق السداد (Najiz G4): record a payment WITH a مؤيد — the balance moves
+       only after the creditor accepts. The form is inline + deterministic. */
+    var pcBits = "";
+    if (App.PayConfirm && App.payConfirmState && !closed) {
+      var pcPending = App.PayConfirm.pendingFor(App.payConfirmState, id);
+      var pcChip = pcPending.length
+        ? '<div class="pc-pending">⏳ دفعة بانتظار تصديق ' + App.esc(o.counterparty) + " — " + App.esc(pcPending[0].evidenceAr) + "</div>" +
+          '<div class="rem-sim">ما سيراه ' + App.esc(o.counterparty) + " (محاكاة):" +
+            '<button class="mini" onclick="AhdApp.pcAccept(\'' + pcPending[0].id + '\')">صدّق — يُختَم السداد</button>' +
+            '<button class="mini" onclick="AhdApp.pcReject(\'' + pcPending[0].id + '\',\'notReceived\')">ارفض — لم يصلني</button>' +
+          "</div>"
+        : "";
+      var pcForm = (App.pcState && App.pcState.formId === id)
+        ? '<div class="pc-form"><label>المبلغ (ر.س)<input id="pc-amount" type="number" value="' + (o.remainingMinor / 100) + '"></label>' +
+          '<label>المؤيد — كيف سُدّدت؟<input id="pc-evidence" value="حوالة مصرفية — مرجع "></label>' +
+          '<div class="cr-act"><button class="primary" onclick="AhdApp.pcSubmitClaim(\'' + App.esc(id) + '\')">أرسل للتصديق</button>' +
+          '<button class="ghost" onclick="AhdApp.pcCancelForm()">تراجع</button></div>' +
+          '<div class="bw-gnote">لا يتغيّر الرصيد حتى يصدّق ' + App.esc(o.counterparty) + " — ورفضه المسبب يفتح محلّ خلاف.</div></div>"
+        : '<button class="ghost" onclick="AhdApp.pcOpenForm(\'' + App.esc(id) + '\')">سجّلت دفعة — اطلب تصديقها</button>';
+      pcBits = pcChip + pcForm;
+    }
     var acts = closed ? "" :
       '<div class="bw-act">' +
         '<button class="primary" onclick="AhdApp.borrowerPay(\'' + App.esc(id) + '\',' + (o.remainingMinor / 100) + ')">سدِّد ما تيسّر</button>' +
         '<button class="ghost" onclick="AhdApp.openProof(\'' + App.esc(id) + '\')">🔏 الوثيقة</button>' +
+        pcBits +
       "</div>" + (o.inGrace ? "" : graceReasons(o));
     /* next-step line (Zirtue G1): borrower rows get the same «التالي» guidance,
        built from the SAME Daftari.rowFor projection the ledger uses. */
@@ -108,6 +130,15 @@
 
     return '<div class="borrower">' + flash + head + note + body + "</div>";
   }
+
+  /* reads the inline تصديق form (daily.js DOM-reading pattern) then delegates
+     to the pure pcClaim action — validation errors surface as a flash */
+  App.pcSubmitClaim = function (recordId) {
+    if (typeof document === "undefined") return App.rerender();
+    var amount = document.getElementById("pc-amount") ? document.getElementById("pc-amount").value : "";
+    var evidence = document.getElementById("pc-evidence") ? document.getElementById("pc-evidence").value : "";
+    return App.pcClaim(recordId, amount, evidence);
+  };
 
   App.registerScreen({ key: "mine", label: "ما عليّ", icon: "🫱", render: render });
 })();

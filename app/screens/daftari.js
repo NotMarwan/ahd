@@ -129,6 +129,43 @@
       '<button class="pgo" onclick="AhdApp.go(\'request\')">متابعة ←</button></div>';
   }
 
+  /* «دفعات بانتظار تصديقك» (Najiz G4): claims by debtors on records where the
+     viewer is the lender — accept (payment seals through payWhatEased) or
+     reject with a fixed-enum reason; a rejection points to «محلّ خلاف». */
+  function payConfirmBox(app) {
+    if (!app.PayConfirm || !app.payConfirmState) return "";
+    var mine = app.payConfirmState.claims.filter(function (c) {
+      var r = app.recordById(c.recordId);
+      return r && r.lender === app.viewer && c.status !== "accepted";
+    });
+    if (!mine.length) return "";
+    var rows = mine.map(function (c) {
+      var r = app.recordById(c.recordId);
+      if (c.status === "rejected") {
+        return '<div class="pc-claim rejected"><div class="pc-body"><b>' + App.esc(c.byAr) + "</b> · " + App.fmtN(c.amountMinor / 100) + " ر.س — رُفضت: " + App.esc(c.reasonAr) + "</div>" +
+          '<button class="mini" onclick="AhdApp.openDispute(\'' + App.esc(c.recordId) + '\')">افتح محلّ خلاف ⚖️</button></div>';
+      }
+      var reasons = Object.keys(app.PayConfirm.REASONS).map(function (k) {
+        return '<option value="' + k + '">' + App.esc(app.PayConfirm.REASONS[k]) + "</option>";
+      }).join("");
+      return '<div class="pc-claim"><div class="pc-body"><b>' + App.esc(c.byAr) + "</b> يقول إنه سدّد <b>" + App.fmtN(c.amountMinor / 100) + " ر.س</b> على " + App.esc(r.borrower === app.viewer ? r.lender : r.borrower) + "<div class=\"pc-ev\">المؤيد: " + App.esc(c.evidenceAr) + "</div></div>" +
+        '<div class="pc-act"><button class="primary" onclick="AhdApp.pcAccept(\'' + c.id + '\')">صدّق — يُختَم السداد</button>' +
+        '<select id="pc-reason-' + c.id + '">' + reasons + "</select>" +
+        '<button class="ghost" onclick="AhdApp.pcRejectFromSelect(\'' + c.id + '\')">ارفض بسبب</button></div></div>';
+    }).join("");
+    return '<div class="pc-box"><div class="pc-title">دفعات بانتظار تصديقك</div>' + rows +
+      '<div class="pc-note">لا يتغيّر أيّ رصيد حتى تصدّق — والرفض مسبب ومحفوظ دائمًا.</div></div>';
+  }
+
+  App.pcRejectFromSelect = function (claimId) {
+    var key = "other";
+    if (typeof document !== "undefined") {
+      var sel = document.getElementById("pc-reason-" + claimId);
+      if (sel && sel.value) key = sel.value;
+    }
+    return App.pcReject(claimId, key);
+  };
+
   function render(app) {
     var led = app.D.buildLedger(app.records, app.viewer, app.engine, app.AS_OF);
     var tiles = app.D.summaryTiles(led);
@@ -155,13 +192,14 @@
       bandHTML = '<div class="selfband">سجلّ وفائك <span class="sbnote">(مرآةٌ لك وحدك — كلمة، لا رقم)</span> <b>' + App.esc(sb.word) + "</b></div>";
     }
     var pending = st.tab === "on" ? pendingRequestRow(app) : "";
+    var pcBox = st.tab === "me" ? payConfirmBox(app) : "";
     var body = sections.length
       ? '<div class="list">' + sections.map(function (s) { return sectionHTML(s, app); }).join("") + "</div>"
       : '<div class="empty">' + ((st.filter && st.filter !== "all")
           ? "لا عهود في هذا التصنيف."
           : "دفترك نظيف. أول ما تكتب عهدًا — قرضًا لك أو عليك — يظهر هنا، محفوظًا.") + "</div>";
 
-    return '<div class="daftari">' + flash + head + tabs + filter + bandHTML + pending + body + "</div>";
+    return '<div class="daftari">' + flash + head + tabs + filter + bandHTML + pending + pcBox + body + "</div>";
   }
 
   App.registerScreen({ key: "daftari", label: "دفتري", icon: "📔", render: render });

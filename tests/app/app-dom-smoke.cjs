@@ -41,7 +41,7 @@ sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; 
 
 console.log("ahd-app headless render smoke\n");
 vm.createContext(sandbox);
-const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/review-gate.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
+const FILES = ["engine.js", "features/home-layout.js", "features/refusal.js", "features/hash-diff.js", "features/daftari.js", "features/next-step.js", "features/review-gate.js", "features/pay-confirm.js", "features/open-loan.js", "features/circle-adv.js", "features/create.js", "features/request.js", "features/settlement.js", "features/settle-presets.js", "features/sources.js", "features/impact.js", "features/impact-drill.js", "features/impact-national.js", "features/impact-band.js", "features/market-model.js", "features/data-rigor.js", "features/rifq.js", "features/circle.js", "features/timeline.js", "features/proof.js", "features/dispute.js", "features/settings.js", "features/borrower.js", "features/care.js", "features/covenant-log.js", "features/exhibit-view.js", "features/standing-loan.js", "features/bounds.js", "features/bounds-detail.js", "features/billing.js", "features/fee-receipt.js", "features/org.js", "app.js", "screens/home.js", "screens/refusal.js", "screens/daftari.js", "screens/open-loan.js", "screens/circle-adv.js", "screens/create.js", "screens/request.js", "screens/settlement.js", "screens/impact.js", "screens/circle.js", "screens/timeline.js", "screens/proof.js", "screens/dispute.js", "screens/settings.js", "screens/borrower.js", "screens/covenant.js", "screens/standing.js", "screens/bounds.js", "screens/plans.js", "screens/org.js"];
 noThrow(() => { for (const f of FILES) vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), sandbox, { filename: f }); }, "all app scripts load into one realm");
 
 const App = sandbox.AhdApp;
@@ -391,6 +391,33 @@ ok(/بانتظار موافقة/.test(rqs), "after send: «أُرسل — بان
 let rqa = noThrow(() => App.requestAccept(), "lender accepts (محاكاة) → seals the عهد");
 ok(/أُضيف إلى دفترك|خُتم العهد/.test(rqa), "after accept: the sealed عهد is added to دفتري");
 ok(!!App.recordById("REQ-NAIF") && App.recordById("REQ-NAIF").borrower === "نايف", "the accepted request is a real record with borrower=you → it lands in «عليّ»");
+
+/* ---- تصديق السداد (Najiz G4): claim → confirm/reject-with-reason, no silent balance change ---- */
+ok(!!sandbox.PayConfirm, "PayConfirm module attaches to window");
+/* measure via the BORROWER projection (partial payments knock remainingMinor there;
+   the daftari rowFor projection counts whole installments only) */
+const pcRemOf = (id) => App.Borrower.borrowerObligations(App.records, App.viewer, App.engine, App.AS_OF)
+  .filter(o => o.record.id === id)[0].remainingMinor;
+const pcRemBefore = pcRemOf("R-FAHD");
+let bwPc = noThrow(() => App.go("mine"), "go('mine') renders the borrower screen with the confirm-payment ask");
+ok(/اطلب تصديقها/.test(bwPc), "borrower row offers «سجّلت دفعة — اطلب تصديقها»");
+let bwClaim = noThrow(() => App.pcClaim("R-FAHD", 100, "حوالة مصرفية — مرجع 55821"), "record a payment claim with a مؤيد");
+ok(/بانتظار تصديق/.test(bwClaim), "after the claim: a pending-confirmation chip, no balance move yet");
+ok(pcRemOf("R-FAHD") === pcRemBefore, "the claim does NOT move the balance — no silent change (درس ناجز)");
+noThrow(() => App.pcAccept("PC-1"), "the counterparty accepts (محاكاة) → the payment seals via payWhatEased");
+ok(pcRemOf("R-FAHD") === pcRemBefore - 10000, "the balance moves ONLY on acceptance (100 ر.س = 10000 هللة)");
+noThrow(() => App.pcClaim("R-FAHD", 50, "نقدًا أمام شاهد"), "a second claim");
+let pcRejFlash = noThrow(() => App.pcReject("PC-2", "notReceived"), "the counterparty rejects with a fixed-enum reason");
+ok(/لم يصلني/.test(pcRejFlash), "the rejection flash carries the enum reason");
+ok(pcRemOf("R-FAHD") === pcRemBefore - 10000, "a rejected claim never moves the balance");
+/* creditor side: a debtor's claim lands in دفتري's «دفعات بانتظار تصديقك» box */
+App.payConfirmState = sandbox.PayConfirm.claim(App.payConfirmState, { recordId: "R-CAFE", amountMinor: 5000, evidenceAr: "حوالة — مرجع 90144", byAr: "سالم" });
+App.daftariState.tab = "me"; App.daftariState.filter = "all";   // arrange: the creditor side
+let dfPc = noThrow(() => App.go("daftari"), "daftari renders the pending-confirmation box");
+ok(/دفعات بانتظار تصديقك/.test(dfPc) && /90144/.test(dfPc), "pc-box lists the debtor's claim with its evidence");
+ok(/ارفض بسبب/.test(dfPc) && /لم يصلني/.test(dfPc), "pc-box offers accept + the fixed reject-reason enum");
+noThrow(() => App.pcReject("PC-3", "amount"), "creditor rejects the café claim (amount mismatch)");
+ok(/افتح محلّ خلاف/.test(App.go("daftari")), "a rejected claim offers opening «محلّ خلاف» — both records kept");
 
 /* robustness */
 noThrow(() => App.go("does-not-exist"), "unknown screen key is a safe no-op");

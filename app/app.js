@@ -27,6 +27,7 @@
   var Billing = (typeof window !== "undefined" ? window.Billing : null);
   var NextStep = (typeof window !== "undefined" ? window.NextStep : null);
   var ReviewGate = (typeof window !== "undefined" ? window.ReviewGate : null);
+  var PayConfirm = (typeof window !== "undefined" ? window.PayConfirm : null);
   var FeeReceipt = (typeof window !== "undefined" ? window.FeeReceipt : null);
   var Rifq = (typeof window !== "undefined" ? window.Rifq : null);
 
@@ -116,6 +117,11 @@
     /* ما عليّ (borrower home) — the debtor's mirror of دفتري; reads app.records/viewer */
     Borrower: Borrower,
     borrowerState: { flash: null },
+    /* «تصديق السداد» (Najiz G4) — claims live OUTSIDE the sealed record; the
+       balance moves only when the creditor accepts (through payWhatEased). */
+    PayConfirm: PayConfirm,
+    payConfirmState: PayConfirm ? PayConfirm.makeState() : null,
+    pcState: { formId: null },
     /* سِجلّ المعروف (sealed good-faith trail) — CONTEXTUAL; seeded on Naif's café عهد */
     CovenantLog: CovenantLog,
     covenantState: { recordId: "R-CAFE", tamper: false, flash: null, exhibit: false },
@@ -284,6 +290,44 @@
       return this.rerender();
     },
     borrowerDismiss: function () { this.borrowerState.flash = null; return this.rerender(); },
+
+    /* ---- تصديق السداد (Najiz G4): claim → creditor accept/reject-with-reason ---- */
+    pcOpenForm: function (id) { this.pcState.formId = id; return this.rerender(); },
+    pcCancelForm: function () { this.pcState.formId = null; return this.rerender(); },
+    pcClaim: function (recordId, amountSAR, evidenceAr) {
+      if (!this.PayConfirm) return this.rerender();
+      try {
+        var minor = Math.round(Number(amountSAR) * 100);
+        this.payConfirmState = this.PayConfirm.claim(this.payConfirmState, { recordId: recordId, amountMinor: minor, evidenceAr: evidenceAr, byAr: this.viewer });
+        this.pcState.formId = null;
+        this.borrowerState.flash = "سُجّلت دفعتك مع المؤيد — بانتظار تصديق الطرف الآخر، ولا يتغيّر الرصيد حتى يصدّق.";
+      } catch (err) { this.borrowerState.flash = err.message; }
+      return this.rerender();
+    },
+    pcAccept: function (claimId) {
+      if (!this.PayConfirm) return this.rerender();
+      try {
+        var res = this.PayConfirm.accept(this.payConfirmState, claimId);
+        this.payConfirmState = res.state;
+        var r = this.recordById(res.accepted.recordId);
+        if (r && this.Borrower) r.events = r.events.concat(this.Borrower.payWhatEased(r, res.accepted.amountMinor / 100, this.engine));
+        /* the outcome is visible whichever side of the mirror the viewer is on */
+        this.daftariState.flash = "صدّقت الدفعة — خُتم حدث السداد ونقص المتبقّي، لا قبله.";
+        this.borrowerState.flash = "صُدّقت دفعتك — خُتم السداد ونقص المتبقّي 🤍";
+      } catch (err) { this.daftariState.flash = err.message; this.borrowerState.flash = err.message; }
+      return this.rerender();
+    },
+    pcReject: function (claimId, reasonKey) {
+      if (!this.PayConfirm) return this.rerender();
+      try {
+        var res = this.PayConfirm.reject(this.payConfirmState, claimId, reasonKey);
+        this.payConfirmState = res.state;
+        var msg = "رُفضت الدفعة (" + res.rejected.reasonAr + ") — الرصيد لم يتغيّر، والسجلان محفوظان لمحلّ الخلاف.";
+        this.daftariState.flash = msg;
+        this.borrowerState.flash = msg;
+      } catch (err) { this.daftariState.flash = err.message; this.borrowerState.flash = err.message; }
+      return this.rerender();
+    },
 
     /* ---- سِجلّ المعروف (covenant trail) — CONTEXTUAL (from دفتري / الخلاف); never a score ---- */
     openCovenant: function (id) { if (this.recordById(id)) { this.covenantState = { recordId: id, tamper: false, flash: null, exhibit: false }; this.daftariState.sheetId = null; return this.go("maroof"); } return this.rerender(); },
