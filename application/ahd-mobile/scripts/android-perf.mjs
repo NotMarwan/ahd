@@ -9,8 +9,16 @@ const TRANSITION_MAX_MS = 300;
 const JANK_MAX_PERCENT = 5;
 
 const outDir = process.argv[2] ?? 'artifacts/emulator-evidence';
+// Software-rendered emulators (SwiftShader on GPU-less CI runners) miss the
+// 16 ms HWUI deadline on nearly every frame by construction, so the jank gate
+// is only meaningful under hardware rendering. The percentage is still
+// measured and reported either way.
+const softwareRenderer = process.env.AHD_SOFT_GPU === '1';
 const failures = [];
-const report = { thresholds: { COLD_START_MAX_MS, WARM_START_MAX_MS, TRANSITION_MAX_MS, JANK_MAX_PERCENT } };
+const report = {
+  thresholds: { COLD_START_MAX_MS, WARM_START_MAX_MS, TRANSITION_MAX_MS, JANK_MAX_PERCENT },
+  jankGate: softwareRenderer ? 'informational (software renderer)' : 'enforced',
+};
 
 function totalTimes(file) {
   const text = readFileSync(join(outDir, file), 'utf8');
@@ -44,7 +52,7 @@ if (existsSync(gfxPath)) {
   if (total > 0) {
     const jankPercent = (janky / total) * 100;
     report.jankPercent = Math.round(jankPercent * 100) / 100;
-    if (jankPercent >= JANK_MAX_PERCENT) {
+    if (jankPercent >= JANK_MAX_PERCENT && !softwareRenderer) {
       failures.push(`jank ${report.jankPercent}% >= ${JANK_MAX_PERCENT}%`);
     }
   } else {

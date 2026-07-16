@@ -58,4 +58,7 @@ echo "== logcat dump =="
 adb logcat -d > "$OUT_DIR/logcat.txt"
 
 echo "== perf gate =="
-node scripts/android-perf.mjs "$OUT_DIR"
+# CI emulators render via SwiftShader (no GPU on hosted runners): jank is
+# reported but only gated under hardware rendering; a real-device jank check
+# remains an open item before customer handoff.
+AHD_SOFT_GPU=1 node scripts/android-perf.mjs "$OUT_DIR"
