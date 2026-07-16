@@ -25,18 +25,20 @@ appId: sa.ahd.mobile
     timeout: 15000
 # Maestro inputText supports ASCII only on Android; display names are
 # free-form, so the journey uses Latin names for the same real flow.
+# hideKeyboard is unreliable on Android — every field is single-line, so
+# pressing Enter (the ✓/done key) closes the keyboard deterministically.
 - tapOn:
     id: "create-lender-input"
 - inputText: "Reem"
-- hideKeyboard
+- pressKey: Enter
 - tapOn:
     id: "create-borrower-input"
 - inputText: "Sara"
-- hideKeyboard
+- pressKey: Enter
 - tapOn:
     id: "create-amount-input"
 - inputText: "1200"
-- hideKeyboard
+- pressKey: Enter
 - tapOn: "عهد مفتوح"
 - scrollUntilVisible:
     element:
@@ -45,7 +47,7 @@ appId: sa.ahd.mobile
 - tapOn:
     id: "create-agreement-date-input"
 - inputText: "2026-07-16"
-- hideKeyboard
+- pressKey: Enter
 - scrollUntilVisible:
     element:
       id: "create-review-button"

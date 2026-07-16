@@ -55,6 +55,9 @@ jobs:
           EXPO_NO_TELEMETRY: '1'
           CI: '1'
 
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Build release-preview APK (:app:assembleRelease)
         working-directory: application/ahd-mobile/android
         # Pilot ABIs only: arm64-v8a for the customer handsets, x86_64 for the
