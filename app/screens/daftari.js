@@ -171,7 +171,9 @@
     var tiles = app.D.summaryTiles(led);
     var st = app.daftariState;
     var sideRows = st.tab === "on" ? led.iOwe : led.owedToMe;
-    var sections = app.D.groupLedger(app.D.filterRows(sideRows, st.filter || "all"));
+    /* person filter (Splitwise G6) composes with the status filter */
+    var personRows = app.D.filterByPerson ? app.D.filterByPerson(sideRows, st.person) : sideRows;
+    var sections = app.D.groupLedger(app.D.filterRows(personRows, st.filter || "all"));
 
     var flash = App.flashHTML(st.flash, "daftariDismiss");
     var head =
@@ -186,6 +188,18 @@
         '<button class="tab' + (st.tab === "on" ? " on" : "") + '" role="tab" aria-selected="' + (st.tab === "on") + '" onclick="AhdApp.daftariTab(\'on\')">عليّ</button>' +
       "</div>";
     var filter = filterBar(app, sideRows);
+    /* person chips — only when there is more than one counterparty on this side */
+    var personBar = "";
+    if (app.D.peopleOf) {
+      var people = app.D.peopleOf(sideRows);
+      if (people.length > 1) {
+        personBar = '<div class="dfilter dperson" role="tablist" aria-label="حسب الشخص">' +
+          ["الكل"].concat(people).map(function (p) {
+            var on = (p === "الكل" ? !st.person : st.person === p);
+            return '<button class="fchip' + (on ? " on" : "") + '" onclick="AhdApp.daftariPerson(\'' + App.esc(p) + '\')">' + App.esc(p) + "</button>";
+          }).join("") + "</div>";
+      }
+    }
     var bandHTML = "";
     if (st.tab === "on" && app.selfHistory && app.D.selfBand) {
       var sb = app.D.selfBand(app.selfHistory, false, app.engine);
@@ -199,7 +213,7 @@
           ? "لا عهود في هذا التصنيف."
           : "دفترك نظيف. أول ما تكتب عهدًا — قرضًا لك أو عليك — يظهر هنا، محفوظًا.") + "</div>";
 
-    return '<div class="daftari">' + flash + head + tabs + filter + bandHTML + pending + pcBox + body + "</div>";
+    return '<div class="daftari">' + flash + head + tabs + filter + personBar + bandHTML + pending + pcBox + body + "</div>";
   }
 
   App.registerScreen({ key: "daftari", label: "دفتري", icon: "📔", render: render });

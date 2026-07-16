@@ -9,6 +9,7 @@
   var Split = typeof window !== "undefined" ? window.Split : null;
   var Reminder = typeof window !== "undefined" ? window.Reminder : null;
   var WaLink = typeof window !== "undefined" ? window.WaLink : null;
+  var SM = typeof window !== "undefined" ? window.SplitModes : null;   // optional (G5)
   if (!App || !Q || !Split || !Reminder || !WaLink) return;
 
   function parseMinor(value) {
@@ -36,7 +37,8 @@
   App.Qaid = Q; App.Split = Split; App.Reminder = Reminder; App.WaLink = WaLink;
   App.dailyState = App.dailyState || {
     ledger: seedState(), splitDraft: seedSplit(), flash: null, shareText: null,
-    reminderRecords: {}, showSplit: true
+    reminderRecords: {}, showSplit: true,
+    splitMode: "equal", splitPreview: null, splitPreviewError: null
   };
 
   function byId(id) {
@@ -114,17 +116,66 @@
   };
 
   App.dailySplitToggle = function () { this.dailyState.showSplit = !this.dailyState.showSplit; return this.rerender(); };
+
+  /* reads the split form into a SplitModes spec (mode + per-person values) */
+  function readSplitSpec() {
+    var participants = String(document.getElementById("daily-split-names").value || "").split(/[،,\n]/).map(function (name) { return name.trim(); }).filter(Boolean);
+    var modeEl = document.getElementById("daily-split-mode");
+    var mode = (SM && modeEl && modeEl.value) ? modeEl.value : "equal";
+    var spec = {
+      mode: mode,
+      totalMinor: parseMinor(document.getElementById("daily-split-total").value),
+      payer: String(document.getElementById("daily-split-payer").value || "").trim(),
+      participants: participants
+    };
+    if (mode !== "equal") {
+      var raw = String(document.getElementById("daily-split-values").value || "").split(/[،,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      spec.values = raw.map(function (x) { return mode === "exact" ? parseMinor(x) : parseInt(x, 10); });
+    }
+    return spec;
+  }
+
+  App.dailySplitMode = function () {
+    var el = document.getElementById("daily-split-mode");
+    this.dailyState.splitMode = (el && el.value) || "equal";
+    this.dailyState.splitPreview = null;
+    this.dailyState.splitPreviewError = null;
+    return this.rerender();
+  };
+
+  /* preview BEFORE saving (Splitwise G5): shares render as chips; errors gate the apply */
+  App.dailySplitPreview = function () {
+    if (!SM) return this.rerender();
+    try {
+      var spec = readSplitSpec();
+      var v = SM.validate(spec);
+      if (!v.ok) { this.dailyState.splitPreviewError = v.errorAr; this.dailyState.splitPreview = null; }
+      else { this.dailyState.splitPreview = SM.make(spec); this.dailyState.splitPreviewError = null; }
+    } catch (error) { this.dailyState.splitPreviewError = error.message; this.dailyState.splitPreview = null; }
+    return this.rerender();
+  };
+
   App.dailySplit = function () {
     try {
-      var participants = String(document.getElementById("daily-split-names").value || "").split(/[،,\n]/).map(function (name) { return name.trim(); }).filter(Boolean);
-      var split = Split.makeSplit({
-        totalMinor: parseMinor(document.getElementById("daily-split-total").value),
-        payer: String(document.getElementById("daily-split-payer").value || "").trim(),
-        participants: participants
-      });
+      var split;
+      if (SM) {
+        var spec = readSplitSpec();
+        var v = SM.validate(spec);
+        if (!v.ok) throw new Error(v.errorAr);
+        split = SM.make(spec);
+      } else {
+        var participants = String(document.getElementById("daily-split-names").value || "").split(/[،,\n]/).map(function (name) { return name.trim(); }).filter(Boolean);
+        split = Split.makeSplit({
+          totalMinor: parseMinor(document.getElementById("daily-split-total").value),
+          payer: String(document.getElementById("daily-split-payer").value || "").trim(),
+          participants: participants
+        });
+      }
       if (split.payer !== this.dailyState.ledger.owner) throw new Error("طبّق القسمة من دفتر من دفع الفاتورة");
       this.dailyState.ledger = Split.applySplit(this.dailyState.ledger, split);
       this.dailyState.splitDraft = split;
+      this.dailyState.splitPreview = null;
+      this.dailyState.splitPreviewError = null;
       this.dailyState.flash = "قُسّمت الفاتورة بالهللة دون فاقد";
     } catch (error) { this.dailyState.flash = error.message; }
     return this.rerender();
@@ -156,11 +207,32 @@
 
   function splitForm(app) {
     if (!app.dailyState.showSplit) return '';
-    var preview = app.dailyState.splitDraft.shares.map(function (share) { return '<span class="chip mute">' + App.esc(share.name) + ' · ' + money(share.amountMinor) + '</span>'; }).join(" ");
+    var st = app.dailyState;
+    var preview = st.splitDraft.shares.map(function (share) { return '<span class="chip mute">' + App.esc(share.name) + ' · ' + money(share.amountMinor) + '</span>'; }).join(" ");
+    /* mode select + per-person values (Splitwise G5) — only when SplitModes loaded */
+    var modeBits = "";
+    if (SM) {
+      var mode = st.splitMode || "equal";
+      function opt(k, t) { return '<option value="' + k + '"' + (mode === k ? " selected" : "") + '>' + t + "</option>"; }
+      modeBits =
+        '<label>طريقة التقسيم<select id="daily-split-mode" onchange="AhdApp.dailySplitMode()">' +
+          opt("equal", "متساوٍ") + opt("exact", "مبالغ محددة") + opt("percent", "نسب مئوية") + opt("shares", "حصص") +
+        "</select></label>" +
+        (mode !== "equal"
+          ? '<label>' + (mode === "exact" ? "المبالغ (ر.س، بالفاصلة)" : mode === "percent" ? "النسب (مجموعها 100)" : "الأوزان (أعداد صحيحة)") +
+            '<input id="daily-split-values" value="' + (mode === "exact" ? "160.01، 160، 160" : mode === "percent" ? "34، 33، 33" : "2، 1، 1") + '"></label>'
+          : "");
+      var pv = "";
+      if (st.splitPreviewError) pv = '<div class="cr-lint bad">✗ ' + App.esc(st.splitPreviewError) + "</div>";
+      else if (st.splitPreview) pv = '<div class="chips">' + st.splitPreview.shares.map(function (s) {
+        return '<span class="chip teal">' + App.esc(s.name) + " · " + money(s.amountMinor) + "</span>";
+      }).join(" ") + '</div><div class="cr-lint ok">✓ الحصص تحفظ كل هللة — يمكنك التطبيق</div>';
+      modeBits += pv + '<button class="ghost" onclick="AhdApp.dailySplitPreview()">عاين الحصص قبل الحفظ</button>';
+    }
     return '<section class="card" id="daily-split"><div class="eyebrow">القسمة · أكبر باقٍ بالترتيب</div><h2>قسمة فاتورة</h2>' +
       '<div class="form-grid"><label>الإجمالي<input id="daily-split-total" value="480.01" inputmode="decimal"></label>' +
-      '<label>الأسماء<input id="daily-split-names" value="أنت، سالم، نورة، هند، منال، عبير"></label><label>من دفع<input id="daily-split-payer" value="أنت"></label></div>' +
-      '<div class="chips">' + preview + '</div><button class="primary" onclick="AhdApp.dailySplit()">طبّق القسمة</button></section>';
+      '<label>الأسماء<input id="daily-split-names" value="أنت، سالم، نورة، هند، منال، عبير"></label><label>من دفع<input id="daily-split-payer" value="أنت"></label>' + modeBits + '</div>' +
+      '<div class="chips">' + preview + '</div><button class="primary"' + (st.splitPreviewError ? " disabled" : "") + ' onclick="AhdApp.dailySplit()">طبّق القسمة</button></section>';
   }
 
   function render(app) {

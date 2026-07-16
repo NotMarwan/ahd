@@ -75,7 +75,7 @@
     /* Naif's OWN kept-history → his own trust band (own mirror; never shared) */
     selfHistory: [{ t: "2025-08", kept: true }, { t: "2025-10", kept: true }, { t: "2025-12", kept: true },
       { t: "2026-01", kept: true }, { t: "2026-03", kept: true }, { t: "2026-05", kept: true }],
-    daftariState: { tab: "me", filter: "all", sheetId: null, composeId: null, composeTier: 1, flash: null },
+    daftariState: { tab: "me", filter: "all", person: null, sheetId: null, composeId: null, composeTier: 1, flash: null },
     OpenLoan: OpenLoan,
     openLoan: OpenLoan ? OpenLoan.makeOpenLoan({ id: "OPEN-MUNIRA-MAJID", lender: "منيرة", borrower: "ماجد", amountSAR: 20000, purpose: "لتجهيز عربة القهوة" }) : null,
     openLoanState: { sheet: false, tamper: false, flash: null },
@@ -204,6 +204,7 @@
     debtorGrace: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("GRACE_GRANTED")); this.daftariState.composeId = null; this.daftariState.flash = "أُعيدت الجدولة بالمعروف — بلا أيّ زيادة (٢٨٠)."; } return this.rerender(); },
     daftariForgive: function (id) { var r = this.recordById(id); if (r) { r.events = r.events.concat(ev("FORGIVEN")); this.daftariState.sheetId = null; this.daftariState.flash = "أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾."; } return this.rerender(); },
     daftariDismiss: function () { this.daftariState.flash = null; return this.rerender(); },
+    daftariPerson: function (name) { this.daftariState.person = (name === "الكل" ? null : name); return this.rerender(); },
 
     /* ---- حافظة الإثبات (proof-pack) — a CONTEXTUAL screen reached from دفتري ---- */
     openProof: function (id) { if (this.recordById(id)) { this.proofState = { recordId: id, tamper: false, tamperAmountSAR: null, flash: null, fromDispute: false }; this.daftariState.sheetId = null; return this.go("proof"); } return this.rerender(); },

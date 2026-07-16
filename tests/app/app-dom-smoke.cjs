@@ -96,6 +96,10 @@ ok(/لك عند الناس/.test(h), "home shows «لك عند الناس» tile
 ok(/عليك للناس/.test(h), "home shows «عليك للناس» tile");
 ok(/مقهى الحي|سلطان/.test(h), "home lists Naif's debtors (لي tab default)");
 ok(/row-next/.test(h) && /عهد-/.test(h), "daftari rows carry a per-row next-step line + reference (Zirtue G1)");
+ok(/dperson/.test(h) && /الكل/.test(h), "daftari offers person-filter chips (Splitwise G6)");
+let hPerson = noThrow(() => App.daftariPerson("سلطان"), "filter the ledger by one person");
+ok(/class="who">سلطان</.test(hPerson) && !/class="who">مقهى الحي</.test(hPerson), "person filter keeps only that person's rows (chips still list everyone)");
+noThrow(() => App.daftariPerson("الكل"), "person filter resets with «الكل»");
 ok(/عليه وعدٌ متأخّر/.test(h), "overdue row shows the amber «عليه وعدٌ متأخّر» chip");
 
 /* دفتري is the HUB: grouped sections, net balance, the ask, filter chips */

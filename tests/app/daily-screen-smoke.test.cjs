@@ -21,7 +21,7 @@ const sandbox = {
 sandbox.window = sandbox; sandbox.self = sandbox; sandbox.globalThis = sandbox; sandbox.scrollTo = () => {}; sandbox.addEventListener = () => {};
 vm.createContext(sandbox);
 
-const files = ["engine.js", "features/riba-lint.js", "features/daftari.js", "features/create.js", "features/request.js", "features/qaid.js", "features/split.js", "features/reminder.js", "features/walink.js", "app.js", "screens/daily.js"];
+const files = ["engine.js", "features/riba-lint.js", "features/daftari.js", "features/create.js", "features/request.js", "features/qaid.js", "features/split.js", "features/split-modes.js", "features/reminder.js", "features/walink.js", "app.js", "screens/daily.js"];
 noThrow(() => files.forEach(file => vm.runInContext(fs.readFileSync(path.join(APP, file), "utf8"), sandbox, { filename: file })), "daily scripts load into one realm");
 const App = sandbox.AhdApp;
 ok(!!App && !!App.screens.daily, "screen registers under key daily");
@@ -33,6 +33,8 @@ ok(/لهم عليّ/.test(html) && /لي عليهم/.test(html), "direction togg
 ok(/قيد شخصي — غير مختوم/.test(html), "unsealed status is visible");
 ok(/سالم/.test(html) && /نورة/.test(html) && /هند/.test(html), "four demo qaids are pre-seeded");
 ok(/قسمة فاتورة/.test(html) && /daily-split/.test(html), "inline split form renders");
+ok(/daily-split-mode/.test(html) && /متساوٍ/.test(html) && /مبالغ محددة/.test(html) && /نسب مئوية/.test(html) && /حصص/.test(html), "split-mode select offers equal/exact/percent/shares (Splitwise G5)");
+ok(/عاين الحصص قبل الحفظ/.test(html), "preview-before-save button renders");
 ok(/متعادلان|المحصلة/.test(html), "netHint banner renders");
 ok(/تسوية|حوّل إلى عهد|واتساب|تذكير/.test(html), "per-row daily actions render");
 ok(noThrow(() => App.go("daily"), "second deterministic render does not throw") === html, "screen HTML is deterministic");
