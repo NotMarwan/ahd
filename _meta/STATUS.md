@@ -188,3 +188,17 @@ within the Pilot-safe adapter limit; aggregate balances remain displayable. Veri
 **104/104 tests across 36 suites** with TypeScript, generated-core parity, client boundaries, lint at
 zero errors, and diff checks green. Independent review is approved with no remaining P0/P1. Nine
 device-size screenshots were reviewed. The full repository gate remains reserved for final Pilot delivery.
+
+---
+
+DONE · 2026-07-16T18:52+03:00 · Codex · **Mobile Pilot batches 4–6 with real local customer data** · `application/ahd-mobile/`
+
+Completed what-I-owe, known-good history, timeline, Jamiya, circle, circle+, request, standing-loan,
+and dispute surfaces without seeded records or simulated external completion. Circle membership consent is
+recorded only as an organizer attestation; netting remains a local preview and planning receipt with no money
+movement. Requests and dispute reconciliation remain `needs_connection`, standing-loan totals use documented
+principal only, and all mutations are serialized. Version-2 daily and Jamiya migrations preserve safe legacy
+data while downgrading unverifiable consent. Verification is green at **116/116 tests across 37 suites** with
+TypeScript, generated-core parity, client boundaries, lint at zero errors, deterministic-source scan, and diff
+checks green. Independent re-review is approved with no remaining P0/P1. Nine device-size screenshots were
+reviewed. T136 and T137 remain unstarted; the full repository gate stays reserved for T137.
