@@ -8,49 +8,49 @@ import type {
   PilotNettingReceipt,
 } from '@/state';
 
-export const SHOWCASE_PROFILE_NAME = 'نورة';
-export const SHOWCASE_DATE = '2026-07-17';
+export const SHOWCASE_PROFILE_NAME = 'نايف العتيبي';
+export const SHOWCASE_DATE = '2026-06-21';
 
 export const SHOWCASE_CREATE = {
-  lender: 'نورة',
-  borrower: 'ليلى',
-  amountSarText: '4800',
-  purpose: 'مصاريف علاج طارئة',
+  lender: SHOWCASE_PROFILE_NAME,
+  borrower: 'سلطان',
+  amountSarText: '1200',
+  purpose: 'سلفة شخصية بلا زيادة',
   repaymentMode: 'scheduled' as const,
-  monthsText: '6',
-  firstDueMonth: '2026-08',
-  agreementDate: SHOWCASE_DATE,
+  monthsText: '1',
+  firstDueMonth: '2026-05',
+  agreementDate: '2026-04-15',
 } as const;
 
 export const SHOWCASE_DAILY_FORM = {
-  title: 'دفعة هذا الشهر',
-  note: 'سلّمت ليلى 800 ريال من دفعة هذا الشهر، وبقي الإيصال في الدفتر المحلي.',
+  title: 'قيد اليوم',
+  note: 'سلّمت عبدالله 200 ريال نقدًا من دفعة يونيو، وحُفظ القيد في الدفتر المحلي.',
   effectiveDate: SHOWCASE_DATE,
 } as const;
 
 export const SHOWCASE_REQUEST_FORM = {
-  lender: 'سارة',
+  lender: 'خالد',
   amountText: '2500',
   purpose: 'إصلاح السيارة',
   effectiveDate: SHOWCASE_DATE,
 } as const;
 
 export const SHOWCASE_JAMIYA_FORM = {
-  title: 'جمعية الأهل',
-  startMonth: '2026-08',
+  title: 'جمعية أهل الحي',
+  startMonth: '2026-04',
   amountText: '1000',
-  membersText: 'سارة، ليلى، خالد، فهد',
+  membersText: 'نورة، هند، منال، عبير، لجين',
   consentDate: SHOWCASE_DATE,
-  paymentDate: '2026-08-01',
+  paymentDate: '2026-06-01',
 } as const;
 
 export const SHOWCASE_DISPUTE_FORM = {
-  reason: 'اختلف الطرفان على إثبات دفعة يونيو، ويحتاجان إرفاق الإيصال فقط.',
+  reason: 'اختلف ماجد ونايف على إثبات دفعة يونيو؛ جُمّد العهد حتى يرفقا الإيصال.',
   effectiveDate: SHOWCASE_DATE,
   reconciliationDate: '2026-07-20',
 } as const;
 
-export const SHOWCASE_BOUNDS_TERMS = 'إذا تأخر السداد تُضاف غرامة 100 ريال.';
+export const SHOWCASE_BOUNDS_TERMS = 'إذا تأخر السداد تُضاف غرامة 100 ريال؛ وهذا شرط محظور في عهد.';
 
 function buildRecord(input: {
   id: string;
@@ -70,39 +70,90 @@ function buildRecord(input: {
 
 export const SHOWCASE_RECORDS: readonly AhdStoredRecord[] = [
   buildRecord({
-    id: 'AHD-DEMO-0001',
-    lender: 'نورة',
-    borrower: 'ليلى',
-    amountMinor: 480_000,
-    months: 6,
-    start: { y: 2026, m: 8 },
-    timestamp: '2026-07-17T09:00:00+03:00',
-    purpose: 'مصاريف علاج طارئة',
-  }),
-  buildRecord({
-    id: 'AHD-DEMO-0002',
-    lender: 'سارة',
-    borrower: 'نورة',
+    id: 'AHD-CAFE',
+    lender: SHOWCASE_PROFILE_NAME,
+    borrower: 'مقهى الحي',
     amountMinor: 250_000,
-    months: 5,
-    start: { y: 2026, m: 9 },
-    timestamp: '2026-07-17T09:10:00+03:00',
-    purpose: 'إصلاح السيارة',
+    months: 1,
+    start: { y: 2026, m: 6 },
+    timestamp: '2026-05-01T09:00:00+03:00',
+    purpose: 'عهد المقهى',
   }),
   buildRecord({
-    id: 'AHD-DEMO-0003',
-    lender: 'خالد',
-    borrower: 'نورة',
-    amountMinor: 180_000,
-    open: true,
-    timestamp: '2026-07-17T09:20:00+03:00',
-    purpose: 'سلفة مرنة للأسرة',
+    id: 'AHD-SULTAN',
+    lender: SHOWCASE_PROFILE_NAME,
+    borrower: 'سلطان',
+    amountMinor: 120_000,
+    months: 1,
+    start: { y: 2026, m: 5 },
+    timestamp: '2026-04-15T09:00:00+03:00',
+    purpose: 'سلفة شخصية بلا زيادة',
+  }),
+  buildRecord({
+    id: 'AHD-ABD',
+    lender: SHOWCASE_PROFILE_NAME,
+    borrower: 'عبدالله',
+    amountMinor: 60_000,
+    months: 1,
+    start: { y: 2026, m: 7 },
+    timestamp: '2026-06-01T09:00:00+03:00',
+    purpose: 'سلفة قصيرة',
+  }),
+  buildRecord({
+    id: 'AHD-KEPT',
+    lender: SHOWCASE_PROFILE_NAME,
+    borrower: 'ريم',
+    amountMinor: 80_000,
+    months: 1,
+    start: { y: 2026, m: 4 },
+    timestamp: '2026-03-01T09:00:00+03:00',
+    purpose: 'عهد مكتمل',
+  }),
+  buildRecord({
+    id: 'AHD-DISP',
+    lender: SHOWCASE_PROFILE_NAME,
+    borrower: 'ماجد',
+    amountMinor: 90_000,
+    months: 1,
+    start: { y: 2026, m: 6 },
+    timestamp: '2026-05-10T09:00:00+03:00',
+    purpose: 'عهد محل خلاف',
+  }),
+  buildRecord({
+    id: 'AHD-FAHD',
+    lender: 'فهد',
+    borrower: SHOWCASE_PROFILE_NAME,
+    amountMinor: 300_000,
+    months: 1,
+    start: { y: 2026, m: 7 },
+    timestamp: '2026-06-10T09:00:00+03:00',
+    purpose: 'سلفة من فهد',
   }),
 ] as const;
 
+export const SHOWCASE_OPEN_RECORD = buildRecord({
+  id: 'AHD-OPEN',
+  lender: 'منيرة',
+  borrower: 'ماجد',
+  amountMinor: 2_000_000,
+  open: true,
+  timestamp: '2026-06-21T09:30:00+03:00',
+  purpose: 'قرض حسن مفتوح حتى يتيسّر السداد',
+});
+
+export const SHOWCASE_STANDING_RECORD = buildRecord({
+  id: 'AHD-STANDING',
+  lender: 'أبو فهد',
+  borrower: 'راميش',
+  amountMinor: 320_000,
+  open: true,
+  timestamp: '2026-01-01T09:00:00+03:00',
+  purpose: 'سلفة بالمعروف بقيد شهري 800 ريال',
+});
+
 const consent = {
   mode: 'organizer_attestation' as const,
-  recordedBy: SHOWCASE_PROFILE_NAME,
+  recordedBy: 'أم سارة',
   effectiveDate: SHOWCASE_DATE,
   confirmed: true as const,
 };
@@ -111,20 +162,22 @@ export const SHOWCASE_CIRCLE: PilotCircle = {
   id: 'CIRCLE-DEMO-0001',
   kind: 'jamiya',
   title: SHOWCASE_JAMIYA_FORM.title,
-  organizer: SHOWCASE_PROFILE_NAME,
+  organizer: 'أم سارة',
   startMonth: SHOWCASE_JAMIYA_FORM.startMonth,
   members: [
+    { id: 'member-um-sara', displayName: 'أم سارة', consentAttestation: consent, shareMinor: 100_000 },
     { id: 'member-noura', displayName: 'نورة', consentAttestation: consent, shareMinor: 100_000 },
-    { id: 'member-sara', displayName: 'سارة', consentAttestation: consent, shareMinor: 100_000 },
-    { id: 'member-layla', displayName: 'ليلى', consentAttestation: consent, shareMinor: 100_000 },
-    { id: 'member-khalid', displayName: 'خالد', consentAttestation: consent, shareMinor: 100_000 },
-    { id: 'member-fahad', displayName: 'فهد', consentAttestation: consent, shareMinor: 100_000 },
+    { id: 'member-hind', displayName: 'هند', consentAttestation: consent, shareMinor: 100_000 },
+    { id: 'member-manal', displayName: 'منال', consentAttestation: consent, shareMinor: 100_000 },
+    { id: 'member-abeer', displayName: 'عبير', consentAttestation: consent, shareMinor: 100_000 },
+    { id: 'member-lujain', displayName: 'لجين', consentAttestation: consent, shareMinor: 100_000 },
   ],
-  orderMemberIds: ['member-noura', 'member-sara', 'member-layla', 'member-khalid', 'member-fahad'],
+  orderMemberIds: ['member-um-sara', 'member-noura', 'member-hind', 'member-manal', 'member-abeer', 'member-lujain'],
   payments: [
-    { id: 'payment-demo-1', round: 1, memberId: 'member-noura', amountMinor: 100_000, effectiveDate: '2026-08-01' },
-    { id: 'payment-demo-2', round: 1, memberId: 'member-sara', amountMinor: 100_000, effectiveDate: '2026-08-01' },
-    { id: 'payment-demo-3', round: 1, memberId: 'member-layla', amountMinor: 100_000, effectiveDate: '2026-08-01' },
+    { id: 'payment-demo-1', round: 3, memberId: 'member-um-sara', amountMinor: 100_000, effectiveDate: '2026-06-01' },
+    { id: 'payment-demo-2', round: 3, memberId: 'member-noura', amountMinor: 100_000, effectiveDate: '2026-06-01' },
+    { id: 'payment-demo-3', round: 3, memberId: 'member-manal', amountMinor: 100_000, effectiveDate: '2026-06-01' },
+    { id: 'payment-demo-4', round: 3, memberId: 'member-abeer', amountMinor: 100_000, effectiveDate: '2026-06-01' },
   ],
   status: 'active',
 };
@@ -186,7 +239,7 @@ export const SHOWCASE_DAILY_ENTRIES: readonly PilotDailyEntry[] = [
   {
     kind: 'dispute',
     id: 'DISPUTE-DEMO-0001',
-    recordId: SHOWCASE_RECORDS[0].sealed.record.id,
+    recordId: 'AHD-DISP',
     reason: SHOWCASE_DISPUTE_FORM.reason,
     effectiveDate: SHOWCASE_DISPUTE_FORM.effectiveDate,
     status: 'open',
@@ -197,5 +250,5 @@ export const SHOWCASE_DAILY_ENTRIES: readonly PilotDailyEntry[] = [
 export const SHOWCASE_SHARE_ENVELOPE = serializeShareEnvelope(createShareEnvelope({
   record: SHOWCASE_RECORDS[0].sealed.record,
   proof: SHOWCASE_RECORDS[0].proof,
-  exportedAt: '2026-07-17T09:00:00+03:00',
+  exportedAt: '2026-06-21T09:00:00+03:00',
 }));

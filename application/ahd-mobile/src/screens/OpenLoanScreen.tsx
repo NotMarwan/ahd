@@ -16,7 +16,7 @@ import {
   ThreadMeter,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
-import { SHOWCASE_RECORDS } from '@/showcase/showcase-data';
+import { SHOWCASE_OPEN_RECORD } from '@/showcase/showcase-data';
 import { deriveOpenLoanPosition, useAhdJourney } from '@/state';
 import { colors, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -27,7 +27,7 @@ export function OpenLoanScreen() {
   const storedEntry = state.records.find((item) => item.sealed.record.id === state.activeRecordId)
     ?? state.records[state.records.length - 1];
   const isShowcase = !storedEntry;
-  const entry = storedEntry ?? SHOWCASE_RECORDS[0];
+  const entry = storedEntry ?? SHOWCASE_OPEN_RECORD;
 
   if (!entry) {
     return (

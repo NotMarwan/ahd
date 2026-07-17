@@ -97,8 +97,8 @@ describe('Pilot UI batches 7–9', () => {
     const impact = await render(providers(<ImpactScreen />, pilotStore, journeyStore));
     expect(impact.getByText('بيانات تجريبية')).toBeTruthy();
     expect(impact.getByText('النتيجة التجريبية')).toBeTruthy();
-    expect(impact.getByText('3')).toBeTruthy();
-    expect(impact.getByText('9,100.00 ر.س')).toBeTruthy();
+    expect(impact.getByText('6')).toBeTruthy();
+    expect(impact.getByText('9,000.00 ر.س')).toBeTruthy();
     expect(impact.getByText('تحويلًا اختُصر إلى 2')).toBeTruthy();
     expect(journeyStore.getState().records).toHaveLength(0);
     expect(pilotStore.getState().jamiya.circles).toHaveLength(0);
@@ -221,7 +221,7 @@ describe('Pilot UI batches 7–9', () => {
 
     const daily = await render(providers(<DailyScreen />, pilotStore));
     expect(daily.getByText('بيانات تجريبية')).toBeTruthy();
-    expect(daily.getAllByText('دفعة هذا الشهر').length).toBeGreaterThan(0);
+    expect(daily.getAllByText('قيد اليوم').length).toBeGreaterThan(0);
 
     await fireEvent.changeText(daily.getByLabelText('عنوان القيد'), 'قيد اليوم');
     await fireEvent.changeText(daily.getByLabelText('نصّ القيد'), 'سلّمت ريم دفعة يدًا بيد');

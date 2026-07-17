@@ -20,13 +20,13 @@ describe('Pilot UI batches 1–3', () => {
       </AhdJourneyProvider>,
     );
 
-    expect(screen.getByLabelText('صاحب المال').props.value).toBe('نورة');
-    expect(screen.getByLabelText('المستفيد').props.value).toBe('ليلى');
-    expect(screen.getByLabelText('مبلغ العهد بالريال').props.value).toBe('4800');
-    expect(screen.getByLabelText('غرض العهد').props.value).toBe('مصاريف علاج طارئة');
-    expect(screen.getByLabelText('عدد أشهر السداد').props.value).toBe('6');
-    expect(screen.getByLabelText('شهر أول استحقاق').props.value).toBe('2026-08');
-    expect(screen.getByLabelText('تاريخ الاتفاق').props.value).toBe('2026-07-17');
+    expect(screen.getByLabelText('صاحب المال').props.value).toBe('نايف العتيبي');
+    expect(screen.getByLabelText('المستفيد').props.value).toBe('سلطان');
+    expect(screen.getByLabelText('مبلغ العهد بالريال').props.value).toBe('1200');
+    expect(screen.getByLabelText('غرض العهد').props.value).toBe('سلفة شخصية بلا زيادة');
+    expect(screen.getByLabelText('عدد أشهر السداد').props.value).toBe('1');
+    expect(screen.getByLabelText('شهر أول استحقاق').props.value).toBe('2026-05');
+    expect(screen.getByLabelText('تاريخ الاتفاق').props.value).toBe('2026-04-15');
     expect(screen.queryByRole('button', { name: 'تعبئة تجريبية' })).toBeNull();
     expect(screen.getByText('بيانات تجريبية')).toBeTruthy();
     expect(store.getState().records).toHaveLength(0);

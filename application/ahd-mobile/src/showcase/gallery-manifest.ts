@@ -8,7 +8,7 @@ export type MobileReadmeGalleryAsset = {
   readonly states?: readonly GalleryProofState[];
 };
 
-export const MOBILE_README_GALLERY = [
+export const MOBILE_README_GALLERY: readonly MobileReadmeGalleryAsset[] = [
   { filename: '01-home.png', screens: ['home'] },
   { filename: '02-create-refusal.png', screens: ['create', 'refusal'] },
   { filename: '03-daftari-timeline.png', screens: ['daftari', 'timeline'] },
@@ -33,4 +33,4 @@ export const MOBILE_README_GALLERY = [
   { filename: '18-bounds-shariah.png', screens: ['bounds', 'shariah'] },
   { filename: '19-plans-org.png', screens: ['plans', 'org'] },
   { filename: '20-settings.png', screens: ['settings'] },
-] as const satisfies readonly MobileReadmeGalleryAsset[];
+] as const;

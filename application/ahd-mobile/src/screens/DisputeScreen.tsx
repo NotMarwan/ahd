@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -16,19 +16,20 @@ export function DisputeScreen() {
   const isDisputesShowcase = storedDisputes.length === 0;
   const records = isRecordsShowcase ? SHOWCASE_RECORDS : journey.records;
   const disputes = isDisputesShowcase ? SHOWCASE_DAILY_ENTRIES.filter((entry) => entry.kind === 'dispute') : storedDisputes;
-  const [recordId, setRecordId] = useState<string>(records[0]?.sealed.record.id ?? '');
+  const preferredRecordId = disputes.find((entry) => entry.kind === 'dispute')?.recordId;
+  const initialRecordId = records.find((entry) => entry.sealed.record.id === preferredRecordId)?.sealed.record.id
+    ?? records[0]?.sealed.record.id
+    ?? '';
+  const [requestedRecordId, setRequestedRecordId] = useState<string>(initialRecordId);
+  const recordId = records.some((entry) => entry.sealed.record.id === requestedRecordId)
+    ? requestedRecordId
+    : initialRecordId;
   const [reason, setReason] = useState<string>(SHOWCASE_DISPUTE_FORM.reason);
   const [effectiveDate, setEffectiveDate] = useState<string>(SHOWCASE_DISPUTE_FORM.effectiveDate);
   const [reconciliationDate, setReconciliationDate] = useState<string>(SHOWCASE_DISPUTE_FORM.reconciliationDate);
   const [reconciliationConfirmed, setReconciliationConfirmed] = useState(false);
   const [feedback, setFeedback] = useState<string>();
   const selectedIsReal = journey.records.some((entry) => entry.sealed.record.id === recordId);
-
-  useEffect(() => {
-    if (!records.some((entry) => entry.sealed.record.id === recordId)) {
-      setRecordId(records[0]?.sealed.record.id ?? '');
-    }
-  }, [recordId, records]);
 
   const save = async () => {
     if (!recordId || !selectedIsReal) return;
@@ -87,7 +88,7 @@ export function DisputeScreen() {
                   accessibilityRole="radio"
                   accessibilityState={{ checked: selected }}
                   key={id}
-                  onPress={() => setRecordId(id)}
+                  onPress={() => setRequestedRecordId(id)}
                   style={[styles.record, selected && styles.recordSelected]}
                 >
                   <Text style={styles.title}>{entry.sealed.record.lender} ← {entry.sealed.record.borrower}</Text>

@@ -20,9 +20,9 @@ test('يعرض لوحة المؤسسة بمجاميع عرض معلّمة دون
   expect(view.getByText('عرض تجريبي')).toBeTruthy();
   expect(view.getByText('لا مؤسسة مرتبطة بهذه النسخة التجريبية')).toBeTruthy();
   expect(view.getByText('يحتاج اتصالًا')).toBeTruthy();
-  expect(view.getByText('جمعية الأهل')).toBeTruthy();
-  expect(view.getByText('5 أعضاء · 5,000.00 ر.س')).toBeTruthy();
-  expect(view.getByText('5,000.00 ر.س')).toBeTruthy();
+  expect(view.getByText('جمعية أهل الحي')).toBeTruthy();
+  expect(view.getByText('6 أعضاء · 6,000.00 ر.س')).toBeTruthy();
+  expect(view.getByText('6,000.00 ر.س')).toBeTruthy();
   expect(view.getByText('🛡️ تجميعاتٌ فقط — لا رقمَ فردٍ، ولا تصنيف، ولا يُصدَّر شيء.')).toBeTruthy();
   expect(pilotStore.getState().jamiya.circles).toHaveLength(0);
 });

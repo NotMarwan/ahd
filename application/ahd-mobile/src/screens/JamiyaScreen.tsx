@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -16,7 +16,6 @@ import { ahdCore } from '@/core/ahd-core';
 import {
   SHOWCASE_CIRCLE,
   SHOWCASE_JAMIYA_FORM,
-  SHOWCASE_PROFILE_NAME,
 } from '@/showcase/showcase-data';
 import { usePilot, type PilotCircle } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
@@ -103,19 +102,18 @@ export function JamiyaScreen() {
     ?? state.jamiya.circles.at(-1);
   const showcaseMembersText = SHOWCASE_CIRCLE.members
     .map((member) => member.displayName)
-    .filter((name) => name !== (displayName ?? SHOWCASE_PROFILE_NAME))
-    .slice(0, 4)
+    .filter((name) => name !== (displayName ?? SHOWCASE_CIRCLE.organizer))
+    .slice(0, 5)
     .join('، ');
   const [title, setTitle] = useState<string>(SHOWCASE_JAMIYA_FORM.title);
-  const [displayNameDraft, setDisplayNameDraft] = useState<string>(SHOWCASE_PROFILE_NAME);
+  const [displayNameDraft, setDisplayNameDraft] = useState<string>(SHOWCASE_CIRCLE.organizer);
   const [startMonth, setStartMonth] = useState<string>(SHOWCASE_JAMIYA_FORM.startMonth);
   const [amountText, setAmountText] = useState<string>(SHOWCASE_JAMIYA_FORM.amountText);
-  const [membersText, setMembersText] = useState<string>(showcaseMembersText);
+  const [membersTextDraft, setMembersTextDraft] = useState<string | null>(null);
+  const membersText = membersTextDraft ?? showcaseMembersText;
   const [consentDate, setConsentDate] = useState<string>(SHOWCASE_JAMIYA_FORM.consentDate);
   const [paymentDate, setPaymentDate] = useState<string>(SHOWCASE_JAMIYA_FORM.paymentDate);
   const [error, setError] = useState<string>();
-
-  useEffect(() => { setMembersText(showcaseMembersText); }, [showcaseMembersText]);
 
   const round = circle ? currentRound(circle) : null;
   const recipient = circle && round
@@ -188,7 +186,7 @@ export function JamiyaScreen() {
 
       {!circle || circle.status !== 'complete' ? (
         <ShowcaseNotice body={!circle
-          ? 'جمعية من خمسة أشخاص بموافقات ودفعات ثابتة للعرض فقط؛ لا تُضاف إلى جهازك.'
+          ? 'جمعية من ستة أشخاص بموافقات ودفعات ثابتة للعرض فقط؛ لا تُضاف إلى جهازك.'
           : 'حقول التاريخ تبدأ بأمثلة؛ بيانات الجمعية نفسها محلية ولا يُحفظ تغيير قبل الضغط.'} />
       ) : null}
 
@@ -209,8 +207,8 @@ export function JamiyaScreen() {
                 <Field label="اسم الجمعية" value={title} onChangeText={setTitle} />
                 <Field label="شهر البداية" value={startMonth} onChangeText={setStartMonth} />
                 <Field label="حصة كل عضو بالريال" value={amountText} onChangeText={setAmountText} keyboardType="decimal-pad" />
-                <Field label="أسماء الأعضاء الآخرين" value={membersText} onChangeText={setMembersText} />
-                <Text style={styles.help}>افصل الأسماء بفاصلة. يلزم عضو آخر على الأقل، وبحد أقصى خمسة أعضاء.</Text>
+                <Field label="أسماء الأعضاء الآخرين" value={membersText} onChangeText={setMembersTextDraft} />
+                <Text style={styles.help}>افصل الأسماء بفاصلة. يلزم عضو آخر على الأقل، وبحد أقصى ستة أعضاء شاملًا المنظّم.</Text>
               </View>
             </RowGroup>
             <AhdButton disabled={!displayName} label={displayName ? 'احفظ مسودة الجمعية' : 'احفظ اسم العرض أولًا'} onPress={createCircle} />

@@ -53,10 +53,10 @@ test('يعرض رحلة تجريبية معلّمة حين لا يوجد عهد 
   );
 
   expect(view.getByText('عرض تجريبي')).toBeTruthy();
-  expect(view.getByText(/AHD-DEMO-0001/)).toBeTruthy();
-  expect(view.getByText('نورة')).toBeTruthy();
-  expect(view.getByText('ليلى')).toBeTruthy();
-  expect(view.getByText('4,800.00 ر.س')).toBeTruthy();
+  expect(view.getByText(/AHD-OPEN/)).toBeTruthy();
+  expect(view.getByText('منيرة')).toBeTruthy();
+  expect(view.getByText('ماجد')).toBeTruthy();
+  expect(view.getByText('20,000.00 ر.س')).toBeTruthy();
   expect(view.queryByRole('button', { name: 'أنشئ عهدًا' })).toBeNull();
   expect(store.getState().records).toHaveLength(0);
 });

@@ -986,7 +986,7 @@ export function assertPilotSlice<K extends PilotSliceKey>(
       nonEmptyStringAt(circle.organizer, `${path}.organizer`);
       monthAt(circle.startMonth, `${path}.startMonth`);
       arrayAt(circle.members, `${path}.members`);
-      if (circle.members.length < 2 || circle.members.length > 5) invalid(`${path}.members`);
+      if (circle.members.length < 2 || circle.members.length > 6) invalid(`${path}.members`);
       circle.members.forEach((memberValue, memberIndex) => {
         const memberPath = `${path}.members[${memberIndex}]`;
         const member = recordAt(memberValue, memberPath, [

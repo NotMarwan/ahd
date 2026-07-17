@@ -1,3 +1,5 @@
+import { describe, expect, it } from '@jest/globals';
+
 import { SCREEN_REGISTRY } from '../../navigation/screen-registry';
 import { MOBILE_README_GALLERY } from '../gallery-manifest';
 

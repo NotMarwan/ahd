@@ -15,10 +15,10 @@ test('يعرض خطًا زمنيًا تجريبيًا معلّمًا من دون
   const view = await render(<PilotProvider store={store}><AhdJourneyProvider store={journeyStore}><TimelineScreen /></AhdJourneyProvider></PilotProvider>);
   expect(view.getByText('عرض تجريبي')).toBeTruthy();
   expect(view.getByText('الأحداث المحلية')).toBeTruthy();
-  expect(view.getAllByText('كُتب العهد')).toHaveLength(3);
-  expect(view.getAllByText('AHD-DEMO-0001')).toHaveLength(5);
-  expect(view.getAllByText('AHD-DEMO-0002')).toHaveLength(5);
-  expect(view.getAllByText('AHD-DEMO-0003')).toHaveLength(5);
+  expect(view.getAllByText('كُتب العهد')).toHaveLength(6);
+  for (const id of ['AHD-CAFE', 'AHD-SULTAN', 'AHD-ABD', 'AHD-KEPT', 'AHD-DISP', 'AHD-FAHD']) {
+    expect(view.getAllByText(id)).toHaveLength(5);
+  }
   expect(view.queryByRole('button', { name: 'افتح السجل' })).toBeNull();
   expect(journeyStore.getState().records).toHaveLength(0);
 });

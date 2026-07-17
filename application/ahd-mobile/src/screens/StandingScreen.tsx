@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { AhdButton, AmountDisplay, AppShell, EmptyState, RowGroup, ScreenHeader, Section, ShowcaseNotice, StatusChip } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
-import { SHOWCASE_PROFILE_NAME, SHOWCASE_RECORDS } from '@/showcase/showcase-data';
+import { SHOWCASE_PROFILE_NAME, SHOWCASE_STANDING_RECORD } from '@/showcase/showcase-data';
 import { selectRelatedRecords, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
@@ -16,9 +16,7 @@ export function StandingScreen() {
     .filter((entry) => entry.sealed.prepared.open);
   const isShowcase = !localDisplayName || realRecords.length === 0;
   const displayName = localDisplayName ?? SHOWCASE_PROFILE_NAME;
-  const records = isShowcase
-    ? selectRelatedRecords(SHOWCASE_RECORDS, SHOWCASE_PROFILE_NAME).filter((entry) => entry.sealed.prepared.open)
-    : realRecords;
+  const records = isShowcase ? [SHOWCASE_STANDING_RECORD] : realRecords;
 
   const createOpen = async () => {
     await beginCreate();
