@@ -26,70 +26,83 @@
 
 «عهد» يطبّق أمرًا قرآنيًا مباشرًا: ﴿إذا تداينتم بدينٍ إلى أجلٍ مسمًّى **فاكتبوه**﴾. المصرف يشهد ويكتب ويختم — ولا يُقرض من ماله، ولا يحكم بين الطرفين، ولا يأخذ على القرض شيئًا.
 
-## الرحلة في ثلاث خطوات
+## عهد على الجوال — 24 شاشة وقدرة في 20 صورة
 
-### ١ · اكتب عهدك — والنظام يحرسه من الربا
+لقطات حقيقية من التطبيق الجديد، ببيانات عرض متّسقة مع نسخة `Web App`. كل مثال معلّم بوضوح بأنه تجريبي وغير محفوظ، وكل الأرقام معروضة بالصيغة الإنجليزية مع الحفاظ على اتجاه العربية.
 
-يسجّل الطرفان المبلغ والموعد. أيّ شرط فائدة أو غرامة تأخير يُرصد قبل الختم، **ويُقترح البديل الحلال** مكانه.
-
-<p align="center">
-  <img src="app/screenshots/readme/01-home.png" alt="الرئيسية — نسيج عهودك" width="30%">
-  <img src="app/screenshots/readme/02-create-riba-blocked.png" alt="شرط الربا يُرصد ويُرفض قبل الختم مع بديل حلال" width="30%">
-  <img src="app/screenshots/readme/03-daftari.png" alt="دفتري — كل ما لك وما عليك" width="30%">
-</p>
-<p align="center"><sub>الرئيسية · رصد شرطَي ربا واقتراح البديل الحلال · دفتري: ما لك وما عليك بنظرة</sub></p>
-
-### ٢ · ختمٌ يكشف العبث — جرّبه بنفسك
-
-كل عهد يُختم ببصمة تشفيرية. غيّر المبلغ ريالًا واحدًا بعد الاتفاق — تنكسر السلسلة أمام عينيك، ولا تُقبل الوثيقة.
+### اكتب العهد، راجعه، ثم اختبر ختمه
 
 <p align="center">
-  <img src="app/screenshots/readme/05-proof-tampered.png" alt="عبث مكشوف — تغيّر الختم فلا تُقبل" width="38%">
-  &nbsp;&nbsp;
-  <img src="app/screenshots/readme/04-proof-verified.png" alt="وثيقة سليمة — الختم مطابق" width="38%">
+  <img src="application/ahd-mobile/screenshots/readme/01-home.png" alt="الرئيسية — نسيج العهود والرصيد والحالة الأكثر إلحاحًا" width="38%">
 </p>
-<p align="center"><sub>يسارًا: عبثٌ مكشوف — انكسرت السلسلة. يمينًا: وثيقة سليمة — الختم مطابق.</sub></p>
-
-### ٣ · رحمةٌ عند العسر، ومقاصّةٌ بالتراضي
-
-المتعثر يُنظَر بالمعروف ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾ — لا عدّاد تأخير ولا تشهير. وشبكة الديون المتشابكة تُختصر: **9 التزامات تصبح تحويلين**، ولا يتغيّر حقّ أحد بهللة.
+<p align="center"><sub>الرئيسية: 7 خيوط، 6 عهود نشطة، وما لك وما عليك، وتنبيه سلطان المتأخر 37 يومًا.</sub></p>
 
 <p align="center">
-  <img src="app/screenshots/readme/07-open-loan.png" alt="قرض مفتوح — يُسدَّد متى ما تيسّر، بلا موعد وبلا غرامة" width="30%">
-  <img src="app/screenshots/readme/06-settle.png" alt="المقاصة — 9 التزامات تصبح تحويلين" width="30%">
-  <img src="app/screenshots/readme/08-impact.png" alt="أثر المقاصة عبر الدوائر" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/02-create-refusal.png" alt="إنشاء عهد مع رصد الربا وشرح أسباب الرفض الثلاثة" width="88%">
 </p>
-<p align="center"><sub>قرضٌ مفتوح «متى ما تيسّر» · المقاصّة 9 ← 2 مع برهان الحفظ · الأثر عبر الدوائر</sub></p>
-
-## جولة في الميزات — ٢٣ شاشة عاملة
+<p align="center"><sub>اكتب عهدًا، وافحص الشرط قبل الختم؛ عهد لا يُقرض، ولا يقيّم، ولا يحكم.</sub></p>
 
 <p align="center">
-  <img src="app/screenshots/readme/10-request.png" alt="اطلب عهدًا — اطلب قرضًا حسنًا بكرامة" width="30%">
-  <img src="app/screenshots/readme/14-daily.png" alt="اليومي — قيود شخصية خفيفة تتحول إلى عهود مختومة" width="30%">
-  <img src="app/screenshots/readme/15-timeline.png" alt="السجل — قصة كل عهد حدثًا حدثًا" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/03-daftari-timeline.png" alt="دفتري والسجل الزمني لكل عهد" width="88%">
 </p>
-<p align="center"><sub><strong>اطلب عهدًا</strong> بكرامة — لا حرج في أن تسأل · <strong>اليومي</strong>: قيد خفيف يتحوّل عند الحاجة إلى عهد مختوم · <strong>السجلّ</strong>: قصة كلّ عهد حدثًا حدثًا</sub></p>
+<p align="center"><sub>دفتري يجمع العهود، والسجل يشرح كل انتقال من المسودة إلى الختم والسداد.</sub></p>
 
 <p align="center">
-  <img src="app/screenshots/readme/11-circle.png" alt="الدائرة — صندوق العائلة بأمين" width="30%">
-  <img src="app/screenshots/readme/12-circle-adv.png" alt="الدائرة+ — مناسبة تقديرية تخرج إلى عهد" width="30%">
-  <img src="app/screenshots/readme/13-jamiya.png" alt="الجمعية الموثقة — شهادة بلا حيازة" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/04-proof.png" alt="إثبات مطابق ثم عبث مكتشف في مبلغ العهد" width="88%">
 </p>
-<p align="center"><sub><strong>الدائرة</strong>: صندوق أهلٍ وأصدقاء بأمين وكرامة · <strong>الدائرة+</strong>: مناسبةٌ تقديرية تخرج إلى عهد · <strong>الجمعية الموثّقة</strong>: كل دفعة حدثٌ مختوم، والأموال لا تمرّ بالمصرف</sub></p>
+<p align="center"><sub>غيّر المبلغ من 2,500.00 إلى 2,500.01 ر.س؛ يتوقف الاستيراد فورًا لأن المحتوى لم يعد يطابق الإثبات.</sub></p>
 
 <p align="center">
-  <img src="app/screenshots/readme/16-dispute.png" alt="محل خلاف — عهد يشهد ولا يحكم، والصلح أولا" width="30%">
-  <img src="app/screenshots/readme/17-maroof.png" alt="سجل المعروف — التوثيق الودي" width="30%">
-  <img src="app/screenshots/readme/18-mine.png" alt="ما علي — التزاماتك بكرامة" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/05-settlement.png" alt="المقاصة — 9 التزامات تصبح تحويلين مع حفظ حق الجميع" width="38%">
+  <img src="application/ahd-mobile/screenshots/readme/06-capabilities.png" alt="فهرس 19 أداة عاملة داخل تطبيق عهد" width="38%">
 </p>
-<p align="center"><sub><strong>محلّ خلاف</strong>: الوثيقة المحايدة تُعرض، والصلح يُقترح أولًا — عهدٌ يشهد ولا يحكم · <strong>سِجلّ المعروف</strong> · <strong>ما عليّ</strong>: التزاماتك بكرامة، سدِّد ما تيسّر</sub></p>
+<p align="center"><sub>المقاصّة تختصر 9 التزامات إلى تحويلين من دون تغيير صافي أحد · فهرس حيّ يفتح 19 أداة عاملة.</sub></p>
+
+### العهود والقروض والدوائر
 
 <p align="center">
-  <img src="app/screenshots/readme/19-bounds.png" alt="الضمانات والحدود" width="30%">
-  <img src="app/screenshots/readme/20-shariah.png" alt="الأساس الشرعي — الآيات والمعايير" width="30%">
-  <img src="app/screenshots/readme/21-plans.png" alt="الأجرة والخطط — كيف يكسب المصرف حلالا" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/07-open-loan.png" alt="قرض مفتوح — متى ما تيسّر بلا فائدة أو غرامة" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/08-mine.png" alt="ما علي — التزاماتك بكرامة" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/09-request.png" alt="اطلب عهدًا بكرامة" width="30%">
 </p>
-<p align="center"><sub><strong>الضمانات والحدود</strong>: ما لا يفعله عهد أبدًا — لا إقراض، لا حكم، لا فائدة، لا تصنيف · <strong>الأساس الشرعيّ</strong> بالآيات والمعايير · <strong>الأجرة والخطط</strong>: أجرة خدمةٍ ثابتة منفصلة عن القرض</sub></p>
+<p align="center"><sub>قرض مفتوح بـ20,000 ر.س · ما عليك في مكان واضح · طلب عهد يحفظ كرامة السائل.</sub></p>
+
+<p align="center">
+  <img src="application/ahd-mobile/screenshots/readme/10-standing.png" alt="عهد قائم قابل للتكرار" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/11-circle.png" alt="الدائرة — صندوق الأهل والأصدقاء" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/12-circle-advanced.png" alt="الدائرة المتقدمة — مقاصة التزامات الجولة" width="30%">
+</p>
+<p align="center"><sub>عهد قائم متكرر · دائرة بأمين واضح · دائرة متقدمة تعرض الالتزامات قبل التسوية.</sub></p>
+
+<p align="center">
+  <img src="application/ahd-mobile/screenshots/readme/13-jamiya.png" alt="الجمعية الموثقة — 6 أعضاء وكل دفعة حدث مختوم" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/14-daily.png" alt="قيد اليوم — من مصروف خفيف إلى عهد" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/15-maroof.png" alt="سجل المعروف — التوثيق الودي" width="30%">
+</p>
+<p align="center"><sub>جمعية من 6 أعضاء · قيد يومي خفيف · سجل للوفاء والإمهال والإبراء.</sub></p>
+
+<p align="center">
+  <img src="application/ahd-mobile/screenshots/readme/16-dispute.png" alt="محل خلاف — الصلح أولًا والوثيقة محايدة" width="30%">
+  <img src="application/ahd-mobile/screenshots/readme/17-impact.png" alt="الأثر — فصل المقاس عن التوضيحي" width="30%">
+</p>
+<p align="center"><sub>عهد يشهد ولا يحكم، والصلح أولًا · الأثر المقاس منفصل بوضوح عن المثال التوضيحي.</sub></p>
+
+### الحدود والأساس الشرعي والتشغيل
+
+<p align="center">
+  <img src="application/ahd-mobile/screenshots/readme/18-bounds-shariah.png" alt="الضمانات والحدود وفاحص الربا والأساس الشرعي" width="88%">
+</p>
+<p align="center"><sub>فاحص الربا يرفض غرامة التأخير، والأساس الشرعي يعرض الآيات والمعايير وحدود الاستدلال.</sub></p>
+
+<p align="center">
+  <img src="application/ahd-mobile/screenshots/readme/19-plans-org.png" alt="الأجرة والخطط وعهد للمنظمات" width="88%">
+</p>
+<p align="center"><sub>أجرة خدمة ثابتة منفصلة عن القرض · مسار للمنظمات بلا حيازة أموال.</sub></p>
+
+<p align="center">
+  <img src="application/ahd-mobile/screenshots/readme/20-settings.png" alt="الإعدادات — الخصوصية والأرقام الإنجليزية والتصدير والحذف" width="38%">
+</p>
+<p align="center"><sub>اسم عرض محلي، إخفاء المبالغ، أرقام إنجليزية، تصدير كامل، وحذف بيانات الجهاز.</sub></p>
 
 ### الديوان — نسخة الحاسوب
 
