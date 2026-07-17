@@ -646,3 +646,13 @@ _Backlog (from brief §4, priority order):_
 - Local visual tour on ahd-pilot AVD (Home/Create/Daftari/المقاصّة/More/Settings): inset ✓, full RTL ✓, no red ✓.
 - Gates: mobile 40 suites / 137 tests, tsc clean, lint 0 errors, repo gate 3380/0, tripwire intact.
 - Open nit (not fixed — avoid another rebuild before judging): stack-screen back arrow sits top-LEFT pointing ← ; Arabic convention is top-right pointing →. Candidate JL item.
+
+## 2026-07-17 — Claude-E: GitHub repo organized + judge-facing README (main)
+- Owner directive: make the GitHub repo judge-ready fast; fold in the other agents' latest results.
+- Merged into main: codex/mobile-pilot-mvp (APK 69.6 MB + RTL/safe-area fixes + emulator evidence) and claude/fable5-ahd-mobile-pilot-2e1a76 (judge-showcase docs, T138 evidence). No conflicts; gate re-run green both before and after.
+- README rebuilt for non-technical judges: soul line («كلمتك محفوظة، وعلاقتك محميّة»), 3-step story (اكتب/يكشف العبث/رحمة+مقاصّة), four nevers, 30-second try-it, mobile APK link, trust section; all technical depth behind <details>.
+- 9 FRESH screenshots (trust-weave design, current app, 2x DPI) captured headlessly via a CDP harness (browser-pane screenshot API is broken on this machine — scratchpad shoot.cjs drives headless Chrome over raw WebSocket). Saved under app/screenshots/readme/; premium-after set (07-14, pre-tone-pass) left untouched.
+- tests/readme-judge-contract.cjs re-pinned to the new story: 13 required beats (was 11), 8 tracked visuals (was 3), same forbidden list and caps. Gate: AHD GATE ✅ 3380/0.
+- findex_indicators.json untracked + gitignored per recorded intent in _meta/score-leap-loop-state.md ("never commit").
+- GitHub polish: repo description set (AR+EN), topics added (islamic-finance, qard-hasan, …), wiki disabled. Branches pushed as backup: codex/mobile-pilot-mvp (2 local commits), fable5 mobile, system-design-docs, repo-org.
+- main: 360d092 → e1032f3. Raw checks: README images + APK all 200 on raw.githubusercontent.
