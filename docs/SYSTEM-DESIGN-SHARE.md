@@ -165,10 +165,47 @@ organizer tools, billing/fee receipt (service fee model — never on the loan), 
 2026-07-16 competitive-capability wave of nine benchmark modules (documented in
 `docs/CAPABILITIES-STRUCTURE.md`), all on the same DI feature-module → screen → registry pattern.
 
-**Mobile (Expo React Native, merged to main):** a 23-screen Arabic-first RTL mobile app with completed
-pilot customer flows (create → seal → daily qaid → settle → export), enforced financial invariants
-(integer money kept out of the screen layer), and a **delivered Android pilot APK** (<100 MB gate,
-SHA-256 checksum, automated Maestro emulator-journey evidence, safe-area/RTL rendering fixes).
+**Mobile (Expo React Native, `application/ahd-mobile`) — the local-first Pilot MVP:** a real,
+installable Arabic-first RTL client for one or two pilot customers, ~26 screens (Home, CreateAhd,
+Daftari, OpenLoan, Settlement, Proof, Mine, Maroof, Jamiya, Daily, Circle/CircleAdv, Timeline, Dispute,
+Bounds, Refusal, Shariah, Impact, Standing, Org, Request, Plans, Settings, More, RecordDetail, Welcome).
+Key properties:
+
+- **Local-first persistence** — SQLite (`expo-sqlite`) with five versioned slices (profile, journey,
+  daily, jamiya, settings); serialized writes, snapshot-before-mutate, corrupt/future versions fail
+  closed into a recovery screen; delete-all and deterministic versioned JSON export
+  (`ShareEnvelopeV1` for sealed-record sharing).
+- **Honest pilot disclosure** — first launch is a mandatory Arabic `/welcome`: data stays on device,
+  not a banking service, not Shariah/legal approval, display names only (national ID / phone / bank
+  account / credentials / analytics forbidden by design and by test), zero network.
+- **Product boundary enforced by tests** — only `application/ahd-mobile` is client runtime; the root
+  `app/` engine feeds it via byte-pinned generated domain modules (sync script), never direct imports.
+- **Feature hub + settlement teaching demo (2026-07-17)** — the More tab is a hybrid hub (outcome-led
+  hero, recent-tools strip, category chips, bento cards, searchable full catalog); Settlement shows real
+  local records first, and when empty renders the frozen 9-obligation golden netting tangle as a
+  clearly-labelled non-persisted example (`بيانات تجريبية`) with the 9 inputs and 2 computed transfers.
+- **Delivered Android pilot APK** — <100 MB gate, SHA-256 checksum, automated Maestro emulator-journey
+  evidence, RTL/safe-area/launcher fixes; financial invariants enforced (integer money kept out of the
+  screen layer).
+
+### Visual design system — Trust Weave (canonical; the earlier Sadu direction was rejected)
+
+The approved design language across the mobile app makes the "weave of trust" literal — thread bands,
+rails, knots, seal chips, and before/after netting paths as UI primitives:
+
+- **Palette (semantic, enforced by theme-token tests):** primary cobalt `#2456F6`; warm paper surface
+  `#F6F2E9` with white cards and near-black ink `#16222C`; gold `#B9862F` = kept/fulfilled/mercy;
+  amber `#C77E1E` = waiting/late-without-penalty; red `#C2402A` reserved **only** for tamper or
+  prohibited (riba) terms — never a generic error/accent color.
+- **Type & digits:** Arabic primary; money, hashes, and references in isolated Latin tabular digits
+  (one mono style).
+- **Ergonomics:** controls ≥48 px, rows ≥56 px, radii 20/14/10; all destinations render without
+  horizontal overflow at 360/394/480 px.
+- **Structure:** theme tokens own all semantic color/spacing/radius/type; shared primitives own paper,
+  cards, buttons, chips, headers, woven bands, seal chips, meters, and the netting visual; screens only
+  compose primitives around live store/engine data — no business math in rendering.
+- Canonical references: `docs/research/related-apps/vibe-preview-trust-weave-v2.html` (+ b2/b3 batches);
+  design specs in `docs/superpowers/specs/2026-07-16-trust-weave-mobile-design.md`.
 
 ---
 
@@ -244,8 +281,7 @@ docs/                    ARCHITECTURE.md · PUBLISHABLE-PRODUCT-SPEC.md · CAPAB
                          JUDGE-LENS.md · specs/ (open-witness-v1, jamiya-v1, daily-v1 …) · pitch/
 project/mcp/             3 stdio MCP servers (17 tools) for AI-agent project navigation
 promo/                   Remotion motion promos
-design/                  visual direction: Sadu-weave base evolving toward a modern fintech
-                         "trust-weave" theme (see docs/superpowers/plans/2026-07-16-design-ux-overhaul.md)
+application/ahd-mobile/  Expo React Native pilot client (SQLite local-first, Trust Weave theme, APK)
 ```
 
 ---
