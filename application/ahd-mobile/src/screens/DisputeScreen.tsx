@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, ShowcaseNotice, StatusChip } from '@/components';
+import { SHOWCASE_DAILY_ENTRIES, SHOWCASE_DISPUTE_FORM, SHOWCASE_RECORDS } from '@/showcase/showcase-data';
 import { useAhdJourney, usePilot } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -10,16 +11,27 @@ export function DisputeScreen() {
   const router = useRouter();
   const { openRecord, state: journey } = useAhdJourney();
   const { state: pilot, store } = usePilot();
-  const disputes = pilot.daily.entries.filter((entry) => entry.kind === 'dispute');
-  const [recordId, setRecordId] = useState<string>();
-  const [reason, setReason] = useState('');
-  const [effectiveDate, setEffectiveDate] = useState('');
-  const [reconciliationDate, setReconciliationDate] = useState('');
+  const storedDisputes = pilot.daily.entries.filter((entry) => entry.kind === 'dispute');
+  const isRecordsShowcase = journey.records.length === 0;
+  const isDisputesShowcase = storedDisputes.length === 0;
+  const records = isRecordsShowcase ? SHOWCASE_RECORDS : journey.records;
+  const disputes = isDisputesShowcase ? SHOWCASE_DAILY_ENTRIES.filter((entry) => entry.kind === 'dispute') : storedDisputes;
+  const [recordId, setRecordId] = useState<string>(records[0]?.sealed.record.id ?? '');
+  const [reason, setReason] = useState<string>(SHOWCASE_DISPUTE_FORM.reason);
+  const [effectiveDate, setEffectiveDate] = useState<string>(SHOWCASE_DISPUTE_FORM.effectiveDate);
+  const [reconciliationDate, setReconciliationDate] = useState<string>(SHOWCASE_DISPUTE_FORM.reconciliationDate);
   const [reconciliationConfirmed, setReconciliationConfirmed] = useState(false);
   const [feedback, setFeedback] = useState<string>();
+  const selectedIsReal = journey.records.some((entry) => entry.sealed.record.id === recordId);
+
+  useEffect(() => {
+    if (!records.some((entry) => entry.sealed.record.id === recordId)) {
+      setRecordId(records[0]?.sealed.record.id ?? '');
+    }
+  }, [recordId, records]);
 
   const save = async () => {
-    if (!recordId) return;
+    if (!recordId || !selectedIsReal) return;
     setFeedback(undefined);
     try {
       await store.openDispute({ recordId, reason, effectiveDate });
@@ -56,7 +68,9 @@ export function DisputeScreen() {
         subtitle="افتح قضية على عهد حقيقي محفوظ. عهد يوثّق ولا يحكم، وفتح القضية لا يغيّر الرصيد."
       />
 
-      {journey.records.length === 0 ? (
+      <ShowcaseNotice body="حقول القضية تبدأ بمثال غير محفوظ؛ العهد الحقيقي المحدد وحده يمكن فتح قضية عليه بعد الضغط." />
+
+      {records.length === 0 ? (
         <Section>
           <RowGroup><EmptyState title="لا يوجد عهد لفتح قضية عليه" body="يجب أن يكون السجل مختومًا ومحفوظًا أولًا." /></RowGroup>
           <AhdButton label="افتح دفتري" onPress={() => router.push('/daftari')} />
@@ -64,7 +78,7 @@ export function DisputeScreen() {
       ) : (
         <Section title="اختر العهد">
           <RowGroup>
-            {journey.records.map((entry) => {
+            {records.map((entry) => {
               const id = entry.sealed.record.id;
               const selected = recordId === id;
               return (
@@ -84,25 +98,26 @@ export function DisputeScreen() {
           </RowGroup>
           <TextInput accessibilityLabel="سبب النزاع" multiline onChangeText={setReason} style={[styles.input, styles.reason]} value={reason} />
           <TextInput accessibilityLabel="تاريخ فتح النزاع" onChangeText={setEffectiveDate} placeholder="YYYY-MM-DD" style={styles.input} value={effectiveDate} />
-          <AhdButton disabled={!recordId} label="افتح القضية محليًا" onPress={save} />
+          <AhdButton disabled={!recordId || !selectedIsReal} label={isRecordsShowcase ? "مثال غير محفوظ" : "افتح القضية محليًا"} onPress={save} />
           {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
         </Section>
       )}
 
       {disputes.length > 0 ? (
-        <Section title={`قضايا محلية · ${disputes.length}`}>
+        <Section title={`${isDisputesShowcase ? 'قضايا تجريبية' : 'قضايا محلية'} · ${disputes.length}`}>
           <RowGroup>
             {disputes.map((dispute) => (
               <View key={dispute.id} style={styles.case}>
                 <View style={styles.heading}>
                   <Text style={styles.title}>{dispute.recordId}</Text>
-                  <StatusChip label={dispute.status === 'open' ? 'مفتوحة محليًا' : 'إقرار صلح محلي'} tone={dispute.status === 'open' ? 'neutral' : 'verified'} />
+                  <StatusChip label={isDisputesShowcase ? 'مثال غير محفوظ' : dispute.status === 'open' ? 'مفتوحة محليًا' : 'إقرار صلح محلي'} tone={dispute.status === 'open' ? 'neutral' : 'verified'} />
                 </View>
                 <Text style={styles.note}>{dispute.reason}</Text>
                 <Text style={styles.note}>{dispute.effectiveDate}</Text>
+                <Text style={styles.id}>{dispute.id}</Text>
                 <Text style={styles.note}>يحتاج اتصالًا لمشاركته مع الطرف الآخر؛ لا يغيّر الختم أو الرصيد.</Text>
-                <AhdButton label="اعرض السجل المختوم" onPress={() => showProof(dispute.recordId)} variant="secondary" />
-                {dispute.status === 'open' && pilot.profile.displayName ? (
+                {!isDisputesShowcase ? <AhdButton label="اعرض السجل المختوم" onPress={() => showProof(dispute.recordId)} variant="secondary" /> : null}
+                {!isDisputesShowcase && dispute.status === 'open' && pilot.profile.displayName ? (
                   <View style={styles.reconciliation}>
                     <TextInput
                       accessibilityLabel={`تاريخ الصلح ${dispute.id}`}

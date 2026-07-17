@@ -14,20 +14,9 @@ import {
   StatusChip,
 } from '@/components';
 import { ahdCore, type SettlementResult, type SettlementTransfer } from '@/core/ahd-core';
+import { SHOWCASE_SETTLEMENT_PARTICIPANTS, SHOWCASE_SETTLEMENT_TRANSFERS } from '@/showcase/showcase-data';
 import { useAhdJourney, type AhdStoredRecord } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
-
-const DEMO_SETTLEMENT_TRANSFERS = [
-  { from: 'نورة', to: 'سارة', amountMinor: 20_000 },
-  { from: 'سارة', to: 'خالد', amountMinor: 20_000 },
-  { from: 'نورة', to: 'ليلى', amountMinor: 25_000 },
-  { from: 'ليلى', to: 'فهد', amountMinor: 25_000 },
-  { from: 'نورة', to: 'خالد', amountMinor: 40_000 },
-  { from: 'نورة', to: 'فهد', amountMinor: 5_000 },
-  { from: 'سارة', to: 'ليلى', amountMinor: 15_000 },
-  { from: 'ليلى', to: 'خالد', amountMinor: 15_000 },
-  { from: 'خالد', to: 'سارة', amountMinor: 15_000 },
-] as const satisfies readonly SettlementTransfer[];
 
 function connectedLocalRecords(
   records: readonly AhdStoredRecord[],
@@ -84,7 +73,10 @@ export function SettlementScreen() {
   const recordIds = connected.map((entry) => entry.sealed.record.id);
   const transfers = transfersFor(connected);
   const isDemo = transfers.length === 0;
-  const previewTransfers = isDemo ? DEMO_SETTLEMENT_TRANSFERS : transfers;
+  const previewTransfers = isDemo ? SHOWCASE_SETTLEMENT_TRANSFERS : transfers;
+  const participants = isDemo
+    ? SHOWCASE_SETTLEMENT_PARTICIPANTS
+    : [...new Set(previewTransfers.flatMap((transfer) => [transfer.from, transfer.to]))].slice(0, 5);
   let preview: SettlementResult | undefined;
   let previewError: string | undefined;
   try {
@@ -111,7 +103,7 @@ export function SettlementScreen() {
   return (
     <AppShell testID="settlement-screen">
       <ScreenHeader
-        eyebrow={isDemo ? 'المقاصّة · تجربة توضّح الفكرة' : 'المقاصّة · اقتراح محلي'}
+        eyebrow={isDemo ? 'التسوية · تجربة توضّح الفكرة' : 'التسوية · اقتراح محلي'}
         title="نختصر التحويل،"
         accentTitle="ولا نغيّر الحق."
         subtitle={isDemo
@@ -137,6 +129,7 @@ export function SettlementScreen() {
             testID="netting-visual"
             beforeCount={visual.beforeCount}
             afterCount={visual.afterCount}
+            participants={participants}
           />
 
           {isDemo ? (
@@ -188,7 +181,7 @@ export function SettlementScreen() {
                 </View>
               </Pressable>
               <AhdButton
-                label="احفظ اقتراح المقاصّة"
+                label="احفظ اقتراح التسوية"
                 onPress={runSettlement}
                 disabled={!consentConfirmed}
               />
@@ -215,9 +208,9 @@ export function SettlementScreen() {
 
           {isDemo ? (
             <>
-              <Section title={`العهود التجريبية الداخلة · ${DEMO_SETTLEMENT_TRANSFERS.length}`}>
+              <Section title={`العهود التجريبية الداخلة · ${SHOWCASE_SETTLEMENT_TRANSFERS.length}`}>
                 <RowGroup>
-                  {DEMO_SETTLEMENT_TRANSFERS.map((transfer, index) => (
+                  {SHOWCASE_SETTLEMENT_TRANSFERS.map((transfer, index) => (
                     <TransferRow key={`demo-before-${transfer.from}-${transfer.to}-${index}`} transfer={transfer} />
                   ))}
                 </RowGroup>
@@ -230,9 +223,9 @@ export function SettlementScreen() {
                 </RowGroup>
               </Section>
               <View style={styles.demoActions}>
-                <Text style={styles.demoActionNote}>أضف عهودك الفعلية لتظهر مقاصّة تخص سجلات جهازك وحدها.</Text>
+                <Text style={styles.demoActionNote}>أضف عهودك الفعلية لتظهر تسوية تخص سجلات جهازك وحدها.</Text>
                 <AhdButton label="أنشئ عهدًا حقيقيًا" onPress={() => router.push('/create')} />
-                <AhdButton label="شاهد أثر المقاصّة" onPress={() => router.push('/impact')} variant="secondary" />
+                <AhdButton label="شاهد أثر التسوية" onPress={() => router.push('/impact')} variant="secondary" />
               </View>
             </>
           ) : (

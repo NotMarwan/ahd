@@ -1,90 +1,67 @@
 import { useMemo, useState } from 'react';
 import { useRouter, type Href } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { AppShell, ScreenHeader, Section, StatusChip } from '@/components';
+import { AppShell, ScreenHeader, Section } from '@/components';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 import {
-  BENTO_MORE_FEATURES,
   filterMoreFeatures,
   MORE_CATEGORIES,
-  RECENT_MORE_FEATURES,
   type MoreCategory,
   type MoreFeature,
   type MoreFeatureTone,
 } from './more-feature-catalog';
 
-const TONE_COLORS: Record<MoreFeatureTone, { background: string; foreground: string }> = {
-  accent: { background: colors.accentSoft, foreground: colors.accent },
-  gold: { background: colors.covenantSoft, foreground: colors.covenant },
-  neutral: { background: colors.cardSecondary, foreground: colors.inkSecondary },
+const RTL_ROW = Platform.OS === 'web' ? 'row' : 'row-reverse';
+
+const TONE_COLORS: Record<MoreFeatureTone, { line: string; soft: string; text: string }> = {
+  accent: { line: colors.accent, soft: colors.accentSoft, text: colors.accent },
+  gold: { line: colors.covenant, soft: colors.covenantSoft, text: colors.covenant },
+  neutral: { line: colors.inkSecondary, soft: colors.cardSecondary, text: colors.inkSecondary },
 };
 
-function FeatureMark({ feature, inverse = false }: { feature: MoreFeature; inverse?: boolean }) {
+function FeatureCard({ feature, onPress }: { feature: MoreFeature; onPress: () => void }) {
   const tone = TONE_COLORS[feature.tone];
-  return (
-    <View style={[styles.mark, { backgroundColor: inverse ? 'rgba(255,255,255,0.12)' : tone.background }]}>
-      <Text style={[styles.markText, { color: inverse ? colors.white : tone.foreground }]}>{feature.mark}</Text>
-      <View style={[styles.markDot, { backgroundColor: inverse ? colors.sealHash : tone.foreground }]} />
-    </View>
-  );
-}
-
-function RecentCard({ feature, onPress }: { feature: MoreFeature; onPress: () => void }) {
-  return (
-    <Pressable
-      accessibilityLabel={`افتح ${feature.label}`}
-      accessibilityRole="button"
-      onPress={onPress}
-      style={({ pressed }) => [styles.recentCard, pressed && styles.pressed]}
-    >
-      <FeatureMark feature={feature} />
-      <Text style={styles.recentTitle}>{feature.label}</Text>
-      <Text numberOfLines={2} style={styles.recentDescription}>{feature.description}</Text>
-    </Pressable>
-  );
-}
-
-function BentoCard({ feature, onPress }: { feature: MoreFeature; onPress: () => void }) {
-  return (
-    <Pressable
-      accessibilityLabel={`افتح ${feature.label}`}
-      accessibilityRole="button"
-      onPress={onPress}
-      style={({ pressed }) => [styles.bentoCard, pressed && styles.pressed]}
-    >
-      <View style={styles.bentoTop}>
-        <FeatureMark feature={feature} />
-        {feature.badge ? <StatusChip label={feature.badge} tone={feature.tone === 'gold' ? 'covenant' : 'active'} /> : null}
-      </View>
-      <View>
-        <Text style={styles.bentoTitle}>{feature.label}</Text>
-        <Text numberOfLines={3} style={styles.bentoDescription}>{feature.description}</Text>
-      </View>
-      <Text accessibilityElementsHidden style={styles.cardAction}>افتح ←</Text>
-    </Pressable>
-  );
-}
-
-function FeatureRow({ feature, onPress }: { feature: MoreFeature; onPress: () => void }) {
   return (
     <Pressable
       accessibilityLabel={feature.label}
       accessibilityRole="button"
       onPress={onPress}
       testID={`more-feature-${feature.key}`}
-      style={({ pressed }) => [styles.featureRow, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.featureCard, pressed && styles.pressed]}
     >
-      <FeatureMark feature={feature} />
-      <View style={styles.featureCopy}>
-        <View style={styles.featureTitleRow}>
-          <Text style={styles.featureTitle}>{feature.label}</Text>
-          {feature.badge ? <Text style={styles.featureBadge}>{feature.badge}</Text> : null}
+      <View style={[styles.toneLine, { backgroundColor: tone.line }]} />
+      <View style={styles.cardMeta}>
+        <View style={[styles.categoryPill, { backgroundColor: tone.soft }]}>
+          <View style={[styles.categoryDot, { backgroundColor: tone.line }]} />
+          <Text style={[styles.categoryText, { color: tone.text }]}>{feature.category}</Text>
         </View>
-        <Text numberOfLines={2} style={styles.featureDescription}>{feature.description}</Text>
+        {feature.badge ? <Text style={[styles.badge, { color: tone.text }]}>{feature.badge}</Text> : null}
       </View>
-      <Text accessibilityElementsHidden style={styles.featureArrow}>‹</Text>
+      <View style={styles.cardCopy}>
+        <Text numberOfLines={2} style={styles.cardTitle}>{feature.label}</Text>
+        <Text numberOfLines={3} style={styles.cardDescription}>{feature.description}</Text>
+      </View>
+      <View style={styles.openRow}>
+        <Text style={[styles.openText, { color: tone.text }]}>افتح</Text>
+        <Text accessibilityElementsHidden style={[styles.openArrow, { color: tone.text }]}>←</Text>
+      </View>
     </Pressable>
+  );
+}
+
+function NetworkPreview() {
+  return (
+    <View accessibilityElementsHidden style={styles.networkPreview}>
+      <View style={[styles.networkNode, styles.nodeTop]} />
+      <View style={[styles.networkNode, styles.nodeRight]} />
+      <View style={[styles.networkNode, styles.nodeBottomRight]} />
+      <View style={[styles.networkNode, styles.nodeBottomLeft]} />
+      <View style={[styles.networkNode, styles.nodeLeft]} />
+      <View style={styles.networkCore}>
+        <Text style={styles.networkCount}>9 → 2</Text>
+      </View>
+    </View>
   );
 }
 
@@ -100,8 +77,8 @@ export function MoreScreen() {
       <ScreenHeader
         eyebrow="المزيد · 19 أداة"
         title="أدوات عهد،"
-        accentTitle="حين تحتاجها."
-        subtitle="ابحث، صفِّ، وافتح النتيجة التي تريدها؛ كل شاشة معها وصف واضح."
+        accentTitle="جاهزة للاستعراض."
+        subtitle="ابحث أو اختر فئة؛ كل أداة تعرض نتيجتها ببيانات واضحة من أول زيارة."
       />
 
       <View style={styles.searchBox}>
@@ -124,42 +101,22 @@ export function MoreScreen() {
       </View>
 
       <Pressable
-        accessibilityLabel="افتح المقاصّة المقترحة"
+        accessibilityLabel="افتح التسوية المقترحة"
         accessibilityRole="button"
         onPress={() => open('/settle')}
-        style={({ pressed }) => [styles.hero, pressed && styles.heroPressed]}
+        style={({ pressed }) => [styles.hero, pressed && styles.pressed]}
       >
-        <View accessibilityElementsHidden style={styles.heroThread} />
-        <View style={styles.heroTop}>
-          <View>
-            <Text style={styles.heroEyebrow}>المقترح لك</Text>
-            <Text style={styles.heroTitle}>اختصر شبكة كاملة،{`\n`}ولا تغيّر حق أحد.</Text>
+        <View style={styles.heroCopy}>
+          <View style={styles.heroLabelRow}>
+            <View style={styles.heroDot} />
+            <Text style={styles.heroEyebrow}>تجربة جاهزة · خمسة أشخاص</Text>
           </View>
-          <View style={styles.heroPreview}>
-            <Text style={styles.heroBefore}>9</Text>
-            <Text style={styles.heroArrow}>←</Text>
-            <Text style={styles.heroAfter}>2</Text>
-          </View>
+          <Text style={styles.heroTitle}>اختصر شبكة كاملة،{`\n`}ولا تغيّر حق أحد.</Text>
+          <Text style={styles.heroBody}>شاهد تسعة التزامات تتحول إلى تحويلين فقط، مع بقاء صافي كل طرف محفوظًا.</Text>
+          <Text style={styles.heroAction}>افتح التسوية ←</Text>
         </View>
-        <Text style={styles.heroBody}>شاهد تسعة عهود تجريبية تتحول إلى تحويلين مع بقاء صافي كل طرف محفوظًا.</Text>
-        <View style={styles.heroActionRow}>
-          <Text style={styles.heroAction}>افتح المقاصّة</Text>
-          <Text style={styles.heroActionArrow}>←</Text>
-        </View>
+        <NetworkPreview />
       </Pressable>
-
-      <Section title="استخدمتها مؤخرًا">
-        <ScrollView
-          horizontal
-          contentContainerStyle={styles.recentStrip}
-          showsHorizontalScrollIndicator={false}
-          style={styles.horizontalScroller}
-        >
-          {RECENT_MORE_FEATURES.map((feature) => (
-            <RecentCard key={feature.key} feature={feature} onPress={() => open(feature.route)} />
-          ))}
-        </ScrollView>
-      </Section>
 
       <ScrollView
         horizontal
@@ -184,30 +141,22 @@ export function MoreScreen() {
         })}
       </ScrollView>
 
-      {query === '' && category === 'الكل' ? (
-        <Section title="الأهم الآن">
-          <View style={styles.bentoRow}>
-            {BENTO_MORE_FEATURES.map((feature) => (
-              <BentoCard key={feature.key} feature={feature} onPress={() => open(feature.route)} />
-            ))}
-          </View>
-        </Section>
-      ) : null}
-
       <Section
         title={query || category !== 'الكل' ? `النتائج · ${filteredFeatures.length}` : 'كل الأدوات'}
         accessory={<Text style={styles.sectionCount}>{filteredFeatures.length}</Text>}
       >
-        <View style={styles.featureList}>
-          {filteredFeatures.length > 0 ? filteredFeatures.map((feature) => (
-            <FeatureRow key={feature.key} feature={feature} onPress={() => open(feature.route)} />
-          )) : (
-            <View style={styles.emptyResults}>
-              <Text style={styles.emptyTitle}>لا توجد نتيجة مطابقة</Text>
-              <Text style={styles.emptyBody}>جرّب كلمة أقصر أو اختر «الكل».</Text>
-            </View>
-          )}
-        </View>
+        {filteredFeatures.length > 0 ? (
+          <View style={styles.featureGrid} testID="more-tools-grid">
+            {filteredFeatures.map((feature) => (
+              <FeatureCard key={feature.key} feature={feature} onPress={() => open(feature.route)} />
+            ))}
+          </View>
+        ) : (
+          <View style={styles.emptyResults}>
+            <Text style={styles.emptyTitle}>لا توجد نتيجة مطابقة</Text>
+            <Text style={styles.emptyBody}>جرّب كلمة أقصر أو اختر «الكل».</Text>
+          </View>
+        )}
       </Section>
     </AppShell>
   );
@@ -217,7 +166,7 @@ const styles = StyleSheet.create({
   searchBox: {
     minHeight: controls.minTarget,
     paddingHorizontal: spacing.x3,
-    flexDirection: 'row-reverse',
+    flexDirection: RTL_ROW,
     alignItems: 'center',
     gap: spacing.x2,
     borderWidth: 1,
@@ -239,61 +188,66 @@ const styles = StyleSheet.create({
   clearSearch: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center', borderRadius: radii.pill, backgroundColor: colors.accentSoft },
   clearSearchText: { fontSize: 21, lineHeight: 24, color: colors.accent, fontFamily: fontFamilies.body },
   hero: {
-    minHeight: 218,
-    padding: spacing.x5,
-    overflow: 'hidden',
-    justifyContent: 'space-between',
+    minHeight: 220,
+    padding: spacing.x4,
+    flexDirection: RTL_ROW,
+    alignItems: 'center',
+    gap: spacing.x3,
+    borderWidth: 1,
+    borderColor: colors.covenant,
     borderRadius: radii.large,
-    backgroundColor: colors.accentDeep,
-    shadowColor: colors.accentDeep,
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.18,
-    shadowRadius: 24,
-    elevation: 4,
+    backgroundColor: colors.covenantSoft,
   },
-  heroPressed: { opacity: 0.94, transform: [{ scale: 0.995 }] },
-  heroThread: { position: 'absolute', left: -34, bottom: 42, width: 210, height: 5, borderRadius: radii.pill, backgroundColor: colors.covenant, transform: [{ rotate: '-12deg' }] },
-  heroTop: { flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'flex-start', gap: spacing.x3 },
-  heroEyebrow: { ...typography.caption, color: colors.sealHash, fontFamily: fontFamilies.body, fontWeight: '700', textAlign: 'right' },
-  heroTitle: { ...typography.display, marginTop: spacing.x1, color: colors.white, fontFamily: fontFamilies.display, textAlign: 'right' },
-  heroPreview: { minWidth: 76, alignItems: 'center', padding: spacing.x2, borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)', borderRadius: radii.medium, backgroundColor: 'rgba(255,255,255,0.08)' },
-  heroBefore: { ...typography.title, color: colors.onAccentDim, fontFamily: fontFamilies.display, fontVariant: ['tabular-nums'] },
-  heroArrow: { ...typography.body, color: colors.sealHash, fontFamily: fontFamilies.body },
-  heroAfter: { ...typography.amount, color: colors.sealHash, fontFamily: fontFamilies.display, fontVariant: ['tabular-nums'] },
-  heroBody: { ...typography.body, maxWidth: 300, color: colors.onAccentDim, fontFamily: fontFamilies.body, textAlign: 'right' },
-  heroActionRow: { alignSelf: 'flex-start', flexDirection: 'row-reverse', alignItems: 'center', gap: spacing.x2 },
-  heroAction: { ...typography.sub, color: colors.white, fontFamily: fontFamilies.body, fontWeight: '700' },
-  heroActionArrow: { ...typography.body, color: colors.sealHash, fontFamily: fontFamilies.body },
-  recentStrip: { flexDirection: 'row-reverse', gap: spacing.x3, paddingHorizontal: 1 },
+  heroCopy: { flex: 1, alignItems: 'stretch', gap: spacing.x2 },
+  heroLabelRow: { flexDirection: RTL_ROW, alignItems: 'center', gap: spacing.x2 },
+  heroDot: { width: 8, height: 8, borderRadius: radii.pill, backgroundColor: colors.covenant },
+  heroEyebrow: { ...typography.caption, color: colors.covenant, fontFamily: fontFamilies.body, fontWeight: '700' },
+  heroTitle: { ...typography.title, color: colors.ink, fontFamily: fontFamilies.display, textAlign: 'right' },
+  heroBody: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
+  heroAction: { ...typography.sub, color: colors.accent, fontFamily: fontFamilies.body, fontWeight: '700' },
+  networkPreview: { width: 112, height: 132, alignItems: 'center', justifyContent: 'center' },
+  networkCore: { width: 64, height: 64, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: colors.covenant, borderRadius: radii.pill, backgroundColor: colors.card },
+  networkCount: { ...typography.sub, color: colors.accent, fontFamily: fontFamilies.technical, fontWeight: '800', writingDirection: 'ltr' },
+  networkNode: { position: 'absolute', width: 17, height: 17, borderWidth: 3, borderColor: colors.accent, borderRadius: radii.pill, backgroundColor: colors.card },
+  nodeTop: { top: 2, left: 47 },
+  nodeRight: { top: 35, right: 3 },
+  nodeBottomRight: { bottom: 5, right: 20 },
+  nodeBottomLeft: { bottom: 5, left: 20 },
+  nodeLeft: { top: 35, left: 3 },
+  chips: { flexDirection: RTL_ROW, gap: spacing.x2, paddingHorizontal: 1 },
   horizontalScroller: { width: '100%', maxWidth: '100%', minWidth: 0 },
-  recentCard: { width: 152, minHeight: 138, padding: spacing.x3, gap: spacing.x2, borderWidth: 1, borderColor: colors.line, borderRadius: radii.medium, backgroundColor: colors.card },
-  recentTitle: { ...typography.sub, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
-  recentDescription: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
-  chips: { flexDirection: 'row-reverse', gap: spacing.x2, paddingHorizontal: 1 },
-  chip: { minHeight: 38, paddingHorizontal: spacing.x4, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radii.pill, backgroundColor: colors.card },
+  chip: { minHeight: 40, paddingHorizontal: spacing.x4, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radii.pill, backgroundColor: colors.card },
   chipSelected: { borderColor: colors.accent, backgroundColor: colors.accent },
   chipText: { ...typography.label, color: colors.inkSecondary, fontFamily: fontFamilies.body },
   chipTextSelected: { color: colors.white },
-  bentoRow: { flexDirection: 'row-reverse', gap: spacing.x3 },
-  bentoCard: { flex: 1, minHeight: 190, padding: spacing.x3, justifyContent: 'space-between', borderWidth: 1, borderColor: colors.line, borderRadius: radii.large, backgroundColor: colors.cardSecondary },
-  bentoTop: { flexDirection: 'row-reverse', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.x1 },
-  bentoTitle: { ...typography.title, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
-  bentoDescription: { ...typography.caption, marginTop: spacing.x1, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
-  cardAction: { ...typography.caption, color: colors.accent, fontFamily: fontFamilies.body, fontWeight: '700', textAlign: 'left' },
-  mark: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radii.small },
-  markText: { ...typography.title, fontFamily: fontFamilies.display, fontWeight: '800' },
-  markDot: { position: 'absolute', top: 5, left: 5, width: 6, height: 6, borderRadius: radii.pill },
-  featureList: { overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radii.large, backgroundColor: colors.card },
-  featureRow: { minHeight: 76, paddingHorizontal: spacing.x3, paddingVertical: spacing.x2, flexDirection: 'row-reverse', alignItems: 'center', gap: spacing.x3, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.hairline },
-  featureCopy: { flex: 1, gap: 2 },
-  featureTitleRow: { flexDirection: 'row-reverse', alignItems: 'center', gap: spacing.x2 },
-  featureTitle: { ...typography.row, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
-  featureBadge: { ...typography.caption, color: colors.covenant, fontFamily: fontFamilies.body, fontWeight: '700' },
-  featureDescription: { ...typography.caption, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
-  featureArrow: { ...typography.title, color: colors.inkSecondary, fontFamily: fontFamilies.body },
+  featureGrid: { flexDirection: RTL_ROW, flexWrap: 'wrap', justifyContent: 'space-between', gap: spacing.x3 },
+  featureCard: {
+    width: '48%',
+    minHeight: 168,
+    padding: spacing.x3,
+    overflow: 'hidden',
+    justifyContent: 'space-between',
+    gap: spacing.x3,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radii.large,
+    backgroundColor: colors.card,
+  },
+  toneLine: { position: 'absolute', top: 0, right: 0, left: 0, height: 4 },
+  cardMeta: { flexDirection: RTL_ROW, alignItems: 'center', justifyContent: 'space-between', gap: spacing.x1 },
+  categoryPill: { minHeight: 28, paddingHorizontal: spacing.x2, flexDirection: RTL_ROW, alignItems: 'center', gap: spacing.x1, borderRadius: radii.pill },
+  categoryDot: { width: 6, height: 6, borderRadius: radii.pill },
+  categoryText: { ...typography.caption, fontFamily: fontFamilies.body, fontWeight: '700' },
+  badge: { ...typography.caption, flexShrink: 1, fontFamily: fontFamilies.body, fontWeight: '700', textAlign: 'left' },
+  cardCopy: { flex: 1, width: '100%', alignItems: 'stretch', justifyContent: 'center' },
+  cardTitle: { ...typography.title, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'right' },
+  cardDescription: { ...typography.caption, marginTop: spacing.x1, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
+  openRow: { flexDirection: RTL_ROW, alignItems: 'center', gap: spacing.x1 },
+  openText: { ...typography.caption, fontFamily: fontFamilies.body, fontWeight: '700' },
+  openArrow: { ...typography.caption, fontFamily: fontFamilies.body },
   sectionCount: { ...typography.caption, minWidth: 26, textAlign: 'center', color: colors.accent, fontFamily: fontFamilies.technical },
-  emptyResults: { minHeight: 128, alignItems: 'center', justifyContent: 'center', padding: spacing.x4 },
+  emptyResults: { minHeight: 128, alignItems: 'center', justifyContent: 'center', padding: spacing.x4, borderWidth: 1, borderColor: colors.line, borderRadius: radii.large, backgroundColor: colors.card },
   emptyTitle: { ...typography.title, color: colors.ink, fontFamily: fontFamilies.body, textAlign: 'center' },
   emptyBody: { ...typography.caption, marginTop: spacing.x1, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'center' },
-  pressed: { backgroundColor: colors.accentSoft, opacity: 0.94 },
+  pressed: { opacity: 0.88, transform: [{ scale: 0.99 }] },
 });

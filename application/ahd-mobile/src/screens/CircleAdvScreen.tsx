@@ -1,25 +1,34 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, ShowcaseNotice, StatusChip } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_CIRCLE, SHOWCASE_DATE, SHOWCASE_SETTLEMENT } from '@/showcase/showcase-data';
 import { previewCircleNetting, usePilot } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
 export function CircleAdvScreen() {
   const router = useRouter();
   const { state, store } = usePilot();
-  const activeCircles = state.jamiya.circles.filter((circle) => circle.status === 'active');
+  const storedActiveCircles = state.jamiya.circles.filter((circle) => circle.status === 'active');
+  const isShowcase = storedActiveCircles.length === 0;
+  const activeCircles = isShowcase ? [SHOWCASE_CIRCLE] : storedActiveCircles;
   const [consentConfirmed, setConsentConfirmed] = useState(false);
-  const [effectiveDate, setEffectiveDate] = useState('');
+  const [effectiveDate, setEffectiveDate] = useState(SHOWCASE_DATE);
   const [feedback, setFeedback] = useState<string>();
-  const preview = useMemo(() => {
-    try { return activeCircles.length ? previewCircleNetting(activeCircles) : undefined; }
-    catch { return undefined; }
-  }, [activeCircles]);
+  const preview = (() => {
+    try {
+      return isShowcase
+        ? SHOWCASE_SETTLEMENT
+        : activeCircles.length > 0 ? previewCircleNetting(activeCircles) : undefined;
+    } catch {
+      return undefined;
+    }
+  })();
 
   const confirm = async () => {
+    if (isShowcase) return;
     setFeedback(undefined);
     try {
       await store.confirmCircleNetting(
@@ -38,7 +47,13 @@ export function CircleAdvScreen() {
       <ScreenHeader
         eyebrow="اقتراح فقط"
         title="الدائرة+"
-        subtitle="معاينة مقاصّة لالتزامات الجولة الحالية. الحفظ إيصال تخطيط محلي، وليس تحويلًا ماليًا."
+        subtitle="معاينة تسوية لالتزامات الجولة الحالية. الحفظ إيصال تخطيط محلي، وليس تحويلًا ماليًا."
+      />
+
+      <ShowcaseNotice
+        body={isShowcase
+          ? 'تسوية 9 إلى 2 جاهزة للعرض فقط؛ لا يُحفظ إيصال ولا تُنقل أموال.'
+          : 'تاريخ الإيصال معبأ كمثال؛ المعاينة من دوائرك الحقيقية ولا يُحفظ شيء قبل الإقرار والضغط.'}
       />
 
       {!preview || preview.beforeCount === 0 ? (
@@ -48,7 +63,7 @@ export function CircleAdvScreen() {
         </Section>
       ) : (
         <>
-          <Section title={`قبل المقاصّة · ${preview.beforeCount}`}>
+          <Section title={`قبل التسوية · ${preview.beforeCount}`}>
             <RowGroup>
               {preview.before.map((transfer, index) => (
                 <View key={`${transfer.from}-${transfer.to}-${index}`} style={styles.row}>
@@ -58,7 +73,7 @@ export function CircleAdvScreen() {
               ))}
             </RowGroup>
           </Section>
-          <Section title={`بعد المقاصّة · ${preview.afterCount}`}>
+          <Section title={`بعد التسوية · ${preview.afterCount}`}>
             <RowGroup>
               {preview.after.map((transfer, index) => (
                 <View key={`${transfer.from}-${transfer.to}-${index}`} style={styles.row}>
@@ -69,26 +84,28 @@ export function CircleAdvScreen() {
             </RowGroup>
             <StatusChip label={preview.conserved ? 'القيمة محفوظة حسابيًا' : 'المعاينة متوقفة'} tone={preview.conserved ? 'verified' : 'neutral'} />
           </Section>
-          <Section title="إيصال التخطيط">
-            <TextInput
-              accessibilityLabel="تاريخ إيصال المقاصّة"
-              onChangeText={setEffectiveDate}
-              placeholder="YYYY-MM-DD"
-              style={styles.input}
-              value={effectiveDate}
-            />
-            <Pressable
-              accessibilityLabel="أؤكد موافقة أصحاب الدوائر على حفظ الاقتراح"
-              accessibilityRole="checkbox"
-              accessibilityState={{ checked: consentConfirmed }}
-              onPress={() => setConsentConfirmed((value) => !value)}
-              style={[styles.consent, consentConfirmed && styles.consentChecked]}
-            >
-              <Text style={styles.consentText}>أؤكد أن الموافقات أُخذت خارج التطبيق لحفظ هذا الاقتراح فقط</Text>
-            </Pressable>
-            <AhdButton disabled={!consentConfirmed} label="احفظ إيصال التخطيط" onPress={confirm} />
-            {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
-          </Section>
+          {!isShowcase ? (
+            <Section title="إيصال التخطيط">
+              <TextInput
+                accessibilityLabel="تاريخ إيصال التسوية"
+                onChangeText={setEffectiveDate}
+                placeholder="YYYY-MM-DD"
+                style={styles.input}
+                value={effectiveDate}
+              />
+              <Pressable
+                accessibilityLabel="أؤكد موافقة أصحاب الدوائر على حفظ الاقتراح"
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: consentConfirmed }}
+                onPress={() => setConsentConfirmed((value) => !value)}
+                style={[styles.consent, consentConfirmed && styles.consentChecked]}
+              >
+                <Text style={styles.consentText}>أؤكد أن الموافقات أُخذت خارج التطبيق لحفظ هذا الاقتراح فقط</Text>
+              </Pressable>
+              <AhdButton disabled={!consentConfirmed} label="احفظ إيصال التخطيط" onPress={confirm} />
+              {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
+            </Section>
+          ) : null}
         </>
       )}
     </AppShell>

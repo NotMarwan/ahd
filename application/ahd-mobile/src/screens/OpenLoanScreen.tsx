@@ -11,10 +11,12 @@ import {
   ScreenHeader,
   SealChip,
   Section,
+  ShowcaseNotice,
   StatusChip,
   ThreadMeter,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_RECORDS } from '@/showcase/showcase-data';
 import { deriveOpenLoanPosition, useAhdJourney } from '@/state';
 import { colors, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -22,8 +24,10 @@ export function OpenLoanScreen() {
   const router = useRouter();
   const { state, verifyProof } = useAhdJourney();
   const [showForgivenessNotice, setShowForgivenessNotice] = useState(false);
-  const entry = state.records.find((item) => item.sealed.record.id === state.activeRecordId)
+  const storedEntry = state.records.find((item) => item.sealed.record.id === state.activeRecordId)
     ?? state.records[state.records.length - 1];
+  const isShowcase = !storedEntry;
+  const entry = storedEntry ?? SHOWCASE_RECORDS[0];
 
   if (!entry) {
     return (
@@ -58,6 +62,8 @@ export function OpenLoanScreen() {
         title="رحلة الوفاء"
         subtitle="كل رقم هنا من السجل المحلي نفسه؛ لا غرامة ولا تغيير صامت للأصل."
       />
+
+      {isShowcase ? <ShowcaseNotice label="عرض تجريبي" body="رحلة عهد كاملة للعرض فقط؛ لا تُحفظ ولا تغيّر رصيدًا." /> : null}
 
       <View style={styles.parties}>
         <View style={styles.party}>
@@ -124,8 +130,8 @@ export function OpenLoanScreen() {
           <Text style={styles.forgivenessCopy}>لم يتغيّر الرصيد. يلزم رضا صاحب الحق وإثبات محلي جديد قبل أي تغيير.</Text>
         </View>
       ) : null}
-      <AhdButton label="فتح المقاصّة" onPress={() => router.push('/settle')} />
-      <AhdButton label="التحقق والمشاركة" onPress={showProof} variant="quiet" />
+      <AhdButton label="فتح التسوية" onPress={() => router.push('/settle')} />
+      {!isShowcase ? <AhdButton label="التحقق والمشاركة" onPress={showProof} variant="quiet" /> : null}
 
       <SealChip
         eyebrow="هذا العهد مختوم"

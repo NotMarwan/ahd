@@ -8,8 +8,10 @@ import {
   RowGroup,
   ScreenHeader,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
+import { SHOWCASE_PROFILE_NAME, SHOWCASE_RECORDS } from '@/showcase/showcase-data';
 import { buildLocalTimeline, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
@@ -27,8 +29,11 @@ export function TimelineScreen() {
   const router = useRouter();
   const { beginCreate, openRecord, state: journey } = useAhdJourney();
   const { state: pilot } = usePilot();
-  const displayName = pilot.profile.displayName;
-  const events = buildLocalTimeline(journey.records, displayName);
+  const localDisplayName = pilot.profile.displayName;
+  const realEvents = buildLocalTimeline(journey.records, localDisplayName);
+  const isShowcase = !localDisplayName || realEvents.length === 0;
+  const displayName = localDisplayName ?? SHOWCASE_PROFILE_NAME;
+  const events = isShowcase ? buildLocalTimeline(SHOWCASE_RECORDS, SHOWCASE_PROFILE_NAME) : realEvents;
 
   const createAhd = async () => {
     await beginCreate();
@@ -46,6 +51,8 @@ export function TimelineScreen() {
         title="الخط الزمني"
         subtitle="ترتيب الأحداث داخل سجلاتك المحلية. لا نخترع وقتًا لم يسجله الحدث."
       />
+
+      {isShowcase ? <ShowcaseNotice label="عرض تجريبي" body="نتيجة مكتملة للعرض فقط؛ لا تدخل في سجلات جهازك." /> : null}
 
       {!displayName ? (
         <Section>
@@ -68,7 +75,7 @@ export function TimelineScreen() {
                 </View>
                 <Text style={styles.parties}>{event.lender} ← {event.borrower}</Text>
                 <Text style={styles.id}>{event.recordId}</Text>
-                <AhdButton label="افتح السجل" onPress={() => showRecord(event.recordId)} variant="quiet" />
+                {!isShowcase ? <AhdButton label="افتح السجل" onPress={() => showRecord(event.recordId)} variant="quiet" /> : null}
               </View>
             ))}
           </RowGroup>

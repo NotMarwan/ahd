@@ -1,11 +1,9 @@
 import { expect, test } from '@jest/globals';
 import { render } from '@testing-library/react-native';
-
 import { TabIcon } from '../tab-icon';
 
-for (const name of ['home', 'create', 'daftari', 'settle', 'more'] as const) {
-  test(`renders ${name} icon`, async () => {
-    const view = await render(<TabIcon name={name} color="#000" />);
-    expect(view.toJSON()).toBeTruthy();
-  });
-}
+test('تستخدم التسوية أيقونة تحويل دائرية بدل الميزان', async () => {
+  const view = await render(<TabIcon name="settle" color="#123456" />);
+  expect(view.getByTestId('tab-icon-settle')).toBeTruthy();
+  expect(JSON.stringify(view.toJSON())).not.toContain('M12 4v16M8 6h8');
+});

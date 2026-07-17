@@ -6,6 +6,20 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["app/_serve-app.cjs"],
       "port": 8124
+    },
+    {
+      "name": "ahd-mobile-web",
+      "runtimeExecutable": "npm.cmd",
+      "runtimeArgs": [
+        "--prefix",
+        "C:\\Users\\wasan\\Downloads\\Amad Hackathon\\Amad Hackathon\\application\\ahd-mobile",
+        "run",
+        "web",
+        "--",
+        "--port",
+        "8090"
+      ],
+      "port": 8090
     }
   ]
 }

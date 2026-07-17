@@ -7,11 +7,14 @@ import { CircleAdvScreen } from '../CircleAdvScreen';
 
 jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn() }) }));
 
-test('لا تدّعي الدائرة+ مقاصّة أو تحويلات قبل وجود دائرة حقيقية', async () => {
+test('تعرض الدائرة+ تسوية تجريبية من 9 إلى 2 من دون حفظ إيصال', async () => {
   const store = new PilotStore(new InMemoryPilotRepository());
   await store.hydrate();
   const view = await render(<PilotProvider store={store}><CircleAdvScreen /></PilotProvider>);
-  expect(view.getByText('الدائرة+')).toBeTruthy();
-  expect(view.getByText('لا توجد التزامات دائرة جاهزة')).toBeTruthy();
-  expect(view.queryByText(/9 عهود/)).toBeNull();
+  expect(view.getByText('بيانات تجريبية')).toBeTruthy();
+  expect(view.getByText('قبل التسوية · 9')).toBeTruthy();
+  expect(view.getByText('بعد التسوية · 2')).toBeTruthy();
+  expect(view.getByText('القيمة محفوظة حسابيًا')).toBeTruthy();
+  expect(view.queryByRole('button', { name: 'احفظ إيصال التخطيط' })).toBeNull();
+  expect(store.getState().jamiya.nettingReceipts).toHaveLength(0);
 });

@@ -12,3 +12,4 @@ export * from './status-chip';
 export * from './thread-meter';
 export * from './trust-weave-header';
 export * from './weave-band';
+export * from './showcase-notice';

@@ -12,7 +12,7 @@ jest.mock('expo-router', () => ({
 }));
 
 describe('Pilot UI batches 1–3', () => {
-  it('starts Create Ahd with honest empty fields and no demo fill', async () => {
+  it('prefills Create Ahd with a labeled non-persistent showcase', async () => {
     const store = new AhdJourneyStore(new InMemoryAhdRepository());
     await render(
       <AhdJourneyProvider store={store}>
@@ -20,15 +20,16 @@ describe('Pilot UI batches 1–3', () => {
       </AhdJourneyProvider>,
     );
 
-    expect(screen.getByLabelText('صاحب المال').props.value).toBe('');
-    expect(screen.getByLabelText('المستفيد').props.value).toBe('');
-    expect(screen.getByLabelText('مبلغ العهد بالريال').props.value).toBe('');
-    expect(screen.getByLabelText('غرض العهد').props.value).toBe('');
-    expect(screen.getByLabelText('عدد أشهر السداد').props.value).toBe('');
-    expect(screen.getByLabelText('شهر أول استحقاق').props.value).toBe('');
-    expect(screen.getByLabelText('تاريخ الاتفاق').props.value).toBe('');
+    expect(screen.getByLabelText('صاحب المال').props.value).toBe('نورة');
+    expect(screen.getByLabelText('المستفيد').props.value).toBe('ليلى');
+    expect(screen.getByLabelText('مبلغ العهد بالريال').props.value).toBe('4800');
+    expect(screen.getByLabelText('غرض العهد').props.value).toBe('مصاريف علاج طارئة');
+    expect(screen.getByLabelText('عدد أشهر السداد').props.value).toBe('6');
+    expect(screen.getByLabelText('شهر أول استحقاق').props.value).toBe('2026-08');
+    expect(screen.getByLabelText('تاريخ الاتفاق').props.value).toBe('2026-07-17');
     expect(screen.queryByRole('button', { name: 'تعبئة تجريبية' })).toBeNull();
-    expect(screen.queryByText(/4 أقساط|2026-07-01/)).toBeNull();
+    expect(screen.getByText('بيانات تجريبية')).toBeTruthy();
+    expect(store.getState().records).toHaveLength(0);
     expect(screen.getByLabelText('شعار عهد الرسمي')).toBeTruthy();
   });
 

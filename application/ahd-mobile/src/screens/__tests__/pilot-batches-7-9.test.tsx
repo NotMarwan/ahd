@@ -91,13 +91,17 @@ describe('Pilot UI batches 7–9', () => {
     await impact.unmount();
   });
 
-  test('batch 7 impact shows an honest empty state with a real next action', async () => {
+  test('batch 7 impact shows a labeled non-persistent showcase when local data is empty', async () => {
     const { pilotStore, journeyStore } = await setupEmptyPilot();
 
     const impact = await render(providers(<ImpactScreen />, pilotStore, journeyStore));
-    expect(impact.getByText('لا أثر بعد')).toBeTruthy();
-    await fireEvent.press(impact.getByRole('button', { name: 'أنشئ عهدًا' }));
-    expect(mockPush).toHaveBeenCalledWith('/create');
+    expect(impact.getByText('بيانات تجريبية')).toBeTruthy();
+    expect(impact.getByText('النتيجة التجريبية')).toBeTruthy();
+    expect(impact.getByText('3')).toBeTruthy();
+    expect(impact.getByText('9,100.00 ر.س')).toBeTruthy();
+    expect(impact.getByText('تحويلًا اختُصر إلى 2')).toBeTruthy();
+    expect(journeyStore.getState().records).toHaveLength(0);
+    expect(pilotStore.getState().jamiya.circles).toHaveLength(0);
     await impact.unmount();
   });
 
@@ -216,7 +220,8 @@ describe('Pilot UI batches 7–9', () => {
     const { repository, pilotStore } = await setupEmptyPilot();
 
     const daily = await render(providers(<DailyScreen />, pilotStore));
-    expect(daily.getByText('لا قيود بعد')).toBeTruthy();
+    expect(daily.getByText('بيانات تجريبية')).toBeTruthy();
+    expect(daily.getAllByText('دفعة هذا الشهر').length).toBeGreaterThan(0);
 
     await fireEvent.changeText(daily.getByLabelText('عنوان القيد'), 'قيد اليوم');
     await fireEvent.changeText(daily.getByLabelText('نصّ القيد'), 'سلّمت ريم دفعة يدًا بيد');
@@ -226,7 +231,8 @@ describe('Pilot UI batches 7–9', () => {
     await waitFor(() => expect(daily.getByText('قيد اليوم')).toBeTruthy());
     expect(daily.getByText('سلّمت ريم دفعة يدًا بيد')).toBeTruthy();
     expect((await repository.loadAll()).daily.entries).toHaveLength(1);
-    expect(daily.queryByText('لا قيود بعد')).toBeNull();
+    expect(daily.queryByText('بيانات تجريبية')).toBeNull();
+    expect(daily.queryByText('NOTE-DEMO-0001')).toBeNull();
     await daily.unmount();
   });
 

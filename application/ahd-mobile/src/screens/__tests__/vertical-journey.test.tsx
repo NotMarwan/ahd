@@ -19,7 +19,7 @@ jest.mock('expo-router', () => ({
 }));
 
 describe('رحلة عهد الأولى على الجوال', () => {
-  it('تنقل العهد من الإنشاء إلى الختم والمقاصّة والتحقق من الإثبات', async () => {
+  it('تنقل العهد من الإنشاء إلى الختم والتسوية والتحقق من الإثبات', async () => {
     const store = new AhdJourneyStore(new InMemoryAhdRepository());
     const renderScreen = (screen: ReactElement) => render(
       <AhdJourneyProvider store={store}>{screen}</AhdJourneyProvider>,
@@ -60,15 +60,15 @@ describe('رحلة عهد الأولى على الجوال', () => {
 
     view = await renderScreen(<OpenLoanScreen />);
     expect(view.getByText('رحلة الوفاء')).toBeTruthy();
-    await fireEvent.press(view.getByRole('button', { name: 'فتح المقاصّة' }));
+    await fireEvent.press(view.getByRole('button', { name: 'فتح التسوية' }));
     await view.unmount();
 
     view = await renderScreen(<SettlementScreen />);
     await fireEvent.press(view.getByRole('checkbox', { name: 'أؤكد رضا جميع الأطراف عن هذا الاقتراح' }));
     await waitFor(() => expect(
-      view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }),
+      view.getByRole('button', { name: 'احفظ اقتراح التسوية' }),
     ).toBeEnabled());
-    await fireEvent.press(view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }));
+    await fireEvent.press(view.getByRole('button', { name: 'احفظ اقتراح التسوية' }));
     await waitFor(() => expect(store.getState().step).toBe('settlement'));
     expect(view.getByText('المجموع محفوظ')).toBeTruthy();
     await fireEvent.press(view.getByRole('button', { name: 'التحقق من الإثبات' }));

@@ -8,9 +8,11 @@ import {
   RowGroup,
   ScreenHeader,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_DAILY_ENTRIES, SHOWCASE_DAILY_FORM } from '@/showcase/showcase-data';
 import { usePilot } from '@/state';
 import type { PilotDailyEntry } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
@@ -64,10 +66,12 @@ function entryChip(entry: PilotDailyEntry): { label: string; tone: 'neutral' | '
 
 export function DailyScreen() {
   const { state, store } = usePilot();
-  const entries = state.daily.entries;
-  const [title, setTitle] = useState('');
-  const [note, setNote] = useState('');
-  const [effectiveDate, setEffectiveDate] = useState('');
+  const storedEntries = state.daily.entries;
+  const isShowcase = storedEntries.length === 0;
+  const entries = isShowcase ? SHOWCASE_DAILY_ENTRIES : storedEntries;
+  const [title, setTitle] = useState<string>(SHOWCASE_DAILY_FORM.title);
+  const [note, setNote] = useState<string>(SHOWCASE_DAILY_FORM.note);
+  const [effectiveDate, setEffectiveDate] = useState<string>(SHOWCASE_DAILY_FORM.effectiveDate);
   const [feedback, setFeedback] = useState<string>();
 
   const save = async () => {
@@ -91,6 +95,8 @@ export function DailyScreen() {
         subtitle="قيودٌ يوميّة تكتبها بنفسك وتبقى على جهازك — تذكيرٌ ومعروف، لا حكمَ ولا رصيد."
       />
 
+      <ShowcaseNotice body="حقول القيد تبدأ بمثال واضح؛ لا يُحفظ شيء إلا عند ضغط الزر، وأول قيد حقيقي يستبدل قائمة العرض." />
+
       <Section title="قيد جديد">
         <RowGroup>
           <View style={styles.form}>
@@ -113,7 +119,7 @@ export function DailyScreen() {
           </RowGroup>
         </Section>
       ) : (
-        <Section title={`قيود هذا الجهاز · ${entries.length}`}>
+        <Section title={`${isShowcase ? 'قيود تجريبية' : 'قيود هذا الجهاز'} · ${entries.length}`}>
           <RowGroup>
             {entries.map((entry) => {
               const chip = entryChip(entry);

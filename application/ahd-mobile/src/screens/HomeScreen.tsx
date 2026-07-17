@@ -133,7 +133,7 @@ export function HomeScreen() {
         <Text style={styles.quickLabel}>مساراتك القريبة</Text>
         <View style={styles.quickList}>
           <QuickAction label="دفتري" detail="ما لك وما عليك" tone="active" onPress={showDaftari} />
-          <QuickAction label="المقاصّة" detail="أقل تحويلات، والصافي ثابت" tone="kept" onPress={() => router.push('/settle')} />
+          <QuickAction label="التسوية" detail="أقل تحويلات، والصافي ثابت" tone="kept" onPress={() => router.push('/settle')} />
           <QuickAction label="سجل المعروف" detail="إبراء ووفاء، محفوظان" tone="late" onPress={() => router.push('/maroof')} />
         </View>
       </View>
