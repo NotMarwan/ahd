@@ -45,8 +45,9 @@ export default function TabLayout() {
         },
       }}
     >
-      {/* forcesRTL renders the FIRST child rightmost — declared in reverse so
-          الرئيسية lands leftmost as requested */}
+      {/* Native RTL is pinned OFF (app.json extra.supportsRTL/forcesRTL=false):
+          the screens hand-mirror RTL on an LTR base. Tabs stay declared in
+          reverse so الرئيسية lands RIGHTMOST — the Arabic tab convention. */}
       <Tabs.Screen
         name="more"
         options={{

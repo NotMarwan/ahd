@@ -81,6 +81,20 @@ describe('Android Pilot delivery configuration', () => {
     }
   });
 
+  it('pins the native layout direction to the LTR base the screens are authored against', () => {
+    // The screens hand-mirror RTL (row-reverse + textAlign right). Forcing
+    // native RTL on top double-flips everything back to visual LTR — the
+    // exact bug the owner saw on the emulator. Explicit false (not absence)
+    // is required: expo-localization only calls allowRTL(false)/forceRTL(false)
+    // when the strings are literally "false", so a missing key would leave
+    // Arabic-locale handsets double-flipped.
+    const appConfig = JSON.parse(read('app.json')) as {
+      expo: { extra?: { supportsRTL?: boolean; forcesRTL?: boolean } };
+    };
+    expect(appConfig.expo.extra?.supportsRTL).toBe(false);
+    expect(appConfig.expo.extra?.forcesRTL).toBe(false);
+  });
+
   it('ships emulator and performance scripts wired to the acceptance thresholds', () => {
     const emulatorScript = read('scripts/android-emulator-ci.sh');
     expect(emulatorScript).toContain('sa.ahd.mobile');
