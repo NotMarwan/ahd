@@ -95,6 +95,26 @@ describe('Android Pilot delivery configuration', () => {
     expect(appConfig.expo.extra?.forcesRTL).toBe(false);
   });
 
+  it('keeps the launcher mark inside a dedicated adaptive-icon safe asset', () => {
+    const appConfig = JSON.parse(read('app.json')) as {
+      expo: { android: { adaptiveIcon: { foregroundImage: string } } };
+    };
+    const foreground = appConfig.expo.android.adaptiveIcon.foregroundImage;
+    expect(foreground).toBe('./assets/images/ahd-launcher-foreground.png');
+
+    const png = fs.readFileSync(path.join(APP_ROOT, foreground));
+    expect(png.subarray(1, 4).toString('ascii')).toBe('PNG');
+    expect(png.readUInt32BE(16)).toBe(1024);
+    expect(png.readUInt32BE(20)).toBe(1024);
+  });
+
+  it('uses a compact active-tab icon treatment while retaining the bottom safe area', () => {
+    const tabs = read('src/app/(tabs)/_layout.tsx');
+    expect(tabs).not.toContain('tabBarActiveBackgroundColor');
+    expect(tabs).toContain('tabIconActive');
+    expect(tabs).toContain('insets.bottom');
+  });
+
   it('ships emulator and performance scripts wired to the acceptance thresholds', () => {
     const emulatorScript = read('scripts/android-emulator-ci.sh');
     expect(emulatorScript).toContain('sa.ahd.mobile');
