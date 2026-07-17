@@ -14,8 +14,8 @@
       "package": "sa.ahd.mobile",
       "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#FFFFFF",
-        "foregroundImage": "./assets/images/ahd-logo.png"
+        "backgroundColor": "#FFFCF8",
+        "foregroundImage": "./assets/images/ahd-launcher-foreground.png"
       },
       "predictiveBackGestureEnabled": false
     },

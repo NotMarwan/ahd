@@ -56,7 +56,7 @@ describe('مقاصّة السجلات الحقيقية', () => {
     expect(view.getByText('المجموع محفوظ')).toBeTruthy();
   });
 
-  it('لا يعرض شبكة مزروعة عندما يكون الدفتر خاليًا', async () => {
+  it('يعرض شبكة تجريبية كاملة ومعلّمة عندما يكون الدفتر خاليًا دون السماح بحفظها', async () => {
     const store = new AhdJourneyStore(new InMemoryAhdRepository());
     const view = await render(
       <AhdJourneyProvider store={store}>
@@ -64,8 +64,16 @@ describe('مقاصّة السجلات الحقيقية', () => {
       </AhdJourneyProvider>,
     );
 
-    expect(view.getByText('لا توجد شبكة للمقاصّة')).toBeTruthy();
-    expect(view.queryByTestId('netting-visual')).toBeNull();
-    expect(view.getByRole('button', { name: 'أنشئ عهدًا' })).toBeTruthy();
+    expect(view.getAllByText('بيانات تجريبية').length).toBeGreaterThan(0);
+    expect(view.getByTestId('netting-visual')).toBeTruthy();
+    expect(view.getByText('قبل: 9')).toBeTruthy();
+    expect(view.getByText('بعد: 2')).toBeTruthy();
+    expect(view.getByText('العهود التجريبية الداخلة · 9')).toBeTruthy();
+    expect(view.getByText('التحويلات المقترحة · 2')).toBeTruthy();
+    expect(JSON.stringify(view.toJSON())).toContain('نورة');
+    expect(JSON.stringify(view.toJSON())).toContain('فهد');
+    expect(view.queryByRole('checkbox')).toBeNull();
+    expect(view.queryByRole('button', { name: 'احفظ اقتراح المقاصّة' })).toBeNull();
+    expect(view.getByRole('button', { name: 'أنشئ عهدًا حقيقيًا' })).toBeTruthy();
   });
 });
