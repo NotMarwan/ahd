@@ -131,6 +131,14 @@ export const SHOWCASE_RECORDS: readonly AhdStoredRecord[] = [
   }),
 ] as const;
 
+export const SHOWCASE_HOME = {
+  receivableMinor: 520_000,
+  payableMinor: 300_000,
+  repaidMinor: 80_000,
+  urgentRecordId: 'AHD-SULTAN',
+  urgentDaysLate: 37,
+} as const;
+
 export const SHOWCASE_OPEN_RECORD = buildRecord({
   id: 'AHD-OPEN',
   lender: 'منيرة',
