@@ -3,6 +3,6 @@ Warning: Activity not started, its current task has been brought to the front
 Status: ok
 LaunchState: HOT
 Activity: sa.ahd.mobile/.MainActivity
-TotalTime: 135
-WaitTime: 140
+TotalTime: 221
+WaitTime: 224
 Complete
