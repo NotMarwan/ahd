@@ -636,3 +636,13 @@ _Backlog (from brief §4, priority order):_
 - Guided demo walkthrough + demo quick-fill.
 - Gate: app 28 suites/56 tests green, tsc clean, expo lint 0 errors, tripwire OK. 10 commits on feat/mobile-screens (unmerged; owner decides merge).
 - Verified live via react-native-web (375x812): more hub, shariah, circle, demo banner all render, no console errors.
+
+## 2026-07-17 — Claude-E: RTL double-flip + status-bar overlap fixes (codex/mobile-pilot-mvp)
+- Owner reported on the local emulator: whole app looked LTR; content started under the status-bar icons.
+- Root cause 1 (RTL): screens are hand-mirrored RTL (row-reverse + textAlign right, validated by jest under isRTL=false) while app.json ALSO forced native RTL (extra.supportsRTL/forcesRTL=true → expo-localization → I18nManager.forceRTL(true)). Two mirrors cancel → visual LTR. Fix: pinned extra.supportsRTL/forcesRTL to explicit false (explicit false required — absence leaves Arabic-locale handsets double-flipped) + regression test. Bonus: الرئيسية now lands rightmost in the tab bar (Arabic convention).
+- Root cause 2 (inset): AppShell (single scaffold for all 26 screens) had fixed paddingTop; edge-to-edge Android draws behind the status bar. Fix: SafeAreaInsetsContext top inset with null fallback + 2 tests.
+- Commits: 110dc83 (RTL) → 662057f (inset) → 9934474 (artifacts). Plan: docs/superpowers/plans/2026-07-17-mobile-rtl-safe-area-fix.md.
+- CI run 29553625564 SUCCESS on 662057f: Maestro journey green, cold mean 852 ms, warm 221 ms, p95 150 ms, 0 FATAL/ANR; APK 72,989,266 B (69.6 MB), sha256 29c40ff110672733a1e7a26bbc495e4cc6a8b538e6da797286908e15046dd2f5.
+- Local visual tour on ahd-pilot AVD (Home/Create/Daftari/المقاصّة/More/Settings): inset ✓, full RTL ✓, no red ✓.
+- Gates: mobile 40 suites / 137 tests, tsc clean, lint 0 errors, repo gate 3380/0, tripwire intact.
+- Open nit (not fixed — avoid another rebuild before judging): stack-screen back arrow sits top-LEFT pointing ← ; Arabic convention is top-right pointing →. Candidate JL item.
