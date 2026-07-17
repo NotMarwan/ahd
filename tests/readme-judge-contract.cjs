@@ -10,16 +10,18 @@ const firstDisclosure = readme.indexOf("<details>");
 const aboveFold = firstDisclosure === -1 ? readme : readme.slice(0, firstDisclosure);
 
 const requiredAboveFold = [
-  "يشهد… لا يُقرض.",
-  "## المشكلة",
-  "## كيف يعمل عهد؟",
-  "يوثّق",
+  "كلمتك محفوظة، وعلاقتك محميّة",
+  "بلا فائدة، بلا غرامة، بلا تقييم ائتماني",
+  "## لماذا؟",
+  "فاكتبوه",
+  "## الرحلة في ثلاث خطوات",
   "يكشف العبث",
-  "يُقاصّ",
+  "نظرةٌ إلى ميسرة",
   "9 التزامات",
   "تحويلين",
-  "## ما الذي بُني؟",
+  "## ما لا يفعله عهد",
   "AHD GATE ✅ 3380/0",
+  "ahd-pilot-v1.apk",
   "## جرّبه"
 ];
 
@@ -34,9 +36,14 @@ const forbiddenAboveFold = [
 ];
 
 const images = [
-  "app/screenshots/premium-after/05-proof-verified.png",
-  "app/screenshots/premium-after/06-proof-tampered.png",
-  "app/screenshots/premium-after/09-settle.png"
+  "app/screenshots/readme/01-home.png",
+  "app/screenshots/readme/02-create-riba-blocked.png",
+  "app/screenshots/readme/03-daftari.png",
+  "app/screenshots/readme/04-proof-verified.png",
+  "app/screenshots/readme/05-proof-tampered.png",
+  "app/screenshots/readme/06-settle.png",
+  "app/screenshots/readme/07-open-loan.png",
+  "app/screenshots/readme/08-impact.png"
 ];
 
 const failures = [];
