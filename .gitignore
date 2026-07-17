@@ -30,3 +30,6 @@ AmadHackathon/.obsidian/
 
 # Python bytecode cache
 __pycache__/
+
+# World Bank Findex raw dump — local research data, never commit (see _meta/score-leap-loop-state.md)
+findex_indicators.json
