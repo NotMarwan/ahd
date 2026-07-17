@@ -152,7 +152,7 @@ node run-all.cjs
 ```
 
 ```text
-AHD GATE ✅ 3380/0
+AHD GATE ✅ 3425/0
 ```
 
 المزيد: [المعمارية](docs/ARCHITECTURE.md) · [تصميم المنتج](docs/DESIGN.md) · [مواصفة المنتج](docs/PUBLISHABLE-PRODUCT-SPEC.md) · [معيار السجل المفتوح](docs/specs/open-witness-v1.md)

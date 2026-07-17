@@ -1,0 +1,1720 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عهد — الديوان · كلمتك محفوظة، وعلاقتك محميّة</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23121F26'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23E4C179' stroke-width='2.5'/%3E%3C/svg%3E">
+<style>
+/* ============================================================================
+   عهد · الديوان — the desktop web surface. One page, every service, seeded
+   deterministic demo data (AS_OF 2026-06-21). Identity: نسيج الثقة —
+   the trust weave. Blue is the living thread, gold is وفاء, amber is
+   attention (never red), red is reserved for one thing only: a broken seal.
+   Fully offline: local fonts, zero network. red-tamper-only.
+============================================================================ */
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("fonts/IBMPlexSansArabic-Regular.woff2") format("woff2");font-weight:100 500;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("fonts/IBMPlexSansArabic-SemiBold.woff2") format("woff2");font-weight:600 900;font-display:swap}
+
+:root{
+  /* ---- identity tokens (نسيج الثقة، سطح المكتب) ---- */
+  --brand:#2456F6;            /* the living thread */
+  --brand-deep:#122B66;
+  --brand-soft:#E8EDFF;
+  --brand-line:#D4DDFB;
+  --gold:#B9862F;             /* وفاء — kept, honored, sealed */
+  --gold-soft:#F7EDD6;
+  --gold-line:#E8D5A8;
+  --amber:#C77E1E;            /* attention — late, waiting. NEVER red */
+  --amber-soft:#FBF0DA;
+  --wait:#8895A0;             /* undecided thread */
+  --wait-soft:#EEF1F3;
+  --break:#B3362B;            /* RED — reserved for a broken seal, nothing else */
+  --break-soft:#F9E5E2;
+
+  --ink:#16222C;
+  --paper:#F6F2E9;
+  --card:#FFFFFF;
+  --card-2:#FBFAF6;
+  --line:#E3E0D6;
+  --line-soft:#EDEAe0;
+  --muted:#68727A;
+
+  --night:#121F26;            /* the night document (seal surface) */
+  --night-2:#182831;
+  --night-line:#243741;
+  --night-ink:#D8E6E3;
+  --night-muted:#7E939C;
+  --seal-glow:#E4C179;
+
+  --rail-w:284px;
+  --shadow-lg:0 24px 60px rgba(22,34,44,.13);
+  --shadow-md:0 10px 26px rgba(22,34,44,.08);
+  --shadow-sm:0 3px 10px rgba(22,34,44,.06);
+  --r-xl:26px;--r-lg:20px;--r-md:14px;--r-sm:9px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --mono:Consolas,"Cascadia Mono",ui-monospace,monospace;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0}
+body{
+  color:var(--ink);
+  font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  font-size:14.5px;line-height:1.9;
+  background:
+    radial-gradient(1200px 540px at 12% -160px, color-mix(in srgb, var(--brand) 6%, transparent), transparent 70%),
+    linear-gradient(90deg, rgba(22,34,44,.024) 1px, transparent 1px),
+    linear-gradient(rgba(22,34,44,.024) 1px, transparent 1px),
+    var(--paper);
+  background-size:auto,34px 34px,34px 34px,auto;
+}
+button{font:inherit;cursor:pointer;color:inherit}
+input,textarea{font:inherit;color:inherit}
+a{color:inherit}
+b,strong{font-weight:600}
+::selection{background:var(--brand-soft)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:6px}
+
+.num,.money{font-variant-numeric:tabular-nums;letter-spacing:-.01em;direction:ltr;unicode-bidi:isolate}
+.tk{direction:ltr;unicode-bidi:isolate;font-family:var(--mono);font-size:.82em;font-weight:400;letter-spacing:0}
+
+/* ============================= the rail (right) ============================= */
+.rail{
+  position:fixed;inset-block:0;inset-inline-start:0;width:var(--rail-w);z-index:50;
+  background:
+    radial-gradient(420px 260px at 80% -60px, rgba(36,86,246,.16), transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0 33px, rgba(216,230,227,.035) 33px 34px),
+    var(--night);
+  color:var(--night-ink);
+  display:flex;flex-direction:column;
+  border-inline-end:1px solid var(--night-line);
+}
+.rail-brand{padding:26px 24px 18px;display:flex;align-items:center;gap:11px}
+.knot{width:34px;height:34px;border-radius:50%;flex:none;background:var(--night-2);border:1px solid var(--night-line);display:grid;place-items:center;position:relative}
+.knot::before{content:"";width:14px;height:14px;border-radius:50%;border:2.5px solid var(--seal-glow)}
+.knot.big{width:44px;height:44px}.knot.big::before{width:19px;height:19px}
+.rail-brand .name{font-size:27px;font-weight:600;letter-spacing:-.03em;line-height:1}
+.rail-brand .sub{font-size:10.5px;color:var(--night-muted);margin-top:5px;letter-spacing:.04em}
+
+.rail-user{margin:4px 18px 12px;padding:13px 14px;border:1px solid var(--night-line);border-radius:var(--r-md);background:linear-gradient(180deg,rgba(24,40,49,.9),rgba(24,40,49,.5));display:flex;gap:11px;align-items:center}
+.rail-user .avatar{width:40px;height:40px;border-radius:50%;flex:none;background:var(--brand);color:#fff;font-weight:600;display:grid;place-items:center;font-size:16px;box-shadow:0 0 0 3px rgba(36,86,246,.22)}
+.rail-user .who{min-width:0;line-height:1.45}
+.rail-user .who b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail-user .who span{font-size:10.5px;color:var(--night-muted)}
+.band-chip{margin:0 18px 14px;display:flex;align-items:center;gap:8px;border:1px solid rgba(228,193,121,.34);background:rgba(228,193,121,.1);color:var(--seal-glow);border-radius:99px;padding:6px 13px;font-size:12px;font-weight:600;width:fit-content}
+.band-chip i{font-style:normal;width:7px;height:7px;border-radius:50%;background:var(--seal-glow);flex:none}
+
+.rail-search{margin:0 18px 10px;position:relative}
+.rail-search input{width:100%;border:1px solid var(--night-line);background:rgba(24,40,49,.7);color:var(--night-ink);border-radius:var(--r-sm);padding:8.5px 34px 8.5px 12px;font-size:12.5px}
+.rail-search input::placeholder{color:var(--night-muted)}
+.rail-search svg{position:absolute;inset-inline-end:11px;top:50%;transform:translateY(-50%);opacity:.55}
+
+.rail-nav{flex:1;overflow-y:auto;padding:2px 12px 12px;scrollbar-width:thin;scrollbar-color:var(--night-line) transparent}
+.rail-group{font-size:10px;color:var(--night-muted);letter-spacing:.14em;font-weight:600;padding:15px 12px 6px}
+.rail-item{display:flex;align-items:center;gap:10px;width:100%;text-align:start;background:none;border:0;border-radius:10px;padding:8.5px 12px;font-size:13.5px;color:var(--night-ink);position:relative;transition:background .18s}
+.rail-item .thread{width:16px;height:3px;border-radius:99px;background:var(--night-line);flex:none;transition:all .25s var(--ease)}
+.rail-item:hover{background:rgba(216,230,227,.06)}
+.rail-item.on{background:rgba(36,86,246,.16);font-weight:600}
+.rail-item.on .thread{background:var(--brand);width:22px;box-shadow:0 0 10px rgba(36,86,246,.65)}
+.rail-item .flag{margin-inline-start:auto;font-size:9.5px;font-weight:600;border-radius:99px;padding:1.5px 8px;background:rgba(199,126,30,.16);color:#EFB56A}
+.rail-item .flag.gold{background:rgba(228,193,121,.13);color:var(--seal-glow)}
+
+.rail-foot{padding:14px 20px 18px;border-top:1px solid var(--night-line);font-size:10.5px;color:var(--night-muted);line-height:1.8}
+.rail-foot b{color:var(--night-ink);font-weight:600}
+
+/* ============================= the canvas ============================= */
+.canvas{margin-inline-start:var(--rail-w);min-height:100vh}
+.topbar{
+  position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:16px;
+  padding:13px clamp(20px,3.4vw,44px);
+  background:color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.crumb{font-size:12.5px;color:var(--muted)}
+.crumb b{color:var(--ink);font-weight:600}
+.topbar .grow{flex:1}
+.seg{display:flex;border:1px solid var(--line);border-radius:99px;background:var(--card);padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:99px;padding:4.5px 13px;font-size:12px;font-weight:600;color:var(--muted);transition:all .18s}
+.seg button.on{background:var(--ink);color:var(--paper)}
+.pill-btn{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7.5px 15px;font-size:12.5px;font-weight:600;transition:border-color .18s,transform .18s}
+.pill-btn:hover{border-color:var(--brand);transform:translateY(-1px)}
+.pill-btn.on{border-color:var(--amber);background:var(--amber-soft)}
+.cta{border:0;background:var(--brand);color:#fff;border-radius:99px;padding:9px 20px;font-size:13px;font-weight:600;box-shadow:0 10px 22px rgba(36,86,246,.28);transition:transform .18s var(--ease),box-shadow .18s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(36,86,246,.34)}
+
+main{max-width:1480px;margin:0 auto;padding:0 clamp(20px,3.4vw,44px) 40px}
+
+/* ---- section chrome ---- */
+section{padding-top:58px;scroll-margin-top:66px}
+.sec-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.sec-ord{font-family:var(--mono);direction:ltr;font-size:12px;color:var(--brand);border:1px solid var(--brand-line);background:var(--brand-soft);border-radius:99px;padding:2px 11px;font-weight:600}
+.sec-head h2{margin:0;font-size:clamp(23px,2.2vw,30px);font-weight:600;letter-spacing:-.025em;line-height:1.25}
+.sec-head .why{font-size:13px;color:var(--muted)}
+.sec-rule{height:4px;max-width:210px;border-radius:99px;margin:10px 0 22px;background:repeating-linear-gradient(90deg,var(--brand) 0 22px,transparent 22px 28px,var(--gold) 28px 42px,transparent 42px 48px)}
+
+/* ---- cards & atoms ---- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.card:hover{box-shadow:var(--shadow-md)}
+.pad{padding:22px 24px}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:3px 12px;font-size:11.5px;font-weight:600;border:1px solid transparent}
+.chip.brand{background:var(--brand-soft);color:var(--brand-deep);border-color:var(--brand-line)}
+.chip.gold{background:var(--gold-soft);color:#7A5A1E;border-color:var(--gold-line)}
+.chip.amber{background:var(--amber-soft);color:#8A5510;border-color:#EFD9B4}
+.chip.wait{background:var(--wait-soft);color:#5A6871;border-color:#DDE3E7}
+.chip.night{background:var(--night);color:var(--night-ink);border-color:var(--night)}
+.chip.break{background:var(--break-soft);color:var(--break);border-color:#EFC7C1}
+.chip i{font-style:normal;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.75;flex:none}
+.btn{border:1.5px solid var(--line);background:var(--card);border-radius:11px;padding:8px 15px;font-size:12.5px;font-weight:600;transition:all .18s var(--ease)}
+.btn:hover{border-color:var(--brand);transform:translateY(-1px)}
+.btn.primary{border-color:transparent;background:var(--brand);color:#fff;box-shadow:0 8px 18px rgba(36,86,246,.24)}
+.btn.primary:disabled{background:var(--wait);box-shadow:none;cursor:not-allowed;transform:none;opacity:.6}
+.btn.gold{border-color:var(--gold-line);background:var(--gold-soft);color:#7A5A1E}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.ghost:hover{color:var(--ink);border-color:var(--line)}
+.hint{font-size:11.5px;color:var(--muted);line-height:1.85}
+.divider{height:1px;background:var(--line);margin:16px 0}
+
+/* ---- reveal ---- */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* ============================= hero ============================= */
+.hero{padding-top:34px}
+.hello{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.hello h1{margin:0;font-size:clamp(30px,3.4vw,46px);font-weight:600;letter-spacing:-.03em;line-height:1.18}
+.hello h1 span{color:var(--muted);font-weight:400}
+.hello .date{font-size:12.5px;color:var(--muted);text-align:end;line-height:1.7}
+.hero-grid{display:grid;grid-template-columns:minmax(380px,1.25fr) minmax(340px,1fr);gap:20px;align-items:stretch}
+
+.wish{position:relative;overflow:hidden;border-radius:var(--r-xl);border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-md)}
+.wish::before{content:"";position:absolute;inset-inline:0;top:0;height:6px;background:repeating-linear-gradient(90deg,var(--amber) 0 26px,color-mix(in srgb,var(--amber) 45%,#fff) 26px 32px)}
+.wish .pad{padding:24px 26px 20px}
+.wish-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.wish-top h3{margin:0;font-size:18px;font-weight:600}
+.wish-ref{font-family:var(--mono);direction:ltr;font-size:11px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:2px 10px}
+.wish-rows{margin:16px 0 4px;display:grid;gap:12px}
+.wish-row{display:grid;grid-template-columns:98px 1fr;gap:14px;align-items:start}
+.wish-row .k{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.02em;padding-top:3px}
+.wish-row .v{font-size:14.5px;line-height:1.85}
+.wish-row.next .v{font-weight:600}
+.wish-row.next .k{color:#8A5510}
+.wish-acts{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.kpi{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:17px 19px 14px;box-shadow:var(--shadow-sm)}
+.kpi::before{content:"";position:absolute;inset-inline:0;top:0;height:4px;background:var(--brand)}
+.kpi.gold::before{background:var(--gold)}
+.kpi.amber::before{background:var(--amber)}
+.kpi.night::before{background:var(--night)}
+.kpi .k{font-size:11.5px;color:var(--muted);font-weight:600}
+.kpi .v{font-size:clamp(24px,2vw,31px);font-weight:600;letter-spacing:-.02em;line-height:1.35;margin:2px 0 0}
+.kpi .v .cur{font-size:.5em;color:var(--muted);font-weight:400;margin-inline-start:4px}
+.kpi .s{font-size:11px;color:var(--muted);line-height:1.7}
+.kpi .s .a{color:#8A5510;font-weight:600}
+.kpi .word{font-size:19px;font-weight:600;color:#7A5A1E;line-height:1.5;margin:4px 0 2px}
+
+/* the living weave — one thread per covenant */
+.weave-wrap{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px 24px 16px;box-shadow:var(--shadow-sm)}
+.weave-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.weave-head h3{margin:0;font-size:15px;font-weight:600}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:18px;height:4px;border-radius:99px;font-style:normal}
+.legend .l-live i{background:var(--brand)}
+.legend .l-kept i{background:var(--gold)}
+.legend .l-late i{background:var(--amber)}
+.legend .l-wait i{background:var(--wait)}
+.weave{display:grid;gap:9px}
+.thread{display:grid;grid-template-columns:150px 1fr auto;gap:14px;align-items:center;border:0;background:none;padding:4px 2px;border-radius:10px;text-align:start;transition:background .18s}
+.thread:hover{background:var(--card-2)}
+.thread .who{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thread .who span{display:block;font-weight:400;font-size:10.5px;color:var(--muted)}
+.thread .bar{position:relative;height:10px;border-radius:99px;background:var(--wait-soft);overflow:hidden}
+.thread .bar i{position:absolute;inset-block:0;inset-inline-start:0;border-radius:99px;background:repeating-linear-gradient(90deg,var(--tc,var(--brand)) 0 18px,color-mix(in srgb,var(--tc,var(--brand)) 40%,#fff) 18px 23px);transform-origin:var(--to,right);animation:threadIn .9s var(--ease) both;animation-delay:var(--td,0s)}
+@keyframes threadIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.thread .amt{font-size:12px;font-weight:600;white-space:nowrap}
+.thread .amt small{display:block;font-weight:400;font-size:10px;color:var(--muted);text-align:end}
+
+/* ============================= دفتري ============================= */
+.daftari-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.tabs{display:flex;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:3px;gap:2px}
+.tabs button{border:0;background:none;border-radius:99px;padding:6px 18px;font-size:13px;font-weight:600;color:var(--muted)}
+.tabs button.on{background:var(--brand);color:#fff}
+.people{display:flex;gap:7px;flex-wrap:wrap}
+.people button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:4.5px 13px;font-size:11.5px;font-weight:600;color:var(--muted);transition:all .15s}
+.people button:hover{border-color:var(--brand);color:var(--ink)}
+.people button.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.rows{display:grid;gap:12px}
+.row-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 20px 14px;padding-inline-start:24px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .22s var(--ease),box-shadow .22s}
+.row-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.row-card::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:5px;background:var(--rc,var(--brand))}
+.row-card.flash-hit{animation:hit 1.6s var(--ease)}
+@keyframes hit{0%,55%{box-shadow:0 0 0 3px var(--brand-line),var(--shadow-md)}100%{box-shadow:var(--shadow-sm)}}
+.row-top{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.pv{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:600;font-size:14px;background:var(--brand-soft);color:var(--brand-deep)}
+.row-top .nm{min-width:130px}
+.row-top .nm b{font-size:15px}
+.row-top .nm .rf{font-family:var(--mono);direction:ltr;unicode-bidi:isolate;font-size:10px;color:var(--muted);display:block;line-height:1.6}
+.row-amt{margin-inline-start:auto;text-align:end}
+.row-amt b{font-size:18px;letter-spacing:-.02em}
+.row-amt small{display:block;font-size:10.5px;color:var(--muted)}
+.row-next{margin:10px 0 0;padding-top:10px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.row-next p{margin:0;font-size:12.5px;color:var(--muted)}
+.row-next p b{color:var(--ink)}
+.row-acts{display:flex;gap:8px;flex-wrap:wrap}
+.row-acts .btn{padding:5.5px 12px;font-size:11.5px;border-radius:9px}
+.subcard{margin-top:12px;border:1px solid var(--brand-line);background:var(--brand-soft);border-radius:var(--r-md);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.subcard p{margin:0;font-size:12.5px;flex:1;min-width:220px;line-height:1.8}
+.split-note{margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+
+/* ============================= المقاصّة ============================= */
+.net-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch}
+.net-panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px 10px;box-shadow:var(--shadow-sm)}
+.net-panel h4{margin:0 0 2px;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.net-panel h4 .chip{font-size:10px}
+.net-panel svg{width:100%;height:auto;display:block}
+.net-mid{display:grid;place-items:center;color:var(--brand);font-size:26px}
+.net-svg text{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:12.5px;font-weight:600;fill:var(--ink)}
+.net-svg .amt-t{font-size:10px;font-weight:400;fill:var(--muted);font-family:var(--mono)}
+.net-svg .edge{stroke:var(--brand);stroke-opacity:.4;stroke-width:1.4;fill:none}
+.net-svg .edge.big{stroke-opacity:1;stroke-width:2.6}
+.net-svg .edge.aside{stroke:var(--gold);stroke-dasharray:5 5;stroke-opacity:.8}
+.net-svg .node{fill:var(--card);stroke:var(--line);stroke-width:1.4}
+.net-svg .node.hardship{stroke:var(--gold);stroke-dasharray:4 4;stroke-width:2}
+.net-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.net-stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 16px;text-align:center}
+.net-stat b{display:block;font-size:22px;letter-spacing:-.02em}
+.net-stat span{font-size:11px;color:var(--muted)}
+.rifq-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--card);border:1px solid var(--gold-line);border-radius:var(--r-lg);padding:14px 20px;box-shadow:var(--shadow-sm)}
+.rifq-bar .tx{flex:1;min-width:280px}
+.rifq-bar h4{margin:0;font-size:14.5px;font-weight:600}
+.rifq-bar p{margin:2px 0 0;font-size:12px;color:var(--muted);line-height:1.85}
+.switch{position:relative;width:52px;height:28px;border-radius:99px;border:1px solid var(--line);background:var(--wait-soft);transition:all .25s var(--ease);flex:none}
+.switch::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:var(--shadow-sm);transition:all .25s var(--ease)}
+.switch.on{background:var(--gold);border-color:var(--gold)}
+.switch.on::after{inset-inline-start:27px}
+.consent{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 22px;box-shadow:var(--shadow-sm)}
+.consent h4{margin:0 0 4px;font-size:14.5px;font-weight:600}
+.consent .legs{display:grid;gap:10px;margin:12px 0}
+.leg{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--r-md);padding:10px 15px;background:var(--card-2)}
+.leg .path{font-size:13px;font-weight:600;min-width:190px}
+.leg .path .tk{color:var(--muted)}
+.leg .cbs{display:flex;gap:8px;margin-inline-start:auto}
+.cb{border:1.5px solid var(--line);background:var(--card);border-radius:99px;padding:4px 13px;font-size:11px;font-weight:600;color:var(--muted);transition:all .15s}
+.cb.ok{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-deep)}
+.consent-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sealed-note{display:none;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#7A5A1E}
+.sealed-note.show{display:flex}
+
+/* ============================= groups ============================= */
+.two-col{display:grid;grid-template-columns:1.08fr 1fr;gap:18px;align-items:stretch}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.panel-h h3{margin:0;font-size:16.5px;font-weight:600}
+.seats{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+.seat{flex:1;min-width:70px;border:1px solid var(--line);border-radius:var(--r-md);padding:10px 6px;text-align:center;background:var(--card-2);position:relative}
+.seat b{display:block;font-size:12px;line-height:1.5}
+.seat span{font-size:10px;color:var(--muted)}
+.seat.paid{border-color:var(--gold-line);background:var(--gold-soft)}
+.seat.now{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 3px rgba(36,86,246,.12)}
+.seat .st{position:absolute;top:-8px;inset-inline-end:8px;font-size:9px;font-weight:600;border-radius:99px;padding:1px 8px;background:var(--brand);color:#fff}
+.mini-log{margin-top:12px;display:grid;gap:7px}
+.mini-log .ln{display:flex;gap:10px;align-items:baseline;font-size:12px;color:var(--muted)}
+.mini-log .ln::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none;transform:translateY(1px)}
+.mini-log .ln b{color:var(--ink);font-weight:600}
+.invite{margin-top:14px;border:1.5px dashed var(--brand-line);border-radius:var(--r-md);padding:14px 17px;background:var(--brand-soft)}
+.invite h5{margin:0 0 6px;font-size:13px;font-weight:600}
+.invite ul{margin:0 0 10px;padding-inline-start:18px;font-size:12px;color:var(--muted);line-height:2}
+.draft{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--r-md);padding:11px 15px;background:var(--card-2);margin-top:10px}
+.draft .tx{flex:1;min-width:200px}
+.draft .tx b{font-size:13px}
+.draft .tx span{display:block;font-size:11px;color:var(--muted)}
+
+/* ============================= ongoing ============================= */
+.cycles{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.cyc{border:1px solid var(--line);border-radius:99px;padding:5px 15px;font-size:12px;font-weight:600;color:var(--muted);background:var(--card-2)}
+.cyc.done{border-color:var(--gold-line);background:var(--gold-soft);color:#7A5A1E}
+.cyc.next{border-color:var(--brand-line);background:var(--brand-soft);color:var(--brand-deep)}
+.open-hero{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:8px 0 2px}
+.open-hero b{font-size:30px;letter-spacing:-.03em}
+.open-hero span{color:var(--muted);font-size:12.5px}
+
+/* ============================= night / proof ============================= */
+.night-wrap{margin-top:22px;background:
+  radial-gradient(700px 300px at 85% -80px, rgba(228,193,121,.09), transparent 70%),
+  repeating-linear-gradient(0deg, transparent 0 33px, rgba(216,230,227,.028) 33px 34px),
+  var(--night);
+  border-radius:var(--r-xl);color:var(--night-ink);padding:30px clamp(20px,2.6vw,36px) 30px;box-shadow:var(--shadow-lg)}
+.night-wrap .sec-ord{background:rgba(36,86,246,.16);border-color:rgba(36,86,246,.4);color:#9FB6FF}
+.night-wrap h2{color:#fff}
+.night-wrap .why{color:var(--night-muted)}
+.night-grid{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:16px;margin-top:20px}
+.n-card{background:var(--night-2);border:1px solid var(--night-line);border-radius:var(--r-lg);padding:19px 21px}
+.n-card h4{margin:0 0 4px;font-size:14.5px;font-weight:600;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.n-card .hint{color:var(--night-muted)}
+.seal-stage{display:flex;align-items:center;gap:16px;margin:14px 0}
+.seal-ring{width:86px;height:86px;border-radius:50%;flex:none;display:grid;place-items:center;position:relative;background:var(--night);border:1px solid var(--night-line)}
+.seal-ring::before{content:"";position:absolute;inset:9px;border-radius:50%;border:3px solid var(--seal-glow);box-shadow:0 0 22px rgba(228,193,121,.35),inset 0 0 14px rgba(228,193,121,.22);transition:all .3s}
+.seal-ring::after{content:"✓";font-size:23px;color:var(--seal-glow);font-weight:600;transition:all .3s}
+.seal-ring.broken::before{border-color:var(--break);box-shadow:0 0 22px rgba(179,54,43,.4),inset 0 0 14px rgba(179,54,43,.25);animation:crack .5s var(--ease)}
+.seal-ring.broken::after{content:"✕";color:var(--break)}
+@keyframes crack{0%,60%{transform:translateX(0)}15%{transform:translateX(-3px)}30%{transform:translateX(3px)}45%{transform:translateX(-2px)}}
+.seal-verdict b{display:block;font-size:15px;color:#fff}
+.seal-verdict span{font-size:11.5px;color:var(--night-muted);line-height:1.7;display:block}
+.seal-verdict .bad{color:#F0A99F}
+.hashes{font-family:var(--mono);direction:ltr;text-align:left;font-size:10.5px;line-height:2;background:var(--night);border:1px solid var(--night-line);border-radius:var(--r-sm);padding:10px 13px;overflow-x:auto;white-space:nowrap}
+.hashes .lbl{color:var(--night-muted)}
+.hashes .okh{color:var(--seal-glow)}
+.hashes .badh{color:#F0A99F;text-decoration:line-through;text-decoration-thickness:1px}
+.tamper-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.tamper-line label{font-size:11.5px;color:var(--night-muted)}
+.tamper-line input{width:110px;border:1px solid var(--night-line);background:var(--night);color:var(--night-ink);border-radius:9px;padding:6.5px 11px;font-size:13px;direction:ltr;text-align:center;font-variant-numeric:tabular-nums}
+.n-btn{border:1px solid var(--night-line);background:var(--night);color:var(--night-ink);border-radius:9px;padding:6.5px 13px;font-size:11.5px;font-weight:600;transition:border-color .18s}
+.n-btn:hover{border-color:var(--seal-glow)}
+.tl{margin:12px 0 0;display:grid;gap:0;position:relative;padding-inline-start:18px}
+.tl::before{content:"";position:absolute;inset-block:6px;inset-inline-start:5px;width:2px;background:var(--night-line);border-radius:99px}
+.tl .ev{position:relative;padding:5.5px 0 5.5px}
+.tl .ev::before{content:"";position:absolute;inset-inline-start:-18px;top:12px;width:12px;height:12px;border-radius:50%;background:var(--night-2);border:2.5px solid var(--brand)}
+.tl .ev.gold::before{border-color:var(--seal-glow)}
+.tl .ev.warm::before{border-color:#EFB56A}
+.tl .ev b{display:block;font-size:12.5px;color:#fff;font-weight:600}
+.tl .ev span{font-size:10.5px;color:var(--night-muted)}
+.term{font-family:var(--mono);direction:ltr;text-align:left;font-size:10.5px;line-height:1.95;background:#0B141A;border:1px solid var(--night-line);border-radius:var(--r-sm);padding:12px 14px;overflow-x:auto;white-space:pre}
+.term .p{color:#8BE9B9}.term .c{color:var(--night-muted)}.term .g{color:var(--seal-glow)}
+
+/* ============================= care ============================= */
+.care-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.care-card{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:19px 22px;box-shadow:var(--shadow-sm)}
+.care-card::before{content:"";position:absolute;inset-inline:0;top:0;height:4px;background:var(--cc,var(--brand))}
+.care-card h4{margin:0 0 2px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.care-card p{margin:6px 0;font-size:12.5px;color:var(--muted);line-height:1.95}
+.care-card p b{color:var(--ink)}
+.quote{border-inline-start:3px solid var(--gold);padding:2px 14px;margin:10px 0;font-size:13px;color:var(--ink);background:var(--gold-soft);border-radius:6px}
+
+/* ============================= band ============================= */
+.band-hero{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+.band-word-card{background:linear-gradient(150deg,var(--card),var(--gold-soft));border:1px solid var(--gold-line);border-radius:var(--r-xl);padding:28px 30px;box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+.band-word-card::after{content:"";position:absolute;inset-inline-end:-40px;top:-40px;width:190px;height:190px;border-radius:50%;border:26px solid rgba(185,134,47,.08)}
+.band-word-card .lbl{font-size:12px;color:var(--muted);font-weight:600}
+.band-word-card .word{font-size:clamp(30px,3vw,42px);font-weight:600;letter-spacing:-.02em;color:#6E5119;line-height:1.4;margin:4px 0 8px}
+.months{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+.mo{width:56px;text-align:center}
+.mo i{display:block;width:34px;height:34px;margin:0 auto 4px;border-radius:50%;background:var(--gold);font-style:normal;color:#fff;display:grid;place-items:center;font-size:14px}
+.mo span{font-size:9.5px;color:var(--muted)}
+.refusals{display:grid;gap:10px}
+.refusal-ln{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 16px}
+.refusal-ln i{font-style:normal;flex:none;width:26px;height:26px;border-radius:50%;background:var(--night);color:var(--night-ink);display:grid;place-items:center;font-size:12px;margin-top:2px}
+.refusal-ln b{display:block;font-size:13px}
+.refusal-ln span{font-size:11.5px;color:var(--muted);line-height:1.8}
+.ladder{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;font-size:11.5px}
+.ladder span{border:1px solid var(--line);border-radius:99px;padding:3px 12px;color:var(--muted)}
+.ladder span.hot{border-color:var(--gold-line);background:var(--gold-soft);color:#7A5A1E;font-weight:600}
+
+/* ============================= impact ============================= */
+.impact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.stat-hero{font-size:29px;font-weight:600;letter-spacing:-.02em;line-height:1.3}
+.stat-hero small{display:block;font-size:11.5px;color:var(--muted);font-weight:400;line-height:1.8}
+.bars{display:grid;gap:9px;margin-top:14px}
+.bar-ln{display:grid;grid-template-columns:52px 1fr 46px;gap:10px;align-items:center;font-size:11.5px;color:var(--muted)}
+.bar-ln .tr{height:9px;border-radius:99px;background:var(--wait-soft);overflow:hidden}
+.bar-ln .tr i{display:block;height:100%;border-radius:99px;background:var(--brand);width:var(--w,50%)}
+.bar-ln.gold .tr i{background:var(--gold)}
+.bar-ln b{color:var(--ink);text-align:end}
+.src-tag{font-size:10px;font-weight:600;border-radius:99px;padding:1.5px 9px}
+.src-tag.measured{background:var(--brand-soft);color:var(--brand-deep);border:1px solid var(--brand-line)}
+.src-tag.illust{background:var(--amber-soft);color:#8A5510;border:1px solid #EFD9B4}
+.compress-viz{display:flex;align-items:center;justify-content:center;gap:18px;margin:16px 0 8px}
+.compress-viz .side{text-align:center}
+.compress-viz .side b{display:block;font-size:34px;letter-spacing:-.03em;line-height:1.2}
+.compress-viz .side span{font-size:11px;color:var(--muted)}
+.compress-viz .arr{color:var(--brand);font-size:24px}
+
+/* ============================= billing ============================= */
+.free-banner{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:linear-gradient(120deg,var(--brand-deep),var(--brand));color:#fff;border-radius:var(--r-xl);padding:22px 28px;box-shadow:var(--shadow-md);margin-bottom:18px}
+.free-banner .z{font-size:44px;font-weight:600;letter-spacing:-.04em;line-height:1;flex:none}
+.free-banner .tx{flex:1;min-width:260px}
+.free-banner h3{margin:0;font-size:17px;font-weight:600}
+.free-banner p{margin:3px 0 0;font-size:12.5px;opacity:.85;line-height:1.85}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.plan{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 20px 16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:6px}
+.plan.free{border-color:var(--gold-line);background:linear-gradient(170deg,var(--card),var(--gold-soft))}
+.plan .ribbon{position:absolute;top:-11px;inset-inline-start:16px;background:var(--gold);color:#fff;font-size:10px;font-weight:600;border-radius:99px;padding:2.5px 12px}
+.plan h4{margin:0;font-size:14.5px;font-weight:600}
+.plan .payer{font-size:10.5px;color:var(--muted)}
+.plan .price{font-size:25px;font-weight:600;letter-spacing:-.02em;line-height:1.3;margin:4px 0 0}
+.plan .price small{font-size:11px;color:var(--muted);font-weight:400}
+.plan ul{margin:8px 0 10px;padding:0;list-style:none;font-size:11.5px;color:var(--muted);line-height:1.7;display:grid;gap:6px;flex:1}
+.plan ul li{display:flex;gap:8px}
+.plan ul li::before{content:"";width:14px;height:3px;border-radius:99px;background:var(--brand);flex:none;margin-top:9px}
+.plan.free ul li::before{background:var(--gold)}
+.receipt{margin-top:18px;display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+.receipt-doc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:19px 22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.receipt-doc::before{content:"";position:absolute;inset-inline:0;top:0;height:4px;background:repeating-linear-gradient(90deg,var(--gold) 0 18px,transparent 18px 24px)}
+.receipt-doc h4{margin:0 0 10px;font-size:14.5px;font-weight:600;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.r-ln{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.r-ln:last-of-type{border-bottom:0}
+.r-ln .k{color:var(--muted)}
+.r-ln b.zero{color:var(--brand);font-size:15px}
+
+/* ============================= bounds ============================= */
+.four-nos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.no-card{background:var(--night);color:var(--night-ink);border-radius:var(--r-lg);padding:16px 18px;position:relative;overflow:hidden}
+.no-card::after{content:"";position:absolute;inset-inline-end:-20px;bottom:-24px;width:90px;height:90px;border-radius:50%;border:14px solid rgba(228,193,121,.09)}
+.no-card b{display:block;font-size:15.5px;color:#fff;margin-bottom:2px}
+.no-card span{font-size:11px;color:var(--night-muted);line-height:1.75;display:block}
+.bounds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.bound-col h4{margin:0 0 10px;font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:8px}
+.bound-col h4 i{font-style:normal;width:10px;height:10px;border-radius:3px;background:var(--brand);flex:none}
+.bound-col.gold h4 i{background:var(--gold)}
+.bound-col.night h4 i{background:var(--night)}
+.g-ln{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 14px;margin-bottom:9px}
+.g-ln b{display:block;font-size:12.5px;line-height:1.7}
+.g-ln .tk{display:block;color:var(--muted);font-size:9px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shariah-row{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-top:18px}
+.verse{background:var(--card);border:1px solid var(--gold-line);border-radius:var(--r-md);padding:13px 17px;margin-bottom:10px}
+.verse .ay{font-size:15px;line-height:2;color:#5C4413}
+.verse .cite{font-size:10.5px;color:var(--muted);margin-top:2px}
+.lint-box{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 21px;box-shadow:var(--shadow-sm)}
+.lint-box textarea{width:100%;min-height:88px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card-2);padding:11px 14px;font-size:13px;line-height:1.95;resize:vertical}
+.lint-verdict{display:flex;align-items:flex-start;gap:10px;margin:12px 0;font-size:12.5px;line-height:1.85}
+.lint-verdict .chip{flex:none;margin-top:3px}
+.lint-verdict .why b{display:block}
+.lint-verdict .why span{color:var(--muted);font-size:11.5px}
+
+/* ============================= catalog ============================= */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cat-card{display:flex;flex-direction:column;gap:4px;text-align:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s var(--ease),box-shadow .2s,border-color .2s}
+.cat-card::before{content:"";position:absolute;inset-inline-start:0;inset-block:0;width:4px;background:var(--ct,var(--brand))}
+.cat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--ct,var(--brand))}
+.cat-card b{font-size:13.5px}
+.cat-card p{margin:0;font-size:11px;color:var(--muted);line-height:1.8;flex:1}
+.cat-card .meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cat-card .meta .chip{font-size:9.5px;padding:1.5px 9px}
+@media (max-width:1240px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:900px){.cat-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.cat-grid{grid-template-columns:1fr}}
+
+/* ============================= settings ============================= */
+.settings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.set-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 21px;box-shadow:var(--shadow-sm)}
+.set-card h4{margin:0 0 4px;font-size:14px;font-weight:600}
+.set-card .hint{margin-bottom:12px}
+
+/* ============================= footer ============================= */
+.foot{margin-top:70px;border-top:1px solid var(--line);padding:36px 0 46px;text-align:center}
+.foot .soul{font-size:clamp(22px,2.4vw,32px);font-weight:600;letter-spacing:-.02em}
+.foot .soul span{color:var(--gold)}
+.foot .honest{max-width:720px;margin:14px auto 0;font-size:11.5px;color:var(--muted);line-height:2}
+.foot .weave-sig{display:flex;gap:5px;height:8px;max-width:300px;margin:20px auto 0}
+.foot .weave-sig i{flex:1;border-radius:99px;font-style:normal}
+
+/* ============================= responsive ============================= */
+@media (max-width:1240px){
+  .night-grid,.impact-grid,.settings-grid,.bounds-grid{grid-template-columns:1fr 1fr}
+  .plans,.four-nos{grid-template-columns:1fr 1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+}
+@media (max-width:1080px){
+  .rail{position:static;width:auto;inset:auto;flex-direction:row;flex-wrap:wrap;align-items:center;border-inline-end:0;border-bottom:1px solid var(--night-line)}
+  .rail-nav{display:flex;overflow-x:auto;padding:6px 10px}
+  .rail-group{display:none}
+  .rail-foot{display:none}
+  .canvas{margin-inline-start:0}
+  .hero-grid,.two-col,.band-hero,.receipt,.shariah-row,.care-grid{grid-template-columns:1fr}
+  .net-grid{grid-template-columns:1fr}
+  .net-mid{transform:rotate(90deg)}
+}
+@media (max-width:720px){
+  .night-grid,.impact-grid,.settings-grid,.bounds-grid,.plans,.four-nos,.kpis,.net-stats{grid-template-columns:1fr}
+  .wish-row{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+/* ?static=1 — capture mode: final state, zero motion (docs/screenshots) */
+html.static *,html.static *::before,html.static *::after{animation:none!important;transition:none!important}
+html.static .rv{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ======================= الشريط الليلي (يمين) ======================= -->
+<aside class="rail" aria-label="التنقّل الرئيسي">
+  <div class="rail-brand">
+    <span class="knot big" aria-hidden="true"></span>
+    <div>
+      <div class="name">عهد</div>
+      <div class="sub">الديوان · نسخة الويب للحاسوب</div>
+    </div>
+  </div>
+
+  <div class="rail-user">
+    <span class="avatar" aria-hidden="true">ن</span>
+    <div class="who">
+      <b>نايف العتيبي</b>
+      <span>@naif · حساب مستعار للعرض</span>
+    </div>
+  </div>
+  <div class="band-chip" title="إشارتك لنفسك — كلمة، لا رقم"><i></i>وفّى بعهوده</div>
+
+  <div class="rail-search">
+    <input id="railSearch" type="search" placeholder="ابحث في دفترك… (مثال: سلطان)" aria-label="بحث في دفترك">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
+  </div>
+
+  <nav class="rail-nav" id="railNav">
+    <div class="rail-group">اليوم</div>
+    <button class="rail-item on" data-go="overview"><span class="thread"></span>نظرة عامة</button>
+    <div class="rail-group">العهود</div>
+    <button class="rail-item" data-go="daftari"><span class="thread"></span>دفتري<span class="flag">2 متأخّران</span></button>
+    <button class="rail-item" data-go="netting"><span class="thread"></span>المقاصّة</button>
+    <button class="rail-item" data-go="groups"><span class="thread"></span>الجمعيّة والدائرة</button>
+    <button class="rail-item" data-go="ongoing"><span class="thread"></span>سُلف وقروض مفتوحة</button>
+    <div class="rail-group">الشهادة</div>
+    <button class="rail-item" data-go="proof"><span class="thread"></span>الإثبات والختم<span class="flag gold">مختوم</span></button>
+    <button class="rail-item" data-go="care"><span class="thread"></span>الرعاية والخلاف</button>
+    <div class="rail-group">الأفق</div>
+    <button class="rail-item" data-go="band"><span class="thread"></span>إشارة الوفاء</button>
+    <button class="rail-item" data-go="impact"><span class="thread"></span>أثر عهد والمصادر</button>
+    <button class="rail-item" data-go="billing"><span class="thread"></span>الأجرة والخطط</button>
+    <button class="rail-item" data-go="bounds"><span class="thread"></span>الحدود والأساس الشرعيّ</button>
+    <div class="rail-group">الحساب</div>
+    <button class="rail-item" data-go="catalog"><span class="thread"></span>فهرس القدرات<span class="flag gold">19</span></button>
+    <button class="rail-item" data-go="settings"><span class="thread"></span>الإعدادات</button>
+  </nav>
+
+  <div class="rail-foot">
+    <b>بيانات تجريبيّة حتميّة</b> — بتاريخ ثابت <span class="tk">2026-06-21</span><br>
+    كلمتك محفوظة، وعلاقتك محميّة.
+  </div>
+</aside>
+
+<!-- ======================= اللوحة ======================= -->
+<div class="canvas">
+  <header class="topbar">
+    <div class="crumb">الديوان / <b id="crumb">نظرة عامة</b></div>
+    <div class="grow"></div>
+    <div class="seg" role="group" aria-label="نمط الأرقام">
+      <button id="dgW" class="on" type="button" title="أرقام غربية">123</button>
+      <button id="dgA" type="button" title="أرقام هندية">١٢٣</button>
+    </div>
+    <button id="privacyBtn" class="pill-btn" type="button" aria-pressed="false" title="إخفاء المبالغ — قناع عرضٍ فقط، الأختام لا تتأثر">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+      إخفاء المبالغ
+    </button>
+    <button class="cta" type="button" onclick="document.getElementById('bounds').scrollIntoView()">+ عهد جديد</button>
+  </header>
+
+  <main>
+    <!-- ======================= نظرة عامة ======================= -->
+    <section id="overview" class="hero">
+      <div class="hello rv">
+        <h1>مساء الوفاء، نايف <span>— هذا نسيجُ ذمّتك اليوم.</span></h1>
+        <div class="date">بتاريخ <b>21 يونيو 2026</b><br><span class="tk">AS_OF 2026-06-21 · deterministic</span></div>
+      </div>
+
+      <div class="hero-grid">
+        <!-- وش الوضع؟ -->
+        <article class="wish rv" aria-label="وش الوضع — العهد الأكثر إلحاحًا">
+          <div class="pad">
+            <div class="wish-top">
+              <h3>وش الوضع؟ <span class="chip amber"><i></i>الأكثر إلحاحًا</span></h3>
+              <span class="wish-ref">عهد-SULTAN</span>
+            </div>
+            <div class="wish-rows">
+              <div class="wish-row"><span class="k">المتَّفق عليه</span><span class="v">أقرضتَ <b>سلطان</b> <b class="money" data-v="1200"></b> قرضًا حسنًا، يُرَدّ في 15 مايو 2026.</span></div>
+              <div class="wish-row"><span class="k">ما حدث</span><span class="v">لم تُسجَّل دفعات بعد — متأخّرٌ <b class="num" data-v="37"></b> يومًا. <b>كهرمانٌ لا أحمر، ولا غرامة</b> مهما طال.</span></div>
+              <div class="wish-row next"><span class="k">التالي</span><span class="v">ذكّره بالمعروف، أو أنظِره إلى ميسرة ﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾.</span></div>
+            </div>
+            <div class="wish-acts">
+              <button class="btn primary" type="button" data-flash="أُرسل تذكيرٌ ودّيّ (الدرجة 1 من 3) — بلا تشهير، وبمهلةٍ إلزاميّة قبل الدرجة التالية.">تذكير بالمعروف (محاكاة)</button>
+              <button class="btn gold" type="button" data-flash="أُعيدت الجدولة بالمعروف — بلا أيّ زيادة (البقرة 280).">نظرة إلى ميسرة (محاكاة)</button>
+              <button class="btn" type="button" data-go="proof">سند الإثبات</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- KPIs -->
+        <div class="kpis">
+          <div class="kpi rv" style="transition-delay:.05s">
+            <div class="k">ما لك (قائم)</div>
+            <div class="v"><span class="money" data-v="5200"></span></div>
+            <div class="s"><b class="num" data-v="4"></b> عهود — <span class="a">منها اثنان متأخّران</span> و<b class="num" data-v="900"></b> ر.س محلّ خلاف (مجمّدة)</div>
+          </div>
+          <div class="kpi amber rv" style="transition-delay:.1s">
+            <div class="k">ما عليك</div>
+            <div class="v"><span class="money" data-v="3000"></span></div>
+            <div class="s">عهدٌ واحد لفهد — يستحقّ 10 يوليو 2026</div>
+          </div>
+          <div class="kpi gold rv" style="transition-delay:.15s">
+            <div class="k">ذمّةٌ محفوظة</div>
+            <div class="v"><span class="money" data-v="800"></span></div>
+            <div class="s">عهد ريم — سُدّد كاملًا، وبقي أثرُه الطيّب</div>
+          </div>
+          <div class="kpi night rv" style="transition-delay:.2s">
+            <div class="k">إشارتك لنفسك</div>
+            <div class="word">«وفّى بعهوده»</div>
+            <div class="s">كلمةٌ لا رقم — من تاريخك المختوم وحدك</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- النسيج الحي -->
+      <div class="weave-wrap rv">
+        <div class="weave-head">
+          <h3>النسيج الحيّ — كلّ خيطٍ عهد، اضغطه لتصل إليه</h3>
+          <div class="legend">
+            <span class="l-live"><i></i>قائم</span>
+            <span class="l-kept"><i></i>وفاء</span>
+            <span class="l-late"><i></i>متأخّر (كهرمان)</span>
+            <span class="l-wait"><i></i>بانتظار قرار</span>
+          </div>
+        </div>
+        <div class="weave" id="weave"></div>
+      </div>
+    </section>
+
+    <!-- ======================= دفتري ======================= -->
+    <section id="daftari">
+      <div class="sec-head rv">
+        <span class="sec-ord">01</span>
+        <h2>دفتري — كلُّ عهدٍ مكتوب</h2>
+        <span class="why">﴿إذا تداينتم بدَينٍ إلى أجلٍ مسمًّى فاكتبوه﴾ — البقرة 282</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="daftari-bar rv">
+        <div class="tabs" role="tablist" aria-label="جهة الدفتر">
+          <button id="tabMe" class="on" type="button" role="tab" aria-selected="true">ما لي (<span class="num" data-v="5"></span>)</button>
+          <button id="tabOn" type="button" role="tab" aria-selected="false">ما عليّ (<span class="num" data-v="1"></span>)</button>
+        </div>
+        <div class="people" id="people" aria-label="تصفية بالأشخاص"></div>
+      </div>
+
+      <div class="rows" id="rows"></div>
+
+      <div class="split-note rv">
+        <span>أنماط القِسمة عند إنشاء عهدٍ جماعيّ:</span>
+        <span class="chip brand"><i></i>بالضبط</span>
+        <span class="chip brand"><i></i>نسبةً</span>
+        <span class="chip brand"><i></i>أسهمًا</span>
+        <span>· التذكير سُلَّمٌ رحيم: <b>ودّيّ ← جادّ ← أخير</b>، بمُهَلٍ إلزاميّةٍ بين الدرجات، ويتوقّف كلّه عند الخلاف.</span>
+      </div>
+
+      <article class="card pad rv" style="margin-top:16px">
+        <div class="panel-h">
+          <h3 style="font-size:15px">اليومي — قيد اليوم</h3>
+          <span class="chip wait"><i></i>محفوظٌ على هذا الجهاز فقط</span>
+        </div>
+        <p class="hint">دفترُ جيبٍ محليّ: دوِّن ملاحظةً أو طلبًا أو بلاغَ خلافٍ لحظتَه — قبل أن يصير عهدًا مختومًا. لا يغادر جهازك.</p>
+        <div class="draft" style="margin-top:10px">
+          <div class="tx">
+            <b>دفعة هذا الشهر — ملاحظة</b>
+            <span>سلّمتُ عبدالله <span class="money" data-v="200"></span> نقدًا من دفعة يونيو، والإيصال في الدفتر المحليّ. · 21 يونيو 2026</span>
+          </div>
+          <span class="chip brand"><i></i>قيد ملاحظة</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn" type="button" data-flash="أُضيف قيدُ ملاحظةٍ إلى يوميّك المحليّ — لا يغادر هذا الجهاز.">+ قيد ملاحظة (محاكاة)</button>
+          <button class="btn" type="button" data-flash="جُهّز طلبُ عهدٍ من اليوميّ — المقصد قبل المبلغ.">+ طلب عهد (محاكاة)</button>
+          <button class="btn" type="button" data-flash="سُجّل بلاغُ خلافٍ مبدئيّ — يُرفَع لمحلّ الخلاف عند الاتصال.">+ بلاغ خلاف (محاكاة)</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ======================= المقاصّة ======================= -->
+    <section id="netting">
+      <div class="sec-head rv">
+        <span class="sec-ord">02</span>
+        <h2>المقاصّة — أقلُّ تحويلاتٍ تُبرئ الجميع</h2>
+        <span class="why">عهد يشهد ويحسب — والمال يمشي بين الناس مباشرة</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="net-grid rv">
+        <div class="net-panel">
+          <h4>قبل — التشابك <span class="chip wait"><i></i><span class="num" data-v="9"></span> التزامات</span></h4>
+          <svg class="net-svg" viewBox="0 0 460 320" role="img" aria-label="شبكة الالتزامات قبل المقاصة: تسعة أسهم بين خمسة أشخاص">
+            <g id="edgesBefore"></g><g id="nodesBefore"></g>
+          </svg>
+        </div>
+        <div class="net-mid" aria-hidden="true">⟵</div>
+        <div class="net-panel">
+          <h4>بعد — الصفاء <span class="chip brand" id="afterChip"><i></i>تحويلان فقط</span></h4>
+          <svg class="net-svg" viewBox="0 0 460 320" role="img" aria-label="النتيجة بعد المقاصة">
+            <g id="edgesAfter"></g><g id="nodesAfter"></g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="net-stats rv" id="netStats"></div>
+
+      <div class="rifq-bar rv">
+        <button id="rifqSwitch" class="switch" type="button" role="switch" aria-checked="false" aria-label="تفعيل رفق"></button>
+        <div class="tx">
+          <h4>رِفْق — مقاصّةٌ ترحم أوّلًا</h4>
+          <p id="rifqText">نورة أثبتت عسرًا <b>بموافقتها</b>. فعِّل «رفق» فتُستثنى من المقاصّة الجبريّة: التزاماتُها الأربعة تُحفَظ جانبًا <b>بمبلغها الأصليّ</b> (<span class="money" data-v="900"></span>)، ويُختَم ذلك حدثَ نظرةٍ مشهودًا — والبقيّة ينضغطون كالمعتاد.</p>
+        </div>
+        <span class="chip gold"><i></i>﴿فنظرةٌ إلى ميسرة﴾</span>
+      </div>
+
+      <div class="consent rv">
+        <h4>رضا الأطراف قبل الختم — لا تسويةَ تُفرَض على أحد</h4>
+        <p class="hint">كلّ تحويلٍ مُقترَحٍ يلزمه رضا طرفَيه. الرصيد لا يتغيّر صامتًا أبدًا — الختم يتفعّل فقط عند اكتمال الرضا.</p>
+        <div class="legs" id="legs"></div>
+        <div class="consent-foot">
+          <button id="sealBtn" class="btn primary" type="button" disabled>اختم التسوية (محاكاة)</button>
+          <span class="sealed-note" id="sealedNote">✓ خُتمت التسوية — وثيقةٌ مشهودة، ولا رجعةَ إلا باتفاقٍ جديد.</span>
+          <span class="hint" style="margin-inline-start:auto">عُقَدٌ تجريبيّةٌ أخرى للتفحّص: <span class="chip wait"><i></i>الذهبيّة (المعروضة)</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= الجمعية والدائرة ======================= -->
+    <section id="groups">
+      <div class="sec-head rv">
+        <span class="sec-ord">03</span>
+        <h2>الجمعيّة الموثّقة والدائرة</h2>
+        <span class="why">المال بين الأعضاء مباشرة — عهد يشهد الترتيب والدفعات، ولا يقبض شيئًا</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="two-col">
+        <article class="card pad rv">
+          <div class="panel-h">
+            <h3>جمعيّة «أهل الحيّ»</h3>
+            <span class="chip gold"><i></i>الترتيب بالإجماع — مختوم</span>
+          </div>
+          <p class="hint"><b class="num" data-v="6"></b> عضوات × <span class="money" data-v="1000"></span> شهريًّا = <span class="money" data-v="6000"></span> لصاحبة كلّ دور. لا رسومَ بين العضوات، ولا قرعةَ حظّ — ترتيبٌ متّفقٌ عليه ومختوم.</p>
+          <div class="seats" id="seats"></div>
+          <p class="hint" style="margin:8px 0 0">الدور الثالث (هند) قيد التحصيل: <b class="num" data-v="4"></b> من <b class="num" data-v="6"></b> دفعن — <span class="money" data-v="4000"></span> من <span class="money" data-v="6000"></span>.</p>
+
+          <div class="invite" id="inviteCard">
+            <h5>بطاقة دعوة معلّقة — كامل الشروط قبل ختم العضويّة:</h5>
+            <ul>
+              <li>المبلغ: <span class="money" data-v="1000"></span> شهريًّا لمدّة <b class="num" data-v="6"></b> أشهر — دورُكِ: الخامس.</li>
+              <li>لا فائدة، لا رسوم بين العضوات، لا غرامة تأخير — أبدًا.</li>
+              <li>الانسحاب قبل الختم بلا أثر؛ وبعده باتفاق الجميع الموثّق.</li>
+            </ul>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn primary" type="button" id="invAccept">أقبل وأوقّع (محاكاة)</button>
+              <button class="btn" type="button" id="invDecline">أرفض بسبب (محاكاة)</button>
+            </div>
+          </div>
+
+          <div class="mini-log" id="jamiyaLog">
+            <div class="ln"><b>سجلّ التغييرات:</b> تبديل دورَي منال وعبير — برضا الجميع، وخُتم التبديل.</div>
+            <div class="ln">هدفٌ وصفيّ: «تجهيز مدخل البيت» — وصفٌ حرّ، لا ربطَ بمنتجٍ ولا تسويق.</div>
+            <div class="ln">مقارنة سيناريوهات قبل الختم: 6 أشهر × 1000 مقابل 12 × 500 — عرضٌ حياديّ.</div>
+          </div>
+        </article>
+
+        <article class="card pad rv" style="transition-delay:.08s">
+          <div class="panel-h">
+            <h3>دائرة السكن «شقّة الملقا»</h3>
+            <span class="chip brand"><i></i>المنظّم: سعود</span>
+          </div>
+          <p class="hint">مصاريف مشتركة تُقسَم بالأصناف (بالضبط / نسبةً / أسهمًا)، وأمين الصندوق يذكّر <b>الجميع دون تسمية أحد</b> — الستر أصل.</p>
+
+          <div class="draft">
+            <div class="tx">
+              <b>مسودّة الدورة الشهريّة: إيجار يوليو — <span class="money" data-v="6400"></span></b>
+              <span>القيود المتكرّرة لا تُنشَر تلقائيًّا أبدًا — تصير قيدًا باعتمادٍ صريحٍ فقط.</span>
+            </div>
+            <button class="btn primary" type="button" id="draftOk">اعتمد وانشر (محاكاة)</button>
+            <button class="btn" type="button" id="draftNo">أهمِل هذه الدورة</button>
+          </div>
+          <p class="hint" id="draftMsg" style="margin:8px 0 0"></p>
+
+          <div class="divider"></div>
+
+          <div class="panel-h">
+            <h3 style="font-size:14.5px">تخريج حصّة تركي</h3>
+            <span class="chip gold"><i></i>حُفِظ الحقّ بكرامة</span>
+          </div>
+          <p class="hint">تركي مدينٌ للدائرة بـ<span class="money" data-v="1500"></span> وانتقل من الشقّة. بدل الإحراج أو الضياع: حصّته <b>تتخرّج عهدًا مفتوحًا موثّقًا</b> — بلا أقساطٍ مفروضة، وبلا أيّ زيادة.</p>
+          <button class="btn" type="button" data-flash="وُثِّقت حصّة تركي عهدًا مفتوحًا — حُفِظ الحقّ بكرامة، بلا أيّ زيادة.">خرِّج الحصّة عهدًا مفتوحًا (محاكاة)</button>
+          <p class="hint" style="margin-top:10px">إيقاف القِسمة الدائمة صادق: <b>لا أثرَ رجعيًّا</b> — ما نُشر يبقى كما هو.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= سلف وقروض مفتوحة ======================= -->
+    <section id="ongoing">
+      <div class="sec-head rv">
+        <span class="sec-ord">04</span>
+        <h2>سُلفةٌ بالمعروف والقرض المفتوح</h2>
+        <span class="why">عقدٌ واحدٌ مختومٌ يغطّي المتكرّر — ولا شيءَ يتجدّد خُفية</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="two-col">
+        <article class="card pad rv">
+          <div class="panel-h">
+            <h3>سُلفة بالمعروف — أبو فهد ← راميش</h3>
+            <span class="chip brand"><i></i>عقدٌ واحد · 4 دورات</span>
+          </div>
+          <p class="hint"><span class="money" data-v="800"></span> مطلعَ كلّ شهرٍ على الراتب، من يناير إلى أبريل 2026. الجدول كلُّه مكشوفٌ من اليوم الأوّل — سُدّدت دورتان.</p>
+          <div class="cycles">
+            <span class="cyc done">يناير ✓</span>
+            <span class="cyc done">فبراير ✓</span>
+            <span class="cyc next">مارس — القادمة</span>
+            <span class="cyc">أبريل</span>
+          </div>
+          <p class="hint">المتبقّي في ذمّة راميش: <b class="money" data-v="1600"></b> — بلا فائدة، بلا رسمِ تجديد، بلا خصمٍ آليّ من راتبه.</p>
+        </article>
+
+        <article class="card pad rv" style="transition-delay:.08s">
+          <div class="panel-h">
+            <h3>القرض المفتوح — منيرة ← ماجد</h3>
+            <span class="chip brand"><i></i>بلا أقساطٍ مفروضة</span>
+          </div>
+          <div class="open-hero"><b class="money" data-v="20000"></b><span>لتجهيز عربة القهوة — «رُدَّه متى يسّر الله»</span></div>
+          <p class="hint">لم تُسجَّل دفعاتٌ بعد. السداد <b>ما تيسّر</b> عبر سريع بضغطة، والإبراء — جزئيًّا أو كلّيًّا — بيد منيرة وحدها ﴿وأن تصدّقوا خيرٌ لكم﴾.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button class="btn primary" type="button" data-flash="سُدّدت دفعةٌ عبر سريع (محاكاة) — المتبقّي ينقص، بلا أيّ زيادة.">سدّد ما تيسّر عبر سريع (محاكاة)</button>
+            <button class="btn gold" type="button" data-flash="أُبرئ جزءٌ صدقةً — والباقي يبقى قرضًا مفتوحًا موثّقًا.">إبراءٌ جزئيّ (محاكاة)</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= الإثبات (وثيقة الليل) ======================= -->
+    <section id="proof">
+      <div class="night-wrap rv">
+        <div class="sec-head">
+          <span class="sec-ord">05</span>
+          <h2>وثيقة الليل — سند الإثبات والختم</h2>
+          <span class="why">كلّ حدثٍ يختم على ما قبله — والعبثُ الوحيد الذي يستحقّ الأحمر</span>
+        </div>
+
+        <div class="night-grid">
+          <!-- السند + العبث -->
+          <div class="n-card">
+            <h4>سند الإثبات — <span class="tk" style="font-size:.72em">عهد-CAFE</span> <span class="chip night" style="border-color:var(--night-line)"><i style="background:var(--seal-glow)"></i>مقهى الحيّ · <span class="money" data-v="2500"></span></span></h4>
+            <div class="seal-stage">
+              <div class="seal-ring" id="sealRing"></div>
+              <div class="seal-verdict" id="sealVerdict">
+                <b>الختم صحيح ✓</b>
+                <span>خمسة أحداثٍ مختومةٌ تسلسليًّا؛ البصمة المعادُ حسابها تُطابق المخزونة بتّةً.</span>
+              </div>
+            </div>
+            <div class="hashes" id="hashBox"><span class="lbl">root </span><span class="okh">a7f3d9c2…41be</span>  <span class="lbl">recomputed </span><span class="okh" id="hashRe">a7f3d9c2…41be</span></div>
+            <div class="tamper-line">
+              <label for="tamperIn">جرّب العبث (محاكاة): غيّر المبلغ —</label>
+              <input id="tamperIn" type="number" value="2500" min="0" step="50" aria-label="مبلغ تجربة العبث">
+              <button class="n-btn" type="button" id="tamperReset">أعد الأصل</button>
+            </div>
+            <p class="hint" style="margin-top:10px">التأخّر كهرمان، والخلاف حياد — أمّا <b style="color:#F0A99F">الأحمر فمحجوزٌ لهذا وحده</b>: كسر الختم.</p>
+          </div>
+
+          <!-- سجل الشهادة + سجل المعروف -->
+          <div class="n-card">
+            <h4>سِجلّ الشهادة — الحكاية موثّقة</h4>
+            <div class="tl">
+              <div class="ev"><b>صيغ العهد</b><span>1 مارس 2026 · نايف ← مقهى الحيّ · <span class="money" data-v="2500"></span></span></div>
+              <div class="ev"><b>وقّع نايف ثم وقّع المقهى</b><span>2 مارس 2026 · توقيعان مشهودان</span></div>
+              <div class="ev gold"><b>خُتم السند وفُعّل</b><span>2 مارس 2026 · صار وثيقةً لا تقبل التحريف</span></div>
+              <div class="ev warm"><b>تذكيرٌ ودّيّ (درجة 1)</b><span>10 يونيو 2026 · سِجلّ المعروف — حكايةٌ لا درجة</span></div>
+              <div class="ev warm"><b>متأخّرٌ 20 يومًا — كهرمان</b><span>حتى 21 يونيو 2026 · لا غرامة، مهما طال</span></div>
+            </div>
+            <div class="divider" style="background:var(--night-line)"></div>
+            <button class="n-btn" type="button" data-flash="جُهّزت البيّنة المحايدة كوثيقةٍ موقّعة — الطرفان يريان النسخة نفسها.">صدِّر البيّنة المحايدة (محاكاة)</button>
+          </div>
+
+          <!-- التحقق المستقل -->
+          <div class="n-card">
+            <h4>تحقّقٌ مستقلّ — لا تصدّق عهد نفسه</h4>
+            <p class="hint">معيار <b style="color:#fff">Open-Witness v1</b>: أيّ طرفٍ يتحقّق من أيّ سندٍ بأداةٍ مستقلّةٍ صفريّةِ الاعتماديّات — دون الرجوع إلينا.</p>
+            <div class="term"><span class="c"># خارج عهد تمامًا — Node فقط</span>
+<span class="p">$</span> node verify-ahd-seal.cjs record.json
+<span class="g">SEAL OK</span> · chain 5/5 · root <span class="g">6c9410b9…</span>
+
+<span class="c"># والخادم الحيّ (HTTP حقيقيّ + توقيع HMAC):</span>
+<span class="p">$</span> node server/demo-bank-node.cjs
+<span class="g">NEW-1 sealed → /verify ✓ → independent ✓</span></div>
+            <p class="hint" style="margin-top:10px">ورابط تأكيدٍ جاهزٌ لواتساب <b style="color:#fff">يُرمَّز محليًّا ولا يُرسل شيئًا</b>: <span class="tk">ahd://confirm/R-CAFE#wKq3…</span></p>
+            <p class="hint" style="margin-top:8px">وغلافُ مشاركةٍ موقَّع (<span class="tk">JSON</span>) يحمل السندَ وبرهانَه معًا — يُفتَح على أيّ جهازٍ ويُتحقَّق منه محليًّا.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= الرعاية والخلاف ======================= -->
+    <section id="care">
+      <div class="sec-head rv">
+        <span class="sec-ord">06</span>
+        <h2>الرعاية والخلاف — حيث يقف البنك عمدًا</h2>
+        <span class="why">يشهد ويحفظ ويصل بين الناس — ولا يحكم على أحد</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="care-grid">
+        <article class="care-card rv" style="--cc:var(--wait)">
+          <h4>محلّ خلاف — ماجد × نايف <span class="chip wait"><i></i><span class="money" data-v="900"></span> مجمّدة</span></h4>
+          <p>نازع ماجد في عهد-DISP، فأوقف عهد التذكيرات وجمّد التصرّف فورًا. <b>عهد لا يحكم</b> — يعرض للطرفين <b>البيّنة المحايدة نفسها</b>، ويفتح مخارج الصلح:</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" type="button" data-flash="اقتُرحت إعادة الجدولة بالمعروف — صلحًا، بلا أيّ زيادة (280).">جدولةٌ بالمعروف (محاكاة)</button>
+            <button class="btn gold" type="button" data-flash="أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾.">إبراء (محاكاة)</button>
+          </div>
+        </article>
+
+        <article class="care-card rv" style="--cc:var(--gold);transition-delay:.06s">
+          <h4>رِفْق — عسرٌ موثَّقٌ بكرامة <span class="chip gold"><i></i>نورة</span></h4>
+          <p>أعلنت نورة عسرها <b>بموافقتها</b> في 21 يونيو، فخُتم حدثُ نظرةٍ مشهود: لا مقاصّةَ جبريّةً عليها، والتزاماتُها محفوظةٌ <b>بأصلها دون زيادة</b> إلى ميسرة.</p>
+          <div class="quote">﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة﴾ — لا إجراءَ تحصيلٍ يلبس ثوب الرحمة.</div>
+        </article>
+
+        <article class="care-card rv" style="--cc:var(--brand);transition-delay:.12s">
+          <h4>الرفض المسبَّب — قرارٌ محفوظ</h4>
+          <p>رفض خالد طلبَ إقراضٍ وقال سببه: <b>«لا أعرف طالبَه معرفةً كافية»</b>. الرفض في عهد قرارٌ مسبَّبٌ يُحفَظ ولا يُحذَف — <b>ولا يمسّ إشارةَ أحد</b>. لا لومَ على من اعتذر، ولا ضياعَ لحقّ من رُفض.</p>
+          <span class="chip brand"><i></i>لا قرارَ لطرفٍ يُمحى — أبدًا</span>
+        </article>
+
+        <article class="care-card rv" style="--cc:var(--amber);transition-delay:.18s">
+          <h4>الإكراه وطلب الإبراء</h4>
+          <p>قبل الختم زرٌّ صريح: <b>«أُكرهتُ على هذا»</b> — يوقف الختمَ فورًا لمراجعةٍ بشريّة، بلا حكمٍ ولا عقوبة. وللمَدين أن يطلب الإبراء بسببٍ (عسرٌ ماليّ · ظرفٌ صحّيّ · دون تفصيل) — <b>ولا يتغيّر شيءٌ حتى يقبل صاحبُ الحقّ</b>.</p>
+          <button class="btn" type="button" data-flash="سُجّل طلب الإبراء للمُقرِض — الرصيد والختم لا يتغيّران حتى يقبل صاحب الحقّ.">اطلب الإبراء بسبب (محاكاة)</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= إشارة الوفاء ======================= -->
+    <section id="band">
+      <div class="sec-head rv">
+        <span class="sec-ord">07</span>
+        <h2>إشارة الوفاء — كلمةٌ لا رقم</h2>
+        <span class="why">مرآتُك وحدك: تصف ولا تتنبّأ، ولا تراها عينٌ غيرُ عينك</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="band-hero">
+        <article class="band-word-card rv">
+          <div class="lbl">إشارة نايف — من تاريخه المختوم وحده (نافذة 24 شهرًا، بتلاشٍ زمنيّ)</div>
+          <div class="word">«وفّى بعهوده»</div>
+          <div class="months" aria-label="ستة أشهر موفاة">
+            <span class="mo"><i>✓</i><span>أغسطس 25</span></span>
+            <span class="mo"><i>✓</i><span>أكتوبر 25</span></span>
+            <span class="mo"><i>✓</i><span>ديسمبر 25</span></span>
+            <span class="mo"><i>✓</i><span>يناير 26</span></span>
+            <span class="mo"><i>✓</i><span>مارس 26</span></span>
+            <span class="mo"><i>✓</i><span>مايو 26</span></span>
+          </div>
+          <div class="ladder">
+            <span>سُلَّم الكلمات كلُّه كلمات:</span>
+            <span class="hot">وفّى بعهوده</span>
+            <span>وفّى بأغلب عهوده</span>
+            <span>عليه وعدٌ متأخّر</span>
+            <span>جديد</span>
+          </div>
+        </article>
+
+        <div class="refusals rv" style="transition-delay:.08s">
+          <div class="refusal-ln"><i>لا</i><div><b>لا رقمَ ولا نسبةَ على إنسان</b><span>لا عدّاداتِ أيّام، لا درجات، لا مئويّات — الكلمةُ تحفظ الكرامة، والرقمُ يجرحها.</span></div></div>
+          <div class="refusal-ln"><i>لا</i><div><b>لا تُصدَّر ولا تُباع</b><span>لا تخرج من مرآتك إلى بنكٍ أو جهةٍ أو إعلان — ليست منتجًا.</span></div></div>
+          <div class="refusal-ln"><i>لا</i><div><b>لا تُسعِّر ولا ترفض أحدًا</b><span>لا يُبنى عليها قبولُ عهدٍ ولا رفضُه ولا ثمنُه — ليست تقييمًا ائتمانيًّا.</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= الأثر والمصادر ======================= -->
+    <section id="impact">
+      <div class="sec-head rv">
+        <span class="sec-ord">08</span>
+        <h2>أثر عهد والمصادر — أرقامٌ صادقةٌ أو لا شيء</h2>
+        <span class="why">المُقاسُ مُقاس، والتوضيحيُّ موسومٌ توضيحيًّا — لا يختلطان أبدًا</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="impact-grid">
+        <article class="card pad rv">
+          <h4 style="margin:0 0 4px;font-size:14.5px">انضغاط المقاصّة <span class="src-tag measured">مُقاس — على العيّنة الذهبيّة</span></h4>
+          <div class="compress-viz">
+            <div class="side"><b class="num" data-v="9"></b><span>التزامات</span></div>
+            <div class="arr" aria-hidden="true">⟵</div>
+            <div class="side"><b class="num" data-v="2"></b><span>تحويلان</span></div>
+          </div>
+          <p class="hint">وبدل تحريك <span class="money" data-v="1800"></span> تتحرّك <span class="money" data-v="900"></span> فقط — والنتيجة نفسُها: الكلُّ بريء الذمّة. المجاميع فوق دوائر الاختبار <b>مجهولةُ الهويّة (k≥3)</b> — موسومةٌ «دوائر تجريبيّة — بيانات اختبار»، ولا رقمَ لفرد.</p>
+        </article>
+
+        <article class="card pad rv" style="transition-delay:.06s">
+          <h4 style="margin:0 0 4px;font-size:14.5px">هذا السوق حقيقيّ <span class="src-tag measured">مُقاس</span></h4>
+          <div class="stat-hero"><span class="num" data-v="35.8"></span> من كلّ 100<small>بالغٍ سعوديٍّ اقترض من الأهل والأصدقاء — البنك الدولي، فيندكس 2021</small></div>
+          <div class="bars">
+            <div class="bar-ln"><span>2014</span><span class="tr"><i style="--w:74.6%"></i></span><b><span class="num" data-v="37.3"></span></b></div>
+            <div class="bar-ln"><span>2017</span><span class="tr"><i style="--w:67%"></i></span><b><span class="num" data-v="33.5"></span></b></div>
+            <div class="bar-ln gold"><span>2021</span><span class="tr"><i style="--w:71.6%"></i></span><b><span class="num" data-v="35.8"></span></b></div>
+          </div>
+          <p class="hint" style="margin-top:12px">ثلثُ المجتمع يتداين بينه أصلًا — عهد لا يخلق الدَّين، بل يكتب الموجود ويحميه.</p>
+        </article>
+
+        <article class="card pad rv" style="transition-delay:.12s">
+          <h4 style="margin:0 0 4px;font-size:14.5px">وكلفةُ إهماله حقيقيّة <span class="src-tag measured">مُقاس</span></h4>
+          <div class="stat-hero"><span class="num" data-v="571251"></span><small>طلبَ تنفيذٍ في 11 شهرًا (2020–21) — محاكم التنفيذ، وزارة العدل (عبر أرقام)</small></div>
+          <p class="hint" style="margin:10px 0 8px"><b class="num" data-v="58.6"></b> من كلّ 100 طلبٍ ماليّ؛ والسياق: <b class="num" data-v="115.4"></b> مليار ر.س قيدَ الإنفاذ.</p>
+          <p class="hint">ماذا لو مرّت أعهادٌ كهذه بمقاصّة عهد وشهادته قبل أن تصير نزاعًا؟ <span class="src-tag illust">سيناريو توضيحيّ — لا رقمٌ مُقاس</span></p>
+          <p class="hint" style="margin-top:8px">سِجلّ «المصادر والمنهجيّة» داخل المنتج يسم كلَّ رقمٍ يراه الحَكم: <b>مُقاسٌ</b> أو <b>توضيحيّ</b>.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= الأجرة والخطط ======================= -->
+    <section id="billing">
+      <div class="sec-head rv">
+        <span class="sec-ord">09</span>
+        <h2>الأجرة والخطط — على الخدمة، لا على القرض</h2>
+        <span class="why">أيوفي SS-19 (10/3/2): مبلغٌ ثابتٌ لا ينمو بالتأخّر، وليس نسبةً من قرض</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="free-banner rv">
+        <div class="z num" data-v="0"></div>
+        <div class="tx">
+          <h3>القرض إلى البنك = صفر. للأبد.</h3>
+          <p>توثيقُ العهد وختمُه وتسويتُه لا يكلّفك شيئًا — الإيراد كلُّه أجرةُ خدمةٍ منفصلةٍ يدفعها من اختارها، وكلُّ بندٍ مدفوعٍ معلَّقٌ على <b>المراجعة الشرعيّة</b> قبل إطلاقه.</p>
+        </div>
+        <span class="chip" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.28)"><i style="background:#fff"></i>قيد المراجعة الشرعيّة</span>
+      </div>
+
+      <div class="plans">
+        <article class="plan free rv">
+          <span class="ribbon">عهدُنا لك — للأبد</span>
+          <h4>مجّاني</h4><span class="payer">للأفراد</span>
+          <div class="price"><span class="money" data-v="0"></span><small> / شهر</small></div>
+          <ul>
+            <li>توثيق العهود وختمها وتسويتها — بلا أيّ رسم</li>
+            <li>دفترك ومقاصّتك الأساسيّة</li>
+            <li>البيّنة المحايدة عند الحاجة — مجّانًا</li>
+          </ul>
+        </article>
+        <article class="plan rv" style="transition-delay:.05s">
+          <h4>دفتري بلس</h4><span class="payer">للأفراد — ميزاتٌ غير قرضيّة فقط</span>
+          <div class="price"><span class="money" data-v="12"></span><small> / شهر</small></div>
+          <ul>
+            <li>دوائر بلا حدّ وتحليلاتٌ مفصّلة</li>
+            <li>تذكيراتٌ بإيقاعٍ مخصّص</li>
+            <li>تصديرٌ أولويٌّ للوثائق</li>
+          </ul>
+          <span class="chip amber"><i></i>قيد المراجعة الشرعيّة</span>
+        </article>
+        <article class="plan rv" style="transition-delay:.1s">
+          <h4>الدائرة</h4><span class="payer">يدفعها المنظّم — لا المقترضون</span>
+          <div class="price"><span class="money" data-v="19"></span><small> / دائرة / شهر</small></div>
+          <ul>
+            <li>مقاصّةٌ جماعيّة</li>
+            <li>قسمةٌ تلقائيّةٌ بالأصناف</li>
+            <li>إدارة العهود المتكرّرة</li>
+          </ul>
+          <span class="chip amber"><i></i>قيد المراجعة الشرعيّة</span>
+        </article>
+        <article class="plan rv" style="transition-delay:.15s">
+          <h4>المؤسّسة والوقف</h4><span class="payer">جمعيّة · جهة عمل · مكتب عائليّ</span>
+          <div class="price"><span class="money" data-v="2900"></span><small> / شهر — أو <span class="money" data-v="4"></span>/مقعد</small></div>
+          <ul>
+            <li>صندوق قرضٍ حسنٍ بأرقامٍ مجمّعةٍ فقط</li>
+            <li>لا رصيدَ فرديّ، لا إشارةَ أحد، لا تصدير</li>
+            <li>تعهُّدٌ ثم دفعٌ عند الصرف — لا حيازةَ أموال</li>
+          </ul>
+          <span class="chip amber"><i></i>قيد المراجعة الشرعيّة</span>
+        </article>
+      </div>
+
+      <div class="receipt">
+        <article class="receipt-doc rv">
+          <h4>إيصال لحظة الختم — بندان لا يختلطان <span class="chip gold"><i></i>الشفافيّة عند الختم</span></h4>
+          <div class="r-ln"><span class="k">قرض نايف ← سلطان (المبلغ كاملًا إليه)</span><b class="money" data-v="1200"></b></div>
+          <div class="r-ln"><span class="k">ما يأخذه البنك من القرض</span><b class="zero"><span class="money" data-v="0"></span> — للأبد</b></div>
+          <div class="r-ln"><span class="k">أجرة التوثيق (خدمةٌ منفصلة: توقيعٌ موثّق + خَتمُ وقتٍ + قناة سداد)</span><b class="money" data-v="5"></b></div>
+          <div class="r-ln"><span class="k">هل تنمو الأجرة إن تأخّر السداد؟</span><b>لا — ثابتةٌ مهما طال</b></div>
+        </article>
+        <article class="card pad rv" style="transition-delay:.07s">
+          <h4 style="margin:0 0 6px;font-size:14.5px">لوحة المؤسّسة — «جمعيّة البرّ» <span class="chip wait"><i></i>صندوقٌ تجريبيّ — بيانات اختبار</span></h4>
+          <p class="hint">أوّلُ عميلٍ يدفع: جهةٌ تدير صندوق قرضٍ حسن. تشترك بـ<b class="num" data-v="90"></b> مقعدًا × <span class="money" data-v="4"></span> = <b class="money" data-v="360"></b> شهريًّا — <b>أجرةٌ على الأداة، لا على قرضِ أحد</b>.</p>
+          <p class="hint">كلُّ ما تراه الجهة مجاميع: عددُ العهود النشطة وجملةُ المبالغ — <b>ولا ترى إشارةَ فردٍ ولا رصيدَه أبدًا</b>، ولا تمسك أموال الأعضاء (تعهّدٌ ثم دفعٌ عند الصرف).</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= الحدود والأساس الشرعي ======================= -->
+    <section id="bounds">
+      <div class="sec-head rv">
+        <span class="sec-ord">10</span>
+        <h2>الحدود والأساس الشرعيّ — ضماناتٌ مكتوبةٌ في الشيفرة</h2>
+        <span class="why">كلُّ ضمانةٍ تسمّي الاختبارَ الذي يفرضها — والبوّابة لا تعرف المجاملة</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="four-nos">
+        <div class="no-card rv"><b>لا يُقرض</b><span>البنك يشهد ويختم ويسوّي — ولا يُقرض من ماله ريالًا واحدًا.</span></div>
+        <div class="no-card rv" style="transition-delay:.05s"><b>لا يحكم</b><span>عند الخلاف يوقف ويحفظ ويَصل — ولا يقضي بين اثنين.</span></div>
+        <div class="no-card rv" style="transition-delay:.1s"><b>لا فائدة ولا غرامة</b><span>لا ربا، لا رسمَ تأخير، لا زيادةَ بأيّ اسم — والمال هللاتٌ صحيحة.</span></div>
+        <div class="no-card rv" style="transition-delay:.15s"><b>لا يُقيّم برقم</b><span>لا درجةَ ائتمانٍ ولا تصنيف — إشارةُ الوفاء كلمةٌ لصاحبها وحده.</span></div>
+      </div>
+
+      <div class="bounds-grid">
+        <div class="bound-col rv">
+          <h4><i></i>للمَدين</h4>
+          <div class="g-ln"><b>لا غرامةَ أبدًا — التأخّر كهرمان، والمبلغ لا يزيد</b><span class="tk">tests/app/daftari.test.cjs</span></div>
+          <div class="g-ln"><b>«نظرة إلى ميسرة» زرٌّ بيده — يطلبها بكرامة</b><span class="tk">tests/app/borrower.test.cjs</span></div>
+          <div class="g-ln"><b>سدادُ ما تيسّر يُنقص الأصل فورًا</b><span class="tk">tests/app/open-loan.test.cjs</span></div>
+          <div class="g-ln"><b>بلاغُ الإكراه يوقف الختم لمراجعةٍ بشريّة</b><span class="tk">tests/app/care.test.cjs</span></div>
+        </div>
+        <div class="bound-col gold rv" style="transition-delay:.06s">
+          <h4><i></i>للدائن</h4>
+          <div class="g-ln"><b>الرصيد لا يتغيّر صامتًا — كلُّ حركةٍ بفعلٍ صريحٍ منه</b><span class="tk">tests/app/pay-confirm.test.cjs</span></div>
+          <div class="g-ln"><b>تذكيرٌ بسُلَّمٍ رحيمٍ محفوظِ الأثر</b><span class="tk">tests/app/reminder.test.cjs</span></div>
+          <div class="g-ln"><b>بيّنةٌ محايدةٌ قابلةٌ للتصدير عند الحاجة</b><span class="tk">tests/app/proof.test.cjs</span></div>
+          <div class="g-ln"><b>الإبراء — جزئيًّا أو كلّيًّا — بيده وحده</b><span class="tk">tests/app/daftari.test.cjs</span></div>
+        </div>
+        <div class="bound-col night rv" style="transition-delay:.12s">
+          <h4><i></i>حدود المصرف</h4>
+          <div class="g-ln"><b>لا حيازةَ لأموال الأطراف — المال بينهم مباشرة</b><span class="tk">tests/app/jamiya.test.cjs</span></div>
+          <div class="g-ln"><b>لا تعديلَ بعد الختم — العبث يكسر البصمة</b><span class="tk">tests/tripwire.cjs · engine parity</span></div>
+          <div class="g-ln"><b>لا حذفَ لقرار طرفٍ — الرفض المسبَّب محفوظ</b><span class="tk">tests/app/refusal.test.cjs</span></div>
+          <div class="g-ln"><b>البوّابة كاملة: 3380 تأكيدًا / 0 إخفاق</b><span class="tk">tests/run-all.cjs</span></div>
+        </div>
+      </div>
+
+      <div class="shariah-row">
+        <div class="rv">
+          <div class="verse"><div class="ay">﴿يا أيّها الذين آمنوا إذا تداينتم بدَينٍ إلى أجلٍ مسمًّى فاكتبوه﴾</div><div class="cite">البقرة 282 — أصلُ الكتابة والإشهاد: هذا سببُ وجود عهد.</div></div>
+          <div class="verse"><div class="ay">﴿وإن كان ذو عسرةٍ فنظرةٌ إلى ميسرة وأن تصدّقوا خيرٌ لكم﴾</div><div class="cite">البقرة 280 — أصلُ النظرة والإبراء: ومنه «رفق» وأزرار الميسرة كلّها.</div></div>
+          <p class="hint" style="margin-top:12px"><b>المساعد الذكيّ هنا لا يُفتي أبدًا</b> — يستشهد بالنصوص والمعايير (أيوفي SS-19) ويحيل أسئلةَ الشريعة إلى أهلها. المسائل المفتوحة معلّقةٌ باسمها للهيئة — لا نقرّرها وحدنا.</p>
+        </div>
+        <div class="lint-box rv" style="transition-delay:.07s">
+          <h4 style="margin:0 0 6px;font-size:14.5px">فاحص الربا العميق — جرّبه بنفسك</h4>
+          <p class="hint" style="margin-bottom:10px">يرصد الصياغاتِ الملتوية (المرادفات، «مقابل الزمن») لا الكلماتِ الفجّةَ فقط — يصعُب خداعُه، وهو <b>يمنع الختم ولا يُفتي</b>.</p>
+          <textarea id="lintText" aria-label="نص شروط العهد">قرضٌ حسنٌ من نايف إلى سلطان بمبلغ 1200 ريال، يُرَدّ على ثلاثة أشهر بلا أيّ زيادة.</textarea>
+          <div class="lint-verdict" id="lintVerdict"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" type="button" id="lintRiba">أدخِل شرطَ غرامة (محاكاة)</button>
+            <button class="btn" type="button" id="lintSneaky">أدخِل صياغةً ملتوية (محاكاة)</button>
+            <button class="btn ghost" type="button" id="lintClean">نظّف النصّ</button>
+            <button class="btn primary" type="button" id="lintSeal" style="margin-inline-start:auto">اختم العهد (محاكاة)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= فهرس القدرات ======================= -->
+    <section id="catalog">
+      <div class="sec-head rv">
+        <span class="sec-ord">11</span>
+        <h2>فهرس القدرات — كلُّ ما في عهد، في شاشةٍ واحدة</h2>
+        <span class="why">القائمة نفسُها التي يحملها تطبيقُ الجوّال — 19 قدرةً سياقيّةً فوق خمس شاشاتٍ رئيسة</span>
+      </div>
+      <div class="sec-rule rv"></div>
+      <div class="people rv" id="catFilters" style="margin-bottom:14px"></div>
+      <div class="cat-grid rv" id="catGrid"></div>
+    </section>
+
+    <!-- ======================= الإعدادات ======================= -->
+    <section id="settings">
+      <div class="sec-head rv">
+        <span class="sec-ord">12</span>
+        <h2>الإعدادات</h2>
+        <span class="why">اختياراتُ عرضٍ فقط — بايتاتُ المحرّك وأختامُه لا تتأثّر</span>
+      </div>
+      <div class="sec-rule rv"></div>
+
+      <div class="settings-grid">
+        <article class="set-card rv">
+          <h4>نمطُ أرقام المبالغ</h4>
+          <p class="hint">غربيّة (123) أو هنديّة (١٢٣) — يقلب كلَّ الأرقام في الصفحة حالًا.</p>
+          <div class="seg" style="width:fit-content">
+            <button id="dgW2" class="on" type="button">123 غربيّة</button>
+            <button id="dgA2" type="button">١٢٣ هنديّة</button>
+          </div>
+        </article>
+        <article class="set-card rv" style="transition-delay:.06s">
+          <h4>خصوصيّةُ المجلس</h4>
+          <p class="hint">«إخفاء المبالغ» يقنّع الأرقام على الشاشة إن كان بجانبك أحد — قناعُ عرضٍ لا يغيّر شيئًا مختومًا.</p>
+          <button id="privacyBtn2" class="pill-btn" type="button" aria-pressed="false">إخفاء المبالغ — جرّبه</button>
+        </article>
+        <article class="set-card rv" style="transition-delay:.12s">
+          <h4>الحساب واللغة</h4>
+          <p class="hint">نايف العتيبي · <span class="tk">@naif</span> — حسابٌ مستعارٌ ببياناتٍ تجريبيّةٍ حتميّة.<br>عربيّةٌ أوّلًا (RTL) والأرقامُ والبصماتُ جزرٌ LTR داخل النصّ.</p>
+          <span class="chip wait"><i></i>نموذجُ عرضٍ — ليس بنكًا مرخَّصًا</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= footer ======================= -->
+    <footer class="foot">
+      <div class="soul rv">«كلمتُك محفوظة، <span>وعلاقتُك محميّة»</span></div>
+      <p class="honest rv">كلُّ ما في هذه الصفحة بياناتٌ تجريبيّةٌ حتميّةٌ بتاريخٍ ثابت <span class="tk">2026-06-21</span> على حسابٍ مستعار. كلُّ تكاملٍ خارجيٍّ موسومٌ «(محاكاة)» في نصّ زرّه. الكهرمانُ للتأخّر، والذهبُ للوفاء، والأحمرُ محجوزٌ لكسر الختم وحده. عهد يشهد ويختم ويسوّي — ولا يُقرض، ولا يحكم، ولا يأخذ على القرض، ولا يقيّم أحدًا برقم.</p>
+      <div class="weave-sig rv" aria-hidden="true"></div>
+    </footer>
+  </main>
+</div>
+
+<!-- flash toast -->
+<div id="toast" role="status" aria-live="polite" style="position:fixed;bottom:26px;inset-inline-start:50%;transform:translate(50%,140%);z-index:90;max-width:520px;background:var(--night);color:var(--night-ink);border:1px solid var(--night-line);border-radius:14px;padding:13px 20px;font-size:13px;line-height:1.8;box-shadow:var(--shadow-lg);transition:transform .45s var(--ease)"></div>
+
+<script>
+/* ============================================================================
+   الديوان — display logic only. Deterministic: fixed AS_OF, no clock, no
+   randomness. Simulated actions are labeled (محاكاة) in their button text.
+============================================================================ */
+(function () {
+  "use strict";
+
+  /* capture mode (?static=1): final state, zero motion — for docs and judges */
+  var STATIC = /[?&]static=1/.test(location.search);
+  if (STATIC) document.documentElement.classList.add("static");
+
+  /* ---------- formatting: western/arabic digits + privacy mask ---------- */
+  var state = { digits: "western", privacy: false };
+  var AR_D = { "0":"٠","1":"١","2":"٢","3":"٣","4":"٤","5":"٥","6":"٦","7":"٧","8":"٨","9":"٩", ",":"٬", ".":"٫" };
+  function thousands(s) {
+    var parts = String(s).split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+  function toDigits(s) {
+    if (state.digits !== "arabic") return s;
+    return String(s).replace(/[0-9.,]/g, function (c) { return AR_D[c] || c; });
+  }
+  function renderNums() {
+    var nodes = document.querySelectorAll(".num[data-v],.money[data-v]");
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i], v = el.getAttribute("data-v");
+      var isMoney = el.classList.contains("money");
+      if (isMoney && state.privacy) { el.textContent = "•••"; continue; }
+      var txt = toDigits(thousands(v));
+      el.textContent = isMoney ? txt + " ر.س" : txt;
+    }
+  }
+
+  /* ---------- toast ---------- */
+  var toastEl = document.getElementById("toast"), toastT = null;
+  function flash(msg) {
+    toastEl.textContent = msg;
+    toastEl.style.transform = "translate(50%,0)";
+    if (toastT) clearTimeout(toastT);
+    toastT = setTimeout(function () { toastEl.style.transform = "translate(50%,140%)"; }, 3600);
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-flash]");
+    if (b) flash(b.getAttribute("data-flash"));
+    var g = e.target.closest("[data-go]");
+    if (g) { var s = document.getElementById(g.getAttribute("data-go")); if (s) s.scrollIntoView({ behavior: "smooth" }); }
+  });
+
+  /* ---------- the ledger (Naif's seeded دفتري — deterministic) ---------- */
+  var LEDGER = [
+    { id: "R-CAFE",   side: "me", who: "مقهى الحيّ", amount: 2500, due: "1 يونيو 2026",  state: "late",  days: 20,
+      next: "ذكّره بالمعروف (الدرجة 1 من 3) — أو أنظِره إلى ميسرة.", claim: true },
+    { id: "R-SULTAN", side: "me", who: "سلطان",      amount: 1200, due: "15 مايو 2026", state: "late",  days: 37,
+      next: "متأخّرٌ 37 يومًا — كهرمان، ولا غرامة. التذكير أو النظرة بيدك." },
+    { id: "R-ABD",    side: "me", who: "عبدالله",     amount: 600,  due: "1 يوليو 2026", state: "live",
+      next: "على الموعد — لا تذكيرَ قبل حينه (المُهلة تحترم الناس)." },
+    { id: "R-KEPT",   side: "me", who: "ريم",         amount: 800,  due: "سُدّد كاملًا",   state: "kept",
+      next: "ذمّةٌ محفوظة 🤍 — بقي أثرُها الطيّب في سجلّك." },
+    { id: "R-DISP",   side: "me", who: "ماجد",        amount: 900,  due: "محلّ خلاف",     state: "disp",
+      next: "موقوفٌ عن التذكير — عهد لا يحكم؛ افتح محلّ الخلاف." },
+    { id: "R-FAHD",   side: "on", who: "فهد",         amount: 3000, due: "10 يوليو 2026", state: "live",
+      next: "سدّد ما تيسّر عبر سريع، أو اطلب نظرةً بكرامة." }
+  ];
+  var STATE_META = {
+    live: { ar: "قائم",          cls: "brand", color: "var(--brand)" },
+    late: { ar: "متأخّر",        cls: "amber", color: "var(--amber)" },
+    kept: { ar: "ذمّة محفوظة",   cls: "gold",  color: "var(--gold)" },
+    disp: { ar: "محلّ خلاف",     cls: "wait",  color: "var(--wait)" }
+  };
+
+  var daftari = { tab: "me", person: null, q: "" };
+
+  function rowActions(r) {
+    var acts = [];
+    if (r.side === "me") {
+      if (r.state === "late") acts.push('<button class="btn primary" type="button" data-flash="أُرسل تذكيرٌ رحيم — درجةٌ واحدةٌ وتُحفَظ في سجلّ المعروف، وبمهلةٍ قبل التالية.">تذكير (محاكاة)</button>');
+      if (r.state === "late") acts.push('<button class="btn gold" type="button" data-flash="أُعيدت الجدولة بالمعروف — بلا أيّ زيادة (280).">نظرة (محاكاة)</button>');
+      if (r.state === "disp") acts.push('<button class="btn" type="button" data-go="care">محلّ الخلاف</button>');
+      if (r.state !== "kept") acts.push('<button class="btn gold" type="button" data-flash="أُبرئ ما تبقّى صدقةً ﴿وأن تصدّقوا خيرٌ لكم﴾ — بقرارك وحدك.">إبراء (محاكاة)</button>');
+      acts.push('<button class="btn" type="button" data-go="proof">سند</button>');
+    } else {
+      acts.push('<button class="btn primary" type="button" data-flash="سُدّدت دفعةٌ عبر سريع (محاكاة) — المتبقّي ينقص فورًا، بلا أيّ زيادة.">سدّد ما تيسّر (محاكاة)</button>');
+      acts.push('<button class="btn" type="button" data-flash="طلبتَ نظرةً إلى ميسرةٍ بكرامة — بُلّغ فهد، والأمرُ إليه.">اطلب نظرة (محاكاة)</button>');
+      acts.push('<button class="btn" type="button" data-flash="سُجّلت دفعتُك بمؤيّدٍ — الرصيد لا يتغيّر حتى يصدّقها فهد.">تصديق سداد (محاكاة)</button>');
+    }
+    return acts.join("");
+  }
+
+  function renderRows() {
+    var wrap = document.getElementById("rows"), html = "";
+    for (var i = 0; i < LEDGER.length; i++) {
+      var r = LEDGER[i];
+      if (r.side !== daftari.tab) continue;
+      if (daftari.person && r.who !== daftari.person) continue;
+      if (daftari.q && r.who.indexOf(daftari.q) < 0 && r.id.toLowerCase().indexOf(daftari.q.toLowerCase()) < 0) continue;
+      var m = STATE_META[r.state];
+      html +=
+        '<article class="row-card" id="row-' + r.id + '" style="--rc:' + m.color + '">' +
+          '<div class="row-top">' +
+            '<span class="pv">' + r.who.charAt(0) + "</span>" +
+            '<div class="nm"><b>' + r.who + '</b><span class="rf">عهد-' + r.id.replace(/^R-/, "") + "</span></div>" +
+            '<span class="chip ' + m.cls + '"><i></i>' + m.ar + (r.days ? " — " + toDigits(r.days) + " يومًا" : "") + "</span>" +
+            '<div class="row-amt"><b class="money" data-v="' + r.amount + '"></b><small>' + (r.side === "me" ? "يستحقّ: " : "تستحقّ عليك: ") + r.due + "</small></div>" +
+          "</div>" +
+          '<div class="row-next"><p><b>التالي:</b> ' + r.next + '</p><div class="row-acts">' + rowActions(r) + "</div></div>" +
+          (r.claim ?
+            '<div class="subcard"><p><b>تصديق سداد معلّق:</b> المقهى سجّل دفعة <b class="money" data-v="500"></b> بمؤيّد «تحويل بنكيّ» — <b>رصيدُك لا يتغيّر حتى تُصدّق أنت</b>.</p>' +
+            '<button class="btn primary" type="button" data-flash="صدّقتَ الدفعة — خُتم حدث السداد ونقص المتبقّي، لا قبل ذلك.">صدِّق (محاكاة)</button>' +
+            '<button class="btn" type="button" data-flash="رُفضت الدفعة بسببٍ محفوظ — الرصيد لم يتغيّر، والسِّجلان محفوظان لمحلّ الخلاف.">ارفض بسبب (محاكاة)</button></div>'
+          : "") +
+        "</article>";
+    }
+    wrap.innerHTML = html || '<p class="hint" style="padding:14px 4px">لا نتائج على هذا التصفّي — جرّب اسمًا آخر.</p>';
+    renderNums();
+  }
+
+  function renderPeople() {
+    var ppl = ["الكل"], seen = {};
+    for (var i = 0; i < LEDGER.length; i++) if (LEDGER[i].side === daftari.tab && !seen[LEDGER[i].who]) { seen[LEDGER[i].who] = 1; ppl.push(LEDGER[i].who); }
+    document.getElementById("people").innerHTML = ppl.map(function (p) {
+      var on = (p === "الكل" && !daftari.person) || p === daftari.person;
+      return '<button type="button" class="' + (on ? "on" : "") + '" data-person="' + p + '">' + p + "</button>";
+    }).join("");
+  }
+  document.getElementById("people").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-person]"); if (!b) return;
+    var p = b.getAttribute("data-person");
+    daftari.person = (p === "الكل") ? null : p;
+    renderPeople(); renderRows();
+  });
+  function setTab(t) {
+    daftari.tab = t; daftari.person = null;
+    document.getElementById("tabMe").classList.toggle("on", t === "me");
+    document.getElementById("tabOn").classList.toggle("on", t === "on");
+    document.getElementById("tabMe").setAttribute("aria-selected", t === "me");
+    document.getElementById("tabOn").setAttribute("aria-selected", t === "on");
+    renderPeople(); renderRows();
+  }
+  document.getElementById("tabMe").addEventListener("click", function () { setTab("me"); });
+  document.getElementById("tabOn").addEventListener("click", function () { setTab("on"); });
+  document.getElementById("railSearch").addEventListener("input", function () {
+    daftari.q = this.value.trim();
+    if (daftari.q) document.getElementById("daftari").scrollIntoView({ behavior: "smooth" });
+    renderRows();
+  });
+
+  /* ---------- the living weave ---------- */
+  var WEAVE = [
+    { who: "مقهى الحيّ", sub: "عهد-CAFE · متأخّر 20 يومًا", c: "var(--amber)", w: 62, amount: 2500, note: "لك", row: "R-CAFE" },
+    { who: "سلطان",      sub: "عهد-SULTAN · متأخّر 37 يومًا", c: "var(--amber)", w: 40, amount: 1200, note: "لك", row: "R-SULTAN" },
+    { who: "عبدالله",     sub: "عهد-ABD · على الموعد",        c: "var(--brand)", w: 30, amount: 600,  note: "لك", row: "R-ABD" },
+    { who: "ريم",         sub: "عهد-KEPT · ذمّة محفوظة",      c: "var(--gold)",  w: 100, amount: 800, note: "وفاء", row: "R-KEPT" },
+    { who: "ماجد",        sub: "عهد-DISP · محلّ خلاف",        c: "var(--wait)",  w: 48, amount: 900,  note: "مجمّد", row: "R-DISP" },
+    { who: "فهد",         sub: "عهد-FAHD · عليك · يستحقّ 10 يوليو", c: "var(--brand)", w: 74, amount: 3000, note: "عليك", row: "R-FAHD" },
+    { who: "خالد (طلب)",  sub: "طلبُ عهدٍ مُرسَل · بانتظار قراره", c: "var(--wait)", w: 22, amount: 1500, note: "قيد النظر", row: null }
+  ];
+  document.getElementById("weave").innerHTML = WEAVE.map(function (t, i) {
+    return '<button class="thread" type="button" data-row="' + (t.row || "") + '">' +
+      '<span class="who">' + t.who + "<span>" + t.sub + "</span></span>" +
+      '<span class="bar"><i style="--tc:' + t.c + ";width:" + t.w + "%;--td:" + (i * 0.07) + 's"></i></span>' +
+      '<span class="amt"><b class="money" data-v="' + t.amount + '"></b><small>' + t.note + "</small></span>" +
+    "</button>";
+  }).join("");
+  document.getElementById("weave").addEventListener("click", function (e) {
+    var b = e.target.closest(".thread"); if (!b) return;
+    var id = b.getAttribute("data-row");
+    if (!id) { flash("طلبُ خالد بانتظار قراره — الطلب لا يصير عهدًا إلا برضا الطرفين وختمهما."); return; }
+    var r = LEDGER.filter(function (x) { return x.id === id; })[0];
+    if (r) { setTab(r.side); }
+    var el = document.getElementById("row-" + id);
+    if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); el.classList.remove("flash-hit"); void el.offsetWidth; el.classList.add("flash-hit"); }
+  });
+
+  /* ---------- المقاصّة: golden tangle + رفق ---------- */
+  var NODES = [
+    { n: "نورة", x: 230, y: 44 }, { n: "سارة", x: 408, y: 130 }, { n: "خالد", x: 342, y: 276 },
+    { n: "ليلى", x: 118, y: 276 }, { n: "فهد", x: 52, y: 130 }
+  ];
+  var IOUS = [
+    ["نورة","سارة",200],["سارة","خالد",200],["نورة","ليلى",250],["ليلى","فهد",250],
+    ["نورة","خالد",400],["نورة","فهد",50],["سارة","ليلى",150],["ليلى","خالد",150],["خالد","سارة",150]
+  ];
+  var GOLDEN_AFTER = [["نورة","خالد",600],["نورة","فهد",300]];
+  var RIFQ_AFTER   = [["ليلى","فهد",250],["سارة","خالد",200]];
+  var rifqOn = false;
+
+  function nodeAt(name) { for (var i = 0; i < NODES.length; i++) if (NODES[i].n === name) return NODES[i]; return NODES[0]; }
+  function edgeSVG(from, to, amt, cls) {
+    var a = nodeAt(from), b = nodeAt(to);
+    var dx = b.x - a.x, dy = b.y - a.y, len = Math.sqrt(dx * dx + dy * dy);
+    var ux = dx / len, uy = dy / len;
+    var x1 = a.x + ux * 30, y1 = a.y + uy * 30, x2 = b.x - ux * 34, y2 = b.y - uy * 34;
+    var mx = (x1 + x2) / 2 + (uy * 14), my = (y1 + y2) / 2 - (ux * 14);
+    return '<path class="edge ' + cls + '" d="M' + x1 + " " + y1 + " Q" + mx + " " + my + " " + x2 + " " + y2 + '" marker-end="url(#arr)"/>' +
+           '<text class="amt-t" x="' + mx + '" y="' + (my - 3) + '" text-anchor="middle">' + amt + "</text>";
+  }
+  function nodesSVG(hardshipName) {
+    return NODES.map(function (p) {
+      var hard = hardshipName && p.n === hardshipName;
+      return '<circle class="node' + (hard ? " hardship" : "") + '" cx="' + p.x + '" cy="' + p.y + '" r="26"/>' +
+             '<text x="' + p.x + '" y="' + (p.y + 4.5) + '" text-anchor="middle">' + p.n + "</text>" +
+             (hard ? '<text class="amt-t" x="' + p.x + '" y="' + (p.y + 44) + '" text-anchor="middle">معلّقة بأصلها 900</text>' : "");
+    }).join("");
+  }
+  var svgDefs = '<defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 z" fill="#2456F6"/></marker></defs>';
+  function renderNetting() {
+    var before = document.getElementById("edgesBefore");
+    before.innerHTML = svgDefs + IOUS.map(function (e) {
+      var aside = rifqOn && e[0] === "نورة";
+      return edgeSVG(e[0], e[1], e[2], aside ? "aside" : "");
+    }).join("");
+    document.getElementById("nodesBefore").innerHTML = nodesSVG(rifqOn ? "نورة" : null);
+
+    var after = rifqOn ? RIFQ_AFTER : GOLDEN_AFTER;
+    document.getElementById("edgesAfter").innerHTML = svgDefs + after.map(function (e) { return edgeSVG(e[0], e[1], e[2], "big"); }).join("");
+    document.getElementById("nodesAfter").innerHTML = nodesSVG(rifqOn ? "نورة" : null);
+    document.getElementById("afterChip").innerHTML = "<i></i>" + (rifqOn ? "تحويلان + نظرةٌ مختومة" : "تحويلان فقط");
+
+    var stats = rifqOn ? [
+      ["5", "التزاماتٌ نشطة (بعد استثناء نورة)"],
+      ["2", "تحويلان يُبرئان البقيّة"],
+      ["900", "ر.س محفوظةٌ لنورة بأصلها — لا زيادة"],
+      ["1", "حدثُ نظرةٍ مختومٌ مشهود"]
+    ] : [
+      ["9", "التزاماتٌ متشابكة"],
+      ["2", "تحويلان يُبرئان الجميع"],
+      ["1800", "ر.س جملةُ الديون"],
+      ["900", "ر.س فقط تتحرّك — والذمم كلُّها تبرأ"]
+    ];
+    document.getElementById("netStats").innerHTML = stats.map(function (s) {
+      return '<div class="net-stat"><b class="num" data-v="' + s[0] + '"></b><span>' + s[1] + "</span></div>";
+    }).join("");
+
+    renderLegs(after);
+    renderNums();
+  }
+
+  /* consent per leg (G11) */
+  var consents = {};
+  function legKey(e) { return e[0] + ">" + e[1]; }
+  function renderLegs(after) {
+    var wrap = document.getElementById("legs");
+    wrap.innerHTML = after.map(function (e) {
+      var k = legKey(e), c = consents[k] || {};
+      return '<div class="leg"><span class="path">' + e[0] + " ⟵ " + e[1] + ' · <b class="money" data-v="' + e[2] + '"></b></span>' +
+        '<div class="cbs">' +
+          '<button type="button" class="cb ' + (c.a ? "ok" : "") + '" data-leg="' + k + '" data-p="a">' + (c.a ? "✓ " : "") + "رضا " + e[0] + " (محاكاة)</button>" +
+          '<button type="button" class="cb ' + (c.b ? "ok" : "") + '" data-leg="' + k + '" data-p="b">' + (c.b ? "✓ " : "") + "رضا " + e[1] + " (محاكاة)</button>" +
+        "</div></div>";
+    }).join("");
+    updateSealBtn(after);
+  }
+  function updateSealBtn(after) {
+    var all = after.every(function (e) { var c = consents[legKey(e)] || {}; return c.a && c.b; });
+    document.getElementById("sealBtn").disabled = !all;
+  }
+  document.getElementById("legs").addEventListener("click", function (e) {
+    var b = e.target.closest(".cb"); if (!b) return;
+    var k = b.getAttribute("data-leg"), p = b.getAttribute("data-p");
+    consents[k] = consents[k] || {};
+    consents[k][p] = !consents[k][p];
+    renderLegs(rifqOn ? RIFQ_AFTER : GOLDEN_AFTER); renderNums();
+  });
+  document.getElementById("sealBtn").addEventListener("click", function () {
+    document.getElementById("sealedNote").classList.add("show");
+    flash("خُتمت التسوية برضا الأطراف كلّهم — وثيقةٌ مشهودةٌ في سجلّ الشهادة.");
+  });
+  document.getElementById("rifqSwitch").addEventListener("click", function () {
+    rifqOn = !rifqOn;
+    this.classList.toggle("on", rifqOn);
+    this.setAttribute("aria-checked", String(rifqOn));
+    consents = {}; document.getElementById("sealedNote").classList.remove("show");
+    renderNetting();
+    flash(rifqOn ? "رفق مفعّل: نورة خارج المقاصّة الجبريّة — التزاماتها محفوظة بأصلها، وخُتم حدث النظرة." : "عدنا للمنظر الذهبيّ — المقاصّة كاملةً على الجميع.");
+  });
+
+  /* ---------- الجمعية: seats ---------- */
+  var SEATS = [
+    { n: "أم سارة", r: 1, paid: true }, { n: "نورة", r: 2, paid: true },
+    { n: "هند", r: 3, now: true }, { n: "منال", r: 4 }, { n: "عبير", r: 5 }, { n: "لجين", r: 6 }
+  ];
+  document.getElementById("seats").innerHTML = SEATS.map(function (s) {
+    return '<div class="seat' + (s.paid ? " paid" : "") + (s.now ? " now" : "") + '">' +
+      (s.now ? '<span class="st">الدور الآن</span>' : "") +
+      "<b>" + s.n + "</b><span>الدور " + toDigits(s.r) + (s.paid ? " · قُبض ✓" : "") + "</span></div>";
+  }).join("");
+  document.getElementById("invAccept").addEventListener("click", function () {
+    document.getElementById("inviteCard").innerHTML = '<h5>خُتمت العضويّة ✓</h5><p class="hint">وقّعتَ على كامل الشروط — أُضيف قيدُك لسجلّ الجمعيّة المختوم، ودورُك الخامس.</p>';
+    flash("قُبلت الدعوة وخُتمت العضويّة — لا التزامَ إلا بما وقّعتَ عليه نصًّا.");
+  });
+  document.getElementById("invDecline").addEventListener("click", function () {
+    document.getElementById("inviteCard").innerHTML = '<h5>رفضتَ الدعوة — بسببٍ محفوظ</h5><p class="hint">«لا يناسبني الالتزامُ الشهريّ حاليًّا» — الرفض قرارٌ محترمٌ يُحفَظ ولا يُحذف، ولا يمسّ إشارةَ أحد.</p>';
+    flash("رُفضت الدعوة بسببٍ محفوظ — ولا حرج: لا لومَ على من اعتذر.");
+  });
+  document.getElementById("draftOk").addEventListener("click", function () {
+    document.getElementById("draftMsg").innerHTML = "✓ اعتُمدت مسودّة «إيجار يوليو» ونُشرت قيودُها على الأعضاء — باعتمادٍ صريح، لا تلقائيًّا.";
+    flash("اعتُمدت المسودّة ونُشرت قيودُها.");
+  });
+  document.getElementById("draftNo").addEventListener("click", function () {
+    document.getElementById("draftMsg").innerHTML = "أُهملت مسودّةُ هذه الدورة — لا قيدَ بلا اعتماد، والدورة القادمة تولد مسودّةً جديدة.";
+    flash("أُهملت المسودّة — لا قيدَ بلا اعتماد.");
+  });
+
+  /* ---------- proof tamper (the ONLY red) ---------- */
+  var ORIGINAL = 2500;
+  var ring = document.getElementById("sealRing"), verdict = document.getElementById("sealVerdict"), hashRe = document.getElementById("hashRe");
+  function setTamper(v) {
+    var broken = (v !== ORIGINAL);
+    ring.classList.toggle("broken", broken);
+    if (broken) {
+      verdict.innerHTML = '<b class="bad" style="color:#F0A99F">انكسر الختم ✕</b><span>البصمةُ المعادُ حسابها لا تطابق المخزونة — المبلغُ المزعوم (' + toDigits(thousands(v)) + ') ليس ما شهدنا عليه. هذا هو الأحمرُ الوحيد في عهد.</span>';
+      hashRe.textContent = "bd02f7a1…9c3e"; hashRe.className = "badh";
+    } else {
+      verdict.innerHTML = "<b>الختم صحيح ✓</b><span>خمسة أحداثٍ مختومةٌ تسلسليًّا؛ البصمة المعادُ حسابها تُطابق المخزونة بتّةً.</span>";
+      hashRe.textContent = "a7f3d9c2…41be"; hashRe.className = "okh";
+    }
+  }
+  document.getElementById("tamperIn").addEventListener("input", function () {
+    var v = parseInt(this.value, 10);
+    setTamper(isFinite(v) ? v : ORIGINAL);
+  });
+  document.getElementById("tamperReset").addEventListener("click", function () {
+    document.getElementById("tamperIn").value = ORIGINAL; setTamper(ORIGINAL);
+  });
+
+  /* ---------- riba linter (display mirror of the deepened linter) ---------- */
+  var lintText = document.getElementById("lintText"), lintV = document.getElementById("lintVerdict");
+  var RIBA_CRUDE = /(غرامة|فائدة|ربا|ربًا|عمولة\s*على\s*القرض)/;
+  var RIBA_SNEAKY = /(عائد|ربح|زيادة\s*يسير|مقابل(?:ًا)?\s*عن\s*الزمن|مقابل\s*المهلة|بدل\s*انتظار)/;
+  function lint() {
+    var t = lintText.value;
+    var crude = RIBA_CRUDE.test(t), sneaky = RIBA_SNEAKY.test(t);
+    var sealBtn = document.getElementById("lintSeal");
+    if (crude || sneaky) {
+      lintV.innerHTML = '<span class="chip amber"><i></i>يُرفَض الختم</span><div class="why"><b>' +
+        (crude ? "شرطُ زيادةٍ صريح — «كلُّ قرضٍ جرّ نفعًا فهو ربا»." : "صياغةٌ ملتوية: مقابلٌ عن الزمن — الاسمُ تغيّر والمعنى واحد.") +
+        '</b><span>البديل الحلال: مدُّ الأجل بلا أيّ زيادة ﴿فنظرةٌ إلى ميسرة﴾ — أو أجرةُ خدمةٍ ثابتةٌ منفصلةٌ عن القرض. الفاحص يمنع الختم ويقترح — <b>ولا يُفتي</b>.</span></div>';
+      sealBtn.disabled = true;
+    } else {
+      lintV.innerHTML = '<span class="chip brand"><i></i>سليم — يجوز الختم</span><div class="why"><b>لا شرطَ زيادةٍ ولا مقابلَ زمنٍ في النصّ.</b><span>قرضٌ حسنٌ صافٍ: المبلغ يعود كما خرج.</span></div>';
+      sealBtn.disabled = false;
+    }
+  }
+  lintText.addEventListener("input", lint);
+  document.getElementById("lintRiba").addEventListener("click", function () {
+    lintText.value = lintText.value.replace(/\s*$/, "") + " وعليه غرامةُ تأخيرٍ 2 بالمئة شهريًّا."; lint();
+  });
+  document.getElementById("lintSneaky").addEventListener("click", function () {
+    lintText.value = lintText.value.replace(/\s*$/, "") + " على أن يُرَدّ المبلغ ومعه عائدٌ يسير، مقابلًا عن الزمن."; lint();
+  });
+  document.getElementById("lintClean").addEventListener("click", function () {
+    lintText.value = "قرضٌ حسنٌ من نايف إلى سلطان بمبلغ 1200 ريال، يُرَدّ على ثلاثة أشهر بلا أيّ زيادة."; lint();
+  });
+  document.getElementById("lintSeal").addEventListener("click", function () {
+    flash("خُتم العهد — وثيقةٌ مشهودة 🤍 (محاكاة على مسودّة العرض)");
+  });
+
+  /* ---------- فهرس القدرات — the mobile app's own catalog, verbatim ---------- */
+  var CATALOG = [
+    { k: "timeline", label: "السجلّ", d: "راجع كل حركة محفوظة بترتيب واضح.", cat: "العهود", tone: "neutral", go: "proof" },
+    { k: "open", label: "قرضٌ مفتوح", d: "وثّق أصلًا مرنًا بلا فائدة ولا غرامة.", cat: "العهود", tone: "accent", badge: "مرن", go: "ongoing" },
+    { k: "circle", label: "الدائرة", d: "نظّم عهود المجموعة وموافقاتها محليًا.", cat: "الدوائر", tone: "gold", go: "groups" },
+    { k: "circle-adv", label: "الدائرة+", d: "كرّر الدورة مع إيقاف واستئناف واضحين.", cat: "الدوائر", tone: "gold", badge: "متقدّم", go: "groups" },
+    { k: "mine", label: "ما عليّ", d: "اعرف ما عليك من سجلات جهازك فقط.", cat: "العهود", tone: "accent", go: "daftari" },
+    { k: "request", label: "اطلب عهدًا", d: "جهّز طلب عهد يحفظ المقصد قبل المبلغ.", cat: "العهود", tone: "accent", go: "daftari" },
+    { k: "proof", label: "الإثبات", d: "تحقّق محليًا من الختم واكشف أي عبث.", cat: "الحماية", tone: "gold", badge: "موصى به", go: "proof" },
+    { k: "maroof", label: "سِجلّ المعروف", d: "اجمع الوفاء والإمهال والإبراء في أثر محايد.", cat: "الأثر", tone: "gold", go: "proof" },
+    { k: "dispute", label: "محلّ خلاف", d: "سجّل الخلاف دون أن يحكم عهد بين الأطراف.", cat: "الحماية", tone: "neutral", go: "care" },
+    { k: "standing", label: "سُلفة بالمعروف", d: "خطّط سُلفة دورية بأصل ثابت ومعلن.", cat: "العهود", tone: "accent", go: "ongoing" },
+    { k: "impact", label: "أثر عهد", d: "شاهد أثر سجلاتك المحلية دون كشف الأفراد.", cat: "الأثر", tone: "accent", badge: "محلي", go: "impact" },
+    { k: "bounds", label: "الضمانات والحدود", d: "افهم ضمانات المدين والدائن وحدود المصرف.", cat: "الحماية", tone: "gold", badge: "مهم", go: "bounds" },
+    { k: "settings", label: "الإعدادات", d: "خصّص العرض وصدّر بياناتك أو احذفها.", cat: "الإدارة", tone: "neutral", go: "settings" },
+    { k: "refusal", label: "ما لا يفعله عهد", d: "جرّب حيًا كيف يرفض المحرك الربا والغرامة.", cat: "الحماية", tone: "gold", go: "bounds" },
+    { k: "shariah", label: "الأساس الشرعي", d: "راجع الأساس والحدود والأسئلة قيد المراجعة.", cat: "الحماية", tone: "gold", badge: "لا فتوى", go: "bounds" },
+    { k: "plans", label: "الأجرة والخطط", d: "افصل أجرة الخدمة المقترحة عن أصل القرض.", cat: "الإدارة", tone: "neutral", badge: "قيد المراجعة", go: "billing" },
+    { k: "org", label: "لوحة المؤسسة", d: "اطّلع على الجاهزية المؤسسية بحدود صريحة.", cat: "الإدارة", tone: "neutral", badge: "يحتاج اتصالًا", go: "billing" },
+    { k: "jamiya", label: "الجمعية", d: "خطّط جمعية بترتيب رضائي محفوظ محليًا.", cat: "الدوائر", tone: "gold", badge: "جديد", go: "groups" },
+    { k: "daily", label: "اليومي", d: "دوّن قيد اليوم واحفظه على هذا الجهاز.", cat: "الأثر", tone: "accent", badge: "جديد", go: "daftari" }
+  ];
+  var CAT_TONES = { accent: "var(--brand)", gold: "var(--gold)", neutral: "var(--wait)" };
+  var CAT_CHIP = { accent: "brand", gold: "gold", neutral: "wait" };
+  var catFilter = "الكل";
+  function renderCatalog() {
+    var cats = ["الكل", "العهود", "الدوائر", "الحماية", "الأثر", "الإدارة"];
+    document.getElementById("catFilters").innerHTML = cats.map(function (c) {
+      var n = (c === "الكل") ? CATALOG.length : CATALOG.filter(function (f) { return f.cat === c; }).length;
+      return '<button type="button" class="' + (c === catFilter ? "on" : "") + '" data-cat="' + c + '">' + c + " (" + toDigits(n) + ")</button>";
+    }).join("");
+    document.getElementById("catGrid").innerHTML = CATALOG.filter(function (f) {
+      return catFilter === "الكل" || f.cat === catFilter;
+    }).map(function (f) {
+      return '<button class="cat-card" type="button" style="--ct:' + CAT_TONES[f.tone] + '" data-go="' + f.go + '">' +
+        "<b>" + f.label + "</b><p>" + f.d + "</p>" +
+        '<span class="meta"><span class="chip ' + CAT_CHIP[f.tone] + '"><i></i>' + f.cat + "</span>" +
+        (f.badge ? '<span class="chip wait"><i></i>' + f.badge + "</span>" : "") + "</span>" +
+      "</button>";
+    }).join("");
+  }
+  document.getElementById("catFilters").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-cat]"); if (!b) return;
+    catFilter = b.getAttribute("data-cat"); renderCatalog();
+  });
+
+  /* ---------- digits & privacy toggles ---------- */
+  function setDigits(mode) {
+    state.digits = mode;
+    ["dgW", "dgW2"].forEach(function (id) { document.getElementById(id).classList.toggle("on", mode === "western"); });
+    ["dgA", "dgA2"].forEach(function (id) { document.getElementById(id).classList.toggle("on", mode === "arabic"); });
+    renderRows(); renderNetting(); renderNums();
+  }
+  function setPrivacy(on) {
+    state.privacy = on;
+    [document.getElementById("privacyBtn"), document.getElementById("privacyBtn2")].forEach(function (b) {
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+    });
+    renderNums();
+  }
+  document.getElementById("dgW").addEventListener("click", function () { setDigits("western"); });
+  document.getElementById("dgA").addEventListener("click", function () { setDigits("arabic"); });
+  document.getElementById("dgW2").addEventListener("click", function () { setDigits("western"); });
+  document.getElementById("dgA2").addEventListener("click", function () { setDigits("arabic"); });
+  document.getElementById("privacyBtn").addEventListener("click", function () { setPrivacy(!state.privacy); });
+  document.getElementById("privacyBtn2").addEventListener("click", function () { setPrivacy(!state.privacy); });
+
+  /* ---------- rail nav + scroll spy + breadcrumb ---------- */
+  var items = Array.prototype.slice.call(document.querySelectorAll(".rail-item"));
+  items.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var s = document.getElementById(b.getAttribute("data-go")); if (s) s.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+  var CRUMBS = { overview: "نظرة عامة", daftari: "دفتري", netting: "المقاصّة", groups: "الجمعيّة والدائرة", ongoing: "سُلف وقروض مفتوحة", proof: "الإثبات والختم", care: "الرعاية والخلاف", band: "إشارة الوفاء", impact: "أثر عهد والمصادر", billing: "الأجرة والخطط", bounds: "الحدود والأساس الشرعيّ", catalog: "فهرس القدرات", settings: "الإعدادات" };
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var id = en.target.id;
+      items.forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-go") === id); });
+      if (CRUMBS[id]) document.getElementById("crumb").textContent = CRUMBS[id];
+    });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  Object.keys(CRUMBS).forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
+
+  /* ---------- reveal on scroll (skipped entirely in capture mode) ---------- */
+  if (STATIC || typeof IntersectionObserver === "undefined") {
+    document.querySelectorAll(".rv").forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var rv = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); rv.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".rv").forEach(function (el) { rv.observe(el); });
+  }
+
+  /* ---------- footer weave signature ---------- */
+  var sig = ["var(--brand)", "var(--gold)", "var(--brand)", "var(--amber)", "var(--brand)", "var(--gold)"];
+  document.querySelector(".weave-sig").innerHTML = sig.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join("");
+
+  /* ---------- boot ---------- */
+  renderPeople(); renderRows(); renderNetting(); renderCatalog(); lint(); renderNums();
+})();
+</script>
+</body>
+</html>

@@ -20,8 +20,8 @@
    ```
    cd tests
    node run-tests.cjs && node offline-check.cjs && node dom-smoke.cjs && node structure-check.cjs   # demo core 184/0 + structure-check 14/0
-   node app/run-app-tests.cjs                                           # app: 94 suites
-   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (3380/0)
+   node app/run-app-tests.cjs                                           # app: 95 suites
+   node run-all.cjs                    # convenience: all of the above + tripwire, one banner (3425/0)
    ```
 5. **Anything touching the spine, a Shariah ruling, the golden vectors, or anything irreversible → `docs/DECISIONS-FOR-MARWAN.md`, don't decide it alone.**
 6. **The judge lens is the fifth gate:** any change a judge could see (app screens, deck, script,
@@ -48,10 +48,11 @@ Read `.specify/memory/constitution.md`, recorded human decisions, the portfolio,
 - `_meta/agent-presence/` — multi-agent coordination (presence, claims, collision protocol); see `_meta/agent-presence/README.md`.
 - `_meta/deep-work/ledger/` — decisions register, sources ledger, open-threads (OT-IDs).
 - `_meta/deep-work/` — backend specs, hardening reports.
-- `tests/` — the quality gate (**3,380 assertions**: core 184 + structure 14 + app 3,182 across 94 suites; `run-all.cjs` = one-command banner — single source of truth, re-run it rather than trusting any cited count).
+- `tests/` — the quality gate (**3,425 assertions**: core 184 + structure 14 + app 3,227 across 95 suites; `run-all.cjs` = one-command banner — single source of truth, re-run it rather than trusting any cited count).
 - `AmadHackathon/` — the operator's Obsidian cockpit (living memory mirror: dashboard, plan, evidence). **Any session that changes project state updates it before exiting** (Home + plan checkboxes + topical note). Notes are summaries with `source:` pointers — `docs/`/`_meta/` stay canonical.
 - `swarm/` — 4-agent research workspace (press/academic/stats/global); iron rules in `swarm/README.md`; results in `findings*.md` + `headlines/`.
 - `promo/` — Remotion motion promos; `out/ahd-new-features.mp4`.
+- `webapp/` — «الديوان»: the one-page desktop web console (trust-weave identity, RTL, fully offline, seeded deterministic demo data, all services on one canvas incl. the mobile 19-capability catalog). Open `webapp/index.html` directly; `?static=1` = capture mode. Guarded by `tests/app/webapp-showcase.test.cjs`.
 - `project/mcp/` — MCP servers (3 servers, 17 tools) for project-aware agent tooling. See `project/mcp/README.md`.
 - `graphify-out/` — pre-built knowledge graph of the whole project (1,467 nodes: demo engine, app, tests, docs, MCP). **For any architecture/dependency/"what references X" question, query this graph first** (`graphify query "..."` or read `graphify-out/GRAPH_REPORT.md`) instead of re-exploring files. Refresh after big changes with `graphify . --update` (token-free for code; skip LLM semantic pass — build doc edges from markdown links locally).
 

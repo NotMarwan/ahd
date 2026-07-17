@@ -20,7 +20,7 @@ const requiredAboveFold = [
   "9 التزامات",
   "تحويلين",
   "## جولة في الميزات",
-  "AHD GATE ✅ 3380/0",
+  "AHD GATE ✅ 3425/0",
   "ahd-pilot-v1.apk",
   "## جرّبه"
 ];
