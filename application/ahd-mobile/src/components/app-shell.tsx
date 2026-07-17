@@ -1,5 +1,6 @@
-import type { PropsWithChildren } from 'react';
+import { useContext, type PropsWithChildren } from 'react';
 import { ScrollView, type ScrollViewProps, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 import { colors, fontFamilies, spacing } from '@/theme';
 import { TrustWeaveHeader, type TrustWeaveHeaderProps } from './trust-weave-header';
@@ -19,6 +20,13 @@ export function AppShell({
   testID,
 }: AppShellProps) {
   const { width } = useWindowDimensions();
+  // Edge-to-edge Android draws behind the status bar; the top inset keeps the
+  // Trust-Weave header out from under the clock/battery icons (same class of
+  // bug as the tab-bar bottom inset found by the CI emulator journey). The
+  // context read (not useSafeAreaInsets) falls back to 0 when no provider
+  // exists, e.g. bare component renders in jest.
+  const insets = useContext(SafeAreaInsetsContext);
+  const topInset = insets?.top ?? 0;
 
   return (
     <ScrollView
@@ -31,7 +39,13 @@ export function AppShell({
     >
       <View
         testID={testID ? `${testID}-content` : undefined}
-        style={[styles.inner, { paddingHorizontal: contentPaddingForWidth(width) }]}
+        style={[
+          styles.inner,
+          {
+            paddingHorizontal: contentPaddingForWidth(width),
+            paddingTop: topInset + spacing.x2,
+          },
+        ]}
       >
         {header === false ? null : (
           <TrustWeaveHeader
@@ -61,7 +75,6 @@ const styles = StyleSheet.create({
     maxWidth: 520,
     alignSelf: 'center',
     gap: spacing.x4,
-    paddingTop: spacing.x2,
     paddingBottom: spacing.x8,
     writingDirection: 'rtl',
     fontFamily: fontFamilies.body,
