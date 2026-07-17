@@ -19,7 +19,7 @@ const requiredAboveFold = [
   "نظرةٌ إلى ميسرة",
   "9 التزامات",
   "تحويلين",
-  "## ما لا يفعله عهد",
+  "## جولة في الميزات",
   "AHD GATE ✅ 3380/0",
   "ahd-pilot-v1.apk",
   "## جرّبه"
@@ -43,7 +43,19 @@ const images = [
   "app/screenshots/readme/05-proof-tampered.png",
   "app/screenshots/readme/06-settle.png",
   "app/screenshots/readme/07-open-loan.png",
-  "app/screenshots/readme/08-impact.png"
+  "app/screenshots/readme/08-impact.png",
+  "app/screenshots/readme/10-request.png",
+  "app/screenshots/readme/11-circle.png",
+  "app/screenshots/readme/12-circle-adv.png",
+  "app/screenshots/readme/13-jamiya.png",
+  "app/screenshots/readme/14-daily.png",
+  "app/screenshots/readme/15-timeline.png",
+  "app/screenshots/readme/16-dispute.png",
+  "app/screenshots/readme/17-maroof.png",
+  "app/screenshots/readme/18-mine.png",
+  "app/screenshots/readme/19-bounds.png",
+  "app/screenshots/readme/20-shariah.png",
+  "app/screenshots/readme/21-plans.png"
 ];
 
 const failures = [];

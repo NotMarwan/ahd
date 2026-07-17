@@ -56,12 +56,35 @@
 </p>
 <p align="center"><sub>قرضٌ مفتوح «متى ما تيسّر» · المقاصّة 9 ← 2 مع برهان الحفظ · الأثر عبر الدوائر</sub></p>
 
-## ما لا يفعله عهد — أبدًا
+## جولة في الميزات — ٢٣ شاشة عاملة
 
-- **لا يُقرض** من مال المصرف — يشهد فقط.
-- **لا يحكم** في الخلاف — يعرض الوثيقة المختومة ويترك الحكم لأصحابه.
-- **لا فائدة ولا غرامة** — بأيّ اسم كانت.
-- **لا درجة ائتمانية** — إشارة الثقة وصفية من تاريخك أنت («وفّى بعهوده»)، لا رقم يُصدَّر.
+<p align="center">
+  <img src="app/screenshots/readme/10-request.png" alt="اطلب عهدًا — اطلب قرضًا حسنًا بكرامة" width="30%">
+  <img src="app/screenshots/readme/14-daily.png" alt="اليومي — قيود شخصية خفيفة تتحول إلى عهود مختومة" width="30%">
+  <img src="app/screenshots/readme/15-timeline.png" alt="السجل — قصة كل عهد حدثًا حدثًا" width="30%">
+</p>
+<p align="center"><sub><strong>اطلب عهدًا</strong> بكرامة — لا حرج في أن تسأل · <strong>اليومي</strong>: قيد خفيف يتحوّل عند الحاجة إلى عهد مختوم · <strong>السجلّ</strong>: قصة كلّ عهد حدثًا حدثًا</sub></p>
+
+<p align="center">
+  <img src="app/screenshots/readme/11-circle.png" alt="الدائرة — صندوق العائلة بأمين" width="30%">
+  <img src="app/screenshots/readme/12-circle-adv.png" alt="الدائرة+ — مناسبة تقديرية تخرج إلى عهد" width="30%">
+  <img src="app/screenshots/readme/13-jamiya.png" alt="الجمعية الموثقة — شهادة بلا حيازة" width="30%">
+</p>
+<p align="center"><sub><strong>الدائرة</strong>: صندوق أهلٍ وأصدقاء بأمين وكرامة · <strong>الدائرة+</strong>: مناسبةٌ تقديرية تخرج إلى عهد · <strong>الجمعية الموثّقة</strong>: كل دفعة حدثٌ مختوم، والأموال لا تمرّ بالمصرف</sub></p>
+
+<p align="center">
+  <img src="app/screenshots/readme/16-dispute.png" alt="محل خلاف — عهد يشهد ولا يحكم، والصلح أولا" width="30%">
+  <img src="app/screenshots/readme/17-maroof.png" alt="سجل المعروف — التوثيق الودي" width="30%">
+  <img src="app/screenshots/readme/18-mine.png" alt="ما علي — التزاماتك بكرامة" width="30%">
+</p>
+<p align="center"><sub><strong>محلّ خلاف</strong>: الوثيقة المحايدة تُعرض، والصلح يُقترح أولًا — عهدٌ يشهد ولا يحكم · <strong>سِجلّ المعروف</strong> · <strong>ما عليّ</strong>: التزاماتك بكرامة، سدِّد ما تيسّر</sub></p>
+
+<p align="center">
+  <img src="app/screenshots/readme/19-bounds.png" alt="الضمانات والحدود" width="30%">
+  <img src="app/screenshots/readme/20-shariah.png" alt="الأساس الشرعي — الآيات والمعايير" width="30%">
+  <img src="app/screenshots/readme/21-plans.png" alt="الأجرة والخطط — كيف يكسب المصرف حلالا" width="30%">
+</p>
+<p align="center"><sub><strong>الضمانات والحدود</strong>: ما لا يفعله عهد أبدًا — لا إقراض، لا حكم، لا فائدة، لا تصنيف · <strong>الأساس الشرعيّ</strong> بالآيات والمعايير · <strong>الأجرة والخطط</strong>: أجرة خدمةٍ ثابتة منفصلة عن القرض</sub></p>
 
 ## جرّبه في ثلاثين ثانية
 
