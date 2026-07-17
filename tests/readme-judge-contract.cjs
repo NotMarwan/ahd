@@ -22,6 +22,10 @@ const requiredAboveFold = [
   "## جولة في الميزات",
   "AHD GATE ✅ 3425/0",
   "ahd-pilot-v1.apk",
+  "### الديوان — نسخة الحاسوب",
+  "webapp/index.html",
+  "https://notmarwan.github.io/ahd/webapp/",
+  "docs/pitch/ahd-amad-2026.pdf",
   "## جرّبه"
 ];
 
@@ -55,7 +59,11 @@ const images = [
   "app/screenshots/readme/18-mine.png",
   "app/screenshots/readme/19-bounds.png",
   "app/screenshots/readme/20-shariah.png",
-  "app/screenshots/readme/21-plans.png"
+  "app/screenshots/readme/21-plans.png",
+  "webapp/screenshots/01-diwan-overview.jpg",
+  "webapp/screenshots/02-diwan-settlement.jpg",
+  "webapp/screenshots/03-diwan-proof.jpg",
+  "webapp/screenshots/04-diwan-capabilities.jpg"
 ];
 
 const failures = [];
@@ -75,7 +83,7 @@ for (const image of images) {
 
 const headingCount = (aboveFold.match(/^## /gm) || []).length;
 if (headingCount > 5) failures.push(`too many above-fold sections: ${headingCount}`);
-if (aboveFold.length > 6000) failures.push(`above fold too long: ${aboveFold.length} chars`);
+if (aboveFold.length > 7000) failures.push(`above fold too long: ${aboveFold.length} chars`);
 
 if (failures.length) {
   console.error("README JUDGE CONTRACT FAIL");

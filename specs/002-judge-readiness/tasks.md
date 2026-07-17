@@ -74,6 +74,8 @@ description: "Dependency-ordered judge readiness work"
 - [ ] T027 Run `node tests/stage-path-contract.cjs`, `node tests/app/app-dom-smoke.cjs`, and `cd tests && node run-all.cjs`
 - [ ] T028 Update `_meta/STATUS.md`, `_meta/OPEN-ITEMS.md`, `AmadHackathon/00 Home.md`, `AmadHackathon/01 الخطة الرئيسة.md`, and the pitch cockpit note
 
+- [ ] T140 [US3] Publish the owner-approved «الديوان» desktop showcase to `main`, add deterministic browser captures and links to the GitHub `README`, add the browser surface to the AMAD 2026 PDF, preserve gate-count synchronization, and record controller evidence — files: `AmadHackathon/00 Home.md`, `AmadHackathon/05 حالة المشروع.md`, `CLAUDE.md`, `README.md`, `_meta/overnight-log.md`, `docs/ARCHITECTURE.md`, `docs/PRESENTER-GUIDE.md`, `docs/PUBLISHABLE-PRODUCT-SPEC.md`, `docs/evidence/EVIDENCE-BRIEF.md`, `docs/evidence/REBUTTAL-PLAYBOOK.md`, `docs/pitch/deck-content-v2.md`, `docs/pitch/rehearsal-checklist.md`, `docs/pitch/script-ar.md`, `docs/pitch/top6-cards-ar.md`, `tests/app/webapp-showcase.test.cjs`, `tests/readme-judge-contract.cjs`, `webapp/README.md`, `webapp/fonts/IBMPlexSansArabic-Regular.woff2`, `webapp/fonts/IBMPlexSansArabic-SemiBold.woff2`, `webapp/fonts/OFL-1.1.txt`, `webapp/index.html`, `webapp/screenshots/01-diwan-overview.jpg`, `webapp/screenshots/02-diwan-settlement.jpg`, `webapp/screenshots/03-diwan-proof.jpg`, `webapp/screenshots/04-diwan-capabilities.jpg`, `docs/pitch/ahd-amad-2026.pdf`, `specs/002-judge-readiness/tasks.md`, `_meta/freeze/2026-07-15-task-evidence.json`, `_meta/freeze/reviews/T140/review-001.json`
+
 ## Dependencies
 
 - Wave 0 approval blocks T002 onward.

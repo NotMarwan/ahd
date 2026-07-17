@@ -86,6 +86,22 @@
 </p>
 <p align="center"><sub><strong>الضمانات والحدود</strong>: ما لا يفعله عهد أبدًا — لا إقراض، لا حكم، لا فائدة، لا تصنيف · <strong>الأساس الشرعيّ</strong> بالآيات والمعايير · <strong>الأجرة والخطط</strong>: أجرة خدمةٍ ثابتة منفصلة عن القرض</sub></p>
 
+### الديوان — نسخة الحاسوب
+
+واجهة مكتبية عربية في صفحة واحدة، تعمل دون إنترنت وتستعرض أحدث خدمات عهد: النظرة العامة، دفتري، المقاصّة، وثيقة الإثبات والختم، فهرس القدرات، والإعدادات.
+
+<p align="center">
+  <a href="https://notmarwan.github.io/ahd/webapp/"><img src="webapp/screenshots/01-diwan-overview.jpg" alt="الديوان — النظرة العامة والنسيج الحي" width="49%"></a>
+  <a href="https://notmarwan.github.io/ahd/webapp/"><img src="webapp/screenshots/02-diwan-settlement.jpg" alt="الديوان — المقاصّة من تسعة التزامات إلى تحويلين" width="49%"></a>
+</p>
+
+<p align="center">
+  <a href="https://notmarwan.github.io/ahd/webapp/"><img src="webapp/screenshots/03-diwan-proof.jpg" alt="الديوان — وثيقة الليل وسند الإثبات والختم" width="49%"></a>
+  <a href="https://notmarwan.github.io/ahd/webapp/"><img src="webapp/screenshots/04-diwan-capabilities.jpg" alt="الديوان — فهرس قدرات عهد" width="49%"></a>
+</p>
+
+[افتح الديوان مباشرة في المتصفح](https://notmarwan.github.io/ahd/webapp/) · [تشغيل دون إنترنت](webapp/index.html) · [عرض أمد 2026](docs/pitch/ahd-amad-2026.pdf)
+
 ## جرّبه في ثلاثين ثانية
 
 ```powershell
@@ -98,7 +114,7 @@ node app/_serve-app.cjs
 
 ## لماذا تثق بما تراه؟
 
-- **3,380 فحصًا آليًا** تمرّ كلها بأمر واحد: `cd tests && node run-all.cjs` — النتيجة `AHD GATE ✅ 3380/0`.
+- **3,425 فحصًا آليًا** تمرّ كلها بأمر واحد: `cd tests && node run-all.cjs` — النتيجة `AHD GATE ✅ 3425/0`.
 - **أداة تحقق مستقلة** ([`protocol/verify-ahd-seal.cjs`](protocol/verify-ahd-seal.cjs)) تتحقق من أيّ سجل مختوم دون الرجوع إلى التطبيق نفسه.
 - المنطق حتمي بالكامل: أموال بالهللة الصحيحة، لا عشوائية، لا وقت متغيّر — النتيجة نفسها في كل تشغيل.
 
@@ -134,7 +150,7 @@ node app/_serve-app.cjs
 | `demo/` | عرض احتياطي مجمّد ومحمي ببصمة |
 | `protocol/` | أداة التحقق المستقلة ومعيار السجل المفتوح |
 | `server/` | عرض خادم حيّ (ختم + تحقق عبر HTTP) |
-| `tests/` | بوابة الجودة — 3,380 فحصًا |
+| `tests/` | بوابة الجودة — 3,425 فحصًا |
 | `docs/` | المعمارية، التصميم، الأدلة، العرض |
 
 ### خصائص المحرّك
