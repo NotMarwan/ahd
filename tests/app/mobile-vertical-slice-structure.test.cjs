@@ -52,7 +52,10 @@ function routeLeaves(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const absolute = path.join(directory, entry.name);
     if (entry.isDirectory()) return routeLeaves(absolute);
-    return entry.name.endsWith(".tsx") && entry.name !== "_layout.tsx" ? [absolute] : [];
+    const isRouteLeaf = entry.name.endsWith(".tsx")
+      && entry.name !== "_layout.tsx"
+      && !entry.name.startsWith("+");
+    return isRouteLeaf ? [absolute] : [];
   });
 }
 
