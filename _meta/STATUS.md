@@ -238,3 +238,22 @@ local Android 14 emulator against the CI-built APK. Whole-branch review needs-fi
 re-review zero Critical/Important. The single full repository gate is green at **3380/0** with the
 frozen demo tripwire intact. Branch-only delivery on `codex/mobile-pilot-mvp`: no merge, no tag, no
 store release.
+
+---
+
+DONE · 2026-07-17T08:11+03:00 · Codex · **Mobile feature hub, Settlement demo fallback, launcher safe zone, and compact tabs** · `application/ahd-mobile/`
+
+Replaced the flat nineteen-row More index with the owner-approved hybrid feature hub: outcome-led
+Settlement hero, Arabic search, recent tools, horizontal category chips, two bento highlights, and a
+compact complete catalog where every contextual route remains reachable with a one-line outcome.
+Settlement now uses the exact frozen nine-obligation tangle only when the real local ledger is empty,
+labels it **experimental**, shows all nine inputs and both computed outputs, and never exposes consent
+or persistence controls for the example. Real records still take precedence and retain explicit consent.
+
+The Android adaptive icon now uses a dedicated 1024px transparent foreground with the approved mark
+inside the central safe zone (SHA-256 `c5127e1a05e69af73cbcb74c74afa830d179c422b504cf582770a735cab98cc1`).
+The tab bar keeps the system bottom inset but replaces the oversized active rectangle with a compact
+icon pill. TDD evidence: focused 26/26; full mobile Jest **140/140 across 40 suites**; TypeScript,
+generated parity, client boundaries, and lint (zero errors) pass; repository gate **3380/0** with the
+frozen demo unchanged. Judge Lens: innovation 8 · technical 9 · data 6.5 · UX 9 · feasibility 9 ·
+memorability 8.5. `JL-18` remains open only for real aggregate data and real-device jank evidence.
