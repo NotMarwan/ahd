@@ -13,6 +13,11 @@
 
 <p align="center"><sub>A neutral bank witness for interest-free interpersonal loans — record, seal, verify, settle.</sub></p>
 
+<p align="center">
+  <strong>جرب عهد ويب اب عبر الرابط التالي</strong><br>
+  <a href="https://notmarwan.github.io/ahd/webapp/">https://notmarwan.github.io/ahd/webapp/</a>
+</p>
+
 ---
 
 ## لماذا؟
