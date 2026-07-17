@@ -1,8 +1,8 @@
-import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section } from '@/components';
+import { AppShell, RowGroup, ScreenHeader, Section, ShowcaseNotice } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_JAMIYA, SHOWCASE_RECORDS } from '@/showcase/showcase-data';
 import { derivePilotImpact, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
@@ -16,43 +16,26 @@ function ImpactCard({ label, value }: { readonly label: string; readonly value: 
 }
 
 export function ImpactScreen() {
-  const router = useRouter();
-  const { beginCreate, state: journey } = useAhdJourney();
+  const { state: journey } = useAhdJourney();
   const { state: pilot } = usePilot();
-  const impact = derivePilotImpact(journey.records, pilot.jamiya);
-
-  const createAhd = async () => {
-    await beginCreate();
-    router.push('/create');
-  };
-
-  if (impact.documentedCount === 0 && impact.circleCount === 0) {
-    return (
-      <AppShell testID="impact-screen">
-        <ScreenHeader
-          title="أثر عهد"
-          subtitle="الأثر هنا يُقاس من سجلّات هذا الجهاز فقط — لا نعرض أرقامًا لم تحدث."
-        />
-        <Section>
-          <RowGroup>
-            <EmptyState
-              title="لا أثر بعد"
-              body="حين تُنشئ أول عهد مختوم على هذا الجهاز، تظهر مجاميعه هنا كما هي — بلا تجميل."
-            />
-          </RowGroup>
-          <AhdButton label="أنشئ عهدًا" onPress={createAhd} />
-        </Section>
-      </AppShell>
-    );
-  }
+  const realImpact = derivePilotImpact(journey.records, pilot.jamiya);
+  const isShowcase = realImpact.documentedCount === 0 && realImpact.circleCount === 0;
+  const impact = isShowcase
+    ? derivePilotImpact(SHOWCASE_RECORDS, SHOWCASE_JAMIYA)
+    : realImpact;
 
   return (
     <AppShell testID="impact-screen">
       <ScreenHeader
         title="أثر عهد"
-        subtitle="مجاميعُ محسوبةٌ من سجلّات هذا الجهاز فقط — لا مسح ميدانيّ ولا توقّعات."
+        subtitle={isShowcase
+          ? 'صورة تجريبية توضّح أفضل شكل للنتيجة؛ لا تمثل استخدامًا حقيقيًا.'
+          : 'مجاميعُ محسوبةٌ من سجلّات هذا الجهاز فقط — لا مسح ميدانيّ ولا توقّعات.'}
       />
-      <Section title="ما وُثّق على هذا الجهاز">
+      {isShowcase ? (
+        <ShowcaseNotice body="مجاميع مشتقة من العهود والجمعية التجريبية فقط، ولا تُحسب ضمن بيانات جهازك." />
+      ) : null}
+      <Section title={isShowcase ? 'النتيجة التجريبية' : 'ما وُثّق على هذا الجهاز'}>
         <RowGroup>
           <ImpactCard label="التزامًا موثّقًا" value={String(impact.documentedCount)} />
           <ImpactCard
@@ -63,10 +46,10 @@ export function ImpactScreen() {
         </RowGroup>
       </Section>
       {impact.circleCount > 0 ? (
-        <Section title="الدوائر والمقاصّة">
+        <Section title="الدوائر والتسوية">
           <RowGroup>
             <ImpactCard label="دائرةً محليّة" value={String(impact.circleCount)} />
-            <ImpactCard label="إيصال مقاصّةٍ موثّق" value={String(impact.nettingReceiptCount)} />
+            <ImpactCard label="إيصال تسويةٍ موثّق" value={String(impact.nettingReceiptCount)} />
             {impact.nettingReceiptCount > 0 ? (
               <ImpactCard
                 label={`تحويلًا اختُصر إلى ${impact.transfersAfter}`}
@@ -77,38 +60,17 @@ export function ImpactScreen() {
         </Section>
       ) : null}
       <Text style={styles.note}>
-        كلّ رقمٍ أعلاه مُشتقٌّ لحظيًّا من سجلّات هذا الجهاز فقط — لا تجميع خارجيًّا، ولا اسمَ فردٍ
-        ولا تصنيف.
+        {isShowcase
+          ? 'هذه الأرقام ثابتة ومعلّمة للعرض؛ أول بيانات محلية حقيقية تستبدلها.'
+          : 'كلّ رقمٍ أعلاه مُشتقٌّ لحظيًّا من سجلّات هذا الجهاز فقط — لا تجميع خارجيًّا، ولا اسمَ فردٍ ولا تصنيف.'}
       </Text>
     </AppShell>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    gap: spacing.x1,
-    padding: spacing.x3,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.hairline,
-    alignItems: 'flex-end',
-  },
-  cardValue: {
-    ...typography.amount,
-    color: colors.ink,
-    fontFamily: fontFamilies.display,
-    textAlign: 'right',
-  },
-  cardLabel: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-  },
-  note: {
-    ...typography.secondary,
-    color: colors.inkSecondary,
-    fontFamily: fontFamilies.body,
-    textAlign: 'right',
-    lineHeight: 20,
-  },
+  card: { gap: spacing.x1, padding: spacing.x3, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.hairline, alignItems: 'flex-end' },
+  cardValue: { ...typography.amount, color: colors.ink, fontFamily: fontFamilies.display, textAlign: 'right' },
+  cardLabel: { ...typography.secondary, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right' },
+  note: { ...typography.secondary, color: colors.inkSecondary, fontFamily: fontFamilies.body, textAlign: 'right', lineHeight: 20 },
 });

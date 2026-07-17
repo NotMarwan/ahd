@@ -10,9 +10,11 @@ import {
   ScreenHeader,
   SealedDocument,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_CREATE } from '@/showcase/showcase-data';
 import { useAhdJourney } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -73,14 +75,14 @@ function isValidDate(value: string): boolean {
 export function CreateAhdScreen() {
   const router = useRouter();
   const { beginCreate, openDaftari, reviewDraftFromForm, seal, state, store } = useAhdJourney();
-  const [lender, setLender] = useState('');
-  const [borrower, setBorrower] = useState('');
-  const [amountSarText, setAmountSarText] = useState('');
-  const [purpose, setPurpose] = useState('');
-  const [repaymentMode, setRepaymentMode] = useState<'scheduled' | 'open'>('scheduled');
-  const [monthsText, setMonthsText] = useState('');
-  const [firstDueMonth, setFirstDueMonth] = useState('');
-  const [agreementDate, setAgreementDate] = useState('');
+  const [lender, setLender] = useState<string>(SHOWCASE_CREATE.lender);
+  const [borrower, setBorrower] = useState<string>(SHOWCASE_CREATE.borrower);
+  const [amountSarText, setAmountSarText] = useState<string>(SHOWCASE_CREATE.amountSarText);
+  const [purpose, setPurpose] = useState<string>(SHOWCASE_CREATE.purpose);
+  const [repaymentMode, setRepaymentMode] = useState<'scheduled' | 'open'>(SHOWCASE_CREATE.repaymentMode);
+  const [monthsText, setMonthsText] = useState<string>(SHOWCASE_CREATE.monthsText);
+  const [firstDueMonth, setFirstDueMonth] = useState<string>(SHOWCASE_CREATE.firstDueMonth);
+  const [agreementDate, setAgreementDate] = useState<string>(SHOWCASE_CREATE.agreementDate);
   const [error, setError] = useState<string | null>(null);
 
   const review = async () => {
@@ -161,7 +163,9 @@ export function CreateAhdScreen() {
       />
 
       {!isReview && !sealed ? (
-        <Section title="الأطراف والمبلغ">
+        <>
+          <ShowcaseNotice body="املأ أو عدّل المثال، ولن يُحفظ شيء حتى تضغط فحص الشروط ثم الختم." />
+          <Section title="الأطراف والمبلغ">
           <RowGroup>
             <View style={styles.form}>
               <Field label="صاحب المال" value={lender} onChangeText={setLender} testID="create-lender-input" />
@@ -222,7 +226,8 @@ export function CreateAhdScreen() {
           </RowGroup>
           {error ? <Text style={styles.error}>{error}</Text> : null}
           <AhdButton label="فحص الشروط" onPress={review} testID="create-review-button" />
-        </Section>
+          </Section>
+        </>
       ) : null}
 
       {isReview && prepared && screening ? (

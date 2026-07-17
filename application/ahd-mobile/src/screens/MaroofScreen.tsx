@@ -8,8 +8,10 @@ import {
   RowGroup,
   ScreenHeader,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
+import { SHOWCASE_PROFILE_NAME, SHOWCASE_RECORDS } from '@/showcase/showcase-data';
 import { deriveMaroofBands, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
@@ -23,8 +25,11 @@ export function MaroofScreen() {
   const router = useRouter();
   const { beginCreate, state: journey } = useAhdJourney();
   const { state: pilot } = usePilot();
-  const displayName = pilot.profile.displayName;
-  const entries = deriveMaroofBands(journey.records, displayName);
+  const localDisplayName = pilot.profile.displayName;
+  const realEntries = deriveMaroofBands(journey.records, localDisplayName);
+  const isShowcase = !localDisplayName || realEntries.length === 0;
+  const displayName = localDisplayName ?? SHOWCASE_PROFILE_NAME;
+  const entries = isShowcase ? deriveMaroofBands(SHOWCASE_RECORDS, SHOWCASE_PROFILE_NAME) : realEntries;
 
   const createAhd = async () => {
     await beginCreate();
@@ -38,6 +43,8 @@ export function MaroofScreen() {
         title="سجلّ المعروف"
         subtitle="وصف نوعي لما وثّقته أنت فقط؛ بلا نسبة ثقة، وبلا درجة ائتمانية، وبلا حكم على أحد."
       />
+
+      {isShowcase ? <ShowcaseNotice label="عرض تجريبي" body="نتيجة مكتملة للعرض فقط؛ لا تدخل في سجلات جهازك." /> : null}
 
       {!displayName ? (
         <Section>

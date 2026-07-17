@@ -9,9 +9,14 @@ import {
   RowGroup,
   ScreenHeader,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import {
+  SHOWCASE_CIRCLE,
+  SHOWCASE_JAMIYA_FORM,
+} from '@/showcase/showcase-data';
 import { usePilot, type PilotCircle } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -49,19 +54,65 @@ function Field({
   );
 }
 
+function CircleSummary({ circle, showcase = false }: { circle: PilotCircle; showcase?: boolean }) {
+  return (
+    <>
+      <Section title={showcase ? `${circle.title} · عرض النتيجة` : circle.title}>
+        <RowGroup>
+          <View style={styles.card}>
+            <View style={styles.heading}>
+              <Text style={styles.title}>{circle.organizer}</Text>
+              <StatusChip
+                label={showcase ? 'مثال غير محفوظ' : circle.status === 'draft' ? 'بانتظار الموافقات' : circle.status === 'active' ? 'نشطة محليًا' : 'مكتملة'}
+                tone={circle.status === 'complete' ? 'verified' : 'covenant'}
+              />
+            </View>
+            <Text style={styles.meta}>البداية {circle.startMonth} · {circle.members.length} أعضاء</Text>
+            <Text style={styles.meta}>الحصة {ahdCore.formatMinorSar(circle.members[0].shareMinor)}</Text>
+            <Text style={styles.id}>{circle.id}</Text>
+          </View>
+        </RowGroup>
+      </Section>
+      <Section title="ترتيب الاستلام والموافقات">
+        <RowGroup>
+          {circle.orderMemberIds.map((memberId, index) => {
+            const member = circle.members.find((item) => item.id === memberId)!;
+            const paid = circle.payments.some((payment) => payment.round === 1 && payment.memberId === member.id);
+            return (
+              <View key={member.id} style={styles.member}>
+                <View style={styles.heading}>
+                  <Text style={styles.title}>{index + 1}. {member.displayName}</Text>
+                  <StatusChip label={showcase ? 'مثال الجولة' : paid ? 'دفعة مسجّلة' : 'جاهز للدورة'} tone={paid ? 'verified' : 'neutral'} />
+                </View>
+                <Text style={styles.meta}>{showcase ? 'موافقة تجريبية للعرض' : member.consentAttestation ? 'إقرار المنظّم محفوظ' : 'بانتظار إقرار المنظّم'}</Text>
+              </View>
+            );
+          })}
+        </RowGroup>
+      </Section>
+    </>
+  );
+}
+
 export function JamiyaScreen() {
   const router = useRouter();
   const { state, store } = usePilot();
   const displayName = state.profile.displayName;
   const circle = state.jamiya.circles.find((item) => item.id === state.jamiya.activeCircleId)
     ?? state.jamiya.circles.at(-1);
-  const [title, setTitle] = useState('');
-  const [displayNameDraft, setDisplayNameDraft] = useState('');
-  const [startMonth, setStartMonth] = useState('');
-  const [amountText, setAmountText] = useState('');
-  const [membersText, setMembersText] = useState('');
-  const [consentDate, setConsentDate] = useState('');
-  const [paymentDate, setPaymentDate] = useState('');
+  const showcaseMembersText = SHOWCASE_CIRCLE.members
+    .map((member) => member.displayName)
+    .filter((name) => name !== (displayName ?? SHOWCASE_CIRCLE.organizer))
+    .slice(0, 5)
+    .join('، ');
+  const [title, setTitle] = useState<string>(SHOWCASE_JAMIYA_FORM.title);
+  const [displayNameDraft, setDisplayNameDraft] = useState<string>(SHOWCASE_CIRCLE.organizer);
+  const [startMonth, setStartMonth] = useState<string>(SHOWCASE_JAMIYA_FORM.startMonth);
+  const [amountText, setAmountText] = useState<string>(SHOWCASE_JAMIYA_FORM.amountText);
+  const [membersTextDraft, setMembersTextDraft] = useState<string | null>(null);
+  const membersText = membersTextDraft ?? showcaseMembersText;
+  const [consentDate, setConsentDate] = useState<string>(SHOWCASE_JAMIYA_FORM.consentDate);
+  const [paymentDate, setPaymentDate] = useState<string>(SHOWCASE_JAMIYA_FORM.paymentDate);
   const [error, setError] = useState<string>();
 
   const round = circle ? currentRound(circle) : null;
@@ -96,6 +147,7 @@ export function JamiyaScreen() {
       setError(caught instanceof Error ? caught.message : 'تعذّر إنشاء الجمعية');
     }
   };
+
   const recordConsent = async (memberId: string) => {
     if (!circle || !displayName) return;
     setError(undefined);
@@ -105,15 +157,18 @@ export function JamiyaScreen() {
         effectiveDate: consentDate,
         confirmed: true,
       });
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'تعذّر حفظ الموافقة');
     }
-    catch (caught) { setError(caught instanceof Error ? caught.message : 'تعذّر حفظ الموافقة'); }
   };
+
   const activate = async () => {
     if (!circle) return;
     setError(undefined);
     try { await store.activateCircle(circle.id); }
     catch (caught) { setError(caught instanceof Error ? caught.message : 'تعذّر تفعيل الجمعية'); }
   };
+
   const recordPayment = async (memberId: string) => {
     if (!circle || !round) return;
     setError(undefined);
@@ -129,84 +184,62 @@ export function JamiyaScreen() {
         subtitle="ترتيب وموافقات ودفعات محفوظة على جهازك. لا يحتفظ عهد بالأموال ولا ينقلها."
       />
 
+      {!circle || circle.status !== 'complete' ? (
+        <ShowcaseNotice body={!circle
+          ? 'جمعية من ستة أشخاص بموافقات ودفعات ثابتة للعرض فقط؛ لا تُضاف إلى جهازك.'
+          : 'حقول التاريخ تبدأ بأمثلة؛ بيانات الجمعية نفسها محلية ولا يُحفظ تغيير قبل الضغط.'} />
+      ) : null}
+
       {!displayName ? (
         <Section title="ابدأ باسم عرض">
-          <RowGroup><EmptyState title="حدّد اسم العرض" body="سيظهر اسمك كمنظّم وعضو، محليًا فقط." /></RowGroup>
+          <RowGroup><EmptyState title="حدّد اسم العرض" body="المثال أدناه جاهز، واحفظ الاسم فقط عندما تريد إنشاء جمعية حقيقية." /></RowGroup>
           <Field label="اسم العرض المحلي" value={displayNameDraft} onChangeText={setDisplayNameDraft} />
-          {error ? <Text style={styles.error}>{error}</Text> : null}
           <AhdButton disabled={!displayNameDraft.trim()} label="احفظ اسم العرض" onPress={saveDisplayName} />
           <AhdButton label="افتح الإعدادات" onPress={() => router.push('/settings')} variant="quiet" />
         </Section>
-      ) : !circle ? (
-        <Section title="أنشئ جمعية">
-          <RowGroup>
-            <View style={styles.form}>
-              <Field label="اسم الجمعية" value={title} onChangeText={setTitle} />
-              <Field label="شهر البداية" value={startMonth} onChangeText={setStartMonth} />
-              <Field label="حصة كل عضو بالريال" value={amountText} onChangeText={setAmountText} keyboardType="decimal-pad" />
-              <Field label="أسماء الأعضاء الآخرين" value={membersText} onChangeText={setMembersText} />
-              <Text style={styles.help}>افصل الأسماء بفاصلة. يلزم عضو آخر على الأقل، وبحد أقصى خمسة أعضاء.</Text>
-            </View>
-          </RowGroup>
-          {error ? <Text style={styles.error}>{error}</Text> : null}
-          <AhdButton label="احفظ مسودة الجمعية" onPress={createCircle} />
-        </Section>
-      ) : (
+      ) : null}
+
+      {!circle ? (
         <>
-          <Section title={circle.title}>
+          <Section title="أنشئ جمعية">
             <RowGroup>
-              <View style={styles.card}>
-                <View style={styles.heading}>
-                  <Text style={styles.title}>{circle.organizer}</Text>
-                  <StatusChip
-                    label={circle.status === 'draft' ? 'بانتظار الموافقات' : circle.status === 'active' ? 'نشطة محليًا' : 'مكتملة'}
-                    tone={circle.status === 'complete' ? 'verified' : 'covenant'}
-                  />
-                </View>
-                <Text style={styles.meta}>البداية {circle.startMonth} · {circle.members.length} أعضاء</Text>
-                <Text style={styles.meta}>الحصة {ahdCore.formatMinorSar(circle.members[0].shareMinor)}</Text>
-                <Text style={styles.id}>{circle.id}</Text>
+              <View style={styles.form}>
+                <Field label="اسم الجمعية" value={title} onChangeText={setTitle} />
+                <Field label="شهر البداية" value={startMonth} onChangeText={setStartMonth} />
+                <Field label="حصة كل عضو بالريال" value={amountText} onChangeText={setAmountText} keyboardType="decimal-pad" />
+                <Field label="أسماء الأعضاء الآخرين" value={membersText} onChangeText={setMembersTextDraft} />
+                <Text style={styles.help}>افصل الأسماء بفاصلة. يلزم عضو آخر على الأقل، وبحد أقصى ستة أعضاء شاملًا المنظّم.</Text>
               </View>
             </RowGroup>
+            <AhdButton disabled={!displayName} label={displayName ? 'احفظ مسودة الجمعية' : 'احفظ اسم العرض أولًا'} onPress={createCircle} />
           </Section>
-
-          <Section title="ترتيب الاستلام والموافقات">
-            {circle.status === 'draft' ? (
+          <CircleSummary circle={SHOWCASE_CIRCLE} showcase />
+        </>
+      ) : (
+        <>
+          <CircleSummary circle={circle} />
+          {circle.status === 'draft' ? (
+            <Section title="إقرارات المنظّم">
               <View style={styles.attestationNotice}>
                 <Text style={styles.help}>هذه إقرارات من المنظّم بأنه استلم الموافقات خارج التطبيق؛ ليست قبولًا رقميًا باسم أي عضو.</Text>
                 <Field label="تاريخ استلام الموافقات" value={consentDate} onChangeText={setConsentDate} />
               </View>
-            ) : null}
-            <RowGroup>
-              {circle.orderMemberIds.map((memberId, index) => {
-                const member = circle.members.find((item) => item.id === memberId)!;
-                return (
-                  <View key={member.id} style={styles.member}>
-                    <View style={styles.heading}>
-                      <Text style={styles.title}>{index + 1}. {member.displayName}</Text>
-                      <StatusChip label={member.consentAttestation ? 'إقرار المنظّم محفوظ' : 'بانتظار إقرار المنظّم'} tone={member.consentAttestation ? 'verified' : 'neutral'} />
-                    </View>
-                    {circle.status === 'draft' && !member.consentAttestation ? (
-                      <AhdButton
-                        disabled={!consentDate}
-                        label={`أقرّ أنني استلمت موافقة ${member.displayName}`}
-                        onPress={() => recordConsent(member.id)}
-                        variant="quiet"
-                      />
-                    ) : null}
-                  </View>
-                );
-              })}
-            </RowGroup>
-            {circle.status === 'draft' ? (
+              {circle.members.filter((member) => !member.consentAttestation).map((member) => (
+                <AhdButton
+                  key={member.id}
+                  disabled={!consentDate}
+                  label={`أقرّ أنني استلمت موافقة ${member.displayName}`}
+                  onPress={() => recordConsent(member.id)}
+                  variant="quiet"
+                />
+              ))}
               <AhdButton
                 disabled={circle.members.some((member) => !member.consentAttestation)}
                 label="فعّل الجمعية بعد إقرارات المنظّم"
                 onPress={activate}
               />
-            ) : null}
-          </Section>
-
+            </Section>
+          ) : null}
           {circle.status === 'active' && round ? (
             <Section title={`الجولة ${round} · المستفيد ${recipient?.displayName ?? ''}`}>
               <Field label="تاريخ تسجيل الدفعة" value={paymentDate} onChangeText={setPaymentDate} />
@@ -226,11 +259,11 @@ export function JamiyaScreen() {
               </RowGroup>
             </Section>
           ) : null}
-
-          {error ? <Text style={styles.error}>{error}</Text> : null}
           <AhdButton label="افتح تفاصيل الدائرة" onPress={() => router.push('/circle')} variant="secondary" />
         </>
       )}
+
+      {error ? <Text style={styles.error}>{error}</Text> : null}
     </AppShell>
   );
 }

@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 
-import { AhdButton, AppShell, RowGroup, ScreenHeader, Section } from '@/components';
+import { AhdButton, AppShell, RowGroup, ScreenHeader, Section, ShowcaseNotice } from '@/components';
 import { sharePilotExport } from '@/share';
+import { SHOWCASE_PROFILE_NAME } from '@/showcase/showcase-data';
 import { usePilot } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
 export function SettingsScreen() {
   const { state, store } = usePilot();
-  const [nameDraft, setNameDraft] = useState(state.profile.displayName ?? '');
+  const [nameDraft, setNameDraft] = useState(state.profile.displayName ?? SHOWCASE_PROFILE_NAME);
   const [feedback, setFeedback] = useState<string>();
   const [deleteArmed, setDeleteArmed] = useState(false);
 
@@ -70,6 +71,8 @@ export function SettingsScreen() {
   return (
     <AppShell testID="settings-screen">
       <ScreenHeader title="الإعدادات · عن عهد" />
+
+      {!state.profile.displayName ? <ShowcaseNotice body="اسم العرض معبأ كمثال فقط؛ لن يُحفظ حتى تضغط الزر." /> : null}
 
       <Section title="اسم العرض">
         <RowGroup>

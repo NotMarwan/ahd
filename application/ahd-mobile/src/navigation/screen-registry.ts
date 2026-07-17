@@ -12,7 +12,7 @@ export const SCREEN_REGISTRY = [
   { key: 'home', label: 'الرئيسية', route: '/home', surface: 'tab', baseline: 's01' },
   { key: 'create', label: 'أنشئ عهدًا', route: '/create', surface: 'tab', baseline: 's02' },
   { key: 'daftari', label: 'دفتري', route: '/daftari', surface: 'tab', baseline: 's04' },
-  { key: 'settle', label: 'المقاصّة', route: '/settle', surface: 'tab', baseline: 's03' },
+  { key: 'settle', label: 'التسوية', route: '/settle', surface: 'tab', baseline: 's03' },
   { key: 'more', label: 'المزيد', route: '/more', surface: 'tab', baseline: null },
   { key: 'timeline', label: 'السجلّ', route: '/timeline', surface: 'stack', baseline: 's10' },
   { key: 'open', label: 'قرضٌ مفتوح', route: '/open', surface: 'stack', baseline: 's09' },

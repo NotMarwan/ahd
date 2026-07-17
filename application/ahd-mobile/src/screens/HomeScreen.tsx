@@ -6,10 +6,12 @@ import {
   AppShell,
   ScreenHeader,
   SealChip,
+  ShowcaseNotice,
   WeaveBand,
   type WeaveThreadTone,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_HOME, SHOWCASE_RECORDS } from '@/showcase/showcase-data';
 import { useAhdJourney } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -48,9 +50,12 @@ function QuickAction({ label, detail, tone, onPress }: QuickActionProps) {
 export function HomeScreen() {
   const router = useRouter();
   const { beginCreate, openDaftari, state } = useAhdJourney();
-  const records = state.records;
-  const activeEntry = records.find((entry) => entry.sealed.record.id === state.activeRecordId)
-    ?? records[records.length - 1];
+  const realRecords = state.records;
+  const isShowcase = realRecords.length === 0;
+  const records = isShowcase ? SHOWCASE_RECORDS : realRecords;
+  const activeEntry = isShowcase
+    ? records.find((entry) => entry.sealed.record.id === SHOWCASE_HOME.urgentRecordId)
+    : records.find((entry) => entry.sealed.record.id === state.activeRecordId) ?? records[records.length - 1];
 
   const startJourney = async () => {
     await beginCreate();
@@ -58,8 +63,8 @@ export function HomeScreen() {
   };
 
   const showDaftari = async () => {
-    if (records.length === 0) {
-      await startJourney();
+    if (realRecords.length === 0) {
+      router.push('/daftari');
       return;
     }
     await openDaftari();
@@ -70,8 +75,11 @@ export function HomeScreen() {
     index < records.length ? 'active' : 'empty'
   ));
   const activeCount = String(records.length);
-  const totalMinor = records.reduce((total, entry) => total + entry.sealed.record.amountMinor, 0);
-  const balance = ahdCore.formatMinorSar(totalMinor);
+  const totalMinor = realRecords.reduce((total, entry) => total + entry.sealed.record.amountMinor, 0);
+  const primaryBalance = ahdCore.formatMinorSar(isShowcase ? SHOWCASE_HOME.receivableMinor : totalMinor);
+  const secondaryBalance = isShowcase
+    ? ahdCore.formatMinorSar(SHOWCASE_HOME.payableMinor)
+    : activeCount;
 
   return (
     <AppShell testID="home-screen">
@@ -81,12 +89,16 @@ export function HomeScreen() {
         accentTitle="له أثرٌ محفوظ."
       />
 
+      {isShowcase ? (
+        <ShowcaseNotice body="قصة جاهزة من نسخة الويب آب للعرض فقط؛ لا تُضاف إلى دفتر جهازك." />
+      ) : null}
+
       <WeaveBand
         testID="home-weave"
         threads={threads}
-        detail={records.length > 0 ? 'كل خيط عهد محفوظ' : 'يبدأ بعد أول عهد'}
-        caption={records.length > 0 ? 'الأزرق عهد قائم وموثّق محليًا' : 'الخيوط تظهر حين تحفظ أول كلمة'}
-        alert={records.length > 0 ? `${records.length} في دفترك` : 'دفترك جديد'}
+        detail={isShowcase ? '7 خيوط تشرح حالات العهود' : 'كل خيط عهد محفوظ'}
+        caption={isShowcase ? 'الأزرق قائم، والذهب وفاء، والكهرمان تأخر' : 'الأزرق عهد قائم وموثّق محليًا'}
+        alert={isShowcase ? 'مثال غير محفوظ' : `${records.length} في دفترك`}
       />
 
       <View testID="home-balance-board" style={styles.board}>
@@ -103,12 +115,12 @@ export function HomeScreen() {
           </View>
           <View style={styles.balances}>
             <View style={styles.balanceCell}>
-              <Text style={styles.balanceLabel}>إجمالي الأصل الموثّق</Text>
-              <Text style={styles.balanceValue}>{balance}</Text>
+              <Text style={styles.balanceLabel}>{isShowcase ? 'لك في الدفتر' : 'إجمالي الأصل الموثّق'}</Text>
+              <Text style={styles.balanceValue}>{primaryBalance}</Text>
             </View>
             <View style={[styles.balanceCell, styles.balanceDivider]}>
-              <Text style={styles.balanceLabel}>سجلات محفوظة محليًا</Text>
-              <Text style={styles.balanceValue}>{activeCount}</Text>
+              <Text style={styles.balanceLabel}>{isShowcase ? 'عليك' : 'سجلات محفوظة محليًا'}</Text>
+              <Text style={styles.balanceValue}>{secondaryBalance}</Text>
             </View>
           </View>
         </View>
@@ -118,12 +130,14 @@ export function HomeScreen() {
             <Text style={styles.nearestLetter}>{activeEntry ? 'ع' : '＋'}</Text>
           </View>
           <View style={styles.nearestCopy}>
-            <Text style={styles.nearestLabel}>{activeEntry ? 'آخر عهد محفوظ' : 'دفترك خالٍ وواضح'}</Text>
+            <Text style={styles.nearestLabel}>{isShowcase ? 'الأكثر إلحاحًا' : activeEntry ? 'آخر عهد محفوظ' : 'دفترك خالٍ وواضح'}</Text>
             <Text style={styles.nearestTitle}>
-              {activeEntry ? `افتح ${activeEntry.sealed.record.id} وراجع تفاصيله` : 'ابدأ عهدك الأول حين تتفقون'}
+              {isShowcase && activeEntry
+                ? `${activeEntry.sealed.record.borrower} · ${ahdCore.formatMinorSar(activeEntry.sealed.record.amountMinor)} · متأخر ${SHOWCASE_HOME.urgentDaysLate} يومًا`
+                : activeEntry ? `افتح ${activeEntry.sealed.record.id} وراجع تفاصيله` : 'ابدأ عهدك الأول حين تتفقون'}
             </Text>
           </View>
-          <Text style={styles.nearestState}>{activeEntry ? 'محفوظ' : 'جاهز'}</Text>
+          <Text style={styles.nearestState}>{isShowcase ? 'متأخر' : activeEntry ? 'محفوظ' : 'جاهز'}</Text>
         </View>
       </View>
 
@@ -133,14 +147,14 @@ export function HomeScreen() {
         <Text style={styles.quickLabel}>مساراتك القريبة</Text>
         <View style={styles.quickList}>
           <QuickAction label="دفتري" detail="ما لك وما عليك" tone="active" onPress={showDaftari} />
-          <QuickAction label="المقاصّة" detail="أقل تحويلات، والصافي ثابت" tone="kept" onPress={() => router.push('/settle')} />
+          <QuickAction label="التسوية" detail="أقل تحويلات، والصافي ثابت" tone="kept" onPress={() => router.push('/settle')} />
           <QuickAction label="سجل المعروف" detail="إبراء ووفاء، محفوظان" tone="late" onPress={() => router.push('/maroof')} />
         </View>
       </View>
 
       <SealChip
-        eyebrow={activeEntry ? 'دفترك مختوم' : 'الختم ينتظر أول عهد'}
-        label={activeEntry ? 'المحتوى مطابق للختم المحلي' : 'لا يوجد ختم قبل موافقة الطرفين'}
+        eyebrow={isShowcase ? 'ختم تجريبي' : activeEntry ? 'دفترك مختوم' : 'الختم ينتظر أول عهد'}
+        label={isShowcase ? 'المثال مطابق للختم، وغير محفوظ على جهازك' : activeEntry ? 'المحتوى مطابق للختم المحلي' : 'لا يوجد ختم قبل موافقة الطرفين'}
         hash={activeEntry ? `${activeEntry.sealed.seal.slice(0, 8)}…` : undefined}
       />
 

@@ -9,20 +9,23 @@ import {
   ScreenHeader,
   SealedDocument,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
 import {
   createShareEnvelope,
+  parseShareEnvelope,
   serializeShareEnvelope,
   shareEnvelopeText,
   verifyAttachedProof,
   type ShareEnvelopeResult,
 } from '@/share';
+import { SHOWCASE_SHARE_ENVELOPE } from '@/showcase/showcase-data';
 import { useAhdJourney } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
-function ImportResult({ result }: { result: ShareEnvelopeResult }) {
+function ImportResult({ persisted, result }: { persisted: boolean; result: ShareEnvelopeResult }) {
   const presentation = result.status === 'verified'
     ? { label: 'مطابق', tone: 'verified' as const, title: 'السجل مطابق للإثبات المرفق' }
     : result.status === 'tampered'
@@ -38,7 +41,7 @@ function ImportResult({ result }: { result: ShareEnvelopeResult }) {
         <>
           <Text style={styles.importMeta}>{result.record.id}</Text>
           <Text style={styles.importAmount}>{ahdCore.formatMinorSar(result.record.amountMinor)}</Text>
-          <Text style={styles.importNote}>حُفظ ضمن السجلات المستوردة للقراءة فقط، ولم يدخل الرصيد أو المقاصّة.</Text>
+          <Text style={styles.importNote}>{persisted ? 'حُفظ ضمن السجلات المستوردة للقراءة فقط، ولم يدخل الرصيد أو التسوية.' : 'معاينة صحيحة فقط؛ لم يُحفظ السجل بعد ولم يدخل الرصيد أو التسوية.'}</Text>
         </>
       ) : null}
     </View>
@@ -48,8 +51,9 @@ function ImportResult({ result }: { result: ShareEnvelopeResult }) {
 export function ProofScreen() {
   const { importSharedRecord, requestExternal, state, verifyProof } = useAhdJourney();
   const [shareFeedback, setShareFeedback] = useState<string>();
-  const [importText, setImportText] = useState('');
-  const [importResult, setImportResult] = useState<ShareEnvelopeResult>();
+  const [importText, setImportText] = useState<string>(SHOWCASE_SHARE_ENVELOPE);
+  const [importResult, setImportResult] = useState<ShareEnvelopeResult>(() => parseShareEnvelope(SHOWCASE_SHARE_ENVELOPE));
+  const [importPersisted, setImportPersisted] = useState(false);
   const sealed = state.sealed;
   const proof = state.proof;
   const verification = sealed && proof ? verifyAttachedProof(sealed.record, proof) : undefined;
@@ -67,6 +71,7 @@ export function ProofScreen() {
   const verifyImport = async () => {
     const result = await importSharedRecord(importText.trim());
     setImportResult(result);
+    setImportPersisted(result.status === 'verified');
   };
 
   return (
@@ -76,6 +81,8 @@ export function ProofScreen() {
         title="تحقّق، ثم شارك."
         subtitle="الإثبات محلي وحتمي؛ الاستيراد يكشف تغيّر المحتوى قبل حفظه."
       />
+
+      <ShowcaseNotice body="حقل الاستيراد معبأ بإثبات تجريبي صحيح؛ لا يُحفظ ضمن المستوردات إلا إذا ضغطت زر التحقق." />
 
       {!sealed ? (
         <Section title="إثبات هذا الجهاز">
@@ -139,7 +146,7 @@ export function ProofScreen() {
           disabled={importText.trim().length === 0}
           variant="secondary"
         />
-        {importResult ? <ImportResult result={importResult} /> : null}
+        {importResult ? <ImportResult persisted={importPersisted} result={importResult} /> : null}
       </Section>
 
       <View style={styles.limitCard}>

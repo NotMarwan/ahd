@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { AhdButton, AppShell, RowGroup, ScreenHeader, Section } from '@/components';
+import { AhdButton, AppShell, RowGroup, ScreenHeader, Section, ShowcaseNotice } from '@/components';
 import { ahdCore, type RibaScreening } from '@/core/ahd-core';
+import { SHOWCASE_BOUNDS_TERMS } from '@/showcase/showcase-data';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
 type BoundItem = {
@@ -66,7 +67,7 @@ const SECTIONS: readonly BoundSection[] = [
         enforcedBy: 'app/features/open-loan.js · tests/app/open-loan.test.cjs',
       },
       {
-        text: 'المقاصّةُ لا تغيّر صافيَ حقّك هللةً — مركزُك قبلها هو مركزُك بعدها.',
+        text: 'التسويةُ لا تغيّر صافيَ حقّك هللةً — مركزُك قبلها هو مركزُك بعدها.',
         enforcedBy: 'app/features/settlement.js · tests/app/settlement-conserve.test.cjs',
       },
     ],
@@ -112,8 +113,8 @@ function BoundRow({ item }: { readonly item: BoundItem }) {
 }
 
 function LiveRibaCheck() {
-  const [terms, setTerms] = useState('');
-  const [screening, setScreening] = useState<RibaScreening>();
+  const [terms, setTerms] = useState<string>(SHOWCASE_BOUNDS_TERMS);
+  const [screening, setScreening] = useState<RibaScreening | undefined>(() => ahdCore.screenTerms(SHOWCASE_BOUNDS_TERMS));
 
   const check = () => {
     const normalized = terms.trim();
@@ -162,6 +163,7 @@ export function BoundsScreen() {
   return (
     <AppShell testID="bounds-screen">
       <ScreenHeader title="الضمانات والحدود — مكتوبةٌ في الكود" subtitle={HERO_LINE} />
+      <ShowcaseNotice body="شرط غرامة واضح ومفحوص مسبقًا لتظهر نتيجة الرفض والبديل فورًا." />
       <Section title="جرّب الحارس بنفسك">
         <RowGroup>
           <LiveRibaCheck />

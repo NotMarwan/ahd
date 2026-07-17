@@ -77,8 +77,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settle"
         options={{
-          title: 'المقاصّة',
-          tabBarAccessibilityLabel: 'المقاصّة',
+          title: 'التسوية',
+          tabBarAccessibilityLabel: 'التسوية',
           tabBarButtonTestID: 'tab-settle',
           tabBarIcon: ({ color, focused }) => <TabBarGlyph name="settle" color={color} focused={focused} />,
         }}

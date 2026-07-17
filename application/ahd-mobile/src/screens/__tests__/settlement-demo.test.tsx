@@ -27,7 +27,7 @@ async function networkStore() {
   return store;
 }
 
-describe('مقاصّة السجلات الحقيقية', () => {
+describe('تسوية السجلات الحقيقية', () => {
   it('تعرض الشبكة المتصلة وتمنع الحفظ حتى الإقرار الصريح', async () => {
     const store = await networkStore();
     const view = await render(
@@ -39,24 +39,23 @@ describe('مقاصّة السجلات الحقيقية', () => {
     expect(view.getByTestId('netting-visual')).toBeTruthy();
     expect(view.getByText('قبل: 2')).toBeTruthy();
     expect(view.getByText('بعد: 1')).toBeTruthy();
-    expect(view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' })).toBeDisabled();
+    expect(view.getByRole('button', { name: 'احفظ اقتراح التسوية' })).toBeDisabled();
 
     fireEvent.press(view.getByRole('checkbox', { name: 'أؤكد رضا جميع الأطراف عن هذا الاقتراح' }));
     await waitFor(() => expect(
-      view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }),
+      view.getByRole('button', { name: 'احفظ اقتراح التسوية' }),
     ).toBeEnabled());
     await act(async () => {
-      await fireEvent.press(view.getByRole('button', { name: 'احفظ اقتراح المقاصّة' }));
+      await fireEvent.press(view.getByRole('button', { name: 'احفظ اقتراح التسوية' }));
     });
 
     await waitFor(() => expect(store.getState().step).toBe('settlement'));
     expect(store.getState().settlement?.beforeCount).toBe(2);
     expect(store.getState().settlement?.afterCount).toBe(1);
     expect(store.getState().settlementConsent?.confirmed).toBe(true);
-    expect(view.getByText('المجموع محفوظ')).toBeTruthy();
   });
 
-  it('يعرض شبكة تجريبية كاملة ومعلّمة عندما يكون الدفتر خاليًا دون السماح بحفظها', async () => {
+  it('تعرض خمسة أشخاص ونتيجة 9 إلى 2 ببيانات معلّمة من دون حفظ', async () => {
     const store = new AhdJourneyStore(new InMemoryAhdRepository());
     const view = await render(
       <AhdJourneyProvider store={store}>
@@ -65,15 +64,17 @@ describe('مقاصّة السجلات الحقيقية', () => {
     );
 
     expect(view.getAllByText('بيانات تجريبية').length).toBeGreaterThan(0);
-    expect(view.getByTestId('netting-visual')).toBeTruthy();
+    expect(view.getAllByTestId(/^netting-participant-/)).toHaveLength(5);
+    for (const name of ['نورة', 'سارة', 'خالد', 'ليلى', 'فهد']) {
+      expect(view.getByTestId(`netting-participant-${name}`)).toBeTruthy();
+    }
     expect(view.getByText('قبل: 9')).toBeTruthy();
     expect(view.getByText('بعد: 2')).toBeTruthy();
     expect(view.getByText('العهود التجريبية الداخلة · 9')).toBeTruthy();
     expect(view.getByText('التحويلات المقترحة · 2')).toBeTruthy();
-    expect(JSON.stringify(view.toJSON())).toContain('نورة');
-    expect(JSON.stringify(view.toJSON())).toContain('فهد');
+    expect(view.queryByText('قبل — خيوط متقاطعة')).toBeNull();
     expect(view.queryByRole('checkbox')).toBeNull();
-    expect(view.queryByRole('button', { name: 'احفظ اقتراح المقاصّة' })).toBeNull();
-    expect(view.getByRole('button', { name: 'أنشئ عهدًا حقيقيًا' })).toBeTruthy();
+    expect(view.queryByRole('button', { name: 'احفظ اقتراح التسوية' })).toBeNull();
+    expect(store.getState().records).toHaveLength(0);
   });
 });

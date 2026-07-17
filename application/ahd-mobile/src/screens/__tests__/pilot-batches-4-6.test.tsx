@@ -130,7 +130,7 @@ describe('Pilot UI batches 4–6', () => {
     await circleView.unmount();
 
     const advanced = await render(providers(<CircleAdvScreen />, pilotStore));
-    expect(advanced.getByText('قبل المقاصّة · 2')).toBeTruthy();
+    expect(advanced.getByText('قبل التسوية · 2')).toBeTruthy();
     expect(advanced.getByText('اقتراح فقط')).toBeTruthy();
     expect(advanced.queryByText(/تم التحويل|نُقلت الأموال/)).toBeNull();
     await advanced.unmount();
@@ -158,6 +158,7 @@ describe('Pilot UI batches 4–6', () => {
     await standing.unmount();
 
     const dispute = await render(providers(<DisputeScreen />, pilotStore, journeyStore));
+    expect(dispute.getByLabelText('اختر العهد AHD-PILOT-0001')).toBeChecked();
     await fireEvent.press(dispute.getByLabelText('اختر العهد AHD-PILOT-0001'));
     await fireEvent.changeText(dispute.getByLabelText('سبب النزاع'), 'اختلاف في إثبات دفعة');
     await fireEvent.changeText(dispute.getByLabelText('تاريخ فتح النزاع'), '2026-07-16');

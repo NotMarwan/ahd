@@ -18,7 +18,7 @@ describe('Ahd mobile route registry', () => {
       { key: 'home', label: 'الرئيسية' },
       { key: 'create', label: 'أنشئ عهدًا' },
       { key: 'daftari', label: 'دفتري' },
-      { key: 'settle', label: 'المقاصّة' },
+      { key: 'settle', label: 'التسوية' },
       { key: 'more', label: 'المزيد' },
     ]);
     expect(SCREEN_REGISTRY.filter((screen) => screen.surface === 'tab')).toHaveLength(5);

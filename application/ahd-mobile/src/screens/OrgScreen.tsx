@@ -8,16 +8,19 @@ import {
   RowGroup,
   ScreenHeader,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_CIRCLE } from '@/showcase/showcase-data';
 import { usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
 export function OrgScreen() {
   const router = useRouter();
   const { state } = usePilot();
-  const circles = state.jamiya.circles;
+  const isShowcase = state.jamiya.circles.length === 0;
+  const circles = isShowcase ? [SHOWCASE_CIRCLE] : state.jamiya.circles;
   const totalPledgedMinor = circles.reduce(
     (sum, circle) => sum + circle.members.reduce((memberSum, member) => memberSum + member.shareMinor, 0),
     0,
@@ -27,8 +30,10 @@ export function OrgScreen() {
     <AppShell testID="org-screen">
       <ScreenHeader
         title="لوحة المؤسسة"
-        subtitle="صندوق قرضٍ حسنٍ مؤسّسيّ يحتاج ربطًا خارجيًّا لم يحدث في هذه النسخة — لا نعرض هنا إلا ما على جهازك."
+        subtitle={isShowcase ? 'معاينة تجريبية لشكل المجاميع المؤسسية؛ لا مؤسسة ولا أموال مرتبطة.' : 'صندوق قرضٍ حسنٍ مؤسّسيّ يحتاج ربطًا خارجيًّا؛ المعروض من جهازك فقط.'}
       />
+
+      {isShowcase ? <ShowcaseNotice label="عرض تجريبي" body="تعرض الدائرة التجريبية شكل المجاميع فقط؛ لا توجد مؤسسة أو أموال مرتبطة." /> : null}
 
       <Section title="الربط المؤسّسي">
         <RowGroup>
@@ -56,7 +61,7 @@ export function OrgScreen() {
           <AhdButton label="أنشئ دائرة" onPress={() => router.push('/circle')} />
         </Section>
       ) : (
-        <Section title="مجاميع من هذا الجهاز فقط">
+        <Section title={isShowcase ? 'مجاميع تجريبية' : 'مجاميع من هذا الجهاز فقط'}>
           <RowGroup>
             {circles.map((circle) => (
               <View key={circle.id} style={styles.circleRow}>
@@ -69,7 +74,7 @@ export function OrgScreen() {
               </View>
             ))}
             <View style={styles.circleRow}>
-              <Text style={styles.circleTitle}>إجمالي الحصص المتعاهد بها محليًّا</Text>
+              <Text style={styles.circleTitle}>{isShowcase ? 'إجمالي الحصص في المثال' : 'إجمالي الحصص المتعاهد بها محليًّا'}</Text>
               <Text style={styles.circleMeta}>{ahdCore.formatMinorSar(totalPledgedMinor)}</Text>
             </View>
           </RowGroup>

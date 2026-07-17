@@ -1,8 +1,9 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AhdButton, AmountDisplay, AppShell, EmptyState, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { AhdButton, AmountDisplay, AppShell, EmptyState, RowGroup, ScreenHeader, Section, ShowcaseNotice, StatusChip } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_PROFILE_NAME, SHOWCASE_STANDING_RECORD } from '@/showcase/showcase-data';
 import { selectRelatedRecords, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
@@ -10,9 +11,12 @@ export function StandingScreen() {
   const router = useRouter();
   const { beginCreate, openRecord, state: journey } = useAhdJourney();
   const { state: pilot } = usePilot();
-  const displayName = pilot.profile.displayName;
-  const records = selectRelatedRecords(journey.records, displayName)
+  const localDisplayName = pilot.profile.displayName;
+  const realRecords = selectRelatedRecords(journey.records, localDisplayName)
     .filter((entry) => entry.sealed.prepared.open);
+  const isShowcase = !localDisplayName || realRecords.length === 0;
+  const displayName = localDisplayName ?? SHOWCASE_PROFILE_NAME;
+  const records = isShowcase ? [SHOWCASE_STANDING_RECORD] : realRecords;
 
   const createOpen = async () => {
     await beginCreate();
@@ -30,6 +34,8 @@ export function StandingScreen() {
         title="سلفة بالمعروف"
         subtitle="العهود المفتوحة التي شاركت فيها. المعروض أصل موثّق، وليس مبلغًا متبقيًا محسوبًا."
       />
+
+      {isShowcase ? <ShowcaseNotice label="عرض تجريبي" body="سلفة مفتوحة مكتملة الشكل للعرض فقط؛ لا تُحفظ في جهازك." /> : null}
 
       {!displayName ? (
         <Section>
@@ -52,7 +58,7 @@ export function StandingScreen() {
                 </View>
                 <AmountDisplay label="الأصل الموثّق" value={ahdCore.formatMinorSar(entry.sealed.record.amountMinor)} />
                 <Text style={styles.id}>{entry.sealed.record.id}</Text>
-                <AhdButton label="افتح العهد" onPress={() => showRecord(entry.sealed.record.id)} variant="quiet" />
+                {!isShowcase ? <AhdButton label="افتح العهد" onPress={() => showRecord(entry.sealed.record.id)} variant="quiet" /> : null}
               </View>
             ))}
           </RowGroup>

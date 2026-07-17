@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, ShowcaseNotice, StatusChip } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_DAILY_ENTRIES, SHOWCASE_PROFILE_NAME, SHOWCASE_REQUEST_FORM } from '@/showcase/showcase-data';
 import { usePilot } from '@/state';
 import { colors, controls, fontFamilies, radii, spacing, typography } from '@/theme';
 
@@ -29,16 +30,23 @@ function Field({
 export function RequestScreen() {
   const router = useRouter();
   const { state, store } = usePilot();
-  const borrower = state.profile.displayName;
-  const requests = state.daily.entries.filter((entry) => entry.kind === 'request');
-  const [lender, setLender] = useState('');
-  const [amountText, setAmountText] = useState('');
-  const [purpose, setPurpose] = useState('');
-  const [effectiveDate, setEffectiveDate] = useState('');
+  const localBorrower = state.profile.displayName;
+  const borrower = localBorrower ?? SHOWCASE_PROFILE_NAME;
+  const suggestedLender = borrower === SHOWCASE_REQUEST_FORM.lender
+    ? SHOWCASE_PROFILE_NAME
+    : SHOWCASE_REQUEST_FORM.lender;
+  const storedRequests = state.daily.entries.filter((entry) => entry.kind === 'request');
+  const isRequestsShowcase = storedRequests.length === 0;
+  const requests = isRequestsShowcase ? SHOWCASE_DAILY_ENTRIES.filter((entry) => entry.kind === 'request') : storedRequests;
+  const [lender, setLender] = useState<string>(suggestedLender);
+  const [amountText, setAmountText] = useState<string>(SHOWCASE_REQUEST_FORM.amountText);
+  const [purpose, setPurpose] = useState<string>(SHOWCASE_REQUEST_FORM.purpose);
+  const [effectiveDate, setEffectiveDate] = useState<string>(SHOWCASE_REQUEST_FORM.effectiveDate);
   const [feedback, setFeedback] = useState<string>();
+  const partiesClash = lender.trim() === borrower.trim();
 
   const save = async () => {
-    if (!borrower) return;
+    if (!localBorrower || partiesClash) return;
     setFeedback(undefined);
     try {
       await store.saveRequest({
@@ -62,6 +70,8 @@ export function RequestScreen() {
         subtitle="اكتب الطلب بكرامة واحفظه محليًا. لا يستطيع هذا الجهاز قبول الطلب باسم الطرف الآخر."
       />
 
+      <ShowcaseNotice body="حقول الطلب تبدأ بمثال غير محفوظ؛ راجع الطرفين ثم اضغط الحفظ فقط عندما تريد طلبًا محليًا حقيقيًا." />
+
       {!borrower ? (
         <Section>
           <RowGroup><EmptyState title="حدّد اسم العرض" body="سيظهر اسمك طالبًا للعهد، من دون هوية أو رقم هاتف." /></RowGroup>
@@ -81,7 +91,7 @@ export function RequestScreen() {
               <Field label="تاريخ الطلب" value={effectiveDate} onChangeText={setEffectiveDate} />
             </View>
           </RowGroup>
-          <AhdButton label="احفظ الطلب المحلي" onPress={save} />
+          <AhdButton disabled={!localBorrower || partiesClash} label={localBorrower ? "احفظ الطلب المحلي" : "احفظ اسم العرض أولًا"} onPress={save} />
           {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
         </Section>
       )}

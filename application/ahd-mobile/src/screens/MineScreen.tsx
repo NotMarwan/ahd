@@ -9,9 +9,11 @@ import {
   RowGroup,
   ScreenHeader,
   Section,
+  ShowcaseNotice,
   StatusChip,
 } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_PROFILE_NAME, SHOWCASE_RECORDS } from '@/showcase/showcase-data';
 import { selectMineRecords, useAhdJourney, usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
@@ -19,8 +21,11 @@ export function MineScreen() {
   const router = useRouter();
   const { beginCreate, openRecord, state: journey } = useAhdJourney();
   const { state: pilot } = usePilot();
-  const displayName = pilot.profile.displayName;
-  const records = selectMineRecords(journey.records, displayName);
+  const localDisplayName = pilot.profile.displayName;
+  const realRecords = selectMineRecords(journey.records, localDisplayName);
+  const isShowcase = !localDisplayName || realRecords.length === 0;
+  const displayName = localDisplayName ?? SHOWCASE_PROFILE_NAME;
+  const records = isShowcase ? selectMineRecords(SHOWCASE_RECORDS, SHOWCASE_PROFILE_NAME) : realRecords;
   const totalDocumentedMinor = records.reduce(
     (sum, entry) => sum + entry.sealed.record.amountMinor,
     0,
@@ -42,6 +47,8 @@ export function MineScreen() {
         title="ما عليّ"
         subtitle="أصول العهود التي يظهر فيها اسم عرضك كمستفيد. لا ندّعي مبلغًا متبقيًا بلا سجل سداد."
       />
+
+      {isShowcase ? <ShowcaseNotice label="عرض تجريبي" body="نتيجة مكتملة للعرض فقط؛ لا تدخل في سجلات جهازك." /> : null}
 
       {!displayName ? (
         <Section>
@@ -81,11 +88,13 @@ export function MineScreen() {
                   </View>
                   <AmountDisplay value={ahdCore.formatMinorSar(entry.sealed.record.amountMinor)} />
                   <Text style={styles.meta}>{entry.sealed.record.id}</Text>
-                  <AhdButton
-                    label="افتح العهد"
-                    onPress={() => showRecord(entry.sealed.record.id)}
-                    variant="quiet"
-                  />
+                  {!isShowcase ? (
+                    <AhdButton
+                      label="افتح العهد"
+                      onPress={() => showRecord(entry.sealed.record.id)}
+                      variant="quiet"
+                    />
+                  ) : null}
                 </View>
               ))}
             </RowGroup>

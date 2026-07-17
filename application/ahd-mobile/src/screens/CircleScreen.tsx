@@ -1,24 +1,29 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, StatusChip } from '@/components';
+import { AhdButton, AppShell, EmptyState, RowGroup, ScreenHeader, Section, ShowcaseNotice, StatusChip } from '@/components';
 import { ahdCore } from '@/core/ahd-core';
+import { SHOWCASE_CIRCLE } from '@/showcase/showcase-data';
 import { usePilot } from '@/state';
 import { colors, fontFamilies, spacing, typography } from '@/theme';
 
 export function CircleScreen() {
   const router = useRouter();
   const { state, store } = usePilot();
-  const active = state.jamiya.circles.find((circle) => circle.id === state.jamiya.activeCircleId)
+  const storedActive = state.jamiya.circles.find((circle) => circle.id === state.jamiya.activeCircleId)
     ?? state.jamiya.circles.at(-1);
+  const isShowcase = !storedActive;
+  const active = storedActive ?? SHOWCASE_CIRCLE;
 
   return (
     <AppShell testID="circle-screen">
       <ScreenHeader
         eyebrow="دفتر الدوائر"
         title="الدائرة"
-        subtitle="كل الأسماء والموافقات والدفعات أدخلها العميل؛ لا توجد أموال أو أعضاء مزروعون."
+        subtitle="الأسماء والموافقات والدفعات محلية؛ وعند خلو الجهاز يظهر مثال معلّم للعرض."
       />
+
+      {isShowcase ? <ShowcaseNotice label="عرض تجريبي" body="دائرة من خمسة أشخاص مع موافقات ودفعات للعرض فقط." /> : null}
 
       {!active ? (
         <Section>
@@ -46,7 +51,7 @@ export function CircleScreen() {
                 <View style={styles.heading}>
                   <Text style={styles.title}>{active.organizer}</Text>
                   <StatusChip
-                    label={active.status === 'draft' ? 'مسودة' : active.status === 'active' ? 'نشطة محليًا' : 'مكتملة'}
+                    label={isShowcase ? 'مثال غير محفوظ' : active.status === 'draft' ? 'مسودة' : active.status === 'active' ? 'نشطة محليًا' : 'مكتملة'}
                     tone={active.status === 'complete' ? 'verified' : 'covenant'}
                   />
                 </View>
@@ -64,12 +69,12 @@ export function CircleScreen() {
                     <View style={styles.heading}>
                       <Text style={styles.title}>{member.displayName}</Text>
                       <StatusChip
-                        label={member.consentAttestation ? 'إقرار المنظّم محفوظ' : 'بانتظار إقرار المنظّم'}
+                        label={isShowcase ? 'موافقة تجريبية' : member.consentAttestation ? 'إقرار المنظّم محفوظ' : 'بانتظار إقرار المنظّم'}
                         tone={member.consentAttestation ? 'verified' : 'neutral'}
                       />
                     </View>
                     <Text style={styles.meta}>الحصة {ahdCore.formatMinorSar(member.shareMinor)}</Text>
-                    <Text style={styles.meta}>دفعات مسجّلة محليًا: {payments}</Text>
+                    <Text style={styles.meta}>{isShowcase ? 'دفعات في المثال' : 'دفعات مسجّلة محليًا'}: {payments}</Text>
                   </View>
                 );
               })}

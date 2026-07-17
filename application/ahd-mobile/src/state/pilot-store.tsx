@@ -314,8 +314,8 @@ export class PilotStore {
     const title = requiredText(input.title, 'title');
     const organizer = requiredText(input.organizer, 'organizer');
     const startMonth = monthOnly(input.startMonth);
-    if (input.members.length < 2 || input.members.length > 5) {
-      throw new RangeError('Circle requires 2 to 5 members');
+    if (input.members.length < 2 || input.members.length > 6) {
+      throw new RangeError('Circle requires 2 to 6 members');
     }
     const memberInputs = input.members.map((member) => ({
       displayName: requiredText(member.displayName, 'member displayName', 80),
